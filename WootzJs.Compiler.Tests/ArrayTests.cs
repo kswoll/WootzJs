@@ -44,4 +44,5 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(array.GetType().Name, "String[]");
         }         
     }
+
 }
