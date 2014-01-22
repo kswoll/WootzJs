@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{75995C59-074D-4560-9635-86A90FFED390}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WootzJs.Compiler</RootNamespace>
+    <AssemblyName>WootzJs.Compiler</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Roslyn.Compilers, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Roslyn.Compilers.Common.1.2.20906.2\lib\net45\Roslyn.Compilers.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.CSharp, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.VisualBasic, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Roslyn.Services, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Roslyn.Services.Common.1.2.20906.2\lib\net45\Roslyn.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.CSharp, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Roslyn.Services.CSharp.1.2.20906.2\lib\net45\Roslyn.Services.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.VisualBasic, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Roslyn.Services.VisualBasic.1.2.20906.2\lib\net45\Roslyn.Services.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Utilities, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Roslyn.Services.Common.1.2.20906.2\lib\net45\Roslyn.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnonymousTypeTransformer.cs" />
+    <Compile Include="AssembliesSorter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="Cs.cs" />
+    <Compile Include="ExpressionTreeTransformer.cs" />
+    <Compile Include="GotoSubstituter.cs" />
+    <Compile Include="IdentifierRenamer.cs" />
+    <Compile Include="Idioms.cs" />
+    <Compile Include="IndentStringBuilder.cs" />
+    <Compile Include="JsAst\IJsDeclaration.cs" />
+    <Compile Include="JsAst\IJsVisitor.cs" />
+    <Compile Include="JsAst\Js.cs" />
+    <Compile Include="JsAst\JsArrayExpression.cs" />
+    <Compile Include="JsAst\JsBinaryExpression.cs" />
+    <Compile Include="JsAst\JsBinaryOperator.cs" />
+    <Compile Include="JsAst\JsBlockStatement.cs" />
+    <Compile Include="JsAst\JsBreakStatement.cs" />
+    <Compile Include="JsAst\JsCatchClause.cs" />
+    <Compile Include="JsAst\JsConditionalExpression.cs" />
+    <Compile Include="JsAst\JsContinueStatement.cs" />
+    <Compile Include="JsAst\JsDeclarationReferenceExpression.cs" />
+    <Compile Include="JsAst\JsDeleteExpression.cs" />
+    <Compile Include="JsAst\JsDoWhileStatement.cs" />
+    <Compile Include="JsAst\JsEmptyStatement.cs" />
+    <Compile Include="JsAst\JsForInStatement.cs" />
+    <Compile Include="JsAst\JsInstanceOfExpression.cs" />
+    <Compile Include="JsAst\JsLabeledStatement.cs" />
+    <Compile Include="JsAst\JsSwitchLabel.cs" />
+    <Compile Include="JsAst\JsSwitchSection.cs" />
+    <Compile Include="JsAst\JsForStatement.cs" />
+    <Compile Include="JsAst\JsIndexExpression.cs" />
+    <Compile Include="JsAst\JsLocalVariableDeclaration.cs" />
+    <Compile Include="JsAst\JsNativeStatement.cs" />
+    <Compile Include="JsAst\JsCompilationUnit.cs" />
+    <Compile Include="JsAst\JsExpression.cs" />
+    <Compile Include="JsAst\JsExpressionStatement.cs" />
+    <Compile Include="JsAst\JsFunction.cs" />
+    <Compile Include="JsAst\JsFunctionDeclaration.cs" />
+    <Compile Include="JsAst\JsIfStatement.cs" />
+    <Compile Include="JsAst\JsInvocationExpression.cs" />
+    <Compile Include="JsAst\JsMemberReferenceExpression.cs" />
+    <Compile Include="JsAst\JsNewArrayExpression.cs" />
+    <Compile Include="JsAst\JsNewExpression.cs" />
+    <Compile Include="JsAst\JsNode.cs" />
+    <Compile Include="JsAst\JsObjectExpression.cs" />
+    <Compile Include="JsAst\JsObjectItem.cs" />
+    <Compile Include="JsAst\JsParameter.cs" />
+    <Compile Include="JsAst\JsParentheticalExpression.cs" />
+    <Compile Include="JsAst\JsPrimitiveExpression.cs" />
+    <Compile Include="JsAst\JsRegexExpression.cs" />
+    <Compile Include="JsAst\JsReturnStatement.cs" />
+    <Compile Include="JsAst\JsStatement.cs" />
+    <Compile Include="JsAst\JsSwitchStatement.cs" />
+    <Compile Include="JsAst\JsThisExpression.cs" />
+    <Compile Include="JsAst\JsThrowStatement.cs" />
+    <Compile Include="JsAst\JsTryStatement.cs" />
+    <Compile Include="JsAst\JsTypeOfExpression.cs" />
+    <Compile Include="JsAst\JsUnaryExpression.cs" />
+    <Compile Include="JsAst\JsUnaryOperator.cs" />
+    <Compile Include="JsAst\JsVariableDeclarator.cs" />
+    <Compile Include="JsAst\JsVariableDeclaration.cs" />
+    <Compile Include="JsAst\JsVariableReferenceExpression.cs" />
+    <Compile Include="JsAst\JsWalker.cs" />
+    <Compile Include="JsAst\JsWhileStatement.cs" />
+    <Compile Include="JsMinifier.cs" />
+    <Compile Include="JsNames.cs" />
+    <Compile Include="JsRenderer.cs" />
+    <Compile Include="JsTransformer.cs" />
+    <Compile Include="JsVisitor.cs" />
+    <Compile Include="NamespaceTransformer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynExtensions.cs" />
+    <Compile Include="Scope.cs" />
+    <Compile Include="WootzJsExtensions.cs" />
+    <Compile Include="SpecialNames.cs" />
+    <Compile Include="BreakStatementStripper.cs" />
+    <Compile Include="StringEscaper.cs" />
+    <Compile Include="SymbolCollector.cs" />
+    <Compile Include="SymbolNameCompiler.cs" />
+    <Compile Include="SymbolNameMap.cs" />
+    <Compile Include="SymbolWalker.cs" />
+    <Compile Include="TypeNormalizer.cs" />
+    <Compile Include="YieldChecker.cs" />
+    <Compile Include="YieldGenerator.cs" />
+    <Compile Include="YieldClassGenerator.cs" />
+    <Compile Include="YieldState.cs" />
+    <Compile Include="YieldStateGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)SpecialNames.cs $(SolutionDir)WootzJs.Runtime\Runtime\WootzJs</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>System</RootNamespace>
+    <NoStdLib>True</NoStdLib>
+    <AssemblyName>mscorlib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Action.cs" />
+    <Compile Include="AppDomain.cs" />
+    <Compile Include="ArgumentException.cs" />
+    <Compile Include="ArgumentNullException.cs" />
+    <Compile Include="Array.cs" />
+    <Compile Include="ArrayEnumerator.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Attribute.cs" />
+    <Compile Include="AttributeTargets.cs" />
+    <Compile Include="AttributeUsageAttribute.cs" />
+    <Compile Include="Boolean.cs" />
+    <Compile Include="Byte.cs" />
+    <Compile Include="Char.cs" />
+    <Compile Include="CLSCompliantAttribute.cs" />
+    <Compile Include="CodeDom\Compiler\GeneratedCodeAttribute.cs" />
+    <Compile Include="Collections\Comparer.cs" />
+    <Compile Include="Collections\Generic\Comparer.cs" />
+    <Compile Include="Collections\DictionaryEntry.cs" />
+    <Compile Include="Collections\Generic\Comparison.cs" />
+    <Compile Include="Collections\Generic\Dictionary.cs" />
+    <Compile Include="Collections\Generic\EqualityComparer.cs" />
+    <Compile Include="Collections\Generic\GenericComparer.cs" />
+    <Compile Include="Collections\Generic\HashSet.cs" />
+    <Compile Include="Collections\Generic\ICollection.cs" />
+    <Compile Include="Collections\Generic\IComparer.cs" />
+    <Compile Include="Collections\Generic\IDictionary.cs" />
+    <Compile Include="Collections\Generic\IEnumerable.cs" />
+    <Compile Include="Collections\Generic\IEnumerator.cs" />
+    <Compile Include="Collections\Generic\IEqualityComparer.cs" />
+    <Compile Include="Collections\Generic\IReadOnlyCollection.cs" />
+    <Compile Include="Collections\Generic\IReadOnlyDictionary.cs" />
+    <Compile Include="Collections\Generic\KeyNotFoundException.cs" />
+    <Compile Include="Collections\Generic\KeyValuePair.cs" />
+    <Compile Include="Collections\Generic\ObjectComparer.cs" />
+    <Compile Include="Collections\IComparer.cs" />
+    <Compile Include="Collections\IDictionary.cs" />
+    <Compile Include="Collections\IDictionaryEnumerator.cs" />
+    <Compile Include="Collections\IEqualityComparer.cs" />
+    <Compile Include="Collections\Generic\IList.cs" />
+    <Compile Include="Collections\Generic\ISet.cs" />
+    <Compile Include="Collections\Generic\List.cs" />
+    <Compile Include="Collections\ICollection.cs" />
+    <Compile Include="Collections\IEnumerable.cs" />
+    <Compile Include="Collections\IEnumerator.cs" />
+    <Compile Include="Collections\IList.cs" />
+    <Compile Include="Collections\IStructuralComparable.cs" />
+    <Compile Include="Collections\IStructuralEquatable.cs" />
+    <Compile Include="Console.cs" />
+    <Compile Include="Delegate.cs" />
+    <Compile Include="Double.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="Environment.cs" />
+    <Compile Include="Exception.cs" />
+    <Compile Include="FlagsAttribute.cs" />
+    <Compile Include="FormatException.cs" />
+    <Compile Include="Func.cs" />
+    <Compile Include="Globalization\CompareInfo.cs" />
+    <Compile Include="Globalization\CompareOptions.cs" />
+    <Compile Include="Globalization\CultureInfo.cs" />
+    <Compile Include="IComparable.cs" />
+    <Compile Include="IDisposable.cs" />
+    <Compile Include="IFormatProvider.cs" />
+    <Compile Include="Int16.cs" />
+    <Compile Include="Int32.cs" />
+    <Compile Include="Int64.cs" />
+    <Compile Include="InvalidCastException.cs" />
+    <Compile Include="InvalidOperationException.cs" />
+    <Compile Include="Linq\Enumerable.cs" />
+    <Compile Include="Linq\Expressions\BinaryExpression.cs" />
+    <Compile Include="Linq\Expressions\ConditionalExpression.cs" />
+    <Compile Include="Linq\Expressions\ConstantExpression.cs" />
+    <Compile Include="Linq\Expressions\DefaultExpression.cs" />
+    <Compile Include="Linq\Expressions\ElementInit.cs" />
+    <Compile Include="Linq\Expressions\Expression.cs" />
+    <Compile Include="Linq\Expressions\ExpressionType.cs" />
+    <Compile Include="Linq\Expressions\ExpressionVisitor.cs" />
+    <Compile Include="Linq\Expressions\FieldExpression.cs" />
+    <Compile Include="Linq\Expressions\IArgumentProvider.cs" />
+    <Compile Include="Linq\Expressions\IndexExpression.cs" />
+    <Compile Include="Linq\Expressions\InvocationExpression.cs" />
+    <Compile Include="Linq\Expressions\LambdaExpression.cs" />
+    <Compile Include="Linq\Expressions\ListInitExpression.cs" />
+    <Compile Include="Linq\Expressions\MemberAssignment.cs" />
+    <Compile Include="Linq\Expressions\MemberBinding.cs" />
+    <Compile Include="Linq\Expressions\MemberBindingType.cs" />
+    <Compile Include="Linq\Expressions\MemberExpression.cs" />
+    <Compile Include="Linq\Expressions\MemberInitExpression.cs" />
+    <Compile Include="Linq\Expressions\MemberListBinding.cs" />
+    <Compile Include="Linq\Expressions\MemberMemberBinding.cs" />
+    <Compile Include="Linq\Expressions\MethodCallExpression.cs" />
+    <Compile Include="Linq\Expressions\NewArrayExpression.cs" />
+    <Compile Include="Linq\Expressions\NewExpression.cs" />
+    <Compile Include="Linq\Expressions\ParameterExpression.cs" />
+    <Compile Include="Linq\Expressions\PropertyExpression.cs" />
+    <Compile Include="Linq\Expressions\TypeBinaryExpression.cs" />
+    <Compile Include="Linq\Expressions\UnaryExpression.cs" />
+    <Compile Include="MarshalByRefObject.cs" />
+    <Compile Include="Microsoft\CSharp\RuntimeBinder\Binder.cs" />
+    <Compile Include="Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
+    <Compile Include="Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfoFlags.cs" />
+    <Compile Include="Microsoft\CSharp\RuntimeBinder\CSharpBinderFlags.cs" />
+    <Compile Include="NotImplementedException.cs" />
+    <Compile Include="NotSupportedException.cs" />
+    <Compile Include="Nullable.cs" />
+    <Compile Include="Reflection\Activator.cs" />
+    <Compile Include="Reflection\Assembly.cs" />
+    <Compile Include="Reflection\AssemblyName.cs" />
+    <Compile Include="Reflection\Binder.cs" />
+    <Compile Include="Reflection\BindingFlags.cs" />
+    <Compile Include="Reflection\CallingConventions.cs" />
+    <Compile Include="Reflection\ConstructorInfo.cs" />
+    <Compile Include="Reflection\DefaultMemberAttribute.cs" />
+    <Compile Include="Reflection\EventInfo.cs" />
+    <Compile Include="Reflection\FieldAttributes.cs" />
+    <Compile Include="Reflection\FieldInfo.cs" />
+    <Compile Include="Reflection\ICustomAttributeProvider.cs" />
+    <Compile Include="Reflection\JsTypeFunction.cs" />
+    <Compile Include="Reflection\MemberInfo.cs" />
+    <Compile Include="Reflection\MemberTypes.cs" />
+    <Compile Include="Reflection\MethodAttributes.cs" />
+    <Compile Include="Reflection\MethodBase.cs" />
+    <Compile Include="Reflection\MethodInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reflection\ParameterAttributes.cs" />
+    <Compile Include="Reflection\ParameterInfo.cs" />
+    <Compile Include="Reflection\ParameterModifier.cs" />
+    <Compile Include="Reflection\PropertyAttributes.cs" />
+    <Compile Include="Reflection\PropertyInfo.cs" />
+    <Compile Include="RuntimeMethodHandle.cs" />
+    <Compile Include="Runtime\CompilerServices\CallSite.cs" />
+    <Compile Include="Runtime\CompilerServices\CallSiteBinder.cs" />
+    <Compile Include="Runtime\CompilerServices\DynamicAttribute.cs" />
+    <Compile Include="Runtime\CompilerServices\ExtensionAttribute.cs" />
+    <Compile Include="Runtime\CompilerServices\IsVolatile.cs" />
+    <Compile Include="Runtime\CompilerServices\RuntimeHelpers.cs" />
+    <Compile Include="Runtime\InteropServices\CallingConvention.cs" />
+    <Compile Include="Runtime\InteropServices\CharSet.cs" />
+    <Compile Include="Runtime\InteropServices\LayoutKind.cs" />
+    <Compile Include="Runtime\InteropServices\OutAttribute.cs" />
+    <Compile Include="Runtime\InteropServices\StructLayoutAttribute.cs" />
+    <Compile Include="IntPtr.cs" />
+    <Compile Include="MulticastDelegate.cs" />
+    <Compile Include="Number.cs" />
+    <Compile Include="Object.cs" />
+    <Compile Include="ParamArrayAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeFieldHandle.cs" />
+    <Compile Include="RuntimeTypeHandle.cs" />
+    <Compile Include="Runtime\Versioning\TargetFrameworkAttribute.cs" />
+    <Compile Include="Runtime\WootzJs\AsExtension.cs" />
+    <Compile Include="Runtime\WootzJs\DependsOnAttribute.cs" />
+    <Compile Include="Runtime\WootzJs\JsArguments.cs" />
+    <Compile Include="Runtime\WootzJs\JsArray.cs" />
+    <Compile Include="Runtime\WootzJs\JsAttribute.cs" />
+    <Compile Include="Runtime\WootzJs\JsError.cs" />
+    <Compile Include="Runtime\WootzJs\JsFunction.cs" />
+    <Compile Include="Runtime\WootzJs\Jsni.cs" />
+    <Compile Include="Runtime\WootzJs\JsNumber.cs" />
+    <Compile Include="Runtime\WootzJs\JsObject.cs" />
+    <Compile Include="Runtime\WootzJs\JsRegexLiteral.cs" />
+    <Compile Include="Runtime\WootzJs\JsRegExp.cs" />
+    <Compile Include="Runtime\WootzJs\JsString.cs" />
+    <Compile Include="Runtime\WootzJs\SpecialFunctions.cs" />
+    <Compile Include="Runtime\WootzJs\SpecialNames.cs" />
+    <Compile Include="SByte.cs" />
+    <Compile Include="Single.cs" />
+    <Compile Include="String.cs" />
+    <Compile Include="StringComparison.cs" />
+    <Compile Include="StringSplitOptions.cs" />
+    <Compile Include="Text\StringBuilder.cs" />
+    <Compile Include="Tuple.cs" />
+    <Compile Include="Type.cs" />
+    <Compile Include="UInt16.cs" />
+    <Compile Include="UInt32.cs" />
+    <Compile Include="UInt64.cs" />
+    <Compile Include="UIntPtr.cs" />
+    <Compile Include="ValueType.cs" />
+    <Compile Include="Void.cs" />
+    <Compile Include="YieldIterator.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>c:\dev\SharpJs\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+if errorlevel 1 goto BuildEventFailed
+copy $(TargetDir)*.* $(SolutionDir)build
+del /q $(TargetDir)*.*
+goto BuildEventOK
+:BuildEventFailed
+echo POSTBUILDSTEP for $(ProjectName) FAILED
+exit 1
+:BuildEventOK
+echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AdditionalExplicitAssemblyReferences />
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

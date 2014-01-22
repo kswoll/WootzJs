@@ -1,0 +1,8 @@
+C:\Dev\sharpjs\WootzJs.Runtime\bin\debug\mscorlib.dll
+C:\Dev\sharpjs\WootzJs.Runtime\bin\debug\mscorlib.pdb
+C:\Dev\sharpjs\WootzJs.Runtime\obj\Debug\mscorlib.dll
+C:\Dev\sharpjs\WootzJs.Runtime\obj\Debug\mscorlib.pdb
+C:\Dev\WootzJs\WootzJs.Runtime\bin\debug\mscorlib.dll
+C:\Dev\WootzJs\WootzJs.Runtime\bin\debug\mscorlib.pdb
+C:\Dev\WootzJs\WootzJs.Runtime\obj\Debug\mscorlib.dll
+C:\Dev\WootzJs\WootzJs.Runtime\obj\Debug\mscorlib.pdb

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1670D942-0682-4E47-90DD-CDD3F9D09263}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <NoStdLib>True</NoStdLib>
+    <RootNamespace>WootzJs.Compiler.Tests</RootNamespace>
+    <AssemblyName>WootzJs.Compiler.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WootzJs.Compiler.Tests.TestsApplication</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AnonymousTypeTests.cs" />
+    <Compile Include="ArrayTests.cs" />
+    <Compile Include="AsExpressionTests.cs" />
+    <Compile Include="Collections\Generic\DictionaryTests.cs" />
+    <Compile Include="Collections\Generic\ListTests.cs" />
+    <Compile Include="ConstructorTests.cs" />
+    <Compile Include="DefaultTests.cs" />
+    <Compile Include="DelegateTests.cs" />
+    <Compile Include="DoWhileTests.cs" />
+    <Compile Include="DynamicTests.cs" />
+    <Compile Include="EnumTests.cs" />
+    <Compile Include="EventTests.cs" />
+    <Compile Include="FieldTests.cs" />
+    <Compile Include="GenericTests.cs" />
+    <Compile Include="GotoTests.cs" />
+    <Compile Include="IsExpressionTests.cs" />
+    <Compile Include="Linq\EnumerableTests.cs" />
+    <Compile Include="CollectionInitializerTests.cs" />
+    <Compile Include="Linq\Expressions\BinaryExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\ConditionalExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\ConstantExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\DefaultExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\IndexExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\InvocationExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\LambdaExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\ListInitExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\MemberExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\MemberInitExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\MethodCallExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\NewArrayExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\NewExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\ParameterExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\TypeBinaryExpressionTests.cs" />
+    <Compile Include="Linq\Expressions\UnaryExpressionTests.cs" />
+    <Compile Include="MethodTests.cs" />
+    <Compile Include="NullableTests.cs" />
+    <Compile Include="NumberTests.cs" />
+    <Compile Include="ObjectInitializerTests.cs" />
+    <Compile Include="OperatorOverloadTests.cs" />
+    <Compile Include="PropertyTests.cs" />
+    <Compile Include="QUnit.cs" />
+    <Compile Include="Reflection\AttributeTests.cs" />
+    <Compile Include="Reflection\ConstructorInfoTests.cs" />
+    <Compile Include="Reflection\EventInfoTests.cs" />
+    <Compile Include="Reflection\PropertyInfoTests.cs" />
+    <Compile Include="TestAttribute.cs" />
+    <Compile Include="TestFixtureAttribute.cs" />
+    <Compile Include="Reflection\AssemblyTests.cs" />
+    <Compile Include="Reflection\FieldInfoTests.cs" />
+    <Compile Include="Reflection\MethodInfoTests.cs" />
+    <Compile Include="StringTests.cs" />
+    <Compile Include="TestsApplication.cs" />
+    <Compile Include="Text\StringBuilderTests.cs" />
+    <Compile Include="TryTests.cs" />
+    <Compile Include="TypeOfExpressionTests.cs" />
+    <Compile Include="TypeTests.cs" />
+    <Compile Include="ConversionOperatorTests.cs" />
+    <Compile Include="UsingStatementTests.cs" />
+    <Compile Include="VirtualMethodTests.cs" />
+    <Compile Include="YieldTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\build\WootzJs.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+if errorlevel 1 goto BuildEventFailed
+copy $(SolutionDir)build\mscorlib.js $(TargetDir)
+if errorlevel 1 goto BuildEventFailed
+goto BuildEventOK
+:BuildEventFailed
+echo POSTBUILDSTEP for $(ProjectName) FAILED
+exit 1
+:BuildEventOK
+echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AdditionalExplicitAssemblyReferences />
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
