@@ -30,6 +30,9 @@ namespace System.Runtime.WootzJs
     [Js(Name = "String", Export = false)]
     public class JsString : JsObject
     {
+        [Js(Name = "length")]
+        public readonly JsNumber length;
+
         [Js(Name = "substring")]
         public string substring(int startIndex, int endIndex = 0)
         {
@@ -60,7 +63,7 @@ namespace System.Runtime.WootzJs
             return 0;
         }
 
-        [Js(Name = "charCodeAt")]
+        [Js(Name = "charAt")]
         public char charAt(int index)
         {
             return '?';

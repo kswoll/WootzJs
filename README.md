@@ -31,17 +31,24 @@ resultant Javascript files are *enormous*.  If you just want mscorlib.dll and Sy
 download.  Furthermore, this project is really not designed to be used in the context of a web application, 
 and the amount of effort required to get started is a bit daunting.
 
+This toolkit too implements a custom `mscorlib`, again allowing you to know what capabilities are available
+to you.
+
 SharpKit
 -------
 
 This commercial product strives to provide support for most of the C# 4.0 language features.  It generally
 succeeds and there's a decent chance this product will meet your needs.  It is lightweight (small .JS files),
 supports modern C# language features (generics, LINQ, etc.) and is usually reliable, though there are a 
-surprising number of edge cases that you will invariably encounter that are not supported.  For example,
+surprising number of edge cases that you will invariably encounter that are not supported.  
+
+For example,
 the type system is shallow and does not support representing generics or arrays (i.e. `typeof(Foo[]) == 
 typeof(Bar[])`, `typeof(List<string>) == typeof(List<int>)`).  The support for reflection is limited,
 with various member types incapable of supporting attributes.  Expression tree support is non-existent, 
-and the yield implementation is inefficient (no state machine).
+and the yield implementation is inefficient (no state machine).  Also, a custom `mscorlib` is not available,
+and script C# files and normal C# files are intermingled in your projects, forcing you to decorate each and
+every script file with a `[JsType]` attribute to distinguish them from normally compiled classes.
 
 So that brings us back to...
 
@@ -64,7 +71,8 @@ Notable Language Features Supported:
 at the time of capture if the value were to change in the outer scope.
 
 There are extensive QUnit tests that allow for a high degree of confidence in the reliability
-of its output.  
+of its output.  It is implemented using Roslyn, which means it will be first in line to take
+advantage of future language improvements, since those will now be implemented via Roslyn itself.
 
 What WootzJs Is Not
 ------
@@ -91,3 +99,16 @@ of constructor overloads go right out the window.  (Needless to say, all forms o
 foreign concept to JS).  This means that if you have a class `Foo` in Javascript, you would construct it via 
 `new Foo(arg1, arg2, ...)`.  In WootzJs, each constructor is its own method defined in the prototype.  Thus,
 to instantiate `Foo` in WootzJs, the compiler generates code like `Foo.prototype.$ctor.$new()`.  
+
+Who is WootzJs for?
+======
+
+The goal of WootzJs is to allow you to write Javascript applications in a similar fashion to Google Web 
+Toolkit.  This implies the following patterns:
+
+* The UI is created via C#, no HTML is involved.  
+* The styles are defined in C#, no CSS is involved.
+* The goal is to live within C#, interoperability is not prioritized (though the system supports a native
+interface that will allow you to interact with any sort of existing JS files).
+
+That being said, other use-cases will be supported, but with sometimes non-ideal syntax.

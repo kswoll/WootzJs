@@ -58,6 +58,8 @@ namespace System.Runtime.WootzJs
         /// </summary>
         public bool BuiltIn { get; set; }
 
+        public Type BaseType { get; set; }
+
         public JsAttribute()
         {
             Export = true;

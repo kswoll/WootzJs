@@ -33,7 +33,7 @@ namespace System
 	/// <summary>
 	/// The int data type which is mapped to the Number type in Javascript.
 	/// </summary>
-	[StructLayout(LayoutKind.Auto)]
+	[StructLayout(LayoutKind.Auto), Js(BaseType = typeof(Number))]
 	public struct Int32 : IComparable, IComparable<int>
 	{
         /// <summary>
@@ -58,6 +58,7 @@ namespace System
 		{
 			return null;
 		}
+
 		public string LocaleFormat(string format)
 		{
 			return null;
@@ -88,11 +89,17 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <internalonly />
 		public static implicit operator Number(int i)
 		{
 			return null;
 		}
+
+        public string ToString(string format)
+        {
+            return this.As<Number>().ToString(format);
+        }
 
 	    public int CompareTo(object obj)
 	    {

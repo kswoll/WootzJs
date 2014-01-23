@@ -56,34 +56,42 @@ namespace System
 		{
 			return false;
 		}
+
 		public static bool IsNaN(Number n)
 		{
 			return false;
 		}
+
 		public string LocaleFormat(string format)
 		{
 			return null;
 		}
+
 		public static Number Parse(string s)
 		{
 			return null;
 		}
+
 		public static double ParseDouble(string s)
 		{
 			return 0.0;
 		}
+
 		public static float ParseFloat(string s)
 		{
 			return 0f;
 		}
+
 		public static int ParseInt(float f)
 		{
 			return 0;
 		}
+
 		public static int ParseInt(double d)
 		{
 			return 0;
 		}
+
 		public static int ParseInt(string s)
 		{
 			return 0;
@@ -92,6 +100,7 @@ namespace System
 		{
 			return 0;
 		}
+
 		/// <summary>
 		/// Returns a string containing the number represented in exponential notation.
 		/// </summary>
@@ -100,6 +109,7 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <summary>
 		/// Returns a string containing the number represented in exponential notation.
 		/// </summary>
@@ -109,6 +119,7 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <summary>
 		/// Returns a string representing the number in fixed-point notation.
 		/// </summary>
@@ -117,6 +128,7 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <summary>
 		/// Returns a string representing the number in fixed-point notation.
 		/// </summary>
@@ -126,6 +138,7 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <summary>
 		/// Returns a string containing the number represented either in exponential or
 		/// fixed-point notation with a specified number of digits.
@@ -135,6 +148,7 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <summary>
 		/// Returns a string containing the number represented either in exponential or
 		/// fixed-point notation with a specified number of digits.
@@ -145,6 +159,7 @@ namespace System
 		{
 			return null;
 		}
+
 		/// <summary>
 		/// Converts the value to its string representation.
 		/// </summary>
@@ -158,6 +173,27 @@ namespace System
         public override string ToString()
         {
             return this.As<String>();
+        }
+        
+        public string ToString(string format)
+        {
+            if (string.IsNullOrEmpty(format)) 
+                return ToString();
+
+            if (format[0] == 'X')
+            {
+                var radix = 16;
+                var remainingFormat = format.Substring(1);
+                var s = this.As<JsNumber>().toString(radix);
+                if (remainingFormat.Length > 0)
+                {
+                    var minimumDigits = int.Parse(remainingFormat);
+                    while (s.length < minimumDigits.As<JsNumber>())
+                        s = "0" + s;
+                }
+                return s;
+            }
+            throw new Exception();
         }
 
 	    public int CompareTo(object obj)

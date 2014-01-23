@@ -35,6 +35,22 @@ namespace System.Runtime.WootzJs
             return null;
         }
 
+        /// <summary>
+        /// The toString() method returns a string representing the specified Number object.
+        /// 
+        /// The Number object overrides the toString() method of the Object object; it does not inherit Object.prototype.toString(). For Number objects, the toString() method returns a string representation of the object in the specified radix.
+        /// The toString() method parses its first argument, and attempts to return a string representation in the specified radix (base). For radixes above 10, the letters of the alphabet indicate numerals greater than 9. For example, for hexadecimal numbers (base 16), a through f are used.
+        /// If the radix is not specified, the preferred radix is assumed to be 10.
+        /// If the number is negative, the sign is preserved. Especially if the radix is 2, it's returning the binary (zeros and ones) of the number preceeded by a - sign but the two's complement.
+        /// </summary>
+        /// <param name="radix">An integer between 2 and 36 specifying the base to use for representing numeric values.</param>
+        /// <returns>For Number objects, the toString() method returns a string representation of the object in the specified radix.</returns>
+        [Js(Name = "toString")]
+        public JsString toString(int radix)
+        {
+            return null;
+        }
+
         public static bool operator <(JsNumber left, JsNumber right)
         {
             return false;

@@ -53,12 +53,10 @@ namespace System
             return null;
         }
 
-/*
         public char this[int index]
         {
             get { return this.As<JsString>().charAt(index); }
         }
-*/
 
         /// <summary>
         /// Gets the number of characters in the current <see cref="T:System.String"/> object.
@@ -181,11 +179,6 @@ namespace System
         public bool StartsWith(string prefix)
         {
             return IndexOf(prefix) == 0;
-        }
-
-        public char this[int index]
-        {
-            get { return ' '; }
         }
 
         /// <summary>
@@ -415,6 +408,11 @@ return 0;
         public override string ToString()
         {
             return this;
+        }
+
+        public static bool IsNullOrEmpty(string s)
+        {
+            return s == null || s == "";;
         }
 
         /// <summary>

@@ -28,8 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.WootzJs;
 using Roslyn.Compilers;
@@ -98,9 +96,12 @@ namespace WootzJs.Compiler
         public JsBlockStatement CreateTypeFunction(NamedTypeSymbol classType, out JsBlockStatement typeInitializer, out JsBlockStatement staticInitializer)
         {
             var isBuiltIn = classType.IsBuiltIn();
-            var baseType = classType == context.ObjectType ? 
-                Js.Reference("Object") : 
-                classType.BaseType == null ? Type(context.ObjectType) : Js.Reference(classType.BaseType.GetTypeName());
+            var explicitBaseType = classType.GetAttributeValue<TypeSymbol>(context.JsAttributeType, "BaseType");
+            var baseType = 
+                explicitBaseType != null ? Type(explicitBaseType) : 
+                classType == context.ObjectType ? Js.Reference("Object") : 
+                classType.BaseType == null ? Type(context.ObjectType) : 
+                Js.Reference(classType.BaseType.GetTypeName());
             var typeName = classType.GetTypeName();
 
             var block = new JsBlockStatement();

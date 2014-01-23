@@ -49,6 +49,7 @@ namespace System
 		{
 			return Type._GetTypeFromInstance(this.As<JsObject>());
 		}
+
 		/// <summary>
 		/// Converts an object to its string representation.
 		/// </summary>
@@ -57,6 +58,7 @@ namespace System
 		{
 			return this.As<JsObject>().toString();
 		}
+
 		/// <summary>
 		/// Converts an object to its culture-sensitive string representation.
 		/// </summary>

@@ -29,18 +29,14 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Compiler.Tests
 {
-/*
+    [TestFixture]
     public class NumberTests
     {
-        [Js(Inline = true)]
-        public void Comparable()
+        [Test]
+        public void ToHex()
         {
-            QUnit.RunTest("NumberTests.Comparable", () =>
-            {
-                int i = 5;
-                int j = 6;
-            });
-        }         
+            var number = 20;
+            QUnit.AreEqual(number.ToString("X4"), "0014");
+        }
     }
-*/
 }
