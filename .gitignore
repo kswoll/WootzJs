@@ -1,3 +1,6 @@
 *.suo
 WootzJs.Compiler.Tests/bin/
 WootzJs.Compiler.Tests/obj/
+WootzJs.Compiler/bin/
+WootzJs.Compiler/obj/
+WootzJs.Runtime/obj/
