@@ -1,6 +1,4 @@
-﻿using System.Runtime.WootzJs;
-
-namespace WootzJs.Compiler.Tests
+﻿namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
     public class ArrayTests
@@ -44,5 +42,4 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(array.GetType().Name, "String[]");
         }         
     }
-
 }
