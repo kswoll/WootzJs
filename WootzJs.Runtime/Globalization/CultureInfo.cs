@@ -1,29 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright>
-// The MIT License (MIT)
-// 
-// Copyright (c) 2014 Kirk S Woll
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace System.Globalization
+﻿namespace System.Globalization
 {
     /// <summary>
     /// Provides information about a specific culture (called a locale for unmanaged code development). The information includes the names for the culture, the writing system, the calendar used, and formatting for dates and sort strings.
@@ -1086,7 +1061,7 @@ namespace System.Globalization
                 hashtable1 = Hashtable.Synchronized(new Hashtable());
             else if (lcid == -1)
             {
-                CultureInfo cultureInfo = (CultureInfo)hashtable1[(object)(name + (object)'?' + altName)];
+                CultureInfo cultureInfo = (CultureInfo)hashtable1[(object)(name + (object)'�' + altName)];
                 if (cultureInfo != null)
                     return cultureInfo;
             }
@@ -1128,7 +1103,7 @@ namespace System.Globalization
             cultureInfo1.m_isReadOnly = true;
             if (lcid == -1)
             {
-                hashtable1[(object)(name + (object)'?' + altName)] = (object)cultureInfo1;
+                hashtable1[(object)(name + (object)'�' + altName)] = (object)cultureInfo1;
                 cultureInfo1.TextInfo.SetReadOnlyState(true);
             }
             else
