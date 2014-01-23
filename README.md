@@ -1,7 +1,7 @@
 WootzJs
 =======
 
-WootzJs is a C# -> Javascript cross-compiler.  You write your code in C#, and the result is
+WootzJs is a C# to Javascript cross-compiler.  You write your code in C#, and the result is
 Javascript that can be run in any browser (or other host).  You may be wondering why we need
 another C# to JS compiler, since there are already at least three options available to 
 developers wishing to leverage this concept.  
@@ -37,7 +37,7 @@ SharpKit
 This commercial product strives to provide support for most of the C# 4.0 language features.  It generally
 succeeds and there's a decent chance this product will meet your needs.  It is lightweight (small .JS files),
 supports modern C# language features (generics, LINQ, etc.) and is usually reliable, though there are a 
-surprising number of edge cases that you will invariable encounter that are not supported.  For example,
+surprising number of edge cases that you will invariably encounter that are not supported.  For example,
 the type system is shallow and does not support representing generics or arrays (i.e. `typeof(Foo[]) == 
 typeof(Bar[])`, `typeof(List<string>) == typeof(List<int>)`).  The support for reflection is limited,
 with various member types incapable of supporting attributes.  Expression tree support is non-existent, 
@@ -50,11 +50,11 @@ WootzJs
 
 WootzJs strives to be a fairly lightweight (goal is a ~100k minified JS file) cross-compiler that allows
 for all the major C# language features.  In fact, all features except for async/await should be already
-supported.  
+supported. (and support for async is forthcoming, but will probably take a couple weeks to implement)
 
 Notable Language Features Supported:
 
-* `yield` statements (generated as a state machine)
+* `yield` statements (generated as an efficient state machine)
 * `ref` and `out` parameters
 * lambdas and anonymous methods
 * expression trees
