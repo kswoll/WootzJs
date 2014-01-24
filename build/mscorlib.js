@@ -174,9 +174,10 @@ System.Object.prototype = new Object();
         }
         var keyArray = Array.prototype.slice.call(typeArgs, 0);
         var keyParts = new Array();
-        for (var i = 0; i < keyArray.length; i++) {
-            keyParts[i] = keyArray[i].prototype.$typeName;
-        }
+        for (var i = 0; i < keyArray.length; i++)
+            (function() {
+                keyParts[i] = keyArray[i].prototype.$typeName;
+            }).call(this);
         var keyString = keyParts.join();
         var result = cache[keyString];
         if (result == null) {
@@ -348,19 +349,15 @@ System.Reflection.MemberInfo.prototype = new System.Object();
     };
     $p.System$Reflection$ICustomAttributeProvider$GetCustomAttributes = $p.GetCustomAttributes;
     $p.GetCustomAttributes$1 = function(attributeType, inherit) {
-        return System.Linq.Enumerable.ToArray(System.Object, System.Linq.Enumerable.Where(System.Object, this.GetCustomAttributes(inherit), (function(attributeType$closed) {
-            return $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
-                return attributeType$closed.IsInstanceOfType(x);
-            });
-        }).call(this, attributeType)));
+        return System.Linq.Enumerable.ToArray(System.Object, System.Linq.Enumerable.Where(System.Object, this.GetCustomAttributes(inherit), $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
+            return attributeType.IsInstanceOfType(x);
+        })));
     };
     $p.System$Reflection$ICustomAttributeProvider$GetCustomAttributes$1 = $p.GetCustomAttributes$1;
     $p.IsDefined = function(attributeType, inherit) {
-        return System.Linq.Enumerable.Any$1(System.Object, this.GetCustomAttributes(inherit), (function(attributeType$closed) {
-            return $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
-                return attributeType$closed.IsInstanceOfType(x);
-            });
-        }).call(this, attributeType));
+        return System.Linq.Enumerable.Any$1(System.Object, this.GetCustomAttributes(inherit), $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
+            return attributeType.IsInstanceOfType(x);
+        }));
     };
     $p.System$Reflection$ICustomAttributeProvider$IsDefined = $p.IsDefined;
 }).call(null, System.Reflection.MemberInfo, System.Reflection.MemberInfo.prototype);
@@ -849,15 +846,13 @@ System.Linq.Expressions.Expression.prototype = new System.Object();
             System.Linq.Expressions.Expression, 
             System.Linq.Expressions.ElementInit, 
             initializers, 
-            (function(addMethod$closed) {
-                return $delegate(this, (System.Func$2$(System.Linq.Expressions.Expression, System.Linq.Expressions.ElementInit)), function(x) {
-                    return System.Linq.Expressions.Expression.ElementInit(addMethod$closed, (function() {
-                        var $obj$ = (System.Collections.Generic.List$1$(System.Linq.Expressions.Expression)).prototype.$ctor.$new();
-                        $obj$.Add$1(x);
-                        return $obj$;
-                    }).call(this));
-                });
-            }).call(this, addMethod)
+            $delegate(this, (System.Func$2$(System.Linq.Expressions.Expression, System.Linq.Expressions.ElementInit)), function(x) {
+                return System.Linq.Expressions.Expression.ElementInit(addMethod, (function() {
+                    var $obj$ = (System.Collections.Generic.List$1$(System.Linq.Expressions.Expression)).prototype.$ctor.$new();
+                    $obj$.Add$1(x);
+                    return $obj$;
+                }).call(this));
+            })
         ));
         return System.Linq.Expressions.Expression.ListInit$2(newExpression, list);
     };
@@ -1163,10 +1158,11 @@ System.Reflection.MethodBase.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = parameters;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var parameter = $anon$2enumerator.get_Current();
-                parameter.containingMember = this;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var parameter = $anon$2enumerator.get_Current();
+                    parameter.containingMember = this;
+                }).call(this);
         }
     };
     $p.$ctor.$type = $t;
@@ -1495,10 +1491,11 @@ System.AppDomain.prototype = new System.Object();
     $p.GetAssemblies = function() {
         var array = $assemblies;
         var result = new Array(array.length);
-        for (var i = 0; i < result.length; i++) {
-            var getAssembly = array[i];
-            result[i] = getAssembly();
-        }
+        for (var i = 0; i < result.length; i++)
+            (function() {
+                var getAssembly = array[i];
+                result[i] = getAssembly();
+            }).call(this);
         return result;
     };
 }).call(null, System.AppDomain, System.AppDomain.prototype);
@@ -1609,9 +1606,10 @@ $mscorlib$AssemblyTypes.push(System.ArgumentNullException);
         );
     };
     $t.Copy$2 = function(sourceArray, sourceIndex, destinationArray, destinationIndex, length) {
-        for (var i = sourceIndex, j = destinationIndex; i < sourceArray.length && j < destinationArray.length && i < sourceIndex + length; i++, j++) {
-            destinationArray[j] = sourceArray[i];
-        }
+        for (var i = sourceIndex, j = destinationIndex; i < sourceArray.length && j < destinationArray.length && i < sourceIndex + length; i++, j++)
+            (function() {
+                destinationArray[j] = sourceArray[i];
+            }).call(this);
     };
     $t.ConstrainedCopy = function(sourceArray, sourceIndex, destinationArray, destinationIndex, length) {
         Array.Copy$2(
@@ -1662,9 +1660,10 @@ $mscorlib$AssemblyTypes.push(System.ArgumentNullException);
     };
     $p.System$Collections$IList$Contains = $p.Contains;
     $t.Clear$1 = function(array, startIndex, length) {
-        for (var i = startIndex; i < startIndex + length; i++) {
-            array[i] = null;
-        }
+        for (var i = startIndex; i < startIndex + length; i++)
+            (function() {
+                array[i] = null;
+            }).call(this);
     };
     $p.Clear = function() {
         Array.Clear$1(this, 0, this.length);
@@ -2224,11 +2223,9 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
             this.storage[hashCode] = bucket;
             this.buckets.Add(bucket);
         }
-        var existingItem = System.Linq.Enumerable.SingleOrDefault$1(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), bucket.Items, (function(key$closed) {
-            return $delegate(this, (System.Func$2$(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), System.Boolean)), function(x) {
-                return x.get_Key().Equals(key$closed);
-            });
-        }).call(this, key));
+        var existingItem = System.Linq.Enumerable.SingleOrDefault$1(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), bucket.Items, $delegate(this, (System.Func$2$(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), System.Boolean)), function(x) {
+            return x.get_Key().Equals(key);
+        }));
         if (existingItem == null) {
             bucket.Items.Add(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()).prototype.$ctor.$new(key, value));
             this.count++;
@@ -2242,11 +2239,9 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
         var hashCode = key.GetStringHashCode();
         var bucket = this.storage[hashCode];
         if (bucket != null) {
-            var items = System.Linq.Enumerable.Where(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), bucket.Items, (function(key$closed) {
-                return $delegate(this, (System.Func$2$(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), System.Boolean)), function(x) {
-                    return x.get_Key().Equals(key$closed);
-                });
-            }).call(this, key)).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            var items = System.Linq.Enumerable.Where(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), bucket.Items, $delegate(this, (System.Func$2$(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), System.Boolean)), function(x) {
+                return x.get_Key().Equals(key);
+            })).System$Collections$Generic$IEnumerable$1$GetEnumerator();
             if (items.System$Collections$IEnumerator$MoveNext()) {
                 var item = items.get_Current();
                 items.System$IDisposable$Dispose();
@@ -2266,11 +2261,9 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
         var bucket = this.storage[hashCode];
         if (bucket == null)
             return false;
-        return System.Linq.Enumerable.Any$1(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), bucket.Items, (function(key$closed) {
-            return $delegate(this, (System.Func$2$(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), System.Boolean)), function(x) {
-                return x.get_Key().Equals(key$closed);
-            });
-        }).call(this, key));
+        return System.Linq.Enumerable.Any$1(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), bucket.Items, $delegate(this, (System.Func$2$(((System.Collections.Generic.Dictionary$2$(TKey, TValue)).BucketItem$()), System.Boolean)), function(x) {
+            return x.get_Key().Equals(key);
+        }));
     };
     $p.System$Collections$Generic$IReadOnlyDictionary$2$ContainsKey = $p.ContainsKey;
     $p.System$Collections$Generic$IDictionary$2$ContainsKey = $p.ContainsKey;
@@ -2278,11 +2271,12 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
         {
             var $anon$1iterator = this.buckets;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var bucket = $anon$2enumerator.get_Current();
-                var hashCode = bucket.get_HashCode();
-                delete this.storage[hashCode];
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var bucket = $anon$2enumerator.get_Current();
+                    var hashCode = bucket.get_HashCode();
+                    delete this.storage[hashCode];
+                }).call(this);
         }
         this.count = 0;
     };
@@ -2675,10 +2669,11 @@ System.Collections.Generic.HashSet$1.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                this.Add(item);
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    this.Add(item);
+                }).call(this);
         }
     };
     $p.$ctor$1.$type = $t;
@@ -2703,10 +2698,11 @@ System.Collections.Generic.HashSet$1.prototype = new System.Object();
         {
             var $anon$1iterator = this;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                array[i++] = item;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    array[i++] = item;
+                }).call(this);
         }
     };
     $p.System$Collections$ICollection$CopyTo = $p.CopyTo;
@@ -2734,10 +2730,11 @@ System.Collections.Generic.HashSet$1.prototype = new System.Object();
         {
             var $anon$1iterator = this;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                array[i++] = item;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    array[i++] = item;
+                }).call(this);
         }
     };
     $p.System$Collections$Generic$ICollection$1$CopyTo = $p.CopyTo$1;
@@ -3319,10 +3316,11 @@ System.Collections.Generic.List$1.prototype = new System.Object();
         {
             var $anon$1iterator = collection;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                this.Add(item);
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    this.Add(item);
+                }).call(this);
         }
     };
     $p.$ctor$1.$type = $t;
@@ -3343,9 +3341,10 @@ System.Collections.Generic.List$1.prototype = new System.Object();
     };
     $p.System$Collections$IEnumerable$GetEnumerator = $p.System$Collections$IEnumerable$GetEnumerator;
     $p.CopyTo = function(array, index) {
-        for (var i = index; i < array.length; i++) {
-            array[i] = this.get_Item(i - index);
-        }
+        for (var i = index; i < array.length; i++)
+            (function() {
+                array[i] = this.get_Item(i - index);
+            }).call(this);
     };
     $p.System$Collections$ICollection$CopyTo = $p.CopyTo;
     $p.System$Collections$IList$get_Item = function(index) {
@@ -3406,9 +3405,10 @@ System.Collections.Generic.List$1.prototype = new System.Object();
     };
     $p.System$Collections$Generic$ICollection$1$Contains = $p.Contains;
     $p.CopyTo$1 = function(array, arrayIndex) {
-        for (var i = arrayIndex; i < array.length; i++) {
-            array[i] = this.get_Item(i - arrayIndex);
-        }
+        for (var i = arrayIndex; i < array.length; i++)
+            (function() {
+                array[i] = this.get_Item(i - arrayIndex);
+            }).call(this);
     };
     $p.System$Collections$Generic$ICollection$1$CopyTo = $p.CopyTo$1;
     $p.Remove = function(item) {
@@ -4432,9 +4432,10 @@ System.Linq.Enumerable.prototype = new System.Object();
             if (!enumerator.System$Collections$IEnumerator$MoveNext())
                 throw System.InvalidOperationException.prototype.$ctor$1.$new("No elements").InternalInit(new Error());
             var current = enumerator.get_Current();
-            while (enumerator.System$Collections$IEnumerator$MoveNext()) {
-                current = func(current, enumerator.get_Current());
-            }
+            while (enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    current = func(current, enumerator.get_Current());
+                }).call(this);
             return current;
         }
         finally {
@@ -4451,10 +4452,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var current = $anon$2enumerator.get_Current();
-                accumulate = func(accumulate, current);
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var current = $anon$2enumerator.get_Current();
+                    accumulate = func(accumulate, current);
+                }).call(this);
         }
         return accumulate;
     };
@@ -4469,10 +4471,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var current = $anon$2enumerator.get_Current();
-                accumulate = func(accumulate, current);
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var current = $anon$2enumerator.get_Current();
+                    accumulate = func(accumulate, current);
+                }).call(this);
         }
         return resultSelector(accumulate);
     };
@@ -4484,11 +4487,12 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var current = $anon$2enumerator.get_Current();
-                if (!predicate(current))
-                    return false;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var current = $anon$2enumerator.get_Current();
+                    if (!predicate(current))
+                        return false;
+                }).call(this);
         }
         return true;
     };
@@ -4531,10 +4535,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                result.push(item);
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    result.push(item);
+                }).call(this);
         }
         return result;
     };
@@ -4543,10 +4548,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                list.Add(item);
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    list.Add(item);
+                }).call(this);
         }
         return list;
     };
@@ -4625,23 +4631,24 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                if (item == null)
-                    continue;
-                if (current == null) {
-                    current = item;
-                    continue;
-                }
-                var comparable = (function() {
-                    var $as$ = item;
-                    if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
-                        $as$ = null;
-                    return $as$;
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    if (item == null)
+                        continue;
+                    if (current == null) {
+                        current = item;
+                        continue;
+                    }
+                    var comparable = (function() {
+                        var $as$ = item;
+                        if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
+                            $as$ = null;
+                        return $as$;
+                    }).call(this);
+                    if (comparable.System$IComparable$CompareTo(current) > 0)
+                        current = item;
                 }).call(this);
-                if (comparable.System$IComparable$CompareTo(current) > 0)
-                    current = item;
-            }
         }
         return current;
     };
@@ -4650,23 +4657,24 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                if (item == null)
-                    continue;
-                if (current == null) {
-                    current = item;
-                    continue;
-                }
-                var comparable = (function() {
-                    var $as$ = item;
-                    if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
-                        $as$ = null;
-                    return $as$;
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    if (item == null)
+                        continue;
+                    if (current == null) {
+                        current = item;
+                        continue;
+                    }
+                    var comparable = (function() {
+                        var $as$ = item;
+                        if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
+                            $as$ = null;
+                        return $as$;
+                    }).call(this);
+                    if (comparable.System$IComparable$CompareTo(current) < 0)
+                        current = item;
                 }).call(this);
-                if (comparable.System$IComparable$CompareTo(current) < 0)
-                    current = item;
-            }
         }
         return current;
     };
@@ -4731,29 +4739,31 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (this.predicate(this.item)) {
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (this.predicate(this.item)) {
+                                        this.$state = 2;
+                                        this.set_Current(this.item);
+                                        return true;
+                                    }
+                                    this.$state = 2;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Where$1, $t.YieldEnumerator$Where$1.prototype);
@@ -4814,38 +4824,40 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (this.predicate(this.item, this.index)) {
-                                this.$state = 3;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 3;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (this.predicate(this.item, this.index)) {
+                                        this.$state = 3;
+                                        this.set_Current(this.item);
+                                        return true;
+                                    }
+                                    this.$state = 3;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Where$1$1, $t.YieldEnumerator$Where$1$1.prototype);
@@ -4905,25 +4917,27 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.selector(this.item));
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.$state = 2;
+                                    this.set_Current(this.selector(this.item));
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Select$2, $t.YieldEnumerator$Select$2.prototype);
@@ -4984,34 +4998,36 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.selector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.selector(this.item, this.index));
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.selector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.$state = 3;
+                                    this.set_Current(this.selector(this.item, this.index));
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Select$1$2, $t.YieldEnumerator$Select$1$2.prototype);
@@ -5073,34 +5089,37 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.subitem$enumerator = this.selector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.subitem);
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.subitem$enumerator = this.selector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                    this.$state = 3;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.subitem = this.subitem$enumerator.get_Current();
+                                    this.$state = 3;
+                                    this.set_Current(this.subitem);
+                                    return true;
+                                }).call(this);
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$2, $t.YieldEnumerator$SelectMany$2.prototype);
@@ -5163,43 +5182,46 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            System.ArgumentNullException.prototype.$ctor.$new("source");
-                        if (this.selector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.subitem$enumerator = this.selector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                System.ArgumentNullException.prototype.$ctor.$new("source");
+                            if (this.selector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.subitem);
-                            return true;
-                        }
-                        this.$state = 4;
-                        continue $top;
-                    case 4:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.subitem$enumerator = this.selector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                    this.$state = 3;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.subitem = this.subitem$enumerator.get_Current();
+                                    this.$state = 3;
+                                    this.set_Current(this.subitem);
+                                    return true;
+                                }).call(this);
+                            this.$state = 4;
+                            continue $top;
+                        case 4:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$1$2, $t.YieldEnumerator$SelectMany$1$2.prototype);
@@ -5265,45 +5287,48 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.collectionSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
-                        if (this.resultSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.subitem$enumerator = this.collectionSelector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.collectionSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
+                            if (this.resultSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.resultSelector(this.item, this.subitem));
-                            return true;
-                        }
-                        this.$state = 4;
-                        continue $top;
-                    case 4:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.subitem$enumerator = this.collectionSelector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                    this.$state = 3;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.subitem = this.subitem$enumerator.get_Current();
+                                    this.$state = 3;
+                                    this.set_Current(this.resultSelector(this.item, this.subitem));
+                                    return true;
+                                }).call(this);
+                            this.$state = 4;
+                            continue $top;
+                        case 4:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$3$3, $t.YieldEnumerator$SelectMany$3$3.prototype);
@@ -5368,40 +5393,43 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.collectionSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
-                        if (this.resultSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.subitem$enumerator = this.collectionSelector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.collectionSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
+                            if (this.resultSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.resultSelector(this.item, this.subitem));
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.subitem$enumerator = this.collectionSelector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                    this.$state = 3;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.subitem = this.subitem$enumerator.get_Current();
+                                    this.$state = 3;
+                                    this.set_Current(this.resultSelector(this.item, this.subitem));
+                                    return true;
+                                }).call(this);
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$2$3, $t.YieldEnumerator$SelectMany$2$3.prototype);
@@ -5462,34 +5490,36 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (this.index >= this.count)
-                                break;
-                            this.$state = 3;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (this.index >= this.count)
+                                        break;
+                                    this.$state = 3;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Take$1, $t.YieldEnumerator$Take$1.prototype);
@@ -5549,31 +5579,33 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (!this.predicate(this.item))
-                                break;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (!this.predicate(this.item))
+                                        break;
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$TakeWhile$1, $t.YieldEnumerator$TakeWhile$1.prototype);
@@ -5634,36 +5666,38 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (!this.predicate(this.item, this.index))
-                                break;
-                            this.$state = 3;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (!this.predicate(this.item, this.index))
+                                        break;
+                                    this.$state = 3;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$TakeWhile$1$1, $t.YieldEnumerator$TakeWhile$1$1.prototype);
@@ -5724,31 +5758,33 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        this.index = -1;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.index++;
-                            if (this.index < this.count)
-                                continue;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            this.index = -1;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.index++;
+                                    if (this.index < this.count)
+                                        continue;
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Skip$1, $t.YieldEnumerator$Skip$1.prototype);
@@ -5808,31 +5844,33 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (this.predicate(this.item))
-                                continue;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (this.predicate(this.item))
+                                        continue;
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SkipWhile$1, $t.YieldEnumerator$SkipWhile$1.prototype);
@@ -5893,33 +5931,35 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.index = -1;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            this.index++;
-                            if (this.predicate(this.item, this.index))
-                                continue;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.index = -1;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.index++;
+                                    if (this.predicate(this.item, this.index))
+                                        continue;
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SkipWhile$1$1, $t.YieldEnumerator$SkipWhile$1$1.prototype);
@@ -5994,86 +6034,91 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.outers = System.Linq.Enumerable.ToArray(TOuter, this.outer);
-                        if (this.outer == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("outer").InternalInit(new Error());
-                        if (this.inner == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("inner").InternalInit(new Error());
-                        if (this.outerKeySelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("outerKeySelector").InternalInit(new Error());
-                        if (this.innerKeySelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("innerKeySelector").InternalInit(new Error());
-                        if (this.resultSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                        this.dictionary = (System.Collections.Generic.Dictionary$2$(TKey, (System.Tuple$2$((System.Collections.Generic.List$1$(TOuter)), (System.Collections.Generic.List$1$(TInner)))))).prototype.$ctor.$new();
-                        {
-                            var $anon$1iterator = this.outers;
-                            var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-                            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                var item = $anon$2enumerator.get_Current();
-                                var key = this.outerKeySelector(item);
-                                var lists;
-                                if (!(function() {
-                                    var $anon$3 = {
-                                        value: null
-                                    };
-                                    var $result$ = this.dictionary.TryGetValue(key, $anon$3);
-                                    lists = $anon$3.value;
-                                    return $result$;
-                                }).call(this)) {
-                                    lists = (System.Tuple$2$((System.Collections.Generic.List$1$(TOuter)), (System.Collections.Generic.List$1$(TInner)))).prototype.$ctor.$new((System.Collections.Generic.List$1$(TOuter)).prototype.$ctor.$new(), (System.Collections.Generic.List$1$(TInner)).prototype.$ctor.$new());
-                                    this.dictionary.set_Item(key, lists);
-                                }
-                                lists.get_Item1().Add(item);
-                            }
-                        }{
-                            var $anon$4iterator = this.inner;
-                            var $anon$5enumerator = $anon$4iterator.System$Collections$IEnumerable$GetEnumerator();
-                            while ($anon$5enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                var item = $anon$5enumerator.get_Current();
-                                var key = this.innerKeySelector(item);
-                                var lists;
-                                if (!(function() {
-                                    var $anon$6 = {
-                                        value: null
-                                    };
-                                    var $result$ = this.dictionary.TryGetValue(key, $anon$6);
-                                    lists = $anon$6.value;
-                                    return $result$;
-                                }).call(this))
-                                    continue;
-                                lists.get_Item2().Add(item);
-                            }
-                        }this.outerItem$enumerator = this.outers.GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.outerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.outerItem = this.outerItem$enumerator.get_Current();
-                            this.key = this.outerKeySelector(this.outerItem);
-                            this.set = this.dictionary.get_Item(this.key);
-                            this.innerItem$enumerator = this.set.get_Item2().GetEnumerator();
-                            this.$state = 3;
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.outers = System.Linq.Enumerable.ToArray(TOuter, this.outer);
+                            if (this.outer == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("outer").InternalInit(new Error());
+                            if (this.inner == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("inner").InternalInit(new Error());
+                            if (this.outerKeySelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("outerKeySelector").InternalInit(new Error());
+                            if (this.innerKeySelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("innerKeySelector").InternalInit(new Error());
+                            if (this.resultSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                            this.dictionary = (System.Collections.Generic.Dictionary$2$(TKey, (System.Tuple$2$((System.Collections.Generic.List$1$(TOuter)), (System.Collections.Generic.List$1$(TInner)))))).prototype.$ctor.$new();
+                            {
+                                var $anon$1iterator = this.outers;
+                                var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
+                                while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                                    (function() {
+                                        var item = $anon$2enumerator.get_Current();
+                                        var key = this.outerKeySelector(item);
+                                        var lists;
+                                        if (!(function() {
+                                            var $anon$3 = {
+                                                value: null
+                                            };
+                                            var $result$ = this.dictionary.TryGetValue(key, $anon$3);
+                                            lists = $anon$3.value;
+                                            return $result$;
+                                        }).call(this)) {
+                                            lists = (System.Tuple$2$((System.Collections.Generic.List$1$(TOuter)), (System.Collections.Generic.List$1$(TInner)))).prototype.$ctor.$new((System.Collections.Generic.List$1$(TOuter)).prototype.$ctor.$new(), (System.Collections.Generic.List$1$(TInner)).prototype.$ctor.$new());
+                                            this.dictionary.set_Item(key, lists);
+                                        }
+                                        lists.get_Item1().Add(item);
+                                    }).call(this);
+                            }{
+                                var $anon$4iterator = this.inner;
+                                var $anon$5enumerator = $anon$4iterator.System$Collections$IEnumerable$GetEnumerator();
+                                while ($anon$5enumerator.System$Collections$IEnumerator$MoveNext())
+                                    (function() {
+                                        var item = $anon$5enumerator.get_Current();
+                                        var key = this.innerKeySelector(item);
+                                        var lists;
+                                        if (!(function() {
+                                            var $anon$6 = {
+                                                value: null
+                                            };
+                                            var $result$ = this.dictionary.TryGetValue(key, $anon$6);
+                                            lists = $anon$6.value;
+                                            return $result$;
+                                        }).call(this))
+                                            continue;
+                                        lists.get_Item2().Add(item);
+                                    }).call(this);
+                            }this.outerItem$enumerator = this.outers.GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.innerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.innerItem = this.innerItem$enumerator.get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.resultSelector(this.outerItem, this.innerItem));
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.outerItem$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.outerItem = this.outerItem$enumerator.get_Current();
+                                    this.key = this.outerKeySelector(this.outerItem);
+                                    this.set = this.dictionary.get_Item(this.key);
+                                    this.innerItem$enumerator = this.set.get_Item2().GetEnumerator();
+                                    this.$state = 3;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.innerItem$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.innerItem = this.innerItem$enumerator.get_Current();
+                                    this.$state = 3;
+                                    this.set_Current(this.resultSelector(this.outerItem, this.innerItem));
+                                    return true;
+                                }).call(this);
+                            this.$state = 2;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Join$4, $t.YieldEnumerator$Join$4.prototype);
@@ -6135,38 +6180,41 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 3;
-                        continue $top;
-                    case 3:
-                        this.item2$enumerator = this.other.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 4;
-                        continue $top;
-                    case 4:
-                        while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item2 = this.item2$enumerator.get_Current();
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }).call(this);
+                            this.$state = 3;
+                            continue $top;
+                        case 3:
+                            this.item2$enumerator = this.other.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 4;
-                            this.set_Current(this.item2);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                            continue $top;
+                        case 4:
+                            while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item2 = this.item2$enumerator.get_Current();
+                                    this.$state = 4;
+                                    this.set_Current(this.item2);
+                                    return true;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Concat$1, $t.YieldEnumerator$Concat$1.prototype);
@@ -6227,34 +6275,36 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
             $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.first == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("first").InternalInit(new Error());
-                        if (this.second == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("second").InternalInit(new Error());
-                        this.set = (System.Collections.Generic.HashSet$1$(TSource)).prototype.$ctor$1.$new(this.second);
-                        this.item$enumerator = this.first.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.get_Current();
-                            if (!this.set.Contains(this.item)) {
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
+            while (true)
+                (function() {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.first == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("first").InternalInit(new Error());
+                            if (this.second == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("second").InternalInit(new Error());
+                            this.set = (System.Collections.Generic.HashSet$1$(TSource)).prototype.$ctor$1.$new(this.second);
+                            this.item$enumerator = this.first.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                }
-            }
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext())
+                                (function() {
+                                    this.item = this.item$enumerator.get_Current();
+                                    if (!this.set.Contains(this.item)) {
+                                        this.$state = 2;
+                                        this.set_Current(this.item);
+                                        return true;
+                                    }
+                                    this.$state = 2;
+                                    continue $top;
+                                }).call(this);
+                            this.$state = 0;
+                            continue $top;
+                    }
+                }).call(this);
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Except$1, $t.YieldEnumerator$Except$1.prototype);
@@ -6877,20 +6927,22 @@ System.Linq.Expressions.ExpressionVisitor.prototype = new System.Object();
     };
     $p.Visit = function(nodes) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Count(); i < n; i++) {
-            var node = this.Visit$1(nodes.get_Item(i));
-            if (newNodes != null) {
-                newNodes[i] = node;
-            }
-            else
-                if (!node == nodes.get_Item(i)) {
-                    newNodes = new Array(n);
-                    for (var j = 0; j < i; j++) {
-                        newNodes[j] = nodes.get_Item(j);
-                    }
+        for (var i = 0, n = nodes.get_Count(); i < n; i++)
+            (function() {
+                var node = this.Visit$1(nodes.get_Item(i));
+                if (newNodes != null) {
                     newNodes[i] = node;
                 }
-        }
+                else
+                    if (!node == nodes.get_Item(i)) {
+                        newNodes = new Array(n);
+                        for (var j = 0; j < i; j++)
+                            (function() {
+                                newNodes[j] = nodes.get_Item(j);
+                            }).call(this);
+                        newNodes[i] = node;
+                    }
+            }).call(this);
         if (newNodes == null) {
             return nodes;
         }
@@ -6898,39 +6950,43 @@ System.Linq.Expressions.ExpressionVisitor.prototype = new System.Object();
     };
     $p.VisitArguments = function(nodes) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Arguments().get_Count(); i < n; i++) {
-            var curNode = nodes.get_Arguments().get_Item(i);
-            var node = this.Visit$1(curNode);
-            if (newNodes != null) {
-                newNodes[i] = node;
-            }
-            else
-                if (!node == curNode) {
-                    newNodes = new Array(n);
-                    for (var j = 0; j < i; j++) {
-                        newNodes[j] = nodes.get_Arguments().get_Item(j);
-                    }
+        for (var i = 0, n = nodes.get_Arguments().get_Count(); i < n; i++)
+            (function() {
+                var curNode = nodes.get_Arguments().get_Item(i);
+                var node = this.Visit$1(curNode);
+                if (newNodes != null) {
                     newNodes[i] = node;
                 }
-        }
+                else
+                    if (!node == curNode) {
+                        newNodes = new Array(n);
+                        for (var j = 0; j < i; j++)
+                            (function() {
+                                newNodes[j] = nodes.get_Arguments().get_Item(j);
+                            }).call(this);
+                        newNodes[i] = node;
+                    }
+            }).call(this);
         return newNodes;
     };
     $t.Visit$2 = function(T, nodes, elementVisitor) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Count(); i < n; i++) {
-            var node = elementVisitor(nodes.get_Item(i));
-            if (newNodes != null) {
-                newNodes[i] = node;
-            }
-            else
-                if (!node == nodes.get_Item(i)) {
-                    newNodes = new Array(n);
-                    for (var j = 0; j < i; j++) {
-                        newNodes[j] = nodes.get_Item(j);
-                    }
+        for (var i = 0, n = nodes.get_Count(); i < n; i++)
+            (function() {
+                var node = elementVisitor(nodes.get_Item(i));
+                if (newNodes != null) {
                     newNodes[i] = node;
                 }
-        }
+                else
+                    if (!node == nodes.get_Item(i)) {
+                        newNodes = new Array(n);
+                        for (var j = 0; j < i; j++)
+                            (function() {
+                                newNodes[j] = nodes.get_Item(j);
+                            }).call(this);
+                        newNodes[i] = node;
+                    }
+            }).call(this);
         if (newNodes == null) {
             return nodes;
         }
@@ -6953,28 +7009,30 @@ System.Linq.Expressions.ExpressionVisitor.prototype = new System.Object();
     };
     $p.VisitAndConvert = function(T, nodes, callerName) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Count(); i < n; i++) {
-            var node = (function() {
-                var $as$ = this.Visit$1(nodes.get_Item(i));
-                if (!System.Type.prototype.IsInstanceOfType.call(T.$GetType(), $as$))
-                    $as$ = null;
-                return $as$;
-            }).call(this);
-            if (node == null) {
-                throw System.Exception.prototype.$ctor$1.$new("MustRewriteToSameNode").InternalInit(new Error());
-            }
-            if (newNodes != null) {
-                newNodes[i] = node;
-            }
-            else
-                if (!node == nodes.get_Item(i)) {
-                    newNodes = new Array(n);
-                    for (var j = 0; j < i; j++) {
-                        newNodes[j] = nodes.get_Item(j);
-                    }
+        for (var i = 0, n = nodes.get_Count(); i < n; i++)
+            (function() {
+                var node = (function() {
+                    var $as$ = this.Visit$1(nodes.get_Item(i));
+                    if (!System.Type.prototype.IsInstanceOfType.call(T.$GetType(), $as$))
+                        $as$ = null;
+                    return $as$;
+                }).call(this);
+                if (node == null) {
+                    throw System.Exception.prototype.$ctor$1.$new("MustRewriteToSameNode").InternalInit(new Error());
+                }
+                if (newNodes != null) {
                     newNodes[i] = node;
                 }
-        }
+                else
+                    if (!node == nodes.get_Item(i)) {
+                        newNodes = new Array(n);
+                        for (var j = 0; j < i; j++)
+                            (function() {
+                                newNodes[j] = nodes.get_Item(j);
+                            }).call(this);
+                        newNodes[i] = node;
+                    }
+            }).call(this);
         if (newNodes == null) {
             return nodes;
         }
@@ -8039,11 +8097,12 @@ System.Reflection.Assembly.prototype = new System.Object();
         this.typesByNameUpper = (System.Collections.Generic.Dictionary$2$(String, Function)).prototype.$ctor.$new();
         this.fullName = fullName;
         this.typeFunctions = new Array(types.length);
-        for (var i = 0; i < types.length; i++) {
-            this.typeFunctions[i] = types[i];
-            this.typesByName.set_Item(this.typeFunctions[i].$typeName, this.typeFunctions[i]);
-            this.typesByNameUpper.set_Item(this.typeFunctions[i].$typeName.toUpperCase(), this.typeFunctions[i]);
-        }
+        for (var i = 0; i < types.length; i++)
+            (function() {
+                this.typeFunctions[i] = types[i];
+                this.typesByName.set_Item(this.typeFunctions[i].$typeName, this.typeFunctions[i]);
+                this.typesByNameUpper.set_Item(this.typeFunctions[i].$typeName.toUpperCase(), this.typeFunctions[i]);
+            }).call(this);
     };
     $p.$ctor.$type = $t;
     $p.$ctor.$new = function(fullName, types) {
@@ -9019,19 +9078,15 @@ System.Reflection.ParameterInfo.prototype = new System.Object();
     };
     $p.System$Reflection$ICustomAttributeProvider$GetCustomAttributes = $p.GetCustomAttributes;
     $p.GetCustomAttributes$1 = function(attributeType, inherit) {
-        return System.Linq.Enumerable.ToArray(System.Object, System.Linq.Enumerable.Where(System.Object, this.GetCustomAttributes(inherit), (function(attributeType$closed) {
-            return $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
-                return attributeType$closed.IsInstanceOfType(x);
-            });
-        }).call(this, attributeType)));
+        return System.Linq.Enumerable.ToArray(System.Object, System.Linq.Enumerable.Where(System.Object, this.GetCustomAttributes(inherit), $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
+            return attributeType.IsInstanceOfType(x);
+        })));
     };
     $p.System$Reflection$ICustomAttributeProvider$GetCustomAttributes$1 = $p.GetCustomAttributes$1;
     $p.IsDefined = function(attributeType, inherit) {
-        return System.Linq.Enumerable.Any$1(System.Object, this.GetCustomAttributes(inherit), (function(attributeType$closed) {
-            return $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
-                return attributeType$closed.IsInstanceOfType(x);
-            });
-        }).call(this, attributeType));
+        return System.Linq.Enumerable.Any$1(System.Object, this.GetCustomAttributes(inherit), $delegate(this, (System.Func$2$(System.Object, System.Boolean)), function(x) {
+            return attributeType.IsInstanceOfType(x);
+        }));
     };
     $p.System$Reflection$ICustomAttributeProvider$IsDefined = $p.IsDefined;
 }).call(null, System.Reflection.ParameterInfo, System.Reflection.ParameterInfo.prototype);
@@ -9175,9 +9230,10 @@ System.Reflection.PropertyInfo.prototype = new System.Reflection.MemberInfo();
     $p.SetValue$2 = function(obj, value, invokeAttr, binder, index, culture) {
         var args = new Array(1 + (index != null ? index.length : 0));
         args[0] = value;
-        for (var i = 1; i < args.length; i++) {
-            args[i] = index[i - 1];
-        }
+        for (var i = 1; i < args.length; i++)
+            (function() {
+                args[i] = index[i - 1];
+            }).call(this);
         this.get_SetMethod().Invoke$1(
             obj, 
             invokeAttr, 
@@ -9460,9 +9516,10 @@ $mscorlib$AssemblyTypes.push(System.IntPtr);
             var s = this.toString(radix);
             if (remainingFormat.length > 0) {
                 var minimumDigits = System.Int32.Parse(remainingFormat);
-                while (s.length < minimumDigits) {
-                    s = "0" + s;
-                }
+                while (s.length < minimumDigits)
+                    (function() {
+                        s = "0" + s;
+                    }).call(this);
             }
             return s;
         }
@@ -9807,18 +9864,20 @@ $mscorlib$AssemblyTypes.push(System.Single);
     $p.Split = function(separator) {
         var s = this;
         var stringSeparator = new Array(separator.length);
-        for (var i = 0; i < separator.length; i++) {
-            stringSeparator[i] = separator[i].ToString();
-        }
+        for (var i = 0; i < separator.length; i++)
+            (function() {
+                stringSeparator[i] = separator[i].ToString();
+            }).call(this);
         var array = s.split(new RegExp(String.Join("|", stringSeparator)));
         return array;
     };
     $p.Split$2 = function(separator, count) {
         var s = this;
         var stringSeparator = new Array(separator.length);
-        for (var i = 0; i < separator.length; i++) {
-            stringSeparator[i] = separator[i].ToString();
-        }
+        for (var i = 0; i < separator.length; i++)
+            (function() {
+                stringSeparator[i] = separator[i].ToString();
+            }).call(this);
         var array = s.split(new RegExp(String.Join("|", stringSeparator)), count);
         return array;
     };
@@ -9886,15 +9945,16 @@ $mscorlib$AssemblyTypes.push(System.Single);
             throw System.ArgumentNullException.prototype.$ctor.$new("args").InternalInit(new Error());
         var values = new Array(args.length);
         var totalLength = 0;
-        for (var index = 0; index < args.length; ++index) {
-            var obj = args[index];
-            values[index] = obj == null ? String.Empty : obj.ToString();
-            if (values[index] == null)
-                values[index] = String.Empty;
-            totalLength += values[index].length;
-            if (totalLength < 0)
-                throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
-        }
+        for (var index = 0; index < args.length; ++index)
+            (function() {
+                var obj = args[index];
+                values[index] = obj == null ? String.Empty : obj.ToString();
+                if (values[index] == null)
+                    values[index] = String.Empty;
+                totalLength += values[index].length;
+                if (totalLength < 0)
+                    throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
+            }).call(this);
         return String.ConcatArray(values, totalLength);
     };
     $t.ConcatArray = function(values, totalLength) {
@@ -9902,10 +9962,11 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                s += item;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    s += item;
+                }).call(this);
         }
         return s;
     };
@@ -9914,10 +9975,11 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                s += item.ToString();
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    s += item.ToString();
+                }).call(this);
         }
         return s;
     };
@@ -9926,10 +9988,11 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                s += item;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    s += item;
+                }).call(this);
         }
         return s;
     };
@@ -9965,10 +10028,11 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                s += item;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    s += item;
+                }).call(this);
         }
         return s;
     };
@@ -11561,34 +11625,38 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = fields;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var field = $anon$2enumerator.get_Current();
-                field.declaringType = this;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var field = $anon$2enumerator.get_Current();
+                    field.declaringType = this;
+                }).call(this);
         }
         {
             var $anon$3iterator = methods;
             var $anon$4enumerator = $anon$3iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$4enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var method = $anon$4enumerator.get_Current();
-                method.declaringType = this;
-            }
+            while ($anon$4enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var method = $anon$4enumerator.get_Current();
+                    method.declaringType = this;
+                }).call(this);
         }
         {
             var $anon$5iterator = properties;
             var $anon$6enumerator = $anon$5iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$6enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var property = $anon$6enumerator.get_Current();
-                property.declaringType = this;
-            }
+            while ($anon$6enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var property = $anon$6enumerator.get_Current();
+                    property.declaringType = this;
+                }).call(this);
         }
         {
             var $anon$7iterator = constructors;
             var $anon$8enumerator = $anon$7iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$8enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var constructor = $anon$8enumerator.get_Current();
-                constructor.declaringType = this;
-            }
+            while ($anon$8enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var constructor = $anon$8enumerator.get_Current();
+                    constructor.declaringType = this;
+                }).call(this);
         }
     };
     $t._GetTypeFromInstance = function(instance) {
@@ -11636,12 +11704,13 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = System.AppDomain().get_CurrentDomain().GetAssemblies();
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var assembly = $anon$2enumerator.get_Current();
-                var result = assembly.GetType$1(typeName);
-                if (result != null)
-                    return result;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var assembly = $anon$2enumerator.get_Current();
+                    var result = assembly.GetType$1(typeName);
+                    if (result != null)
+                        return result;
+                }).call(this);
         }
         return null;
     };
@@ -11652,19 +11721,21 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             }
         }
         var current = type;
-        while (current != null) {
-            if (current == this)
-                return true;
-            current = current.get_BaseType();
-        }
+        while (current != null)
+            (function() {
+                if (current == this)
+                    return true;
+                current = current.get_BaseType();
+            }).call(this);
         {
             var $anon$1iterator = type.GetInterfaces();
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var item = $anon$2enumerator.get_Current();
-                if (item == this)
-                    return true;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var item = $anon$2enumerator.get_Current();
+                    if (item == this)
+                        return true;
+                }).call(this);
         }
         return false;
     };
@@ -11703,26 +11774,28 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = this.methods;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var method = $anon$2enumerator.get_Current();
-                if (method.get_Name() != name)
-                    continue;
-                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
-                    continue;
-                var parameters = method.GetParameters();
-                if (types != null && types.length != parameters.length)
-                    continue;
-                if (types != null) {
-                    var isValid = true;
-                    for (var i = 0; i < types.length; i++) {
-                        if (types[i] != parameters[i].get_ParameterType())
-                            isValid = false;
-                    }
-                    if (!isValid)
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var method = $anon$2enumerator.get_Current();
+                    if (method.get_Name() != name)
                         continue;
-                }
-                return method;
-            }
+                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
+                        continue;
+                    var parameters = method.GetParameters();
+                    if (types != null && types.length != parameters.length)
+                        continue;
+                    if (types != null) {
+                        var isValid = true;
+                        for (var i = 0; i < types.length; i++)
+                            (function() {
+                                if (types[i] != parameters[i].get_ParameterType())
+                                    isValid = false;
+                            }).call(this);
+                        if (!isValid)
+                            continue;
+                    }
+                    return method;
+                }).call(this);
         }
         return null;
     };
@@ -11731,10 +11804,11 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             throw System.ArgumentNullException.prototype.$ctor.$new("name").InternalInit(new Error());
         if (types == null)
             throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        for (var index = 0; index < types.length; ++index) {
-            if (types[index] == null)
-                throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        }
+        for (var index = 0; index < types.length; ++index)
+            (function() {
+                if (types[index] == null)
+                    throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
+            }).call(this);
         return this.GetMethodImpl(
             name, 
             System.Reflection.BindingFlags().Instance | System.Reflection.BindingFlags().Static | System.Reflection.BindingFlags().Public, 
@@ -11890,27 +11964,29 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = this.properties;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var property = $anon$2enumerator.get_Current();
-                var anAccessor = property.get_GetMethod() || property.get_SetMethod();
-                if (property.get_Name() != name)
-                    continue;
-                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !anAccessor.get_IsPublic())
-                    continue;
-                var parameters = property.GetIndexParameters();
-                if (types != null && types.length != parameters.length)
-                    continue;
-                if (types != null) {
-                    var isValid = true;
-                    for (var i = 0; i < types.length; i++) {
-                        if (types[i] != parameters[i].get_ParameterType())
-                            isValid = false;
-                    }
-                    if (!isValid)
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var property = $anon$2enumerator.get_Current();
+                    var anAccessor = property.get_GetMethod() || property.get_SetMethod();
+                    if (property.get_Name() != name)
                         continue;
-                }
-                return property;
-            }
+                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !anAccessor.get_IsPublic())
+                        continue;
+                    var parameters = property.GetIndexParameters();
+                    if (types != null && types.length != parameters.length)
+                        continue;
+                    if (types != null) {
+                        var isValid = true;
+                        for (var i = 0; i < types.length; i++)
+                            (function() {
+                                if (types[i] != parameters[i].get_ParameterType())
+                                    isValid = false;
+                            }).call(this);
+                        if (!isValid)
+                            continue;
+                    }
+                    return property;
+                }).call(this);
         }
         return null;
     };
@@ -11921,14 +11997,15 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = this.fields;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var field = $anon$2enumerator.get_Current();
-                if (field.get_Name() != name)
-                    continue;
-                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !field.get_IsPublic())
-                    continue;
-                return field;
-            }
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var field = $anon$2enumerator.get_Current();
+                    if (field.get_Name() != name)
+                        continue;
+                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !field.get_IsPublic())
+                        continue;
+                    return field;
+                }).call(this);
         }
         return null;
     };
@@ -11947,10 +12024,11 @@ System.Type.prototype = new System.Reflection.MemberInfo();
     $p.GetConstructor$2 = function(bindingAttr, binder, callConvention, types, modifiers) {
         if (types == null)
             throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        for (var index = 0; index < types.length; ++index) {
-            if (types[index] == null)
-                throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        }
+        for (var index = 0; index < types.length; ++index)
+            (function() {
+                if (types[index] == null)
+                    throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
+            }).call(this);
         return this.GetConstructorImpl(
             bindingAttr, 
             binder, 
@@ -11962,10 +12040,11 @@ System.Type.prototype = new System.Reflection.MemberInfo();
     $p.GetConstructor$1 = function(bindingAttr, binder, types, modifiers) {
         if (types == null)
             throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        for (var index = 0; index < types.length; ++index) {
-            if (types[index] == null)
-                throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        }
+        for (var index = 0; index < types.length; ++index)
+            (function() {
+                if (types[index] == null)
+                    throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
+            }).call(this);
         return this.GetConstructorImpl(
             bindingAttr, 
             binder, 
@@ -11986,24 +12065,26 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = this.constructors;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var method = $anon$2enumerator.get_Current();
-                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
-                    continue;
-                var parameters = method.GetParameters();
-                if (types != null && types.length != parameters.length)
-                    continue;
-                if (types != null) {
-                    var isValid = true;
-                    for (var i = 0; i < types.length; i++) {
-                        if (types[i] != parameters[i].get_ParameterType())
-                            isValid = false;
-                    }
-                    if (!isValid)
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var method = $anon$2enumerator.get_Current();
+                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
                         continue;
-                }
-                return method;
-            }
+                    var parameters = method.GetParameters();
+                    if (types != null && types.length != parameters.length)
+                        continue;
+                    if (types != null) {
+                        var isValid = true;
+                        for (var i = 0; i < types.length; i++)
+                            (function() {
+                                if (types[i] != parameters[i].get_ParameterType())
+                                    isValid = false;
+                            }).call(this);
+                        if (!isValid)
+                            continue;
+                    }
+                    return method;
+                }).call(this);
         }
         return null;
     };

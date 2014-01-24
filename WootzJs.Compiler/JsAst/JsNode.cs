@@ -32,6 +32,7 @@ namespace WootzJs.Compiler.JsAst
         public bool IsCompacted { get; set; }
 
         public abstract void Accept(IJsVisitor visitor);
+        public abstract T Accept<T>(IJsVisitor<T> visitor);
 
         public override string ToString()
         {

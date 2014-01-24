@@ -1015,50 +1015,26 @@ namespace WootzJs.Compiler
         {
             PushScope(null);
 
-            JsParameter[] parameters;
-            IJsDeclaration[] usedDeclarations;
             var block = new JsBlockStatement();
-            using (var tracker = TrackReferences())
+            JsParameter[] parameters = parameterNodes.Select(x => (JsParameter)x.Accept(this)).ToArray();
+
+            PushOutput(block);
+
+            var body = bodyNode.Accept(this);
+            if (body is JsStatement)
             {
-                var parent = scopes.Last();
-                var scope = PushScope(null, null);
-                var newParentDeclarations = parent.Declarations.Select(x => new Idioms.WrappedParent(x)).ToArray();
-                scope.AddDeclarations(newParentDeclarations);
-                foreach (var parentDeclaration in newParentDeclarations)
-                {
-                    parentDeclaration.Name = parentDeclaration.Name + "$closed";
-                }
-                parameters = parameterNodes.Select(x => (JsParameter)x.Accept(this)).ToArray();
-
-                PushOutput(block);
-
-                var body = bodyNode.Accept(this);
-                if (body is JsStatement)
-                {
-                    block.Aggregate((JsBlockStatement)body);
-                }
-                else
-                {
-                    block.Add(Js.Return((JsExpression)body));
-                }
-                usedDeclarations = tracker.ReferencedDeclarations.ToArray();
+                block.Aggregate((JsBlockStatement)body);
+            }
+            else
+            {
+                block.Add(Js.Return((JsExpression)body));
             }
 
             PopOutput();
             PopScope();
-            PopScope();
 
             var createDelegate = idioms.InvokeStatic(context.ObjectCreateDelegate, Js.This(), idioms.Type(delegateType), Js.Function(parameters).Body(block));
-            if (usedDeclarations.Any())
-            {
-                var wrapper = new JsBlockStatement();
-                wrapper.Return(createDelegate);
-                return idioms.Wrap(wrapper, usedDeclarations.ToArray());
-            }
-            else
-            {
-                return createDelegate;
-            }
+            return createDelegate;
         }
 
         public override JsNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
@@ -1416,7 +1392,7 @@ namespace WootzJs.Compiler
 
             PopOutput();
 
-            return Js.While(condition, block);
+            return Js.While(condition, idioms.WrapLoopBlock(block));
         }
 
         public override JsNode VisitDoStatement(DoStatementSyntax node)
@@ -1430,7 +1406,7 @@ namespace WootzJs.Compiler
 
             PopOutput();
 
-            return Js.DoWhile(condition, block);
+            return Js.DoWhile(condition, idioms.WrapLoopBlock(block));
         }
 
         public override JsNode VisitForStatement(ForStatementSyntax node)
@@ -1449,7 +1425,7 @@ namespace WootzJs.Compiler
             PopScope();
             PopOutput();
 
-            return Js.For(declaration, condition, incrementors).Body(block);
+            return Js.For(declaration, condition, incrementors).Body(idioms.WrapLoopBlock(block));
         }
 
         public override JsNode VisitForEachStatement(ForEachStatementSyntax node)
@@ -1458,6 +1434,7 @@ namespace WootzJs.Compiler
             var block = new JsBlockStatement();
             var enumerable = (JsExpression)node.Expression.Accept(this);
 
+            // Special handling for native js objects to use for/in
             if (!model.GetTypeInfo(node.Expression).Type.IsExported())
             {
                 var forInBlock = new JsBlockStatement();
@@ -1486,7 +1463,9 @@ namespace WootzJs.Compiler
                 whileBlock.Local(item);
                 whileBlock.Aggregate((JsStatement)node.Statement.Accept(this));
 
-                var whileLoop = Js.While(idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), whileBlock);
+                var whileLoop = Js.While(
+                    idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), 
+                    idioms.WrapLoopBlock(whileBlock));
                 block.Add(whileLoop);
             }
 

@@ -1582,5 +1582,10 @@ namespace WootzJs.Compiler
                 array,
                 Type(arrayType.ElementType));
         }
+
+        public JsStatement WrapLoopBlock(JsBlockStatement block)
+        {
+            return Js.Express(Wrap(block));
+        }
     }
 }

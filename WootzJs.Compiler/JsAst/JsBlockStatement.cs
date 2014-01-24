@@ -36,7 +36,7 @@ namespace WootzJs.Compiler.JsAst
 
         private List<JsStatement> statements = new List<JsStatement>();
 
-        public IReadOnlyCollection<JsStatement> Statements
+        public List<JsStatement> Statements
         {
             get { return statements; }
         }
@@ -44,6 +44,11 @@ namespace WootzJs.Compiler.JsAst
         public override void Accept(IJsVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override T Accept<T>(IJsVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
         }
 
         public void Add(JsStatement statement)

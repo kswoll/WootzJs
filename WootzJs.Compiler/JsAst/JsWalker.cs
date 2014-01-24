@@ -69,6 +69,7 @@ namespace WootzJs.Compiler.JsAst
             {
                 VisitDeclaration(parameter);
             }
+            node.Body.Accept(this);
         }
 
         public virtual void Visit(JsMemberReferenceExpression node)

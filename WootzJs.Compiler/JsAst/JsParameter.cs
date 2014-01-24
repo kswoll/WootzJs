@@ -54,5 +54,10 @@ namespace WootzJs.Compiler.JsAst
         {
             return Js.Reference(Name);
         }
+
+        public override T Accept<T>(IJsVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

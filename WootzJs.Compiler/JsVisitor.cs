@@ -30,7 +30,7 @@ using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public abstract class JsVisitor : IJsVisitor
+    public abstract class JsVisitor : JsAst.IJsVisitor
     {
         protected virtual void BeforeVisit(JsNode node)
         {

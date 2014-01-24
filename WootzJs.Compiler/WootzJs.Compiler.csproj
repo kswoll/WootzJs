@@ -79,6 +79,7 @@
     <Compile Include="GotoSubstituter.cs" />
     <Compile Include="IdentifierRenamer.cs" />
     <Compile Include="Idioms.cs" />
+    <Compile Include="IJsVisitor.cs" />
     <Compile Include="IndentStringBuilder.cs" />
     <Compile Include="JsAst\IJsDeclaration.cs" />
     <Compile Include="JsAst\IJsVisitor.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="JsMinifier.cs" />
     <Compile Include="JsNames.cs" />
     <Compile Include="JsRenderer.cs" />
+    <Compile Include="JsRewriter.cs" />
     <Compile Include="JsTransformer.cs" />
     <Compile Include="JsVisitor.cs" />
     <Compile Include="NamespaceTransformer.cs" />

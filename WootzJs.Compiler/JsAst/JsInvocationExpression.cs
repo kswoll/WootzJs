@@ -53,7 +53,7 @@ namespace WootzJs.Compiler.JsAst
                 AddArgument(argument);
         }
 
-        public IReadOnlyList<JsExpression> Arguments
+        public List<JsExpression> Arguments
         {
             get { return arguments; }
         }
@@ -66,6 +66,11 @@ namespace WootzJs.Compiler.JsAst
         public override void Accept(IJsVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override T Accept<T>(IJsVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }
