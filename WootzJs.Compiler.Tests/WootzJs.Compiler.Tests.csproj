@@ -80,6 +80,7 @@
     <Compile Include="Reflection\ConstructorInfoTests.cs" />
     <Compile Include="Reflection\EventInfoTests.cs" />
     <Compile Include="Reflection\PropertyInfoTests.cs" />
+    <Compile Include="ScopeTests.cs" />
     <Compile Include="TestAttribute.cs" />
     <Compile Include="TestFixtureAttribute.cs" />
     <Compile Include="Reflection\AssemblyTests.cs" />
