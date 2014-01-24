@@ -132,6 +132,9 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol Char { get; private set; }
         public NamedTypeSymbol Int32 { get; private set; }
         public NamedTypeSymbol Constant { get; private set; }
+        public NamedTypeSymbol Action { get; private set; }
+        public NamedTypeSymbol Func { get; private set; }
+        public NamedTypeSymbol JsObject { get; private set; }
 
         public Context(ISolution solution, Compilation compilation)
         {
@@ -233,6 +236,9 @@ namespace WootzJs.Compiler
             ElementInit = compilation.GetTypeByMetadataName("System.Linq.Expressions.ElementInit");
             ElementInitArray = compilation.CreateArrayTypeSymbol(ElementInit);
             Constant = compilation.GetTypeByMetadataName("System.Linq.Expressions.ConstantExpression");
+            Action = compilation.GetTypeByMetadataName("System.Action");
+            Func = compilation.GetTypeByMetadataName("System.Func`1");
+            JsObject = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.JsObject");
        }
     }
 }

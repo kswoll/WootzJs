@@ -1,4 +1,31 @@
-﻿using System;
+﻿#region License
+//-----------------------------------------------------------------------
+// <copyright>
+// The MIT License (MIT)
+// 
+// Copyright (c) 2014 Kirk S Woll
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+//-----------------------------------------------------------------------
+#endregion
+
+using System;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
@@ -10,7 +37,7 @@ namespace WootzJs.Compiler
             return action(node);
         }
 
-        public JsNode Visit(JsCompilationUnit node)
+        public virtual JsNode Visit(JsCompilationUnit node)
         {
             return DefaultVisit(node, x =>
             {
@@ -19,7 +46,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsBlockStatement node)
+        public virtual JsNode Visit(JsBlockStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -31,11 +58,11 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsExpressionStatement node)
+        public virtual JsNode Visit(JsExpressionStatement node)
         {
             return DefaultVisit(node, x =>
             {
-                x.Expression = (JsExpression)x.Accept(this);
+                x.Expression = (JsExpression)x.Expression.Accept(this);
                 return x;
             });
         }
@@ -50,7 +77,7 @@ namespace WootzJs.Compiler
                 throw new Exception();
         }
 
-        public JsNode Visit(JsFunction node)
+        public virtual JsNode Visit(JsFunction node)
         {
             return DefaultVisit(node, x =>
             {
@@ -58,21 +85,21 @@ namespace WootzJs.Compiler
                 {
                     x.Parameters[i] = (IJsDeclaration)VisitDeclaration(x.Parameters[i]);
                 }
-                x.Body = (JsBlockStatement)x.Accept(this);
+                x.Body = (JsBlockStatement)x.Body.Accept(this);
                 return x;
             });
         }
 
-        public JsNode Visit(JsMemberReferenceExpression node)
+        public virtual JsNode Visit(JsMemberReferenceExpression node)
         {
             return DefaultVisit(node, x =>
             {
-                x.Target = (JsExpression)x.Accept(this);
+                x.Target = (JsExpression)x.Target.Accept(this);
                 return x;
             });
         }
 
-        public JsNode Visit(JsObjectExpression node)
+        public virtual JsNode Visit(JsObjectExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -84,7 +111,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsParentheticalExpression node)
+        public virtual JsNode Visit(JsParentheticalExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -93,25 +120,27 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsReturnStatement node)
+        public virtual JsNode Visit(JsReturnStatement node)
         {
             return DefaultVisit(node, x =>
             {
-                x.Expression = (JsExpression)x.Expression.Accept(this);
+                if (x.Expression != null)
+                    x.Expression = (JsExpression)x.Expression.Accept(this);
                 return x;
             });
         }
 
-        public JsNode Visit(JsVariableDeclarator node)
+        public virtual JsNode Visit(JsVariableDeclarator node)
         {
             return DefaultVisit(node, x =>
             {
-                x.Initializer = (JsExpression)x.Initializer.Accept(this);
+                if (x.Initializer != null)
+                    x.Initializer = (JsExpression)x.Initializer.Accept(this);
                 return x;
             });
         }
 
-        public JsNode Visit(JsVariableDeclaration node)
+        public virtual JsNode Visit(JsVariableDeclaration node)
         {
             return DefaultVisit(node, x =>
             {
@@ -123,12 +152,12 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsVariableReferenceExpression node)
+        public virtual JsNode Visit(JsVariableReferenceExpression node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsObjectItem node)
+        public virtual JsNode Visit(JsObjectItem node)
         {
             return DefaultVisit(node, x =>
             {
@@ -137,7 +166,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsInvocationExpression node)
+        public virtual JsNode Visit(JsInvocationExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -150,12 +179,12 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsParameter node)
+        public virtual JsNode Visit(JsParameter node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsFunctionDeclaration node)
+        public virtual JsNode Visit(JsFunctionDeclaration node)
         {
             return DefaultVisit(node, x =>
             {
@@ -164,17 +193,17 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsPrimitiveExpression node)
+        public virtual JsNode Visit(JsPrimitiveExpression node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsThisExpression node)
+        public virtual JsNode Visit(JsThisExpression node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsNewExpression node)
+        public virtual JsNode Visit(JsNewExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -183,7 +212,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsIfStatement node)
+        public virtual JsNode Visit(JsIfStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -195,7 +224,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsBinaryExpression node)
+        public virtual JsNode Visit(JsBinaryExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -205,7 +234,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsUnaryExpression node)
+        public virtual JsNode Visit(JsUnaryExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -214,12 +243,12 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsNativeStatement node)
+        public virtual JsNode Visit(JsNativeStatement node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsNewArrayExpression node)
+        public virtual JsNode Visit(JsNewArrayExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -228,7 +257,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsForStatement node)
+        public virtual JsNode Visit(JsForStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -245,7 +274,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsIndexExpression node)
+        public virtual JsNode Visit(JsIndexExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -255,7 +284,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsLocalVariableDeclaration node)
+        public virtual JsNode Visit(JsLocalVariableDeclaration node)
         {
             return DefaultVisit(node, x =>
             {
@@ -264,12 +293,12 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsRegexExpression node)
+        public virtual JsNode Visit(JsRegexExpression node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsArrayExpression node)
+        public virtual JsNode Visit(JsArrayExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -281,7 +310,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsThrowStatement node)
+        public virtual JsNode Visit(JsThrowStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -290,7 +319,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsSwitchSection node)
+        public virtual JsNode Visit(JsSwitchSection node)
         {
             return DefaultVisit(node, x =>
             {
@@ -306,7 +335,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsSwitchStatement node)
+        public virtual JsNode Visit(JsSwitchStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -319,7 +348,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsSwitchLabel node)
+        public virtual JsNode Visit(JsSwitchLabel node)
         {
             return DefaultVisit(node, x =>
             {
@@ -329,7 +358,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsWhileStatement node)
+        public virtual JsNode Visit(JsWhileStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -339,22 +368,17 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsBreakStatement node)
-        {
-            return DefaultVisit(node, x =>
-            {
-                if (x.Label != null)
-                    x.Label = (JsExpression)x.Label.Accept(this);
-                return x;
-            });
-        }
-
-        public JsNode Visit(JsEmptyStatement node)
+        public virtual JsNode Visit(JsBreakStatement node)
         {
             return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsCatchClause node)
+        public virtual JsNode Visit(JsEmptyStatement node)
+        {
+            return DefaultVisit(node, x => x);
+        }
+
+        public virtual JsNode Visit(JsCatchClause node)
         {
             return DefaultVisit(node, x =>
             {
@@ -364,7 +388,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsTryStatement node)
+        public virtual JsNode Visit(JsTryStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -377,7 +401,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsConditionalExpression node)
+        public virtual JsNode Visit(JsConditionalExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -388,7 +412,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsDeleteExpression node)
+        public virtual JsNode Visit(JsDeleteExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -397,7 +421,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsForInStatement node)
+        public virtual JsNode Visit(JsForInStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -408,7 +432,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsTypeOfExpression node)
+        public virtual JsNode Visit(JsTypeOfExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -417,17 +441,12 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsContinueStatement node)
+        public virtual JsNode Visit(JsContinueStatement node)
         {
-            return DefaultVisit(node, x =>
-            {
-                if (x.Label != null)
-                    x.Label = (JsExpression)x.Label.Accept(this);
-                return x;
-            });
+            return DefaultVisit(node, x => x);
         }
 
-        public JsNode Visit(JsDeclarationReferenceExpression node)
+        public virtual JsNode Visit(JsDeclarationReferenceExpression node)
         {
             return DefaultVisit(node, x =>
             {
@@ -436,7 +455,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsLabeledStatement node)
+        public virtual JsNode Visit(JsLabeledStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -445,7 +464,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsDoWhileStatement node)
+        public virtual JsNode Visit(JsDoWhileStatement node)
         {
             return DefaultVisit(node, x =>
             {
@@ -455,7 +474,7 @@ namespace WootzJs.Compiler
             });
         }
 
-        public JsNode Visit(JsInstanceOfExpression node)
+        public virtual JsNode Visit(JsInstanceOfExpression node)
         {
             return DefaultVisit(node, x =>
             {

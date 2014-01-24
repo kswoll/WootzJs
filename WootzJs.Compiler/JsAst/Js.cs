@@ -447,7 +447,7 @@ namespace WootzJs.Compiler.JsAst
             return new JsDoWhileStatement(condition, statement);
         }
 
-        public static JsBreakStatement Break(JsExpression label = null)
+        public static JsBreakStatement Break(string label = null)
         {
             return new JsBreakStatement(label);
         }
@@ -503,14 +503,21 @@ namespace WootzJs.Compiler.JsAst
             blockStatement.Add(Express(expression));
         }
 
+        public static void Local(this JsBlockStatement blockStatement, JsVariableDeclarator declarators)
+        {
+            blockStatement.Add(Local(declarators));
+        }
+
         public static void Local(this JsBlockStatement blockStatement, params JsVariableDeclarator[] declarators)
         {
             blockStatement.Add(Local(declarators));
         }
 
-        public static void Local(this JsBlockStatement blockStatement, string name, JsExpression initializer)
+        public static JsVariableDeclarator Local(this JsBlockStatement blockStatement, string name, JsExpression initializer)
         {
-            blockStatement.Add(Local(name, initializer));
+            var variable = Variable(name, initializer);
+            blockStatement.Add(Local(variable));
+            return variable;
         }
 
         public static void Local(this JsBlockStatement blockStatement, JsVariableDeclaration declaration)
@@ -558,7 +565,7 @@ namespace WootzJs.Compiler.JsAst
             return new JsUnaryExpression(JsUnaryOperator.LogicalNot, expression);
         }
 
-        public static JsContinueStatement Continue(JsExpression label = null)
+        public static JsContinueStatement Continue(string label = null)
         {
             return new JsContinueStatement(label);
         }
@@ -652,6 +659,20 @@ namespace WootzJs.Compiler.JsAst
         public static JsInstanceOfExpression InstanceOf(JsExpression expression, JsExpression type)
         {
             return new JsInstanceOfExpression(expression, type);
+        }
+
+        public static JsBlockStatement Block(params JsStatement[] statements)
+        {
+            var block = new JsBlockStatement();
+            foreach (var statement in statements)
+                block.Add(statement);
+            return block;
+        }
+        
+        public static T Compact<T>(this T node) where T : JsNode
+        {
+            node.IsCompacted = true;
+            return node;
         }
     }
 }

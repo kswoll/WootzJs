@@ -30,7 +30,7 @@ using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public abstract class JsVisitor : JsAst.IJsVisitor
+    public class JsVisitor : JsAst.IJsVisitor
     {
         protected virtual void BeforeVisit(JsNode node)
         {
@@ -45,52 +45,52 @@ namespace WootzJs.Compiler
             action(node);
         }
 
-        public abstract void VisitCompilationUnit(JsCompilationUnit node);
-        public abstract void VisitBlockStatement(JsBlockStatement node);
-        public abstract void VisitExpressionStatement(JsExpressionStatement node);
-        public abstract void VisitFunction(JsFunction node);
-        public abstract void VisitMemberReferenceExpression(JsMemberReferenceExpression node);
-        public abstract void VisitObjectExpression(JsObjectExpression node);
-        public abstract void VisitParentheticalExpression(JsParentheticalExpression node);
-        public abstract void VisitReturnStatement(JsReturnStatement node);
-        public abstract void VisitVariableDeclarator(JsVariableDeclarator node);
-        public abstract void VisitVariableDeclaration(JsVariableDeclaration node);
-        public abstract void VisitVariableReferenceExpression(JsVariableReferenceExpression node);
-        public abstract void VisitObjectItem(JsObjectItem node);
-        public abstract void VisitInvocationExpression(JsInvocationExpression node);
-        public abstract void VisitParameter(JsParameter node);
-        public abstract void VisitFunctionDeclaration(JsFunctionDeclaration node);
-        public abstract void VisitPrimitiveExpression(JsPrimitiveExpression node);
-        public abstract void VisitThisExpression(JsThisExpression node);
-        public abstract void VisitNewExpression(JsNewExpression node);
-        public abstract void VisitIfStatement(JsIfStatement node);
-        public abstract void VisitBinaryExpression(JsBinaryExpression node);
-        public abstract void VisitUnaryExpression(JsUnaryExpression node);
-        public abstract void VisitNativeStatement(JsNativeStatement node);
-        public abstract void VisitNewArrayExpression(JsNewArrayExpression node);
-        public abstract void VisitForStatement(JsForStatement node);
-        public abstract void VisitIndexExpression(JsIndexExpression node);
-        public abstract void VisitLocalVariableDeclaration(JsLocalVariableDeclaration node);
-        public abstract void VisitRegexExpression(JsRegexExpression node);
-        public abstract void VisitArrayExpression(JsArrayExpression node);
-        public abstract void VisitThrowStatement(JsThrowStatement node);
-        public abstract void VisitSwitchSection(JsSwitchSection node);
-        public abstract void VisitSwitchStatement(JsSwitchStatement node);
-        public abstract void VisitSwitchLabel(JsSwitchLabel node);
-        public abstract void VisitWhileStatement(JsWhileStatement node);
-        public abstract void VisitBreakStatement(JsBreakStatement node);
-        public abstract void VisitEmptyStatement(JsEmptyStatement node);
-        public abstract void VisitCatchClause(JsCatchClause node);
-        public abstract void VisitTryStatement(JsTryStatement node);
-        public abstract void VisitConditionalExpression(JsConditionalExpression node);
-        public abstract void VisitDeleteExpression(JsDeleteExpression node);
-        public abstract void VisitForInStatement(JsForInStatement node);
-        public abstract void VisitTypeOfExpression(JsTypeOfExpression node);
-        public abstract void VisitContinueStatement(JsContinueStatement node);
-        public abstract void VisitDeclarationReferenceExpression(JsDeclarationReferenceExpression node);
-        public abstract void VisitLabeledStatement(JsLabeledStatement node);
-        public abstract void VisitDoWhileStatement(JsDoWhileStatement node);
-        public abstract void VisitInstanceOfExpression(JsInstanceOfExpression node);
+        public virtual void VisitCompilationUnit(JsCompilationUnit node) {}
+        public virtual void VisitBlockStatement(JsBlockStatement node) {}
+        public virtual void VisitExpressionStatement(JsExpressionStatement node) {}
+        public virtual void VisitFunction(JsFunction node) {}
+        public virtual void VisitMemberReferenceExpression(JsMemberReferenceExpression node) {}
+        public virtual void VisitObjectExpression(JsObjectExpression node) {}
+        public virtual void VisitParentheticalExpression(JsParentheticalExpression node) {}
+        public virtual void VisitReturnStatement(JsReturnStatement node) {}
+        public virtual void VisitVariableDeclarator(JsVariableDeclarator node) {}
+        public virtual void VisitVariableDeclaration(JsVariableDeclaration node) {}
+        public virtual void VisitVariableReferenceExpression(JsVariableReferenceExpression node) {}
+        public virtual void VisitObjectItem(JsObjectItem node) {}
+        public virtual void VisitInvocationExpression(JsInvocationExpression node) {}
+        public virtual void VisitParameter(JsParameter node) {}
+        public virtual void VisitFunctionDeclaration(JsFunctionDeclaration node) {}
+        public virtual void VisitPrimitiveExpression(JsPrimitiveExpression node) {}
+        public virtual void VisitThisExpression(JsThisExpression node) {}
+        public virtual void VisitNewExpression(JsNewExpression node) {}
+        public virtual void VisitIfStatement(JsIfStatement node) {}
+        public virtual void VisitBinaryExpression(JsBinaryExpression node) {}
+        public virtual void VisitUnaryExpression(JsUnaryExpression node) {}
+        public virtual void VisitNativeStatement(JsNativeStatement node) {}
+        public virtual void VisitNewArrayExpression(JsNewArrayExpression node) {}
+        public virtual void VisitForStatement(JsForStatement node) {}
+        public virtual void VisitIndexExpression(JsIndexExpression node) {}
+        public virtual void VisitLocalVariableDeclaration(JsLocalVariableDeclaration node) {}
+        public virtual void VisitRegexExpression(JsRegexExpression node) {}
+        public virtual void VisitArrayExpression(JsArrayExpression node) {}
+        public virtual void VisitThrowStatement(JsThrowStatement node) {}
+        public virtual void VisitSwitchSection(JsSwitchSection node) {}
+        public virtual void VisitSwitchStatement(JsSwitchStatement node) {}
+        public virtual void VisitSwitchLabel(JsSwitchLabel node) {}
+        public virtual void VisitWhileStatement(JsWhileStatement node) {}
+        public virtual void VisitBreakStatement(JsBreakStatement node) {}
+        public virtual void VisitEmptyStatement(JsEmptyStatement node) {}
+        public virtual void VisitCatchClause(JsCatchClause node) {}
+        public virtual void VisitTryStatement(JsTryStatement node) {}
+        public virtual void VisitConditionalExpression(JsConditionalExpression node) {}
+        public virtual void VisitDeleteExpression(JsDeleteExpression node) {}
+        public virtual void VisitForInStatement(JsForInStatement node) {}
+        public virtual void VisitTypeOfExpression(JsTypeOfExpression node) {}
+        public virtual void VisitContinueStatement(JsContinueStatement node) {}
+        public virtual void VisitDeclarationReferenceExpression(JsDeclarationReferenceExpression node) {}
+        public virtual void VisitLabeledStatement(JsLabeledStatement node) {}
+        public virtual void VisitDoWhileStatement(JsDoWhileStatement node) {}
+        public virtual void VisitInstanceOfExpression(JsInstanceOfExpression node) {}
 
         public void Visit(JsCompilationUnit node)
         {

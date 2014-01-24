@@ -75,6 +75,7 @@
     <Compile Include="Compiler.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Cs.cs" />
+    <Compile Include="CsJsni.cs" />
     <Compile Include="ExpressionTreeTransformer.cs" />
     <Compile Include="GotoSubstituter.cs" />
     <Compile Include="IdentifierRenamer.cs" />
@@ -142,6 +143,8 @@
     <Compile Include="JsRewriter.cs" />
     <Compile Include="JsTransformer.cs" />
     <Compile Include="JsVisitor.cs" />
+    <Compile Include="LoopTransformer.cs" />
+    <Compile Include="LoopTransformer2.cs" />
     <Compile Include="NamespaceTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoslynExtensions.cs" />

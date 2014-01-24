@@ -29,13 +29,13 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsContinueStatement : JsStatement
     {
-        public JsExpression Label { get; set; }
+        public string Label { get; set; }
 
         public JsContinueStatement()
         {
         }
 
-        public JsContinueStatement(JsExpression label)
+        public JsContinueStatement(string label)
         {
             Label = label;
         }

@@ -39,7 +39,7 @@ namespace WootzJs.Compiler
 {
     public class Idioms
     {
-        private Context context;
+        internal Context context;
         private JsTransformer transformer;
 
         public Idioms(Context context, JsTransformer transformer)
@@ -224,8 +224,7 @@ namespace WootzJs.Compiler
                 CreateEventInfos(type),
                 Js.Primitive(type.IsValueType)));
             body.Return(Js.This().Member(SpecialNames.TypeField));
-            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body));
-            result.IsCompacted = true;
+            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body).Compact());
             return result;
         }
 
@@ -1355,6 +1354,20 @@ namespace WootzJs.Compiler
                     case "instanceof":
                         result = Js.Parenthetical(Js.InstanceOf(arguments[0], arguments[1]));
                         return true;
+                    case "object":
+                        // Deconstruct the object passed in into a JS object
+                        var obj = (AnonymousObjectCreationExpressionSyntax)invocation.ArgumentList.Arguments[0].Expression;
+                        result = Js.Object(
+                            obj.Initializers.Select(x => Js.Item(
+                                x.NameEquals.Name.ToString(),
+                                (JsExpression)x.Expression.Accept(transformer)
+                            )).ToArray()
+                        );
+                        if (arguments.Length > 1 && invocation.ArgumentList.Arguments[1].Expression.IsTrue())
+                        {
+                            result = result.Compact();
+                        }
+                        return true;
                 }
             }            
             result = null;
@@ -1581,11 +1594,6 @@ namespace WootzJs.Compiler
             return Type(context.ObjectType).Member("$$InitializeArray").Invoke(
                 array,
                 Type(arrayType.ElementType));
-        }
-
-        public JsStatement WrapLoopBlock(JsBlockStatement block)
-        {
-            return Js.Express(Wrap(block));
         }
     }
 }

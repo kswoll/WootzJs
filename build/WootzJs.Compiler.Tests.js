@@ -613,22 +613,18 @@ WootzJs.Compiler.Tests.DelegateTests.prototype = new System.Object();
     $p.ModifyClosedVariable = function() {
         var i = 0;
         var j = 0;
-        var action = (function(i$closed, j$closed) {
-            return $delegate(this, System.Action, function() {
-                i$closed = i = 5;
-                j$closed = j = i$closed;
-            });
-        }).call(this, i, j);
+        var action = $delegate(this, System.Action, function() {
+            i = 5;
+            j = i;
+        });
         action();
         QUnit.equal(j, 5);
     };
     $p.CastDelegate = function() {
         var i = 0;
-        var action = (function(i$closed) {
-            return $delegate(this, System.Action, function() {
-                i$closed = i = 5;
-            });
-        }).call(this, i);
+        var action = $delegate(this, System.Action, function() {
+            i = 5;
+        });
         var delgt = action;
         var action2 = $cast(System.Action, delgt);
         action2();
@@ -704,9 +700,10 @@ WootzJs.Compiler.Tests.DoWhileTests.prototype = new System.Object();
     };
     $p.DoWhile = function() {
         var i = 0;
-        do {
-            i++;
-        }
+        do
+            (function() {
+                i++;
+            }).call(this);
         while (i < 5);
         QUnit.equal(i, 5);
     };
@@ -856,22 +853,18 @@ WootzJs.Compiler.Tests.EventTests.prototype = new System.Object();
     $p.BasicEvent = function() {
         var o = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
         var success = false;
-        o.add_Foo((function(success$closed) {
-            return $delegate(this, System.Action, function() {
-                return success$closed = success = true;
-            });
-        }).call(this, success));
+        o.add_Foo($delegate(this, System.Action, function() {
+            return success = true;
+        }));
         o.OnFoo();
         QUnit.ok(success);
     };
     $p.BasicEventExplicitThis = function() {
         var o = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
         var success = false;
-        o.add_FooThis((function(success$closed) {
-            return $delegate(this, System.Action, function() {
-                return success$closed = success = true;
-            });
-        }).call(this, success));
+        o.add_FooThis($delegate(this, System.Action, function() {
+            return success = true;
+        }));
         o.OnFooThis();
         QUnit.ok(success);
     };
@@ -879,16 +872,12 @@ WootzJs.Compiler.Tests.EventTests.prototype = new System.Object();
         var o = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
         var success1 = false;
         var success2 = false;
-        o.add_Foo((function(success1$closed) {
-            return $delegate(this, System.Action, function() {
-                return success1$closed = success1 = true;
-            });
-        }).call(this, success1));
-        o.add_Foo((function(success2$closed) {
-            return $delegate(this, System.Action, function() {
-                return success2$closed = success2 = true;
-            });
-        }).call(this, success2));
+        o.add_Foo($delegate(this, System.Action, function() {
+            return success1 = true;
+        }));
+        o.add_Foo($delegate(this, System.Action, function() {
+            return success2 = true;
+        }));
         o.OnFoo();
         QUnit.ok(success1);
         QUnit.ok(success2);
@@ -897,17 +886,13 @@ WootzJs.Compiler.Tests.EventTests.prototype = new System.Object();
         var o = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
         var success1 = false;
         var success2 = false;
-        var foo1 = (function(success1$closed) {
-            return $delegate(this, System.Action, function() {
-                return success1$closed = success1 = true;
-            });
-        }).call(this, success1);
+        var foo1 = $delegate(this, System.Action, function() {
+            return success1 = true;
+        });
         o.add_Foo(foo1);
-        o.add_Foo((function(success2$closed) {
-            return $delegate(this, System.Action, function() {
-                return success2$closed = success2 = true;
-            });
-        }).call(this, success2));
+        o.add_Foo($delegate(this, System.Action, function() {
+            return success2 = true;
+        }));
         o.remove_Foo(foo1);
         o.OnFoo();
         QUnit.ok(!success1);
@@ -916,11 +901,9 @@ WootzJs.Compiler.Tests.EventTests.prototype = new System.Object();
     $p.EventAccessor = function() {
         var eventClass = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
         var ran = false;
-        var evt = (function(ran$closed) {
-            return $delegate(this, System.Action, function() {
-                return ran$closed = ran = true;
-            });
-        }).call(this, ran);
+        var evt = $delegate(this, System.Action, function() {
+            return ran = true;
+        });
         eventClass.add_Bar(evt);
         eventClass.OnBar();
         QUnit.ok(ran);
@@ -932,16 +915,12 @@ WootzJs.Compiler.Tests.EventTests.prototype = new System.Object();
     $p.MulticastEventKeepsDelegateType = function() {
         var i = 0;
         var eventClass = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
-        eventClass.add_Foo((function(i$closed) {
-            return $delegate(this, System.Action, function() {
-                return i$closed++;
-            });
-        }).call(this, i));
-        eventClass.add_Foo((function(i$closed) {
-            return $delegate(this, System.Action, function() {
-                return i$closed++;
-            });
-        }).call(this, i));
+        eventClass.add_Foo($delegate(this, System.Action, function() {
+            return i++;
+        }));
+        eventClass.add_Foo($delegate(this, System.Action, function() {
+            return i++;
+        }));
         var action = eventClass.GetFoo();
         QUnit.ok(System.Action.$GetType().IsInstanceOfType(action));
     };
@@ -1529,13 +1508,22 @@ WootzJs.Compiler.Tests.GotoTests.prototype = new System.Object();
     $p.LabeledBreak = function() {
         var counter = 0;
         top:
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++) {
-                if (i == 1)
-                    continue top;
-                counter++;
-            }
-        }
+        for (var i = 0; i < 3; i++)
+            (function() {
+                for (var j = 0; j < 3; j++) {
+                    var $loopResult = (function() {
+                        if (i == 1)
+                            return {type: 2,label: "top",depth: 1};
+                        counter++;
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            default:
+                                return $loopResult;
+                        }
+                }
+            }).call(this);
         QUnit.equal(counter, 6);
     };
 }).call(null, WootzJs.Compiler.Tests.GotoTests, WootzJs.Compiler.Tests.GotoTests.prototype);
@@ -1747,11 +1735,9 @@ WootzJs.Compiler.Tests.Linq.EnumerableTests.prototype = new System.Object();
                     String, 
                     String, 
                     x, 
-                    (function(i$closed) {
-                        return $delegate(this, (System.Func$2$(String, String)), function(y) {
-                            return y + i$closed;
-                        });
-                    }).call(this, i)
+                    $delegate(this, (System.Func$2$(String, String)), function(y) {
+                        return y + i;
+                    })
                 );
             })
         ));
@@ -1775,11 +1761,9 @@ WootzJs.Compiler.Tests.Linq.EnumerableTests.prototype = new System.Object();
                     String, 
                     String, 
                     x, 
-                    (function(i$closed) {
-                        return $delegate(this, (System.Func$2$(String, String)), function(y) {
-                            return y + i$closed;
-                        });
-                    }).call(this, i)
+                    $delegate(this, (System.Func$2$(String, String)), function(y) {
+                        return y + i;
+                    })
                 );
             }), 
             $delegate(this, (System.Func$3$(System.Object.$$MakeArrayType(String), String, System.Int32)), function(row, item) {
@@ -3283,6 +3267,33 @@ WootzJs.Compiler.Tests.NullableTests.prototype = new System.Object();
     };
 }).call(null, WootzJs.Compiler.Tests.NullableTests, WootzJs.Compiler.Tests.NullableTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.NullableTests);
+WootzJs.Compiler.Tests.NumberTests = $define("WootzJs.Compiler.Tests.NumberTests");
+WootzJs.Compiler.Tests.NumberTests.prototype = new System.Object();
+(WootzJs.Compiler.Tests.NumberTests.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+    $p.$type = WootzJs.Compiler.Tests.NumberTests;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Compiler.Tests.NumberTests";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("NumberTests", [WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()]);this.$type.Init("WootzJs.Compiler.Tests.NumberTests", WootzJs.Compiler.Tests.NumberTests, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("ToHex", WootzJs.Compiler.Tests.NumberTests.prototype.ToHex, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.NumberTests.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+    $t.$StaticInitializer = function() {
+    };
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.ToHex = function() {
+        var number = 20;
+        QUnit.equal(number.ToString$2("X4"), "0014");
+    };
+}).call(null, WootzJs.Compiler.Tests.NumberTests, WootzJs.Compiler.Tests.NumberTests.prototype);
+$WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.NumberTests);
 WootzJs.Compiler.Tests.ObjectInitializerTests = $define("WootzJs.Compiler.Tests.ObjectInitializerTests");
 WootzJs.Compiler.Tests.ObjectInitializerTests.prototype = new System.Object();
 (WootzJs.Compiler.Tests.ObjectInitializerTests.$TypeInitializer = function($t, $p) {
@@ -3975,6 +3986,54 @@ WootzJs.Compiler.Tests.Reflection.PropertyInfoTests.prototype = new System.Objec
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.PropertyClass);
 }).call(null, WootzJs.Compiler.Tests.Reflection.PropertyInfoTests, WootzJs.Compiler.Tests.Reflection.PropertyInfoTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.Reflection.PropertyInfoTests);
+WootzJs.Compiler.Tests.ScopeTests = $define("WootzJs.Compiler.Tests.ScopeTests");
+WootzJs.Compiler.Tests.ScopeTests.prototype = new System.Object();
+(WootzJs.Compiler.Tests.ScopeTests.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+    $p.$type = WootzJs.Compiler.Tests.ScopeTests;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Compiler.Tests.ScopeTests";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ScopeTests", [WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()]);this.$type.Init("WootzJs.Compiler.Tests.ScopeTests", WootzJs.Compiler.Tests.ScopeTests, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("CanModifyClosedVariableWithAssignment", WootzJs.Compiler.Tests.ScopeTests.prototype.CanModifyClosedVariableWithAssignment, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("CanModifyClosedVariableWithIncrementor", WootzJs.Compiler.Tests.ScopeTests.prototype.CanModifyClosedVariableWithIncrementor, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("CanSeeChangesToClosedVariable", WootzJs.Compiler.Tests.ScopeTests.prototype.CanSeeChangesToClosedVariable, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ScopeTests.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+    $t.$StaticInitializer = function() {
+    };
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.CanModifyClosedVariableWithAssignment = function() {
+        var i = 0;
+        var action = $delegate(this, System.Action, function() {
+            return i = i + 1;
+        });
+        action();
+        QUnit.equal(i, 1);
+    };
+    $p.CanModifyClosedVariableWithIncrementor = function() {
+        var i = 0;
+        var action = $delegate(this, System.Action, function() {
+            return i++;
+        });
+        action();
+        QUnit.equal(i, 1);
+    };
+    $p.CanSeeChangesToClosedVariable = function() {
+        var i = 0;
+        var action = $delegate(this, System.Action, function() {
+            return i = i + 1;
+        });
+        i = 1;
+        action();
+        QUnit.equal(i, 2);
+    };
+}).call(null, WootzJs.Compiler.Tests.ScopeTests, WootzJs.Compiler.Tests.ScopeTests.prototype);
+$WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.ScopeTests);
 WootzJs.Compiler.Tests.TestAttribute = $define("WootzJs.Compiler.Tests.TestAttribute");
 WootzJs.Compiler.Tests.TestAttribute.prototype = new System.Attribute();
 (WootzJs.Compiler.Tests.TestAttribute.$TypeInitializer = function($t, $p) {
@@ -4070,7 +4129,7 @@ WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype = new System.Object();
     };
     $p.TypeByNameIgnoreCase = function() {
         var assembly = System.AppDomain().get_CurrentDomain().GetAssemblies()[1];
-        var type = assembly.GetType$3("WootzJs.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
+        var type = assembly.GetType$3("WOOTZJS.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
         QUnit.ok(type != null);
     };
     function TestClass($constructor) {
@@ -4517,28 +4576,32 @@ WootzJs.Compiler.Tests.TestsApplication.prototype = new System.Object();
         {
             var $anon$1iterator = assembly.GetTypes();
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var type = $anon$2enumerator.get_Current();
-                if (System.Linq.Enumerable.Any(System.Object, type.GetCustomAttributes$1(WootzJs.Compiler.Tests.TestFixtureAttribute.$GetType(), false))) {
-                    System.Console.WriteLine$1(type.get_FullName());
-                    {
-                        var $anon$3iterator = type.GetMethods();
-                        var $anon$4enumerator = $anon$3iterator.System$Collections$IEnumerable$GetEnumerator();
-                        while ($anon$4enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            var currentMethod = $anon$4enumerator.get_Current();
-                            if (System.Linq.Enumerable.Any(System.Object, currentMethod.GetCustomAttributes$1(WootzJs.Compiler.Tests.TestAttribute.$GetType(), false))) {
-                                System.Console.WriteLine$1(currentMethod.get_Name());
-                                var instance = type.GetConstructors()[0].Invoke$2(new Array(0));
-                                QUnit.test(type.get_FullName() + "." + currentMethod.get_Name(), (function(instance$closed, currentMethod$closed) {
-                                    return $delegate(this, System.Action, function() {
-                                        return currentMethod$closed.Invoke(instance$closed, new Array(0));
-                                    });
-                                }).call(this, instance, currentMethod));
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
+                (function() {
+                    var type = $anon$2enumerator.get_Current();
+                    if (System.Linq.Enumerable.Any(System.Object, type.GetCustomAttributes$1(WootzJs.Compiler.Tests.TestFixtureAttribute.$GetType(), false))) {
+                        System.Console.WriteLine$1(type.get_FullName());
+                        {
+                            var $anon$3iterator = type.GetMethods();
+                            var $anon$4enumerator = $anon$3iterator.System$Collections$IEnumerable$GetEnumerator();
+                            while ($anon$4enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                var $loopResult = (function() {
+                                    var currentMethod = $anon$4enumerator.get_Current();
+                                    if (System.Linq.Enumerable.Any(System.Object, currentMethod.GetCustomAttributes$1(WootzJs.Compiler.Tests.TestAttribute.$GetType(), false))) {
+                                        System.Console.WriteLine$1(currentMethod.get_Name());
+                                        var instance = type.GetConstructors()[0].Invoke$2(new Array(0));
+                                        QUnit.test(type.get_FullName() + "." + currentMethod.get_Name(), $delegate(this, System.Action, function() {
+                                            return {type: 1,value: currentMethod.Invoke(instance, new Array(0)),depth: 2};
+                                        }));
+                                    }
+                                    return {type: 0};
+                                }).call(this);
+                                if ($loopResult.type == 1)
+                                    return $loopResult.value;
                             }
                         }
                     }
-                }
-            }
+                }).call(this);
         }
     };
 }).call(null, WootzJs.Compiler.Tests.TestsApplication, WootzJs.Compiler.Tests.TestsApplication.prototype);
@@ -5731,13 +5794,18 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.$state = 0;
-                            return false;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.$state = 0;
+                                return {type: 1,value: false,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -5785,14 +5853,19 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.$state = 0;
-                            this.set_Current("one");
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.$state = 0;
+                                this.set_Current("one");
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -5840,18 +5913,23 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.$state = 2;
-                            this.set_Current("one");
-                            return true;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current("two");
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.$state = 2;
+                                this.set_Current("one");
+                                return {type: 1,value: true,depth: 1};
+                            case 2:
+                                this.$state = 0;
+                                this.set_Current("two");
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -5901,23 +5979,35 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.flag) {
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                if (this.flag) {
+                                    this.$state = 0;
+                                    this.set_Current("true");
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                else {
+                                    this.$state = 0;
+                                    this.set_Current("false");
+                                    return {type: 1,value: true,depth: 1};
+                                }
                                 this.$state = 0;
-                                this.set_Current("true");
-                                return true;
-                            }
-                            else {
-                                this.$state = 0;
-                                this.set_Current("false");
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -5967,31 +6057,43 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.flag) {
-                                this.$state = 2;
-                                this.set_Current("one");
-                                return true;
-                            }
-                            else {
-                                this.$state = 3;
-                                this.set_Current("three");
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current("two");
-                            return true;
-                        case 3:
-                            this.$state = 0;
-                            this.set_Current("four");
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                if (this.flag) {
+                                    this.$state = 2;
+                                    this.set_Current("one");
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                else {
+                                    this.$state = 3;
+                                    this.set_Current("three");
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 0;
+                                this.set_Current("two");
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                this.$state = 0;
+                                this.set_Current("four");
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6048,41 +6150,53 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.flag1) {
-                                if (this.flag2) {
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                if (this.flag1) {
+                                    if (this.flag2) {
+                                        this.$state = 0;
+                                        this.set_Current("one");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
+                                    else {
+                                        this.$state = 0;
+                                        this.set_Current("two");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
                                     this.$state = 0;
-                                    this.set_Current("one");
-                                    return true;
+                                    return {type: 2,label: "$top",depth: 1};
                                 }
                                 else {
+                                    if (this.flag2) {
+                                        this.$state = 0;
+                                        this.set_Current("three");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
+                                    else {
+                                        this.$state = 0;
+                                        this.set_Current("four");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
                                     this.$state = 0;
-                                    this.set_Current("two");
-                                    return true;
+                                    return {type: 2,label: "$top",depth: 1};
                                 }
                                 this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                            else {
-                                if (this.flag2) {
-                                    this.$state = 0;
-                                    this.set_Current("three");
-                                    return true;
-                                }
-                                else {
-                                    this.$state = 0;
-                                    this.set_Current("four");
-                                    return true;
-                                }
-                                this.$state = 0;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6139,57 +6253,69 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.flag1) {
-                                if (this.flag2) {
-                                    this.$state = 2;
-                                    this.set_Current("one");
-                                    return true;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                if (this.flag1) {
+                                    if (this.flag2) {
+                                        this.$state = 2;
+                                        this.set_Current("one");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
+                                    else {
+                                        this.$state = 3;
+                                        this.set_Current("three");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
+                                    this.$state = 0;
+                                    return {type: 2,label: "$top",depth: 1};
                                 }
                                 else {
-                                    this.$state = 3;
-                                    this.set_Current("three");
-                                    return true;
+                                    if (this.flag2) {
+                                        this.$state = 4;
+                                        this.set_Current("five");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
+                                    else {
+                                        this.$state = 5;
+                                        this.set_Current("seven");
+                                        return {type: 1,value: true,depth: 1};
+                                    }
+                                    this.$state = 0;
+                                    return {type: 2,label: "$top",depth: 1};
                                 }
                                 this.$state = 0;
-                                continue $top;
-                            }
-                            else {
-                                if (this.flag2) {
-                                    this.$state = 4;
-                                    this.set_Current("five");
-                                    return true;
-                                }
-                                else {
-                                    this.$state = 5;
-                                    this.set_Current("seven");
-                                    return true;
-                                }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
                                 this.$state = 0;
+                                this.set_Current("two");
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                this.$state = 0;
+                                this.set_Current("four");
+                                return {type: 1,value: true,depth: 1};
+                            case 4:
+                                this.$state = 0;
+                                this.set_Current("six");
+                                return {type: 1,value: true,depth: 1};
+                            case 5:
+                                this.$state = 0;
+                                this.set_Current("eight");
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current("two");
-                            return true;
-                        case 3:
-                            this.$state = 0;
-                            this.set_Current("four");
-                            return true;
-                        case 4:
-                            this.$state = 0;
-                            this.set_Current("six");
-                            return true;
-                        case 5:
-                            this.$state = 0;
-                            this.set_Current("eight");
-                            return true;
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6239,43 +6365,55 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.$state = 2;
-                            this.set_Current("zero");
-                            return true;
-                        case 2:
-                            if (this.flag) {
-                                this.$state = 4;
-                                this.set_Current("one");
-                                return true;
-                            }
-                            else {
-                                this.$state = 5;
-                                this.set_Current("three");
-                                return true;
-                            }
-                            this.$state = 3;
-                            continue $top;
-                        case 3:
-                            this.$state = 6;
-                            this.set_Current("five");
-                            return true;
-                        case 4:
-                            this.$state = 3;
-                            this.set_Current("two");
-                            return true;
-                        case 5:
-                            this.$state = 3;
-                            this.set_Current("four");
-                            return true;
-                        case 6:
-                            this.$state = 0;
-                            this.set_Current("six");
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.$state = 2;
+                                this.set_Current("zero");
+                                return {type: 1,value: true,depth: 1};
+                            case 2:
+                                if (this.flag) {
+                                    this.$state = 4;
+                                    this.set_Current("one");
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                else {
+                                    this.$state = 5;
+                                    this.set_Current("three");
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.$state = 6;
+                                this.set_Current("five");
+                                return {type: 1,value: true,depth: 1};
+                            case 4:
+                                this.$state = 3;
+                                this.set_Current("two");
+                                return {type: 1,value: true,depth: 1};
+                            case 5:
+                                this.$state = 3;
+                                this.set_Current("four");
+                                return {type: 1,value: true,depth: 1};
+                            case 6:
+                                this.$state = 0;
+                                this.set_Current("six");
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6324,15 +6462,20 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.s = "foo";
-                            this.$state = 0;
-                            this.set_Current(this.s);
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.s = "foo";
+                                this.$state = 0;
+                                this.set_Current(this.s);
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6381,26 +6524,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6451,27 +6610,39 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            if (this.flag) {
-                                this.$state = 3;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                if (this.flag) {
+                                    this.$state = 3;
+                                    this.set_Current(this.i);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 0;
                                 this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6520,26 +6691,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6588,26 +6775,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6656,26 +6859,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6724,26 +6943,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6793,28 +7028,44 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.j = 1;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 3;
-                                this.set_Current(this.i + this.j);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.j++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.j = 1;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 3;
+                                        this.set_Current(this.i + this.j);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.j++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6864,42 +7115,65 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 2) {
-                                this.j = 0;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 2) {
+                                    var $loopResult = (function() {
+                                        this.j = 0;
+                                        this.$state = 4;
+                                        return {type: 2,label: "$top",depth: 1};
+                                    }).call(this);
+                                    if ($loopResult.type == 2)
+                                        switch ($loopResult.label) {
+                                            default:
+                                                return $loopResult;
+                                        }
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
+                                while (this.j < 2) {
+                                    var $loopResult = (function() {
+                                        this.$state = 6;
+                                        this.set_Current(this.i + this.j);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 5;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 5:
+                                this.$state = 3;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 6:
+                                this.j++;
                                 this.$state = 4;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                        case 4:
-                            while (this.j < 2) {
-                                this.$state = 6;
-                                this.set_Current(this.i + this.j);
-                                return true;
-                            }
-                            this.$state = 5;
-                            continue $top;
-                        case 5:
-                            this.$state = 3;
-                            this.set_Current(this.i);
-                            return true;
-                        case 6:
-                            this.j++;
-                            this.$state = 4;
-                            continue $top;
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -6950,14 +7224,19 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.$state = 0;
-                            this.set_Current(T.$GetType().get_FullName());
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.$state = 0;
+                                this.set_Current(T.$GetType().get_FullName());
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7007,23 +7286,39 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.s$enumerator = System.Object.$$InitializeArray(["one", "two", "three"], String).GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.s$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.s = this.s$enumerator.get_Current();
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.s$enumerator = System.Object.$$InitializeArray(["one", "two", "three"], String).GetEnumerator();
                                 this.$state = 2;
-                                this.set_Current(this.s);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.s$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var $loopResult = (function() {
+                                        this.s = this.s$enumerator.get_Current();
+                                        this.$state = 2;
+                                        this.set_Current(this.s);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7072,28 +7367,40 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 1;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.$state = 4;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            if (false)
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 1;
                                 this.$state = 2;
-                            else
-                                this.$state = 0;
-                            continue $top;
-                        case 4:
-                            this.i++;
-                            this.$state = 3;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 4;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                if (false)
+                                    this.$state = 2;
+                                else
+                                    this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
+                                this.i++;
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7142,28 +7449,40 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 1;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.$state = 4;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            if (this.i < 3)
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 1;
                                 this.$state = 2;
-                            else
-                                this.$state = 0;
-                            continue $top;
-                        case 4:
-                            this.i++;
-                            this.$state = 3;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 4;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                if (this.i < 3)
+                                    this.$state = 2;
+                                else
+                                    this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
+                                this.i++;
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7213,43 +7532,55 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            switch (this.s) {
-                                case "one":
-                                    this.$state = 0;
-                                    this.set_Current(1);
-                                    return true;
-                                case "two":
-                                    this.$state = 2;
-                                    this.set_Current(1);
-                                    return true;
-                                case "three":
-                                    this.$state = 3;
-                                    this.set_Current(1);
-                                    return true;
-                                default:
-                                    this.$state = 0;
-                                    this.set_Current(-1);
-                                    return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current(2);
-                            return true;
-                        case 3:
-                            this.$state = 4;
-                            this.set_Current(2);
-                            return true;
-                        case 4:
-                            this.$state = 0;
-                            this.set_Current(3);
-                            return true;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                switch (this.s) {
+                                    case "one":
+                                        this.$state = 0;
+                                        this.set_Current(1);
+                                        return {type: 1,value: true,depth: 1};
+                                    case "two":
+                                        this.$state = 2;
+                                        this.set_Current(1);
+                                        return {type: 1,value: true,depth: 1};
+                                    case "three":
+                                        this.$state = 3;
+                                        this.set_Current(1);
+                                        return {type: 1,value: true,depth: 1};
+                                    default:
+                                        this.$state = 0;
+                                        this.set_Current(-1);
+                                        return {type: 1,value: true,depth: 1};
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 0;
+                                this.set_Current(2);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                this.$state = 4;
+                                this.set_Current(2);
+                                return {type: 1,value: true,depth: 1};
+                            case 4:
+                                this.$state = 0;
+                                this.set_Current(3);
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7298,26 +7629,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (true) {
-                                this.i++;
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.$state = 0;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (true) {
+                                    var $loopResult = (function() {
+                                        this.i++;
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7366,25 +7713,43 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.i++;
-                                if (this.i < 2)
-                                    continue;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
                                 this.$state = 2;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.i++;
+                                        if (this.i < 2)
+                                            return {type: 2,label: null,depth: 0};
+                                        this.$state = 2;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                    if ($loopResult.type == 2)
+                                        continue;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7433,26 +7798,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (true) {
-                                this.i++;
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.$state = 0;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (true) {
+                                    var $loopResult = (function() {
+                                        this.i++;
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7501,25 +7882,43 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.i++;
-                                if (this.i < 2)
-                                    continue;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
                                 this.$state = 2;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.i++;
+                                        if (this.i < 2)
+                                            return {type: 2,label: null,depth: 0};
+                                        this.$state = 2;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                    if ($loopResult.type == 2)
+                                        continue;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7569,26 +7968,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i$enumerator = System.Object.$$InitializeArray([1, 2, 3], System.Int32).GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.i = this.i$enumerator.get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.$state = 0;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i$enumerator = System.Object.$$InitializeArray([1, 2, 3], System.Int32).GetEnumerator();
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var $loopResult = (function() {
+                                        this.i = this.i$enumerator.get_Current();
+                                        this.$state = 3;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7638,25 +8053,43 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i$enumerator = System.Object.$$InitializeArray([1, 2, 3], System.Int32).GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.i = this.i$enumerator.get_Current();
-                                if (this.i < 2)
-                                    continue;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i$enumerator = System.Object.$$InitializeArray([1, 2, 3], System.Int32).GetEnumerator();
                                 this.$state = 2;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var $loopResult = (function() {
+                                        this.i = this.i$enumerator.get_Current();
+                                        if (this.i < 2)
+                                            return {type: 2,label: null,depth: 0};
+                                        this.$state = 2;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                    if ($loopResult.type == 2)
+                                        continue;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7705,28 +8138,40 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.i++;
-                            this.$state = 4;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            if (true)
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
                                 this.$state = 2;
-                            else
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.i++;
+                                this.$state = 4;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                if (true)
+                                    this.$state = 2;
+                                else
+                                    this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
                                 this.$state = 0;
-                            continue $top;
-                        case 4:
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7775,27 +8220,41 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.i++;
-                            if (this.i < 2)
-                                continue;
-                            this.$state = 3;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            if (this.i < 3)
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
                                 this.$state = 2;
-                            else
-                                this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.i++;
+                                if (this.i < 2)
+                                    return {type: 2,label: null,depth: 0};
+                                this.$state = 3;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                if (this.i < 3)
+                                    this.$state = 2;
+                                else
+                                    this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case null:
+                                continue;
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7845,48 +8304,60 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 3;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            try {
-                                this.i++;
-                                this.$state = 5;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 0;
                                 this.set_Current(this.i);
-                                return true;
-                            }
-                            catch ($ex1) {
-                                this.$ex1 = $ex1;
-                                this.$state = 4;
-                                continue $top;
-                            }
-                        case 4:
-                            this.i++;
-                            if (this.$ex1 != null)
-                                throw this.$ex1.InternalInit(new Error());
-                            this.$state = 2;
-                            continue $top;
-                        case 5:
-                            try {
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                try {
+                                    this.i++;
+                                    this.$state = 5;
+                                    this.set_Current(this.i);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex1) {
+                                    this.$ex1 = $ex1;
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                            case 4:
                                 this.i++;
-                                this.$state = 4;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            catch ($ex1) {
-                                this.$ex1 = $ex1;
-                                this.$state = 4;
+                                if (this.$ex1 != null)
+                                    throw this.$ex1.InternalInit(new Error());
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 5:
+                                try {
+                                    this.i++;
+                                    this.$state = 4;
+                                    this.set_Current(this.i);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex1) {
+                                    this.$ex1 = $ex1;
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -7937,85 +8408,97 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 3;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current(this.i + 20);
-                            return true;
-                        case 3:
-                            try {
-                                this.$state = 5;
-                                this.set_Current(1);
-                                return true;
-                            }
-                            catch ($ex1) {
-                                this.$ex1 = $ex1;
-                                this.$state = 4;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 0;
+                                this.set_Current(this.i + 20);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                try {
+                                    this.$state = 5;
+                                    this.set_Current(1);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex1) {
+                                    this.$ex1 = $ex1;
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                            case 4:
+                                this.i++;
+                                if (this.$ex1 != null)
+                                    throw this.$ex1.InternalInit(new Error());
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 5:
+                                try {
+                                    this.$state = 6;
+                                    this.set_Current(2);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex1) {
+                                    this.$ex1 = $ex1;
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                            case 6:
+                                try {
+                                    this.$state = 9;
+                                    this.set_Current(3);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex2) {
+                                    this.$ex2 = $ex2;
+                                    this.$state = 8;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                            case 7:
+                                try {
+                                    this.$state = 4;
+                                    this.set_Current(this.i + 10);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex1) {
+                                    this.$ex1 = $ex1;
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                            case 8:
+                                this.i++;
+                                if (this.$ex2 != null)
+                                    throw this.$ex2.InternalInit(new Error());
+                                this.$state = 7;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 9:
+                                try {
+                                    this.$state = 8;
+                                    this.set_Current(4);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex2) {
+                                    this.$ex2 = $ex2;
+                                    this.$state = 8;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                        case 4:
-                            this.i++;
-                            if (this.$ex1 != null)
-                                throw this.$ex1.InternalInit(new Error());
-                            this.$state = 2;
-                            continue $top;
-                        case 5:
-                            try {
-                                this.$state = 6;
-                                this.set_Current(2);
-                                return true;
-                            }
-                            catch ($ex1) {
-                                this.$ex1 = $ex1;
-                                this.$state = 4;
-                                continue $top;
-                            }
-                        case 6:
-                            try {
-                                this.$state = 9;
-                                this.set_Current(3);
-                                return true;
-                            }
-                            catch ($ex2) {
-                                this.$ex2 = $ex2;
-                                this.$state = 8;
-                                continue $top;
-                            }
-                        case 7:
-                            try {
-                                this.$state = 4;
-                                this.set_Current(this.i + 10);
-                                return true;
-                            }
-                            catch ($ex1) {
-                                this.$ex1 = $ex1;
-                                this.$state = 4;
-                                continue $top;
-                            }
-                        case 8:
-                            this.i++;
-                            if (this.$ex2 != null)
-                                throw this.$ex2.InternalInit(new Error());
-                            this.$state = 7;
-                            continue $top;
-                        case 9:
-                            try {
-                                this.$state = 8;
-                                this.set_Current(4);
-                                return true;
-                            }
-                            catch ($ex2) {
-                                this.$ex2 = $ex2;
-                                this.$state = 8;
-                                continue $top;
-                            }
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -8067,39 +8550,51 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 3;
-                            continue $top;
-                        case 2:
-                            this.$state = 0;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            try {
-                                this.i++;
-                                this.$state = 5;
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 0;
                                 this.set_Current(this.i);
-                                return true;
-                            }
-                            catch ($ex1) {
-                                this.$ex1 = $ex1;
-                                this.$state = 4;
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                try {
+                                    this.i++;
+                                    this.$state = 5;
+                                    this.set_Current(this.i);
+                                    return {type: 1,value: true,depth: 1};
+                                }
+                                catch ($ex1) {
+                                    this.$ex1 = $ex1;
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                            case 4:
+                                this.i++;
+                                if (this.$ex1 != null)
+                                    throw this.$ex1.InternalInit(new Error());
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 5:
+                                if (this.flag)
+                                    throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                        case 4:
-                            this.i++;
-                            if (this.$ex1 != null)
-                                throw this.$ex1.InternalInit(new Error());
-                            this.$state = 2;
-                            continue $top;
-                        case 5:
-                            if (this.flag)
-                                throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -8150,30 +8645,42 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 1;
-                            if (this.flag) {
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 1;
+                                if (this.flag) {
+                                    this.$state = 4;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.$state = 3;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 3:
+                                this.i++;
                                 this.$state = 4;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
+                                this.$state = 0;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.$state = 3;
-                            this.set_Current(this.i);
-                            return true;
-                        case 3:
-                            this.i++;
-                            this.$state = 4;
-                            continue $top;
-                        case 4:
-                            this.$state = 0;
-                            this.set_Current(this.i);
-                            return true;
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -8222,29 +8729,41 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            this.i++;
-                            this.$state = 3;
-                            continue $top;
-                        case 3:
-                            this.$state = 4;
-                            this.set_Current(this.i);
-                            return true;
-                        case 4:
-                            if (this.i < 3) {
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
                                 this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                this.i++;
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.$state = 4;
+                                this.set_Current(this.i);
+                                return {type: 1,value: true,depth: 1};
+                            case 4:
+                                if (this.i < 3) {
+                                    this.$state = 2;
+                                    return {type: 2,label: "$top",depth: 1};
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
                                 continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -8296,36 +8815,56 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.item$enumerator = System.Object.$$InitializeArray([1, 2], System.Int32).GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.get_Current();
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.item$enumerator = System.Object.$$InitializeArray([1, 2], System.Int32).GetEnumerator();
                                 this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 3;
-                            continue $top;
-                        case 3:
-                            this.item2$enumerator = System.Object.$$InitializeArray([3, 4], System.Int32).GetEnumerator();
-                            this.$state = 4;
-                            continue $top;
-                        case 4:
-                            while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item2 = this.item2$enumerator.get_Current();
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var $loopResult = (function() {
+                                        this.item = this.item$enumerator.get_Current();
+                                        this.$state = 2;
+                                        this.set_Current(this.item);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.item2$enumerator = System.Object.$$InitializeArray([3, 4], System.Int32).GetEnumerator();
                                 this.$state = 4;
-                                this.set_Current(this.item2);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
+                                while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var $loopResult = (function() {
+                                        this.item2 = this.item2$enumerator.get_Current();
+                                        this.$state = 4;
+                                        this.set_Current(this.item2);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
@@ -8375,42 +8914,62 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.MoveNext = function() {
                 $top:
                 while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < 3) {
-                                this.$state = 4;
-                                this.set_Current(this.i);
-                                return true;
-                            }
-                            this.$state = 3;
-                            continue $top;
-                        case 3:
-                            this.i = 2;
-                            this.$state = 5;
-                            continue $top;
-                        case 4:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                        case 5:
-                            while (this.i2 < 5) {
-                                this.$state = 6;
-                                this.set_Current(this.i2);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 6:
-                            this.i2++;
-                            this.$state = 5;
-                            continue $top;
-                    }
+                    var $loopResult = (function() {
+                        switch (this.$state) {
+                            case 0:
+                                return {type: 1,value: false,depth: 1};
+                            case 1:
+                                this.i = 0;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 2:
+                                while (this.i < 3) {
+                                    var $loopResult = (function() {
+                                        this.$state = 4;
+                                        this.set_Current(this.i);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 3;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 3:
+                                this.i = 2;
+                                this.$state = 5;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 4:
+                                this.i++;
+                                this.$state = 2;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 5:
+                                while (this.i2 < 5) {
+                                    var $loopResult = (function() {
+                                        this.$state = 6;
+                                        this.set_Current(this.i2);
+                                        return {type: 1,value: true,depth: 2};
+                                    }).call(this);
+                                    if ($loopResult.type == 1)
+                                        return $loopResult.value;
+                                }
+                                this.$state = 0;
+                                return {type: 2,label: "$top",depth: 1};
+                            case 6:
+                                this.i2++;
+                                this.$state = 5;
+                                return {type: 2,label: "$top",depth: 1};
+                        }
+                        return {type: 0};
+                    }).call(this);
+                    if ($loopResult.type == 1)
+                        return $loopResult.value;
+                    if ($loopResult.type == 2)
+                        switch ($loopResult.label) {
+                            case "$top":
+                                continue $top;
+                            default:
+                                return $loopResult;
+                        }
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;

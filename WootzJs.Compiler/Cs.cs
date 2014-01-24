@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers.CSharp;
@@ -209,6 +210,11 @@ namespace WootzJs.Compiler
             return Syntax.BinaryExpression(SyntaxKind.NotEqualsExpression, left, right);
         }
 
+        public static BinaryExpressionSyntax EqualTo(this ExpressionSyntax left, ExpressionSyntax right)
+        {
+            return Syntax.BinaryExpression(SyntaxKind.EqualsExpression, left, right);
+        }
+
         public static LiteralExpressionSyntax Null()
         {
             return Syntax.LiteralExpression(SyntaxKind.NullLiteralExpression);
@@ -222,6 +228,37 @@ namespace WootzJs.Compiler
         public static ThrowStatementSyntax Throw(ExpressionSyntax expression)
         {
             return Syntax.ThrowStatement(expression);
+        }
+
+        public static AnonymousObjectCreationExpressionSyntax Anonymous(params Tuple<string, ExpressionSyntax>[] initializers)
+        {
+            return Syntax.AnonymousObjectCreationExpression(Syntax.SeparatedList(
+                initializers.Select(x =>
+                    Syntax.AnonymousObjectMemberDeclarator(Syntax.NameEquals(x.Item1), x.Item2)
+                ), 
+                initializers.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken))));
+        }
+
+        public static BlockSyntax Local(this BlockSyntax block, string name, ExpressionSyntax initializer, out VariableDeclaratorSyntax variable)
+        {
+            variable = Syntax.VariableDeclarator(name).WithInitializer(Syntax.EqualsValueClause(initializer));           
+            var declaration = Syntax.LocalDeclarationStatement(Syntax.VariableDeclaration(Syntax.ParseTypeName("var"),
+                Syntax.SeparatedList(variable)));
+            block = block.AddStatements(declaration);
+            return block;
+        }
+
+        public static BlockSyntax If(this BlockSyntax block, ExpressionSyntax condition, StatementSyntax ifTrue, StatementSyntax ifFalse = null)
+        {
+            var result = Syntax.IfStatement(condition, ifTrue);
+            if (ifFalse != null)
+                result = result.WithElse(Syntax.ElseClause(ifFalse));
+            return block.AddStatements(result);
+        }
+
+        public static ExpressionSyntax Reference(this VariableDeclaratorSyntax variable)
+        {
+            return Syntax.IdentifierName(variable.Identifier);
         }
     }
 }

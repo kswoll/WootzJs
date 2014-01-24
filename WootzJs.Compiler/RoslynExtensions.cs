@@ -29,6 +29,7 @@ using System;
 using System.Linq;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
+using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
@@ -120,6 +121,12 @@ namespace WootzJs.Compiler
                 return type.BaseType.GetAllMembers().Concat(type.GetMembers().ToArray()).ToArray();
             else
                 return type.GetMembers().ToArray();
+        }
+
+        public static TypeSymbol GetContainingType(this SyntaxNode node)
+        {
+            var classDeclaration = node.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => true);
+            return context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }
 
         public static MethodSymbol GetRootOverride(this MethodSymbol method)
@@ -266,6 +273,28 @@ namespace WootzJs.Compiler
         public static TypeSyntax ToTypeSyntax(this TypeSymbol symbol)
         {
             return Syntax.ParseTypeName(symbol.ToDisplayString());
+        }
+
+        public static InvocationExpressionSyntax Wrap(this BlockSyntax block)
+        {
+            var jsni = new CsJsni(context);
+            return Syntax.InvocationExpression(Syntax.ParenthesizedExpression(Syntax.CastExpression(context.Func.Construct(context.JsObject).ToTypeSyntax(), jsni.Function(block))));
+        }
+
+        public static InvocationExpressionSyntax Invoke(this MethodSymbol method, params ExpressionSyntax[] arguments)
+        {
+            var methodTarget = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, 
+                method.ContainingType.ToTypeSyntax(), 
+                Syntax.IdentifierName(method.Name));
+            return arguments.Any() ? 
+                Syntax.InvocationExpression(methodTarget, Syntax.ArgumentList(Syntax.SeparatedList(arguments.Select(x => Syntax.Argument(x)), arguments.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken))))) :
+                Syntax.InvocationExpression(methodTarget);
+        }
+
+        public static bool IsTrue(this ExpressionSyntax expression)
+        {
+            var literal = (LiteralExpressionSyntax)expression;
+            return literal.Token.Kind == SyntaxKind.TrueKeyword;
         }
     }
 }

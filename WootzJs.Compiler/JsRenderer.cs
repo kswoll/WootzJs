@@ -43,13 +43,10 @@ namespace WootzJs.Compiler
             }
             else
             {
-                output.CommitCurrentLineIfPending();
-                output.AppendIndent();
                 var isCompacting = output.IsCompacting;
                 output.IsCompacting = true;
                 base.DefaultVisit(node, action);
                 output.IsCompacting = isCompacting;
-                output.AppendLine();
             }
         }
 
@@ -531,7 +528,7 @@ namespace WootzJs.Compiler
             if (node.Label != null)
             {
                 output.Append(" ");
-                node.Label.Accept(this);
+                output.Append(node.Label);
             }
 
             output.AppendLine(";");
@@ -617,7 +614,7 @@ namespace WootzJs.Compiler
             if (node.Label != null)
             {
                 output.Append(" ");
-                node.Label.Accept(this);
+                output.Append(node.Label);
             }
 
             output.AppendLine(";");

@@ -29,13 +29,13 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsBreakStatement : JsStatement
     {
-        public JsExpression Label { get; set; }
+        public string Label { get; set; }
 
         public JsBreakStatement()
         {
         }
 
-        public JsBreakStatement(JsExpression label)
+        public JsBreakStatement(string label)
         {
             Label = label;
         }

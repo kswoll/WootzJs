@@ -235,5 +235,10 @@ namespace System.Runtime.WootzJs
         {
             return false;
         }
+
+        public static JsObject @object(object o, bool compact = false)
+        {
+            return null;
+        }
     }
 }

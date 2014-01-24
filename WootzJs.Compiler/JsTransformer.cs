@@ -48,6 +48,7 @@ namespace WootzJs.Compiler
         internal List<JsBlockStatement> outputBlockStack = new List<JsBlockStatement>();
         private Stack<IJsDeclaration> initializableObjectsStack = new Stack<IJsDeclaration>();
         private Stack<Symbol> declarationStack = new Stack<Symbol>();
+        private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
 
         public JsTransformer(Context context, SyntaxTree syntaxTree, SemanticModel model)
         {
@@ -55,6 +56,16 @@ namespace WootzJs.Compiler
             this.syntaxTree = syntaxTree;
             this.model = model;
             idioms = new Idioms(context, this);
+        }
+
+        public int GetLabelDepth(string label)
+        {
+            foreach (var entry in loopLabels)
+            {
+                if (entry.Label == label)
+                    return entry.Depth;
+            }
+            throw new Exception();
         }
 
         public Scope PushScope(Symbol symbol)
@@ -1336,7 +1347,7 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitGotoStatement(GotoStatementSyntax node)
         {
-            return Js.Continue((JsExpression)node.Expression.Accept(this));
+            return Js.Continue(node.Expression.Accept(this).ToString().Trim());
         }
 
         public override JsNode VisitBreakStatement(BreakStatementSyntax node)
@@ -1383,6 +1394,18 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitWhileStatement(WhileStatementSyntax node)
         {
+            var nextStatement = node.GetNextStatement();
+            var loopLabel = 
+                node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
+                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
+                null;
+            var loopEntry = new LoopEntry();
+            if (loopLabel != null)
+            {
+                loopEntry.Label = loopLabel.Identifier.ToString();
+            }
+            loopLabels.Push(loopEntry);
+            loopEntry.Depth = loopLabels.Count;
             var condition = (JsExpression)node.Condition.Accept(this);
 
             var block = new JsBlockStatement();
@@ -1392,11 +1415,26 @@ namespace WootzJs.Compiler
 
             PopOutput();
 
-            return Js.While(condition, idioms.WrapLoopBlock(block));
+            var result = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.While(condition, block));
+
+            loopLabels.Pop();
+            return result;
         }
 
         public override JsNode VisitDoStatement(DoStatementSyntax node)
         {
+            var nextStatement = node.GetNextStatement();
+            var loopLabel = 
+                node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
+                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
+                null;
+            var loopEntry = new LoopEntry();
+            if (loopLabel != null)
+            {
+                loopEntry.Label = loopLabel.Identifier.ToString();
+            }
+            loopLabels.Push(loopEntry);
+            loopEntry.Depth = loopLabels.Count;
             var condition = (JsExpression)node.Condition.Accept(this);
 
             var block = new JsBlockStatement();
@@ -1405,12 +1443,26 @@ namespace WootzJs.Compiler
             block.Aggregate((JsStatement)node.Statement.Accept(this));
 
             PopOutput();
-
-            return Js.DoWhile(condition, idioms.WrapLoopBlock(block));
+            var result = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.DoWhile(condition, block));
+            loopLabels.Pop();
+            return result;
         }
 
         public override JsNode VisitForStatement(ForStatementSyntax node)
         {
+            var nextStatement = node.GetNextStatement();
+            var loopLabel = 
+                node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
+                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
+                null;
+            var loopEntry = new LoopEntry();
+            if (loopLabel != null)
+            {
+                loopEntry.Label = loopLabel.Identifier.ToString();
+            }
+            loopLabels.Push(loopEntry);
+            loopEntry.Depth = loopLabels.Count;
+
             PushScope(null);
             var declaration = (JsVariableDeclaration)node.Declaration.Accept(this);
 
@@ -1425,11 +1477,26 @@ namespace WootzJs.Compiler
             PopScope();
             PopOutput();
 
-            return Js.For(declaration, condition, incrementors).Body(idioms.WrapLoopBlock(block));
+            var result = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.For(declaration, condition, incrementors).Body(block));
+            loopLabels.Pop();
+            return result;
         }
 
         public override JsNode VisitForEachStatement(ForEachStatementSyntax node)
         {
+            var nextStatement = node.GetNextStatement();
+            var loopLabel = 
+                node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
+                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
+                null;
+            var loopEntry = new LoopEntry();
+            if (loopLabel != null)
+            {
+                loopEntry.Label = loopLabel.Identifier.ToString();
+            }
+            loopLabels.Push(loopEntry);
+            loopEntry.Depth = loopLabels.Count;
+
             PushScope(null);
             var block = new JsBlockStatement();
             var enumerable = (JsExpression)node.Expression.Accept(this);
@@ -1463,15 +1530,14 @@ namespace WootzJs.Compiler
                 whileBlock.Local(item);
                 whileBlock.Aggregate((JsStatement)node.Statement.Accept(this));
 
-                var whileLoop = Js.While(
-                    idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), 
-                    idioms.WrapLoopBlock(whileBlock));
+                var whileLoop = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.While(idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), whileBlock));
                 block.Add(whileLoop);
             }
 
             PopOutput();
             PopScope();
 
+            loopLabels.Pop();
             return block;
         }
 
@@ -2113,8 +2179,15 @@ namespace WootzJs.Compiler
             {
                 result = idioms.InvokeStatic(typeInfo.ImplicitConversion.Method, (JsExpression)result);
             }
-
+            var i = 0;
+            ((Action)(() => i++))();
             return result;
+        }
+
+        public class LoopEntry
+        {
+            public string Label { get; set; }
+            public int Depth { get; set; }
         }
     }
 }
