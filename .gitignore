@@ -4,3 +4,5 @@ WootzJs.Compiler.Tests/obj/
 WootzJs.Compiler/bin/
 WootzJs.Compiler/obj/
 WootzJs.Runtime/obj/
+WootzJs.JQuery/obj/
+WootzJs.Web/obj/

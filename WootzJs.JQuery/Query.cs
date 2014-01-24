@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,18 +24,20 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.Tests
+namespace WootzJs.JQuery
 {
-    [TestFixture]
-    public class NumberTests
+    public class Query
     {
-        [Test]
-        public void ToHex()
+        public Query(string selector)
         {
-            var number = 20;
-            QUnit.AreEqual(number.ToString("X4"), "0014");
+        }
+
+        public Query(Query element)
+        {
+            
         }
     }
 }
