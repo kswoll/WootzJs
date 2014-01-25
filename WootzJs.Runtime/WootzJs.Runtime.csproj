@@ -79,6 +79,7 @@
     <Compile Include="Collections\IList.cs" />
     <Compile Include="Collections\IStructuralComparable.cs" />
     <Compile Include="Collections\IStructuralEquatable.cs" />
+    <Compile Include="Collections\Stack.cs" />
     <Compile Include="Console.cs" />
     <Compile Include="Delegate.cs" />
     <Compile Include="Double.cs" />

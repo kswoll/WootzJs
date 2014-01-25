@@ -750,9 +750,6 @@ namespace WootzJs.Compiler
 
         public JsInvocationExpression CreateMulticastDelegate(JsExpression target, JsExpression invocationList)
         {
-//            var leftVariable = Js.Variable("$multicast$left", left);
-//            var rightVariable = Js.Variable("$multicast$right", right);
-
             var delegateBody = new JsBlockStatement();
             var list = Js.Variable("$invocationList", invocationList);
             var i = Js.Variable("$i", Js.Primitive(0));

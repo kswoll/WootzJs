@@ -30,8 +30,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <AdditionalExplicitAssemblyReferences />
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Query.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="jQuery.cs" />
+    <Compile Include="JsEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WootzJs.Web\WootzJs.Web.csproj">

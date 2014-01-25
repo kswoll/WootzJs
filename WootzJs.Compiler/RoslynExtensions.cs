@@ -29,6 +29,7 @@ using System;
 using System.Linq;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
+using Roslyn.Services;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
@@ -126,6 +127,8 @@ namespace WootzJs.Compiler
         public static TypeSymbol GetContainingType(this SyntaxNode node)
         {
             var classDeclaration = node.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => true);
+            if (classDeclaration == null)
+                return null;
             return context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }
 
@@ -304,6 +307,30 @@ namespace WootzJs.Compiler
         {
             var literal = (LiteralExpressionSyntax)expression;
             return literal.Token.Kind == SyntaxKind.TrueKeyword;
+        }
+
+        public static Compilation Recompile(this Compilation compilation, CompilationUnitSyntax compilationUnit)
+        {
+            var document = context.Project.GetDocument(compilationUnit.SyntaxTree);
+            document = document.UpdateSyntaxRoot(compilationUnit);
+            compilation = (Compilation)compilation.ReplaceSyntaxTree(compilationUnit.SyntaxTree, document.GetSyntaxTree());            
+            return compilation;
+        }
+
+        public static Compilation Recompile(this Compilation compilation, SyntaxNode oldNode, SyntaxNode newNode)
+        {
+            while (oldNode != null)
+            {
+                var oldParent = oldNode.Parent;
+                var newParent = oldParent.ReplaceNode(oldNode, newNode);
+
+                oldNode = oldParent;
+                newNode = newParent;
+
+                if (oldNode is CompilationUnitSyntax)
+                    break;
+            }
+            return compilation.Recompile((CompilationUnitSyntax)newNode);
         }
     }
 }

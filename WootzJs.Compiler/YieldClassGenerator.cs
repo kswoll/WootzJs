@@ -34,14 +34,16 @@ namespace WootzJs.Compiler
     public class YieldClassGenerator 
     {
         private Compilation compilation;
+        private ClassDeclarationSyntax classDeclarationSyntax;
         private MethodDeclarationSyntax node;
         private MethodSymbol method;
         
         public const string state = "$state";
 
-        public YieldClassGenerator(Compilation compilation, MethodDeclarationSyntax node)
+        public YieldClassGenerator(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax, MethodDeclarationSyntax node)
         {
             this.compilation = compilation;
+            this.classDeclarationSyntax = classDeclarationSyntax;
             this.node = node;
 
             method = compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
@@ -49,6 +51,8 @@ namespace WootzJs.Compiler
 
         public ClassDeclarationSyntax CreateEnumerator()
         {
+            var thisField = Cs.Field(method.ContainingType.ToTypeSyntax(), "$this");
+
             var stateGenerator = new YieldStateGenerator(compilation, node);
             stateGenerator.GenerateStates();
             var states = stateGenerator.States;
@@ -58,7 +62,6 @@ namespace WootzJs.Compiler
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
 
-            var thisField = Cs.Field(Syntax.IdentifierName(method.ContainingType.Name), "$this");
             members.Add(thisField);
 
             foreach (var parameter in node.ParameterList.Parameters)

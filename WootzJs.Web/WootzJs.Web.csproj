@@ -30,8 +30,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <AdditionalExplicitAssemblyReferences />
+  </PropertyGroup>  
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IHtmlElement.cs" />
   </ItemGroup>
   <Import Project="c:\dev\WootzJs\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

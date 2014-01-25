@@ -631,6 +631,10 @@ namespace WootzJs.Compiler
         public override JsNode VisitIdentifierName(IdentifierNameSyntax node)
         {
             var symbol = model.GetSymbolInfo(node).Symbol;
+            if (symbol == null)
+            {
+                var diagnostics = model.GetDiagnostics();
+            }
             var @this = (JsExpression)Js.This();
             if (symbol.IsStatic && symbol.ContainingType != null)
             {
@@ -758,7 +762,8 @@ namespace WootzJs.Compiler
             {
                 var diagnostics = model.GetDiagnostics();
             }
-            return ImplicitCheck(node, idioms.MemberReference((JsExpression)node.Expression.Accept(this), symbolInfo.Symbol));
+            var result = idioms.MemberReference((JsExpression)node.Expression.Accept(this), symbolInfo.Symbol);
+            return ImplicitCheck(node, result);
         }
 
         public override JsNode VisitBinaryExpression(BinaryExpressionSyntax node)
@@ -2179,8 +2184,6 @@ namespace WootzJs.Compiler
             {
                 result = idioms.InvokeStatic(typeInfo.ImplicitConversion.Method, (JsExpression)result);
             }
-            var i = 0;
-            ((Action)(() => i++))();
             return result;
         }
 

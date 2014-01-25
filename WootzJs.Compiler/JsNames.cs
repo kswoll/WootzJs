@@ -129,6 +129,8 @@ namespace WootzJs.Compiler
             var nameOverride = method.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
+            if (method.IsExtern)
+                return method.Name;
 
             if (method.ReducedFrom != null)
                 method = method.ReducedFrom;

@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,52 +24,46 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using System.Collections.Generic;
-using System.Linq;
 using Roslyn.Compilers.CSharp;
-using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class YieldGenerator : SyntaxRewriter
+    public class IdentifierHoister : SyntaxRewriter
     {
         private Compilation compilation;
-        private SyntaxTree syntaxTree;
-        private SemanticModel semanticModel;
+        private SemanticModel model;
+        private SyntaxToken identifier;
 
-        public YieldGenerator(Compilation compilation, SyntaxTree syntaxTree, SemanticModel semanticModel)
+        public IdentifierHoister(Compilation compilation, SemanticModel model, SyntaxToken identifier) 
         {
             this.compilation = compilation;
-            this.syntaxTree = syntaxTree;
-            this.semanticModel = semanticModel;
+            this.model = model;
+            this.identifier = identifier;
         }
 
-        public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
+        public static T HoistIdentifiers<T>(T syntax, 
+            Compilation compilation, SyntaxToken thisIdentifier)
+            where T : SyntaxNode
         {
-            var yieldClasses = new List<ClassDeclarationSyntax>();
-            foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => YieldChecker.HasYield(x)))
-            {
-                var yieldGenerator = new YieldClassGenerator(compilation, node, method);
-                var enumerator = yieldGenerator.CreateEnumerator();
-                yieldClasses.Add(enumerator);
-            }
-
-            if (yieldClasses.Any())
-            {
-                return node.AddMembers(yieldClasses.ToArray());
-            }
-            else
-            {
-                return base.VisitClassDeclaration(node);
-            }
+            return (T)syntax.Accept(new IdentifierHoister(compilation, 
+                compilation.GetSemanticModel(syntax.SyntaxTree), thisIdentifier));
         }
 
-        public JsNode ReturnNewGenerator()
+        public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
         {
-            return null;
-//            return Js.Return(transformer.idioms.)
+            if (!(node.Parent is MemberAccessExpressionSyntax))
+            {
+                var symbol = model.GetSymbolInfo(node).Symbol;
+                if (symbol is FieldSymbol || symbol is MethodSymbol || symbol is EventSymbol || symbol is PropertySymbol)
+                {
+                    return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(identifier), node);
+                }
+            }
+
+            return base.VisitIdentifierName(node);
         }
     }
 }

@@ -123,6 +123,13 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(s, "ITestInterface");
             QUnit.AreEqual(s2, "ITestInterface2");
         }         
+
+        [Test]
+        public void ExternMethod()
+        {
+            var max = ExternTest.max(8, 3, 9, 5);
+            QUnit.AreEqual(max, 9);
+        }
     }
 
     public static class ClassWithStaticMethods
@@ -208,5 +215,11 @@ namespace WootzJs.Compiler.Tests
         {
             return "ITestInterface2";
         }
+    }
+
+    [Js(Name = "Math", Export = false)]
+    public class ExternTest
+    {
+        public static extern int max(params int[] ints);
     }
 }

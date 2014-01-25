@@ -85,5 +85,55 @@ namespace System.Runtime.WootzJs
         {
             return null;
         }
+
+        public static implicit operator JsNumber(int value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(long value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(float value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(double value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(short value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(byte value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(sbyte value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(ushort value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(uint value)
+        {
+            return value.As<JsNumber>();
+        }
+
+        public static implicit operator JsNumber(ulong value)
+        {
+            return value.As<JsNumber>();
+        }
     }
 }

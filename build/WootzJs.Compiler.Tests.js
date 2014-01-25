@@ -16,16 +16,7 @@ WootzJs.Compiler.Tests.Linq = {};
 WootzJs.Compiler.Tests.Linq.Expressions = {};
 WootzJs.Compiler.Tests.Reflection = {};
 WootzJs.Compiler.Tests.Text = {};
-window.$AnonymousType$1 = function $AnonymousType$1($constructor) {
-    if (!$AnonymousType$1.$isStaticInitialized && ($constructor != null || !(this instanceof $AnonymousType$1))) {
-        $AnonymousType$1.$isStaticInitialized = true;
-        $AnonymousType$1.$StaticInitializer();
-    }
-    if ($constructor != null)
-        $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-    if (!(this instanceof $AnonymousType$1))
-        return $AnonymousType$1;
-};
+window.$AnonymousType$1 = $define("<anonymous type: string MyProperty>");
 $AnonymousType$1.prototype = new System.Object();
 ($AnonymousType$1.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -177,17 +168,7 @@ WootzJs.Compiler.Tests.AsExpressionTests.prototype = new System.Object();
         QUnit.ok(System.Object.$GetType().IsInstanceOfType(myClass));
         QUnit.ok(!(String.$GetType().IsInstanceOfType(myClass)));
     };
-    function MyClass($constructor) {
-        if (!$t.MyClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.AsExpressionTests.MyClass))) {
-            $t.MyClass.$isStaticInitialized = true;
-            $t.MyClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.AsExpressionTests.MyClass))
-            return $t.MyClass;
-    }
-    $t.MyClass = MyClass;
+    $t.MyClass = $define("WootzJs.Compiler.Tests.AsExpressionTests.MyClass");
     $t.MyClass.prototype = new System.Object();
     ($t.MyClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -406,17 +387,7 @@ WootzJs.Compiler.Tests.ConstructorTests.prototype = new System.Object();
     $p.StaticConstructor = function() {
         QUnit.equal(WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticConstructor().InitializedValue, "foo");
     };
-    function TestClass($constructor) {
-        if (!$t.TestClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.ConstructorTests.TestClass))) {
-            $t.TestClass.$isStaticInitialized = true;
-            $t.TestClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.ConstructorTests.TestClass))
-            return $t.TestClass;
-    }
-    $t.TestClass = TestClass;
+    $t.TestClass = $define("WootzJs.Compiler.Tests.ConstructorTests.TestClass");
     $t.TestClass.prototype = new System.Object();
     ($t.TestClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -460,17 +431,7 @@ WootzJs.Compiler.Tests.ConstructorTests.prototype = new System.Object();
         };
     }).call($t, $t.TestClass, $t.TestClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.TestClass);
-    function ClassWithStaticInitializedField($constructor) {
-        if (!$t.ClassWithStaticInitializedField.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticInitializedField))) {
-            $t.ClassWithStaticInitializedField.$isStaticInitialized = true;
-            $t.ClassWithStaticInitializedField.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticInitializedField))
-            return $t.ClassWithStaticInitializedField;
-    }
-    $t.ClassWithStaticInitializedField = ClassWithStaticInitializedField;
+    $t.ClassWithStaticInitializedField = $define("WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticInitializedField");
     $t.ClassWithStaticInitializedField.prototype = new System.Object();
     ($t.ClassWithStaticInitializedField.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -495,17 +456,7 @@ WootzJs.Compiler.Tests.ConstructorTests.prototype = new System.Object();
         $p.InitializedValue = null;
     }).call($t, $t.ClassWithStaticInitializedField, $t.ClassWithStaticInitializedField.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.ClassWithStaticInitializedField);
-    function ClassWithStaticConstructor($constructor) {
-        if (!$t.ClassWithStaticConstructor.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticConstructor))) {
-            $t.ClassWithStaticConstructor.$isStaticInitialized = true;
-            $t.ClassWithStaticConstructor.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticConstructor))
-            return $t.ClassWithStaticConstructor;
-    }
-    $t.ClassWithStaticConstructor = ClassWithStaticConstructor;
+    $t.ClassWithStaticConstructor = $define("WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticConstructor");
     $t.ClassWithStaticConstructor.prototype = new System.Object();
     ($t.ClassWithStaticConstructor.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -630,17 +581,7 @@ WootzJs.Compiler.Tests.DelegateTests.prototype = new System.Object();
         action2();
         QUnit.equal(i, 5);
     };
-    function MyClass($constructor) {
-        if (!$t.MyClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.DelegateTests.MyClass))) {
-            $t.MyClass.$isStaticInitialized = true;
-            $t.MyClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.DelegateTests.MyClass))
-            return $t.MyClass;
-    }
-    $t.MyClass = MyClass;
+    $t.MyClass = $define("WootzJs.Compiler.Tests.DelegateTests.MyClass");
     $t.MyClass.prototype = new System.Object();
     ($t.MyClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -746,17 +687,7 @@ WootzJs.Compiler.Tests.EnumTests.prototype = new System.Object();
         var oneAndTwo = WootzJs.Compiler.Tests.EnumTests.FlagsEnum().One | WootzJs.Compiler.Tests.EnumTests.FlagsEnum().Two | WootzJs.Compiler.Tests.EnumTests.FlagsEnum().Three;
         QUnit.ok((oneAndTwo & WootzJs.Compiler.Tests.EnumTests.FlagsEnum().One) == WootzJs.Compiler.Tests.EnumTests.FlagsEnum().One);
     };
-    function TestEnum($constructor) {
-        if (!$t.TestEnum.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.EnumTests.TestEnum))) {
-            $t.TestEnum.$isStaticInitialized = true;
-            $t.TestEnum.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.EnumTests.TestEnum))
-            return $t.TestEnum;
-    }
-    $t.TestEnum = TestEnum;
+    $t.TestEnum = $define("WootzJs.Compiler.Tests.EnumTests.TestEnum");
     $t.TestEnum.prototype = new System.Enum();
     ($t.TestEnum.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -785,17 +716,7 @@ WootzJs.Compiler.Tests.EnumTests.prototype = new System.Object();
         };
     }).call($t, $t.TestEnum, $t.TestEnum.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.TestEnum);
-    function FlagsEnum($constructor) {
-        if (!$t.FlagsEnum.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.EnumTests.FlagsEnum))) {
-            $t.FlagsEnum.$isStaticInitialized = true;
-            $t.FlagsEnum.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.EnumTests.FlagsEnum))
-            return $t.FlagsEnum;
-    }
-    $t.FlagsEnum = FlagsEnum;
+    $t.FlagsEnum = $define("WootzJs.Compiler.Tests.EnumTests.FlagsEnum");
     $t.FlagsEnum.prototype = new System.Enum();
     ($t.FlagsEnum.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -923,17 +844,7 @@ WootzJs.Compiler.Tests.EventTests.prototype = new System.Object();
         var action = eventClass.GetFoo();
         QUnit.ok(System.Action.$GetType().IsInstanceOfType(action));
     };
-    function EventClass($constructor) {
-        if (!$t.EventClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.EventTests.EventClass))) {
-            $t.EventClass.$isStaticInitialized = true;
-            $t.EventClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.EventTests.EventClass))
-            return $t.EventClass;
-    }
-    $t.EventClass = EventClass;
+    $t.EventClass = $define("WootzJs.Compiler.Tests.EventTests.EventClass");
     $t.EventClass.prototype = new System.Object();
     ($t.EventClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1030,17 +941,7 @@ WootzJs.Compiler.Tests.FieldTests.prototype = new System.Object();
         reference.get_Target().set_Foo("foo");
         QUnit.equal(reference.get_Target().get_Foo(), "foo");
     };
-    function StaticFieldClass($constructor) {
-        if (!$t.StaticFieldClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.FieldTests.StaticFieldClass))) {
-            $t.StaticFieldClass.$isStaticInitialized = true;
-            $t.StaticFieldClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.FieldTests.StaticFieldClass))
-            return $t.StaticFieldClass;
-    }
-    $t.StaticFieldClass = StaticFieldClass;
+    $t.StaticFieldClass = $define("WootzJs.Compiler.Tests.FieldTests.StaticFieldClass");
     $t.StaticFieldClass.prototype = new System.Object();
     ($t.StaticFieldClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1064,17 +965,7 @@ WootzJs.Compiler.Tests.FieldTests.prototype = new System.Object();
         $p.MyField = null;
     }).call($t, $t.StaticFieldClass, $t.StaticFieldClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.StaticFieldClass);
-    function BaseClass($constructor) {
-        if (!$t.BaseClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.FieldTests.BaseClass))) {
-            $t.BaseClass.$isStaticInitialized = true;
-            $t.BaseClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.FieldTests.BaseClass))
-            return $t.BaseClass;
-    }
-    $t.BaseClass = BaseClass;
+    $t.BaseClass = $define("WootzJs.Compiler.Tests.FieldTests.BaseClass");
     $t.BaseClass.prototype = new System.Object();
     ($t.BaseClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1102,17 +993,7 @@ WootzJs.Compiler.Tests.FieldTests.prototype = new System.Object();
         };
     }).call($t, $t.BaseClass, $t.BaseClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.BaseClass);
-    function SubClass($constructor) {
-        if (!$t.SubClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.FieldTests.SubClass))) {
-            $t.SubClass.$isStaticInitialized = true;
-            $t.SubClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.FieldTests.SubClass))
-            return $t.SubClass;
-    }
-    $t.SubClass = SubClass;
+    $t.SubClass = $define("WootzJs.Compiler.Tests.FieldTests.SubClass");
     $t.SubClass.prototype = new WootzJs.Compiler.Tests.FieldTests.BaseClass();
     ($t.SubClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1142,17 +1023,7 @@ WootzJs.Compiler.Tests.FieldTests.prototype = new System.Object();
         };
     }).call($t, $t.SubClass, $t.SubClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.SubClass);
-    function ReferenceClass($constructor) {
-        if (!$t.ReferenceClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.FieldTests.ReferenceClass))) {
-            $t.ReferenceClass.$isStaticInitialized = true;
-            $t.ReferenceClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.FieldTests.ReferenceClass))
-            return $t.ReferenceClass;
-    }
-    $t.ReferenceClass = ReferenceClass;
+    $t.ReferenceClass = $define("WootzJs.Compiler.Tests.FieldTests.ReferenceClass");
     $t.ReferenceClass.prototype = new System.Object();
     ($t.ReferenceClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1182,17 +1053,7 @@ WootzJs.Compiler.Tests.FieldTests.prototype = new System.Object();
         };
     }).call($t, $t.ReferenceClass, $t.ReferenceClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.ReferenceClass);
-    function TargetClass($constructor) {
-        if (!$t.TargetClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.FieldTests.TargetClass))) {
-            $t.TargetClass.$isStaticInitialized = true;
-            $t.TargetClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.FieldTests.TargetClass))
-            return $t.TargetClass;
-    }
-    $t.TargetClass = TargetClass;
+    $t.TargetClass = $define("WootzJs.Compiler.Tests.FieldTests.TargetClass");
     $t.TargetClass.prototype = new System.Object();
     ($t.TargetClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1296,17 +1157,7 @@ WootzJs.Compiler.Tests.GenericTests.prototype = new System.Object();
     $p.MethodTypeEqualsString = function(T) {
         return T.$GetType() == String.$GetType();
     };
-    function GenericClass$1($constructor) {
-        if (!$t.GenericClass$1.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.GenericTests.GenericClass$1))) {
-            $t.GenericClass$1.$isStaticInitialized = true;
-            $t.GenericClass$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.GenericTests.GenericClass$1))
-            return $t.GenericClass$1;
-    }
-    $t.GenericClass$1 = GenericClass$1;
+    $t.GenericClass$1 = $define("WootzJs.Compiler.Tests.GenericTests.GenericClass<T>");
     $t.GenericClass$1.prototype = new System.Object();
     ($t.GenericClass$1.$TypeInitializer = function($t, $p, T) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1336,17 +1187,7 @@ WootzJs.Compiler.Tests.GenericTests.prototype = new System.Object();
         $t.GetUpperName = function() {
             return T.$GetType().get_Name().toUpperCase();
         };
-        function NestedClass($constructor) {
-            if (!$t.NestedClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.GenericTests.GenericClass$1.NestedClass))) {
-                $t.NestedClass.$isStaticInitialized = true;
-                $t.NestedClass.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.GenericTests.GenericClass$1.NestedClass))
-                return $t.NestedClass;
-        }
-        $t.NestedClass = NestedClass;
+        $t.NestedClass = $define("WootzJs.Compiler.Tests.GenericTests.GenericClass<T>.NestedClass");
         $t.NestedClass.prototype = new System.Object();
         ($t.NestedClass.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1377,17 +1218,7 @@ WootzJs.Compiler.Tests.GenericTests.prototype = new System.Object();
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.NestedClass);
     }).call($t, $t.GenericClass$1, $t.GenericClass$1.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.GenericClass$1);
-    function SimpleClass($constructor) {
-        if (!$t.SimpleClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.GenericTests.SimpleClass))) {
-            $t.SimpleClass.$isStaticInitialized = true;
-            $t.SimpleClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.GenericTests.SimpleClass))
-            return $t.SimpleClass;
-    }
-    $t.SimpleClass = SimpleClass;
+    $t.SimpleClass = $define("WootzJs.Compiler.Tests.GenericTests.SimpleClass");
     $t.SimpleClass.prototype = new System.Object();
     ($t.SimpleClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1442,17 +1273,7 @@ WootzJs.Compiler.Tests.TopLevelGenericClass$1.prototype = new System.Object();
     $t.GetUpperName = function() {
         return T.$GetType().get_Name().toUpperCase();
     };
-    function NestedClass($constructor) {
-        if (!$t.NestedClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TopLevelGenericClass$1.NestedClass))) {
-            $t.NestedClass.$isStaticInitialized = true;
-            $t.NestedClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.TopLevelGenericClass$1.NestedClass))
-            return $t.NestedClass;
-    }
-    $t.NestedClass = NestedClass;
+    $t.NestedClass = $define("WootzJs.Compiler.Tests.TopLevelGenericClass<T>.NestedClass");
     $t.NestedClass.prototype = new System.Object();
     ($t.NestedClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1510,7 +1331,7 @@ WootzJs.Compiler.Tests.GotoTests.prototype = new System.Object();
         for (var i = 0; i < 3; i++) {
             for (var j = 0; j < 3; j++) {
                 if (i == 1)
-                    return {type: 2,label: "top",depth: 1};
+                    continue top;
                 counter++;
             }
         }
@@ -1550,17 +1371,7 @@ WootzJs.Compiler.Tests.IsExpressionTests.prototype = new System.Object();
         QUnit.ok(System.Object.$GetType().IsInstanceOfType(o));
         QUnit.ok(!(String.$GetType().IsInstanceOfType(o)));
     };
-    function MyClass($constructor) {
-        if (!$t.MyClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.IsExpressionTests.MyClass))) {
-            $t.MyClass.$isStaticInitialized = true;
-            $t.MyClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.IsExpressionTests.MyClass))
-            return $t.MyClass;
-    }
-    $t.MyClass = MyClass;
+    $t.MyClass = $define("WootzJs.Compiler.Tests.IsExpressionTests.MyClass");
     $t.MyClass.prototype = new System.Object();
     ($t.MyClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -2446,17 +2257,7 @@ WootzJs.Compiler.Tests.Linq.Expressions.MemberExpressionTests.prototype = new Sy
         QUnit.ok(System.Reflection.PropertyInfo.$GetType().IsInstanceOfType(memberExpression.get_Member()));
         QUnit.equal(memberExpression.get_Member().get_Name(), "StringProperty");
     };
-    function ClassWithMembers($constructor) {
-        if (!$t.ClassWithMembers.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.MemberExpressionTests.ClassWithMembers))) {
-            $t.ClassWithMembers.$isStaticInitialized = true;
-            $t.ClassWithMembers.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.MemberExpressionTests.ClassWithMembers))
-            return $t.ClassWithMembers;
-    }
-    $t.ClassWithMembers = ClassWithMembers;
+    $t.ClassWithMembers = $define("WootzJs.Compiler.Tests.Linq.Expressions.MemberExpressionTests.ClassWithMembers");
     $t.ClassWithMembers.prototype = new System.Object();
     ($t.ClassWithMembers.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -2521,17 +2322,7 @@ WootzJs.Compiler.Tests.Linq.Expressions.MemberInitExpressionTests.prototype = ne
         var value = $cast(System.Linq.Expressions.ConstantExpression, binding.get_Expression());
         QUnit.equal(value.get_Value(), "foo");
     };
-    function CreateClass($constructor) {
-        if (!$t.CreateClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.MemberInitExpressionTests.CreateClass))) {
-            $t.CreateClass.$isStaticInitialized = true;
-            $t.CreateClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.MemberInitExpressionTests.CreateClass))
-            return $t.CreateClass;
-    }
-    $t.CreateClass = CreateClass;
+    $t.CreateClass = $define("WootzJs.Compiler.Tests.Linq.Expressions.MemberInitExpressionTests.CreateClass");
     $t.CreateClass.prototype = new System.Object();
     ($t.CreateClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -2618,17 +2409,7 @@ WootzJs.Compiler.Tests.Linq.Expressions.MethodCallExpressionTests.prototype = ne
         var target = $cast(System.Linq.Expressions.ConstantExpression, methodCallExpression.get_Object());
         QUnit.equal(target.get_Value(), instance);
     };
-    function ClassWithMethods($constructor) {
-        if (!$t.ClassWithMethods.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.MethodCallExpressionTests.ClassWithMethods))) {
-            $t.ClassWithMethods.$isStaticInitialized = true;
-            $t.ClassWithMethods.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.MethodCallExpressionTests.ClassWithMethods))
-            return $t.ClassWithMethods;
-    }
-    $t.ClassWithMethods = ClassWithMethods;
+    $t.ClassWithMethods = $define("WootzJs.Compiler.Tests.Linq.Expressions.MethodCallExpressionTests.ClassWithMethods");
     $t.ClassWithMethods.prototype = new System.Object();
     ($t.ClassWithMethods.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -2756,17 +2537,7 @@ WootzJs.Compiler.Tests.Linq.Expressions.NewExpressionTests.prototype = new Syste
         var arg = $cast(System.Linq.Expressions.ConstantExpression, newExpression.get_Arguments().get_Item(0));
         QUnit.equal(arg.get_Value(), "foo");
     };
-    function CreateClass($constructor) {
-        if (!$t.CreateClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.NewExpressionTests.CreateClass))) {
-            $t.CreateClass.$isStaticInitialized = true;
-            $t.CreateClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Linq.Expressions.NewExpressionTests.CreateClass))
-            return $t.CreateClass;
-    }
-    $t.CreateClass = CreateClass;
+    $t.CreateClass = $define("WootzJs.Compiler.Tests.Linq.Expressions.NewExpressionTests.CreateClass");
     $t.CreateClass.prototype = new System.Object();
     ($t.CreateClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -2934,7 +2705,7 @@ WootzJs.Compiler.Tests.MethodTests.prototype = new System.Object();
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("MethodTests", [WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()]);this.$type.Init("WootzJs.Compiler.Tests.MethodTests", WootzJs.Compiler.Tests.MethodTests, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("StaticMethod", WootzJs.Compiler.Tests.MethodTests.prototype.StaticMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("ExtensionMethod", WootzJs.Compiler.Tests.MethodTests.prototype.ExtensionMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("OutParameter", WootzJs.Compiler.Tests.MethodTests.prototype.OutParameter, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("TwoOutParameters", WootzJs.Compiler.Tests.MethodTests.prototype.TwoOutParameters, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("RefParameter", WootzJs.Compiler.Tests.MethodTests.prototype.RefParameter, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("TwoRefParameters", WootzJs.Compiler.Tests.MethodTests.prototype.TwoRefParameters, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("RefAndOutParameter", WootzJs.Compiler.Tests.MethodTests.prototype.RefAndOutParameter, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("InterfaceMethod", WootzJs.Compiler.Tests.MethodTests.prototype.InterfaceMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("CollisionImplementationBothExplicit", WootzJs.Compiler.Tests.MethodTests.prototype.CollisionImplementationBothExplicit, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("CollisionImplementationOneExplicit", WootzJs.Compiler.Tests.MethodTests.prototype.CollisionImplementationOneExplicit, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.MethodTests.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("MethodTests", [WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()]);this.$type.Init("WootzJs.Compiler.Tests.MethodTests", WootzJs.Compiler.Tests.MethodTests, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("StaticMethod", WootzJs.Compiler.Tests.MethodTests.prototype.StaticMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("ExtensionMethod", WootzJs.Compiler.Tests.MethodTests.prototype.ExtensionMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("OutParameter", WootzJs.Compiler.Tests.MethodTests.prototype.OutParameter, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("TwoOutParameters", WootzJs.Compiler.Tests.MethodTests.prototype.TwoOutParameters, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("RefParameter", WootzJs.Compiler.Tests.MethodTests.prototype.RefParameter, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("TwoRefParameters", WootzJs.Compiler.Tests.MethodTests.prototype.TwoRefParameters, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("RefAndOutParameter", WootzJs.Compiler.Tests.MethodTests.prototype.RefAndOutParameter, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("InterfaceMethod", WootzJs.Compiler.Tests.MethodTests.prototype.InterfaceMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("CollisionImplementationBothExplicit", WootzJs.Compiler.Tests.MethodTests.prototype.CollisionImplementationBothExplicit, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("CollisionImplementationOneExplicit", WootzJs.Compiler.Tests.MethodTests.prototype.CollisionImplementationOneExplicit, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()]), System.Reflection.MethodInfo.prototype.$ctor.$new("ExternMethod", WootzJs.Compiler.Tests.MethodTests.prototype.ExternMethod, [], System.Void, System.Reflection.MethodAttributes().Public, [WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.MethodTests.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
     $t.$StaticInitializer = function() {
     };
     $p.$ctor = function() {
@@ -3052,6 +2823,15 @@ WootzJs.Compiler.Tests.MethodTests.prototype = new System.Object();
         var s2 = test2.WootzJs$Compiler$Tests$ITestInterface2$Method();
         QUnit.equal(s, "ITestInterface");
         QUnit.equal(s2, "ITestInterface2");
+    };
+    $p.ExternMethod = function() {
+        var max = Math.max(
+            8, 
+            3, 
+            9, 
+            5
+        );
+        QUnit.equal(max, 9);
     };
 }).call(null, WootzJs.Compiler.Tests.MethodTests, WootzJs.Compiler.Tests.MethodTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.MethodTests);
@@ -3333,17 +3113,7 @@ WootzJs.Compiler.Tests.ObjectInitializerTests.prototype = new System.Object();
         }).call(this);
         QUnit.equal(o.get_NestedProperty().get_MyProperty(), "foo");
     };
-    function OnePropertyClass($constructor) {
-        if (!$t.OnePropertyClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.ObjectInitializerTests.OnePropertyClass))) {
-            $t.OnePropertyClass.$isStaticInitialized = true;
-            $t.OnePropertyClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.ObjectInitializerTests.OnePropertyClass))
-            return $t.OnePropertyClass;
-    }
-    $t.OnePropertyClass = OnePropertyClass;
+    $t.OnePropertyClass = $define("WootzJs.Compiler.Tests.ObjectInitializerTests.OnePropertyClass");
     $t.OnePropertyClass.prototype = new System.Object();
     ($t.OnePropertyClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3410,17 +3180,7 @@ WootzJs.Compiler.Tests.OperatorOverloadTests.prototype = new System.Object();
         var threePlusFive = WootzJs.Compiler.Tests.OperatorOverloadTests.IntValue.op_Addition(three, five);
         QUnit.equal(threePlusFive.get_Value(), 8);
     };
-    function IntValue($constructor) {
-        if (!$t.IntValue.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.OperatorOverloadTests.IntValue))) {
-            $t.IntValue.$isStaticInitialized = true;
-            $t.IntValue.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.OperatorOverloadTests.IntValue))
-            return $t.IntValue;
-    }
-    $t.IntValue = IntValue;
+    $t.IntValue = $define("WootzJs.Compiler.Tests.OperatorOverloadTests.IntValue");
     $t.IntValue.prototype = new System.Object();
     ($t.IntValue.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3481,17 +3241,7 @@ WootzJs.Compiler.Tests.PropertyTests.prototype = new System.Object();
         WootzJs.Compiler.Tests.PropertyTests.StaticPropertyClass().set_StringProperty("foo");
         QUnit.equal(WootzJs.Compiler.Tests.PropertyTests.StaticPropertyClass().get_StringProperty(), "foo");
     };
-    function StaticPropertyClass($constructor) {
-        if (!$t.StaticPropertyClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.PropertyTests.StaticPropertyClass))) {
-            $t.StaticPropertyClass.$isStaticInitialized = true;
-            $t.StaticPropertyClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.PropertyTests.StaticPropertyClass))
-            return $t.StaticPropertyClass;
-    }
-    $t.StaticPropertyClass = StaticPropertyClass;
+    $t.StaticPropertyClass = $define("WootzJs.Compiler.Tests.PropertyTests.StaticPropertyClass");
     $t.StaticPropertyClass.prototype = new System.Object();
     ($t.StaticPropertyClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3584,17 +3334,7 @@ WootzJs.Compiler.Tests.Reflection.AttributeTests.prototype = new System.Object()
         QUnit.equal(attribute.get_ConstructorValue(), 6);
         QUnit.equal(attribute.get_PropertyValue(), "Six");
     };
-    function FooAttribute($constructor) {
-        if (!$t.FooAttribute.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.AttributeTests.FooAttribute))) {
-            $t.FooAttribute.$isStaticInitialized = true;
-            $t.FooAttribute.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.AttributeTests.FooAttribute))
-            return $t.FooAttribute;
-    }
-    $t.FooAttribute = FooAttribute;
+    $t.FooAttribute = $define("WootzJs.Compiler.Tests.Reflection.AttributeTests.FooAttribute");
     $t.FooAttribute.prototype = new System.Attribute();
     ($t.FooAttribute.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3629,17 +3369,7 @@ WootzJs.Compiler.Tests.Reflection.AttributeTests.prototype = new System.Object()
         };
     }).call($t, $t.FooAttribute, $t.FooAttribute.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.FooAttribute);
-    function TestClass($constructor) {
-        if (!$t.TestClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.AttributeTests.TestClass))) {
-            $t.TestClass.$isStaticInitialized = true;
-            $t.TestClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.AttributeTests.TestClass))
-            return $t.TestClass;
-    }
-    $t.TestClass = TestClass;
+    $t.TestClass = $define("WootzJs.Compiler.Tests.Reflection.AttributeTests.TestClass");
     $t.TestClass.prototype = new System.Object();
     ($t.TestClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3668,17 +3398,7 @@ WootzJs.Compiler.Tests.Reflection.AttributeTests.prototype = new System.Object()
         };
     }).call($t, $t.TestClass, $t.TestClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.TestClass);
-    function TestEnum($constructor) {
-        if (!$t.TestEnum.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.AttributeTests.TestEnum))) {
-            $t.TestEnum.$isStaticInitialized = true;
-            $t.TestEnum.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.AttributeTests.TestEnum))
-            return $t.TestEnum;
-    }
-    $t.TestEnum = TestEnum;
+    $t.TestEnum = $define("WootzJs.Compiler.Tests.Reflection.AttributeTests.TestEnum");
     $t.TestEnum.prototype = new System.Enum();
     ($t.TestEnum.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3742,17 +3462,7 @@ WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.prototype = new System.Ob
         var testClass = $cast(WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.NoConstructorClass, constructor.Invoke$2(new Array(0)));
         QUnit.equal(testClass.Foo, "noconstructor");
     };
-    function TestClass($constructor) {
-        if (!$t.TestClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.TestClass))) {
-            $t.TestClass.$isStaticInitialized = true;
-            $t.TestClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.TestClass))
-            return $t.TestClass;
-    }
-    $t.TestClass = TestClass;
+    $t.TestClass = $define("WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.TestClass");
     $t.TestClass.prototype = new System.Object();
     ($t.TestClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3777,17 +3487,7 @@ WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.prototype = new System.Ob
         };
     }).call($t, $t.TestClass, $t.TestClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.TestClass);
-    function NoConstructorClass($constructor) {
-        if (!$t.NoConstructorClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.NoConstructorClass))) {
-            $t.NoConstructorClass.$isStaticInitialized = true;
-            $t.NoConstructorClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.NoConstructorClass))
-            return $t.NoConstructorClass;
-    }
-    $t.NoConstructorClass = NoConstructorClass;
+    $t.NoConstructorClass = $define("WootzJs.Compiler.Tests.Reflection.ConstructorInfoTests.NoConstructorClass");
     $t.NoConstructorClass.prototype = new System.Object();
     ($t.NoConstructorClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3846,17 +3546,7 @@ WootzJs.Compiler.Tests.Reflection.EventInfoTests.prototype = new System.Object()
         QUnit.equal(staticEvent.get_Name(), "StaticEvent");
         QUnit.equal(stringEvent.get_Name(), "StringEvent");
     };
-    function EventClass($constructor) {
-        if (!$t.EventClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.EventInfoTests.EventClass))) {
-            $t.EventClass.$isStaticInitialized = true;
-            $t.EventClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.EventInfoTests.EventClass))
-            return $t.EventClass;
-    }
-    $t.EventClass = EventClass;
+    $t.EventClass = $define("WootzJs.Compiler.Tests.Reflection.EventInfoTests.EventClass");
     $t.EventClass.prototype = new System.Object();
     ($t.EventClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3927,17 +3617,7 @@ WootzJs.Compiler.Tests.Reflection.PropertyInfoTests.prototype = new System.Objec
         QUnit.equal(staticProperty.get_Name(), "StaticProperty");
         QUnit.equal(stringProperty.get_Name(), "StringProperty");
     };
-    function PropertyClass($constructor) {
-        if (!$t.PropertyClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.PropertyInfoTests.PropertyClass))) {
-            $t.PropertyClass.$isStaticInitialized = true;
-            $t.PropertyClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.PropertyInfoTests.PropertyClass))
-            return $t.PropertyClass;
-    }
-    $t.PropertyClass = PropertyClass;
+    $t.PropertyClass = $define("WootzJs.Compiler.Tests.Reflection.PropertyInfoTests.PropertyClass");
     $t.PropertyClass.prototype = new System.Object();
     ($t.PropertyClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4122,17 +3802,7 @@ WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype = new System.Object();
         var type = assembly.GetType$3("WOOTZJS.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
         QUnit.ok(type != null);
     };
-    function TestClass($constructor) {
-        if (!$t.TestClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.AssemblyTests.TestClass))) {
-            $t.TestClass.$isStaticInitialized = true;
-            $t.TestClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.AssemblyTests.TestClass))
-            return $t.TestClass;
-    }
-    $t.TestClass = TestClass;
+    $t.TestClass = $define("WootzJs.Compiler.Tests.Reflection.AssemblyTests.TestClass");
     $t.TestClass.prototype = new System.Object();
     ($t.TestClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4292,17 +3962,7 @@ WootzJs.Compiler.Tests.Reflection.FieldInfoTests.prototype = new System.Object()
         var staticFieldValue = staticField.GetValue(null);
         QUnit.equal(staticFieldValue, "foobar2");
     };
-    function FieldClass($constructor) {
-        if (!$t.FieldClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.FieldInfoTests.FieldClass))) {
-            $t.FieldClass.$isStaticInitialized = true;
-            $t.FieldClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.FieldInfoTests.FieldClass))
-            return $t.FieldClass;
-    }
-    $t.FieldClass = FieldClass;
+    $t.FieldClass = $define("WootzJs.Compiler.Tests.Reflection.FieldInfoTests.FieldClass");
     $t.FieldClass.prototype = new System.Object();
     ($t.FieldClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4376,17 +4036,7 @@ WootzJs.Compiler.Tests.Reflection.MethodInfoTests.prototype = new System.Object(
         var result = $cast(String, method.Invoke(instance, new Array(0)));
         QUnit.equal(result, "InstanceMethod");
     };
-    function MethodClass($constructor) {
-        if (!$t.MethodClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.Reflection.MethodInfoTests.MethodClass))) {
-            $t.MethodClass.$isStaticInitialized = true;
-            $t.MethodClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.Reflection.MethodInfoTests.MethodClass))
-            return $t.MethodClass;
-    }
-    $t.MethodClass = MethodClass;
+    $t.MethodClass = $define("WootzJs.Compiler.Tests.Reflection.MethodInfoTests.MethodClass");
     $t.MethodClass.prototype = new System.Object();
     ($t.MethodClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4705,17 +4355,7 @@ WootzJs.Compiler.Tests.TypeOfExpressionTests.prototype = new System.Object();
         var name = type.get_Name();
         QUnit.equal(name, "TestClass");
     };
-    function TestClass($constructor) {
-        if (!$t.TestClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TypeOfExpressionTests.TestClass))) {
-            $t.TestClass.$isStaticInitialized = true;
-            $t.TestClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.TypeOfExpressionTests.TestClass))
-            return $t.TestClass;
-    }
-    $t.TestClass = TestClass;
+    $t.TestClass = $define("WootzJs.Compiler.Tests.TypeOfExpressionTests.TestClass");
     $t.TestClass.prototype = new System.Object();
     ($t.TestClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4794,17 +4434,7 @@ WootzJs.Compiler.Tests.TypeTests.prototype = new System.Object();
         var type = System.Type.GetType$1("WootzJs.Compiler.Tests.TypeTests.TestClass");
         QUnit.ok(type != null);
     };
-    function TestClass($constructor) {
-        if (!$t.TestClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TypeTests.TestClass))) {
-            $t.TestClass.$isStaticInitialized = true;
-            $t.TestClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.TypeTests.TestClass))
-            return $t.TestClass;
-    }
-    $t.TestClass = TestClass;
+    $t.TestClass = $define("WootzJs.Compiler.Tests.TypeTests.TestClass");
     $t.TestClass.prototype = new System.Object();
     ($t.TestClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4827,17 +4457,7 @@ WootzJs.Compiler.Tests.TypeTests.prototype = new System.Object();
         };
     }).call($t, $t.TestClass, $t.TestClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.TestClass);
-    function SubClass($constructor) {
-        if (!$t.SubClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TypeTests.SubClass))) {
-            $t.SubClass.$isStaticInitialized = true;
-            $t.SubClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.TypeTests.SubClass))
-            return $t.SubClass;
-    }
-    $t.SubClass = SubClass;
+    $t.SubClass = $define("WootzJs.Compiler.Tests.TypeTests.SubClass");
     $t.SubClass.prototype = new WootzJs.Compiler.Tests.TypeTests.TestClass();
     ($t.SubClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4860,17 +4480,7 @@ WootzJs.Compiler.Tests.TypeTests.prototype = new System.Object();
         };
     }).call($t, $t.SubClass, $t.SubClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.SubClass);
-    function FieldsClass($constructor) {
-        if (!$t.FieldsClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TypeTests.FieldsClass))) {
-            $t.FieldsClass.$isStaticInitialized = true;
-            $t.FieldsClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.TypeTests.FieldsClass))
-            return $t.FieldsClass;
-    }
-    $t.FieldsClass = FieldsClass;
+    $t.FieldsClass = $define("WootzJs.Compiler.Tests.TypeTests.FieldsClass");
     $t.FieldsClass.prototype = new System.Object();
     ($t.FieldsClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4894,17 +4504,7 @@ WootzJs.Compiler.Tests.TypeTests.prototype = new System.Object();
         $p.MyString = null;
     }).call($t, $t.FieldsClass, $t.FieldsClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.FieldsClass);
-    function ClassWithInnerClass($constructor) {
-        if (!$t.ClassWithInnerClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TypeTests.ClassWithInnerClass))) {
-            $t.ClassWithInnerClass.$isStaticInitialized = true;
-            $t.ClassWithInnerClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.TypeTests.ClassWithInnerClass))
-            return $t.ClassWithInnerClass;
-    }
-    $t.ClassWithInnerClass = ClassWithInnerClass;
+    $t.ClassWithInnerClass = $define("WootzJs.Compiler.Tests.TypeTests.ClassWithInnerClass");
     $t.ClassWithInnerClass.prototype = new System.Object();
     ($t.ClassWithInnerClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4925,17 +4525,7 @@ WootzJs.Compiler.Tests.TypeTests.prototype = new System.Object();
         $p.$ctor.$new = function() {
             return new $p.$ctor.$type(this);
         };
-        function InnerClass($constructor) {
-            if (!$t.InnerClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.TypeTests.ClassWithInnerClass.InnerClass))) {
-                $t.InnerClass.$isStaticInitialized = true;
-                $t.InnerClass.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.TypeTests.ClassWithInnerClass.InnerClass))
-                return $t.InnerClass;
-        }
-        $t.InnerClass = InnerClass;
+        $t.InnerClass = $define("WootzJs.Compiler.Tests.TypeTests.ClassWithInnerClass.InnerClass");
         $t.InnerClass.prototype = new System.Object();
         ($t.InnerClass.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -4991,17 +4581,7 @@ WootzJs.Compiler.Tests.ConversionOperatorTests.prototype = new System.Object();
         var o = WootzJs.Compiler.Tests.ConversionOperatorTests.ExplicitClass.op_Explicit("foo");
         QUnit.equal(o.get_Value(), "foofoo");
     };
-    function ImplicitClass($constructor) {
-        if (!$t.ImplicitClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.ConversionOperatorTests.ImplicitClass))) {
-            $t.ImplicitClass.$isStaticInitialized = true;
-            $t.ImplicitClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.ConversionOperatorTests.ImplicitClass))
-            return $t.ImplicitClass;
-    }
-    $t.ImplicitClass = ImplicitClass;
+    $t.ImplicitClass = $define("WootzJs.Compiler.Tests.ConversionOperatorTests.ImplicitClass");
     $t.ImplicitClass.prototype = new System.Object();
     ($t.ImplicitClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5035,17 +4615,7 @@ WootzJs.Compiler.Tests.ConversionOperatorTests.prototype = new System.Object();
         };
     }).call($t, $t.ImplicitClass, $t.ImplicitClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.ImplicitClass);
-    function ExplicitClass($constructor) {
-        if (!$t.ExplicitClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.ConversionOperatorTests.ExplicitClass))) {
-            $t.ExplicitClass.$isStaticInitialized = true;
-            $t.ExplicitClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.ConversionOperatorTests.ExplicitClass))
-            return $t.ExplicitClass;
-    }
-    $t.ExplicitClass = ExplicitClass;
+    $t.ExplicitClass = $define("WootzJs.Compiler.Tests.ConversionOperatorTests.ExplicitClass");
     $t.ExplicitClass.prototype = new System.Object();
     ($t.ExplicitClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5125,17 +4695,7 @@ WootzJs.Compiler.Tests.UsingStatementTests.prototype = new System.Object();
 
         QUnit.ok(_foo.IsDisposed);
     };
-    function Foo($constructor) {
-        if (!$t.Foo.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.UsingStatementTests.Foo))) {
-            $t.Foo.$isStaticInitialized = true;
-            $t.Foo.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.UsingStatementTests.Foo))
-            return $t.Foo;
-    }
-    $t.Foo = Foo;
+    $t.Foo = $define("WootzJs.Compiler.Tests.UsingStatementTests.Foo");
     $t.Foo.prototype = new System.Object();
     ($t.Foo.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5194,17 +4754,7 @@ WootzJs.Compiler.Tests.VirtualMethodTests.prototype = new System.Object();
         QUnit.equal(subClass.Foo(), "sub");
         QUnit.equal(subClassAsBaseClass.Foo(), "sub");
     };
-    function BaseClass($constructor) {
-        if (!$t.BaseClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.VirtualMethodTests.BaseClass))) {
-            $t.BaseClass.$isStaticInitialized = true;
-            $t.BaseClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.VirtualMethodTests.BaseClass))
-            return $t.BaseClass;
-    }
-    $t.BaseClass = BaseClass;
+    $t.BaseClass = $define("WootzJs.Compiler.Tests.VirtualMethodTests.BaseClass");
     $t.BaseClass.prototype = new System.Object();
     ($t.BaseClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5230,17 +4780,7 @@ WootzJs.Compiler.Tests.VirtualMethodTests.prototype = new System.Object();
         };
     }).call($t, $t.BaseClass, $t.BaseClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.BaseClass);
-    function SubClass($constructor) {
-        if (!$t.SubClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.VirtualMethodTests.SubClass))) {
-            $t.SubClass.$isStaticInitialized = true;
-            $t.SubClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.VirtualMethodTests.SubClass))
-            return $t.SubClass;
-    }
-    $t.SubClass = SubClass;
+    $t.SubClass = $define("WootzJs.Compiler.Tests.VirtualMethodTests.SubClass");
     $t.SubClass.prototype = new WootzJs.Compiler.Tests.VirtualMethodTests.BaseClass();
     ($t.SubClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5596,17 +5136,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
         QUnit.equal(ints[2], 3);
         QUnit.equal(ints[3], 4);
     };
-    function YieldClass($constructor) {
-        if (!$t.YieldClass.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass))) {
-            $t.YieldClass.$isStaticInitialized = true;
-            $t.YieldClass.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass))
-            return $t.YieldClass;
-    }
-    $t.YieldClass = YieldClass;
+    $t.YieldClass = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass");
     $t.YieldClass.prototype = new System.Object();
     ($t.YieldClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5738,17 +5268,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
         $t.CollidingFor = function() {
             return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.$ctor.$new(this);
         };
-        function YieldEnumerator$YieldBreak($constructor) {
-            if (!$t.YieldEnumerator$YieldBreak.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak))) {
-                $t.YieldEnumerator$YieldBreak.$isStaticInitialized = true;
-                $t.YieldEnumerator$YieldBreak.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak))
-                return $t.YieldEnumerator$YieldBreak;
-        }
-        $t.YieldEnumerator$YieldBreak = YieldEnumerator$YieldBreak;
+        $t.YieldEnumerator$YieldBreak = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak");
         $t.YieldEnumerator$YieldBreak.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$YieldBreak.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5792,17 +5312,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$YieldBreak, $t.YieldEnumerator$YieldBreak.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$YieldBreak);
-        function YieldEnumerator$ReturnOne($constructor) {
-            if (!$t.YieldEnumerator$ReturnOne.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne))) {
-                $t.YieldEnumerator$ReturnOne.$isStaticInitialized = true;
-                $t.YieldEnumerator$ReturnOne.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne))
-                return $t.YieldEnumerator$ReturnOne;
-        }
-        $t.YieldEnumerator$ReturnOne = YieldEnumerator$ReturnOne;
+        $t.YieldEnumerator$ReturnOne = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne");
         $t.YieldEnumerator$ReturnOne.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ReturnOne.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5847,17 +5357,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ReturnOne, $t.YieldEnumerator$ReturnOne.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ReturnOne);
-        function YieldEnumerator$ReturnTwo($constructor) {
-            if (!$t.YieldEnumerator$ReturnTwo.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo))) {
-                $t.YieldEnumerator$ReturnTwo.$isStaticInitialized = true;
-                $t.YieldEnumerator$ReturnTwo.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo))
-                return $t.YieldEnumerator$ReturnTwo;
-        }
-        $t.YieldEnumerator$ReturnTwo = YieldEnumerator$ReturnTwo;
+        $t.YieldEnumerator$ReturnTwo = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo");
         $t.YieldEnumerator$ReturnTwo.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ReturnTwo.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5906,17 +5406,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ReturnTwo, $t.YieldEnumerator$ReturnTwo.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ReturnTwo);
-        function YieldEnumerator$IfStatement($constructor) {
-            if (!$t.YieldEnumerator$IfStatement.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement))) {
-                $t.YieldEnumerator$IfStatement.$isStaticInitialized = true;
-                $t.YieldEnumerator$IfStatement.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement))
-                return $t.YieldEnumerator$IfStatement;
-        }
-        $t.YieldEnumerator$IfStatement = YieldEnumerator$IfStatement;
+        $t.YieldEnumerator$IfStatement = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement");
         $t.YieldEnumerator$IfStatement.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$IfStatement.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5972,17 +5462,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$IfStatement, $t.YieldEnumerator$IfStatement.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$IfStatement);
-        function YieldEnumerator$IfStatementTwoItems($constructor) {
-            if (!$t.YieldEnumerator$IfStatementTwoItems.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems))) {
-                $t.YieldEnumerator$IfStatementTwoItems.$isStaticInitialized = true;
-                $t.YieldEnumerator$IfStatementTwoItems.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems))
-                return $t.YieldEnumerator$IfStatementTwoItems;
-        }
-        $t.YieldEnumerator$IfStatementTwoItems = YieldEnumerator$IfStatementTwoItems;
+        $t.YieldEnumerator$IfStatementTwoItems = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems");
         $t.YieldEnumerator$IfStatementTwoItems.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$IfStatementTwoItems.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6046,17 +5526,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$IfStatementTwoItems, $t.YieldEnumerator$IfStatementTwoItems.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$IfStatementTwoItems);
-        function YieldEnumerator$NestedIf($constructor) {
-            if (!$t.YieldEnumerator$NestedIf.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf))) {
-                $t.YieldEnumerator$NestedIf.$isStaticInitialized = true;
-                $t.YieldEnumerator$NestedIf.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf))
-                return $t.YieldEnumerator$NestedIf;
-        }
-        $t.YieldEnumerator$NestedIf = YieldEnumerator$NestedIf;
+        $t.YieldEnumerator$NestedIf = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf");
         $t.YieldEnumerator$NestedIf.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$NestedIf.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6137,17 +5607,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$NestedIf, $t.YieldEnumerator$NestedIf.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedIf);
-        function YieldEnumerator$NestedIfTwoStatements($constructor) {
-            if (!$t.YieldEnumerator$NestedIfTwoStatements.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements))) {
-                $t.YieldEnumerator$NestedIfTwoStatements.$isStaticInitialized = true;
-                $t.YieldEnumerator$NestedIfTwoStatements.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements))
-                return $t.YieldEnumerator$NestedIfTwoStatements;
-        }
-        $t.YieldEnumerator$NestedIfTwoStatements = YieldEnumerator$NestedIfTwoStatements;
+        $t.YieldEnumerator$NestedIfTwoStatements = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements");
         $t.YieldEnumerator$NestedIfTwoStatements.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$NestedIfTwoStatements.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6244,17 +5704,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$NestedIfTwoStatements, $t.YieldEnumerator$NestedIfTwoStatements.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedIfTwoStatements);
-        function YieldEnumerator$ReturnAfterIf($constructor) {
-            if (!$t.YieldEnumerator$ReturnAfterIf.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf))) {
-                $t.YieldEnumerator$ReturnAfterIf.$isStaticInitialized = true;
-                $t.YieldEnumerator$ReturnAfterIf.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf))
-                return $t.YieldEnumerator$ReturnAfterIf;
-        }
-        $t.YieldEnumerator$ReturnAfterIf = YieldEnumerator$ReturnAfterIf;
+        $t.YieldEnumerator$ReturnAfterIf = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf");
         $t.YieldEnumerator$ReturnAfterIf.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ReturnAfterIf.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6330,17 +5780,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ReturnAfterIf, $t.YieldEnumerator$ReturnAfterIf.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ReturnAfterIf);
-        function YieldEnumerator$InitializeVariable($constructor) {
-            if (!$t.YieldEnumerator$InitializeVariable.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable))) {
-                $t.YieldEnumerator$InitializeVariable.$isStaticInitialized = true;
-                $t.YieldEnumerator$InitializeVariable.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable))
-                return $t.YieldEnumerator$InitializeVariable;
-        }
-        $t.YieldEnumerator$InitializeVariable = YieldEnumerator$InitializeVariable;
+        $t.YieldEnumerator$InitializeVariable = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable");
         $t.YieldEnumerator$InitializeVariable.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$InitializeVariable.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6387,17 +5827,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$InitializeVariable, $t.YieldEnumerator$InitializeVariable.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$InitializeVariable);
-        function YieldEnumerator$WhileLoop($constructor) {
-            if (!$t.YieldEnumerator$WhileLoop.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop))) {
-                $t.YieldEnumerator$WhileLoop.$isStaticInitialized = true;
-                $t.YieldEnumerator$WhileLoop.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop))
-                return $t.YieldEnumerator$WhileLoop;
-        }
-        $t.YieldEnumerator$WhileLoop = YieldEnumerator$WhileLoop;
+        $t.YieldEnumerator$WhileLoop = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop");
         $t.YieldEnumerator$WhileLoop.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$WhileLoop.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6455,17 +5885,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$WhileLoop, $t.YieldEnumerator$WhileLoop.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$WhileLoop);
-        function YieldEnumerator$IfWithErrataAfterYield($constructor) {
-            if (!$t.YieldEnumerator$IfWithErrataAfterYield.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield))) {
-                $t.YieldEnumerator$IfWithErrataAfterYield.$isStaticInitialized = true;
-                $t.YieldEnumerator$IfWithErrataAfterYield.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield))
-                return $t.YieldEnumerator$IfWithErrataAfterYield;
-        }
-        $t.YieldEnumerator$IfWithErrataAfterYield = YieldEnumerator$IfWithErrataAfterYield;
+        $t.YieldEnumerator$IfWithErrataAfterYield = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield");
         $t.YieldEnumerator$IfWithErrataAfterYield.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$IfWithErrataAfterYield.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6526,17 +5946,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$IfWithErrataAfterYield, $t.YieldEnumerator$IfWithErrataAfterYield.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$IfWithErrataAfterYield);
-        function YieldEnumerator$ForLoop($constructor) {
-            if (!$t.YieldEnumerator$ForLoop.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop))) {
-                $t.YieldEnumerator$ForLoop.$isStaticInitialized = true;
-                $t.YieldEnumerator$ForLoop.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop))
-                return $t.YieldEnumerator$ForLoop;
-        }
-        $t.YieldEnumerator$ForLoop = YieldEnumerator$ForLoop;
+        $t.YieldEnumerator$ForLoop = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop");
         $t.YieldEnumerator$ForLoop.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ForLoop.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6594,17 +6004,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ForLoop, $t.YieldEnumerator$ForLoop.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoop);
-        function YieldEnumerator$ForLoopNoVariableWithInitializer($constructor) {
-            if (!$t.YieldEnumerator$ForLoopNoVariableWithInitializer.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer))) {
-                $t.YieldEnumerator$ForLoopNoVariableWithInitializer.$isStaticInitialized = true;
-                $t.YieldEnumerator$ForLoopNoVariableWithInitializer.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer))
-                return $t.YieldEnumerator$ForLoopNoVariableWithInitializer;
-        }
-        $t.YieldEnumerator$ForLoopNoVariableWithInitializer = YieldEnumerator$ForLoopNoVariableWithInitializer;
+        $t.YieldEnumerator$ForLoopNoVariableWithInitializer = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer");
         $t.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ForLoopNoVariableWithInitializer.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6662,17 +6062,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ForLoopNoVariableWithInitializer, $t.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopNoVariableWithInitializer);
-        function YieldEnumerator$ForLoopNoVariableNoInitializer($constructor) {
-            if (!$t.YieldEnumerator$ForLoopNoVariableNoInitializer.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer))) {
-                $t.YieldEnumerator$ForLoopNoVariableNoInitializer.$isStaticInitialized = true;
-                $t.YieldEnumerator$ForLoopNoVariableNoInitializer.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer))
-                return $t.YieldEnumerator$ForLoopNoVariableNoInitializer;
-        }
-        $t.YieldEnumerator$ForLoopNoVariableNoInitializer = YieldEnumerator$ForLoopNoVariableNoInitializer;
+        $t.YieldEnumerator$ForLoopNoVariableNoInitializer = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer");
         $t.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ForLoopNoVariableNoInitializer.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6730,17 +6120,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ForLoopNoVariableNoInitializer, $t.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopNoVariableNoInitializer);
-        function YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor($constructor) {
-            if (!$t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor))) {
-                $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.$isStaticInitialized = true;
-                $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor))
-                return $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor;
-        }
-        $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor = YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor;
+        $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor");
         $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6798,17 +6178,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor, $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor);
-        function YieldEnumerator$ForLoopTwoVariablesTwoIncrementors($constructor) {
-            if (!$t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors))) {
-                $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.$isStaticInitialized = true;
-                $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors))
-                return $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors;
-        }
-        $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors = YieldEnumerator$ForLoopTwoVariablesTwoIncrementors;
+        $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors");
         $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6869,17 +6239,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors, $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors);
-        function YieldEnumerator$NestedLoops($constructor) {
-            if (!$t.YieldEnumerator$NestedLoops.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops))) {
-                $t.YieldEnumerator$NestedLoops.$isStaticInitialized = true;
-                $t.YieldEnumerator$NestedLoops.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops))
-                return $t.YieldEnumerator$NestedLoops;
-        }
-        $t.YieldEnumerator$NestedLoops = YieldEnumerator$NestedLoops;
+        $t.YieldEnumerator$NestedLoops = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops");
         $t.YieldEnumerator$NestedLoops.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$NestedLoops.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -6954,17 +6314,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$NestedLoops, $t.YieldEnumerator$NestedLoops.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedLoops);
-        function YieldEnumerator$TypeParameter$1($constructor) {
-            if (!$t.YieldEnumerator$TypeParameter$1.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1))) {
-                $t.YieldEnumerator$TypeParameter$1.$isStaticInitialized = true;
-                $t.YieldEnumerator$TypeParameter$1.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1))
-                return $t.YieldEnumerator$TypeParameter$1;
-        }
-        $t.YieldEnumerator$TypeParameter$1 = YieldEnumerator$TypeParameter$1;
+        $t.YieldEnumerator$TypeParameter$1 = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter<T>");
         $t.YieldEnumerator$TypeParameter$1.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$TypeParameter$1.$TypeInitializer = function($t, $p, T) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7012,17 +6362,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$TypeParameter$1, $t.YieldEnumerator$TypeParameter$1.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$TypeParameter$1);
-        function YieldEnumerator$Foreach($constructor) {
-            if (!$t.YieldEnumerator$Foreach.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach))) {
-                $t.YieldEnumerator$Foreach.$isStaticInitialized = true;
-                $t.YieldEnumerator$Foreach.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach))
-                return $t.YieldEnumerator$Foreach;
-        }
-        $t.YieldEnumerator$Foreach = YieldEnumerator$Foreach;
+        $t.YieldEnumerator$Foreach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach");
         $t.YieldEnumerator$Foreach.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$Foreach.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7078,17 +6418,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$Foreach, $t.YieldEnumerator$Foreach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$Foreach);
-        function YieldEnumerator$DoWhileFalse($constructor) {
-            if (!$t.YieldEnumerator$DoWhileFalse.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse))) {
-                $t.YieldEnumerator$DoWhileFalse.$isStaticInitialized = true;
-                $t.YieldEnumerator$DoWhileFalse.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse))
-                return $t.YieldEnumerator$DoWhileFalse;
-        }
-        $t.YieldEnumerator$DoWhileFalse = YieldEnumerator$DoWhileFalse;
+        $t.YieldEnumerator$DoWhileFalse = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse");
         $t.YieldEnumerator$DoWhileFalse.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$DoWhileFalse.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7148,17 +6478,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$DoWhileFalse, $t.YieldEnumerator$DoWhileFalse.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$DoWhileFalse);
-        function YieldEnumerator$DoWhileLessThan3($constructor) {
-            if (!$t.YieldEnumerator$DoWhileLessThan3.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3))) {
-                $t.YieldEnumerator$DoWhileLessThan3.$isStaticInitialized = true;
-                $t.YieldEnumerator$DoWhileLessThan3.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3))
-                return $t.YieldEnumerator$DoWhileLessThan3;
-        }
-        $t.YieldEnumerator$DoWhileLessThan3 = YieldEnumerator$DoWhileLessThan3;
+        $t.YieldEnumerator$DoWhileLessThan3 = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3");
         $t.YieldEnumerator$DoWhileLessThan3.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$DoWhileLessThan3.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7218,17 +6538,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$DoWhileLessThan3, $t.YieldEnumerator$DoWhileLessThan3.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$DoWhileLessThan3);
-        function YieldEnumerator$Switch($constructor) {
-            if (!$t.YieldEnumerator$Switch.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch))) {
-                $t.YieldEnumerator$Switch.$isStaticInitialized = true;
-                $t.YieldEnumerator$Switch.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch))
-                return $t.YieldEnumerator$Switch;
-        }
-        $t.YieldEnumerator$Switch = YieldEnumerator$Switch;
+        $t.YieldEnumerator$Switch = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch");
         $t.YieldEnumerator$Switch.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$Switch.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7304,17 +6614,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$Switch, $t.YieldEnumerator$Switch.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$Switch);
-        function YieldEnumerator$BreakWhile($constructor) {
-            if (!$t.YieldEnumerator$BreakWhile.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile))) {
-                $t.YieldEnumerator$BreakWhile.$isStaticInitialized = true;
-                $t.YieldEnumerator$BreakWhile.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile))
-                return $t.YieldEnumerator$BreakWhile;
-        }
-        $t.YieldEnumerator$BreakWhile = YieldEnumerator$BreakWhile;
+        $t.YieldEnumerator$BreakWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile");
         $t.YieldEnumerator$BreakWhile.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$BreakWhile.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7372,17 +6672,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$BreakWhile, $t.YieldEnumerator$BreakWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakWhile);
-        function YieldEnumerator$ContinueWhile($constructor) {
-            if (!$t.YieldEnumerator$ContinueWhile.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile))) {
-                $t.YieldEnumerator$ContinueWhile.$isStaticInitialized = true;
-                $t.YieldEnumerator$ContinueWhile.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile))
-                return $t.YieldEnumerator$ContinueWhile;
-        }
-        $t.YieldEnumerator$ContinueWhile = YieldEnumerator$ContinueWhile;
+        $t.YieldEnumerator$ContinueWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile");
         $t.YieldEnumerator$ContinueWhile.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ContinueWhile.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7439,17 +6729,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ContinueWhile, $t.YieldEnumerator$ContinueWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueWhile);
-        function YieldEnumerator$BreakFor($constructor) {
-            if (!$t.YieldEnumerator$BreakFor.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor))) {
-                $t.YieldEnumerator$BreakFor.$isStaticInitialized = true;
-                $t.YieldEnumerator$BreakFor.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor))
-                return $t.YieldEnumerator$BreakFor;
-        }
-        $t.YieldEnumerator$BreakFor = YieldEnumerator$BreakFor;
+        $t.YieldEnumerator$BreakFor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor");
         $t.YieldEnumerator$BreakFor.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$BreakFor.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7507,17 +6787,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$BreakFor, $t.YieldEnumerator$BreakFor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakFor);
-        function YieldEnumerator$ContinueFor($constructor) {
-            if (!$t.YieldEnumerator$ContinueFor.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor))) {
-                $t.YieldEnumerator$ContinueFor.$isStaticInitialized = true;
-                $t.YieldEnumerator$ContinueFor.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor))
-                return $t.YieldEnumerator$ContinueFor;
-        }
-        $t.YieldEnumerator$ContinueFor = YieldEnumerator$ContinueFor;
+        $t.YieldEnumerator$ContinueFor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor");
         $t.YieldEnumerator$ContinueFor.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ContinueFor.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7574,17 +6844,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ContinueFor, $t.YieldEnumerator$ContinueFor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueFor);
-        function YieldEnumerator$BreakForeach($constructor) {
-            if (!$t.YieldEnumerator$BreakForeach.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach))) {
-                $t.YieldEnumerator$BreakForeach.$isStaticInitialized = true;
-                $t.YieldEnumerator$BreakForeach.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach))
-                return $t.YieldEnumerator$BreakForeach;
-        }
-        $t.YieldEnumerator$BreakForeach = YieldEnumerator$BreakForeach;
+        $t.YieldEnumerator$BreakForeach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach");
         $t.YieldEnumerator$BreakForeach.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$BreakForeach.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7643,17 +6903,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$BreakForeach, $t.YieldEnumerator$BreakForeach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakForeach);
-        function YieldEnumerator$ContinueForeach($constructor) {
-            if (!$t.YieldEnumerator$ContinueForeach.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach))) {
-                $t.YieldEnumerator$ContinueForeach.$isStaticInitialized = true;
-                $t.YieldEnumerator$ContinueForeach.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach))
-                return $t.YieldEnumerator$ContinueForeach;
-        }
-        $t.YieldEnumerator$ContinueForeach = YieldEnumerator$ContinueForeach;
+        $t.YieldEnumerator$ContinueForeach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach");
         $t.YieldEnumerator$ContinueForeach.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ContinueForeach.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7711,17 +6961,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ContinueForeach, $t.YieldEnumerator$ContinueForeach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueForeach);
-        function YieldEnumerator$BreakDoWhile($constructor) {
-            if (!$t.YieldEnumerator$BreakDoWhile.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile))) {
-                $t.YieldEnumerator$BreakDoWhile.$isStaticInitialized = true;
-                $t.YieldEnumerator$BreakDoWhile.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile))
-                return $t.YieldEnumerator$BreakDoWhile;
-        }
-        $t.YieldEnumerator$BreakDoWhile = YieldEnumerator$BreakDoWhile;
+        $t.YieldEnumerator$BreakDoWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile");
         $t.YieldEnumerator$BreakDoWhile.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$BreakDoWhile.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7781,17 +7021,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$BreakDoWhile, $t.YieldEnumerator$BreakDoWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakDoWhile);
-        function YieldEnumerator$ContinueDoWhile($constructor) {
-            if (!$t.YieldEnumerator$ContinueDoWhile.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile))) {
-                $t.YieldEnumerator$ContinueDoWhile.$isStaticInitialized = true;
-                $t.YieldEnumerator$ContinueDoWhile.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile))
-                return $t.YieldEnumerator$ContinueDoWhile;
-        }
-        $t.YieldEnumerator$ContinueDoWhile = YieldEnumerator$ContinueDoWhile;
+        $t.YieldEnumerator$ContinueDoWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile");
         $t.YieldEnumerator$ContinueDoWhile.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$ContinueDoWhile.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7850,17 +7080,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$ContinueDoWhile, $t.YieldEnumerator$ContinueDoWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueDoWhile);
-        function YieldEnumerator$TryFinally($constructor) {
-            if (!$t.YieldEnumerator$TryFinally.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally))) {
-                $t.YieldEnumerator$TryFinally.$isStaticInitialized = true;
-                $t.YieldEnumerator$TryFinally.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally))
-                return $t.YieldEnumerator$TryFinally;
-        }
-        $t.YieldEnumerator$TryFinally = YieldEnumerator$TryFinally;
+        $t.YieldEnumerator$TryFinally = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally");
         $t.YieldEnumerator$TryFinally.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$TryFinally.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -7941,17 +7161,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$TryFinally, $t.YieldEnumerator$TryFinally.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$TryFinally);
-        function YieldEnumerator$NestedTryFinally($constructor) {
-            if (!$t.YieldEnumerator$NestedTryFinally.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally))) {
-                $t.YieldEnumerator$NestedTryFinally.$isStaticInitialized = true;
-                $t.YieldEnumerator$NestedTryFinally.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally))
-                return $t.YieldEnumerator$NestedTryFinally;
-        }
-        $t.YieldEnumerator$NestedTryFinally = YieldEnumerator$NestedTryFinally;
+        $t.YieldEnumerator$NestedTryFinally = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally");
         $t.YieldEnumerator$NestedTryFinally.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$NestedTryFinally.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -8070,17 +7280,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$NestedTryFinally, $t.YieldEnumerator$NestedTryFinally.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedTryFinally);
-        function YieldEnumerator$TryFinallyThrowsException($constructor) {
-            if (!$t.YieldEnumerator$TryFinallyThrowsException.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException))) {
-                $t.YieldEnumerator$TryFinallyThrowsException.$isStaticInitialized = true;
-                $t.YieldEnumerator$TryFinallyThrowsException.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException))
-                return $t.YieldEnumerator$TryFinallyThrowsException;
-        }
-        $t.YieldEnumerator$TryFinallyThrowsException = YieldEnumerator$TryFinallyThrowsException;
+        $t.YieldEnumerator$TryFinallyThrowsException = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException");
         $t.YieldEnumerator$TryFinallyThrowsException.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$TryFinallyThrowsException.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -8154,17 +7354,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$TryFinallyThrowsException, $t.YieldEnumerator$TryFinallyThrowsException.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$TryFinallyThrowsException);
-        function YieldEnumerator$LabeledStatementGotoFirst($constructor) {
-            if (!$t.YieldEnumerator$LabeledStatementGotoFirst.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst))) {
-                $t.YieldEnumerator$LabeledStatementGotoFirst.$isStaticInitialized = true;
-                $t.YieldEnumerator$LabeledStatementGotoFirst.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst))
-                return $t.YieldEnumerator$LabeledStatementGotoFirst;
-        }
-        $t.YieldEnumerator$LabeledStatementGotoFirst = YieldEnumerator$LabeledStatementGotoFirst;
+        $t.YieldEnumerator$LabeledStatementGotoFirst = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst");
         $t.YieldEnumerator$LabeledStatementGotoFirst.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$LabeledStatementGotoFirst.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -8228,17 +7418,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$LabeledStatementGotoFirst, $t.YieldEnumerator$LabeledStatementGotoFirst.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$LabeledStatementGotoFirst);
-        function YieldEnumerator$LabeledStatementGotoSecond($constructor) {
-            if (!$t.YieldEnumerator$LabeledStatementGotoSecond.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond))) {
-                $t.YieldEnumerator$LabeledStatementGotoSecond.$isStaticInitialized = true;
-                $t.YieldEnumerator$LabeledStatementGotoSecond.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond))
-                return $t.YieldEnumerator$LabeledStatementGotoSecond;
-        }
-        $t.YieldEnumerator$LabeledStatementGotoSecond = YieldEnumerator$LabeledStatementGotoSecond;
+        $t.YieldEnumerator$LabeledStatementGotoSecond = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond");
         $t.YieldEnumerator$LabeledStatementGotoSecond.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$LabeledStatementGotoSecond.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -8299,17 +7479,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$LabeledStatementGotoSecond, $t.YieldEnumerator$LabeledStatementGotoSecond.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$LabeledStatementGotoSecond);
-        function YieldEnumerator$CollidingForeach($constructor) {
-            if (!$t.YieldEnumerator$CollidingForeach.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach))) {
-                $t.YieldEnumerator$CollidingForeach.$isStaticInitialized = true;
-                $t.YieldEnumerator$CollidingForeach.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach))
-                return $t.YieldEnumerator$CollidingForeach;
-        }
-        $t.YieldEnumerator$CollidingForeach = YieldEnumerator$CollidingForeach;
+        $t.YieldEnumerator$CollidingForeach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach");
         $t.YieldEnumerator$CollidingForeach.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$CollidingForeach.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -8380,17 +7550,7 @@ WootzJs.Compiler.Tests.YieldTests.prototype = new System.Object();
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
         }).call($t, $t.YieldEnumerator$CollidingForeach, $t.YieldEnumerator$CollidingForeach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$CollidingForeach);
-        function YieldEnumerator$CollidingFor($constructor) {
-            if (!$t.YieldEnumerator$CollidingFor.$isStaticInitialized && ($constructor != null || !(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor))) {
-                $t.YieldEnumerator$CollidingFor.$isStaticInitialized = true;
-                $t.YieldEnumerator$CollidingFor.$StaticInitializer();
-            }
-            if ($constructor != null)
-                $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-            if (!(this instanceof WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor))
-                return $t.YieldEnumerator$CollidingFor;
-        }
-        $t.YieldEnumerator$CollidingFor = YieldEnumerator$CollidingFor;
+        $t.YieldEnumerator$CollidingFor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor");
         $t.YieldEnumerator$CollidingFor.prototype = new System.YieldIterator$1();
         ($t.YieldEnumerator$CollidingFor.$TypeInitializer = function($t, $p) {
             $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;

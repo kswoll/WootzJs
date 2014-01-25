@@ -27,17 +27,9 @@
 
 #endregion
 
-namespace WootzJs.JQuery
+namespace WootzJs.Web
 {
-    public class Query
+    public class IHtmlElement
     {
-        public Query(string selector)
-        {
-        }
-
-        public Query(Query element)
-        {
-            
-        }
     }
 }

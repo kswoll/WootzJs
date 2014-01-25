@@ -3583,6 +3583,127 @@ System.Collections.IStructuralEquatable.prototype = new System.Object();
     };
 }).call(null, System.Collections.IStructuralEquatable, System.Collections.IStructuralEquatable.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.IStructuralEquatable);
+System.Collections.Stack$1 = $define("System.Collections.Stack<T>");
+System.Collections.Stack$1.prototype = new System.Object();
+(System.Collections.Stack$1.$TypeInitializer = function($t, $p, T) {
+    $t.$GetAssembly = window.$mscorlib$GetAssembly;
+    $p.$type = System.Collections.Stack$1;
+    $t.$baseType = System.Object;
+    $p.$typeName = "System.Collections.Stack`1";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Stack", []);this.$type.Init("System.Collections.Stack`1", System.Collections.Stack$1, System.Object, [System.Collections.ICollection, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("Push", System.Collections.Stack$1.prototype.Push, [System.Reflection.ParameterInfo.prototype.$ctor.$new("item", T, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Pop", System.Collections.Stack$1.prototype.Pop, [], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Count", System.Collections.Stack$1.prototype.get_Count, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("System$Collections$IEnumerable$GetEnumerator", System.Collections.Stack$1.prototype.System$Collections$IEnumerable$GetEnumerator, [], System.Collections.IEnumerator, System.Reflection.MethodAttributes().Private, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Stack$1.prototype.GetEnumerator, [], System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerable", System.Collections.Stack$1.prototype.GetEnumerable, [], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Private, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_SyncRoot", System.Collections.Stack$1.prototype.get_SyncRoot, [], System.Object, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsSynchronized", System.Collections.Stack$1.prototype.get_IsSynchronized, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("CopyTo", System.Collections.Stack$1.prototype.CopyTo, [System.Reflection.ParameterInfo.prototype.$ctor.$new("array", Array, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 1, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Stack$1.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [System.Reflection.PropertyInfo.prototype.$ctor.$new("Count", System.Int32, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Count", System.Collections.Stack$1.prototype.get_Count, [], System.Int32, System.Reflection.MethodAttributes().Public, []), null, [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("SyncRoot", System.Object, System.Reflection.MethodInfo.prototype.$ctor.$new("get_SyncRoot", System.Collections.Stack$1.prototype.get_SyncRoot, [], System.Object, System.Reflection.MethodAttributes().Public, []), null, [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("IsSynchronized", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsSynchronized", System.Collections.Stack$1.prototype.get_IsSynchronized, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), null, [], [])], [], false);return this.$type;};
+    $t.$StaticInitializer = function() {
+    };
+    window.System.Collections.Stack$1$ = function() {
+        return System.Object.$$MakeGenericType.call(null, System.Collections.Stack$1, arguments);
+    };
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+        this.storage = new Array();
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.storage = null;
+    $p.Push = function(item) {
+        this.storage.push(item);
+    };
+    $p.Pop = function() {
+        this.storage.pop();
+    };
+    $p.get_Count = function() {
+        return this.storage.length;
+    };
+    $p.System$Collections$IEnumerable$GetEnumerator = function() {
+        return this.GetEnumerator();
+    };
+    $p.System$Collections$IEnumerable$GetEnumerator = $p.System$Collections$IEnumerable$GetEnumerator;
+    $p.GetEnumerator = function() {
+        return this.GetEnumerable().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+    };
+    $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
+    $p.GetEnumerable = function() {
+        return ((System.Collections.Stack$1$(T)).YieldEnumerator$GetEnumerable$()).prototype.$ctor.$new(this);
+    };
+    $p.get_SyncRoot = function() {
+        return this;
+    };
+    $p.get_IsSynchronized = function() {
+        return true;
+    };
+    $p.CopyTo = function(array, index) {
+        for (var i = 0, j = index; index < array.length && i < this.storage.length; i++, j++) {
+            array[index] = this.storage[i];
+        }
+    };
+    $p.System$Collections$ICollection$CopyTo = $p.CopyTo;
+    $t.YieldEnumerator$GetEnumerable = $define("System.Collections.Stack<T>.YieldEnumerator$GetEnumerable");
+    $t.YieldEnumerator$GetEnumerable.prototype = new System.YieldIterator$1();
+    ($t.YieldEnumerator$GetEnumerable.$TypeInitializer = function($t, $p) {
+        $t.$GetAssembly = window.$mscorlib$GetAssembly;
+        $p.$type = System.Collections.Stack$1.YieldEnumerator$GetEnumerable;
+        $t.$baseType = System.YieldIterator$1;
+        $p.$typeName = "System.Collections.Stack`1.YieldEnumerator$GetEnumerable";
+        $t.$typeName = $p.$typeName;
+        $t.$GetType = function() {
+            return System.Type._GetTypeFromTypeFunc(this);
+        };
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", []);this.$type.Init("System.Collections.Stack`1.YieldEnumerator$GetEnumerable", System.Collections.Stack$1.YieldEnumerator$GetEnumerable, (System.YieldIterator$1$(System.Object)), [System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], [System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Stack$1, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Stack$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, [], System.Collections.IEnumerator, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Stack$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, [], System.Boolean, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Stack$1.YieldEnumerator$GetEnumerable.prototype.$ctor, [System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Stack$1, 0, 0, null, [])], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+        $t.$StaticInitializer = function() {
+        };
+        this.YieldEnumerator$GetEnumerable$ = function() {
+            return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$GetEnumerable, arguments);
+        };
+        $p.$state = null;
+        $p.$this = null;
+        $p.i = null;
+        $p.$ctor = function($this) {
+            (System.YieldIterator$1$(System.Object)).prototype.$ctor.call(this);
+            this.$this = $this;
+            this.$state = 1;
+        };
+        $p.$ctor.$type = $t;
+        $p.$ctor.$new = function($this) {
+            return new $p.$ctor.$type(this, $this);
+        };
+        $p.GetEnumerator = function() {
+            return this;
+        };
+        $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
+        $p.MoveNext = function() {
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.i = this.$this.storage.length - 1;
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.i >= 0) {
+                            this.$state = 3;
+                            this.set_Current(this.$this.storage[this.i]);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.i--;
+                        this.$state = 2;
+                        continue $top;
+                }
+            }
+        };
+        $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+    }).call($t, $t.YieldEnumerator$GetEnumerable, $t.YieldEnumerator$GetEnumerable.prototype);
+    $mscorlib$AssemblyTypes.push($t.YieldEnumerator$GetEnumerable);
+}).call(null, System.Collections.Stack$1, System.Collections.Stack$1.prototype);
+$mscorlib$AssemblyTypes.push(System.Collections.Stack$1);
 System.Console = $define("System.Console");
 System.Console.prototype = new System.Object();
 (System.Console.$TypeInitializer = function($t, $p) {

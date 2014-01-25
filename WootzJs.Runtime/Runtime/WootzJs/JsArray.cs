@@ -74,6 +74,8 @@ namespace System.Runtime.WootzJs
         {
         }
 
+        public extern JsObject pop();
+
         [Js(Name = "indexOf")]
         public int indexOf(JsObject o)
         {

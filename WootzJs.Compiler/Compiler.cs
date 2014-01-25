@@ -72,7 +72,7 @@ namespace WootzJs.Compiler
             var project = Solution.LoadStandAloneProject(projectFile);
             var projectName = project.AssemblyName;
             var compilation = (Compilation)project.GetCompilation();
-            context = new Context(project.Solution, compilation);
+            context = new Context(project.Solution, project, compilation);
 
             RoslynExtensions.context = context;
             Js.context = context;
@@ -86,16 +86,18 @@ namespace WootzJs.Compiler
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var yieldGenerator = new YieldGenerator(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldGenerator);
-                var document = project.GetDocument(syntaxTree);
-                document = document.UpdateSyntaxRoot(compilationUnit);
-                compilation = (Compilation)compilation.ReplaceSyntaxTree(syntaxTree, document.GetSyntaxTree());
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit));
             }
-
-            context = new Context(project.Solution, compilation);
-            RoslynExtensions.context = context;
-            Js.context = context;
-            JsNames.context = context;
-            WootzJsExtensions.context = context;
+            context.Update(project.Solution, project, compilation);
+            foreach (var syntaxTree in compilation.SyntaxTrees)
+            {
+                var compilationUnit = syntaxTree.GetRoot();
+                var semanticModel = compilation.GetSemanticModel(syntaxTree);
+                var yieldFixer = new YieldGeneratorFixer(compilation, syntaxTree, semanticModel);
+                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit));
+            }
+            context.Update(project.Solution, project, compilation);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 

@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,35 +24,41 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using System;
+using System.Runtime.WootzJs;
+using WootzJs.Web;
 
-namespace WootzJs.Compiler
+namespace WootzJs.JQuery
 {
-    public static class WootzJsExtensions
+    [Js(Export = false, Name = "$")]
+    public class jQuery
     {
-        internal static Context context;
-
-        public static bool IsExported(this Symbol symbol)
+        public jQuery(string selector)
         {
-            if (symbol.IsExtern)
-                return false;
-
-            var result = symbol.GetAttributeValue(context.JsAttributeType, "Export", true);
-            if (!(symbol is TypeSymbol))
-                result = result && symbol.ContainingType.IsExported();
-            return result;
         }
 
-        public static bool IsBuiltIn(this Symbol symbol)
+        public jQuery(IHtmlElement element)
         {
-            return symbol.GetAttributeValue(context.JsAttributeType, "BuiltIn", false);
         }
 
-        public static bool IsExtension(this Symbol symbol)
-        {
-            return symbol.GetAttributeValue(context.JsAttributeType, "Extension", false);
-        }
+        public extern jQuery append(jQuery content);
+        public extern jQuery prepend(jQuery content);
+        public extern jQuery insertAfter(jQuery target);
+        public extern void empty();
+        public extern string text();
+        public extern string text(string newText);
+
+        public extern void attr(string attributeName);
+        public extern void attr(string attributeName, object value);
+        public extern void css(string name);
+        public extern void css(string name, string value);
+        public extern void css(string name, JsNumber value);
+        public extern void unbind(string eventName, JsEventHandler eventHandler);
+        public extern void click(JsEventHandler handler);
+        public extern void mouseenter(JsEventHandler handler);
+        public extern void mouseleave(JsEventHandler handler);
     }
 }

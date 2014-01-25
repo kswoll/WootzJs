@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,52 +24,43 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers.CSharp;
-using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class YieldGenerator : SyntaxRewriter
+    public class YieldGeneratorFixer : SyntaxRewriter
     {
         private Compilation compilation;
         private SyntaxTree syntaxTree;
         private SemanticModel semanticModel;
 
-        public YieldGenerator(Compilation compilation, SyntaxTree syntaxTree, SemanticModel semanticModel)
+        public YieldGeneratorFixer(Compilation compilation, SyntaxTree syntaxTree, SemanticModel semanticModel)
         {
             this.compilation = compilation;
             this.syntaxTree = syntaxTree;
             this.semanticModel = semanticModel;
         }
 
-        public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
+        public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
         {
-            var yieldClasses = new List<ClassDeclarationSyntax>();
-            foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => YieldChecker.HasYield(x)))
+            if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
             {
-                var yieldGenerator = new YieldClassGenerator(compilation, node, method);
-                var enumerator = yieldGenerator.CreateEnumerator();
-                yieldClasses.Add(enumerator);
-            }
+                var containingType = node.GetContainingType();
+                if (containingType == null || !containingType.Name.StartsWith("YieldEnumerator$"))
+                    return node;
 
-            if (yieldClasses.Any())
-            {
-                return node.AddMembers(yieldClasses.ToArray());
+                var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+                if (symbol == null)
+                {
+                    return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName("$this"), node);
+                }
             }
-            else
-            {
-                return base.VisitClassDeclaration(node);
-            }
-        }
-
-        public JsNode ReturnNewGenerator()
-        {
-            return null;
-//            return Js.Return(transformer.idioms.)
+            return base.VisitIdentifierName(node);
         }
     }
 }

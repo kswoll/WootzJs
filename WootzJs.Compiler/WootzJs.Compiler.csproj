@@ -78,6 +78,7 @@
     <Compile Include="CsJsni.cs" />
     <Compile Include="ExpressionTreeTransformer.cs" />
     <Compile Include="GotoSubstituter.cs" />
+    <Compile Include="IdentifierHoister.cs" />
     <Compile Include="IdentifierRenamer.cs" />
     <Compile Include="Idioms.cs" />
     <Compile Include="IJsVisitor.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="YieldChecker.cs" />
     <Compile Include="YieldGenerator.cs" />
     <Compile Include="YieldClassGenerator.cs" />
+    <Compile Include="YieldGeneratorFixer.cs" />
     <Compile Include="YieldState.cs" />
     <Compile Include="YieldStateGenerator.cs" />
   </ItemGroup>

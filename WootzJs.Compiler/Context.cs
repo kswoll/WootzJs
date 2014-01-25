@@ -34,6 +34,7 @@ namespace WootzJs.Compiler
     public class Context
     {
         public ISolution Solution { get; private set; } 
+        public IProject Project { get; private set; }
         public Compilation Compilation { get; private set; }
         public SymbolNameMap SymbolNames { get; private set; }
 
@@ -136,9 +137,15 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol Func { get; private set; }
         public NamedTypeSymbol JsObject { get; private set; }
 
-        public Context(ISolution solution, Compilation compilation)
+        public Context(ISolution solution, IProject project, Compilation compilation)
+        {
+            Update(solution, project, compilation);
+        }
+
+        public void Update(ISolution solution, IProject project, Compilation compilation)
         {
             Solution = solution;
+            Project = project;
             Compilation = compilation;
             SymbolNames = SymbolNameCompiler.CompileSymbolNames(compilation);
 
@@ -239,6 +246,6 @@ namespace WootzJs.Compiler
             Action = compilation.GetTypeByMetadataName("System.Action");
             Func = compilation.GetTypeByMetadataName("System.Func`1");
             JsObject = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.JsObject");
-       }
+        }
     }
 }
