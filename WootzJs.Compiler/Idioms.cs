@@ -117,11 +117,8 @@ namespace WootzJs.Compiler
                 }
                 else if (classType.ContainingType != null)
                 {
-                    classFunction.Name = classType.GetShortTypeName();
-                    var classFunctionDeclaration = Js.Declare(classFunction);
-                    block.Add(classFunctionDeclaration);                    
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference(classFunctionDeclaration));
+                    block.Assign(outerClassType, Js.Reference("$define").Invoke(Js.Primitive(classType.ToDisplayString())));
                     block.Add(CreatePrototype(outerClassType, baseType));
                 }
                 else

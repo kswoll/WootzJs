@@ -2392,17 +2392,7 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
     $p.get_System$Collections$Generic$IReadOnlyDictionary$TKey$TValue$$Values = function() {
         return this.get_Values();
     };
-    function Bucket($constructor) {
-        if (!$t.Bucket.$isStaticInitialized && ($constructor != null || !(this instanceof System.Collections.Generic.Dictionary$2.Bucket))) {
-            $t.Bucket.$isStaticInitialized = true;
-            $t.Bucket.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Collections.Generic.Dictionary$2.Bucket))
-            return $t.Bucket;
-    }
-    $t.Bucket = Bucket;
+    $t.Bucket = $define("System.Collections.Generic.Dictionary<TKey, TValue>.Bucket");
     $t.Bucket.prototype = new System.Object();
     ($t.Bucket.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -2438,17 +2428,7 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
         };
     }).call($t, $t.Bucket, $t.Bucket.prototype);
     $mscorlib$AssemblyTypes.push($t.Bucket);
-    function BucketItem($constructor) {
-        if (!$t.BucketItem.$isStaticInitialized && ($constructor != null || !(this instanceof System.Collections.Generic.Dictionary$2.BucketItem))) {
-            $t.BucketItem.$isStaticInitialized = true;
-            $t.BucketItem.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Collections.Generic.Dictionary$2.BucketItem))
-            return $t.BucketItem;
-    }
-    $t.BucketItem = BucketItem;
+    $t.BucketItem = $define("System.Collections.Generic.Dictionary<TKey, TValue>.BucketItem");
     $t.BucketItem.prototype = new System.Object();
     ($t.BucketItem.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -2490,17 +2470,7 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
         };
     }).call($t, $t.BucketItem, $t.BucketItem.prototype);
     $mscorlib$AssemblyTypes.push($t.BucketItem);
-    function DictionaryKeys($constructor) {
-        if (!$t.DictionaryKeys.$isStaticInitialized && ($constructor != null || !(this instanceof System.Collections.Generic.Dictionary$2.DictionaryKeys))) {
-            $t.DictionaryKeys.$isStaticInitialized = true;
-            $t.DictionaryKeys.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Collections.Generic.Dictionary$2.DictionaryKeys))
-            return $t.DictionaryKeys;
-    }
-    $t.DictionaryKeys = DictionaryKeys;
+    $t.DictionaryKeys = $define("System.Collections.Generic.Dictionary<TKey, TValue>.DictionaryKeys");
     $t.DictionaryKeys.prototype = new System.Object();
     ($t.DictionaryKeys.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -3422,17 +3392,7 @@ System.Collections.Generic.List$1.prototype = new System.Object();
         this.storage.splice(index, 0, item);
     };
     $p.System$Collections$Generic$IList$1$Insert = $p.Insert;
-    function ListEnumerator($constructor) {
-        if (!$t.ListEnumerator.$isStaticInitialized && ($constructor != null || !(this instanceof System.Collections.Generic.List$1.ListEnumerator))) {
-            $t.ListEnumerator.$isStaticInitialized = true;
-            $t.ListEnumerator.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Collections.Generic.List$1.ListEnumerator))
-            return $t.ListEnumerator;
-    }
-    $t.ListEnumerator = ListEnumerator;
+    $t.ListEnumerator = $define("System.Collections.Generic.List<T>.ListEnumerator");
     $t.ListEnumerator.prototype = new System.Object();
     ($t.ListEnumerator.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -4664,17 +4624,7 @@ System.Linq.Enumerable.prototype = new System.Object();
     $t.Except = function(TSource, first, second) {
         return System.Linq.Enumerable.YieldEnumerator$Except$1$(TSource).prototype.$ctor.$new(this, first, second);
     };
-    function YieldEnumerator$Where$1($constructor) {
-        if (!$t.YieldEnumerator$Where$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Where$1))) {
-            $t.YieldEnumerator$Where$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$Where$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Where$1))
-            return $t.YieldEnumerator$Where$1;
-    }
-    $t.YieldEnumerator$Where$1 = YieldEnumerator$Where$1;
+    $t.YieldEnumerator$Where$1 = $define("System.Linq.Enumerable.YieldEnumerator$Where<TSource>");
     $t.YieldEnumerator$Where$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Where$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -4746,17 +4696,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Where$1, $t.YieldEnumerator$Where$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Where$1);
-    function YieldEnumerator$Where$1$1($constructor) {
-        if (!$t.YieldEnumerator$Where$1$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Where$1$1))) {
-            $t.YieldEnumerator$Where$1$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$Where$1$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Where$1$1))
-            return $t.YieldEnumerator$Where$1$1;
-    }
-    $t.YieldEnumerator$Where$1$1 = YieldEnumerator$Where$1$1;
+    $t.YieldEnumerator$Where$1$1 = $define("System.Linq.Enumerable.YieldEnumerator$Where$1<TSource>");
     $t.YieldEnumerator$Where$1$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Where$1$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -4838,17 +4778,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Where$1$1, $t.YieldEnumerator$Where$1$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Where$1$1);
-    function YieldEnumerator$Select$2($constructor) {
-        if (!$t.YieldEnumerator$Select$2.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Select$2))) {
-            $t.YieldEnumerator$Select$2.$isStaticInitialized = true;
-            $t.YieldEnumerator$Select$2.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Select$2))
-            return $t.YieldEnumerator$Select$2;
-    }
-    $t.YieldEnumerator$Select$2 = YieldEnumerator$Select$2;
+    $t.YieldEnumerator$Select$2 = $define("System.Linq.Enumerable.YieldEnumerator$Select<TSource, TResult>");
     $t.YieldEnumerator$Select$2.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Select$2.$TypeInitializer = function($t, $p, TSource, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -4916,17 +4846,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Select$2, $t.YieldEnumerator$Select$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Select$2);
-    function YieldEnumerator$Select$1$2($constructor) {
-        if (!$t.YieldEnumerator$Select$1$2.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Select$1$2))) {
-            $t.YieldEnumerator$Select$1$2.$isStaticInitialized = true;
-            $t.YieldEnumerator$Select$1$2.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Select$1$2))
-            return $t.YieldEnumerator$Select$1$2;
-    }
-    $t.YieldEnumerator$Select$1$2 = YieldEnumerator$Select$1$2;
+    $t.YieldEnumerator$Select$1$2 = $define("System.Linq.Enumerable.YieldEnumerator$Select$1<TSource, TResult>");
     $t.YieldEnumerator$Select$1$2.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Select$1$2.$TypeInitializer = function($t, $p, TSource, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5004,17 +4924,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Select$1$2, $t.YieldEnumerator$Select$1$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Select$1$2);
-    function YieldEnumerator$SelectMany$2($constructor) {
-        if (!$t.YieldEnumerator$SelectMany$2.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$2))) {
-            $t.YieldEnumerator$SelectMany$2.$isStaticInitialized = true;
-            $t.YieldEnumerator$SelectMany$2.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$2))
-            return $t.YieldEnumerator$SelectMany$2;
-    }
-    $t.YieldEnumerator$SelectMany$2 = YieldEnumerator$SelectMany$2;
+    $t.YieldEnumerator$SelectMany$2 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany<TSource, TResult>");
     $t.YieldEnumerator$SelectMany$2.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$SelectMany$2.$TypeInitializer = function($t, $p, TSource, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5093,17 +5003,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$2, $t.YieldEnumerator$SelectMany$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$2);
-    function YieldEnumerator$SelectMany$1$2($constructor) {
-        if (!$t.YieldEnumerator$SelectMany$1$2.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2))) {
-            $t.YieldEnumerator$SelectMany$1$2.$isStaticInitialized = true;
-            $t.YieldEnumerator$SelectMany$1$2.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2))
-            return $t.YieldEnumerator$SelectMany$1$2;
-    }
-    $t.YieldEnumerator$SelectMany$1$2 = YieldEnumerator$SelectMany$1$2;
+    $t.YieldEnumerator$SelectMany$1$2 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany$1<TSource, TResult>");
     $t.YieldEnumerator$SelectMany$1$2.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$SelectMany$1$2.$TypeInitializer = function($t, $p, TSource, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5192,17 +5092,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$1$2, $t.YieldEnumerator$SelectMany$1$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$1$2);
-    function YieldEnumerator$SelectMany$3$3($constructor) {
-        if (!$t.YieldEnumerator$SelectMany$3$3.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3))) {
-            $t.YieldEnumerator$SelectMany$3$3.$isStaticInitialized = true;
-            $t.YieldEnumerator$SelectMany$3$3.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3))
-            return $t.YieldEnumerator$SelectMany$3$3;
-    }
-    $t.YieldEnumerator$SelectMany$3$3 = YieldEnumerator$SelectMany$3$3;
+    $t.YieldEnumerator$SelectMany$3$3 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany$3<TSource, TCollection, TResult>");
     $t.YieldEnumerator$SelectMany$3$3.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$SelectMany$3$3.$TypeInitializer = function($t, $p, TSource, TCollection, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5296,17 +5186,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$3$3, $t.YieldEnumerator$SelectMany$3$3.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$3$3);
-    function YieldEnumerator$SelectMany$2$3($constructor) {
-        if (!$t.YieldEnumerator$SelectMany$2$3.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3))) {
-            $t.YieldEnumerator$SelectMany$2$3.$isStaticInitialized = true;
-            $t.YieldEnumerator$SelectMany$2$3.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3))
-            return $t.YieldEnumerator$SelectMany$2$3;
-    }
-    $t.YieldEnumerator$SelectMany$2$3 = YieldEnumerator$SelectMany$2$3;
+    $t.YieldEnumerator$SelectMany$2$3 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany$2<TSource, TCollection, TResult>");
     $t.YieldEnumerator$SelectMany$2$3.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$SelectMany$2$3.$TypeInitializer = function($t, $p, TSource, TCollection, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5394,17 +5274,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SelectMany$2$3, $t.YieldEnumerator$SelectMany$2$3.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$2$3);
-    function YieldEnumerator$Take$1($constructor) {
-        if (!$t.YieldEnumerator$Take$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Take$1))) {
-            $t.YieldEnumerator$Take$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$Take$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Take$1))
-            return $t.YieldEnumerator$Take$1;
-    }
-    $t.YieldEnumerator$Take$1 = YieldEnumerator$Take$1;
+    $t.YieldEnumerator$Take$1 = $define("System.Linq.Enumerable.YieldEnumerator$Take<TSource>");
     $t.YieldEnumerator$Take$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Take$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5482,17 +5352,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Take$1, $t.YieldEnumerator$Take$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Take$1);
-    function YieldEnumerator$TakeWhile$1($constructor) {
-        if (!$t.YieldEnumerator$TakeWhile$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$TakeWhile$1))) {
-            $t.YieldEnumerator$TakeWhile$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$TakeWhile$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$TakeWhile$1))
-            return $t.YieldEnumerator$TakeWhile$1;
-    }
-    $t.YieldEnumerator$TakeWhile$1 = YieldEnumerator$TakeWhile$1;
+    $t.YieldEnumerator$TakeWhile$1 = $define("System.Linq.Enumerable.YieldEnumerator$TakeWhile<TSource>");
     $t.YieldEnumerator$TakeWhile$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$TakeWhile$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5566,17 +5426,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$TakeWhile$1, $t.YieldEnumerator$TakeWhile$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$TakeWhile$1);
-    function YieldEnumerator$TakeWhile$1$1($constructor) {
-        if (!$t.YieldEnumerator$TakeWhile$1$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1))) {
-            $t.YieldEnumerator$TakeWhile$1$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$TakeWhile$1$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1))
-            return $t.YieldEnumerator$TakeWhile$1$1;
-    }
-    $t.YieldEnumerator$TakeWhile$1$1 = YieldEnumerator$TakeWhile$1$1;
+    $t.YieldEnumerator$TakeWhile$1$1 = $define("System.Linq.Enumerable.YieldEnumerator$TakeWhile$1<TSource>");
     $t.YieldEnumerator$TakeWhile$1$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$TakeWhile$1$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5656,17 +5506,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$TakeWhile$1$1, $t.YieldEnumerator$TakeWhile$1$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$TakeWhile$1$1);
-    function YieldEnumerator$Skip$1($constructor) {
-        if (!$t.YieldEnumerator$Skip$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Skip$1))) {
-            $t.YieldEnumerator$Skip$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$Skip$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Skip$1))
-            return $t.YieldEnumerator$Skip$1;
-    }
-    $t.YieldEnumerator$Skip$1 = YieldEnumerator$Skip$1;
+    $t.YieldEnumerator$Skip$1 = $define("System.Linq.Enumerable.YieldEnumerator$Skip<TSource>");
     $t.YieldEnumerator$Skip$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Skip$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5741,17 +5581,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Skip$1, $t.YieldEnumerator$Skip$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Skip$1);
-    function YieldEnumerator$SkipWhile$1($constructor) {
-        if (!$t.YieldEnumerator$SkipWhile$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$SkipWhile$1))) {
-            $t.YieldEnumerator$SkipWhile$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$SkipWhile$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$SkipWhile$1))
-            return $t.YieldEnumerator$SkipWhile$1;
-    }
-    $t.YieldEnumerator$SkipWhile$1 = YieldEnumerator$SkipWhile$1;
+    $t.YieldEnumerator$SkipWhile$1 = $define("System.Linq.Enumerable.YieldEnumerator$SkipWhile<TSource>");
     $t.YieldEnumerator$SkipWhile$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$SkipWhile$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5825,17 +5655,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SkipWhile$1, $t.YieldEnumerator$SkipWhile$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SkipWhile$1);
-    function YieldEnumerator$SkipWhile$1$1($constructor) {
-        if (!$t.YieldEnumerator$SkipWhile$1$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1))) {
-            $t.YieldEnumerator$SkipWhile$1$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$SkipWhile$1$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1))
-            return $t.YieldEnumerator$SkipWhile$1$1;
-    }
-    $t.YieldEnumerator$SkipWhile$1$1 = YieldEnumerator$SkipWhile$1$1;
+    $t.YieldEnumerator$SkipWhile$1$1 = $define("System.Linq.Enumerable.YieldEnumerator$SkipWhile$1<TSource>");
     $t.YieldEnumerator$SkipWhile$1$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$SkipWhile$1$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5912,17 +5732,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$SkipWhile$1$1, $t.YieldEnumerator$SkipWhile$1$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SkipWhile$1$1);
-    function YieldEnumerator$Join$4($constructor) {
-        if (!$t.YieldEnumerator$Join$4.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Join$4))) {
-            $t.YieldEnumerator$Join$4.$isStaticInitialized = true;
-            $t.YieldEnumerator$Join$4.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Join$4))
-            return $t.YieldEnumerator$Join$4;
-    }
-    $t.YieldEnumerator$Join$4 = YieldEnumerator$Join$4;
+    $t.YieldEnumerator$Join$4 = $define("System.Linq.Enumerable.YieldEnumerator$Join<TOuter, TInner, TKey, TResult>");
     $t.YieldEnumerator$Join$4.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Join$4.$TypeInitializer = function($t, $p, TOuter, TInner, TKey, TResult) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -6066,17 +5876,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Join$4, $t.YieldEnumerator$Join$4.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Join$4);
-    function YieldEnumerator$Concat$1($constructor) {
-        if (!$t.YieldEnumerator$Concat$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Concat$1))) {
-            $t.YieldEnumerator$Concat$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$Concat$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Concat$1))
-            return $t.YieldEnumerator$Concat$1;
-    }
-    $t.YieldEnumerator$Concat$1 = YieldEnumerator$Concat$1;
+    $t.YieldEnumerator$Concat$1 = $define("System.Linq.Enumerable.YieldEnumerator$Concat<T>");
     $t.YieldEnumerator$Concat$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Concat$1.$TypeInitializer = function($t, $p, T) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -6159,17 +5959,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$Concat$1, $t.YieldEnumerator$Concat$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Concat$1);
-    function YieldEnumerator$Except$1($constructor) {
-        if (!$t.YieldEnumerator$Except$1.$isStaticInitialized && ($constructor != null || !(this instanceof System.Linq.Enumerable.YieldEnumerator$Except$1))) {
-            $t.YieldEnumerator$Except$1.$isStaticInitialized = true;
-            $t.YieldEnumerator$Except$1.$StaticInitializer();
-        }
-        if ($constructor != null)
-            $constructor.apply(this, Array.prototype.slice.call(arguments, 1));
-        if (!(this instanceof System.Linq.Enumerable.YieldEnumerator$Except$1))
-            return $t.YieldEnumerator$Except$1;
-    }
-    $t.YieldEnumerator$Except$1 = YieldEnumerator$Except$1;
+    $t.YieldEnumerator$Except$1 = $define("System.Linq.Enumerable.YieldEnumerator$Except<TSource>");
     $t.YieldEnumerator$Except$1.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$Except$1.$TypeInitializer = function($t, $p, TSource) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
