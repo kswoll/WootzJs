@@ -1563,5 +1563,37 @@ namespace WootzJs.Compiler
                 array,
                 Type(arrayType.ElementType));
         }
+
+        public JsExpression DefaultValue(TypeSymbol type)
+        {
+            JsExpression value;
+            switch (type.SpecialType)
+            {
+                case SpecialType.System_Double:
+                case SpecialType.System_Int32:
+                case SpecialType.System_Single:
+                case SpecialType.System_SByte:
+                case SpecialType.System_UInt16:
+                case SpecialType.System_UInt32:
+                case SpecialType.System_UInt64:
+                case SpecialType.System_Byte:
+                case SpecialType.System_Decimal:
+                case SpecialType.System_Int16:
+                case SpecialType.System_Int64:
+                    value = Js.Primitive(0);
+                    break;
+                case SpecialType.System_Boolean:
+                    value = Js.Primitive(false);
+                    break;
+                case SpecialType.System_Char:
+                    value = Js.Primitive("\0");
+                    break;
+                default:
+                    value = Js.Null();
+                    break;
+            }
+
+            return value;
+        }
     }
 }

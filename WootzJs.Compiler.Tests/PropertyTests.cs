@@ -37,9 +37,37 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(StaticPropertyClass.StringProperty, "foo");
         }
 
+        [Test]
+        public void PrimitiveFields()
+        {
+            var primitiveFields = new PrimitiveFieldsClass();
+            QUnit.AreEqual(primitiveFields.Boolean, false);
+            QUnit.AreEqual(primitiveFields.Byte, 0);
+            QUnit.AreEqual(primitiveFields.SByte, 0);
+            QUnit.AreEqual(primitiveFields.Short, 0);
+            QUnit.AreEqual(primitiveFields.UShort, 0);
+            QUnit.AreEqual(primitiveFields.Int, 0);
+            QUnit.AreEqual(primitiveFields.UInt, 0);
+            QUnit.AreEqual(primitiveFields.Long, 0);
+            QUnit.AreEqual(primitiveFields.ULong, 0);
+        }
+
         public class StaticPropertyClass
         {
             public static string StringProperty { get; set; }
+        }
+
+        public class PrimitiveFieldsClass
+        {
+            public bool Boolean { get; set; }
+            public byte Byte { get; set; }
+            public short Short { get; set; }
+            public int Int { get; set; }
+            public long Long { get; set; }
+            public sbyte SByte { get; set; }
+            public ushort UShort { get; set; }
+            public uint UInt { get; set; }
+            public ulong ULong { get; set; }
         }
     }
 }

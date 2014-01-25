@@ -385,7 +385,7 @@ namespace WootzJs.Compiler
                     continue;
 
                 PushDeclaration(field);
-                block.Add(idioms.StoreInPrototype(field.GetMemberName(), Js.Null()));
+                block.Add(idioms.StoreInPrototype(field.GetMemberName(), idioms.DefaultValue(field.Type)));
                 PopDeclaration();
             }
 
@@ -412,7 +412,7 @@ namespace WootzJs.Compiler
                 var backingField = property.GetBackingFieldName();
                 var valueParameter = Js.Parameter("value");
 
-                block.Add(storeIn(backingField, Js.Null()));
+                block.Add(storeIn(backingField, idioms.DefaultValue(property.Type)));
                 block.Add(storeIn("get_" + propertyName, Js.Function().Body(Js.Return(Js.This().Member(backingField)))));
                 block.Add(storeIn("set_" + propertyName, Js.Function(valueParameter).Body(
                     Js.Assign(Js.This().Member(backingField), valueParameter.GetReference()))));
@@ -845,35 +845,8 @@ namespace WootzJs.Compiler
         public override JsNode VisitDefaultExpression(DefaultExpressionSyntax node)
         {
             var type = model.GetTypeInfo(node).ConvertedType;
-
-            JsExpression value;
-            switch (type.SpecialType)
-            {
-                case SpecialType.System_Double:
-                case SpecialType.System_Int32:
-                case SpecialType.System_Single:
-                case SpecialType.System_SByte:
-                case SpecialType.System_UInt16:
-                case SpecialType.System_UInt32:
-                case SpecialType.System_UInt64:
-                case SpecialType.System_Byte:
-                case SpecialType.System_Decimal:
-                case SpecialType.System_Int16:
-                case SpecialType.System_Int64:
-                    value = Js.Primitive(0);
-                    break;
-                case SpecialType.System_Boolean:
-                    value = Js.Primitive(false);
-                    break;
-                case SpecialType.System_Char:
-                    value = Js.Primitive("\0");
-                    break;
-                default:
-                    value = Js.Null();
-                    break;
-            }
-
-            return ImplicitCheck(node, value);
+            var result = idioms.DefaultValue(type);
+            return ImplicitCheck(node, result);
         }
 
         public override JsNode VisitTypeOfExpression(TypeOfExpressionSyntax node)

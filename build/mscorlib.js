@@ -1000,7 +1000,7 @@ System.Linq.Expressions.LambdaExpression.prototype = new System.Linq.Expressions
     $p.body = null;
     $p.parameters = null;
     $p.delegateType = null;
-    $p.tailCall = null;
+    $p.tailCall = false;
     $p.$ctor = function(delegateType, name, body, tailCall, parameters) {
         System.Linq.Expressions.Expression.prototype.$ctor.call(this, System.Linq.Expressions.ExpressionType().Lambda);
         this.name = name;
@@ -1737,7 +1737,7 @@ System.ArrayEnumerator.prototype = new System.Object();
     $t.$StaticInitializer = function() {
     };
     $p.array = null;
-    $p.index = null;
+    $p.index = 0;
     $p.$ctor = function(array) {
         System.Object.prototype.$ctor.call(this);
         this.index = -1;
@@ -1870,14 +1870,14 @@ System.AttributeUsageAttribute.prototype = new System.Attribute();
     $p.set_ValidOn = function(value) {
         this.$ValidOn$k__BackingField = value;
     };
-    $p.$AllowMultiple$k__BackingField = null;
+    $p.$AllowMultiple$k__BackingField = false;
     $p.get_AllowMultiple = function() {
         return this.$AllowMultiple$k__BackingField;
     };
     $p.set_AllowMultiple = function(value) {
         this.$AllowMultiple$k__BackingField = value;
     };
-    $p.$Inherited$k__BackingField = null;
+    $p.$Inherited$k__BackingField = false;
     $p.get_Inherited = function() {
         return this.$Inherited$k__BackingField;
     };
@@ -2239,7 +2239,7 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
     };
     $p.storage = null;
     $p.buckets = null;
-    $p.count = null;
+    $p.count = 0;
     $p.keys = null;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3450,7 +3450,7 @@ System.Collections.Generic.List$1.prototype = new System.Object();
         this.ListEnumerator$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.ListEnumerator, arguments);
         };
-        $p.index = null;
+        $p.index = 0;
         $p.list = null;
         $p.$ctor = function(list) {
             System.Object.prototype.$ctor.call(this);
@@ -3698,9 +3698,9 @@ System.Collections.Generic.Stack$1.prototype = new System.Object();
         this.YieldEnumerator$GetEnumerable$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$GetEnumerable, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
-        $p.i = null;
+        $p.i = 0;
         $p.$ctor = function($this) {
             (System.YieldIterator$1$(System.Object)).prototype.$ctor.call(this);
             this.$this = $this;
@@ -4423,8 +4423,8 @@ System.Int32.prototype = new Number();
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
     };
-    $p.MaxValue = null;
-    $p.MinValue = null;
+    $p.MaxValue = 0;
+    $p.MinValue = 0;
     $p.GetType = function() {
         return System.Object.prototype.GetType.call(this);
     };
@@ -4486,7 +4486,7 @@ System.Int64.prototype = new System.ValueType();
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
     };
-    $p.MaxValue = null;
+    $p.MaxValue = 0;
     $p.Format = function(format) {
         return null;
     };
@@ -4893,7 +4893,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Where$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Where$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.predicate = null;
@@ -4965,11 +4965,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Where$1$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Where$1$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.predicate = null;
-        $p.index = null;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.$ctor = function($this, source, predicate) {
@@ -5047,7 +5047,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Select$2$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Select$2, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.selector = null;
@@ -5115,11 +5115,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Select$1$2$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Select$1$2, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.selector = null;
-        $p.index = null;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.$ctor = function($this, source, selector) {
@@ -5193,7 +5193,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$SelectMany$2$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$SelectMany$2, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.selector = null;
@@ -5272,11 +5272,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$SelectMany$1$2$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$SelectMany$1$2, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.selector = null;
-        $p.index = null;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.subitem = null;
@@ -5361,12 +5361,12 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$SelectMany$3$3$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$SelectMany$3$3, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.collectionSelector = null;
         $p.resultSelector = null;
-        $p.index = null;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.subitem = null;
@@ -5455,7 +5455,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$SelectMany$2$3$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$SelectMany$2$3, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.collectionSelector = null;
@@ -5543,11 +5543,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Take$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Take$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
-        $p.count = null;
-        $p.index = null;
+        $p.count = 0;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.$ctor = function($this, source, count) {
@@ -5621,7 +5621,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$TakeWhile$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$TakeWhile$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.predicate = null;
@@ -5695,11 +5695,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$TakeWhile$1$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$TakeWhile$1$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.predicate = null;
-        $p.index = null;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.$ctor = function($this, source, predicate) {
@@ -5775,11 +5775,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Skip$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Skip$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
-        $p.count = null;
-        $p.index = null;
+        $p.count = 0;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.$ctor = function($this, source, count) {
@@ -5850,7 +5850,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$SkipWhile$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$SkipWhile$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.predicate = null;
@@ -5924,11 +5924,11 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$SkipWhile$1$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$SkipWhile$1$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.predicate = null;
-        $p.index = null;
+        $p.index = 0;
         $p.item = null;
         $p.item$enumerator = null;
         $p.$ctor = function($this, source, predicate) {
@@ -6001,7 +6001,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Join$4$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Join$4, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.outer = null;
         $p.inner = null;
@@ -6145,7 +6145,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Concat$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Concat$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.source = null;
         $p.other = null;
@@ -6228,7 +6228,7 @@ System.Linq.Enumerable.prototype = new System.Object();
         this.YieldEnumerator$Except$1$ = function() {
             return System.Object.$$MakeGenericType.call(this, this.YieldEnumerator$Except$1, arguments);
         };
-        $p.$state = null;
+        $p.$state = 0;
         $p.$this = null;
         $p.first = null;
         $p.second = null;
@@ -6333,7 +6333,7 @@ System.Linq.Expressions.BinaryExpression.prototype = new System.Linq.Expressions
     $p.set_Conversion = function(value) {
         this.$Conversion$k__BackingField = value;
     };
-    $p.$IsLifted$k__BackingField = null;
+    $p.$IsLifted$k__BackingField = false;
     $p.get_IsLifted = function() {
         return this.$IsLifted$k__BackingField;
     };
@@ -7984,7 +7984,7 @@ System.Reflection.Activator.prototype = new System.Object();
         System.Reflection.Activator.ConLookup = System.Reflection.BindingFlags().Instance | System.Reflection.BindingFlags().Public;
         System.Reflection.Activator.ConstructorDefault = System.Reflection.BindingFlags().Instance | System.Reflection.BindingFlags().Public | System.Reflection.BindingFlags().CreateInstance;
     };
-    $p.LookupMask = null;
+    $p.LookupMask = 0;
     $p.ConLookup = null;
     $p.ConstructorDefault = null;
     $p.$ctor = function() {
@@ -8976,7 +8976,7 @@ System.Reflection.ParameterInfo.prototype = new System.Object();
     };
     $p.name = null;
     $p.type = null;
-    $p.position = null;
+    $p.position = 0;
     $p.parameterAttributes = null;
     $p.defaultValue = null;
     $p.containingMember = null;
@@ -9412,11 +9412,11 @@ $mscorlib$AssemblyTypes.push(System.IntPtr);
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type();
     };
-    $p.MAX_VALUE = null;
-    $p.MIN_VALUE = null;
-    $p.NaN = null;
-    $p.NEGATIVE_INFINITY = null;
-    $p.POSITIVE_INFINITY = null;
+    $p.MAX_VALUE = 0;
+    $p.MIN_VALUE = 0;
+    $p.NaN = 0;
+    $p.NEGATIVE_INFINITY = 0;
+    $p.POSITIVE_INFINITY = 0;
     $p.GetType = function() {
         return System.Object.prototype.GetType.call(this);
     };
@@ -9566,7 +9566,7 @@ System.Runtime.WootzJs.JsAttribute.prototype = new System.Attribute();
     $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("JsAttribute", [System.AttributeUsageAttribute.prototype.$ctor.$new(2556)]);this.$type.Init("System.Runtime.WootzJs.JsAttribute", System.Runtime.WootzJs.JsAttribute, System.Attribute, [], [System.Reflection.FieldInfo.prototype.$ctor.$new("$Export$k__BackingField", System.Boolean, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$Name$k__BackingField", String, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$Extension$k__BackingField", System.Boolean, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$Native$k__BackingField", String, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$BuiltIn$k__BackingField", System.Boolean, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$BaseType$k__BackingField", System.Type, System.Reflection.FieldAttributes().Private, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("get_Export", System.Runtime.WootzJs.JsAttribute.prototype.get_Export, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Export", System.Runtime.WootzJs.JsAttribute.prototype.set_Export, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Boolean, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Name", System.Runtime.WootzJs.JsAttribute.prototype.get_Name, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Name", System.Runtime.WootzJs.JsAttribute.prototype.set_Name, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Extension", System.Runtime.WootzJs.JsAttribute.prototype.get_Extension, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Extension", System.Runtime.WootzJs.JsAttribute.prototype.set_Extension, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Boolean, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Native", System.Runtime.WootzJs.JsAttribute.prototype.get_Native, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Native", System.Runtime.WootzJs.JsAttribute.prototype.set_Native, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_BuiltIn", System.Runtime.WootzJs.JsAttribute.prototype.get_BuiltIn, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_BuiltIn", System.Runtime.WootzJs.JsAttribute.prototype.set_BuiltIn, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Boolean, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_BaseType", System.Runtime.WootzJs.JsAttribute.prototype.get_BaseType, [], System.Type, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_BaseType", System.Runtime.WootzJs.JsAttribute.prototype.set_BaseType, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Type, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Runtime.WootzJs.JsAttribute.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [System.Reflection.PropertyInfo.prototype.$ctor.$new("Export", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Export", System.Runtime.WootzJs.JsAttribute.prototype.get_Export, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Export", System.Runtime.WootzJs.JsAttribute.prototype.set_Export, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Boolean, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("Name", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Name", System.Runtime.WootzJs.JsAttribute.prototype.get_Name, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Name", System.Runtime.WootzJs.JsAttribute.prototype.set_Name, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("Extension", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Extension", System.Runtime.WootzJs.JsAttribute.prototype.get_Extension, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Extension", System.Runtime.WootzJs.JsAttribute.prototype.set_Extension, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Boolean, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("Native", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Native", System.Runtime.WootzJs.JsAttribute.prototype.get_Native, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Native", System.Runtime.WootzJs.JsAttribute.prototype.set_Native, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("BuiltIn", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_BuiltIn", System.Runtime.WootzJs.JsAttribute.prototype.get_BuiltIn, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_BuiltIn", System.Runtime.WootzJs.JsAttribute.prototype.set_BuiltIn, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Boolean, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("BaseType", System.Type, System.Reflection.MethodInfo.prototype.$ctor.$new("get_BaseType", System.Runtime.WootzJs.JsAttribute.prototype.get_BaseType, [], System.Type, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("set_BaseType", System.Runtime.WootzJs.JsAttribute.prototype.set_BaseType, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Type, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), [], [])], [], false);return this.$type;};
     $t.$StaticInitializer = function() {
     };
-    $p.$Export$k__BackingField = null;
+    $p.$Export$k__BackingField = false;
     $p.get_Export = function() {
         return this.$Export$k__BackingField;
     };
@@ -9580,7 +9580,7 @@ System.Runtime.WootzJs.JsAttribute.prototype = new System.Attribute();
     $p.set_Name = function(value) {
         this.$Name$k__BackingField = value;
     };
-    $p.$Extension$k__BackingField = null;
+    $p.$Extension$k__BackingField = false;
     $p.get_Extension = function() {
         return this.$Extension$k__BackingField;
     };
@@ -9594,7 +9594,7 @@ System.Runtime.WootzJs.JsAttribute.prototype = new System.Attribute();
     $p.set_Native = function(value) {
         this.$Native$k__BackingField = value;
     };
-    $p.$BuiltIn$k__BackingField = null;
+    $p.$BuiltIn$k__BackingField = false;
     $p.get_BuiltIn = function() {
         return this.$BuiltIn$k__BackingField;
     };
@@ -10104,7 +10104,7 @@ System.Text.StringBuilder.prototype = new System.Object();
         return new $p.$ctor.$type(this);
     };
     $p.chunks = null;
-    $p.length = null;
+    $p.length = 0;
     $p.Append = function(c) {
         this.Append$2(c);
     };
@@ -11802,7 +11802,7 @@ System.Type.prototype = new System.Reflection.MemberInfo();
     $p.properties = null;
     $p.events = null;
     $p.elementType = null;
-    $p.isValueType = null;
+    $p.isValueType = false;
     $p.$ctor = function(name, attributes) {
         System.Reflection.MemberInfo.prototype.$ctor.call(this, name, attributes);
     };

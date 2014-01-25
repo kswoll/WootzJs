@@ -58,6 +58,21 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(reference.Target.Foo, "foo");
         }
 
+        [Test]
+        public void PrimitiveFields()
+        {
+            var primitiveFields = new PrimitiveFieldsClass();
+            QUnit.AreEqual(primitiveFields.Boolean, false);
+            QUnit.AreEqual(primitiveFields.Byte, 0);
+            QUnit.AreEqual(primitiveFields.SByte, 0);
+            QUnit.AreEqual(primitiveFields.Short, 0);
+            QUnit.AreEqual(primitiveFields.UShort, 0);
+            QUnit.AreEqual(primitiveFields.Int, 0);
+            QUnit.AreEqual(primitiveFields.UInt, 0);
+            QUnit.AreEqual(primitiveFields.Long, 0);
+            QUnit.AreEqual(primitiveFields.ULong, 0);
+        }
+
         public class StaticFieldClass
         {
             public static string MyField;
@@ -103,6 +118,19 @@ namespace WootzJs.Compiler.Tests
         public class TargetClass
         {
             public string Foo { get; set; }
+        }
+
+        public class PrimitiveFieldsClass
+        {
+            public bool Boolean;
+            public byte Byte;
+            public short Short;
+            public int Int;
+            public long Long;
+            public sbyte SByte;
+            public ushort UShort;
+            public uint UInt;
+            public ulong ULong;
         }
     }
 }
