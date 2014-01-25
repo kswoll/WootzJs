@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.WootzJs;
 using System.Threading;
 using Roslyn.Compilers.CSharp;
 using Roslyn.Services;
@@ -101,7 +102,7 @@ namespace WootzJs.Compiler
             // If the runtime prjoect, declare the array to hold all the GetAssembly functions
             if (projectName == "mscorlib")
             {
-                var assemblies = Js.Variable("$assemblies", Js.Array());
+                var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
                 jsCompilationUnit.Body.Local(assemblies);
             }
 

@@ -84,7 +84,7 @@ namespace WootzJs.Compiler
             {
                 // Object creation gets transformed into:
                 // new T(T.prototype.ctor, arg1, arg2, arg3...)
-                return constructorReference.Member("$new").Invoke(arguments);
+                return constructorReference.Member(SpecialNames.New).Invoke(arguments);
             }
         }
 
@@ -102,58 +102,29 @@ namespace WootzJs.Compiler
                 classType == context.ObjectType ? Js.Reference("Object") : 
                 classType.BaseType == null ? Type(context.ObjectType) : 
                 Js.Reference(classType.BaseType.GetTypeName());
-            var typeName = classType.GetTypeName();
 
             var block = new JsBlockStatement();
-            var classFunction = Js.Function();
             JsExpression outerClassType = Js.Reference(classType.GetTypeName());
             if (!isBuiltIn)
             {
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
                     block.Assign(Js.Reference(context.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
-                        Js.Reference("$define").Invoke(Js.Primitive(classType.ToDisplayString())));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString())));
                     block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference("$define").Invoke(Js.Primitive(classType.ToDisplayString())));
+                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString())));
                     block.Add(CreatePrototype(outerClassType, baseType));
                 }
                 else
                 {
-                    classFunction.Name = typeName.Replace('.', '$');
-                    block.Assign(Js.Reference("window." + classType.GetTypeName()), classFunction);
+                    block.Assign(Js.Reference("window." + classType.GetTypeName()), 
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString())));
                     block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
                 }
-
-                // Create constructor function, which is a superconstructor that takes in the actual
-                // constructor as the first argument, and the rest of the arguments are passed directly 
-                // to that constructor.  These subconstructors are not Javascript constructors -- they 
-                // are not called via new, they exist for initialization only.
-                var constructorParameter = Js.Parameter("$constructor");
-
-                classFunction.Parameters.Add(constructorParameter);
-                var isNewInstance = Js.Not(Js.Parenthetical(Js.InstanceOf(Js.This(), Js.Reference(classType.GetTypeName()))));
-
-                var initCheck = new JsBlockStatement();
-                initCheck.Assign(outerClassType.Member(SpecialNames.IsStaticInitialized), Js.Primitive(true));
-                initCheck.Invoke(outerClassType.Member(SpecialNames.StaticInitializer));
-                var condition = Js.Not(outerClassType.Member(SpecialNames.IsStaticInitialized)).LogicalAnd(
-                    constructorParameter.GetReference().NotEqualTo(Js.Null()).LogicalOr(isNewInstance).Parenthetical());
-                classFunction.Body.If(condition, initCheck);
-
-                // Effectively, this is:
-                // $constructor$.apply(this, Array.prototype.slice.call(arguments, 1));
-                classFunction.Body.If(
-                    constructorParameter.GetReference().NotEqualTo(Js.Null()),
-                    Js.Express(constructorParameter.GetReference().Member("apply").Invoke(Js.This(), 
-                        Js.Member("Array.prototype.slice.call").Invoke(Js.Reference("arguments"), Js.Literal(1)))));
-                
-                classFunction.Body.If(
-                    isNewInstance,
-                    Js.Return(outerClassType));
             }
             typeInitializer = new JsBlockStatement();
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));

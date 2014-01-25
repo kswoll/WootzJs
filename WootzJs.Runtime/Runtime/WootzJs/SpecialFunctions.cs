@@ -39,6 +39,11 @@ namespace System.Runtime.WootzJs
         public static JsFunction Define(string name)
         {
             JsTypeFunction typeFunction = null;
+
+            // Create constructor function, which is a superconstructor that takes in the actual
+            // constructor as the first argument, and the rest of the arguments are passed directly 
+            // to that constructor.  These subconstructors are not Javascript constructors -- they 
+            // are not called via new, they exist for initialization only.
             typeFunction = Jsni.function(constructor =>
             {
                 if (!Jsni.member(typeFunction, "$isStaticInitialized").As<bool>() && 
