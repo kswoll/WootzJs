@@ -32,6 +32,11 @@ namespace System.Runtime.WootzJs
     [Js(Export = false)]
     public static class Jsni
     {
+        public static JsRegExp regex(string pattern)
+        {
+            return null;
+        }
+
         public static JsObject @new(JsObject target)
         {
             return null;

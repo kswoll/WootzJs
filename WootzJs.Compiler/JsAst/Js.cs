@@ -343,6 +343,22 @@ namespace WootzJs.Compiler.JsAst
             return forInStatement;
         }
 
+        public static JsForStatement For(JsExpression initializer, JsExpression condition, params JsExpression[] incrementors)
+        {
+            var forStatement = new JsForStatement(condition);
+            forStatement.Initializers.Add(initializer);
+            forStatement.Incrementors.AddRange(incrementors);
+            return forStatement;
+        }
+
+        public static JsForStatement For(JsExpression[] initializers, JsExpression condition, params JsExpression[] incrementors)
+        {
+            var forStatement = new JsForStatement(condition);
+            forStatement.Initializers.AddRange(initializers);
+            forStatement.Incrementors.AddRange(incrementors);
+            return forStatement;
+        }
+
         public static JsForStatement For(JsVariableDeclaration declaration, JsExpression condition, params JsExpression[] incrementors)
         {
             var forStatement = new JsForStatement(declaration, condition);

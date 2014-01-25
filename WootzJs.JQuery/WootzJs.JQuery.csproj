@@ -34,9 +34,9 @@
     <AdditionalExplicitAssemblyReferences />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Event.cs" />
+    <Compile Include="JqEvent.cs" />
     <Compile Include="jQuery.cs" />
-    <Compile Include="JsEventHandler.cs" />
+    <Compile Include="JqEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WootzJs.Web\WootzJs.Web.csproj">

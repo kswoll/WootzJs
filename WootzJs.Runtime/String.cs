@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,11 +24,13 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.WootzJs;
+using System.Text;
 
 namespace System
 {
@@ -412,7 +415,8 @@ return 0;
 
         public static bool IsNullOrEmpty(string s)
         {
-            return s == null || s == "";;
+            return s == null || s == "";
+            ;
         }
 
         /// <summary>
@@ -629,6 +633,39 @@ return 0;
                 s += item;
             }
             return s;
+        }
+
+        /// <summary>
+        /// Replaces the format item in a specified string with the string representation of a corresponding object in a specified array.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A copy of <paramref name="format"/> in which the format items have been replaced by the string representation of the corresponding objects in <paramref name="args"/>.
+        /// </returns>
+        /// <param name="format">A composite format string (see Remarks).</param><param name="args">An object array that contains zero or more objects to format. </param><exception cref="T:System.ArgumentNullException"><paramref name="format"/> or <paramref name="args"/> is null. </exception><exception cref="T:System.FormatException"><paramref name="format"/> is invalid.-or- The index of a format item is less than zero, or greater than or equal to the length of the <paramref name="args"/> array. </exception><filterpriority>1</filterpriority>
+        public static string Format(string format, params object[] args)
+        {
+            if (format == null || args == null)
+                throw new ArgumentNullException(format == null ? "format" : "args");
+            else
+                return string.Format((IFormatProvider)null, format, args);
+        }
+
+        /// <summary>
+        /// Replaces the format item in a specified string with the string representation of a corresponding object in a specified array. A specified parameter supplies culture-specific formatting information.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A copy of <paramref name="format"/> in which the format items have been replaced by the string representation of the corresponding objects in <paramref name="args"/>.
+        /// </returns>
+        /// <param name="provider">An object that supplies culture-specific formatting information. </param><param name="format">A composite format string (see Remarks). </param><param name="args">An object array that contains zero or more objects to format. </param><exception cref="T:System.ArgumentNullException"><paramref name="format"/> or <paramref name="args"/> is null. </exception><exception cref="T:System.FormatException"><paramref name="format"/> is invalid.-or- The index of a format item is less than zero, or greater than or equal to the length of the <paramref name="args"/> array. </exception><filterpriority>1</filterpriority>
+        public static string Format(IFormatProvider provider, string format, params object[] args)
+        {
+            if (format == null || args == null)
+                throw new ArgumentNullException(format == null ? "format" : "args");
+            var sb = new StringBuilder();
+            sb.AppendFormat(provider, format, args);
+            return sb.ToString();
         }
     }
 }

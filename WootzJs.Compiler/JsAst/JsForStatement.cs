@@ -33,12 +33,19 @@ namespace WootzJs.Compiler.JsAst
     {
         public JsVariableDeclaration Declaration { get; set; }
         public JsExpression Condition { get; set; }
+        public List<JsExpression> Initializers { get; set; }
         public List<JsExpression> Incrementors { get; set; }
         public JsStatement Body { get; set; }
 
         public JsForStatement()
         {
+            Initializers = new List<JsExpression>();
             Incrementors = new List<JsExpression>();
+        }
+
+        public JsForStatement(JsExpression condition)
+        {
+            Condition = condition;
         }
 
         public JsForStatement(JsVariableDeclaration declaration, JsExpression condition) : this()

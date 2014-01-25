@@ -46,12 +46,6 @@ namespace System.Runtime.WootzJs
         }
 
         [Js(Name = "split")]
-        public JsArray split(JsRegexLiteral separator, int count = 0)
-        {
-            return null;
-        }
-
-        [Js(Name = "split")]
         public JsArray split(JsRegExp separator, int count = 0)
         {
             return null;

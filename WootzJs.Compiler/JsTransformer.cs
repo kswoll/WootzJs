@@ -1169,12 +1169,6 @@ namespace WootzJs.Compiler
             var method = (MethodSymbol)symbol.Symbol;
             var type = method.ContainingType;
 
-            if (type == context.JsRegexLiteralType)
-            {
-                var asInvocation = (InvocationExpressionSyntax)node.ArgumentList.Arguments[0].Expression;
-                var pattern = (JsPrimitiveExpression)asInvocation.ArgumentList.Arguments[0].Accept(this);
-                return Js.Regex((string)pattern.Value);
-            }
             if (type == context.MulticastDelegateType)
             {
                 return ImplicitCheck(node, idioms.CreateMulticastDelegate((JsExpression)node.ArgumentList.Arguments[0].Accept(this), 
@@ -1226,16 +1220,21 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, Js.NewArray((JsExpression)arrayType.RankSpecifiers[0].Accept(this)));
             }
 
-            throw new Exception();
+            return VisitArrayCreationExpression(node, node.Initializer);
         }
 
         public override JsNode VisitImplicitArrayCreationExpression(ImplicitArrayCreationExpressionSyntax node)
         {
+            return VisitArrayCreationExpression(node, node.Initializer);
+        }
+
+        private JsNode VisitArrayCreationExpression(ExpressionSyntax node, InitializerExpressionSyntax initializer)
+        {
             var arraySymbol = (ArrayTypeSymbol)model.GetTypeInfo(node).Type;
             var result = idioms.MakeArray(
-                Js.Array(node.Initializer.Expressions.Select(x => (JsExpression)x.Accept(this)).ToArray()),
+                Js.Array(initializer.Expressions.Select(x => (JsExpression)x.Accept(this)).ToArray()),
                 arraySymbol);
-            return ImplicitCheck(node, result);
+            return ImplicitCheck(node, result);            
         }
 
         public override JsNode VisitStackAllocArrayCreationExpression(StackAllocArrayCreationExpressionSyntax node)
@@ -1469,7 +1468,9 @@ namespace WootzJs.Compiler
             loopEntry.Depth = loopLabels.Count;
 
             PushScope(null);
-            var declaration = (JsVariableDeclaration)node.Declaration.Accept(this);
+            var declaration = node.Declaration == null ? null : (JsVariableDeclaration)node.Declaration.Accept(this);
+
+            var initializers = node.Initializers.Select(x => (JsExpression)x.Accept(this)).ToArray();
 
             var condition = (JsExpression)node.Condition.Accept(this);
             var incrementors = node.Incrementors.Select(x => (JsExpression)x.Accept(this)).ToArray();
@@ -1482,7 +1483,14 @@ namespace WootzJs.Compiler
             PopScope();
             PopOutput();
 
-            var result = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.For(declaration, condition, incrementors).Body(block));
+            var forStatement = new JsForStatement();
+            forStatement.Declaration = declaration;
+            forStatement.Initializers.AddRange(initializers);
+            forStatement.Condition = condition;
+            forStatement.Incrementors.AddRange(incrementors);
+            forStatement.Body = block;
+
+            var result = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(forStatement);
             loopLabels.Pop();
             return result;
         }

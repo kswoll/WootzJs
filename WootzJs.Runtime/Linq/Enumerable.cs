@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections;
@@ -157,6 +159,37 @@ namespace System.Linq
             }
         }
 
+        public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).First();
+        }
+
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).FirstOrDefault();
+        }
+
+        public static TSource First<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.FirstOrDefault(() => { throw new InvalidOperationException("Sequence contains no elements"); });
+        }
+
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.FirstOrDefault(() => default(TSource));
+        }
+
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource> defaultValue)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            var enumerator = source.GetEnumerator();
+            if (!enumerator.MoveNext())
+                return defaultValue();
+            var result = enumerator.Current;
+            enumerator.Dispose();
+            return result;
+        }
 
         public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
@@ -186,6 +219,8 @@ namespace System.Linq
             if (!enumerator.MoveNext())
                 return defaultValue();
             var result = enumerator.Current;
+            if (enumerator.MoveNext())
+                throw new InvalidOperationException("Sequence contains more than one element");
             enumerator.Dispose();
             return result;
         }
@@ -608,6 +643,52 @@ namespace System.Linq
             }
         }
 
+        /// <summary>
+        /// Computes the sum of a sequence of <see cref="T:System.Int32"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The sum of the values in the sequence.
+        /// </returns>
+        /// <param name="source">A sequence of <see cref="T:System.Int32"/> values to calculate the sum of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The sum is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+        public static int Sum(this IEnumerable<int> source)
+        {
+            return source.As<IEnumerable<int?>>().Sum().As<int>();
+        }
+
+        /// <summary>
+        /// Computes the sum of a sequence of nullable <see cref="T:System.Int32"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The sum of the values in the sequence.
+        /// </returns>
+        /// <param name="source">A sequence of nullable <see cref="T:System.Int32"/> values to calculate the sum of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The sum is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+        public static int? Sum(this IEnumerable<int?> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            int num = 0;
+            foreach (int? nullable in source)
+            {
+                if (nullable.HasValue)
+                    num += nullable.GetValueOrDefault();
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Computes the sum of the sequence of <see cref="T:System.Int32"/> values that are obtained by invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The sum of the projected values.
+        /// </returns>
+        /// <param name="source">A sequence of values that are used to calculate a sum.</param><param name="selector">A transform function to apply to each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null.</exception><exception cref="T:System.OverflowException">The sum is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+        public static int Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        {
+            return source.Select(selector).Sum();
+        }
 
 
 /*

@@ -60,7 +60,6 @@ namespace WootzJs.Compiler
         public MethodSymbol GetMethod { get; private set; }
         public MethodSymbol GetConstructor { get; private set; }
         public NamedTypeSymbol AsExtensionType { get; private set; }
-        public NamedTypeSymbol JsRegexLiteralType { get; private set; }
         public NamedTypeSymbol JsniType { get; private set; }
         public NamedTypeSymbol EnumType { get; private set; }
         public NamedTypeSymbol Enumerable { get; private set; }
@@ -174,7 +173,6 @@ namespace WootzJs.Compiler
             GetMethod = TypeType.GetMethod("GetMethod", String, TypeArray);
             GetConstructor = TypeType.GetMethod("GetConstructor", TypeArray);
             AsExtensionType = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.AsExtension");
-            JsRegexLiteralType = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.JsRegexLiteral");
             JsniType = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.Jsni");
             EnumType = compilation.GetTypeByMetadataName("System.Enum");
             Enumerable = compilation.GetTypeByMetadataName("System.Collections.IEnumerable");

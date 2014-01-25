@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
 using System.Linq;
@@ -271,6 +272,52 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(join.Length, 2);
             QUnit.AreEqual(join[0], 1);
             QUnit.AreEqual(join[1], 2);
+        }
+
+        [Test]
+        public void Single()
+        {
+            var ints1 = new[] { 1 };
+            var int1 = ints1.Single();
+            QUnit.AreEqual(int1, 1);
+        }
+
+        [Test]
+        public void SingleThrowsWhenEmpty()
+        {
+            var ints1 = new int[0];
+            try
+            {
+                var int1 = ints1.Single();
+                QUnit.IsTrue(false);
+            }
+            catch (Exception e)
+            {
+                QUnit.IsTrue(true);
+            }
+        }
+
+        [Test]
+        public void SumInt()
+        {
+            var ints = new[] { 1, 2, 3 };
+            var sum = ints.Sum();
+            QUnit.AreEqual(sum, 6);
+        }
+
+        [Test]
+        public void SingleThrowsWhenContainsMany()
+        {
+            var ints1 = new[] { 1, 2 };
+            try
+            {
+                var int1 = ints1.Single();
+                QUnit.IsTrue(false);
+            }
+            catch (Exception e)
+            {
+                QUnit.IsTrue(true);
+            }
         }
     }
 }

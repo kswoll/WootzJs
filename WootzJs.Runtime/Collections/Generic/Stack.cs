@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.WootzJs;
+﻿using System.Runtime.WootzJs;
 
-namespace System.Collections
+namespace System.Collections.Generic
 {
     public class Stack<T> : IEnumerable<T>, ICollection
     {
@@ -12,9 +11,9 @@ namespace System.Collections
             storage.push(item.As<JsObject>());
         }
 
-        public void Pop()
+        public T Pop()
         {
-            storage.pop();
+            return storage.pop().As<T>();
         }
 
         public int Count

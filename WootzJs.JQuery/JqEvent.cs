@@ -1,6 +1,6 @@
 ﻿namespace WootzJs.JQuery
 {
-    public class Event
+    public class JqEvent
     {
          
     }

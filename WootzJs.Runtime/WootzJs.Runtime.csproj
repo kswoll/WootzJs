@@ -36,6 +36,7 @@
     <Compile Include="AppDomain.cs" />
     <Compile Include="ArgumentException.cs" />
     <Compile Include="ArgumentNullException.cs" />
+    <Compile Include="ArgumentOutOfRangeException.cs" />
     <Compile Include="Array.cs" />
     <Compile Include="ArrayEnumerator.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Collections\IList.cs" />
     <Compile Include="Collections\IStructuralComparable.cs" />
     <Compile Include="Collections\IStructuralEquatable.cs" />
-    <Compile Include="Collections\Stack.cs" />
+    <Compile Include="Collections\Generic\Stack.cs" />
     <Compile Include="Console.cs" />
     <Compile Include="Delegate.cs" />
     <Compile Include="Double.cs" />
@@ -93,8 +94,10 @@
     <Compile Include="Globalization\CompareOptions.cs" />
     <Compile Include="Globalization\CultureInfo.cs" />
     <Compile Include="IComparable.cs" />
+    <Compile Include="ICustomFormatter.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IFormatProvider.cs" />
+    <Compile Include="IFormattable.cs" />
     <Compile Include="Int16.cs" />
     <Compile Include="Int32.cs" />
     <Compile Include="Int64.cs" />

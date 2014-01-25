@@ -157,5 +157,13 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(b, 'c');
             QUnit.AreEqual(stillB, 'b');
         }
+
+        [Test]
+        public void StringFormat()
+        {
+            var s = "1) {0} 2) {1}";
+            var result = string.Format(s, 1, 2);
+            QUnit.AreEqual(result, "1) 1 2) 2");
+        }
     }
 }

@@ -32,12 +32,17 @@
   </PropertyGroup>
   <PropertyGroup>
     <AdditionalExplicitAssemblyReferences />
-  </PropertyGroup>  
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="History.cs" />
+    <Compile Include="PopStateEvent.cs" />
     <Compile Include="IHtmlElement.cs" />
+    <Compile Include="PopStateEventHandler.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <Import Project="c:\dev\WootzJs\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

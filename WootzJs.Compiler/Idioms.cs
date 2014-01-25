@@ -1333,6 +1333,9 @@ namespace WootzJs.Compiler
                             result = result.Compact();
                         }
                         return true;
+                    case "regex":
+                        result = new JsRegexExpression(GetConstantString(invocation.ArgumentList.Arguments[0].Expression));
+                        return true;
                 }
             }            
             result = null;

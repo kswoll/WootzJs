@@ -1558,6 +1558,43 @@ System.ArgumentNullException.prototype = new System.Exception();
     };
 }).call(null, System.ArgumentNullException, System.ArgumentNullException.prototype);
 $mscorlib$AssemblyTypes.push(System.ArgumentNullException);
+System.ArgumentOutOfRangeException = $define("System.ArgumentOutOfRangeException");
+System.ArgumentOutOfRangeException.prototype = new System.Exception();
+(System.ArgumentOutOfRangeException.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$mscorlib$GetAssembly;
+    $p.$type = System.ArgumentOutOfRangeException;
+    $t.$baseType = System.Exception;
+    $p.$typeName = "System.ArgumentOutOfRangeException";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ArgumentOutOfRangeException", []);this.$type.Init("System.ArgumentOutOfRangeException", System.ArgumentOutOfRangeException, System.Exception, [], [], [], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.ArgumentOutOfRangeException.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, []), System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor$1", System.ArgumentOutOfRangeException.prototype.$ctor$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("message", String, 0, 0, null, [])], System.Reflection.MethodAttributes().Public, []), System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor$2", System.ArgumentOutOfRangeException.prototype.$ctor$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("message", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("innerException", System.Exception, 1, 0, null, [])], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+    $t.$StaticInitializer = function() {
+    };
+    $p.$ctor = function() {
+        System.Exception.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.$ctor$1 = function(message) {
+        System.Exception.prototype.$ctor$1.call(this, message);
+    };
+    $p.$ctor$1.$type = $t;
+    $p.$ctor$1.$new = function(message) {
+        return new $p.$ctor$1.$type(this, message);
+    };
+    $p.$ctor$2 = function(message, innerException) {
+        System.Exception.prototype.$ctor$2.call(this, message, innerException);
+    };
+    $p.$ctor$2.$type = $t;
+    $p.$ctor$2.$new = function(message, innerException) {
+        return new $p.$ctor$2.$type(this, message, innerException);
+    };
+}).call(null, System.ArgumentOutOfRangeException, System.ArgumentOutOfRangeException.prototype);
+$mscorlib$AssemblyTypes.push(System.ArgumentOutOfRangeException);
 (Array.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$mscorlib$GetAssembly;
     $p.$type = Array;
@@ -1921,7 +1958,7 @@ System.Char.prototype = new System.ValueType();
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Char", []);this.$type.Init("System.Char", System.Char, System.ValueType, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("op_Explicit", System.Char.prototype.op_Explicit, [System.Reflection.ParameterInfo.prototype.$ctor.$new("ch", System.Char, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Char.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], true);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Char", []);this.$type.Init("System.Char", System.Char, System.ValueType, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("op_Explicit", System.Char.prototype.op_Explicit, [System.Reflection.ParameterInfo.prototype.$ctor.$new("ch", System.Char, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("IsWhiteSpace", System.Char.prototype.IsWhiteSpace, [System.Reflection.ParameterInfo.prototype.$ctor.$new("c", System.Char, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Char.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], true);return this.$type;};
     $t.$StaticInitializer = function() {
     };
     $p.$ctor = function() {
@@ -1933,6 +1970,9 @@ System.Char.prototype = new System.ValueType();
     };
     $t.op_Explicit = function(ch) {
         return null;
+    };
+    $t.IsWhiteSpace = function(c) {
+        return /\s/.test(c);
     };
 }).call(null, System.Char, System.Char.prototype);
 $mscorlib$AssemblyTypes.push(System.Char);
@@ -3583,22 +3623,22 @@ System.Collections.IStructuralEquatable.prototype = new System.Object();
     };
 }).call(null, System.Collections.IStructuralEquatable, System.Collections.IStructuralEquatable.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.IStructuralEquatable);
-System.Collections.Stack$1 = $define("System.Collections.Stack<T>");
-System.Collections.Stack$1.prototype = new System.Object();
-(System.Collections.Stack$1.$TypeInitializer = function($t, $p, T) {
+System.Collections.Generic.Stack$1 = $define("System.Collections.Generic.Stack<T>");
+System.Collections.Generic.Stack$1.prototype = new System.Object();
+(System.Collections.Generic.Stack$1.$TypeInitializer = function($t, $p, T) {
     $t.$GetAssembly = window.$mscorlib$GetAssembly;
-    $p.$type = System.Collections.Stack$1;
+    $p.$type = System.Collections.Generic.Stack$1;
     $t.$baseType = System.Object;
-    $p.$typeName = "System.Collections.Stack`1";
+    $p.$typeName = "System.Collections.Generic.Stack`1";
     $t.$typeName = $p.$typeName;
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Stack", []);this.$type.Init("System.Collections.Stack`1", System.Collections.Stack$1, System.Object, [System.Collections.ICollection, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("Push", System.Collections.Stack$1.prototype.Push, [System.Reflection.ParameterInfo.prototype.$ctor.$new("item", T, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Pop", System.Collections.Stack$1.prototype.Pop, [], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Count", System.Collections.Stack$1.prototype.get_Count, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("System$Collections$IEnumerable$GetEnumerator", System.Collections.Stack$1.prototype.System$Collections$IEnumerable$GetEnumerator, [], System.Collections.IEnumerator, System.Reflection.MethodAttributes().Private, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Stack$1.prototype.GetEnumerator, [], System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerable", System.Collections.Stack$1.prototype.GetEnumerable, [], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Private, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_SyncRoot", System.Collections.Stack$1.prototype.get_SyncRoot, [], System.Object, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsSynchronized", System.Collections.Stack$1.prototype.get_IsSynchronized, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("CopyTo", System.Collections.Stack$1.prototype.CopyTo, [System.Reflection.ParameterInfo.prototype.$ctor.$new("array", Array, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 1, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Stack$1.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [System.Reflection.PropertyInfo.prototype.$ctor.$new("Count", System.Int32, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Count", System.Collections.Stack$1.prototype.get_Count, [], System.Int32, System.Reflection.MethodAttributes().Public, []), null, [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("SyncRoot", System.Object, System.Reflection.MethodInfo.prototype.$ctor.$new("get_SyncRoot", System.Collections.Stack$1.prototype.get_SyncRoot, [], System.Object, System.Reflection.MethodAttributes().Public, []), null, [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("IsSynchronized", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsSynchronized", System.Collections.Stack$1.prototype.get_IsSynchronized, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), null, [], [])], [], false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Stack", []);this.$type.Init("System.Collections.Generic.Stack`1", System.Collections.Generic.Stack$1, System.Object, [System.Collections.ICollection, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("Push", System.Collections.Generic.Stack$1.prototype.Push, [System.Reflection.ParameterInfo.prototype.$ctor.$new("item", T, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Pop", System.Collections.Generic.Stack$1.prototype.Pop, [], T, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Count", System.Collections.Generic.Stack$1.prototype.get_Count, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("System$Collections$IEnumerable$GetEnumerator", System.Collections.Generic.Stack$1.prototype.System$Collections$IEnumerable$GetEnumerator, [], System.Collections.IEnumerator, System.Reflection.MethodAttributes().Private, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Stack$1.prototype.GetEnumerator, [], System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerable", System.Collections.Generic.Stack$1.prototype.GetEnumerable, [], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Private, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_SyncRoot", System.Collections.Generic.Stack$1.prototype.get_SyncRoot, [], System.Object, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsSynchronized", System.Collections.Generic.Stack$1.prototype.get_IsSynchronized, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("CopyTo", System.Collections.Generic.Stack$1.prototype.CopyTo, [System.Reflection.ParameterInfo.prototype.$ctor.$new("array", Array, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 1, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Stack$1.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [System.Reflection.PropertyInfo.prototype.$ctor.$new("Count", System.Int32, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Count", System.Collections.Generic.Stack$1.prototype.get_Count, [], System.Int32, System.Reflection.MethodAttributes().Public, []), null, [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("SyncRoot", System.Object, System.Reflection.MethodInfo.prototype.$ctor.$new("get_SyncRoot", System.Collections.Generic.Stack$1.prototype.get_SyncRoot, [], System.Object, System.Reflection.MethodAttributes().Public, []), null, [], []), System.Reflection.PropertyInfo.prototype.$ctor.$new("IsSynchronized", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsSynchronized", System.Collections.Generic.Stack$1.prototype.get_IsSynchronized, [], System.Boolean, System.Reflection.MethodAttributes().Public, []), null, [], [])], [], false);return this.$type;};
     $t.$StaticInitializer = function() {
     };
-    window.System.Collections.Stack$1$ = function() {
-        return System.Object.$$MakeGenericType.call(null, System.Collections.Stack$1, arguments);
+    window.System.Collections.Generic.Stack$1$ = function() {
+        return System.Object.$$MakeGenericType.call(null, System.Collections.Generic.Stack$1, arguments);
     };
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3613,7 +3653,7 @@ System.Collections.Stack$1.prototype = new System.Object();
         this.storage.push(item);
     };
     $p.Pop = function() {
-        this.storage.pop();
+        return this.storage.pop();
     };
     $p.get_Count = function() {
         return this.storage.length;
@@ -3627,7 +3667,7 @@ System.Collections.Stack$1.prototype = new System.Object();
     };
     $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
     $p.GetEnumerable = function() {
-        return ((System.Collections.Stack$1$(T)).YieldEnumerator$GetEnumerable$()).prototype.$ctor.$new(this);
+        return ((System.Collections.Generic.Stack$1$(T)).YieldEnumerator$GetEnumerable$()).prototype.$ctor.$new(this);
     };
     $p.get_SyncRoot = function() {
         return this;
@@ -3641,18 +3681,18 @@ System.Collections.Stack$1.prototype = new System.Object();
         }
     };
     $p.System$Collections$ICollection$CopyTo = $p.CopyTo;
-    $t.YieldEnumerator$GetEnumerable = $define("System.Collections.Stack<T>.YieldEnumerator$GetEnumerable");
+    $t.YieldEnumerator$GetEnumerable = $define("System.Collections.Generic.Stack<T>.YieldEnumerator$GetEnumerable");
     $t.YieldEnumerator$GetEnumerable.prototype = new System.YieldIterator$1();
     ($t.YieldEnumerator$GetEnumerable.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
-        $p.$type = System.Collections.Stack$1.YieldEnumerator$GetEnumerable;
+        $p.$type = System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable;
         $t.$baseType = System.YieldIterator$1;
-        $p.$typeName = "System.Collections.Stack`1.YieldEnumerator$GetEnumerable";
+        $p.$typeName = "System.Collections.Generic.Stack`1.YieldEnumerator$GetEnumerable";
         $t.$typeName = $p.$typeName;
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", []);this.$type.Init("System.Collections.Stack`1.YieldEnumerator$GetEnumerable", System.Collections.Stack$1.YieldEnumerator$GetEnumerable, (System.YieldIterator$1$(System.Object)), [System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], [System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Stack$1, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Stack$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, [], System.Collections.IEnumerator, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Stack$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, [], System.Boolean, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Stack$1.YieldEnumerator$GetEnumerable.prototype.$ctor, [System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Stack$1, 0, 0, null, [])], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", []);this.$type.Init("System.Collections.Generic.Stack`1.YieldEnumerator$GetEnumerable", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable, (System.YieldIterator$1$(System.Object)), [System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], [System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Stack$1, System.Reflection.FieldAttributes().Private, null, []), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, [], System.Collections.IEnumerator, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, [], System.Boolean, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.$ctor, [System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Stack$1, 0, 0, null, [])], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
         $t.$StaticInitializer = function() {
         };
         this.YieldEnumerator$GetEnumerable$ = function() {
@@ -3702,8 +3742,8 @@ System.Collections.Stack$1.prototype = new System.Object();
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
     }).call($t, $t.YieldEnumerator$GetEnumerable, $t.YieldEnumerator$GetEnumerable.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$GetEnumerable);
-}).call(null, System.Collections.Stack$1, System.Collections.Stack$1.prototype);
-$mscorlib$AssemblyTypes.push(System.Collections.Stack$1);
+}).call(null, System.Collections.Generic.Stack$1, System.Collections.Generic.Stack$1.prototype);
+$mscorlib$AssemblyTypes.push(System.Collections.Generic.Stack$1);
 System.Console = $define("System.Console");
 System.Console.prototype = new System.Object();
 (System.Console.$TypeInitializer = function($t, $p) {
@@ -4255,6 +4295,24 @@ System.IComparable$1.prototype = new System.Object();
     };
 }).call(null, System.IComparable$1, System.IComparable$1.prototype);
 $mscorlib$AssemblyTypes.push(System.IComparable$1);
+System.ICustomFormatter = $define("System.ICustomFormatter");
+System.ICustomFormatter.prototype = new System.Object();
+(System.ICustomFormatter.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$mscorlib$GetAssembly;
+    $p.$type = System.ICustomFormatter;
+    $t.$baseType = System.Object;
+    $p.$typeName = "System.ICustomFormatter";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ICustomFormatter", []);this.$type.Init("System.ICustomFormatter", System.ICustomFormatter, null, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("System$ICustomFormatter$Format", System.ICustomFormatter.prototype.System$ICustomFormatter$Format, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg", System.Object, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("formatProvider", System.IFormatProvider, 2, 0, null, [])], String, System.Reflection.MethodAttributes().Public, [])], [], [], [], false);return this.$type;};
+    $t.$StaticInitializer = function() {
+    };
+    $p.System$ICustomFormatter$Format = function(format, arg, formatProvider) {
+    };
+}).call(null, System.ICustomFormatter, System.ICustomFormatter.prototype);
+$mscorlib$AssemblyTypes.push(System.ICustomFormatter);
 System.IDisposable = $define("System.IDisposable");
 System.IDisposable.prototype = new System.Object();
 (System.IDisposable.$TypeInitializer = function($t, $p) {
@@ -4291,6 +4349,24 @@ System.IFormatProvider.prototype = new System.Object();
     };
 }).call(null, System.IFormatProvider, System.IFormatProvider.prototype);
 $mscorlib$AssemblyTypes.push(System.IFormatProvider);
+System.IFormattable = $define("System.IFormattable");
+System.IFormattable.prototype = new System.Object();
+(System.IFormattable.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$mscorlib$GetAssembly;
+    $p.$type = System.IFormattable;
+    $t.$baseType = System.Object;
+    $p.$typeName = "System.IFormattable";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("IFormattable", []);this.$type.Init("System.IFormattable", System.IFormattable, null, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("System$IFormattable$ToString", System.IFormattable.prototype.System$IFormattable$ToString, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("formatProvider", System.IFormatProvider, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public, [])], [], [], [], false);return this.$type;};
+    $t.$StaticInitializer = function() {
+    };
+    $p.System$IFormattable$ToString = function(format, formatProvider) {
+    };
+}).call(null, System.IFormattable, System.IFormattable.prototype);
+$mscorlib$AssemblyTypes.push(System.IFormattable);
 System.Int16 = $define("short");
 System.Int16.prototype = new System.ValueType();
 (System.Int16.$TypeInitializer = function($t, $p) {
@@ -4489,7 +4565,7 @@ System.Linq.Enumerable.prototype = new System.Object();
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Enumerable", []);this.$type.Init("System.Linq.Enumerable", System.Linq.Enumerable, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("Aggregate", System.Linq.Enumerable.prototype.Aggregate, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("func", System.Func$3, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Aggregate$1", System.Linq.Enumerable.prototype.Aggregate$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("seed", TAccumulate, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("func", System.Func$3, 2, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Aggregate$2", System.Linq.Enumerable.prototype.Aggregate$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("seed", TAccumulate, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("func", System.Func$3, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$2, 3, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("All", System.Linq.Enumerable.prototype.All, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Where", System.Linq.Enumerable.prototype.Where, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Where$1", System.Linq.Enumerable.prototype.Where$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Single$1", System.Linq.Enumerable.prototype.Single$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SingleOrDefault$1", System.Linq.Enumerable.prototype.SingleOrDefault$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Single", System.Linq.Enumerable.prototype.Single, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SingleOrDefault", System.Linq.Enumerable.prototype.SingleOrDefault, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SingleOrDefault$2", System.Linq.Enumerable.prototype.SingleOrDefault$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("defaultValue", System.Func$1, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToArray", System.Linq.Enumerable.prototype.ToArray, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object.$$MakeArrayType(TSource), System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToList", System.Linq.Enumerable.prototype.ToList, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Collections.Generic.List$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Select", System.Linq.Enumerable.prototype.Select, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Select$1", System.Linq.Enumerable.prototype.Select$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany", System.Linq.Enumerable.prototype.SelectMany, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$1", System.Linq.Enumerable.prototype.SelectMany$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$3", System.Linq.Enumerable.prototype.SelectMany$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$3, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$2", System.Linq.Enumerable.prototype.SelectMany$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Take", System.Linq.Enumerable.prototype.Take, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("TakeWhile", System.Linq.Enumerable.prototype.TakeWhile, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("TakeWhile$1", System.Linq.Enumerable.prototype.TakeWhile$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Skip", System.Linq.Enumerable.prototype.Skip, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SkipWhile", System.Linq.Enumerable.prototype.SkipWhile, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SkipWhile$1", System.Linq.Enumerable.prototype.SkipWhile$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Join", System.Linq.Enumerable.prototype.Join, [System.Reflection.ParameterInfo.prototype.$ctor.$new("outer", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("inner", System.Collections.Generic.IEnumerable$1, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("outerKeySelector", System.Func$2, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("innerKeySelector", System.Func$2, 3, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 4, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Any", System.Linq.Enumerable.prototype.Any, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Any$1", System.Linq.Enumerable.prototype.Any$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Max", System.Linq.Enumerable.prototype.Max, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Min", System.Linq.Enumerable.prototype.Min, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat", System.Linq.Enumerable.prototype.Concat, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("other", System.Collections.Generic.IEnumerable$1, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Except", System.Linq.Enumerable.prototype.Except, [System.Reflection.ParameterInfo.prototype.$ctor.$new("first", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("second", System.Collections.Generic.IEnumerable$1, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [])], [], [], [], false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Enumerable", []);this.$type.Init("System.Linq.Enumerable", System.Linq.Enumerable, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("Aggregate", System.Linq.Enumerable.prototype.Aggregate, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("func", System.Func$3, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Aggregate$1", System.Linq.Enumerable.prototype.Aggregate$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("seed", TAccumulate, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("func", System.Func$3, 2, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Aggregate$2", System.Linq.Enumerable.prototype.Aggregate$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("seed", TAccumulate, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("func", System.Func$3, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$2, 3, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("All", System.Linq.Enumerable.prototype.All, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Where", System.Linq.Enumerable.prototype.Where, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Where$1", System.Linq.Enumerable.prototype.Where$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("First$1", System.Linq.Enumerable.prototype.First$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("FirstOrDefault$1", System.Linq.Enumerable.prototype.FirstOrDefault$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("First", System.Linq.Enumerable.prototype.First, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("FirstOrDefault", System.Linq.Enumerable.prototype.FirstOrDefault, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("FirstOrDefault$2", System.Linq.Enumerable.prototype.FirstOrDefault$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("defaultValue", System.Func$1, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Single$1", System.Linq.Enumerable.prototype.Single$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SingleOrDefault$1", System.Linq.Enumerable.prototype.SingleOrDefault$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Single", System.Linq.Enumerable.prototype.Single, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SingleOrDefault", System.Linq.Enumerable.prototype.SingleOrDefault, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SingleOrDefault$2", System.Linq.Enumerable.prototype.SingleOrDefault$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("defaultValue", System.Func$1, 1, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToArray", System.Linq.Enumerable.prototype.ToArray, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object.$$MakeArrayType(TSource), System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToList", System.Linq.Enumerable.prototype.ToList, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Collections.Generic.List$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Select", System.Linq.Enumerable.prototype.Select, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Select$1", System.Linq.Enumerable.prototype.Select$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany", System.Linq.Enumerable.prototype.SelectMany, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$1", System.Linq.Enumerable.prototype.SelectMany$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$3", System.Linq.Enumerable.prototype.SelectMany$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$3, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$2", System.Linq.Enumerable.prototype.SelectMany$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Take", System.Linq.Enumerable.prototype.Take, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("TakeWhile", System.Linq.Enumerable.prototype.TakeWhile, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("TakeWhile$1", System.Linq.Enumerable.prototype.TakeWhile$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Skip", System.Linq.Enumerable.prototype.Skip, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SkipWhile", System.Linq.Enumerable.prototype.SkipWhile, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("SkipWhile$1", System.Linq.Enumerable.prototype.SkipWhile$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Join", System.Linq.Enumerable.prototype.Join, [System.Reflection.ParameterInfo.prototype.$ctor.$new("outer", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("inner", System.Collections.Generic.IEnumerable$1, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("outerKeySelector", System.Func$2, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("innerKeySelector", System.Func$2, 3, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 4, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Any", System.Linq.Enumerable.prototype.Any, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Any$1", System.Linq.Enumerable.prototype.Any$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Max", System.Linq.Enumerable.prototype.Max, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Min", System.Linq.Enumerable.prototype.Min, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Object, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat", System.Linq.Enumerable.prototype.Concat, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("other", System.Collections.Generic.IEnumerable$1, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Except", System.Linq.Enumerable.prototype.Except, [System.Reflection.ParameterInfo.prototype.$ctor.$new("first", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("second", System.Collections.Generic.IEnumerable$1, 1, 0, null, [])], System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Sum", System.Linq.Enumerable.prototype.Sum, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Sum$1", System.Linq.Enumerable.prototype.Sum$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], System.Nullable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Sum$2", System.Linq.Enumerable.prototype.Sum$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [])], [], [], [], false);return this.$type;};
     $t.$StaticInitializer = function() {
     };
     $t.Aggregate = function(TSource, source, func) {
@@ -4568,6 +4644,32 @@ System.Linq.Enumerable.prototype = new System.Object();
     $t.Where$1 = function(TSource, source, predicate) {
         return System.Linq.Enumerable.YieldEnumerator$Where$1$1$(TSource).prototype.$ctor.$new(this, source, predicate);
     };
+    $t.First$1 = function(TSource, source, predicate) {
+        return System.Linq.Enumerable.First(TSource, System.Linq.Enumerable.Where(TSource, source, predicate));
+    };
+    $t.FirstOrDefault$1 = function(TSource, source, predicate) {
+        return System.Linq.Enumerable.FirstOrDefault(TSource, System.Linq.Enumerable.Where(TSource, source, predicate));
+    };
+    $t.First = function(TSource, source) {
+        return System.Linq.Enumerable.FirstOrDefault$2(TSource, source, $delegate(this, (System.Func$1$(TSource)), function() {
+            throw System.InvalidOperationException.prototype.$ctor$1.$new("Sequence contains no elements").InternalInit(new Error());
+        }));
+    };
+    $t.FirstOrDefault = function(TSource, source) {
+        return System.Linq.Enumerable.FirstOrDefault$2(TSource, source, $delegate(this, (System.Func$1$(TSource)), function() {
+            return null;
+        }));
+    };
+    $t.FirstOrDefault$2 = function(TSource, source, defaultValue) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        var enumerator = source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+        if (!enumerator.System$Collections$IEnumerator$MoveNext())
+            return defaultValue();
+        var result = enumerator.get_Current();
+        enumerator.System$IDisposable$Dispose();
+        return result;
+    };
     $t.Single$1 = function(TSource, source, predicate) {
         return System.Linq.Enumerable.Single(TSource, System.Linq.Enumerable.Where(TSource, source, predicate));
     };
@@ -4591,6 +4693,8 @@ System.Linq.Enumerable.prototype = new System.Object();
         if (!enumerator.System$Collections$IEnumerator$MoveNext())
             return defaultValue();
         var result = enumerator.get_Current();
+        if (enumerator.System$Collections$IEnumerator$MoveNext())
+            throw System.InvalidOperationException.prototype.$ctor$1.$new("Sequence contains more than one element").InternalInit(new Error());
         enumerator.System$IDisposable$Dispose();
         return result;
     };
@@ -4745,6 +4849,32 @@ System.Linq.Enumerable.prototype = new System.Object();
     };
     $t.Except = function(TSource, first, second) {
         return System.Linq.Enumerable.YieldEnumerator$Except$1$(TSource).prototype.$ctor.$new(this, first, second);
+    };
+    $t.Sum = function(source) {
+        return System.Linq.Enumerable.Sum$1(source);
+    };
+    $t.Sum$1 = function(source) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        var num = 0;
+        {
+            var $anon$1iterator = source;
+            var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var nullable = $anon$2enumerator.get_Current();
+                if ((nullable != null))
+                    num += nullable;
+            }
+        }
+        return num;
+    };
+    $t.Sum$2 = function(TSource, source, selector) {
+        return System.Linq.Enumerable.Sum(System.Linq.Enumerable.Select(
+            TSource, 
+            System.Int32, 
+            source, 
+            selector
+        ));
     };
     $t.YieldEnumerator$Where$1 = $define("System.Linq.Enumerable.YieldEnumerator$Where<TSource>");
     $t.YieldEnumerator$Where$1.prototype = new System.YieldIterator$1();
@@ -9644,7 +9774,7 @@ $mscorlib$AssemblyTypes.push(System.Single);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("String", [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("String");$obj$.set_BuiltIn(true);return $obj$;}).call(this)]);this.$type.Init("String", String, System.Object, [], [System.Reflection.FieldInfo.prototype.$ctor.$new("Empty", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().InitOnly, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("$cctor", String.prototype.$cctor, [], System.Void, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetType", String.prototype.GetType, [], System.Type, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("GetType");return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Item", String.prototype.get_Item, [System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 0, 0, null, [])], System.Char, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Length", String.prototype.get_Length, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("EndsWith", String.prototype.EndsWith, [System.Reflection.ParameterInfo.prototype.$ctor.$new("suffix", String, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("StartsWith", String.prototype.StartsWith, [System.Reflection.ParameterInfo.prototype.$ctor.$new("prefix", String, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Compare", String.prototype.Compare, [System.Reflection.ParameterInfo.prototype.$ctor.$new("strA", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("strB", String, 1, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Native("\r\nif (strA < strB) return -1;\r\nif (strA > strB) return 1;\r\nreturn 0;\r\n");return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Compare$1", String.prototype.Compare$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("strA", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("strB", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparisonType", System.StringComparison, 2, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Substring", String.prototype.Substring, [System.Reflection.ParameterInfo.prototype.$ctor.$new("startIndex", System.Int32, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("length", System.Int32, 1, System.Reflection.ParameterAttributes().HasDefault, 0, [])], String, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split", String.prototype.Split, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$2", String.prototype.Split$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$1", String.prototype.Split$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 1, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$4", String.prototype.Split$4, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 2, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$3", String.prototype.Split$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(String), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 1, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$5", String.prototype.Split$5, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(String), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 2, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Join", String.prototype.Join, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Object.$$MakeArrayType(String), 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Equals", String.prototype.Equals, [System.Reflection.ParameterInfo.prototype.$ctor.$new("obj", System.Object, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetStringHashCode", String.prototype.GetStringHashCode, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetHashCode", String.prototype.GetHashCode, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString", String.prototype.ToString, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("IsNullOrEmpty", String.prototype.IsNullOrEmpty, [System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$1", String.prototype.Concat$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$4", String.prototype.Concat$4, [System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg1", System.Object, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$6", String.prototype.Concat$6, [System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg1", System.Object, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg2", System.Object, 2, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$2", String.prototype.Concat$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ConcatArray", String.prototype.ConcatArray, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Object.$$MakeArrayType(String), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("totalLength", System.Int32, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$9", String.prototype.Concat$9, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat", String.prototype.Concat, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$5", String.prototype.Concat$5, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str0", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str1", String, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$7", String.prototype.Concat$7, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str0", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str1", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str2", String, 2, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$8", String.prototype.Concat$8, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str0", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str1", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str2", String, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str3", String, 3, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$3", String.prototype.Concat$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Object.$$MakeArrayType(String), 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [])], [], [System.Reflection.PropertyInfo.prototype.$ctor.$new("this[]", System.Char, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Item", String.prototype.get_Item, [System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 0, 0, null, [])], System.Char, System.Reflection.MethodAttributes().Public, []), null, [System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 0, 0, null, [])], [])], [], false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("String", [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("String");$obj$.set_BuiltIn(true);return $obj$;}).call(this)]);this.$type.Init("String", String, System.Object, [], [System.Reflection.FieldInfo.prototype.$ctor.$new("Empty", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().InitOnly, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("$cctor", String.prototype.$cctor, [], System.Void, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetType", String.prototype.GetType, [], System.Type, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("GetType");return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Item", String.prototype.get_Item, [System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 0, 0, null, [])], System.Char, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Length", String.prototype.get_Length, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("EndsWith", String.prototype.EndsWith, [System.Reflection.ParameterInfo.prototype.$ctor.$new("suffix", String, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("StartsWith", String.prototype.StartsWith, [System.Reflection.ParameterInfo.prototype.$ctor.$new("prefix", String, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Compare", String.prototype.Compare, [System.Reflection.ParameterInfo.prototype.$ctor.$new("strA", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("strB", String, 1, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Native("\r\nif (strA < strB) return -1;\r\nif (strA > strB) return 1;\r\nreturn 0;\r\n");return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Compare$1", String.prototype.Compare$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("strA", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("strB", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparisonType", System.StringComparison, 2, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Substring", String.prototype.Substring, [System.Reflection.ParameterInfo.prototype.$ctor.$new("startIndex", System.Int32, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("length", System.Int32, 1, System.Reflection.ParameterAttributes().HasDefault, 0, [])], String, System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split", String.prototype.Split, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$2", String.prototype.Split$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$1", String.prototype.Split$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 1, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$4", String.prototype.Split$4, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(System.Char), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 2, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$3", String.prototype.Split$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(String), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 1, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Split$5", String.prototype.Split$5, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", System.Object.$$MakeArrayType(String), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("options", System.StringSplitOptions, 2, 0, null, [])], System.Object.$$MakeArrayType(String), System.Reflection.MethodAttributes().Public, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Join", String.prototype.Join, [System.Reflection.ParameterInfo.prototype.$ctor.$new("separator", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Object.$$MakeArrayType(String), 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Extension(true);return $obj$;}).call(this)]), System.Reflection.MethodInfo.prototype.$ctor.$new("Equals", String.prototype.Equals, [System.Reflection.ParameterInfo.prototype.$ctor.$new("obj", System.Object, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetStringHashCode", String.prototype.GetStringHashCode, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("GetHashCode", String.prototype.GetHashCode, [], System.Int32, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString", String.prototype.ToString, [], String, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("IsNullOrEmpty", String.prototype.IsNullOrEmpty, [System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, [])], System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$1", String.prototype.Concat$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$4", String.prototype.Concat$4, [System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg1", System.Object, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$6", String.prototype.Concat$6, [System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg1", System.Object, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg2", System.Object, 2, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$2", String.prototype.Concat$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ConcatArray", String.prototype.ConcatArray, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Object.$$MakeArrayType(String), 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("totalLength", System.Int32, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$9", String.prototype.Concat$9, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat", String.prototype.Concat, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Collections.Generic.IEnumerable$1, 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$5", String.prototype.Concat$5, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str0", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str1", String, 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$7", String.prototype.Concat$7, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str0", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str1", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str2", String, 2, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$8", String.prototype.Concat$8, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str0", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str1", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str2", String, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("str3", String, 3, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Concat$3", String.prototype.Concat$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("values", System.Object.$$MakeArrayType(String), 0, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Format", String.prototype.Format, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 1, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Format$1", String.prototype.Format$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("provider", System.IFormatProvider, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 2, 0, null, [])], String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, [])], [], [System.Reflection.PropertyInfo.prototype.$ctor.$new("this[]", System.Char, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Item", String.prototype.get_Item, [System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 0, 0, null, [])], System.Char, System.Reflection.MethodAttributes().Public, []), null, [System.Reflection.ParameterInfo.prototype.$ctor.$new("index", System.Int32, 0, 0, null, [])], [])], [], false);return this.$type;};
     $t.$StaticInitializer = function() {
         String.Empty = String.Empty;
     };
@@ -9874,6 +10004,19 @@ $mscorlib$AssemblyTypes.push(System.Single);
         }
         return s;
     };
+    $t.Format = function(format, args) {
+        if (format == null || args == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new(format == null ? "format" : "args").InternalInit(new Error());
+        else
+            return String.Format$1(null, format, args);
+    };
+    $t.Format$1 = function(provider, format, args) {
+        if (format == null || args == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new(format == null ? "format" : "args").InternalInit(new Error());
+        var sb = System.Text.StringBuilder.prototype.$ctor.$new();
+        sb.AppendFormat$2(provider, format, args);
+        return sb.ToString();
+    };
 }).call(null, String, String.prototype);
 $mscorlib$AssemblyTypes.push(String);
 System.StringComparison = $define("System.StringComparison");
@@ -9949,7 +10092,7 @@ System.Text.StringBuilder.prototype = new System.Object();
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("StringBuilder", []);this.$type.Init("System.Text.StringBuilder", System.Text.StringBuilder, System.Object, [], [], [System.Reflection.MethodInfo.prototype.$ctor.$new("Append", System.Text.StringBuilder.prototype.Append, [System.Reflection.ParameterInfo.prototype.$ctor.$new("c", System.Char, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Append$2", System.Text.StringBuilder.prototype.Append$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Append$1", System.Text.StringBuilder.prototype.Append$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("o", System.Object, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendLine", System.Text.StringBuilder.prototype.AppendLine, [], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendLine$1", System.Text.StringBuilder.prototype.AppendLine$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("c", System.Char, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendLine$2", System.Text.StringBuilder.prototype.AppendLine$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString", System.Text.StringBuilder.prototype.ToString, [], String, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Text.StringBuilder.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("StringBuilder", []);this.$type.Init("System.Text.StringBuilder", System.Text.StringBuilder, System.Object, [], [System.Reflection.FieldInfo.prototype.$ctor.$new("length", System.Int32, System.Reflection.FieldAttributes().Private, null, [])], [System.Reflection.MethodInfo.prototype.$ctor.$new("Append", System.Text.StringBuilder.prototype.Append, [System.Reflection.ParameterInfo.prototype.$ctor.$new("c", System.Char, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Append$2", System.Text.StringBuilder.prototype.Append$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Append$1", System.Text.StringBuilder.prototype.Append$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("o", System.Object, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendLine", System.Text.StringBuilder.prototype.AppendLine, [], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendLine$1", System.Text.StringBuilder.prototype.AppendLine$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("c", System.Char, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendLine$2", System.Text.StringBuilder.prototype.AppendLine$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Append$4", System.Text.StringBuilder.prototype.Append$4, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("startIndex", System.Int32, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("length", System.Int32, 2, 0, null, [])], System.Void, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendFormat$1", System.Text.StringBuilder.prototype.AppendFormat$1, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 1, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendFormat$2", System.Text.StringBuilder.prototype.AppendFormat$2, [System.Reflection.ParameterInfo.prototype.$ctor.$new("provider", System.IFormatProvider, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 2, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendFormat", System.Text.StringBuilder.prototype.AppendFormat, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 1, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendFormat$3", System.Text.StringBuilder.prototype.AppendFormat$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg1", System.Object, 2, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("AppendFormat$4", System.Text.StringBuilder.prototype.AppendFormat$4, [System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg0", System.Object, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg1", System.Object, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("arg2", System.Object, 3, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("FormatHelper", System.Text.StringBuilder.prototype.FormatHelper, [System.Reflection.ParameterInfo.prototype.$ctor.$new("result", System.Text.StringBuilder, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("provider", System.IFormatProvider, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 2, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("args", System.Object.$$MakeArrayType(System.Object), 3, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Assembly | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("Append$3", System.Text.StringBuilder.prototype.Append$3, [System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Char, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("repeatCount", System.Int32, 1, 0, null, [])], System.Text.StringBuilder, System.Reflection.MethodAttributes().Public, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ParseFormatSpecifier", System.Text.StringBuilder.prototype.ParseFormatSpecifier, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("ptr", System.Int32, 1, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("n", System.Int32, 2, System.Reflection.ParameterAttributes().Out, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("width", System.Int32, 3, System.Reflection.ParameterAttributes().Out, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("left_align", System.Boolean, 4, System.Reflection.ParameterAttributes().Out, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 5, System.Reflection.ParameterAttributes().Out, null, [])], System.Void, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ParseDecimal", System.Text.StringBuilder.prototype.ParseDecimal, [System.Reflection.ParameterInfo.prototype.$ctor.$new("str", String, 0, 0, null, []), System.Reflection.ParameterInfo.prototype.$ctor.$new("ptr", System.Int32, 1, 0, null, [])], System.Int32, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, []), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString", System.Text.StringBuilder.prototype.ToString, [], String, System.Reflection.MethodAttributes().Public, [])], [System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Text.StringBuilder.prototype.$ctor, [], System.Reflection.MethodAttributes().Public, [])], [], [], false);return this.$type;};
     $t.$StaticInitializer = function() {
     };
     $p.$ctor = function() {
@@ -9961,26 +10104,248 @@ System.Text.StringBuilder.prototype = new System.Object();
         return new $p.$ctor.$type(this);
     };
     $p.chunks = null;
+    $p.length = null;
     $p.Append = function(c) {
-        this.chunks.push(c);
+        this.Append$2(c);
     };
     $p.Append$2 = function(s) {
         this.chunks.push(s);
+        this.length += s.length;
     };
     $p.Append$1 = function(o) {
-        if (o != null)
-            this.chunks.push(o.ToString());
+        if (o != null) {
+            var s = o.ToString();
+            this.Append$2(s);
+        }
     };
     $p.AppendLine = function() {
-        this.chunks.push("\n");
+        this.Append$2("\n");
     };
     $p.AppendLine$1 = function(c) {
-        this.chunks.push(c);
-        this.chunks.push("\n");
+        this.Append(c);
+        this.AppendLine();
     };
     $p.AppendLine$2 = function(s) {
-        this.chunks.push(s);
-        this.chunks.push("\n");
+        this.Append$2(s);
+        this.AppendLine();
+    };
+    $p.Append$4 = function(value, startIndex, length) {
+        this.Append$2(String.prototype.Substring.call(value, startIndex, length));
+    };
+    $p.AppendFormat$1 = function(format, args) {
+        return this.AppendFormat$2(null, format, args);
+    };
+    $p.AppendFormat$2 = function(provider, format, args) {
+        System.Text.StringBuilder.FormatHelper(
+            this, 
+            provider, 
+            format, 
+            args
+        );
+        return this;
+    };
+    $p.AppendFormat = function(format, arg0) {
+        return this.AppendFormat$2(null, format, System.Object.$$InitializeArray([arg0], System.Object));
+    };
+    $p.AppendFormat$3 = function(format, arg0, arg1) {
+        return this.AppendFormat$2(null, format, System.Object.$$InitializeArray([arg0, arg1], System.Object));
+    };
+    $p.AppendFormat$4 = function(format, arg0, arg1, arg2) {
+        return this.AppendFormat$2(null, format, System.Object.$$InitializeArray([arg0, arg1, arg2], System.Object));
+    };
+    $t.FormatHelper = function(result, provider, format, args) {
+        if (format == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("format").InternalInit(new Error());
+        if (args == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("args").InternalInit(new Error());
+        if (result == null) {
+            var i, len;
+            len = 0;
+            for (i = 0; i < args.length; ++i) {
+                var s = (function() {
+                    var $as$ = args[i];
+                    if (!System.Type.prototype.IsInstanceOfType.call(String.$GetType(), $as$))
+                        $as$ = null;
+                    return $as$;
+                }).call(this);
+                if (s != null)
+                    len += s.length;
+                else
+                    break;
+            }
+            result = System.Text.StringBuilder.prototype.$ctor.$new();
+        }
+        var ptr = 0;
+        var start = ptr;
+        var formatter = provider != null ? (function() {
+            var $as$ = provider.System$IFormatProvider$GetFormat(System.ICustomFormatter.$GetType());
+            if (!System.Type.prototype.IsInstanceOfType.call(System.ICustomFormatter.$GetType(), $as$))
+                $as$ = null;
+            return $as$;
+        }).call(this) : null;
+        while (ptr < format.length) {
+            var c = format.get_Item(ptr++);
+            if (c == "{") {
+                result.Append$4(format, start, ptr - start - 1);
+                if (format.get_Item(ptr) == "{") {
+                    start = ptr++;
+                    continue;
+                }
+                var n, width;
+                var left_align;
+                var arg_format;
+                (function() {
+                    var $anon$1 = {
+                        value: ptr
+                    };
+                    var $anon$2 = {
+                        value: null
+                    };
+                    var $anon$3 = {
+                        value: null
+                    };
+                    var $anon$4 = {
+                        value: null
+                    };
+                    var $anon$5 = {
+                        value: null
+                    };
+                    var $result$ = System.Text.StringBuilder.ParseFormatSpecifier(
+                        format, 
+                        $anon$1, 
+                        $anon$2, 
+                        $anon$3, 
+                        $anon$4, 
+                        $anon$5
+                    );
+                    ptr = $anon$1.value;
+                    n = $anon$2.value;
+                    width = $anon$3.value;
+                    left_align = $anon$4.value;
+                    arg_format = $anon$5.value;
+                    return $result$;
+                }).call(this);
+                if (n >= args.length)
+                    throw System.FormatException.prototype.$ctor$1.$new("Index (zero based) must be greater than or equal to zero and less than the size of the argument list.").InternalInit(new Error());
+                var arg = args[n];
+                var str;
+                if (arg == null)
+                    str = "";
+                else
+                    if (formatter != null)
+                        str = formatter.System$ICustomFormatter$Format(arg_format, arg, provider);
+                    else
+                        str = null;
+                if (str == null) {
+                    if (System.IFormattable.$GetType().IsInstanceOfType(arg))
+                        str = ($cast(System.IFormattable, arg)).System$IFormattable$ToString(arg_format, provider);
+                    else
+                        str = arg.ToString();
+                }
+                if (width > str.length) {
+                    var padchar = " ";
+                    var padlen = width - str.length;
+                    if (left_align) {
+                        result.Append$2(str);
+                        result.Append$3(padchar, padlen);
+                    }
+                    else {
+                        result.Append$3(padchar, padlen);
+                        result.Append$2(str);
+                    }
+                }
+                else {
+                    result.Append$2(str);
+                }
+                start = ptr;
+            }
+            else
+                if (c == "}" && ptr < format.length && format.get_Item(ptr) == "}") {
+                    result.Append$4(format, start, ptr - start - 1);
+                    start = ptr++;
+                }
+                else
+                    if (c == "}") {
+                        throw System.FormatException.prototype.$ctor$1.$new("Input string was not in a correct format.").InternalInit(new Error());
+                    }
+        }
+        if (start < format.length)
+            result.Append$4(format, start, format.length - start);
+        return result;
+    };
+    $p.Append$3 = function(value, repeatCount) {
+        if (repeatCount < 0)
+            throw System.ArgumentOutOfRangeException.prototype.$ctor.$new().InternalInit(new Error());
+        for (var i = 0; i < repeatCount; i++) {
+            this.Append(value);
+        }
+        return this;
+    };
+    $t.ParseFormatSpecifier = function(str, ptr, n, width, left_align, format) {
+        var max = str.length;
+        n.value = (function() {
+            var $anon$1 = {
+                value: ptr.value
+            };
+            var $result$ = System.Text.StringBuilder.ParseDecimal(str, $anon$1);
+            ptr.value = $anon$1.value;
+            return $result$;
+        }).call(this);
+        if (n.value < 0)
+            throw System.FormatException.prototype.$ctor$1.$new("Input string was not in a correct format.").InternalInit(new Error());
+        if (ptr.value < max && str.get_Item(ptr.value) == ",") {
+            ++ptr.value;
+            while (ptr.value < max && System.Char.IsWhiteSpace(str.get_Item(ptr.value))) {
+                ++ptr.value;
+            }
+            var start = ptr.value;
+            format.value = String.prototype.Substring.call(str, start, ptr.value - start);
+            left_align.value = (ptr.value < max && str.get_Item(ptr.value) == "-");
+            if (left_align.value)
+                ++ptr.value;
+            width.value = (function() {
+                var $anon$2 = {
+                    value: ptr.value
+                };
+                var $result$ = System.Text.StringBuilder.ParseDecimal(str, $anon$2);
+                ptr.value = $anon$2.value;
+                return $result$;
+            }).call(this);
+            if (width.value < 0)
+                throw System.FormatException.prototype.$ctor$1.$new("Input string was not in a correct format.").InternalInit(new Error());
+        }
+        else {
+            width.value = 0;
+            left_align.value = false;
+            format.value = "";
+        }
+        if (ptr.value < max && str.get_Item(ptr.value) == ":") {
+            var start = ++ptr.value;
+            while (ptr.value < max && str.get_Item(ptr.value) != "}") {
+                ++ptr.value;
+            }
+            format.value += String.prototype.Substring.call(str, start, ptr.value - start);
+        }
+        else
+            format.value = null;
+        if ((ptr.value >= max) || str.get_Item(ptr.value++) != "}")
+            throw System.FormatException.prototype.$ctor$1.$new("Input string was not in a correct format.").InternalInit(new Error());
+    };
+    $t.ParseDecimal = function(str, ptr) {
+        var p = ptr.value;
+        var n = 0;
+        var max = str.length;
+        while (p < max) {
+            var c = str.get_Item(p);
+            if (c.charCodeAt(0) < "0".charCodeAt(0) || "9".charCodeAt(0) < c.charCodeAt(0))
+                break;
+            n = n * 10 + c.charCodeAt(0) - "0".charCodeAt(0);
+            ++p;
+        }
+        if (p == ptr.value || p == max)
+            return -1;
+        ptr.value = p;
+        return n;
     };
     $p.ToString = function() {
         return this.chunks.join("");

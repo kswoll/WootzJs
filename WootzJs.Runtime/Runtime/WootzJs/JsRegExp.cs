@@ -33,5 +33,7 @@ namespace System.Runtime.WootzJs
         public JsRegExp(string s)
         {
         }
+
+        public extern bool test(JsString value);
     }
 }

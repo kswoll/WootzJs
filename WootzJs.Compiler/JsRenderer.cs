@@ -396,7 +396,20 @@ namespace WootzJs.Compiler
         public override void VisitForStatement(JsForStatement node)
         {
             output.Append("for (");
-            node.Declaration.Accept(this);
+            if (node.Declaration != null)
+            {
+                node.Declaration.Accept(this);
+            }
+            else
+            {
+                for (var i = 0; i < node.Initializers.Count; i++)
+                {
+                    var initializer = node.Initializers[i];
+                    initializer.Accept(this);
+                    if (i < node.Initializers.Count - 1)
+                        output.Append(", ");
+                }
+            }
             output.Append("; ");
             node.Condition.Accept(this);
             output.Append("; ");
