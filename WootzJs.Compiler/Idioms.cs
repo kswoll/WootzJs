@@ -1589,7 +1589,10 @@ namespace WootzJs.Compiler
                     value = Js.Primitive("\0");
                     break;
                 default:
-                    value = Js.Null();
+                    if (type.BaseType == context.EnumType)
+                        value = Js.Primitive(0);
+                    else
+                        value = Js.Null();
                     break;
             }
 

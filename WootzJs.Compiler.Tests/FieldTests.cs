@@ -71,6 +71,7 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(primitiveFields.UInt, 0);
             QUnit.AreEqual(primitiveFields.Long, 0);
             QUnit.AreEqual(primitiveFields.ULong, 0);
+            QUnit.AreEqual(primitiveFields.Enum, 0);
         }
 
         public class StaticFieldClass
@@ -131,6 +132,9 @@ namespace WootzJs.Compiler.Tests
             public ushort UShort;
             public uint UInt;
             public ulong ULong;
+            public TestEnum Enum;
         }
+
+        public enum TestEnum {}
     }
 }
