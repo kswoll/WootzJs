@@ -129,6 +129,15 @@ namespace WootzJs.Compiler
             return context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }
 
+        public static MethodSymbol GetContainingMethod(this SyntaxNode node)
+        {
+            var method = node.FirstAncestorOrSelf<SyntaxNode>(x => x is ConstructorDeclarationSyntax || x is MethodDeclarationSyntax);
+            if (method is ConstructorDeclarationSyntax)
+                return context.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((ConstructorDeclarationSyntax)method);
+            else
+                return context.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((MethodDeclarationSyntax)method);
+        }
+
         public static MethodSymbol GetRootOverride(this MethodSymbol method)
         {
             if (method.OverriddenMethod == null)

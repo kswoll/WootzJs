@@ -174,10 +174,9 @@ System.Object.prototype = new Object();
         }
         var keyArray = Array.prototype.slice.call(typeArgs, 0);
         var keyParts = new Array();
-        for (var i = 0; i < keyArray.length; i++)
-            (function() {
-                keyParts[i] = keyArray[i].prototype.$typeName;
-            }).call(this);
+        for (var i = 0; i < keyArray.length; i++) {
+            keyParts[i] = keyArray[i].prototype.$typeName;
+        }
         var keyString = keyParts.join();
         var result = cache[keyString];
         if (result == null) {
@@ -1158,11 +1157,10 @@ System.Reflection.MethodBase.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = parameters;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var parameter = $anon$2enumerator.get_Current();
-                    parameter.containingMember = this;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var parameter = $anon$2enumerator.get_Current();
+                parameter.containingMember = this;
+            }
         }
     };
     $p.$ctor.$type = $t;
@@ -1491,11 +1489,10 @@ System.AppDomain.prototype = new System.Object();
     $p.GetAssemblies = function() {
         var array = $assemblies;
         var result = new Array(array.length);
-        for (var i = 0; i < result.length; i++)
-            (function() {
-                var getAssembly = array[i];
-                result[i] = getAssembly();
-            }).call(this);
+        for (var i = 0; i < result.length; i++) {
+            var getAssembly = array[i];
+            result[i] = getAssembly();
+        }
         return result;
     };
 }).call(null, System.AppDomain, System.AppDomain.prototype);
@@ -1606,10 +1603,9 @@ $mscorlib$AssemblyTypes.push(System.ArgumentNullException);
         );
     };
     $t.Copy$2 = function(sourceArray, sourceIndex, destinationArray, destinationIndex, length) {
-        for (var i = sourceIndex, j = destinationIndex; i < sourceArray.length && j < destinationArray.length && i < sourceIndex + length; i++, j++)
-            (function() {
-                destinationArray[j] = sourceArray[i];
-            }).call(this);
+        for (var i = sourceIndex, j = destinationIndex; i < sourceArray.length && j < destinationArray.length && i < sourceIndex + length; i++, j++) {
+            destinationArray[j] = sourceArray[i];
+        }
     };
     $t.ConstrainedCopy = function(sourceArray, sourceIndex, destinationArray, destinationIndex, length) {
         Array.Copy$2(
@@ -1660,10 +1656,9 @@ $mscorlib$AssemblyTypes.push(System.ArgumentNullException);
     };
     $p.System$Collections$IList$Contains = $p.Contains;
     $t.Clear$1 = function(array, startIndex, length) {
-        for (var i = startIndex; i < startIndex + length; i++)
-            (function() {
-                array[i] = null;
-            }).call(this);
+        for (var i = startIndex; i < startIndex + length; i++) {
+            array[i] = null;
+        }
     };
     $p.Clear = function() {
         Array.Clear$1(this, 0, this.length);
@@ -2271,12 +2266,11 @@ System.Collections.Generic.Dictionary$2.prototype = new System.Object();
         {
             var $anon$1iterator = this.buckets;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var bucket = $anon$2enumerator.get_Current();
-                    var hashCode = bucket.get_HashCode();
-                    delete this.storage[hashCode];
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var bucket = $anon$2enumerator.get_Current();
+                var hashCode = bucket.get_HashCode();
+                delete this.storage[hashCode];
+            }
         }
         this.count = 0;
     };
@@ -2669,11 +2663,10 @@ System.Collections.Generic.HashSet$1.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    this.Add(item);
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                this.Add(item);
+            }
         }
     };
     $p.$ctor$1.$type = $t;
@@ -2698,11 +2691,10 @@ System.Collections.Generic.HashSet$1.prototype = new System.Object();
         {
             var $anon$1iterator = this;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    array[i++] = item;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                array[i++] = item;
+            }
         }
     };
     $p.System$Collections$ICollection$CopyTo = $p.CopyTo;
@@ -2730,11 +2722,10 @@ System.Collections.Generic.HashSet$1.prototype = new System.Object();
         {
             var $anon$1iterator = this;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    array[i++] = item;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                array[i++] = item;
+            }
         }
     };
     $p.System$Collections$Generic$ICollection$1$CopyTo = $p.CopyTo$1;
@@ -3316,11 +3307,10 @@ System.Collections.Generic.List$1.prototype = new System.Object();
         {
             var $anon$1iterator = collection;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    this.Add(item);
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                this.Add(item);
+            }
         }
     };
     $p.$ctor$1.$type = $t;
@@ -3341,10 +3331,9 @@ System.Collections.Generic.List$1.prototype = new System.Object();
     };
     $p.System$Collections$IEnumerable$GetEnumerator = $p.System$Collections$IEnumerable$GetEnumerator;
     $p.CopyTo = function(array, index) {
-        for (var i = index; i < array.length; i++)
-            (function() {
-                array[i] = this.get_Item(i - index);
-            }).call(this);
+        for (var i = index; i < array.length; i++) {
+            array[i] = this.get_Item(i - index);
+        }
     };
     $p.System$Collections$ICollection$CopyTo = $p.CopyTo;
     $p.System$Collections$IList$get_Item = function(index) {
@@ -3405,10 +3394,9 @@ System.Collections.Generic.List$1.prototype = new System.Object();
     };
     $p.System$Collections$Generic$ICollection$1$Contains = $p.Contains;
     $p.CopyTo$1 = function(array, arrayIndex) {
-        for (var i = arrayIndex; i < array.length; i++)
-            (function() {
-                array[i] = this.get_Item(i - arrayIndex);
-            }).call(this);
+        for (var i = arrayIndex; i < array.length; i++) {
+            array[i] = this.get_Item(i - arrayIndex);
+        }
     };
     $p.System$Collections$Generic$ICollection$1$CopyTo = $p.CopyTo$1;
     $p.Remove = function(item) {
@@ -4432,10 +4420,9 @@ System.Linq.Enumerable.prototype = new System.Object();
             if (!enumerator.System$Collections$IEnumerator$MoveNext())
                 throw System.InvalidOperationException.prototype.$ctor$1.$new("No elements").InternalInit(new Error());
             var current = enumerator.get_Current();
-            while (enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    current = func(current, enumerator.get_Current());
-                }).call(this);
+            while (enumerator.System$Collections$IEnumerator$MoveNext()) {
+                current = func(current, enumerator.get_Current());
+            }
             return current;
         }
         finally {
@@ -4452,11 +4439,10 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var current = $anon$2enumerator.get_Current();
-                    accumulate = func(accumulate, current);
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var current = $anon$2enumerator.get_Current();
+                accumulate = func(accumulate, current);
+            }
         }
         return accumulate;
     };
@@ -4471,11 +4457,10 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var current = $anon$2enumerator.get_Current();
-                    accumulate = func(accumulate, current);
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var current = $anon$2enumerator.get_Current();
+                accumulate = func(accumulate, current);
+            }
         }
         return resultSelector(accumulate);
     };
@@ -4488,14 +4473,9 @@ System.Linq.Enumerable.prototype = new System.Object();
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var current = $anon$2enumerator.get_Current();
-                    if (!predicate(current))
-                        return {type: 1,value: false,depth: 1};
-                    return {type: 0};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
+                var current = $anon$2enumerator.get_Current();
+                if (!predicate(current))
+                    return false;
             }
         }
         return true;
@@ -4539,11 +4519,10 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    result.push(item);
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                result.push(item);
+            }
         }
         return result;
     };
@@ -4552,11 +4531,10 @@ System.Linq.Enumerable.prototype = new System.Object();
         {
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    list.Add(item);
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                list.Add(item);
+            }
         }
         return list;
     };
@@ -4636,26 +4614,21 @@ System.Linq.Enumerable.prototype = new System.Object();
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    if (item == null)
-                        return {type: 2,label: null,depth: 0};
-                    if (current == null) {
-                        current = item;
-                        return {type: 2,label: null,depth: 0};
-                    }
-                    var comparable = (function() {
-                        var $as$ = item;
-                        if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
-                            $as$ = null;
-                        return $as$;
-                    }).call(this);
-                    if (comparable.System$IComparable$CompareTo(current) > 0)
-                        current = item;
-                    return {type: 0};
-                }).call(this);
-                if ($loopResult.type == 2)
+                var item = $anon$2enumerator.get_Current();
+                if (item == null)
                     continue;
+                if (current == null) {
+                    current = item;
+                    continue;
+                }
+                var comparable = (function() {
+                    var $as$ = item;
+                    if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
+                        $as$ = null;
+                    return $as$;
+                }).call(this);
+                if (comparable.System$IComparable$CompareTo(current) > 0)
+                    current = item;
             }
         }
         return current;
@@ -4666,26 +4639,21 @@ System.Linq.Enumerable.prototype = new System.Object();
             var $anon$1iterator = source;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    if (item == null)
-                        return {type: 2,label: null,depth: 0};
-                    if (current == null) {
-                        current = item;
-                        return {type: 2,label: null,depth: 0};
-                    }
-                    var comparable = (function() {
-                        var $as$ = item;
-                        if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
-                            $as$ = null;
-                        return $as$;
-                    }).call(this);
-                    if (comparable.System$IComparable$CompareTo(current) < 0)
-                        current = item;
-                    return {type: 0};
-                }).call(this);
-                if ($loopResult.type == 2)
+                var item = $anon$2enumerator.get_Current();
+                if (item == null)
                     continue;
+                if (current == null) {
+                    current = item;
+                    continue;
+                }
+                var comparable = (function() {
+                    var $as$ = item;
+                    if (!System.Type.prototype.IsInstanceOfType.call(System.IComparable.$GetType(), $as$))
+                        $as$ = null;
+                    return $as$;
+                }).call(this);
+                if (comparable.System$IComparable$CompareTo(current) < 0)
+                    current = item;
             }
         }
         return current;
@@ -6897,22 +6865,20 @@ System.Linq.Expressions.ExpressionVisitor.prototype = new System.Object();
     };
     $p.Visit = function(nodes) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Count(); i < n; i++)
-            (function() {
-                var node = this.Visit$1(nodes.get_Item(i));
-                if (newNodes != null) {
+        for (var i = 0, n = nodes.get_Count(); i < n; i++) {
+            var node = this.Visit$1(nodes.get_Item(i));
+            if (newNodes != null) {
+                newNodes[i] = node;
+            }
+            else
+                if (!node == nodes.get_Item(i)) {
+                    newNodes = new Array(n);
+                    for (var j = 0; j < i; j++) {
+                        newNodes[j] = nodes.get_Item(j);
+                    }
                     newNodes[i] = node;
                 }
-                else
-                    if (!node == nodes.get_Item(i)) {
-                        newNodes = new Array(n);
-                        for (var j = 0; j < i; j++)
-                            (function() {
-                                newNodes[j] = nodes.get_Item(j);
-                            }).call(this);
-                        newNodes[i] = node;
-                    }
-            }).call(this);
+        }
         if (newNodes == null) {
             return nodes;
         }
@@ -6920,43 +6886,39 @@ System.Linq.Expressions.ExpressionVisitor.prototype = new System.Object();
     };
     $p.VisitArguments = function(nodes) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Arguments().get_Count(); i < n; i++)
-            (function() {
-                var curNode = nodes.get_Arguments().get_Item(i);
-                var node = this.Visit$1(curNode);
-                if (newNodes != null) {
+        for (var i = 0, n = nodes.get_Arguments().get_Count(); i < n; i++) {
+            var curNode = nodes.get_Arguments().get_Item(i);
+            var node = this.Visit$1(curNode);
+            if (newNodes != null) {
+                newNodes[i] = node;
+            }
+            else
+                if (!node == curNode) {
+                    newNodes = new Array(n);
+                    for (var j = 0; j < i; j++) {
+                        newNodes[j] = nodes.get_Arguments().get_Item(j);
+                    }
                     newNodes[i] = node;
                 }
-                else
-                    if (!node == curNode) {
-                        newNodes = new Array(n);
-                        for (var j = 0; j < i; j++)
-                            (function() {
-                                newNodes[j] = nodes.get_Arguments().get_Item(j);
-                            }).call(this);
-                        newNodes[i] = node;
-                    }
-            }).call(this);
+        }
         return newNodes;
     };
     $t.Visit$2 = function(T, nodes, elementVisitor) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Count(); i < n; i++)
-            (function() {
-                var node = elementVisitor(nodes.get_Item(i));
-                if (newNodes != null) {
+        for (var i = 0, n = nodes.get_Count(); i < n; i++) {
+            var node = elementVisitor(nodes.get_Item(i));
+            if (newNodes != null) {
+                newNodes[i] = node;
+            }
+            else
+                if (!node == nodes.get_Item(i)) {
+                    newNodes = new Array(n);
+                    for (var j = 0; j < i; j++) {
+                        newNodes[j] = nodes.get_Item(j);
+                    }
                     newNodes[i] = node;
                 }
-                else
-                    if (!node == nodes.get_Item(i)) {
-                        newNodes = new Array(n);
-                        for (var j = 0; j < i; j++)
-                            (function() {
-                                newNodes[j] = nodes.get_Item(j);
-                            }).call(this);
-                        newNodes[i] = node;
-                    }
-            }).call(this);
+        }
         if (newNodes == null) {
             return nodes;
         }
@@ -6979,30 +6941,28 @@ System.Linq.Expressions.ExpressionVisitor.prototype = new System.Object();
     };
     $p.VisitAndConvert = function(T, nodes, callerName) {
         var newNodes = null;
-        for (var i = 0, n = nodes.get_Count(); i < n; i++)
-            (function() {
-                var node = (function() {
-                    var $as$ = this.Visit$1(nodes.get_Item(i));
-                    if (!System.Type.prototype.IsInstanceOfType.call(T.$GetType(), $as$))
-                        $as$ = null;
-                    return $as$;
-                }).call(this);
-                if (node == null) {
-                    throw System.Exception.prototype.$ctor$1.$new("MustRewriteToSameNode").InternalInit(new Error());
-                }
-                if (newNodes != null) {
+        for (var i = 0, n = nodes.get_Count(); i < n; i++) {
+            var node = (function() {
+                var $as$ = this.Visit$1(nodes.get_Item(i));
+                if (!System.Type.prototype.IsInstanceOfType.call(T.$GetType(), $as$))
+                    $as$ = null;
+                return $as$;
+            }).call(this);
+            if (node == null) {
+                throw System.Exception.prototype.$ctor$1.$new("MustRewriteToSameNode").InternalInit(new Error());
+            }
+            if (newNodes != null) {
+                newNodes[i] = node;
+            }
+            else
+                if (!node == nodes.get_Item(i)) {
+                    newNodes = new Array(n);
+                    for (var j = 0; j < i; j++) {
+                        newNodes[j] = nodes.get_Item(j);
+                    }
                     newNodes[i] = node;
                 }
-                else
-                    if (!node == nodes.get_Item(i)) {
-                        newNodes = new Array(n);
-                        for (var j = 0; j < i; j++)
-                            (function() {
-                                newNodes[j] = nodes.get_Item(j);
-                            }).call(this);
-                        newNodes[i] = node;
-                    }
-            }).call(this);
+        }
         if (newNodes == null) {
             return nodes;
         }
@@ -8067,12 +8027,11 @@ System.Reflection.Assembly.prototype = new System.Object();
         this.typesByNameUpper = (System.Collections.Generic.Dictionary$2$(String, Function)).prototype.$ctor.$new();
         this.fullName = fullName;
         this.typeFunctions = new Array(types.length);
-        for (var i = 0; i < types.length; i++)
-            (function() {
-                this.typeFunctions[i] = types[i];
-                this.typesByName.set_Item(this.typeFunctions[i].$typeName, this.typeFunctions[i]);
-                this.typesByNameUpper.set_Item(this.typeFunctions[i].$typeName.toUpperCase(), this.typeFunctions[i]);
-            }).call(this);
+        for (var i = 0; i < types.length; i++) {
+            this.typeFunctions[i] = types[i];
+            this.typesByName.set_Item(this.typeFunctions[i].$typeName, this.typeFunctions[i]);
+            this.typesByNameUpper.set_Item(this.typeFunctions[i].$typeName.toUpperCase(), this.typeFunctions[i]);
+        }
     };
     $p.$ctor.$type = $t;
     $p.$ctor.$new = function(fullName, types) {
@@ -9200,10 +9159,9 @@ System.Reflection.PropertyInfo.prototype = new System.Reflection.MemberInfo();
     $p.SetValue$2 = function(obj, value, invokeAttr, binder, index, culture) {
         var args = new Array(1 + (index != null ? index.length : 0));
         args[0] = value;
-        for (var i = 1; i < args.length; i++)
-            (function() {
-                args[i] = index[i - 1];
-            }).call(this);
+        for (var i = 1; i < args.length; i++) {
+            args[i] = index[i - 1];
+        }
         this.get_SetMethod().Invoke$1(
             obj, 
             invokeAttr, 
@@ -9486,10 +9444,9 @@ $mscorlib$AssemblyTypes.push(System.IntPtr);
             var s = this.toString(radix);
             if (remainingFormat.length > 0) {
                 var minimumDigits = System.Int32.Parse(remainingFormat);
-                while (s.length < minimumDigits)
-                    (function() {
-                        s = "0" + s;
-                    }).call(this);
+                while (s.length < minimumDigits) {
+                    s = "0" + s;
+                }
             }
             return s;
         }
@@ -9834,20 +9791,18 @@ $mscorlib$AssemblyTypes.push(System.Single);
     $p.Split = function(separator) {
         var s = this;
         var stringSeparator = new Array(separator.length);
-        for (var i = 0; i < separator.length; i++)
-            (function() {
-                stringSeparator[i] = separator[i].ToString();
-            }).call(this);
+        for (var i = 0; i < separator.length; i++) {
+            stringSeparator[i] = separator[i].ToString();
+        }
         var array = s.split(new RegExp(String.Join("|", stringSeparator)));
         return array;
     };
     $p.Split$2 = function(separator, count) {
         var s = this;
         var stringSeparator = new Array(separator.length);
-        for (var i = 0; i < separator.length; i++)
-            (function() {
-                stringSeparator[i] = separator[i].ToString();
-            }).call(this);
+        for (var i = 0; i < separator.length; i++) {
+            stringSeparator[i] = separator[i].ToString();
+        }
         var array = s.split(new RegExp(String.Join("|", stringSeparator)), count);
         return array;
     };
@@ -9915,16 +9870,15 @@ $mscorlib$AssemblyTypes.push(System.Single);
             throw System.ArgumentNullException.prototype.$ctor.$new("args").InternalInit(new Error());
         var values = new Array(args.length);
         var totalLength = 0;
-        for (var index = 0; index < args.length; ++index)
-            (function() {
-                var obj = args[index];
-                values[index] = obj == null ? String.Empty : obj.ToString();
-                if (values[index] == null)
-                    values[index] = String.Empty;
-                totalLength += values[index].length;
-                if (totalLength < 0)
-                    throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
-            }).call(this);
+        for (var index = 0; index < args.length; ++index) {
+            var obj = args[index];
+            values[index] = obj == null ? String.Empty : obj.ToString();
+            if (values[index] == null)
+                values[index] = String.Empty;
+            totalLength += values[index].length;
+            if (totalLength < 0)
+                throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
+        }
         return String.ConcatArray(values, totalLength);
     };
     $t.ConcatArray = function(values, totalLength) {
@@ -9932,11 +9886,10 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    s += item;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                s += item;
+            }
         }
         return s;
     };
@@ -9945,11 +9898,10 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    s += item.ToString();
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                s += item.ToString();
+            }
         }
         return s;
     };
@@ -9958,11 +9910,10 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    s += item;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                s += item;
+            }
         }
         return s;
     };
@@ -9998,11 +9949,10 @@ $mscorlib$AssemblyTypes.push(System.Single);
         {
             var $anon$1iterator = values;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    s += item;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var item = $anon$2enumerator.get_Current();
+                s += item;
+            }
         }
         return s;
     };
@@ -11595,38 +11545,34 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         {
             var $anon$1iterator = fields;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var field = $anon$2enumerator.get_Current();
-                    field.declaringType = this;
-                }).call(this);
+            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var field = $anon$2enumerator.get_Current();
+                field.declaringType = this;
+            }
         }
         {
             var $anon$3iterator = methods;
             var $anon$4enumerator = $anon$3iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$4enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var method = $anon$4enumerator.get_Current();
-                    method.declaringType = this;
-                }).call(this);
+            while ($anon$4enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var method = $anon$4enumerator.get_Current();
+                method.declaringType = this;
+            }
         }
         {
             var $anon$5iterator = properties;
             var $anon$6enumerator = $anon$5iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$6enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var property = $anon$6enumerator.get_Current();
-                    property.declaringType = this;
-                }).call(this);
+            while ($anon$6enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var property = $anon$6enumerator.get_Current();
+                property.declaringType = this;
+            }
         }
         {
             var $anon$7iterator = constructors;
             var $anon$8enumerator = $anon$7iterator.System$Collections$IEnumerable$GetEnumerator();
-            while ($anon$8enumerator.System$Collections$IEnumerator$MoveNext())
-                (function() {
-                    var constructor = $anon$8enumerator.get_Current();
-                    constructor.declaringType = this;
-                }).call(this);
+            while ($anon$8enumerator.System$Collections$IEnumerator$MoveNext()) {
+                var constructor = $anon$8enumerator.get_Current();
+                constructor.declaringType = this;
+            }
         }
     };
     $t._GetTypeFromInstance = function(instance) {
@@ -11675,15 +11621,10 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             var $anon$1iterator = System.AppDomain().get_CurrentDomain().GetAssemblies();
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var assembly = $anon$2enumerator.get_Current();
-                    var result = assembly.GetType$1(typeName);
-                    if (result != null)
-                        return {type: 1,value: result,depth: 1};
-                    return {type: 0};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
+                var assembly = $anon$2enumerator.get_Current();
+                var result = assembly.GetType$1(typeName);
+                if (result != null)
+                    return result;
             }
         }
         return null;
@@ -11696,27 +11637,17 @@ System.Type.prototype = new System.Reflection.MemberInfo();
         }
         var current = type;
         while (current != null) {
-            var $loopResult = (function() {
-                if (current == this)
-                    return {type: 1,value: true,depth: 1};
-                current = current.get_BaseType();
-                return {type: 0};
-            }).call(this);
-            if ($loopResult.type == 1)
-                return $loopResult.value;
+            if (current == this)
+                return true;
+            current = current.get_BaseType();
         }
         {
             var $anon$1iterator = type.GetInterfaces();
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var item = $anon$2enumerator.get_Current();
-                    if (item == this)
-                        return {type: 1,value: true,depth: 1};
-                    return {type: 0};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
+                var item = $anon$2enumerator.get_Current();
+                if (item == this)
+                    return true;
             }
         }
         return false;
@@ -11757,31 +11688,24 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             var $anon$1iterator = this.methods;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var method = $anon$2enumerator.get_Current();
-                    if (method.get_Name() != name)
-                        return {type: 2,label: null,depth: 0};
-                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
-                        return {type: 2,label: null,depth: 0};
-                    var parameters = method.GetParameters();
-                    if (types != null && types.length != parameters.length)
-                        return {type: 2,label: null,depth: 0};
-                    if (types != null) {
-                        var isValid = true;
-                        for (var i = 0; i < types.length; i++)
-                            (function() {
-                                if (types[i] != parameters[i].get_ParameterType())
-                                    isValid = false;
-                            }).call(this);
-                        if (!isValid)
-                            return {type: 2,label: null,depth: 0};
-                    }
-                    return {type: 1,value: method,depth: 1};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
-                if ($loopResult.type == 2)
+                var method = $anon$2enumerator.get_Current();
+                if (method.get_Name() != name)
                     continue;
+                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
+                    continue;
+                var parameters = method.GetParameters();
+                if (types != null && types.length != parameters.length)
+                    continue;
+                if (types != null) {
+                    var isValid = true;
+                    for (var i = 0; i < types.length; i++) {
+                        if (types[i] != parameters[i].get_ParameterType())
+                            isValid = false;
+                    }
+                    if (!isValid)
+                        continue;
+                }
+                return method;
             }
         }
         return null;
@@ -11791,11 +11715,10 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             throw System.ArgumentNullException.prototype.$ctor.$new("name").InternalInit(new Error());
         if (types == null)
             throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        for (var index = 0; index < types.length; ++index)
-            (function() {
-                if (types[index] == null)
-                    throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-            }).call(this);
+        for (var index = 0; index < types.length; ++index) {
+            if (types[index] == null)
+                throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
+        }
         return this.GetMethodImpl(
             name, 
             System.Reflection.BindingFlags().Instance | System.Reflection.BindingFlags().Static | System.Reflection.BindingFlags().Public, 
@@ -11952,32 +11875,25 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             var $anon$1iterator = this.properties;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var property = $anon$2enumerator.get_Current();
-                    var anAccessor = property.get_GetMethod() || property.get_SetMethod();
-                    if (property.get_Name() != name)
-                        return {type: 2,label: null,depth: 0};
-                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !anAccessor.get_IsPublic())
-                        return {type: 2,label: null,depth: 0};
-                    var parameters = property.GetIndexParameters();
-                    if (types != null && types.length != parameters.length)
-                        return {type: 2,label: null,depth: 0};
-                    if (types != null) {
-                        var isValid = true;
-                        for (var i = 0; i < types.length; i++)
-                            (function() {
-                                if (types[i] != parameters[i].get_ParameterType())
-                                    isValid = false;
-                            }).call(this);
-                        if (!isValid)
-                            return {type: 2,label: null,depth: 0};
-                    }
-                    return {type: 1,value: property,depth: 1};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
-                if ($loopResult.type == 2)
+                var property = $anon$2enumerator.get_Current();
+                var anAccessor = property.get_GetMethod() || property.get_SetMethod();
+                if (property.get_Name() != name)
                     continue;
+                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !anAccessor.get_IsPublic())
+                    continue;
+                var parameters = property.GetIndexParameters();
+                if (types != null && types.length != parameters.length)
+                    continue;
+                if (types != null) {
+                    var isValid = true;
+                    for (var i = 0; i < types.length; i++) {
+                        if (types[i] != parameters[i].get_ParameterType())
+                            isValid = false;
+                    }
+                    if (!isValid)
+                        continue;
+                }
+                return property;
             }
         }
         return null;
@@ -11990,18 +11906,12 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             var $anon$1iterator = this.fields;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var field = $anon$2enumerator.get_Current();
-                    if (field.get_Name() != name)
-                        return {type: 2,label: null,depth: 0};
-                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !field.get_IsPublic())
-                        return {type: 2,label: null,depth: 0};
-                    return {type: 1,value: field,depth: 1};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
-                if ($loopResult.type == 2)
+                var field = $anon$2enumerator.get_Current();
+                if (field.get_Name() != name)
                     continue;
+                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !field.get_IsPublic())
+                    continue;
+                return field;
             }
         }
         return null;
@@ -12021,11 +11931,10 @@ System.Type.prototype = new System.Reflection.MemberInfo();
     $p.GetConstructor$2 = function(bindingAttr, binder, callConvention, types, modifiers) {
         if (types == null)
             throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        for (var index = 0; index < types.length; ++index)
-            (function() {
-                if (types[index] == null)
-                    throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-            }).call(this);
+        for (var index = 0; index < types.length; ++index) {
+            if (types[index] == null)
+                throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
+        }
         return this.GetConstructorImpl(
             bindingAttr, 
             binder, 
@@ -12037,11 +11946,10 @@ System.Type.prototype = new System.Reflection.MemberInfo();
     $p.GetConstructor$1 = function(bindingAttr, binder, types, modifiers) {
         if (types == null)
             throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-        for (var index = 0; index < types.length; ++index)
-            (function() {
-                if (types[index] == null)
-                    throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
-            }).call(this);
+        for (var index = 0; index < types.length; ++index) {
+            if (types[index] == null)
+                throw System.ArgumentNullException.prototype.$ctor.$new("types").InternalInit(new Error());
+        }
         return this.GetConstructorImpl(
             bindingAttr, 
             binder, 
@@ -12063,29 +11971,22 @@ System.Type.prototype = new System.Reflection.MemberInfo();
             var $anon$1iterator = this.constructors;
             var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
             while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                var $loopResult = (function() {
-                    var method = $anon$2enumerator.get_Current();
-                    if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
-                        return {type: 2,label: null,depth: 0};
-                    var parameters = method.GetParameters();
-                    if (types != null && types.length != parameters.length)
-                        return {type: 2,label: null,depth: 0};
-                    if (types != null) {
-                        var isValid = true;
-                        for (var i = 0; i < types.length; i++)
-                            (function() {
-                                if (types[i] != parameters[i].get_ParameterType())
-                                    isValid = false;
-                            }).call(this);
-                        if (!isValid)
-                            return {type: 2,label: null,depth: 0};
-                    }
-                    return {type: 1,value: method,depth: 1};
-                }).call(this);
-                if ($loopResult.type == 1)
-                    return $loopResult.value;
-                if ($loopResult.type == 2)
+                var method = $anon$2enumerator.get_Current();
+                if ((bindingAttr & System.Reflection.BindingFlags().NonPublic) != System.Reflection.BindingFlags().NonPublic && !method.get_IsPublic())
                     continue;
+                var parameters = method.GetParameters();
+                if (types != null && types.length != parameters.length)
+                    continue;
+                if (types != null) {
+                    var isValid = true;
+                    for (var i = 0; i < types.length; i++) {
+                        if (types[i] != parameters[i].get_ParameterType())
+                            isValid = false;
+                    }
+                    if (!isValid)
+                        continue;
+                }
+                return method;
             }
         }
         return null;

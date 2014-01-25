@@ -18,21 +18,25 @@ namespace WootzJs.Compiler
         private JsTransformer transformer;
         private Idioms idioms;
         private int loopDepth;
+        private StatementSyntax body;
         private StatementSyntax loopNode;
         private JsStatement loop;
         private List<EscapeStatement> escapeStatements = new List<EscapeStatement>();
 
-        public LoopTransformer(JsTransformer transformer, StatementSyntax loop, int loopDepth)
+        public LoopTransformer(JsTransformer transformer, StatementSyntax loop, int loopDepth, StatementSyntax body)
         {
             this.transformer = transformer;
             idioms = transformer.idioms;
             this.loopDepth = loopDepth;
+            this.body = body;
             loopNode = loop;
         }
 
         public JsStatement TransformLoop(JsStatement loop)
         {
             if (loopNode.GetContainingType().Name.StartsWith("YieldEnumerator$"))
+                return loop;
+            if (!LambdaChecker.HasLambdasWithClosedVariables(body))
                 return loop;
 
             var result = (JsStatement)loop.Accept(this);

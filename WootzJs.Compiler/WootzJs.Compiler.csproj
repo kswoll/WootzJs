@@ -143,6 +143,8 @@
     <Compile Include="JsRewriter.cs" />
     <Compile Include="JsTransformer.cs" />
     <Compile Include="JsVisitor.cs" />
+    <Compile Include="LambdaChecker.cs" />
+    <Compile Include="LambdaClosedVariablesChecker.cs" />
     <Compile Include="LoopTransformer.cs" />
     <Compile Include="LoopTransformer2.cs" />
     <Compile Include="NamespaceTransformer.cs" />

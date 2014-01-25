@@ -1415,7 +1415,7 @@ namespace WootzJs.Compiler
 
             PopOutput();
 
-            var result = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.While(condition, block));
+            var result = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.While(condition, block));
 
             loopLabels.Pop();
             return result;
@@ -1443,7 +1443,7 @@ namespace WootzJs.Compiler
             block.Aggregate((JsStatement)node.Statement.Accept(this));
 
             PopOutput();
-            var result = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.DoWhile(condition, block));
+            var result = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.DoWhile(condition, block));
             loopLabels.Pop();
             return result;
         }
@@ -1477,7 +1477,7 @@ namespace WootzJs.Compiler
             PopScope();
             PopOutput();
 
-            var result = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.For(declaration, condition, incrementors).Body(block));
+            var result = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.For(declaration, condition, incrementors).Body(block));
             loopLabels.Pop();
             return result;
         }
@@ -1530,7 +1530,7 @@ namespace WootzJs.Compiler
                 whileBlock.Local(item);
                 whileBlock.Aggregate((JsStatement)node.Statement.Accept(this));
 
-                var whileLoop = new LoopTransformer(this, node, loopEntry.Depth).TransformLoop(Js.While(idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), whileBlock));
+                var whileLoop = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.While(idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), whileBlock));
                 block.Add(whileLoop);
             }
 
