@@ -43,6 +43,7 @@ function $define(name) {
     typeFunction.toString = function() {
         return name;
     };
+    typeFunction.$typeName = name;
     return typeFunction;
 }
 function $cast(T, o) {
