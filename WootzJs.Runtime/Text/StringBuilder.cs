@@ -38,6 +38,11 @@ namespace System.Text
         private JsArray chunks = new Array().As<JsArray>();
         private int length;
 
+        public int Length
+        {
+            get { return length; }
+        }
+
         public void Append(char c)
         {
             Append(c.As<string>());

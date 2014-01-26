@@ -83,6 +83,7 @@
     <Compile Include="Collections\Generic\Stack.cs" />
     <Compile Include="Console.cs" />
     <Compile Include="Convert.cs" />
+    <Compile Include="Decimal.cs" />
     <Compile Include="Delegate.cs" />
     <Compile Include="Double.cs" />
     <Compile Include="Enum.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Runtime\CompilerServices\CallSiteBinder.cs" />
     <Compile Include="Runtime\CompilerServices\DynamicAttribute.cs" />
     <Compile Include="Runtime\CompilerServices\ExtensionAttribute.cs" />
+    <Compile Include="Runtime\CompilerServices\IndexerNameAttribute.cs" />
     <Compile Include="Runtime\CompilerServices\IsVolatile.cs" />
     <Compile Include="Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="Runtime\InteropServices\CallingConvention.cs" />

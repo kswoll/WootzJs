@@ -60,7 +60,7 @@ namespace WootzJs.JQuery
         public extern string attr(string attributeName);
         public extern void attr(string attributeName, object value);
         public extern bool @is(string selector);
-        public extern void css(string name);
+        public extern string css(string name);
         public extern void css(string name, string value);
         public extern void css(string name, JsNumber value);
         public extern void unbind(string eventName, JqEventHandler eventHandler);

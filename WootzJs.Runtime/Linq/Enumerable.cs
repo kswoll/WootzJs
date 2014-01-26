@@ -719,6 +719,25 @@ namespace System.Linq
             return stack;
         }
 
+        public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, 
+            Func<TSource, TKey> keySelector)
+        {
+            return source.ToDictionary<TSource, TKey, TSource>(keySelector, x => x);
+        }
+
+        public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(this IEnumerable<TSource> source, 
+            Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        {
+            var dictionary = new Dictionary<TKey, TValue>();
+            foreach (var item in source)
+            {
+                var key = keySelector(item);
+                var value = valueSelector(item);
+                dictionary[key] = value;
+            }
+            return dictionary;
+        }
+
 /*
         public static IEnumerable<TResult> Cast<TResult>(IEnumerable source)
         {

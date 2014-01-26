@@ -31,6 +31,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.WootzJs;
 using System.Text;
 
@@ -58,6 +59,7 @@ namespace System
             return null;
         }
 
+        [IndexerName("Chars")]
         public char this[int index]
         {
             get { return this.As<JsString>().charAt(index); }

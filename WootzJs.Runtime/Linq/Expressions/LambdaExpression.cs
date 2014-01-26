@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections.Generic;
@@ -79,6 +81,18 @@ namespace System.Linq.Expressions
         public LambdaExpression Update(Expression body, List<ParameterExpression> parameters)
         {
             return this;
+        }
+
+        /// <summary>
+        /// Produces a delegate that represents the lambda expression.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Delegate"/> that contains the compiled version of the lambda expression.
+        /// </returns>
+        public Delegate Compile()
+        {
+            throw new NotImplementedException(); // Will be implemented by passing the unexpression-tree'd function into the constructor
         }
     }
 }

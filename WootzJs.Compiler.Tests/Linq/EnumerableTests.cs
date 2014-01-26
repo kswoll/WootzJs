@@ -330,5 +330,24 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(reverse[1], 2);
             QUnit.AreEqual(reverse[2], 1);
         }
+
+        [Test]
+        public void ToDictionary()
+        {
+            var items = new[]
+            {
+                new DictionaryClass { Name = "John", Value = "Austria" },
+                new DictionaryClass { Name = "Gary", Value = "California" }
+            };
+            var dictionary = items.ToDictionary(x => x.Name, x => x.Value);
+            QUnit.AreEqual(dictionary["John"], "Austria");
+            QUnit.AreEqual(dictionary["Gary"], "California");
+        }
+
+        public class DictionaryClass
+        {
+            public string Name { get; set; }
+            public string Value { get; set; }
+        }
     }
 }
