@@ -10,6 +10,10 @@
         {
         }
 
+        public ArgumentOutOfRangeException(string argument, string message) : base(argument + ": " + message)
+        {
+        }
+
         public ArgumentOutOfRangeException(string message, Exception innerException) : base(message, innerException)
         {
         }

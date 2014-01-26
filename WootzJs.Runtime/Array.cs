@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections;
@@ -102,7 +104,7 @@ namespace System
         /// <param name="sourceArray">The <see cref="T:System.Array"/> that contains the data to copy.</param><param name="destinationArray">The <see cref="T:System.Array"/> that receives the data.</param><param name="length">A 64-bit integer that represents the number of elements to copy. The integer must be between zero and <see cref="F:System.Int32.MaxValue"/>, inclusive.</param><exception cref="T:System.ArgumentNullException"><paramref name="sourceArray"/> is null.-or-<paramref name="destinationArray"/> is null.</exception><exception cref="T:System.RankException"><paramref name="sourceArray"/> and <paramref name="destinationArray"/> have different ranks.</exception><exception cref="T:System.ArrayTypeMismatchException"><paramref name="sourceArray"/> and <paramref name="destinationArray"/> are of incompatible types.</exception><exception cref="T:System.InvalidCastException">At least one element in <paramref name="sourceArray"/> cannot be cast to the type of <paramref name="destinationArray"/>.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="length"/> is less than 0 or greater than <see cref="F:System.Int32.MaxValue"/>.</exception><exception cref="T:System.ArgumentException"><paramref name="length"/> is greater than the number of elements in <paramref name="sourceArray"/>.-or-<paramref name="length"/> is greater than the number of elements in <paramref name="destinationArray"/>.</exception><filterpriority>1</filterpriority>
         public static void Copy(Array sourceArray, Array destinationArray, long length)
         {
-            Copy(sourceArray, destinationArray, (int) length);
+            Copy(sourceArray, destinationArray, (int)length);
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace System
         /// <param name="sourceArray">The <see cref="T:System.Array"/> that contains the data to copy.</param><param name="sourceIndex">A 64-bit integer that represents the index in the <paramref name="sourceArray"/> at which copying begins.</param><param name="destinationArray">The <see cref="T:System.Array"/> that receives the data.</param><param name="destinationIndex">A 64-bit integer that represents the index in the <paramref name="destinationArray"/> at which storing begins.</param><param name="length">A 64-bit integer that represents the number of elements to copy. The integer must be between zero and <see cref="F:System.Int32.MaxValue"/>, inclusive.</param><exception cref="T:System.ArgumentNullException"><paramref name="sourceArray"/> is null.-or-<paramref name="destinationArray"/> is null.</exception><exception cref="T:System.RankException"><paramref name="sourceArray"/> and <paramref name="destinationArray"/> have different ranks.</exception><exception cref="T:System.ArrayTypeMismatchException"><paramref name="sourceArray"/> and <paramref name="destinationArray"/> are of incompatible types.</exception><exception cref="T:System.InvalidCastException">At least one element in <paramref name="sourceArray"/> cannot be cast to the type of <paramref name="destinationArray"/>.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="sourceIndex"/> is outside the range of valid indexes for the <paramref name="sourceArray"/>.-or-<paramref name="destinationIndex"/> is outside the range of valid indexes for the <paramref name="destinationArray"/>.-or-<paramref name="length"/> is less than 0 or greater than <see cref="F:System.Int32.MaxValue"/>.</exception><exception cref="T:System.ArgumentException"><paramref name="length"/> is greater than the number of elements from <paramref name="sourceIndex"/> to the end of <paramref name="sourceArray"/>.-or-<paramref name="length"/> is greater than the number of elements from <paramref name="destinationIndex"/> to the end of <paramref name="destinationArray"/>.</exception><filterpriority>1</filterpriority>
         public static void Copy(Array sourceArray, long sourceIndex, Array destinationArray, long destinationIndex, long length)
         {
-            Copy(sourceArray, (int) sourceIndex, destinationArray, (int) destinationIndex, (int) length);
+            Copy(sourceArray, (int)sourceIndex, destinationArray, (int)destinationIndex, (int)length);
         }
 
         /// <summary>
@@ -130,7 +132,7 @@ namespace System
 
         public void CopyTo(Array array, long index)
         {
-            CopyTo(array, index.As<int>());         // All numbers are the same type in Javascript, so just coerce it into an "int" so we don't have to duplicate the code
+            CopyTo(array, index.As<int>()); // All numbers are the same type in Javascript, so just coerce it into an "int" so we don't have to duplicate the code
         }
 
         [Js(Export = false)]
@@ -162,7 +164,7 @@ namespace System
 
         public static void Clear(Array array, int startIndex, int length)
         {
-            for (var i = startIndex; i <startIndex + length; i++)
+            for (var i = startIndex; i < startIndex + length; i++)
             {
                 array[i] = null;
             }
@@ -218,6 +220,24 @@ namespace System
         public int GetLowerBound(int dimension)
         {
             return 0;
+        }
+
+        /// <summary>
+        /// Creates a one-dimensional <see cref="T:System.Array"/> of the specified <see cref="T:System.Type"/> and length, with zero-based indexing.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A new one-dimensional <see cref="T:System.Array"/> of the specified <see cref="T:System.Type"/> with the specified length, using zero-based indexing.
+        /// </returns>
+        /// <param name="elementType">The <see cref="T:System.Type"/> of the <see cref="T:System.Array"/> to create.</param><param name="length">The size of the <see cref="T:System.Array"/> to create.</param><exception cref="T:System.ArgumentNullException"><paramref name="elementType"/> is null.</exception><exception cref="T:System.ArgumentException"><paramref name="elementType"/> is not a valid <see cref="T:System.Type"/>.</exception><exception cref="T:System.NotSupportedException"><paramref name="elementType"/> is not supported. For example, <see cref="T:System.Void"/> is not supported.-or-<paramref name="elementType"/> is an open generic type.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception><filterpriority>1</filterpriority>
+        public static Array CreateInstance(Type elementType, int length)
+        {
+            if (elementType == null)
+                throw new ArgumentNullException("elementType");
+            if (length < 0)
+                throw new ArgumentOutOfRangeException("length", "ArgumentOutOfRange_NeedNonNegNum");
+
+            return null;
         }
     }
 }

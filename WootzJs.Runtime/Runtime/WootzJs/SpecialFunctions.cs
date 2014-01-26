@@ -92,5 +92,32 @@ namespace System.Runtime.WootzJs
             Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
             return delegateFunc;
         }
+
+        [Js(Name=SpecialNames.InitializeArray)]
+        internal static JsArray InitializeArray(JsArray array, JsTypeFunction elementType)
+        {
+            var arrayType = MakeArrayType(elementType);
+            foreach (var property in Jsni.member(arrayType, "prototype"))
+            {
+                array[property] = Jsni.member(arrayType, "prototype")[property];
+            }
+            Jsni.invoke(Jsni.member(Jsni.member(Jsni.member(arrayType, "prototype"), "$ctor"), "call"), array);
+
+/*
+            Jsni.apply(
+                Jsni.type<Object>().TypeInitializer, 
+                Jsni.@this(), 
+                Jsni.array(arrayType, array)).As<JsArray>();
+            Jsni.apply(
+                Jsni.type<Array>().TypeInitializer, 
+                Jsni.@this(), 
+                Jsni.array(arrayType, array)).As<JsArray>();
+            Jsni.apply(
+                arrayType.TypeInitializer, 
+                Jsni.@this(), 
+                Jsni.array(arrayType, array)).As<JsArray>();
+*/
+            return array;
+        }
     }
 }

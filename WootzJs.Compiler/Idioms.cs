@@ -1565,7 +1565,7 @@ namespace WootzJs.Compiler
 
         public JsInvocationExpression MakeArray(JsArrayExpression array, ArrayTypeSymbol arrayType)
         {
-            return Type(context.ObjectType).Member("$$InitializeArray").Invoke(
+            return Js.Reference(SpecialNames.InitializeArray).Invoke(
                 array,
                 Type(arrayType.ElementType));
         }
