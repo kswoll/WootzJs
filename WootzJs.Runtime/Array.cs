@@ -237,7 +237,7 @@ namespace System
             if (length < 0)
                 throw new ArgumentOutOfRangeException("length", "ArgumentOutOfRange_NeedNonNegNum");
 
-            return null;
+            return SpecialFunctions.InitializeArray(new JsArray(length), elementType.thisType).As<Array>();
         }
     }
 }

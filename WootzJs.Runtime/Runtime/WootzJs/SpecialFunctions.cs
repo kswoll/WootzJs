@@ -68,6 +68,9 @@ namespace System.Runtime.WootzJs
         [Js(Name = "$cast")]
         public static T ObjectCast<T>(object o)
         {
+            if (o == null)
+                return default(T);
+
             var type = o.GetType();
             if (!typeof(T).IsAssignableFrom(type))
                 throw new InvalidCastException("Cannot cast object of type " + o.GetType().FullName + " to type " + typeof(T).FullName);

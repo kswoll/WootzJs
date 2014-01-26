@@ -134,7 +134,9 @@ namespace System
                 arrayType.TypeInitializer = Jsni.procedure((t, p) =>
                 {
                     p.___type = arrayType;
+                    t.As<JsTypeFunction>().TypeName = elementType.TypeName + "[]";
                     t.As<JsTypeFunction>().BaseType = Jsni.type<Array>();
+                    t.As<JsTypeFunction>().ElementType = elementType;
                     t.As<JsTypeFunction>().GetTypeFromType = Jsni.function(() => Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>());
                     t.As<JsTypeFunction>().CreateTypeField = Jsni.function(() =>
                     {

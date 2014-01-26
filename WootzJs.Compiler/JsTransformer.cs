@@ -975,6 +975,7 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitCastExpression(CastExpressionSyntax node)
         {
+            var typeInfo = model.GetTypeInfo(node).ConvertedType;
             var symbol = model.GetSymbolInfo(node).Symbol;
             if (symbol != null)
             {
@@ -989,7 +990,6 @@ namespace WootzJs.Compiler
             }
 
             var originalType = model.GetTypeInfo(node.Expression).ConvertedType;
-            var typeInfo = model.GetTypeInfo(node.Type).ConvertedType;
 
             if (typeInfo == context.Int32 && originalType == context.Char)
             {

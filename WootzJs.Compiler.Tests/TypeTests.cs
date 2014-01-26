@@ -87,6 +87,25 @@ namespace WootzJs.Compiler.Tests
             QUnit.IsTrue(type != null);
         }
 
+        [Test]
+        public void TypeOfIntArray()
+        {
+            var type = typeof(int[]);
+            QUnit.AreEqual(type.Name, "Int32[]");
+        }
+
+        [Test]
+        public void Casts()
+        {
+            object o = null;
+            o = (int)o;
+            o = (string)o;
+            o = (int[])o;
+            o = (float[])o;
+            o = (bool[])o;
+            QUnit.IsTrue(true);
+        }
+
         public class TestClass
         {
         }

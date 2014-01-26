@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -68,5 +70,12 @@ namespace WootzJs.Compiler.Tests
             var array = new[] { "1", "2", "3" };
             QUnit.AreEqual(array.GetType().Name, "String[]");
         }         
+
+        [Test]
+        public void CreateArray()
+        {
+            var array = (int[])Array.CreateInstance(typeof(int), 5);
+            QUnit.AreEqual(array.Length, 5);
+        }
     }
 }

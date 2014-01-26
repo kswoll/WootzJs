@@ -43,6 +43,7 @@ namespace WootzJs.Compiler
         public static void Main(string[] args)
         {
                 new Compiler().Compile(args[0], args[1]);
+//            Console.ReadLine();
 /*
             try
             {

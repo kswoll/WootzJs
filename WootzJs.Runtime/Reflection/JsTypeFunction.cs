@@ -41,6 +41,9 @@ namespace System.Reflection
         [Js(Name = SpecialNames.BaseType)]
         public JsTypeFunction BaseType;
 
+        [Js(Name = SpecialNames.ElementType)]
+        public JsTypeFunction ElementType;
+
         [Js(Name = SpecialNames.ArrayType)]
         public JsTypeFunction ArrayType;
 

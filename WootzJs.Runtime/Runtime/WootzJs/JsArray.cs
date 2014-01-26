@@ -33,6 +33,14 @@ namespace System.Runtime.WootzJs
     [Js(Name = "Array", Export = false)]
     public class JsArray : JsObject
     {
+        public JsArray()
+        {
+        }
+
+        public JsArray(int size)
+        {
+        }
+
         public JsObject this[int index]
         {
             get { return null; }
