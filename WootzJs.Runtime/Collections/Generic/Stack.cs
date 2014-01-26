@@ -16,6 +16,13 @@ namespace System.Collections.Generic
             return storage.pop().As<T>();
         }
 
+        public T Peek()
+        {
+            if (storage.length == 0)
+                throw new InvalidOperationException();
+            return storage[storage.length - 1].As<T>();
+        }
+
         public int Count
         {
             get { return storage.length; }

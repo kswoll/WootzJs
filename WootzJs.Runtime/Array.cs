@@ -239,5 +239,49 @@ namespace System
 
             return SpecialFunctions.InitializeArray(new JsArray(length), elementType.thisType).As<Array>();
         }
+
+        /// <summary>
+        /// Gets the value at the specified position in the one-dimensional <see cref="T:System.Array"/>. The index is specified as a 32-bit integer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The value at the specified position in the one-dimensional <see cref="T:System.Array"/>.
+        /// </returns>
+        /// <param name="index">A 32-bit integer that represents the position of the <see cref="T:System.Array"/> element to get.</param><exception cref="T:System.ArgumentException">The current <see cref="T:System.Array"/> does not have exactly one dimension.</exception><exception cref="T:System.IndexOutOfRangeException"><paramref name="index"/> is outside the range of valid indexes for the current <see cref="T:System.Array"/>.</exception><filterpriority>2</filterpriority>
+        public object GetValue(int index)
+        {
+            return this[index];
+        }
+
+        /// <summary>
+        /// Sets a value to the element at the specified position in the one-dimensional <see cref="T:System.Array"/>. The index is specified as a 32-bit integer.
+        /// </summary>
+        /// <param name="value">The new value for the specified element.</param><param name="index">A 32-bit integer that represents the position of the <see cref="T:System.Array"/> element to set.</param><exception cref="T:System.ArgumentException">The current <see cref="T:System.Array"/> does not have exactly one dimension.</exception><exception cref="T:System.InvalidCastException"><paramref name="value"/> cannot be cast to the element type of the current <see cref="T:System.Array"/>.</exception><exception cref="T:System.IndexOutOfRangeException"><paramref name="index"/> is outside the range of valid indexes for the current <see cref="T:System.Array"/>.</exception><filterpriority>1</filterpriority>
+        public void SetValue(object value, int index)
+        {
+            this[index] = value;
+        }
+
+        /// <summary>
+        /// Gets the value at the specified position in the one-dimensional <see cref="T:System.Array"/>. The index is specified as a 32-bit integer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The value at the specified position in the one-dimensional <see cref="T:System.Array"/>.
+        /// </returns>
+        /// <param name="index">A 64-bit integer that represents the position of the <see cref="T:System.Array"/> element to get.</param><exception cref="T:System.ArgumentException">The current <see cref="T:System.Array"/> does not have exactly one dimension.</exception><exception cref="T:System.IndexOutOfRangeException"><paramref name="index"/> is outside the range of valid indexes for the current <see cref="T:System.Array"/>.</exception><filterpriority>2</filterpriority>
+        public object GetValue(long index)
+        {
+            return this[index.As<int>()];
+        }
+
+        /// <summary>
+        /// Sets a value to the element at the specified position in the one-dimensional <see cref="T:System.Array"/>. The index is specified as a 32-bit integer.
+        /// </summary>
+        /// <param name="value">The new value for the specified element.</param><param name="index">A 64-bit integer that represents the position of the <see cref="T:System.Array"/> element to set.</param><exception cref="T:System.ArgumentException">The current <see cref="T:System.Array"/> does not have exactly one dimension.</exception><exception cref="T:System.InvalidCastException"><paramref name="value"/> cannot be cast to the element type of the current <see cref="T:System.Array"/>.</exception><exception cref="T:System.IndexOutOfRangeException"><paramref name="index"/> is outside the range of valid indexes for the current <see cref="T:System.Array"/>.</exception><filterpriority>1</filterpriority>
+        public void SetValue(object value, long index)
+        {
+            this[index.As<int>()] = value;
+        }
     }
 }

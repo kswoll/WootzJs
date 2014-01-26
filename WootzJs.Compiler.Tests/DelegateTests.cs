@@ -78,6 +78,14 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(i, 5);
         }
 
+        [Test]
+        public void DynamicInvoke()
+        {
+            Func<int, int> adder = x => x + 1;
+            var result = adder.DynamicInvoke(1);
+            QUnit.AreEqual(result, 2);
+        }
+
         public class MyClass
         {
             public string Name { get; set; }

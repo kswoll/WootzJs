@@ -154,6 +154,11 @@ namespace System
             return null;
         }
 
+        public Type GetElementType()
+        {
+            return elementType == null ? null : _GetTypeFromTypeFunc(elementType);
+        }
+
         public bool IsAssignableFrom(Type type)
         {
             // Special hack for handling the merged numeric types

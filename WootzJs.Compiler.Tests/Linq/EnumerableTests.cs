@@ -319,5 +319,16 @@ namespace WootzJs.Compiler.Tests.Linq
                 QUnit.IsTrue(true);
             }
         }
+
+        [Test]
+        public void Reverse()
+        {
+            var ints = new[] { 1, 2, 3 };
+            var reverse = ints.Reverse().ToArray();
+            QUnit.AreEqual(reverse.Length, 3);
+            QUnit.AreEqual(reverse[0], 3);
+            QUnit.AreEqual(reverse[1], 2);
+            QUnit.AreEqual(reverse[2], 1);
+        }
     }
 }

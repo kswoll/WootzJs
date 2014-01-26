@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
@@ -34,6 +35,30 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var items = stack.ToArray();
             QUnit.AreEqual(items[0], "two");
             QUnit.AreEqual(items[1], "one");
+        }
+
+        [Test]
+        public void Peek()
+        {
+            var stack = new Stack<string>();
+            stack.Push("one");
+            var value = stack.Peek();
+            QUnit.AreEqual(value, "one");
+        }
+
+        [Test]
+        public void PeekEmpty()
+        {
+            var stack = new Stack<string>();
+            try
+            {
+                stack.Peek();
+                QUnit.IsTrue(false);
+            }
+            catch (Exception e)
+            {
+                QUnit.IsTrue(true);
+            }
         }
     }
 }

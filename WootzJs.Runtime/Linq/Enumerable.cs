@@ -711,6 +711,14 @@ namespace System.Linq
             }
         }
 
+        public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
+        {
+            var stack = new Stack<TSource>();
+            foreach (var item in source)
+                stack.Push(item);
+            return stack;
+        }
+
 /*
         public static IEnumerable<TResult> Cast<TResult>(IEnumerable source)
         {

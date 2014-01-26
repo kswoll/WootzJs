@@ -110,5 +110,10 @@ namespace System
         {
             return false;
         }
+
+        public object DynamicInvoke(params object[] args)
+        {
+            return Jsni.apply(this.As<JsObject>(), this.As<JsObject>(), args.As<JsArray>());
+        }
     }
 }
