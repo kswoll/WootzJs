@@ -91,7 +91,7 @@ namespace System.Runtime.WootzJs
             Jsni.type<Delegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
             Jsni.type<MulticastDelegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
             delegateType.TypeInitializer.invoke(delegateFunc, delegateFunc);
-            Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, Jsni.array(delegateFunc));
+            Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, new[] { delegateFunc }.As<JsArray>());
             Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
             return delegateFunc;
         }

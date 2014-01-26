@@ -65,7 +65,7 @@ function $delegate(thisExpression, delegateType, lambda) {
     System.Delegate.$TypeInitializer(delegateFunc, delegateFunc);
     System.MulticastDelegate.$TypeInitializer(delegateFunc, delegateFunc);
     delegateType.$TypeInitializer(delegateFunc, delegateFunc);
-    System.MulticastDelegate.prototype.$ctor.call(delegateFunc, thisExpression, [delegateFunc]);
+    System.MulticastDelegate.prototype.$ctor.call(delegateFunc, thisExpression, $arrayinit([delegateFunc], Function));
     delegateFunc.$type = delegateType;
     return delegateFunc;
 }
