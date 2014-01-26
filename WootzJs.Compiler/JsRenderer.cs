@@ -316,7 +316,7 @@ namespace WootzJs.Compiler
             else if (node.Value is char)
             {
                 output.Append("\"");
-                output.Append(((char)node.Value));
+                output.Append(StringEscaper.EscapeString(((char)node.Value).ToString()));
                 output.Append("\"");
             }
             else

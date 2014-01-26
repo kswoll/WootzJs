@@ -184,5 +184,24 @@ namespace WootzJs.Compiler.Tests
             var s = "hello world";
             QUnit.IsTrue(s.Contains("world"));
         }
+
+        [Test]
+        public void IsWhiteSpace()
+        {
+            QUnit.IsTrue(char.IsWhiteSpace(' '));
+            QUnit.IsTrue(char.IsWhiteSpace('\t'));
+            QUnit.IsTrue(char.IsWhiteSpace('\r'));
+            QUnit.IsTrue(char.IsWhiteSpace('\n'));
+            QUnit.IsTrue(!char.IsWhiteSpace('a'));
+        }
+
+        [Test]
+        public void IsDigit()
+        {
+            QUnit.IsTrue(char.IsDigit('0'));
+            QUnit.IsTrue(char.IsDigit('3'));
+            QUnit.IsTrue(char.IsDigit('9'));
+            QUnit.IsTrue(!char.IsDigit('a'));
+        }
     }
 }
