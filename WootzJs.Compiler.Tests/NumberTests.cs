@@ -36,5 +36,14 @@ namespace WootzJs.Compiler.Tests
             var number = 20;
             QUnit.AreEqual(number.ToString("X4"), "0014");
         }
+
+        [Test]
+        public void IntTryParse()
+        {
+            var s = "1";
+            int i;
+            QUnit.IsTrue(int.TryParse(s, out i));
+            QUnit.AreEqual(i, 1);
+        }
     }
 }

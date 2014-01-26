@@ -110,5 +110,17 @@ namespace System
 	    {
 	        return this - other;
 	    }
+
+        public static bool TryParse(string s, out int result)
+        {
+            var returnValue = Jsni.parseInt(s);
+            if (Jsni.isNaN(returnValue))
+            {
+                result = 0;
+                return false;
+            }
+            result = returnValue.As<int>();
+            return true;
+        }
 	}
 }

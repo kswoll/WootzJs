@@ -42,5 +42,10 @@ namespace System
         {
             return Jsni.regex("\\s").test(c.As<JsString>());
         }
+
+        public static bool IsDigit(char c)
+        {
+            return Jsni.regex("^\\d+$").test(c.As<JsString>());
+        }
 	}
 }
