@@ -30,6 +30,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.WootzJs;
 using System.Text;
 
@@ -366,6 +367,19 @@ return 0;
         {
             var array = value.As<JsArray>();
             return array.join(separator.As<JsString>());
+        }
+
+        /// <summary>
+        /// Concatenates the members of a collection, using the specified separator between each member.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string that consists of the members of <paramref name="values"/> delimited by the <paramref name="separator"/> string. If <paramref name="values"/> has no members, the method returns <see cref="F:System.String.Empty"/>.
+        /// </returns>
+        /// <param name="separator">The string to use as a separator.</param><param name="values">A collection that contains the objects to concatenate.</param><typeparam name="T">The type of the members of <paramref name="values"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="values"/> is null. </exception>
+        public static string Join<T>(string separator, IEnumerable<T> values)
+        {
+            return Join(separator, values.ToArray());
         }
 
         [Js(Export = false)]

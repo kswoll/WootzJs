@@ -82,6 +82,7 @@
     <Compile Include="Collections\IStructuralEquatable.cs" />
     <Compile Include="Collections\Generic\Stack.cs" />
     <Compile Include="Console.cs" />
+    <Compile Include="Convert.cs" />
     <Compile Include="Delegate.cs" />
     <Compile Include="Double.cs" />
     <Compile Include="Enum.cs" />

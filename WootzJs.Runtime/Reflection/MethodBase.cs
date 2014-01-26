@@ -26,6 +26,7 @@
 #endregion
 
 using System.Globalization;
+using System.Linq;
 
 namespace System.Reflection
 {
@@ -341,7 +342,7 @@ namespace System.Reflection
         /// </returns>
         public ParameterInfo[] GetParameters()
         {
-            return parameters;
+            return parameters.ToArray();
         }
 
         /// <summary>
