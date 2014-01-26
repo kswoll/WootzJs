@@ -118,7 +118,7 @@ namespace System
         {
             if (elementType.ArrayType == null)
             {
-                var baseType = MakeGenericTypeFactory(Jsni.type(typeof(GenericArray<>)), Jsni.array(elementType));
+                var baseType = SpecialFunctions.MakeGenericTypeFactory(Jsni.type(typeof(GenericArray<>)), Jsni.array(elementType));
                 var arrayType = Jsni.procedure(() => {}).As<JsTypeFunction>();
                 arrayType.prototype = Jsni.@new(baseType);
                 Jsni.apply(
@@ -152,7 +152,7 @@ namespace System
                             elementType.TypeName + "[]", 
                             elementType, 
                             Jsni.type<Array>(), 
-                            typeof(Array).interfaces.Concat(new[] { MakeGenericTypeFactory(Jsni.type(typeof(IEnumerable<>)), Jsni.array(elementType)) }).ToArray(), 
+                            typeof(Array).interfaces.Concat(new[] { SpecialFunctions.MakeGenericTypeFactory(Jsni.type(typeof(IEnumerable<>)), Jsni.array(elementType)) }).ToArray(), 
                             new FieldInfo[0], 
                             new MethodInfo[0], 
                             new ConstructorInfo[0], 
@@ -168,56 +168,6 @@ namespace System
                 elementType.ArrayType = result;
             }
             return elementType.ArrayType;
-        }
-
-        [Js(Name = SpecialNames.MakeGenericTypeConstructor)]
-        internal static JsTypeFunction MakeGenericTypeFactory(JsTypeFunction unconstructedType, JsArray typeArgs)
-        {
-//            if (typeArgs.length > 0 && typeArgs[0] == null)
-//                return unconstructedType;
-
-            var cache = Jsni.member(unconstructedType, "$typecache");
-            if (cache == null)
-            {
-                cache = new JsObject();
-                Jsni.memberset(unconstructedType, "$typecache", cache);
-            }
-            // Array.prototype.slice.call(typeArgs, 0))
-            var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
-            var keyParts = new JsArray();
-            for (var i = 0; i < keyArray.length; i++)
-            {
-                keyParts[i] = Jsni.member(Jsni.member(keyArray[i], "prototype"), SpecialNames.TypeName);
-            }
-            var keyString = keyParts.join(", ");
-            var result = cache[keyString];
-            if (result == null)
-            {
-                var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('$');
-                var newTypeName = unconstructedType.TypeName.Substring(0, lastIndexOfDollar) + "<" + keyString + ">";
-                var generic = SpecialFunctions.Define(newTypeName, unconstructedType);
-
-                // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
-                Jsni.apply(
-                    Jsni.member(unconstructedType, SpecialNames.TypeInitializer), 
-                    Jsni.@this(), 
-                    Jsni.invoke(
-                        Jsni.member(Jsni.array(generic, generic.prototype), "concat"), 
-                        keyArray
-                    ).As<JsArray>());
-
-                generic.TypeInitializer = Jsni.procedure((t, p) =>
-                {
-                    p.___type = generic;
-                    t.As<JsTypeFunction>().BaseType = unconstructedType;
-                    t.As<JsTypeFunction>().GetTypeFromType = Jsni.function(() => Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>());
-                }, "$t", "$p");
-                Jsni.call(generic.TypeInitializer, Jsni.@this(), generic, generic.prototype);
-                result = generic;
-                cache[keyString] = result;
-            }
-
-            return result.As<JsTypeFunction>();
         }
 	}
 }

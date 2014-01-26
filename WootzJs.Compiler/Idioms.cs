@@ -151,8 +151,7 @@ namespace WootzJs.Compiler
             {
                 var makeGenericType = new JsBlockStatement();
                 makeGenericType.Return(
-                    Js.Reference(context.ObjectType.GetTypeName())
-                    .Member(SpecialNames.MakeGenericTypeConstructor)
+                    Js.Reference(SpecialNames.MakeGenericTypeConstructor)
                     .Member("call")
                     .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.This(), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments")));
 
