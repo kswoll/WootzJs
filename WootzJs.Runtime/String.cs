@@ -27,6 +27,7 @@
 
 #endregion
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.WootzJs;
@@ -35,7 +36,7 @@ using System.Text;
 namespace System
 {
     [Js(Name = "String", BuiltIn = true)]
-    public class String
+    public class String : IEnumerable<char>
     {
         public static readonly string Empty = string.Empty;
 
@@ -666,6 +667,17 @@ return 0;
             var sb = new StringBuilder();
             sb.AppendFormat(provider, format, args);
             return sb.ToString();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<char> GetEnumerator()
+        {
+            for (var i = 0; i < Length; i++)
+                yield return this[i];
         }
     }
 }

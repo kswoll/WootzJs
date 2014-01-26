@@ -413,9 +413,9 @@ namespace WootzJs.Compiler
                 var valueParameter = Js.Parameter("value");
 
                 block.Add(storeIn(backingField, idioms.DefaultValue(property.Type)));
-                block.Add(storeIn("get_" + propertyName, Js.Function().Body(Js.Return(Js.This().Member(backingField)))));
+                block.Add(storeIn("get_" + propertyName, Js.Function().Body(Js.Return(Js.This().Member(backingField))).Compact()));
                 block.Add(storeIn("set_" + propertyName, Js.Function(valueParameter).Body(
-                    Js.Assign(Js.This().Member(backingField), valueParameter.GetReference()))));
+                    Js.Assign(Js.This().Member(backingField), valueParameter.GetReference())).Compact()));
             }
             else
             {

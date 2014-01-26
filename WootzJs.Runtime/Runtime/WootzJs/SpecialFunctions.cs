@@ -36,7 +36,7 @@ namespace System.Runtime.WootzJs
     public static class SpecialFunctions
     {
         [Js(Name = "$define")]
-        public static JsFunction Define(string name)
+        public static JsFunction Define(string name, JsTypeFunction prototype)
         {
             JsTypeFunction typeFunction = null;
 
@@ -61,6 +61,7 @@ namespace System.Runtime.WootzJs
             }).As<JsTypeFunction>();
             Jsni.memberset(typeFunction, "toString", Jsni.function(() => name.As<JsObject>()));
             Jsni.memberset(typeFunction, SpecialNames.TypeName, name.As<JsString>());
+            Jsni.memberset(typeFunction, "prototype", Jsni.@new(prototype));
             return typeFunction;
         }
 
@@ -88,6 +89,7 @@ namespace System.Runtime.WootzJs
             Jsni.type<MulticastDelegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
             delegateType.TypeInitializer.invoke(delegateFunc, delegateFunc);
             Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, Jsni.array(delegateFunc));
+            Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
             return delegateFunc;
         }
     }

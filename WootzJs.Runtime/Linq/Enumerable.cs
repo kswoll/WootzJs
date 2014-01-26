@@ -33,7 +33,7 @@ using System.Runtime.WootzJs;
 
 namespace System.Linq
 {
-    [DependsOn(Type = typeof (YieldIterator<>))]
+    [DependsOn(Type = typeof(YieldIterator<>))]
     public static class Enumerable
     {
         /// <summary>
@@ -690,6 +690,26 @@ namespace System.Linq
             return source.Select(selector).Sum();
         }
 
+        /// <summary>
+        /// Generates a sequence that contains one repeated value.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains a repeated value.
+        /// </returns>
+        /// <param name="element">The value to be repeated.</param><param name="count">The number of times to repeat the value in the generated sequence.</param><typeparam name="TResult">The type of the value to be repeated in the result sequence.</typeparam><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="count"/> is less than 0.</exception>
+        public static IEnumerable<TResult> Repeat<TResult>(TResult element, int count)
+        {
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException("count");
+            }
+            else
+            {
+                for (var i = 0; i < count; i++)
+                    yield return element;
+            }
+        }
 
 /*
         public static IEnumerable<TResult> Cast<TResult>(IEnumerable source)

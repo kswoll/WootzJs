@@ -254,6 +254,12 @@ namespace WootzJs.Compiler
 
         public override void VisitBlockStatement(JsBlockStatement node)
         {
+            if (node.Statements.Count == 0)
+            {
+                output.Append("{}");
+                return;
+            }
+
             if (!node.Inline)
             {
                 output.AppendLine("{");

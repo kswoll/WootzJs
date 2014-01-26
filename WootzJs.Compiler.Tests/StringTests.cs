@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Runtime.WootzJs;
 
 namespace WootzJs.Compiler.Tests
@@ -164,6 +165,17 @@ namespace WootzJs.Compiler.Tests
             var s = "1) {0} 2) {1}";
             var result = string.Format(s, 1, 2);
             QUnit.AreEqual(result, "1) 1 2) 2");
+        }
+
+        [Test]
+        public void Foreach()
+        {
+            var s = "1234";
+            var chars = s.ToArray();
+            QUnit.AreEqual(s[0], '1');
+            QUnit.AreEqual(s[1], '2');
+            QUnit.AreEqual(s[2], '3');
+            QUnit.AreEqual(s[3], '4');
         }
     }
 }

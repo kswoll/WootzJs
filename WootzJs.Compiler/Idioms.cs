@@ -110,25 +110,25 @@ namespace WootzJs.Compiler
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
                     block.Assign(Js.Reference(context.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString())));
-                    block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
+//                    block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString())));
-                    block.Add(CreatePrototype(outerClassType, baseType));
+                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
+//                    block.Add(CreatePrototype(outerClassType, baseType));
                 }
                 else
                 {
                     block.Assign(Js.Reference("window." + classType.GetTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString())));
-                    block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
+//                    block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
                 }
             }
             typeInitializer = new JsBlockStatement();
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
-            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(classType.GetTypeName())));
+            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
             typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
             typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Primitive(classType.GetFullName())));
             typeInitializer.Add(StoreInType(SpecialNames.TypeName, GetFromPrototype(SpecialNames.TypeName)));
@@ -780,6 +780,7 @@ namespace WootzJs.Compiler
                 delegateVariable.GetReference(), 
                 target, 
                 list.GetReference()));
+            wrapper.Assign(delegateVariable.GetReference().Member(SpecialNames.TypeField), delegateType);
             wrapper.Return(delegateVariable.GetReference());
 
             return Wrap(wrapper);
@@ -1440,6 +1441,11 @@ namespace WootzJs.Compiler
                 if ((namedTypeSymbol.HasOrIsEnclosedInGenericParameters()) && !forceUnconstructedScope && !namedTypeSymbol.IsUnboundGenericType)
                 {
                     return Js.Parenthetical(MakeGenericType(namedTypeSymbol));
+                }
+                else if (type.ContainingType != null && type.ContainingType.GetAttributeValue<string>(context.JsAttributeType, "Name") != null)
+                {
+                    var result = Type(type.ContainingType).Member(type.Name.MaskSpecialCharacters());
+                    return result;
                 }
                 else 
                 {
