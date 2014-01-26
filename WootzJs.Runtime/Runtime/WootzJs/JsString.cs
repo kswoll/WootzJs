@@ -34,34 +34,21 @@ namespace System.Runtime.WootzJs
         public readonly JsNumber length;
 
         [Js(Name = "substring")]
-        public string substring(int startIndex, int endIndex = 0)
-        {
-            return null;
-        }
+        public extern string substring(int startIndex, int endIndex = 0);
 
         [Js(Name = "split")]
-        public JsArray split(string separator, int count = 0)
-        {
-            return null;
-        }
+        public extern JsArray split(string separator, int count = 0);
 
         [Js(Name = "split")]
-        public JsArray split(JsRegExp separator, int count = 0)
-        {
-            return null;
-        }
+        public extern JsArray split(JsRegExp separator, int count = 0);
 
         [Js(Name = "charCodeAt")]
-        public int charCodeAt(int index)
-        {
-            return 0;
-        }
+        public extern int charCodeAt(int index);
 
         [Js(Name = "charAt")]
-        public char charAt(int index)
-        {
-            return '?';
-        }
+        public extern char charAt(int index);
+
+        public extern int indexOf(JsString substring);
 
         public static implicit operator string(JsString s)
         {

@@ -177,5 +177,12 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(s[2], '3');
             QUnit.AreEqual(s[3], '4');
         }
+
+        [Test]
+        public void Contains()
+        {
+            var s = "hello world";
+            QUnit.IsTrue(s.Contains("world"));
+        }
     }
 }

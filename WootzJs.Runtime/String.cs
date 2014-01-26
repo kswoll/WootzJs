@@ -679,5 +679,10 @@ return 0;
             for (var i = 0; i < Length; i++)
                 yield return this[i];
         }
+
+        public bool Contains(string part)
+        {
+            return part.As<JsString>().indexOf(part) != -1;
+        }
     }
 }
