@@ -1403,7 +1403,7 @@ namespace WootzJs.Compiler
 
         public JsExpression MakeArrayType(TypeSymbol elementType)
         {
-            return Type(context.ObjectType).Member("$$MakeArrayType").Invoke(Type(elementType));
+            return Js.Reference(SpecialNames.MakeArrayType).Invoke(Type(elementType));
         }
 
         public JsExpression TypeOf(TypeSymbol type)

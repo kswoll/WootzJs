@@ -40,7 +40,8 @@ namespace System.Runtime.WootzJs
         public const string StaticInitializer = "$StaticInitializer";
         public const string IsStaticInitialized = "$isStaticInitialized";
         public const string MakeGenericType = "$";
-        public const string MakeGenericTypeConstructor = "$$MakeGenericType";
+        public const string MakeGenericTypeConstructor = "$generic";
+        public const string MakeArrayType = "$array";
         public const string BaseType = "$baseType";
         public const string ArrayType = "$arrayType";
         public const string CreateType = "$CreateType";
