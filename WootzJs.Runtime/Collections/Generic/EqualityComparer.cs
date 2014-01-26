@@ -29,10 +29,9 @@ using System.Runtime.WootzJs;
 
 namespace System.Collections.Generic
 {
-    [Js(Export = false)]
     public abstract class EqualityComparer<T> : IEqualityComparer, IEqualityComparer<T>
     {
-        private static volatile EqualityComparer<T> defaultComparer;
+        private static EqualityComparer<T> defaultComparer;
 
         /// <summary>
         /// Returns a default equality comparer for the type specified by the generic argument.
@@ -64,7 +63,7 @@ namespace System.Collections.Generic
 
         private static EqualityComparer<T> CreateComparer()
         {
-            return null;
+            return new DefaultComparer<T>();
         }
 
         /// <summary>

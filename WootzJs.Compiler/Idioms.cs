@@ -660,7 +660,10 @@ namespace WootzJs.Compiler
                 case SymbolKind.Parameter:
                     return transformer.ReferenceDeclarationInScope(symbol.Name).GetReference();
                 case SymbolKind.NamedType:
-                    return Type((NamedTypeSymbol)symbol).Invoke();
+                    var type = Type((NamedTypeSymbol)symbol);
+                    if (!(type is JsInvocationExpression))
+                        type = type.Invoke();
+                    return type;
                 case SymbolKind.Local:
                     var declaration = transformer.ReferenceDeclarationInScope(symbol.Name);
                     return !isSetter ? declaration.GetReference() : declaration.SetReference();
@@ -1440,7 +1443,7 @@ namespace WootzJs.Compiler
             {
                 if ((namedTypeSymbol.HasOrIsEnclosedInGenericParameters()) && !forceUnconstructedScope && !namedTypeSymbol.IsUnboundGenericType)
                 {
-                    return Js.Parenthetical(MakeGenericType(namedTypeSymbol));
+                    return MakeGenericType(namedTypeSymbol);
                 }
                 else if (type.ContainingType != null && type.ContainingType.GetAttributeValue<string>(context.JsAttributeType, "Name") != null)
                 {

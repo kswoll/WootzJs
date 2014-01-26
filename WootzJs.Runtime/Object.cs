@@ -189,16 +189,13 @@ namespace System
             {
                 keyParts[i] = Jsni.member(Jsni.member(keyArray[i], "prototype"), SpecialNames.TypeName);
             }
-            var keyString = keyParts.join();
+            var keyString = keyParts.join(", ");
             var result = cache[keyString];
             if (result == null)
             {
-                var generic = Jsni.procedure(constructor =>
-                {
-                    if (constructor != null) 
-                        Jsni.apply(constructor, Jsni.@this(), Jsni.call<JsArray>(x => x.slice(0), Jsni.arguments(), 1.As<JsNumber>()).As<JsArray>());
-                }).As<JsTypeFunction>();
-                generic.prototype = Jsni.@new(unconstructedType);
+                var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('$');
+                var newTypeName = unconstructedType.TypeName.Substring(0, lastIndexOfDollar) + "<" + keyString + ">";
+                var generic = SpecialFunctions.Define(newTypeName, unconstructedType);
 
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
                 Jsni.apply(

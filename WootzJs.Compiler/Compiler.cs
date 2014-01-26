@@ -239,6 +239,8 @@ namespace WootzJs.Compiler
                     var baseType = item.Item1.BaseType;
                     if (baseType != null)
                     {
+                        if (baseType.OriginalDefinition != baseType)
+                            baseType = (NamedTypeSymbol)baseType.OriginalDefinition;
                         int baseIndex;
                         if (indices.TryGetValue(baseType, out baseIndex))
                         {
@@ -249,6 +251,20 @@ namespace WootzJs.Compiler
                             }
                         }
                     }
+/*
+                    foreach (var interfaceType in item.Item1.AllInterfaces)
+                    {
+                        int baseIndex;
+                        if (indices.TryGetValue(interfaceType, out baseIndex))
+                        {
+                            var baseTypeItem = list[baseIndex];
+                            if (baseIndex > i)
+                            {
+                                prepend.Add(baseTypeItem);
+                            }
+                        }                        
+                    }
+*/
                     var precedes = item.Item1.GetAttributeValue<TypeSymbol>(context.PrecedesAttribute, "Type");
                     if (precedes != null)
                     {

@@ -344,6 +344,14 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(dictionary["Gary"], "California");
         }
 
+        [Test]
+        public void SequenceEqual()
+        {
+            var ints1 = new[] { 1, 2, 3 };
+            var ints2 = new[] { 1, 2, 3 };
+            QUnit.IsTrue(ints1.SequenceEqual(ints2));
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }

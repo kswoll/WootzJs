@@ -52,6 +52,7 @@
     <Compile Include="Collections\Generic\Comparer.cs" />
     <Compile Include="Collections\DictionaryEntry.cs" />
     <Compile Include="Collections\Generic\Comparison.cs" />
+    <Compile Include="Collections\Generic\DefaultComparer.cs" />
     <Compile Include="Collections\Generic\Dictionary.cs" />
     <Compile Include="Collections\Generic\EqualityComparer.cs" />
     <Compile Include="Collections\Generic\GenericComparer.cs" />

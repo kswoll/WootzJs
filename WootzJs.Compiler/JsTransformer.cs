@@ -651,7 +651,9 @@ namespace WootzJs.Compiler
             var @this = (JsExpression)Js.This();
             if (symbol.IsStatic && symbol.ContainingType != null)
             {
-                @this = idioms.Type(symbol.ContainingType).Invoke();
+                @this = idioms.Type(symbol.ContainingType);
+                if (!(@this is JsInvocationExpression))
+                    @this = @this.Invoke();
             }
             return idioms.MemberReference(@this, symbol, node.Parent is BinaryExpressionSyntax && node.Parent.Kind == SyntaxKind.AssignExpression && ((BinaryExpressionSyntax)node.Parent).Left == node);
         }

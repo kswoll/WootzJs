@@ -738,6 +738,21 @@ namespace System.Linq
             return dictionary;
         }
 
+        public static bool SequenceEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> other)
+        {
+            var sourceEnumerator = source.GetEnumerator();
+            var otherEnumerator = other.GetEnumerator();
+
+            while (sourceEnumerator.MoveNext() && otherEnumerator.MoveNext())
+            {
+                var sourceItem = sourceEnumerator.Current;
+                var otherItem = otherEnumerator.Current;
+                if (!EqualityComparer<TSource>.Default.Equals(sourceItem, otherItem))
+                    return false;
+            }
+            return true;
+        }
+
 /*
         public static IEnumerable<TResult> Cast<TResult>(IEnumerable source)
         {

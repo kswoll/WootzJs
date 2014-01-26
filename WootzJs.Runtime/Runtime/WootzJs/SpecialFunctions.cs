@@ -36,7 +36,7 @@ namespace System.Runtime.WootzJs
     public static class SpecialFunctions
     {
         [Js(Name = "$define")]
-        public static JsFunction Define(string name, JsTypeFunction prototype)
+        public static JsTypeFunction Define(string name, JsTypeFunction prototype)
         {
             JsTypeFunction typeFunction = null;
 
