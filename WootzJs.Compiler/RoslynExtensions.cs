@@ -79,7 +79,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        public static bool IsSubclassOf(this NamedTypeSymbol @class, NamedTypeSymbol baseClass) 
+        public static bool IsSubclassOf(this TypeSymbol @class, TypeSymbol baseClass) 
         {
             var current = @class.BaseType;
             while (current != null)
@@ -89,6 +89,31 @@ namespace WootzJs.Compiler
                 current = current.BaseType;
             }
             return false;
+        }
+
+        public static TypeSymbol GetGenericArgument(this TypeSymbol type, TypeSymbol unconstructedType, int argumentIndex)
+        {
+            var current = type;
+            while (current != null)
+            {
+                if (current.OriginalDefinition == unconstructedType)
+                {
+                    return ((NamedTypeSymbol)current).TypeArguments[argumentIndex];
+                }
+                current = current.BaseType;
+            }
+            if (type is NamedTypeSymbol)
+            {
+                var namedTypeSymbol = (NamedTypeSymbol)type;
+                foreach (var intf in namedTypeSymbol.AllInterfaces)
+                {
+                    if (intf.OriginalDefinition == unconstructedType)
+                    {
+                        return intf.TypeArguments[argumentIndex];
+                    }
+                }
+            }
+            return null;
         }
 
         public static T GetAttributeValue<T>(this Symbol type, NamedTypeSymbol attributeType, string propertyName, T defaultValue = default(T))

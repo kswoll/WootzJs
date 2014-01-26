@@ -33,24 +33,14 @@ using System.Runtime.WootzJs;
 namespace System
 {
     [Js(Name = "Array", BuiltIn = true)]
-    public class Array : IList
+    public abstract class Array : IList
     {
         [Js(Export = false, Name = "length")]
         public int Length { get; private set; }
 
         public IEnumerator GetEnumerator()
         {
-            var array = this.As<JsArray>();
-            return new ArrayEnumerator(array);
-        }
-
-        /// <summary>
-        /// Hack implementation until we have proper generic support for arrays.
-        /// </summary>
-        [Js(Name = "System$Collections$Generic$IEnumerable$1$GetEnumerator")]
-        public IEnumerator GetGenericEnumeratorHACK()
-        {
-            return GetEnumerator();
+            return new ArrayEnumerator(this.As<JsArray>());
         }
 
         public int Count

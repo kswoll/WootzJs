@@ -51,18 +51,20 @@ namespace WootzJs.Compiler
 
         public ClassDeclarationSyntax CreateEnumerator()
         {
-            var thisField = Cs.Field(method.ContainingType.ToTypeSyntax(), "$this");
+            var members = new List<MemberDeclarationSyntax>();
+            FieldDeclarationSyntax thisField = null;
+            if (!method.IsStatic)
+            {
+                thisField = Cs.Field(method.ContainingType.ToTypeSyntax(), "$this");
+                members.Add(thisField);                
+            }
 
             var stateGenerator = new YieldStateGenerator(compilation, node);
             stateGenerator.GenerateStates();
             var states = stateGenerator.States;
 
-            var members = new List<MemberDeclarationSyntax>();
-
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
-
-            members.Add(thisField);
 
             foreach (var parameter in node.ParameterList.Parameters)
             {
@@ -77,7 +79,13 @@ namespace WootzJs.Compiler
 
             var className = "YieldEnumerator$" + method.GetMemberName();
 
-            var constructorParameters = new[] { Syntax.Parameter(Syntax.Identifier("$this")).WithType(thisField.Declaration.Type) }.Concat(node.ParameterList.Parameters.Select(x => Syntax.Parameter(x.Identifier).WithType(x.Type)));
+            var constructorParameters = new List<ParameterSyntax>();
+            if (!method.IsStatic)
+            {
+                constructorParameters.Add(Syntax.Parameter(Syntax.Identifier("$this")).WithType(thisField.Declaration.Type));
+            }
+            constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => Syntax.Parameter(x.Identifier).WithType(x.Type)));                
+
             var constructor = Syntax.ConstructorDeclaration(className)
                 .AddModifiers(Cs.Public())
                 .WithParameterList(constructorParameters.ToArray())
@@ -92,7 +100,8 @@ namespace WootzJs.Compiler
                 );
             members.Add(constructor);
 
-            var ienumerator = Syntax.ParseTypeName("System.Collections.IEnumerator");
+            var elementType = ((NamedTypeSymbol)method.ReturnType).TypeArguments[0];
+            var ienumerator = Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
 
             var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
                 .AddModifiers(Cs.Public(), Cs.Override())
@@ -118,7 +127,7 @@ namespace WootzJs.Compiler
                 .WithBody(Syntax.Block(moveNextBody));
             members.Add(moveNext);
 
-            var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<object>") };
+            var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
             var result = Syntax.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
 
             if (method.TypeParameters.Any())

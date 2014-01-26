@@ -229,7 +229,7 @@ namespace System.Linq
         {
             if (source == null)
                 throw new ArgumentNullException("source");
-            var result = new Array().As<JsArray>();
+            var result = new TSource[0].As<JsArray>();
             foreach (var item in source)
                 result.push(item.As<JsObject>());
             return result.As<TSource[]>();

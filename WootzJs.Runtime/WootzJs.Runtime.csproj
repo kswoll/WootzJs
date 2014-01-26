@@ -92,6 +92,7 @@
     <Compile Include="FlagsAttribute.cs" />
     <Compile Include="FormatException.cs" />
     <Compile Include="Func.cs" />
+    <Compile Include="GenericArray.cs" />
     <Compile Include="Globalization\CompareInfo.cs" />
     <Compile Include="Globalization\CompareOptions.cs" />
     <Compile Include="Globalization\CultureInfo.cs" />

@@ -401,13 +401,19 @@ namespace WootzJs.Compiler
                 // Convert the variable declaration in the for loop
                 var semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
                 var symbol = semanticModel.GetDeclaredSymbol(node);
+                var targetType = semanticModel.GetTypeInfo(node.Expression);
 
                 // Hoist the variable into a field
                 node = (ForEachStatementSyntax)HoistVariable(node, node.Identifier, Syntax.ParseTypeName(symbol.Type.GetFullName()));
 
                 // Hoist the enumerator into a field
                 var enumerator = Syntax.Identifier(node.Identifier + "$enumerator");
-                node = (ForEachStatementSyntax)HoistVariable(node, enumerator, Syntax.ParseTypeName("System.Collections.IEnumerator"));
+                var genericEnumeratorType = compilation.GetTypeByMetadataName("System.Collections.Generic.IEnumerable`1");
+                var elementType = targetType.ConvertedType.GetGenericArgument(genericEnumeratorType, 0);
+                var enumeratorType = elementType == null ?
+                    Syntax.ParseTypeName("System.Collections.IEnumerator") :
+                    Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
+                node = (ForEachStatementSyntax)HoistVariable(node, enumerator, enumeratorType);
                 currentState.Add(Cs.Express(Cs.Assign(
                     Syntax.IdentifierName(enumerator), 
                     Syntax.InvocationExpression(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, node.Expression, Syntax.IdentifierName("GetEnumerator"))))));

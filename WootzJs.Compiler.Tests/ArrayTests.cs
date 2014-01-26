@@ -77,5 +77,13 @@ namespace WootzJs.Compiler.Tests
             var array = (int[])Array.CreateInstance(typeof(int), 5);
             QUnit.AreEqual(array.Length, 5);
         }
+
+        [Test]
+        public void GetEnumerator()
+        {
+            var array = new[] { 1, 2, 3 };
+            array.GetEnumerator();
+            QUnit.IsTrue(true);     // Just making sure the method is present
+        }
     }
 }

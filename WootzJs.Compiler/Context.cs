@@ -86,6 +86,7 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol ConstructorInfo { get; private set; }
         public NamedTypeSymbol PropertyInfo { get; private set; }
         public NamedTypeSymbol EventInfo { get; private set; }
+        public NamedTypeSymbol Attribute { get; private set; }
         public MethodSymbol FieldInfoConstructor { get; private set; }
         public MethodSymbol MethodInfoConstructor { get; private set; }
         public MethodSymbol ParameterInfoConstructor { get; private set; }
@@ -198,6 +199,7 @@ namespace WootzJs.Compiler
             PropertyInfo = compilation.GetTypeByMetadataName("System.Reflection.PropertyInfo");
             EventInfo = compilation.GetTypeByMetadataName("System.Reflection.EventInfo");
             ConstructorInfo = compilation.GetTypeByMetadataName("System.Reflection.ConstructorInfo");
+            Attribute = compilation.GetTypeByMetadataName("System.Attribute");
             FieldInfoConstructor = FieldInfo.InstanceConstructors.Single();
             MethodInfoConstructor = MethodInfo.InstanceConstructors.Single();
             ParameterInfo = compilation.GetTypeByMetadataName("System.Reflection.ParameterInfo");

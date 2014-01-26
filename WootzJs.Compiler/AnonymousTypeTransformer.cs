@@ -83,9 +83,11 @@ namespace WootzJs.Compiler
             var valueParameter = Js.Parameter("value");
 
             block.Add(idioms.StoreInPrototype(backingField, Js.Null()));
-            block.Add(idioms.StoreInPrototype("get_" + propertyName, Js.Function().Body(Js.Return(Js.This().Member(backingField)))));
-            block.Add(idioms.StoreInPrototype("set_" + propertyName, Js.Function(valueParameter).Body(
-                Js.Assign(Js.This().Member(backingField), valueParameter.GetReference()))));
+            if (property.GetMethod != null)
+                block.Add(idioms.StoreInPrototype(property.GetMethod.GetMemberName(), Js.Function().Body(Js.Return(Js.This().Member(backingField)))));
+            if (property.SetMethod != null)
+                block.Add(idioms.StoreInPrototype(property.SetMethod.GetMemberName() + propertyName, Js.Function(valueParameter).Body(
+                    Js.Assign(Js.This().Member(backingField), valueParameter.GetReference()))));
 
             return block;
         }

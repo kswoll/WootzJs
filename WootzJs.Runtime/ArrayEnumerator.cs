@@ -26,11 +26,48 @@
 #endregion
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.WootzJs;
 
 namespace System
 {
-    internal class ArrayEnumerator : IEnumerator, IDisposable
+    internal class ArrayEnumerator<T> : IEnumerator<T>
+    {
+        private JsArray array;
+        private int index = -1;
+
+        public ArrayEnumerator(JsArray array)
+        {
+            this.array = array;
+        }
+
+        public T Current
+        {
+            get { return array[index].As<T>(); }
+        }
+
+        object IEnumerator.Current
+        {
+            get { return Current; }
+        }
+
+        public bool MoveNext()
+        {
+            index++;
+            return index < array.length;
+        }
+
+        public void Dispose()
+        {
+        }
+            
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class ArrayEnumerator : IEnumerator
     {
         private JsArray array;
         private int index = -1;
@@ -43,6 +80,11 @@ namespace System
         public object Current
         {
             get { return array[index]; }
+        }
+
+        object IEnumerator.Current
+        {
+            get { return Current; }
         }
 
         public bool MoveNext()

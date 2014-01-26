@@ -31,7 +31,7 @@ namespace System.Collections.Generic
 {
     public class List<T> : IList<T>
     {
-        private JsArray storage = new Array().As<JsArray>();
+        private JsArray storage = new JsArray();
 
         public List()
         {

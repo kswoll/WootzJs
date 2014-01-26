@@ -196,12 +196,12 @@ namespace WootzJs.Compiler
             return result;
         }
 
-        private JsArrayExpression CreateInterfaceReferences(NamedTypeSymbol type)
+        private JsExpression CreateInterfaceReferences(NamedTypeSymbol type)
         {
-            return Js.Array(type.AllInterfaces.Select(x => Js.Reference(x.GetTypeName())).ToArray());
+            return MakeArray(Js.Array(type.AllInterfaces.Select(x => Js.Reference(x.GetTypeName())).ToArray()), context.TypeArray);
         }
 
-        private JsArrayExpression CreatePropertyInfos(NamedTypeSymbol type)
+        private JsExpression CreatePropertyInfos(NamedTypeSymbol type)
         {
             var result = Js.Array();
             foreach (var property in type.GetMembers().OfType<PropertySymbol>())
@@ -218,10 +218,10 @@ namespace WootzJs.Compiler
                     CreateAttributes(property));
                 result.Elements.Add(propertyInfo);
             }
-            return result;
+            return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.PropertyInfo));
         }
 
-        private JsArrayExpression CreateEventInfos(NamedTypeSymbol type)
+        private JsExpression CreateEventInfos(NamedTypeSymbol type)
         {
             var result = Js.Array();
             foreach (var property in type.GetMembers().OfType<EventSymbol>())
@@ -237,10 +237,10 @@ namespace WootzJs.Compiler
                     CreateAttributes(property));
                 result.Elements.Add(propertyInfo);
             }
-            return result;
+            return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.EventInfo));
         }
 
-        private JsArrayExpression CreateFieldInfos(NamedTypeSymbol type)
+        private JsExpression CreateFieldInfos(NamedTypeSymbol type)
         {
             var result = Js.Array();
             foreach (var field in type.GetMembers().OfType<FieldSymbol>())
@@ -290,10 +290,10 @@ namespace WootzJs.Compiler
                     CreateAttributes(field));
                 result.Elements.Add(fieldInfo);
             }
-            return result;
+            return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.FieldInfo));
         }
 
-        private JsArrayExpression CreateMethodInfos(NamedTypeSymbol type, bool constructors)
+        private JsExpression CreateMethodInfos(NamedTypeSymbol type, bool constructors)
         {
             var result = Js.Array();
             foreach (var method in type.GetMembers().OfType<MethodSymbol>())
@@ -306,7 +306,7 @@ namespace WootzJs.Compiler
                 var info = CreateMethodInfo(method, constructors);
                 result.Elements.Add(info);
             }
-            return result;
+            return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.MethodInfo));
         }
 
         private JsExpression CreateMethodInfo(MethodSymbol method, bool constructor = false)
@@ -360,7 +360,7 @@ namespace WootzJs.Compiler
             return info;
         }
 
-        private JsArrayExpression CreateParameterInfos(ParameterSymbol[] parameters)
+        private JsExpression CreateParameterInfos(ParameterSymbol[] parameters)
         {
             var result = Js.Array();
             for (var i = 0; i < parameters.Length; i++)
@@ -388,10 +388,10 @@ namespace WootzJs.Compiler
                     CreateAttributes(parameter));
                 result.Elements.Add(parameterInfo);
             }
-            return result;
+            return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.ParameterInfo));
         }
 
-        private JsArrayExpression CreateAttributes(Symbol symbol)
+        private JsExpression CreateAttributes(Symbol symbol)
         {
             var result = Js.Array();
             foreach (var attribute in symbol.GetAttributes().Where(x => x.AttributeClass.IsExported()))
@@ -421,12 +421,12 @@ namespace WootzJs.Compiler
                 }
                 result.Elements.Add(attributeInstance);
             }
-            return result;
+            return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.Attribute));
         }
 
         public JsInvocationExpression Get(JsExpression target, PropertySymbol property, params JsExpression[] arguments)
         {
-            return target.Member("get_" + property.GetMemberName()).Invoke(arguments);
+            return target.Member(property.GetMethod.GetMemberName()).Invoke(arguments);
         }
 
         public JsBlockStatement InitializeInstanceFields(TypeDeclarationSyntax classDeclaration)
@@ -616,7 +616,7 @@ namespace WootzJs.Compiler
                 if (isExtension)
                     return InvokeMethodAs(property.GetMethod, target);
                 else 
-                    return Js.Invoke(Js.Member(target, "get_" + propertyName));
+                    return Js.Invoke(Js.Member(target, property.GetMethod.GetMemberName()));
             }
         }
 
@@ -1564,6 +1564,13 @@ namespace WootzJs.Compiler
         }
 
         public JsInvocationExpression MakeArray(JsArrayExpression array, ArrayTypeSymbol arrayType)
+        {
+            return Js.Reference(SpecialNames.InitializeArray).Invoke(
+                array,
+                Type(arrayType.ElementType));
+        }
+
+        public JsInvocationExpression MakeArray(JsNewArrayExpression array, ArrayTypeSymbol arrayType)
         {
             return Js.Reference(SpecialNames.InitializeArray).Invoke(
                 array,

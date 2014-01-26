@@ -118,8 +118,9 @@ namespace System
         {
             if (elementType.ArrayType == null)
             {
+                var baseType = MakeGenericTypeFactory(Jsni.type(typeof(GenericArray<>)), Jsni.array(elementType));
                 var arrayType = Jsni.procedure(() => {}).As<JsTypeFunction>();
-                arrayType.prototype = new JsArray();
+                arrayType.prototype = Jsni.@new(baseType);
                 Jsni.apply(
                     Jsni.type<Object>().TypeInitializer, 
                     Jsni.@this(), 
@@ -135,7 +136,7 @@ namespace System
                 {
                     p.___type = arrayType;
                     t.As<JsTypeFunction>().TypeName = elementType.TypeName + "[]";
-                    t.As<JsTypeFunction>().BaseType = Jsni.type<Array>();
+                    t.As<JsTypeFunction>().BaseType = baseType;
                     t.As<JsTypeFunction>().ElementType = elementType;
                     t.As<JsTypeFunction>().GetTypeFromType = Jsni.function(() => Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>());
                     t.As<JsTypeFunction>().CreateTypeField = Jsni.function(() =>

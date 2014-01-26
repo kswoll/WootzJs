@@ -35,7 +35,7 @@ namespace System.Text
 {
     public class StringBuilder
     {
-        private JsArray chunks = new Array().As<JsArray>();
+        private JsArray chunks = new JsArray();
         private int length;
 
         public int Length

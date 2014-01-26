@@ -413,8 +413,8 @@ namespace WootzJs.Compiler
                 var valueParameter = Js.Parameter("value");
 
                 block.Add(storeIn(backingField, idioms.DefaultValue(property.Type)));
-                block.Add(storeIn("get_" + propertyName, Js.Function().Body(Js.Return(Js.This().Member(backingField))).Compact()));
-                block.Add(storeIn("set_" + propertyName, Js.Function(valueParameter).Body(
+                block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(Js.Return(Js.This().Member(backingField))).Compact()));
+                block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(
                     Js.Assign(Js.This().Member(backingField), valueParameter.GetReference())).Compact()));
             }
             else
@@ -427,7 +427,7 @@ namespace WootzJs.Compiler
                     PushOutput(getterBody);
                     if (getter.Body != null)
                         getterBody.Aggregate((JsStatement)getter.Body.Accept(this));
-                    block.Add(storeIn("get_" + propertyName, Js.Function().Body(getterBody)));
+                    block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(getterBody)));
                     PopOutput();
                     PopScope();
                     PopDeclaration();
@@ -447,6 +447,15 @@ namespace WootzJs.Compiler
                     PopScope();
                     PopDeclaration();
                 }                
+            }
+
+            // Also store all interface implementations
+            foreach (PropertySymbol interfaceImplementation in property.GetRootOverride().FindImplementedInterfaceMembers(context.Solution))
+            {
+                if (interfaceImplementation.GetMethod != null)
+                    block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
+                if (interfaceImplementation.SetMethod != null)
+                    block.Add(idioms.StoreInPrototype(interfaceImplementation.SetMethod.GetMemberName(), idioms.GetFromPrototype(property.SetMethod.GetMemberName())));
             }
 
             return block;
@@ -557,7 +566,11 @@ namespace WootzJs.Compiler
                     generatorTypeExpression = idioms.MakeGenericType(generatorType, method.TypeArguments.Select(x => idioms.Type(x)).ToArray());
                 }
 
-                body = Js.Return(idioms.CreateObject(generatorTypeExpression, constructor, new JsExpression[] { Js.This() }.Concat(method.Parameters.Select(x => Js.Reference(x.Name))).ToArray()));
+                var arguments = new List<JsExpression>();
+                if (!method.IsStatic)
+                    arguments.Add(Js.This());
+                arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
+                body = Js.Return(idioms.CreateObject(generatorTypeExpression, constructor, arguments.ToArray()));
             }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);
@@ -760,7 +773,8 @@ namespace WootzJs.Compiler
             var symbolInfo = model.GetSymbolInfo(node);
             if (symbolInfo.Symbol == null)
             {
-                var diagnostics = model.GetDiagnostics();
+                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
             }
             var result = idioms.MemberReference((JsExpression)node.Expression.Accept(this), symbolInfo.Symbol);
             return ImplicitCheck(node, result);
@@ -1185,12 +1199,15 @@ namespace WootzJs.Compiler
         public override JsNode VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
         {
             var arrayType = node.Type;
+            var arraySymbol = (ArrayTypeSymbol)model.GetTypeInfo(node).Type;
             if (node.Initializer == null)
             {
                 if (arrayType.RankSpecifiers.Count > 1 || arrayType.RankSpecifiers[0].Sizes.Count > 1)
                     throw new Exception("Multi-dimensional arrays are not supported.  (Use jagged arrays)");
 
-                return ImplicitCheck(node, Js.NewArray((JsExpression)arrayType.RankSpecifiers[0].Accept(this)));
+                return ImplicitCheck(node, idioms.MakeArray(
+                    Js.NewArray((JsExpression)arrayType.RankSpecifiers[0].Accept(this)),
+                    arraySymbol));
             }
 
             return VisitArrayCreationExpression(node, node.Initializer);
