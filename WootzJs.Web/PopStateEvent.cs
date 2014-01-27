@@ -2,10 +2,10 @@
 
 namespace WootzJs.Web
 {
-    [Js(Export = false)]
+    [Js(Name = "Event", BuiltIn = true)]
     public class PopStateEvent
     {
-        [Js(Name = "state")]
+        [Js(Name = "state", Export = false)]
         public readonly object State;
     }
 }

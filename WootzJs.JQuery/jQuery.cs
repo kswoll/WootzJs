@@ -44,25 +44,38 @@ namespace WootzJs.JQuery
         {
         }
 
+        [Js(Name = "append")]
         public extern jQuery append(jQuery content);
+        [Js(Name = "append")]
         public extern jQuery append(string content);
         public extern jQuery prepend(jQuery content);
         public extern jQuery insertAfter(jQuery target);
         public extern jQuery insertBefore(jQuery target);
         public extern jQuery empty();
         public extern jQuery remove(jQuery selector = null);
+        [Js(Name = "text")]
         public extern string text();
+        [Js(Name = "text")]
         public extern string text(string newText);
 
+        [Js(Name = "val")]
         public extern string val();
+        [Js(Name = "val")]
         public extern void val(string value);
+        [Js(Name = "prop")]
         public extern object prop(string attributeName);
+        [Js(Name = "prop")]
         public extern void prop(string attributeName, object value);
+        [Js(Name = "attr")]
         public extern string attr(string attributeName);
+        [Js(Name = "attr")]
         public extern void attr(string attributeName, object value);
         public extern bool @is(string selector);
+        [Js(Name = "css")]
         public extern string css(string name);
+        [Js(Name = "css")]
         public extern void css(string name, string value);
+        [Js(Name = "css")]
         public extern void css(string name, JsNumber value);
         public extern void unbind(string eventName, JqEventHandler eventHandler);
         public extern void click(JqEventHandler handler);

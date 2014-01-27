@@ -274,10 +274,10 @@ return 0;
         public string[] Split(params char[] separator)
         {
             var s = this.As<JsString>();
-            var stringSeparator = new string[separator.Length];
+            var stringSeparator = new char[separator.Length];
             for (var i = 0; i < separator.Length; i++)
-                stringSeparator[i] = separator[i].ToString();
-            var array = s.split(new JsRegExp(Join("|", stringSeparator)));
+                stringSeparator[i] = separator[i];
+            var array = s.split(new JsRegExp(Join("|", stringSeparator.Select(x => EscapeRegex(x)))));
             return array.As<string[]>();
         }
 
@@ -288,16 +288,28 @@ return 0;
         /// <returns>
         /// An array whose elements contain the substrings in this instance that are delimited by one or more characters in <paramref name="separator"/>. For more information, see the Remarks section.
         /// </returns>
-        /// <param name="separator">An array of Unicode characters that delimit the substrings in this instance, an empty array that contains no delimiters, or null. </param><param name="count">The maximum number of substrings to return. </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="count"/> is negative. </exception><filterpriority>1</filterpriority>
+        /// <param name="separator">An array of Unicode characters that delimit the substrings in this instance, an empty array that contains no delimiters, or null. </param>
+        /// <param name="count">The maximum number of substrings to return. </param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="count"/> is negative. </exception><filterpriority>1</filterpriority>
         [Js(Extension = true)]
         public string[] Split(char[] separator, int count)
         {
             var s = this.As<JsString>();
-            var stringSeparator = new string[separator.Length];
+            var stringSeparator = new char[separator.Length];
             for (var i = 0; i < separator.Length; i++)
-                stringSeparator[i] = separator[i].ToString();
-            var array = s.split(new JsRegExp(Join("|", stringSeparator)), count);
+                stringSeparator[i] = separator[i];
+            var array = s.split(new JsRegExp(Join("|", stringSeparator.Select(x => EscapeRegex(x)))), count);
             return array.As<string[]>();
+        }
+
+        private string EscapeRegex(char c)
+        {
+            switch (c)
+            {
+                case '?':
+                    return "\\?";
+            }
+            return c.ToString();
         }
 
         /// <summary>
@@ -367,8 +379,7 @@ return 0;
         [Js(Extension = true)]
         public static string Join(string separator, params string[] value)
         {
-            var array = value.As<JsArray>();
-            return array.join(separator.As<JsString>());
+            return InternalJoin(separator, value);
         }
 
         /// <summary>
@@ -381,7 +392,13 @@ return 0;
         /// <param name="separator">The string to use as a separator.</param><param name="values">A collection that contains the objects to concatenate.</param><typeparam name="T">The type of the members of <paramref name="values"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="values"/> is null. </exception>
         public static string Join<T>(string separator, IEnumerable<T> values)
         {
-            return Join(separator, values.ToArray());
+            return InternalJoin(separator, values.Select(x => x.ToString()).ToArray());
+        }
+
+        private static string InternalJoin(string separator, params string[] value)
+        {
+            var array = value.As<JsArray>();
+            return array.join(separator.As<JsString>());            
         }
 
         [Js(Export = false)]

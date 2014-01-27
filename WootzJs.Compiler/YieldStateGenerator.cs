@@ -404,7 +404,7 @@ namespace WootzJs.Compiler
                 var targetType = semanticModel.GetTypeInfo(node.Expression);
 
                 // Hoist the variable into a field
-                node = (ForEachStatementSyntax)HoistVariable(node, node.Identifier, Syntax.ParseTypeName(symbol.Type.GetFullName()));
+                node = (ForEachStatementSyntax)HoistVariable(node, node.Identifier, symbol.Type.ToTypeSyntax());
 
                 // Hoist the enumerator into a field
                 var enumerator = Syntax.Identifier(node.Identifier + "$enumerator");

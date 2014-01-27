@@ -55,10 +55,13 @@ namespace WootzJs.Compiler
             if (parentNamespace != null)
                 ProcessNamespace(parentNamespace);
 
+            JsBinaryExpression result;
             if (lastDotIndex == -1)
-                body.Assign(Js.Reference("window").Member(ns), Js.Object());
+                result = Js.Assign(Js.Reference("window").Member(ns), Js.Object());
             else
-                body.Assign(Js.Reference(ns), Js.Object());
+                result = Js.Assign(Js.Reference(ns), Js.Object());
+            result.Right = Js.Binary(JsBinaryOperator.LogicalOr, result.Left, result.Right);
+            body.Express(result);
         }
 
         public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)

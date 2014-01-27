@@ -160,6 +160,8 @@ namespace WootzJs.Compiler
         public static MethodSymbol GetContainingMethod(this SyntaxNode node)
         {
             var method = node.FirstAncestorOrSelf<SyntaxNode>(x => x is ConstructorDeclarationSyntax || x is MethodDeclarationSyntax);
+            if (method == null)
+                return null;
             if (method is ConstructorDeclarationSyntax)
                 return context.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((ConstructorDeclarationSyntax)method);
             else

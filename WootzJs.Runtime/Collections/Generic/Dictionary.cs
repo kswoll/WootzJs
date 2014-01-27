@@ -179,7 +179,13 @@ namespace System.Collections.Generic
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            foreach (var bucket in buckets)
+            {
+                foreach (var item in bucket.Items)
+                {
+                    yield return new KeyValuePair<TKey, TValue>(item.Key, item.Value);
+                }
+            }
         }
 
         public bool IsReadOnly

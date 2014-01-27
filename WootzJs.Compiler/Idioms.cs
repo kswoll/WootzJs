@@ -659,8 +659,9 @@ namespace WootzJs.Compiler
                 case SymbolKind.Parameter:
                     return transformer.ReferenceDeclarationInScope(symbol.Name).GetReference();
                 case SymbolKind.NamedType:
-                    var type = Type((NamedTypeSymbol)symbol);
-                    if (!(type is JsInvocationExpression))
+                    var namedTypeSymbol = (NamedTypeSymbol)symbol;
+                    var type = Type(namedTypeSymbol);
+                    if (!(type is JsInvocationExpression) && namedTypeSymbol.IsExported())
                         type = type.Invoke();
                     return type;
                 case SymbolKind.Local:

@@ -50,6 +50,11 @@ namespace WootzJs.Compiler
         {
             if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
             {
+                if (node.GetContainingMethod() == null)
+                {
+                    return base.VisitIdentifierName(node);
+                }
+
                 var containingType = node.GetContainingType();
                 if (containingType == null || !containingType.Name.StartsWith("YieldEnumerator$"))
                     return node;
