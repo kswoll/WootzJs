@@ -2198,6 +2198,11 @@ namespace WootzJs.Compiler
                 var expressionTreeTransformer = new ExpressionTreeTransformer(context, model, idioms);
                 return node.Accept(expressionTreeTransformer);
             }
+            if (typeInfo.Type != typeInfo.ConvertedType && typeInfo.ImplicitConversion.IsMethodGroup && namedTypeSymbol.DelegateInvokeMethod != null)
+            {
+                var thisReference = node is MemberAccessExpressionSyntax ? (JsExpression)((MemberAccessExpressionSyntax)node).Expression.Accept(this) : Js.This();
+                result = idioms.InvokeStatic(context.ObjectCreateDelegate, thisReference, idioms.Type(typeInfo.ConvertedType), (JsExpression)result);
+            }
             if (typeInfo.ImplicitConversion.IsUserDefined && typeInfo.ImplicitConversion.Method.IsExported())
             {
                 result = idioms.InvokeStatic(typeInfo.ImplicitConversion.Method, (JsExpression)result);

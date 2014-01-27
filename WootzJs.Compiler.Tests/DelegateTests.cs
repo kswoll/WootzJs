@@ -86,6 +86,28 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(result, 2);
         }
 
+        [Test]
+        public void MethodDelegate()
+        {
+            var methodClass = new MethodClass("foo");
+            Func<string> methodDelegate = methodClass.M;
+            var s = methodDelegate();
+            QUnit.AreEqual(s, "foo");
+        }
+
+        [Test]
+        public void MethodDelegateOnThis()
+        {
+            Func<string> methodDelegate = M;
+            var s = methodDelegate();
+            QUnit.AreEqual(s, "bar");
+        }
+
+        private string M()
+        {
+            return "bar";
+        }
+
         public class MyClass
         {
             public string Name { get; set; }
@@ -93,6 +115,21 @@ namespace WootzJs.Compiler.Tests
             public Func<string> CreateLambda( )
             {
                 return () => Name;
+            }
+        }
+
+        public class MethodClass
+        {
+            private string s;
+
+            public MethodClass(string s)
+            {
+                this.s = s;
+            }
+
+            public string M()
+            {
+                return s;
             }
         }
     }
