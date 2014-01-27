@@ -44,6 +44,33 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(o.Value, "foofoo");
         }
 
+        [Test]
+        public void ImplicitMethodParameter()
+        {
+            var myClass = new ImplicitMethodParameterClass("5");
+            QUnit.AreEqual(myClass.ImplicitClass.Value, "55");
+        }
+
+        public class ImplicitMethodParameterClass
+        {
+            private ImplicitClass implicitClass;
+
+            public ImplicitMethodParameterClass(string s)
+            {
+                ImplicitMethod(s);
+            }
+
+            public void ImplicitMethod(ImplicitClass implicitClass)
+            {
+                this.implicitClass = implicitClass;
+            }
+
+            public ImplicitClass ImplicitClass
+            {
+                get { return implicitClass; }
+            }
+        }
+
         public class ImplicitClass
         {
             public string Value { get; private set; }

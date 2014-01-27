@@ -664,7 +664,8 @@ namespace WootzJs.Compiler
                 if (!(@this is JsInvocationExpression))
                     @this = @this.Invoke();
             }
-            return idioms.MemberReference(@this, symbol, node.Parent is BinaryExpressionSyntax && node.Parent.Kind == SyntaxKind.AssignExpression && ((BinaryExpressionSyntax)node.Parent).Left == node);
+            var result = idioms.MemberReference(@this, symbol, node.Parent is BinaryExpressionSyntax && node.Parent.Kind == SyntaxKind.AssignExpression && ((BinaryExpressionSyntax)node.Parent).Left == node);
+            return ImplicitCheck(node, result);
         }
 
         public override JsNode VisitQualifiedName(QualifiedNameSyntax node)
