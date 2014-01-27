@@ -187,6 +187,8 @@ namespace WootzJs.Compiler
                 }
             }
 
+            var diagnostics = compilation.GetDiagnostics();
+
             // Sort all the type declarations such that base types always come before subtypes.
             SweepSort(actions);
             foreach (var item in actions)

@@ -26,6 +26,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace System
@@ -58,6 +59,11 @@ namespace System
                 enumsByTypeAndValue[___type.TypeName] = enumsByValue;
             }
             enumsByValue[value] = this;
+        }
+
+        public static Array GetEnumValues(Type type)
+        {
+            return enumsByTypeAndValue[type.___type.TypeName].Values.ToArray();
         }
 
         public object GetValue()

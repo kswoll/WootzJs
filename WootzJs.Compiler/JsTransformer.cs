@@ -508,7 +508,16 @@ namespace WootzJs.Compiler
                 // No explicit initializer was specified, so infer the call to the base class parameterless constructor.
                 if (node.Initializer == null)
                 {
-                    constructorBlock.Express(idioms.InvokeMethodAsThis(classType.BaseType.InstanceConstructors.Single(x => x.Parameters.Count == 0)));
+                    var baseConstructor = classType.BaseType.InstanceConstructors.SingleOrDefault(x => x.Parameters.Count == 0);
+                    var arguments = new List<JsExpression>();
+                    if (baseConstructor == null)
+                    {
+                        baseConstructor = classType.BaseType.InstanceConstructors.Single(x => x.Parameters[0].HasDefaultValue);
+                        arguments.AddRange(baseConstructor.Parameters
+                            .Where(x => x.HasDefaultValue)
+                            .Select(x => Js.Literal(x.DefaultValue)));
+                    }
+                    constructorBlock.Express(idioms.InvokeMethodAsThis(baseConstructor, arguments.ToArray()));
                 }
                 else
                 {
@@ -887,6 +896,14 @@ namespace WootzJs.Compiler
             if (idioms.TryBaseMethodInvocation(node, method, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
 
+/*
+            if (model.GetTypeInfo(((Roslyn.Compilers.CSharp.MemberAccessExpressionSyntax)(node.Expression)).Expression).ConvertedType.BaseType is ErrorTypeSymbol)
+            {
+                var diagnostics = model.GetDiagnostics();
+                var diagnostics2 = model.GetDeclarationDiagnostics();
+                Console.WriteLine("shit");
+            }
+*/
             var target = (JsExpression)node.Expression.Accept(this);
             var targetType = node.Expression is MemberAccessExpressionSyntax ? model.GetTypeInfo(((MemberAccessExpressionSyntax)node.Expression).Expression).ConvertedType : null;
             var methodTarget = target is JsMemberReferenceExpression ? ((JsMemberReferenceExpression)target).Target : target;    // methodTarget has meaning only for method (as opposed to delegate) invocations

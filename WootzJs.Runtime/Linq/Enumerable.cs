@@ -33,7 +33,7 @@ using System.Runtime.WootzJs;
 
 namespace System.Linq
 {
-    [DependsOn(Type = typeof(YieldIterator<>))]
+    [DependsOn(Type = typeof (YieldIterator<>))]
     public static class Enumerable
     {
         /// <summary>
@@ -719,13 +719,13 @@ namespace System.Linq
             return stack;
         }
 
-        public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, 
+        public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector)
         {
             return source.ToDictionary<TSource, TKey, TSource>(keySelector, x => x);
         }
 
-        public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(this IEnumerable<TSource> source, 
+        public static Dictionary<TKey, TValue> ToDictionary<TSource, TKey, TValue>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
             var dictionary = new Dictionary<TKey, TValue>();
@@ -751,6 +751,25 @@ namespace System.Linq
                     return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Casts the elements of an <see cref="T:System.Collections.IEnumerable"/> to the specified type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains each element of the source sequence cast to the specified type.
+        /// </returns>
+        /// <param name="source">The <see cref="T:System.Collections.IEnumerable"/> that contains the elements to be cast to type <paramref name="TResult"/>.</param><typeparam name="TResult">The type to cast the elements of <paramref name="source"/> to.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.InvalidCastException">An element in the sequence cannot be cast to type <paramref name="TResult"/>.</exception>
+        public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            foreach (var item in source)
+            {
+                yield return (TResult)item;
+            }
         }
 
 /*

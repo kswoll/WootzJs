@@ -45,6 +45,7 @@ namespace WootzJs.JQuery
         }
 
         public extern jQuery append(jQuery content);
+        public extern jQuery append(string content);
         public extern jQuery prepend(jQuery content);
         public extern jQuery insertAfter(jQuery target);
         public extern jQuery insertBefore(jQuery target);

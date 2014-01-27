@@ -47,7 +47,6 @@ namespace System
         private EventInfo[] events;
         private JsTypeFunction elementType;
         private bool isValueType;
-
         public Type(string name, Attribute[] attributes) : base(name, attributes)
         {
         }
@@ -658,6 +657,11 @@ namespace System
                 return method;
             }
             return null;           
+        }
+
+        public Array GetEnumValues()
+        {
+            return Enum.GetEnumValues(this);
         }
     }
 }
