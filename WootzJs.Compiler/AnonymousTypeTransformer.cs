@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Roslyn.Compilers.CSharp;
 using WootzJs.Compiler.JsAst;
@@ -35,13 +36,15 @@ namespace WootzJs.Compiler
     {
         private Context context;
         private JsBlockStatement body;
+        private List<Tuple<NamedTypeSymbol, Action>> actions;
         private HashSet<NamedTypeSymbol> processedTypes = new HashSet<NamedTypeSymbol>();
         private Idioms idioms;
 
-        public AnonymousTypeTransformer(Context context, JsBlockStatement body) 
+        public AnonymousTypeTransformer(Context context, JsBlockStatement body, List<Tuple<NamedTypeSymbol, Action>> actions) 
         {
             this.context = context;
             this.body = body;
+            this.actions = actions;
             this.idioms = new Idioms(context, null);
         }
 
@@ -71,7 +74,11 @@ namespace WootzJs.Compiler
                 typeInitializer.Aggregate(CreateProperty(property));
             }
 
-            body.Aggregate(jsBlock);
+            Action action = () =>
+            {
+                body.Aggregate(jsBlock);
+            };
+            actions.Add(Tuple.Create(classType, action));
         }
 
         private JsBlockStatement CreateProperty(PropertySymbol property)

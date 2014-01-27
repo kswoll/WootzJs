@@ -147,9 +147,11 @@ namespace WootzJs.Compiler
                 compilationUnit.Accept(namespaceTransformer);
             }
 
+            var actions = new List<Tuple<NamedTypeSymbol, Action>>();
+
             // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
             // declarations with a series of auto implemented properties.
-            var anonymousTypeTransformer = new AnonymousTypeTransformer(context, jsCompilationUnit.Body);
+            var anonymousTypeTransformer = new AnonymousTypeTransformer(context, jsCompilationUnit.Body, actions);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = syntaxTree.GetRoot();
@@ -158,7 +160,6 @@ namespace WootzJs.Compiler
 
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type
             // declarations.
-            var actions = new List<Tuple<NamedTypeSymbol, Action>>();
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
