@@ -55,6 +55,14 @@ namespace WootzJs.Compiler.Tests
         {
             QUnit.AreEqual(ClassWithStaticConstructor.InitializedValue, "foo");
         }
+
+        [Test]
+        public void ConstructorWithDefaultParameters()
+        {
+            var instance = new ClassWithDefaultParameters(4);
+            QUnit.AreEqual(instance.I, 4);
+            QUnit.AreEqual(instance.J, 5);
+        }
          
         public class TestClass
         {
@@ -93,6 +101,28 @@ namespace WootzJs.Compiler.Tests
             static ClassWithStaticConstructor()
             {
                 InitializedValue = "foo";
+            }
+        }
+
+        public class ClassWithDefaultParameters
+        {
+            private int i;
+            private int j;
+
+            public ClassWithDefaultParameters(int i, int j = 5)
+            {
+                this.i = i; 
+                this.j = j;
+            }
+
+            public int I
+            {
+                get { return i; }
+            }
+
+            public int J
+            {
+                get { return j; }
             }
         }
     }

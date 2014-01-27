@@ -7088,10 +7088,10 @@ System.Linq.Expressions.ExpressionVisitor = $define("System.Linq.Expressions.Exp
         return System.Linq.Expressions.ExpressionVisitor.ValidateUnary(node, node.Update(this.Visit$1(node.get_Operand())));
     };
     $p.VisitMemberInit = function(node) {
-        return node.Update(this.VisitAndConvert$1(System.Linq.Expressions.NewExpression, node.get_NewExpression(), "VisitMemberInit"), System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.MemberBinding, node.get_Bindings(), $delegate(this, System.Func$2$(System.Linq.Expressions.MemberBinding, System.Linq.Expressions.MemberBinding), this.VisitMemberBinding)));
+        return node.Update(this.VisitAndConvert$1(System.Linq.Expressions.NewExpression, node.get_NewExpression(), "VisitMemberInit"), System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.MemberBinding, node.get_Bindings(), this.VisitMemberBinding));
     };
     $p.VisitListInit = function(node) {
-        return node.Update(this.VisitAndConvert$1(System.Linq.Expressions.NewExpression, node.get_NewExpression(), "VisitListInit"), System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.ElementInit, node.get_Initializers(), $delegate(this, System.Func$2$(System.Linq.Expressions.ElementInit, System.Linq.Expressions.ElementInit), this.VisitElementInit)));
+        return node.Update(this.VisitAndConvert$1(System.Linq.Expressions.NewExpression, node.get_NewExpression(), "VisitListInit"), System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.ElementInit, node.get_Initializers(), this.VisitElementInit));
     };
     $p.VisitElementInit = function(node) {
         return node.Update(this.Visit(node.get_Arguments()));
@@ -7112,10 +7112,10 @@ System.Linq.Expressions.ExpressionVisitor = $define("System.Linq.Expressions.Exp
         return node.Update(this.Visit$1(node.get_Expression()));
     };
     $p.VisitMemberMemberBinding = function(node) {
-        return node.Update(System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.MemberBinding, node.get_Bindings(), $delegate(this, System.Func$2$(System.Linq.Expressions.MemberBinding, System.Linq.Expressions.MemberBinding), this.VisitMemberBinding)));
+        return node.Update(System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.MemberBinding, node.get_Bindings(), this.VisitMemberBinding));
     };
     $p.VisitMemberListBinding = function(node) {
-        return node.Update(System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.ElementInit, node.get_Initializers(), $delegate(this, System.Func$2$(System.Linq.Expressions.ElementInit, System.Linq.Expressions.ElementInit), this.VisitElementInit)));
+        return node.Update(System.Linq.Expressions.ExpressionVisitor.Visit$2(System.Linq.Expressions.ElementInit, node.get_Initializers(), this.VisitElementInit));
     };
     $t.ValidateUnary = function(before, after) {
         if (before != after && before.get_Method() == null) {

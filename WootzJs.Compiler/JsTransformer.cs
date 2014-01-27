@@ -1184,7 +1184,8 @@ namespace WootzJs.Compiler
 
             var isExported = type.IsExported();
             var isBuiltIn = type.GetAttributeValue(context.JsAttributeType, "BuiltIn", false);
-            var args = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
+            var actualArguments = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
+            var args = idioms.TranslateArguments(method, (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, actualArguments.ToArray()).ToList();
             if (isExported && !isBuiltIn)
             {
                 var obj = idioms.CreateObject(method, args.ToArray());
