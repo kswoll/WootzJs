@@ -60,6 +60,8 @@ namespace System.Runtime.WootzJs
 
         public Type BaseType { get; set; }
 
+        public bool InvokeConstructorAsClass { get; set; }
+
         public JsAttribute()
         {
             Export = true;

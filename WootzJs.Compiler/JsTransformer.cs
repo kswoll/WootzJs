@@ -1213,7 +1213,10 @@ namespace WootzJs.Compiler
             }
             else
             {
-                return ImplicitCheck(node, Js.New(idioms.Type(type), args.ToArray()));
+                if (type.GetAttributeValue(context.JsAttributeType, "InvokeConstructorAsClass", true))
+                    return ImplicitCheck(node, Js.Invoke(idioms.Type(type), args.ToArray()));
+                else
+                    return ImplicitCheck(node, Js.New(idioms.Type(type), args.ToArray()));
             }
         }
 

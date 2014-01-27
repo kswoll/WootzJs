@@ -5,7 +5,7 @@ namespace WootzJs.Web
     [Js(Export = false)]
     public class History
     {
-        [Js(Name = "pushstate")]
+        [Js(Name = "pushState")]
         public extern void PushState(string url, string title, object state);
     }
 }

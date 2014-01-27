@@ -33,7 +33,7 @@ using WootzJs.Web;
 
 namespace WootzJs.JQuery
 {
-    [Js(Export = false, Name = "$")]
+    [Js(Export = false, Name = "$", InvokeConstructorAsClass = true)]
     public class jQuery
     {
         public jQuery(string selector)
