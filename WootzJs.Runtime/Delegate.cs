@@ -77,39 +77,8 @@ namespace System
 			}
 		}
 
-/*
-		public static Delegate Create(object instance, Function f)
-		{
-			return null;
-		}
-*/
-		public static string CreateExport(Delegate d)
-		{
-			return null;
-		}
-		public static string CreateExport(Delegate d, bool multiUse)
-		{
-			return null;
-		}
-		public static string CreateExport(Delegate d, bool multiUse, string name)
-		{
-			return null;
-		}
-		public static void DeleteExport(string name)
-		{
-		}
-
-        [Js(Export = false)]
-        public static bool operator ==(Delegate d1, Delegate d2)
-        {
-            return false;
-        }
-
-        [Js(Export = false)]
-        public static bool operator !=(Delegate d1, Delegate d2)
-        {
-            return false;
-        }
+        public static extern bool operator ==(Delegate d1, Delegate d2);
+        public static extern bool operator !=(Delegate d1, Delegate d2);
 
         public object DynamicInvoke(params object[] args)
         {

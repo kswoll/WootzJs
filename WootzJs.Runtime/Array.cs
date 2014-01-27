@@ -36,6 +36,7 @@ namespace System
     public abstract class Array : IList
     {
         [Js(Export = false, Name = "length")]
+// ReSharper disable once UnassignedReadonlyField
         public readonly int Length;
 
         public IEnumerator GetEnumerator()
@@ -125,12 +126,7 @@ namespace System
             CopyTo(array, index.As<int>()); // All numbers are the same type in Javascript, so just coerce it into an "int" so we don't have to duplicate the code
         }
 
-        [Js(Export = false)]
-        public object this[int index]
-        {
-            get { return null; }
-            set { ; }
-        }
+        public extern object this[int index] { get; set; }
 
         public bool IsReadOnly
         {
@@ -165,11 +161,8 @@ namespace System
             Clear(this, 0, Length);
         }
 
-        [Js(Name = "indexOf", Export = false)]
-        public int IndexOf(object value)
-        {
-            return 0;
-        }
+        [Js(Name = "indexOf")]
+        public extern int IndexOf(object value);
 
         void IList.Insert(int index, object value)
         {
