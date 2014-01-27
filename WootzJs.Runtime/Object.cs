@@ -74,7 +74,7 @@ namespace System
 
         /// <summary>
         /// This is the more important hash function in Javascript, since we use Javascript objects with strings as keys as the base for 
-        /// dictoinary data structures.
+        /// dictionary data structures.
         /// </summary>
         /// <returns></returns>
         public virtual string GetStringHashCode()

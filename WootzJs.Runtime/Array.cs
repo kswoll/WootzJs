@@ -36,7 +36,7 @@ namespace System
     public abstract class Array : IList
     {
         [Js(Export = false, Name = "length")]
-        public int Length { get; private set; }
+        public readonly int Length;
 
         public IEnumerator GetEnumerator()
         {
