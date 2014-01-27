@@ -6,3 +6,5 @@ WootzJs.Compiler/obj/
 WootzJs.Runtime/obj/
 WootzJs.JQuery/obj/
 WootzJs.Web/obj/
+WootzJs.JQuery/bin/
+WootzJs.Web/bin/
