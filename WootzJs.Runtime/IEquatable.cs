@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,25 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Defines a generalized method that a value type or class implements to create a type-specific method for determining equality of instances.
+    /// </summary>
+    /// <typeparam name="T">The type of objects to compare.</typeparam>
+    public interface IEquatable<T>
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
-
-        public JsRegexExpression()
-        {
-        }
-
-        public JsRegexExpression(string pattern)
-        {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
-        }
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        bool Equals(T other);
     }
 }

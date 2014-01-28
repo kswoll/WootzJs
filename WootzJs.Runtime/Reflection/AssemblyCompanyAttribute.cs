@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Reflection
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Defines a company name custom attribute for an assembly manifest.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyCompanyAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string m_company;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets company name information.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the company name.
+        /// </returns>
+        public string Company
         {
+            get { return m_company; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Reflection.AssemblyCompanyAttribute"/> class.
+        /// </summary>
+        /// <param name="company">The company name information. </param>
+        public AssemblyCompanyAttribute(string company)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            m_company = company;
         }
     }
 }

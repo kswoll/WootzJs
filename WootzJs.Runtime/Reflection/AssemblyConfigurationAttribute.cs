@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Reflection
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Specifies the build configuration, such as retail or debug, for an assembly.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyConfigurationAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string m_configuration;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets assembly configuration information.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the assembly configuration information.
+        /// </returns>
+        public string Configuration
         {
+            get { return m_configuration; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Reflection.AssemblyConfigurationAttribute"/> class.
+        /// </summary>
+        /// <param name="configuration">The assembly configuration. </param>
+        public AssemblyConfigurationAttribute(string configuration)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            m_configuration = configuration;
         }
     }
 }

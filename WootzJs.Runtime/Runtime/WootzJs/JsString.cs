@@ -50,6 +50,18 @@ namespace System.Runtime.WootzJs
 
         public extern int indexOf(JsString substring);
 
+        [Js(Name = "replace")]
+        public extern JsString replace(JsRegExp regexp, JsString replaceWith);
+
+        [Js(Name = "replace")]
+        public extern JsString replace(JsString substring, JsString replaceWith);
+
+        [Js(Name = "replace")]
+        public extern JsString replace(JsRegExp regexp, JsFunction replaceWith);
+
+        [Js(Name = "replace")]
+        public extern JsString replace(JsString substring, JsFunction replaceWith);
+
         public static implicit operator string(JsString s)
         {
             return s.As<string>();

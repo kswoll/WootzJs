@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Reflection
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Specifies which culture the assembly supports.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyCultureAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string m_culture;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets the supported culture of the attributed assembly.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the name of the supported culture.
+        /// </returns>
+        public string Culture
         {
+            get { return m_culture; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Reflection.AssemblyCultureAttribute"/> class with the culture supported by the assembly being attributed.
+        /// </summary>
+        /// <param name="culture">The culture supported by the attributed assembly. </param>
+        public AssemblyCultureAttribute(string culture)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            m_culture = culture;
         }
     }
 }

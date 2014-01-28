@@ -122,8 +122,11 @@ namespace WootzJs.Compiler
             var getAssembly = Js.Function();
             getAssembly.Body.If(
                 assemblyVariable.GetReference().EqualTo(Js.Null()), 
-                Js.Assign(assemblyVariable.GetReference(), globalIdioms.CreateObject(context.AssemblyConstructor,
-                    Js.Primitive(projectName), assemblyTypes.GetReference())));
+                Js.Assign(
+                    assemblyVariable.GetReference(), 
+                    globalIdioms.CreateAssembly(compilation.Assembly, assemblyTypes.GetReference())
+                )
+            );
             getAssembly.Body.Return(assemblyVariable.GetReference());
             jsCompilationUnit.Body.Assign(
                 Js.Reference(compilation.Assembly.GetAssemblyMethodName()),

@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Reflection
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Provides a text description for an assembly.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyDescriptionAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string m_description;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets assembly description information.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the assembly description.
+        /// </returns>
+        public string Description
         {
+            get { return this.m_description; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Reflection.AssemblyDescriptionAttribute"/> class.
+        /// </summary>
+        /// <param name="description">The assembly description. </param>
+        public AssemblyDescriptionAttribute(string description)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            this.m_description = description;
         }
     }
 }

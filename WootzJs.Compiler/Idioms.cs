@@ -423,6 +423,15 @@ namespace WootzJs.Compiler
             return MakeArray(result, context.Compilation.CreateArrayTypeSymbol(context.Attribute));
         }
 
+        public JsExpression CreateAssembly(AssemblySymbol assembly, JsExpression assemblyTypes)
+        {
+            return CreateObject(
+                context.AssemblyConstructor,
+                Js.Primitive(assembly.Name), 
+                assemblyTypes,
+                CreateAttributes(assembly));
+        }
+
         public JsInvocationExpression Get(JsExpression target, PropertySymbol property, params JsExpression[] arguments)
         {
             return target.Member(property.GetMethod.GetMemberName()).Invoke(arguments);
@@ -1339,6 +1348,8 @@ namespace WootzJs.Compiler
                         return true;
                     case "regex":
                         result = new JsRegexExpression(GetConstantString(invocation.ArgumentList.Arguments[0].Expression));
+                        if (invocation.ArgumentList.Arguments.Count > 1)
+                            result.Suffix = GetConstantString(invocation.ArgumentList.Arguments[1].Expression);
                         return true;
                 }
             }            

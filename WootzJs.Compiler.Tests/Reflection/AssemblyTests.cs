@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using System.Runtime.WootzJs;
 
 namespace WootzJs.Compiler.Tests.Reflection
@@ -80,6 +81,14 @@ namespace WootzJs.Compiler.Tests.Reflection
             var assembly = AppDomain.CurrentDomain.GetAssemblies()[1];
             var type = assembly.GetType("WOOTZJS.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
             QUnit.IsTrue(type != null);
+        }
+
+        [Test]
+        public void AssemblyTitle()
+        {
+            var assembly = AppDomain.CurrentDomain.GetAssemblies()[1];
+            var assemblyTitleAttribute = (AssemblyTitleAttribute)assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0];
+            QUnit.AreEqual(assemblyTitleAttribute.Title, "WootzJs.Compiler.Tests");
         }
 /*
 

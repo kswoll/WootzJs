@@ -38,7 +38,7 @@ using System.Text;
 namespace System
 {
     [Js(Name = "String", BuiltIn = true)]
-    public class String : IEnumerable<char>
+    public class String : IComparable, IComparable<string>, IEnumerable<char>, IEnumerable, IEquatable<string>
     {
         public static readonly string Empty = string.Empty;
 
@@ -716,6 +716,21 @@ return 0;
         public bool Contains(string part)
         {
             return part.As<JsString>().indexOf(part) != -1;
+        }
+
+        public int CompareTo(object obj)
+        {
+            return Compare(this, (string)obj);
+        }
+
+        public int CompareTo(string other)
+        {
+            return Compare(this, other);
+        }
+
+        public bool Equals(string other)
+        {
+            return this == other;
         }
     }
 }

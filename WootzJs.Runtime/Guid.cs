@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,56 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+using System.Runtime.WootzJs;
+
+namespace System
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Represents a globally unique identifier (GUID).
+    /// </summary>
+    /// <filterpriority>1</filterpriority>
+    public struct Guid : IFormattable, IComparable, IComparable<Guid>, IEquatable<Guid>
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string value;
 
-        public JsRegexExpression()
+        public static Guid NewGuid()
         {
+/*
+            var pattern = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".As<JsString>();
+            pattern = pattern.replace(Jsni.regex("[xy]", "g"), Jsni.function(found =>
+            {
+                var r = Math
+            }));
+
+            'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return v.toString(16);
+});
+*/
+            return default(Guid);
         }
 
-        public JsRegexExpression(string pattern)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
-            Pattern = pattern;
+            return value;
         }
 
-        public override void Accept(IJsVisitor visitor)
+        public int CompareTo(object obj)
         {
-            visitor.Visit(this);
+            return value.CompareTo(((Guid)obj).value);
         }
 
-        public override T Accept<T>(IJsVisitor<T> visitor)
+        public int CompareTo(Guid other)
         {
-            return visitor.Visit(this);
+            return value.CompareTo(other.value);
+        }
+
+        public bool Equals(Guid other)
+        {
+            return value == other.value;
         }
     }
 }

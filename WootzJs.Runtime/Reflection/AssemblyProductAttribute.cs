@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Reflection
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Defines a product name custom attribute for an assembly manifest.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyProductAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string m_product;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets product name information.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the product name.
+        /// </returns>
+        public string Product
         {
+            get { return m_product; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Reflection.AssemblyProductAttribute"/> class.
+        /// </summary>
+        /// <param name="product">The product name information. </param>
+        public AssemblyProductAttribute(string product)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            m_product = product;
         }
     }
 }

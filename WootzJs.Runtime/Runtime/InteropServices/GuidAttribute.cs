@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Runtime.InteropServices
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Supplies an explicit <see cref="T:System.Guid"/> when an automatic GUID is undesirable.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Delegate, Inherited = false)]
+    public sealed class GuidAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        internal string _val;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets the <see cref="T:System.Guid"/> of the class.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The <see cref="T:System.Guid"/> of the class.
+        /// </returns>
+        public string Value
         {
+            get { return _val; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.GuidAttribute"/> class with the specified GUID.
+        /// </summary>
+        /// <param name="guid">The <see cref="T:System.Guid"/> to be assigned. </param>
+        public GuidAttribute(string guid)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            _val = guid;
         }
     }
 }

@@ -42,11 +42,12 @@ namespace System.Reflection
         private Type[] types;
         private Dictionary<string, JsTypeFunction> typesByName = new Dictionary<string, JsTypeFunction>();
         private Dictionary<string, JsTypeFunction> typesByNameUpper = new Dictionary<string, JsTypeFunction>();
-//        private static Assembly
+        private Attribute[] attributes;
 
-        protected Assembly(string fullName, JsArray types)
+        protected Assembly(string fullName, JsArray types, Attribute[] attributes)
         {
             this.fullName = fullName;
+            this.attributes = attributes;
             typeFunctions = new JsTypeFunction[types.length];
             for (var i = 0; i < types.length; i++)
             {
@@ -271,9 +272,9 @@ namespace System.Reflection
         /// An array that contains the custom attributes for this assembly.
         /// </returns>
         /// <param name="inherit">This argument is ignored for objects of type <see cref="T:System.Reflection.Assembly"/>. </param>
-        public virtual object[] GetCustomAttributes(bool inherit)
+        public object[] GetCustomAttributes(bool inherit)
         {
-            throw new NotImplementedException();
+            return attributes.ToArray();
         }
 
         /// <summary>
@@ -284,9 +285,9 @@ namespace System.Reflection
         /// An array that contains the custom attributes for this assembly as specified by <paramref name="attributeType"/>.
         /// </returns>
         /// <param name="attributeType">The type for which the custom attributes are to be returned. </param><param name="inherit">This argument is ignored for objects of type <see cref="T:System.Reflection.Assembly"/>. </param><exception cref="T:System.ArgumentNullException"><paramref name="attributeType"/> is null. </exception><exception cref="T:System.ArgumentException"><paramref name="attributeType"/> is not a runtime type. </exception>
-        public virtual object[] GetCustomAttributes(Type attributeType, bool inherit)
+        public object[] GetCustomAttributes(Type attributeType, bool inherit)
         {
-            throw new NotImplementedException();
+            return GetCustomAttributes(inherit).Where(x => attributeType.IsInstanceOfType(x)).ToArray();
         }
 
         /// <summary>
@@ -297,9 +298,9 @@ namespace System.Reflection
         /// true if the attribute has been applied to the assembly; otherwise, false.
         /// </returns>
         /// <param name="attributeType">The type of the attribute to be checked for this assembly. </param><param name="inherit">This argument is ignored for objects of this type. </param><exception cref="T:System.ArgumentNullException"><paramref name="attributeType"/> is null. </exception><exception cref="T:System.ArgumentException"><paramref name="attributeType"/> uses an invalid type.</exception>
-        public virtual bool IsDefined(Type attributeType, bool inherit)
+        public bool IsDefined(Type attributeType, bool inherit)
         {
-            throw new NotImplementedException();
+            return GetCustomAttributes(inherit).Any(x => attributeType.IsInstanceOfType(x));
         }
 
         /// <summary>

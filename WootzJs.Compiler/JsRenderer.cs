@@ -443,6 +443,8 @@ namespace WootzJs.Compiler
             output.Append("/");
             output.Append(node.Pattern);
             output.Append("/");
+            if (node.Suffix != null)
+                output.Append(node.Suffix);
         }
 
         public override void VisitArrayExpression(JsArrayExpression node)

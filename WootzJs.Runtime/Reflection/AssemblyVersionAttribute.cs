@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,32 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace WootzJs.Compiler.JsAst
+namespace System.Reflection
 {
-    public class JsRegexExpression : JsExpression
+    /// <summary>
+    /// Specifies the version of the assembly being attributed.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyVersionAttribute : Attribute
     {
-        public string Pattern { get; set; }
-        public string Suffix { get; set; }
+        private string m_version;
 
-        public JsRegexExpression()
+        /// <summary>
+        /// Gets the version number of the attributed assembly.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the assembly version number.
+        /// </returns>
+        public string Version
         {
+            get { return this.m_version; }
         }
 
-        public JsRegexExpression(string pattern)
+        /// <summary>
+        /// Initializes a new instance of the AssemblyVersionAttribute class with the version number of the assembly being attributed.
+        /// </summary>
+        /// <param name="version">The version number of the attributed assembly. </param>
+        public AssemblyVersionAttribute(string version)
         {
-            Pattern = pattern;
-        }
-
-        public override void Accept(IJsVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override T Accept<T>(IJsVisitor<T> visitor)
-        {
-            return visitor.Visit(this);
+            this.m_version = version;
         }
     }
 }
