@@ -944,6 +944,24 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        public bool TryStringConcatenation(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        {
+            if (type == SyntaxKind.AddExpression && 
+                (leftSymbol.ConvertedType == context.String || rightSymbol.ConvertedType == context.String) &&
+                (leftSymbol.ConvertedType != context.String || rightSymbol.ConvertedType != context.String))
+            {
+                if (leftSymbol.ConvertedType != context.String)
+                    left = InvokeStatic(context.SafeToString, left);
+                if (rightSymbol.ConvertedType != context.String)
+                    right = InvokeStatic(context.SafeToString, right);
+
+                result = Js.Binary(JsBinaryOperator.Add, left, right);
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
         public JsBinaryOperator? ToBinaryOperator(SyntaxKind kind)
         {
             JsBinaryOperator op;
@@ -1326,6 +1344,9 @@ namespace WootzJs.Compiler
                     case "parseInt":
                         result = Js.Reference("parseInt").Invoke(arguments);
                         return true;
+                    case "parseFloat":
+                        result = Js.Reference("parseFloat").Invoke(arguments);
+                        return true;
                     case "isNaN":
                         result = Js.Reference("isNaN").Invoke(arguments);
                         return true;
@@ -1349,7 +1370,7 @@ namespace WootzJs.Compiler
                     case "regex":
                         result = new JsRegexExpression(GetConstantString(invocation.ArgumentList.Arguments[0].Expression));
                         if (invocation.ArgumentList.Arguments.Count > 1)
-                            result.Suffix = GetConstantString(invocation.ArgumentList.Arguments[1].Expression);
+                            ((JsRegexExpression)result).Suffix = GetConstantString(invocation.ArgumentList.Arguments[1].Expression);
                         return true;
                 }
             }            

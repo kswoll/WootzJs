@@ -130,12 +130,15 @@ namespace WootzJs.Compiler
         public ArrayTypeSymbol ElementInitArray { get; private set; }
         public ArrayTypeSymbol ArrayIndex { get; private set; }
         public NamedTypeSymbol String { get; private set; }
+        public MethodSymbol ObjectToString { get; private set; }
         public NamedTypeSymbol Char { get; private set; }
         public NamedTypeSymbol Int32 { get; private set; }
         public NamedTypeSymbol Constant { get; private set; }
         public NamedTypeSymbol Action { get; private set; }
         public NamedTypeSymbol Func { get; private set; }
         public NamedTypeSymbol JsObject { get; private set; }
+        public NamedTypeSymbol JsString { get; private set; }
+        public MethodSymbol SafeToString { get; private set; }
 
         public Context(ISolution solution, IProject project, Compilation compilation)
         {
@@ -149,6 +152,7 @@ namespace WootzJs.Compiler
             Compilation = compilation;
             SymbolNames = SymbolNameCompiler.CompileSymbolNames(compilation);
 
+            ObjectToString = compilation.ObjectType.GetMembers("ToString").OfType<MethodSymbol>().Single();
             String = compilation.GetTypeByMetadataName("System.String");
             SpecialFunctions = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.SpecialFunctions");
             Char = compilation.GetTypeByMetadataName("System.Char");
@@ -246,6 +250,8 @@ namespace WootzJs.Compiler
             Action = compilation.GetTypeByMetadataName("System.Action");
             Func = compilation.GetTypeByMetadataName("System.Func`1");
             JsObject = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.JsObject");
+            JsString = compilation.GetTypeByMetadataName("System.Runtime.WootzJs.JsString");
+            SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<MethodSymbol>().Single();
         }
     }
 }

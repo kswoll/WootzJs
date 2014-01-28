@@ -70,6 +70,7 @@
     <Compile Include="Linq\Expressions\ParameterExpressionTests.cs" />
     <Compile Include="Linq\Expressions\TypeBinaryExpressionTests.cs" />
     <Compile Include="Linq\Expressions\UnaryExpressionTests.cs" />
+    <Compile Include="MathTests.cs" />
     <Compile Include="MethodTests.cs" />
     <Compile Include="NullableTests.cs" />
     <Compile Include="NumberTests.cs" />
@@ -99,9 +100,7 @@
     <Compile Include="VirtualMethodTests.cs" />
     <Compile Include="YieldTests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\build\WootzJs.targets" />
   <PropertyGroup>

@@ -51,5 +51,6 @@ namespace System.Runtime.WootzJs
         public const string Define = "$define";
         public const string InitializeArray = "$arrayinit";
         public const string ElementType = "$elementType";
+        public const string SafeToString = "$safeToString";
     }
 }

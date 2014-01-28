@@ -203,5 +203,13 @@ namespace WootzJs.Compiler.Tests
             QUnit.IsTrue(char.IsDigit('9'));
             QUnit.IsTrue(!char.IsDigit('a'));
         }
+
+        [Test]
+        public void ToStringOnNull()
+        {
+            object o = null;
+            var s = "foo" + o;
+            QUnit.AreEqual(s, "foo");
+        }
     }
 }

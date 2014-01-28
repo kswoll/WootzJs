@@ -32,7 +32,7 @@ namespace System
 	/// <summary>
 	/// Equivalent to the Number type in Javascript.
 	/// </summary>
-    [Js(Name = "Number", BuiltIn = true)]
+    [Js(Name = "Number", BuiltIn = true, BaseType = typeof(Object))]
 	public abstract class Number : IComparable
 	{
 		public const int MAX_VALUE = 0;
@@ -170,11 +170,6 @@ namespace System
 			return null;
 		}
 
-        public override string ToString()
-        {
-            return this.As<String>();
-        }
-        
         public string ToString(string format)
         {
             if (string.IsNullOrEmpty(format)) 
@@ -212,6 +207,11 @@ namespace System
         public override bool Equals(object obj)
         {
             return base.Equals(obj);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
 	}
 }

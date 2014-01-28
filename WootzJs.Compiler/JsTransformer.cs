@@ -811,6 +811,8 @@ namespace WootzJs.Compiler
                 return result;
             if (idioms.TryCharBinaryExpression(node.Kind, leftType, rightType, left, right, out result))
                 return result;
+            if (idioms.TryStringConcatenation(node.Kind, leftType, rightType, left, right, out result))
+                return result;
 
             if (symbol != null)
             {
@@ -2211,6 +2213,10 @@ namespace WootzJs.Compiler
             {
                 result = idioms.InvokeStatic(typeInfo.ImplicitConversion.Method, (JsExpression)result);
             }
+//            if (typeInfo.ConvertedType == context.String && typeInfo.Type != null && typeInfo.Type != context.String && typeInfo.Type != context.JsString && !typeInfo.Type.IsValueType)
+//            {
+//                result = idioms.Invoke((JsExpression)result, context.ObjectToString);
+//            }
             return result;
         }
 

@@ -232,5 +232,11 @@ namespace System.Runtime.WootzJs
             }
             return elementType.ArrayType;
         }
+
+        [Js(Name = SpecialNames.SafeToString)]
+        public static string SafeToString(object o)
+        {
+            return o == null ? "" : o.ToString();
+        }
     }
 }

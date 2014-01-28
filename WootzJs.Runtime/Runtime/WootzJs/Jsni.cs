@@ -231,6 +231,11 @@ namespace System.Runtime.WootzJs
             return null;
         }
 
+        public static JsNumber parseFloat(string s, int radix = 0)
+        {
+            return null;
+        }
+
         public static bool isNaN(JsNumber number)
         {
             return false;

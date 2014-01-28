@@ -50,6 +50,9 @@ namespace System
 		/// <returns>The string representation of the object.</returns>
 		public virtual string ToString()
 		{
+// ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (this == null)
+                return "";
 			return this.As<JsObject>().toString();
 		}
 

@@ -139,6 +139,7 @@
     <Compile Include="Linq\Expressions\TypeBinaryExpression.cs" />
     <Compile Include="Linq\Expressions\UnaryExpression.cs" />
     <Compile Include="MarshalByRefObject.cs" />
+    <Compile Include="Math.cs" />
     <Compile Include="Microsoft\CSharp\RuntimeBinder\Binder.cs" />
     <Compile Include="Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
     <Compile Include="Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfoFlags.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeFieldHandle.cs" />
     <Compile Include="RuntimeTypeHandle.cs" />
+    <Compile Include="MidpointRounding.cs" />
     <Compile Include="Runtime\Versioning\TargetFrameworkAttribute.cs" />
     <Compile Include="Runtime\WootzJs\AsExtension.cs" />
     <Compile Include="Runtime\WootzJs\DependsOnAttribute.cs" />
@@ -212,6 +214,7 @@
     <Compile Include="Runtime\WootzJs\JsAttribute.cs" />
     <Compile Include="Runtime\WootzJs\JsError.cs" />
     <Compile Include="Runtime\WootzJs\JsFunction.cs" />
+    <Compile Include="Runtime\WootzJs\JsMath.cs" />
     <Compile Include="Runtime\WootzJs\Jsni.cs" />
     <Compile Include="Runtime\WootzJs\JsNumber.cs" />
     <Compile Include="Runtime\WootzJs\JsObject.cs" />

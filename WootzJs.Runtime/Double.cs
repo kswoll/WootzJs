@@ -26,10 +26,11 @@
 #endregion
 
 using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
-	[StructLayout(LayoutKind.Auto)]
+	[StructLayout(LayoutKind.Auto), Js(BaseType = typeof(Number))]
 	public struct Double
 	{
 		public string Format(string format)
@@ -40,10 +41,12 @@ namespace System
 		{
 			return null;
 		}
+
 		public static double Parse(string s)
 		{
-			return 0.0;
+			return Jsni.parseFloat(s.As<JsString>()).As<double>();
 		}
+
 		/// <summary>
 		/// Returns a string containing the value represented in exponential notation.
 		/// </summary>
