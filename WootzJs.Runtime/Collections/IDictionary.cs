@@ -113,7 +113,7 @@ namespace System.Collections
         /// An <see cref="T:System.Collections.IDictionaryEnumerator"/> object for the <see cref="T:System.Collections.IDictionary"/> object.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        IDictionaryEnumerator GetEnumerator();
+        new IDictionaryEnumerator GetEnumerator();
 
         /// <summary>
         /// Removes the element with the specified key from the <see cref="T:System.Collections.IDictionary"/> object.

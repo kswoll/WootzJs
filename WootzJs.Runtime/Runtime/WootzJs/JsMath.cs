@@ -36,8 +36,8 @@
         public static extern JsNumber log10(JsNumber x);
         public static extern JsNumber log1p(JsNumber x);
         public static extern JsNumber log2(JsNumber x);
-        public static extern JsNumber max(JsNumber x);
-        public static extern JsNumber min(JsNumber x);
+        public static extern JsNumber max(params JsNumber[] x);
+        public static extern JsNumber min(params JsNumber[] x);
         public static extern JsNumber pow(JsNumber exponentBase, JsNumber exponent);
         public static extern JsNumber random();
         public static extern JsNumber round(JsNumber x);

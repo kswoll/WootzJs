@@ -209,6 +209,11 @@ namespace System
             return base.Equals(obj);
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return base.ToString();

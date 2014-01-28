@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>0626</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,7 +40,6 @@
     <Compile Include="ArgumentOutOfRangeException.cs" />
     <Compile Include="Array.cs" />
     <Compile Include="ArrayEnumerator.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Attribute.cs" />
     <Compile Include="AttributeTargets.cs" />
     <Compile Include="AttributeUsageAttribute.cs" />

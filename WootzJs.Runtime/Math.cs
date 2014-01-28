@@ -27,6 +27,8 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.WootzJs;
 using System.Text;
 
@@ -56,7 +58,7 @@ namespace System
         /// <param name="d">A number representing a cosine, where <paramref name="d"/> must be greater than or equal to -1, but less than or equal to 1. </param><filterpriority>1</filterpriority>
         public static double Acos(double d)
         {
-            return JsMath.acos(d).As<double>();
+            return JsMath.acos(d);
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace System
         /// <param name="d">A number representing a sine, where <paramref name="d"/> must be greater than or equal to -1, but less than or equal to 1. </param><filterpriority>1</filterpriority>
         public static double Asin(double d)
         {
-            return JsMath.asin(d).As<double>();
+            return JsMath.asin(d);
         }
 
         /// <summary>
@@ -82,7 +84,7 @@ namespace System
         /// <param name="d">A number representing a tangent. </param><filterpriority>1</filterpriority>
         public static double Atan(double d)
         {
-            return JsMath.atan(d).As<double>();
+            return JsMath.atan(d);
         }
 
         /// <summary>
@@ -95,7 +97,7 @@ namespace System
         /// <param name="y">The y coordinate of a point. </param><param name="x">The x coordinate of a point. </param><filterpriority>1</filterpriority>
         public static double Atan2(double y, double x)
         {
-            return JsMath.atan2(y, x).As<double>();
+            return JsMath.atan2(y, x);
         }
 
         /// <summary>
@@ -108,7 +110,7 @@ namespace System
         /// <param name="d">A decimal number. </param><filterpriority>1</filterpriority>
         public static Decimal Ceiling(Decimal d)
         {
-            return JsMath.ceil(d.As<JsNumber>()).As<Decimal>();
+            return JsMath.ceil(d);
         }
 
         /// <summary>
@@ -121,7 +123,7 @@ namespace System
         /// <param name="a">A double-precision floating-point number. </param><filterpriority>1</filterpriority>
         public static double Ceiling(double a)
         {
-            return JsMath.ceil(a).As<double>();
+            return JsMath.ceil(a);
         }
 
         /// <summary>
@@ -134,7 +136,7 @@ namespace System
         /// <param name="d">An angle, measured in radians. </param><filterpriority>1</filterpriority>
         public static double Cos(double d)
         {
-            return JsMath.cos(d).As<double>();
+            return JsMath.cos(d);
         }
 
         /// <summary>
@@ -147,7 +149,7 @@ namespace System
         /// <param name="value">An angle, measured in radians. </param><filterpriority>1</filterpriority>
         public static double Cosh(double value)
         {
-            return JsMath.cosh(value).As<double>();
+            return JsMath.cosh(value);
         }
 
         /// <summary>
@@ -160,7 +162,7 @@ namespace System
         /// <param name="d">A decimal number. </param><filterpriority>1</filterpriority>
         public static Decimal Floor(Decimal d)
         {
-            return JsMath.floor(d.As<JsNumber>()).As<Decimal>();
+            return JsMath.floor(d);
         }
 
         /// <summary>
@@ -173,7 +175,7 @@ namespace System
         /// <param name="d">A double-precision floating-point number. </param><filterpriority>1</filterpriority>
         public static double Floor(double d)
         {
-            return JsMath.floor(d).As<double>();
+            return JsMath.floor(d);
         }
 
         /// <summary>
@@ -186,7 +188,7 @@ namespace System
         /// <param name="a">An angle, measured in radians. </param><filterpriority>1</filterpriority>
         public static double Sin(double a)
         {
-            return JsMath.sin(a).As<double>();
+            return JsMath.sin(a);
         }
 
         /// <summary>
@@ -199,7 +201,7 @@ namespace System
         /// <param name="a">An angle, measured in radians. </param><filterpriority>1</filterpriority>
         public static double Tan(double a)
         {
-            return JsMath.tan(a).As<double>();
+            return JsMath.tan(a);
         }
 
         /// <summary>
@@ -212,7 +214,7 @@ namespace System
         /// <param name="value">An angle, measured in radians. </param><filterpriority>1</filterpriority>
         public static double Sinh(double value)
         {
-            return JsMath.sinh(value).As<double>();
+            return JsMath.sinh(value);
         }
 
         /// <summary>
@@ -225,7 +227,7 @@ namespace System
         /// <param name="value">An angle, measured in radians. </param><filterpriority>1</filterpriority>
         public static double Tanh(double value)
         {
-            return JsMath.tanh(value).As<double>();
+            return JsMath.tanh(value);
         }
 
         /// <summary>
@@ -238,7 +240,7 @@ namespace System
         /// <param name="a">A double-precision floating-point number to be rounded. </param><filterpriority>1</filterpriority>
         public static double Round(double a)
         {
-            return JsMath.round(a).As<double>();
+            return JsMath.round(a);
         }
 
         /// <summary>
@@ -255,7 +257,7 @@ namespace System
                 throw new ArgumentOutOfRangeException("Value is too small or too big.");
             if (digits == 0)
                 return Round(value);
-            return InternalRound(value, digits, MidpointRounding.ToEven);
+            return Round(value, digits, MidpointRounding.ToEven);
         }
 
         /// <summary>
@@ -268,7 +270,7 @@ namespace System
         /// <param name="value">A number that is greater than or equal to <see cref="F:System.Single.MinValue"/>, but less than or equal to <see cref="F:System.Single.MaxValue"/>.</param><filterpriority>1</filterpriority>
         public static float Abs(float value)
         {
-            return JsMath.abs(value).As<float>();
+            return JsMath.abs(value);
         }
 
         /// <summary>
@@ -281,19 +283,20 @@ namespace System
         /// <param name="value">A number that is greater than or equal to <see cref="F:System.Double.MinValue"/>, but less than or equal to <see cref="F:System.Double.MaxValue"/>.</param><filterpriority>1</filterpriority>
         public static double Abs(double value)
         {
-            return JsMath.abs(value).As<double>();
+            return JsMath.abs(value);
         }
 
-        private static double InternalRound(double value, int digits, MidpointRounding mode)
+        public static double Round(double value, int digits, MidpointRounding mode)
         {
             var s = value.ToString();
-            var decimalIndex = s.IndexOf('.');
-            if (decimalIndex == -1)
-                return value;
 
             var isNegative = value < 0;
             if (isNegative)
                 s = s.Substring(1);
+
+            var decimalIndex = s.IndexOf('.');
+            if (decimalIndex == -1)
+                return value;
 
             var integerPart = s.Substring(0, decimalIndex);
             var intValue = int.Parse(integerPart);
@@ -304,43 +307,415 @@ namespace System
                 switch (mode)
                 {
                     case MidpointRounding.AwayFromZero:
-                        if (!isNegative)
-                            intValue++;
-                        else
-                            intValue--;
+                        intValue++;
                         break;
                     case MidpointRounding.ToEven:
-                        if (firstDecimalDigit % 2 == 1)
+                        if (intValue%2 == 1)
                             intValue++;
                         break;
                 }
+                if (isNegative)
+                    intValue = -intValue;
                 return intValue;
             }
             else
             {
-                var decimalPart = new StringBuilder();
-                var digit = 1;
-                for (var i = decimalIndex + 1; i < s.Length && digit <= digits; i++, digit++)
+                var decimalPart = new Stack<int>();
+                var digit = digits;
+                var carry = 0;
+                for (var i = Min(decimalIndex + digits, s.Length - 1); i > decimalIndex && digit >= 1; i--, digit--)
                 {
-                    var c = s[i];
-                    var digitValue = int.Parse(c.ToString());
-                    if (digit == digits && i < s.Length - 1 && s[i + 1] == 5)
+                    var digitValue = int.Parse(s[i].ToString()) + carry;
+                    if (i < s.Length - 1)
                     {
-                        switch (mode)
+                        var nextDigit = s[i + 1];
+                        var nextDigitValue = int.Parse(nextDigit.ToString());
+                        if (digit == digits && nextDigitValue == 5)
                         {
-                            case MidpointRounding.AwayFromZero:
-                                digitValue++;
-                                break;
-                            case MidpointRounding.ToEven:
-                                if (digitValue % 2 == 1)
+                            switch (mode)
+                            {
+                                case MidpointRounding.AwayFromZero:
                                     digitValue++;
-                                break;
-                        }                    
+                                    break;
+                                case MidpointRounding.ToEven:
+                                    if (digitValue%2 == 1)
+                                    {
+                                        digitValue++;
+                                    }
+                                    break;
+                            }
+                        }
+                        else if (digit == digits && nextDigitValue > 5)
+                            digitValue++;
                     }
-                    decimalPart.Append(digitValue);
+                    if (digitValue == 10)
+                    {
+                        digitValue = 0;
+                        carry = 1;
+                    }
+                    else
+                    {
+                        carry = 0;
+                    }
+                    if (decimalPart.Count > 0 || digitValue != 0)
+                        decimalPart.Push(digitValue);
                 }
-                return double.Parse(intValue + "." + decimalPart);                
+                if (carry > 0)
+                    intValue++;
+                var newString = intValue + "." + decimalPart.ToArray().As<JsArray>().join("");
+                if (isNegative)
+                    newString = "-" + newString;
+                return double.Parse(newString);
             }
+        }
+
+        /// <summary>
+        /// Returns the larger of two 8-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 8-bit signed integers to compare. </param><param name="val2">The second of two 8-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static sbyte Max(sbyte val1, sbyte val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 8-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 8-bit unsigned integers to compare. </param><param name="val2">The second of two 8-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static byte Max(byte val1, byte val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 16-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 16-bit signed integers to compare. </param><param name="val2">The second of two 16-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static short Max(short val1, short val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 16-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 16-bit unsigned integers to compare. </param><param name="val2">The second of two 16-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static ushort Max(ushort val1, ushort val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 32-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 32-bit signed integers to compare. </param><param name="val2">The second of two 32-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static int Max(int val1, int val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 32-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 32-bit unsigned integers to compare. </param><param name="val2">The second of two 32-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static uint Max(uint val1, uint val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 64-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 64-bit signed integers to compare. </param><param name="val2">The second of two 64-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static long Max(long val1, long val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two 64-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two 64-bit unsigned integers to compare. </param><param name="val2">The second of two 64-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static ulong Max(ulong val1, ulong val2)
+        {
+            if (val1 < val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the larger of two single-precision floating-point numbers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger. If <paramref name="val1"/>, or <paramref name="val2"/>, or both <paramref name="val1"/> and <paramref name="val2"/> are equal to <see cref="F:System.Single.NaN"/>, <see cref="F:System.Single.NaN"/> is returned.
+        /// </returns>
+        /// <param name="val1">The first of two single-precision floating-point numbers to compare. </param><param name="val2">The second of two single-precision floating-point numbers to compare. </param><filterpriority>1</filterpriority>
+        public static float Max(float val1, float val2)
+        {
+            if (val1 > val2 || float.IsNaN(val1))
+                return val1;
+            else
+                return val2;
+        }
+
+        /// <summary>
+        /// Returns the larger of two double-precision floating-point numbers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger. If <paramref name="val1"/>, <paramref name="val2"/>, or both <paramref name="val1"/> and <paramref name="val2"/> are equal to <see cref="F:System.Double.NaN"/>, <see cref="F:System.Double.NaN"/> is returned.
+        /// </returns>
+        /// <param name="val1">The first of two double-precision floating-point numbers to compare. </param><param name="val2">The second of two double-precision floating-point numbers to compare. </param><filterpriority>1</filterpriority>
+        public static double Max(double val1, double val2)
+        {
+            if (val1 > val2 || double.IsNaN(val1))
+                return val1;
+            else
+                return val2;
+        }
+
+        /// <summary>
+        /// Returns the larger of two decimal numbers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is larger.
+        /// </returns>
+        /// <param name="val1">The first of two decimal numbers to compare. </param><param name="val2">The second of two decimal numbers to compare. </param><filterpriority>1</filterpriority>
+        public static Decimal Max(Decimal val1, Decimal val2)
+        {
+            if (val1 > val2)
+                return val1;
+            else
+                return val2;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 8-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 8-bit signed integers to compare. </param><param name="val2">The second of two 8-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static sbyte Min(sbyte val1, sbyte val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 8-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 8-bit unsigned integers to compare. </param><param name="val2">The second of two 8-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static byte Min(byte val1, byte val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 16-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 16-bit signed integers to compare. </param><param name="val2">The second of two 16-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static short Min(short val1, short val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 16-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 16-bit unsigned integers to compare. </param><param name="val2">The second of two 16-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static ushort Min(ushort val1, ushort val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 32-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 32-bit signed integers to compare. </param><param name="val2">The second of two 32-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static int Min(int val1, int val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 32-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 32-bit unsigned integers to compare. </param><param name="val2">The second of two 32-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static uint Min(uint val1, uint val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 64-bit signed integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 64-bit signed integers to compare. </param><param name="val2">The second of two 64-bit signed integers to compare. </param><filterpriority>1</filterpriority>
+        public static long Min(long val1, long val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two 64-bit unsigned integers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two 64-bit unsigned integers to compare. </param><param name="val2">The second of two 64-bit unsigned integers to compare. </param><filterpriority>1</filterpriority>
+        public static ulong Min(ulong val1, ulong val2)
+        {
+            if (val1 > val2)
+                return val2;
+            else
+                return val1;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two single-precision floating-point numbers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller. If <paramref name="val1"/>, <paramref name="val2"/>, or both <paramref name="val1"/> and <paramref name="val2"/> are equal to <see cref="F:System.Single.NaN"/>, <see cref="F:System.Single.NaN"/> is returned.
+        /// </returns>
+        /// <param name="val1">The first of two single-precision floating-point numbers to compare. </param><param name="val2">The second of two single-precision floating-point numbers to compare. </param><filterpriority>1</filterpriority>
+        public static float Min(float val1, float val2)
+        {
+            if (val1 < val2 || float.IsNaN(val1))
+                return val1;
+            else
+                return val2;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two double-precision floating-point numbers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller. If <paramref name="val1"/>, <paramref name="val2"/>, or both <paramref name="val1"/> and <paramref name="val2"/> are equal to <see cref="F:System.Double.NaN"/>, <see cref="F:System.Double.NaN"/> is returned.
+        /// </returns>
+        /// <param name="val1">The first of two double-precision floating-point numbers to compare. </param><param name="val2">The second of two double-precision floating-point numbers to compare. </param><filterpriority>1</filterpriority>
+        public static double Min(double val1, double val2)
+        {
+            if (val1 < val2 || double.IsNaN(val1))
+                return val1;
+            else
+                return val2;
+        }
+
+        /// <summary>
+        /// Returns the smaller of two decimal numbers.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// Parameter <paramref name="val1"/> or <paramref name="val2"/>, whichever is smaller.
+        /// </returns>
+        /// <param name="val1">The first of two decimal numbers to compare. </param><param name="val2">The second of two decimal numbers to compare. </param><filterpriority>1</filterpriority>
+        public static Decimal Min(Decimal val1, Decimal val2)
+        {
+            return JsMath.min(val1, val2);
         }
     }
 }

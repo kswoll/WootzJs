@@ -105,5 +105,10 @@ namespace System
 		{
 			return null;
 		}
+
+        public static bool IsNaN(double value)
+        {
+            return value == Number.NaN;
+        }
 	}
 }

@@ -89,5 +89,7 @@ namespace System.Runtime.WootzJs
         {
             return 0;
         }
+
+        public extern void unshift(params JsObject[] prepend);
     }
 }

@@ -30,16 +30,6 @@ namespace System.Collections.Generic
     public interface ISet<T> : ICollection<T>
     {
         /// <summary>
-        /// Adds an element to the current set and returns a value to indicate if the element was successfully added.
-        /// </summary>
-        /// 
-        /// <returns>
-        /// true if the element is added to the set; false if the element is already in the set.
-        /// </returns>
-        /// <param name="item">The element to add to the set.</param>
-        bool Add(T item);
-
-        /// <summary>
         /// Modifies the current set so that it contains all elements that are present in either the current set or the specified collection.
         /// </summary>
         /// <param name="other">The collection to compare to the current set.</param><exception cref="T:System.ArgumentNullException"><paramref name="other"/> is null.</exception>

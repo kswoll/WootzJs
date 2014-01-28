@@ -77,6 +77,16 @@ namespace System
 			}
 		}
 
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public static extern bool operator ==(Delegate d1, Delegate d2);
         public static extern bool operator !=(Delegate d1, Delegate d2);
 

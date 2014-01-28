@@ -41,7 +41,15 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(Math.Round(1.12, 3), 1.12);
             QUnit.AreEqual(Math.Round(1.123, 3), 1.123);
             QUnit.AreEqual(Math.Round(1.1234, 3), 1.123);
-            QUnit.AreEqual(Math.Round(2.45, 1), 2.4);
+            QUnit.AreEqual(Math.Round(2.45, 1, MidpointRounding.ToEven), 2.4);
+            QUnit.AreEqual(Math.Round(2.55, 1, MidpointRounding.ToEven), 2.6);
+            QUnit.AreEqual(Math.Round(-2.45, 1, MidpointRounding.ToEven), -2.4);
+            QUnit.AreEqual(Math.Round(-2.55, 1, MidpointRounding.ToEven), -2.6);
+            QUnit.AreEqual(Math.Round(2.5, 0, MidpointRounding.ToEven), 2);
+            QUnit.AreEqual(Math.Round(3.5, 0, MidpointRounding.ToEven), 4);
+            QUnit.AreEqual(Math.Round(-2.5, 0, MidpointRounding.ToEven), -2);
+            QUnit.AreEqual(Math.Round(-3.5, 0, MidpointRounding.ToEven), -4);
+            QUnit.AreEqual(Math.Round(-2.9999, 3, MidpointRounding.ToEven), -3);
         }
     }
 }
