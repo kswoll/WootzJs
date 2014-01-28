@@ -3875,7 +3875,7 @@ System.Double = $define("double", Number);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Double", $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_BaseType(System.Number);return $obj$;}).call(this)], System.Attribute));this.$type.Init("System.Double", System.Double, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Format", System.Double.prototype.Format, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocaleFormat", System.Double.prototype.LocaleFormat, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Parse", System.Double.prototype.Parse, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Double, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToExponential", System.Double.prototype.ToExponential, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToExponential$1", System.Double.prototype.ToExponential$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fractionDigits", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToFixed", System.Double.prototype.ToFixed, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToFixed$1", System.Double.prototype.ToFixed$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fractionDigits", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToPrecision", System.Double.prototype.ToPrecision, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToPrecision$1", System.Double.prototype.ToPrecision$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("precision", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.Double.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.Double, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsNaN", System.Double.prototype.IsNaN, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Double, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Double.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Double", $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_BaseType(System.Number);return $obj$;}).call(this)], System.Attribute));this.$type.Init("System.Double", System.Double, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Parse", System.Double.prototype.Parse, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Double, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToExponential", System.Double.prototype.ToExponential, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToExponential$1", System.Double.prototype.ToExponential$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fractionDigits", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToFixed", System.Double.prototype.ToFixed, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToFixed$1", System.Double.prototype.ToFixed$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fractionDigits", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToPrecision", System.Double.prototype.ToPrecision, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToPrecision$1", System.Double.prototype.ToPrecision$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("precision", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.Double.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.Double, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsNaN", System.Double.prototype.IsNaN, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Double, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Double.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.ValueType.prototype.$ctor.call(this);
@@ -3883,12 +3883,6 @@ System.Double = $define("double", Number);
     $p.$ctor.$type = $t;
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
-    };
-    $p.Format = function(format) {
-        return null;
-    };
-    $p.LocaleFormat = function(format) {
-        return null;
     };
     $t.Parse = function(s) {
         return parseFloat(s);
@@ -10276,7 +10270,7 @@ System.Single = $define("float", System.ValueType);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Single", $arrayinit([], System.Attribute));this.$type.Init("System.Single", System.Single, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Format", System.Single.prototype.Format, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocaleFormat", System.Single.prototype.LocaleFormat, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Parse", System.Single.prototype.Parse, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Single, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToExponential", System.Single.prototype.ToExponential, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToExponential$1", System.Single.prototype.ToExponential$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fractionDigits", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToFixed", System.Single.prototype.ToFixed, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToFixed$1", System.Single.prototype.ToFixed$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fractionDigits", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToPrecision", System.Single.prototype.ToPrecision, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToPrecision$1", System.Single.prototype.ToPrecision$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("precision", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.Single.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.Single, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsNaN", System.Single.prototype.IsNaN, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Double, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Single.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Single", $arrayinit([], System.Attribute));this.$type.Init("System.Single", System.Single, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.Single.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.Single, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsNaN", System.Single.prototype.IsNaN, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Double, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Single.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.ValueType.prototype.$ctor.call(this);
@@ -10285,35 +10279,8 @@ System.Single = $define("float", System.ValueType);
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
     };
-    $p.Format = function(format) {
-        return null;
-    };
-    $p.LocaleFormat = function(format) {
-        return null;
-    };
-    $t.Parse = function(s) {
-        return 0;
-    };
-    $p.ToExponential = function() {
-        return null;
-    };
-    $p.ToExponential$1 = function(fractionDigits) {
-        return null;
-    };
-    $p.ToFixed = function() {
-        return null;
-    };
-    $p.ToFixed$1 = function(fractionDigits) {
-        return null;
-    };
-    $p.ToPrecision = function() {
-        return null;
-    };
-    $p.ToPrecision$1 = function(precision) {
-        return null;
-    };
     $t.op_Implicit = function(i) {
-        return null;
+        return i;
     };
     $t.IsNaN = function(value) {
         return value == Number().NaN;
@@ -12939,7 +12906,7 @@ System.UInt16 = $define("ushort", System.ValueType);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("UInt16", $arrayinit([], System.Attribute));this.$type.Init("System.UInt16", System.UInt16, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Format", System.UInt16.prototype.Format, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocaleFormat", System.UInt16.prototype.LocaleFormat, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString$1", System.UInt16.prototype.ToString$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("radix", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.UInt16.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.UInt16, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.UInt16.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("UInt16", $arrayinit([], System.Attribute));this.$type.Init("System.UInt16", System.UInt16, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.UInt16.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.UInt16, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.UInt16.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.ValueType.prototype.$ctor.call(this);
@@ -12948,17 +12915,8 @@ System.UInt16 = $define("ushort", System.ValueType);
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
     };
-    $p.Format = function(format) {
-        return null;
-    };
-    $p.LocaleFormat = function(format) {
-        return null;
-    };
-    $p.ToString$1 = function(radix) {
-        return null;
-    };
     $t.op_Implicit = function(i) {
-        return null;
+        return i;
     };
 }).call(null, System.UInt16, System.UInt16.prototype);
 $mscorlib$AssemblyTypes.push(System.UInt16);
@@ -12972,7 +12930,7 @@ System.UInt32 = $define("uint", System.ValueType);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("UInt32", $arrayinit([], System.Attribute));this.$type.Init("System.UInt32", System.UInt32, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Format", System.UInt32.prototype.Format, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocaleFormat", System.UInt32.prototype.LocaleFormat, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString$1", System.UInt32.prototype.ToString$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("radix", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.UInt32.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.UInt32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.UInt32.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("UInt32", $arrayinit([], System.Attribute));this.$type.Init("System.UInt32", System.UInt32, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.UInt32.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.UInt32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.UInt32.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.ValueType.prototype.$ctor.call(this);
@@ -12981,17 +12939,8 @@ System.UInt32 = $define("uint", System.ValueType);
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
     };
-    $p.Format = function(format) {
-        return null;
-    };
-    $p.LocaleFormat = function(format) {
-        return null;
-    };
-    $p.ToString$1 = function(radix) {
-        return null;
-    };
     $t.op_Implicit = function(i) {
-        return null;
+        return i;
     };
 }).call(null, System.UInt32, System.UInt32.prototype);
 $mscorlib$AssemblyTypes.push(System.UInt32);
@@ -13005,7 +12954,7 @@ System.UInt64 = $define("ulong", System.ValueType);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("UInt64", $arrayinit([], System.Attribute));this.$type.Init("System.UInt64", System.UInt64, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Format", System.UInt64.prototype.Format, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocaleFormat", System.UInt64.prototype.LocaleFormat, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("format", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString$1", System.UInt64.prototype.ToString$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("radix", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.UInt64.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.UInt64, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.UInt64.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("UInt64", $arrayinit([], System.Attribute));this.$type.Init("System.UInt64", System.UInt64, System.ValueType, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("op_Implicit", System.UInt64.prototype.op_Implicit, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.UInt64, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.UInt64.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.ValueType.prototype.$ctor.call(this);
@@ -13014,17 +12963,8 @@ System.UInt64 = $define("ulong", System.ValueType);
     $p.$ctor.$new = function() {
         return new $p.$ctor.$type(this);
     };
-    $p.Format = function(format) {
-        return null;
-    };
-    $p.LocaleFormat = function(format) {
-        return null;
-    };
-    $p.ToString$1 = function(radix) {
-        return null;
-    };
     $t.op_Implicit = function(i) {
-        return null;
+        return i;
     };
 }).call(null, System.UInt64, System.UInt64.prototype);
 $mscorlib$AssemblyTypes.push(System.UInt64);

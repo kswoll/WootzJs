@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
@@ -35,45 +36,9 @@ namespace System
 	[StructLayout(LayoutKind.Auto)]
 	public struct Single
 	{
-		public string Format(string format)
-		{
-			return null;
-		}
-		public string LocaleFormat(string format)
-		{
-			return null;
-		}
-		public static float Parse(string s)
-		{
-			return 0f;
-		}
-		public string ToExponential()
-		{
-			return null;
-		}
-		public string ToExponential(int fractionDigits)
-		{
-			return null;
-		}
-		public string ToFixed()
-		{
-			return null;
-		}
-		public string ToFixed(int fractionDigits)
-		{
-			return null;
-		}
-		public string ToPrecision()
-		{
-			return null;
-		}
-		public string ToPrecision(int precision)
-		{
-			return null;
-		}
 		public static implicit operator Number(float i)
 		{
-			return null;
+			return i.As<Number>();
 		}
 
         public static bool IsNaN(double value)

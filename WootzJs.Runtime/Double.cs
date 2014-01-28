@@ -33,15 +33,6 @@ namespace System
 	[StructLayout(LayoutKind.Auto), Js(BaseType = typeof(Number))]
 	public struct Double
 	{
-		public string Format(string format)
-		{
-			return null;
-		}
-		public string LocaleFormat(string format)
-		{
-			return null;
-		}
-
 		public static double Parse(string s)
 		{
 			return Jsni.parseFloat(s.As<JsString>()).As<double>();
