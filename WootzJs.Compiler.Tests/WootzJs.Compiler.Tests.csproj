@@ -40,6 +40,7 @@
     <Compile Include="AsExpressionTests.cs" />
     <Compile Include="Collections\Generic\DictionaryTests.cs" />
     <Compile Include="Collections\Generic\ListTests.cs" />
+    <Compile Include="Collections\Generic\QueueTests.cs" />
     <Compile Include="Collections\Generic\StackTests.cs" />
     <Compile Include="ConstructorTests.cs" />
     <Compile Include="DefaultTests.cs" />

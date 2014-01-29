@@ -68,6 +68,7 @@
     <Compile Include="Collections\Generic\KeyNotFoundException.cs" />
     <Compile Include="Collections\Generic\KeyValuePair.cs" />
     <Compile Include="Collections\Generic\ObjectComparer.cs" />
+    <Compile Include="Collections\Generic\Queue.cs" />
     <Compile Include="Collections\IComparer.cs" />
     <Compile Include="Collections\IDictionary.cs" />
     <Compile Include="Collections\IDictionaryEnumerator.cs" />
