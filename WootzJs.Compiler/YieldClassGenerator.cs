@@ -111,10 +111,12 @@ namespace WootzJs.Compiler
 
             var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
                 .AddModifiers(Cs.Public(), Cs.Override())
-                .WithBody(Cs.Block(Cs.If(
-                    Syntax.IdentifierName(isStarted), 
-                    Cs.Return(Cs.This().Member("Clone").Invoke().Member("GetEnumerator").Invoke()), 
-                    Cs.Return(Cs.This()))));
+                .WithBody(Cs.Block(
+                    Cs.Express(Syntax.IdentifierName(isStarted).Assign(Cs.True())),
+                    Cs.If(
+                        Syntax.IdentifierName(isStarted), 
+                        Cs.Return(Cs.This().Member("Clone").Invoke().Member("GetEnumerator").Invoke()), 
+                        Cs.Return(Cs.This()))));
             members.Add(getEnumerator);
 
             // Generate the MoveNext method, which looks something like:
@@ -127,11 +129,9 @@ namespace WootzJs.Compiler
             //     }
             // }
             
-            var moveNextBody = Cs.Block(
-                Cs.Express(Syntax.IdentifierName(isStarted).Assign(Cs.True())),
-                Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
-                    Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
-                        Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray()))));
+            var moveNextBody = Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
+                Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
+                    Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
             var moveNext = Syntax.MethodDeclaration(Cs.Bool(), "MoveNext")
                 .AddModifiers(Cs.Public(), Cs.Override())
                 .WithBody(Syntax.Block(moveNextBody));
