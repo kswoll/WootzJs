@@ -58,8 +58,18 @@ namespace System.Runtime.WootzJs
         /// </summary>
         public bool BuiltIn { get; set; }
 
+        /// <summary>
+        /// Forces the class to behave as though it were subclassing this type.  This is mostly used for
+        /// native structs that cannot subclass in C# but where it is desired to inherit behavior from a 
+        /// common type.
+        /// </summary>
         public Type BaseType { get; set; }
 
+        /// <summary>
+        /// Replaces instantiations of this class with invocations of the class as though it were a function.
+        /// For example, the jQuery class uses this value in conjunction with overriding the name to `$` such
+        /// that instead of `new jQuery(...)` resolving to `new $(...)` it instead generates `$(...)`.
+        /// </summary>
         public bool InvokeConstructorAsClass { get; set; }
 
         public JsAttribute()
