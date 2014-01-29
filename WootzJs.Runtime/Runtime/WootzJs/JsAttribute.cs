@@ -48,11 +48,6 @@ namespace System.Runtime.WootzJs
         public bool Extension { get; set; }
 
         /// <summary>
-        /// Allows you to supply a native javascript implementation.
-        /// </summary>
-        public string Native { get; set; }
-
-        /// <summary>
         /// When true, the class declaration will not be written out, but all the member declarations will.  This allows you to
         /// instrument an existing built-in type.
         /// </summary>

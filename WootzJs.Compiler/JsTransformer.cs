@@ -557,12 +557,8 @@ namespace WootzJs.Compiler
                 parameters.AddRange(node.TypeParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)));
             parameters.AddRange(node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)));
 
-            var native = method.GetAttributeValue<string>(context.JsAttributeType, "Native");
-            
             JsStatement body;
-            if (native != null)
-                body = Js.Native(native);
-            else if (node.Body == null)
+            if (node.Body == null)
                 body = new JsBlockStatement();
             else if (YieldChecker.HasYield(node))
             {
