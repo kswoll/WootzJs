@@ -10222,27 +10222,6 @@ System.MidpointRounding = $define("System.MidpointRounding", System.Enum);
     };
 }).call(null, System.MidpointRounding, System.MidpointRounding.prototype);
 $mscorlib$AssemblyTypes.push(System.MidpointRounding);
-System.Runtime.WootzJs.JsArguments = $define("System.Runtime.WootzJs.JsArguments", System.Object);
-(System.Runtime.WootzJs.JsArguments.$TypeInitializer = function($t, $p) {
-    $t.$GetAssembly = window.$mscorlib$GetAssembly;
-    $p.$type = $t;
-    $t.$baseType = System.Object;
-    $p.$typeName = "System.Runtime.WootzJs.JsArguments";
-    $t.$typeName = $p.$typeName;
-    $t.$GetType = function() {
-        return System.Type._GetTypeFromTypeFunc(this);
-    };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("JsArguments", $arrayinit([], System.Attribute));this.$type.Init("System.Runtime.WootzJs.JsArguments", System.Runtime.WootzJs.JsArguments, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Runtime.WootzJs.JsArguments.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
-    $t.$StaticInitializer = function() {};
-    $p.$ctor = function() {
-        System.Object.prototype.$ctor.call(this);
-    };
-    $p.$ctor.$type = $t;
-    $p.$ctor.$new = function() {
-        return new $p.$ctor.$type(this);
-    };
-}).call(null, System.Runtime.WootzJs.JsArguments, System.Runtime.WootzJs.JsArguments.prototype);
-$mscorlib$AssemblyTypes.push(System.Runtime.WootzJs.JsArguments);
 System.Runtime.WootzJs.JsAttribute = $define("System.Runtime.WootzJs.JsAttribute", System.Attribute);
 (System.Runtime.WootzJs.JsAttribute.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$mscorlib$GetAssembly;

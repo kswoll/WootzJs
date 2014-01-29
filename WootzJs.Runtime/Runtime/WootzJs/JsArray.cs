@@ -41,54 +41,28 @@ namespace System.Runtime.WootzJs
         {
         }
 
-        public JsObject this[int index]
-        {
-            get { return null; }
-            set {}
-        }
-
-        [Js(Name = "length")]
-        public int length
-        {
-            get { return 0; }
-            set { }
-        }
+        public extern JsObject this[int index] { get; set; }
+        public extern int length { get; set; }
 
         [Js(Name = "join")]
-        public JsString join()
-        {
-            return null;
-        }
+        public extern JsString join();
 
         [Js(Name = "join")]
-        public JsString join(JsString separator)
-        {
-            return null;
-        }
+        public extern JsString join(JsString separator);
 
         [Js(Name = "slice")]
-        public JsArray slice(int start, int end = 0)
-        {
-            return null;
-        }
+        public extern JsArray slice(int start, int end = 0);
 
         [Js(Name = "splice")]
-        public void splice(int index, int howManyToRemove, params JsObject[] elements)
-        {
-        }
+        public extern void splice(int index, int howManyToRemove, params JsObject[] elements);
 
         [Js(Name = "push")]
-        public void push(params JsObject[] elements)
-        {
-        }
+        public extern void push(params JsObject[] elements);
 
         public extern JsObject pop();
 
         [Js(Name = "indexOf")]
-        public int indexOf(JsObject o)
-        {
-            return 0;
-        }
+        public extern int indexOf(JsObject o);
 
         public extern void unshift(params JsObject[] prepend);
         public extern JsObject shift(params JsObject[] prepend);
