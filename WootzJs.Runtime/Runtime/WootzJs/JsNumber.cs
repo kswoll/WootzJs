@@ -51,149 +51,34 @@ namespace System.Runtime.WootzJs
             return null;
         }
 
-        public static bool operator <(JsNumber left, JsNumber right)
-        {
-            return false;
-        }
-
-        public static bool operator >(JsNumber left, JsNumber right)
-        {
-            return false;            
-        }
-
-        public static JsNumber operator -(JsNumber left, JsNumber right)
-        {
-            return null;
-        }
-
-        public static JsNumber operator +(JsNumber left, JsNumber right)
-        {
-            return null;
-        }
-
-        public static JsNumber operator /(JsNumber left, JsNumber right)
-        {
-            return null;
-        }
-
-        public static JsNumber operator *(JsNumber left, JsNumber right)
-        {
-            return null;
-        }
-
-        public static JsNumber operator %(JsNumber left, JsNumber right)
-        {
-            return null;
-        }
-
-        public static implicit operator JsNumber(int value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(long value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(float value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(double value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(short value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(byte value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(sbyte value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(ushort value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(uint value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(ulong value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator JsNumber(decimal value)
-        {
-            return value.As<JsNumber>();
-        }
-
-        public static implicit operator int(JsNumber value)
-        {
-            return value.As<int>();
-        }
-
-        public static implicit operator long(JsNumber value)
-        {
-            return value.As<long>();
-        }
-
-        public static implicit operator float(JsNumber value)
-        {
-            return value.As<float>();
-        }
-
-        public static implicit operator double(JsNumber value)
-        {
-            return value.As<double>();
-        }
-
-        public static implicit operator short(JsNumber value)
-        {
-            return value.As<short>();
-        }
-
-        public static implicit operator byte(JsNumber value)
-        {
-            return value.As<byte>();
-        }
-
-        public static implicit operator sbyte(JsNumber value)
-        {
-            return value.As<sbyte>();
-        }
-
-        public static implicit operator ushort(JsNumber value)
-        {
-            return value.As<ushort>();
-        }
-
-        public static implicit operator uint(JsNumber value)
-        {
-            return value.As<uint>();
-        }
-
-        public static implicit operator ulong(JsNumber value)
-        {
-            return value.As<ulong>();
-        }
-
-        public static implicit operator decimal(JsNumber value)
-        {
-            return value.As<decimal>();
-        }
+        public static extern bool operator <(JsNumber left, JsNumber right);
+        public static extern bool operator >(JsNumber left, JsNumber right);
+        public static extern JsNumber operator -(JsNumber left, JsNumber right);
+        public static extern JsNumber operator +(JsNumber left, JsNumber right);
+        public static extern JsNumber operator /(JsNumber left, JsNumber right);
+        public static extern JsNumber operator *(JsNumber left, JsNumber right);
+        public static extern JsNumber operator %(JsNumber left, JsNumber right);
+        public static extern implicit operator JsNumber(int value);
+        public static extern implicit operator JsNumber(long value);
+        public static extern implicit operator JsNumber(float value);
+        public static extern implicit operator JsNumber(double value);
+        public static extern implicit operator JsNumber(short value);
+        public static extern implicit operator JsNumber(byte value);
+        public static extern implicit operator JsNumber(sbyte value);
+        public static extern implicit operator JsNumber(ushort value);
+        public static extern implicit operator JsNumber(uint value);
+        public static extern implicit operator JsNumber(ulong value);
+        public static extern implicit operator JsNumber(decimal value);
+        public static extern implicit operator int(JsNumber value);
+        public static extern implicit operator long(JsNumber value);
+        public static extern implicit operator float(JsNumber value);
+        public static extern implicit operator double(JsNumber value);
+        public static extern implicit operator short(JsNumber value);
+        public static extern implicit operator byte(JsNumber value);
+        public static extern implicit operator sbyte(JsNumber value);
+        public static extern implicit operator ushort(JsNumber value);
+        public static extern implicit operator uint(JsNumber value);
+        public static extern implicit operator ulong(JsNumber value);
+        public static extern implicit operator decimal(JsNumber value);
     }
 }

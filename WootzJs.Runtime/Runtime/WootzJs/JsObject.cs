@@ -33,31 +33,14 @@ namespace System.Runtime.WootzJs
     [Js(Name = "Object", Export = false)]
     public class JsObject : IEnumerable<string>
     {
-        public JsObject this[JsObject key]
-        {
-            get { return null; }
-            set { }
-        }
-
-        public JsObject this[JsString key]
-        {
-            get { return null; }
-            set { }
-        }
-
-        public JsString toString()
-        {
-            return null;
-        }
+        public extern JsObject this[JsObject key] { get; set; }
+        public extern JsObject this[JsString key] { get; set; }
+        public extern JsString toString();
+        public extern IEnumerator<string> GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public IEnumerator<string> GetEnumerator()
-        {
-            throw new NotImplementedException();
         }
     }
 }
