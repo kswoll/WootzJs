@@ -33,19 +33,8 @@ namespace System.Runtime.WootzJs
         [Js(Name = "prototype")]
         public JsObject prototype;
 
-        public JsObject invoke(params object[] args)
-        {
-            return null;
-        }
-
-        public JsObject call(JsObject thisInstance, params object[] args)
-        {
-            return null;
-        }
-
-        public JsObject apply(JsObject thisInstance, JsArray args)
-        {
-            return null;
-        }
+        public extern JsObject invoke(params object[] args);
+        public extern JsObject call(JsObject thisInstance, params object[] args);
+        public extern JsObject apply(JsObject thisInstance, JsArray args);
     }
 }
