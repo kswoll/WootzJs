@@ -196,13 +196,10 @@ namespace System
         /// A 32-bit signed integer that indicates the lexical relationship between the two comparands.Value Condition Less than zero <paramref name="strA"/> is less than <paramref name="strB"/>. Zero <paramref name="strA"/> equals <paramref name="strB"/>. Greater than zero <paramref name="strA"/> is greater than <paramref name="strB"/>.
         /// </returns>
         /// <param name="strA">The first string to compare. </param><param name="strB">The second string to compare. </param><filterpriority>1</filterpriority>
-        [Js(Native = @"
-if (strA < strB) return -1;
-if (strA > strB) return 1;
-return 0;
-")]
         public static int Compare(string strA, string strB)
         {
+            if (strA.As<JsString>() < strB.As<JsString>()) return -1;
+            if (strA.As<JsString>() > strB.As<JsString>()) return 1;
             return 0;
         }
 

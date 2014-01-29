@@ -62,14 +62,13 @@ namespace System.Runtime.WootzJs
         [Js(Name = "replace")]
         public extern JsString replace(JsString substring, JsFunction replaceWith);
 
-        public static implicit operator string(JsString s)
-        {
-            return s.As<string>();
-        }
+        public static extern bool operator <(JsString left, JsString right);
+        public static extern bool operator >(JsString left, JsString right);
+        public static extern bool operator <=(JsString left, JsString right);
+        public static extern bool operator >=(JsString left, JsString right);
 
-        public static implicit operator JsString(string s)
-        {
-            return s.As<JsString>();
-        }
+        public static extern implicit operator string(JsString s);
+
+        public static extern implicit operator JsString(string s);
     }
 }
