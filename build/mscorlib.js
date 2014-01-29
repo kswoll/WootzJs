@@ -2688,12 +2688,13 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerator", $arrayinit([], System.Attribute));this.$type.Init("System.Collections.Generic.Dictionary`2.YieldEnumerator$GetEnumerator", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator, System.YieldIterator$1$(System.Collections.Generic.KeyValuePair$2$(TKey, TValue)), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Dictionary$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("bucket", System.Collections.Generic.Dictionary$2.Bucket, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("bucket$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", System.Collections.Generic.Dictionary$2.BucketItem, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Dictionary$2, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerator", $arrayinit([], System.Attribute));this.$type.Init("System.Collections.Generic.Dictionary`2.YieldEnumerator$GetEnumerator", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator, System.YieldIterator$1$(System.Collections.Generic.KeyValuePair$2$(TKey, TValue)), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Dictionary$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("bucket", System.Collections.Generic.Dictionary$2.Bucket, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("bucket$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", System.Collections.Generic.Dictionary$2.BucketItem, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Dictionary$2.YieldEnumerator$GetEnumerator.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Dictionary$2, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$GetEnumerator$ = function() {
             return $generic.call(this, this.YieldEnumerator$GetEnumerator, arguments);
         };
         $p.$this = null;
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.bucket = null;
         $p.bucket$enumerator = null;
@@ -2709,41 +2710,52 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.bucket$enumerator = this.$this.buckets.GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.bucket$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.bucket = this.bucket$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.item$enumerator = this.bucket.Items.GetEnumerator();
-                            this.$state = 3;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.bucket$enumerator = this.$this.buckets.GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(System.Collections.Generic.KeyValuePair$2$(TKey, TValue).prototype.$ctor$1.$new(this.item.get_Key(), this.item.get_Value()));
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.bucket$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.bucket = this.bucket$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.item$enumerator = this.bucket.Items.GetEnumerator();
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(System.Collections.Generic.KeyValuePair$2$(TKey, TValue).prototype.$ctor$1.$new(this.item.get_Key(), this.item.get_Value()));
+                                return true;
+                            }
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Collections.Generic.Dictionary$2$(TKey, TValue).YieldEnumerator$GetEnumerator$().prototype.$ctor.$new(this.$this);
+            }
+        };
     }).call($t, $t.YieldEnumerator$GetEnumerator, $t.YieldEnumerator$GetEnumerator.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$GetEnumerator);
 }).call(null, System.Collections.Generic.Dictionary$2, System.Collections.Generic.Dictionary$2.prototype);
@@ -3291,12 +3303,13 @@ System.Collections.Generic.Queue$1 = $define("System.Collections.Generic.Queue<T
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", $arrayinit([], System.Attribute));this.$type.Init("System.Collections.Generic.Queue`1.YieldEnumerator$GetEnumerable", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable, System.YieldIterator$1$(T), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Queue$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Queue$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", $arrayinit([], System.Attribute));this.$type.Init("System.Collections.Generic.Queue`1.YieldEnumerator$GetEnumerable", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable, System.YieldIterator$1$(T), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Queue$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Queue$1.YieldEnumerator$GetEnumerable.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Queue$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$GetEnumerable$ = function() {
             return $generic.call(this, this.YieldEnumerator$GetEnumerable, arguments);
         };
         $p.$this = null;
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.i = 0;
         $p.$ctor = function($this) {
@@ -3309,35 +3322,46 @@ System.Collections.Generic.Queue$1 = $define("System.Collections.Generic.Queue<T
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.i = 0;
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.i < this.$this.storage.length) {
-                            this.$state = 3;
-                            this.set_Current(this.$this.storage[this.i]);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.i++;
-                        this.$state = 2;
-                        continue $top;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.i = 0;
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.i < this.$this.storage.length) {
+                                this.$state = 3;
+                                this.set_Current(this.$this.storage[this.i]);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.i++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Collections.Generic.Queue$1$(T).YieldEnumerator$GetEnumerable$().prototype.$ctor.$new(this.$this);
+            }
+        };
     }).call($t, $t.YieldEnumerator$GetEnumerable, $t.YieldEnumerator$GetEnumerable.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$GetEnumerable);
 }).call(null, System.Collections.Generic.Queue$1, System.Collections.Generic.Queue$1.prototype);
@@ -3840,12 +3864,13 @@ System.Collections.Generic.Stack$1 = $define("System.Collections.Generic.Stack<T
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", $arrayinit([], System.Attribute));this.$type.Init("System.Collections.Generic.Stack`1.YieldEnumerator$GetEnumerable", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable, System.YieldIterator$1$(T), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Stack$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Stack$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerable", $arrayinit([], System.Attribute));this.$type.Init("System.Collections.Generic.Stack`1.YieldEnumerator$GetEnumerable", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable, System.YieldIterator$1$(T), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Stack$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Collections.Generic.Stack$1.YieldEnumerator$GetEnumerable.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", System.Collections.Generic.Stack$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$GetEnumerable$ = function() {
             return $generic.call(this, this.YieldEnumerator$GetEnumerable, arguments);
         };
         $p.$this = null;
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.i = 0;
         $p.$ctor = function($this) {
@@ -3858,35 +3883,46 @@ System.Collections.Generic.Stack$1 = $define("System.Collections.Generic.Stack<T
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.i = this.$this.storage.length - 1;
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.i >= 0) {
-                            this.$state = 3;
-                            this.set_Current(this.$this.storage[this.i]);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.i--;
-                        this.$state = 2;
-                        continue $top;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.i = this.$this.storage.length - 1;
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.i >= 0) {
+                                this.$state = 3;
+                                this.set_Current(this.$this.storage[this.i]);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.i--;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Collections.Generic.Stack$1$(T).YieldEnumerator$GetEnumerable$().prototype.$ctor.$new(this.$this);
+            }
+        };
     }).call($t, $t.YieldEnumerator$GetEnumerable, $t.YieldEnumerator$GetEnumerable.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$GetEnumerable);
 }).call(null, System.Collections.Generic.Stack$1, System.Collections.Generic.Stack$1.prototype);
@@ -5171,11 +5207,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Where", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Where`1", System.Linq.Enumerable.YieldEnumerator$Where$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Where", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Where`1", System.Linq.Enumerable.YieldEnumerator$Where$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Where$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Where$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Where$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.predicate = null;
@@ -5192,36 +5229,47 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (this.predicate(this.item)) {
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (this.predicate(this.item)) {
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }
+                                this.$state = 2;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Where$1$(TSource).prototype.$ctor.$new(this.source, this.predicate);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Where$1, $t.YieldEnumerator$Where$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Where$1);
     $t.YieldEnumerator$Where$1$1 = $define("System.Linq.Enumerable.YieldEnumerator$Where$1<TSource>", System.YieldIterator$1);
@@ -5234,11 +5282,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Where$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Where$1`1", System.Linq.Enumerable.YieldEnumerator$Where$1$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Where$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Where$1`1", System.Linq.Enumerable.YieldEnumerator$Where$1$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Where$1$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Where$1$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Where$1$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.predicate = null;
@@ -5256,45 +5305,56 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (this.predicate(this.item, this.index)) {
-                                this.$state = 3;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 3;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (this.predicate(this.item, this.index)) {
+                                    this.$state = 3;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Where$1$1$(TSource).prototype.$ctor.$new(this.source, this.predicate);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Where$1$1, $t.YieldEnumerator$Where$1$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Where$1$1);
     $t.YieldEnumerator$Select$2 = $define("System.Linq.Enumerable.YieldEnumerator$Select<TSource, TResult>", System.YieldIterator$1);
@@ -5307,11 +5367,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Select", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Select`2", System.Linq.Enumerable.YieldEnumerator$Select$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Select", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Select`2", System.Linq.Enumerable.YieldEnumerator$Select$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Select$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Select$2$ = function() {
             return $generic.call(this, this.YieldEnumerator$Select$2, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.selector = null;
@@ -5328,32 +5389,43 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.selector(this.item));
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 2;
+                                this.set_Current(this.selector(this.item));
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Select$2$(TSource, TResult).prototype.$ctor.$new(this.source, this.selector);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Select$2, $t.YieldEnumerator$Select$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Select$2);
     $t.YieldEnumerator$Select$1$2 = $define("System.Linq.Enumerable.YieldEnumerator$Select$1<TSource, TResult>", System.YieldIterator$1);
@@ -5366,11 +5438,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Select$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Select$1`2", System.Linq.Enumerable.YieldEnumerator$Select$1$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Select$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Select$1`2", System.Linq.Enumerable.YieldEnumerator$Select$1$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Select$1$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Select$1$2$ = function() {
             return $generic.call(this, this.YieldEnumerator$Select$1$2, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.selector = null;
@@ -5388,41 +5461,52 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.selector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.selector(this.item, this.index));
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.selector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(this.selector(this.item, this.index));
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Select$1$2$(TSource, TResult).prototype.$ctor.$new(this.source, this.selector);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Select$1$2, $t.YieldEnumerator$Select$1$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Select$1$2);
     $t.YieldEnumerator$SelectMany$2 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany<TSource, TResult>", System.YieldIterator$1);
@@ -5435,11 +5519,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany`2", System.Linq.Enumerable.YieldEnumerator$SelectMany$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TResult, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany`2", System.Linq.Enumerable.YieldEnumerator$SelectMany$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TResult, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$SelectMany$2$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$2, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.selector = null;
@@ -5458,41 +5543,52 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.subitem$enumerator = this.selector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.subitem);
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.subitem$enumerator = this.selector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(this.subitem);
+                                return true;
+                            }
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$SelectMany$2$(TSource, TResult).prototype.$ctor.$new(this.source, this.selector);
+            }
+        };
     }).call($t, $t.YieldEnumerator$SelectMany$2, $t.YieldEnumerator$SelectMany$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$2);
     $t.YieldEnumerator$SelectMany$1$2 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany$1<TSource, TResult>", System.YieldIterator$1);
@@ -5505,11 +5601,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany$1`2", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TResult, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany$1`2", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("selector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TResult, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$SelectMany$1$2$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$1$2, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.selector = null;
@@ -5529,50 +5626,61 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            System.ArgumentNullException.prototype.$ctor.$new("source");
-                        if (this.selector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.subitem$enumerator = this.selector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                System.ArgumentNullException.prototype.$ctor.$new("source");
+                            if (this.selector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.subitem);
-                            return true;
-                        }
-                        this.$state = 4;
-                        continue $top;
-                    case 4:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.subitem$enumerator = this.selector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(this.subitem);
+                                return true;
+                            }
+                            this.$state = 4;
+                            continue $top;
+                        case 4:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$SelectMany$1$2$(TSource, TResult).prototype.$ctor.$new(this.source, this.selector);
+            }
+        };
     }).call($t, $t.YieldEnumerator$SelectMany$1$2, $t.YieldEnumerator$SelectMany$1$2.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$1$2);
     $t.YieldEnumerator$SelectMany$3$3 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany$3<TSource, TCollection, TResult>", System.YieldIterator$1);
@@ -5585,11 +5693,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany$3", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany$3`3", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("collectionSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("resultSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TCollection, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany$3", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany$3`3", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("collectionSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("resultSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TCollection, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$SelectMany$3$3$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$3$3, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.collectionSelector = null;
@@ -5616,52 +5725,63 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             );
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.collectionSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
-                        if (this.resultSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.subitem$enumerator = this.collectionSelector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.collectionSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
+                            if (this.resultSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.resultSelector(this.item, this.subitem));
-                            return true;
-                        }
-                        this.$state = 4;
-                        continue $top;
-                    case 4:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.subitem$enumerator = this.collectionSelector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(this.resultSelector(this.item, this.subitem));
+                                return true;
+                            }
+                            this.$state = 4;
+                            continue $top;
+                        case 4:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$SelectMany$3$3$(TSource, TCollection, TResult).prototype.$ctor.$new(this.source, this.collectionSelector, this.resultSelector);
+            }
+        };
     }).call($t, $t.YieldEnumerator$SelectMany$3$3, $t.YieldEnumerator$SelectMany$3$3.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$3$3);
     $t.YieldEnumerator$SelectMany$2$3 = $define("System.Linq.Enumerable.YieldEnumerator$SelectMany$2<TSource, TCollection, TResult>", System.YieldIterator$1);
@@ -5674,11 +5794,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany$2", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany$2`3", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("resultSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TCollection, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SelectMany$2", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SelectMany$2`3", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("resultSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem", TCollection, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("subitem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$SelectMany$2$3$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$2$3, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.collectionSelector = null;
@@ -5704,47 +5825,58 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             );
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.collectionSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
-                        if (this.resultSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.subitem$enumerator = this.collectionSelector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 3;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.collectionSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
+                            if (this.resultSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.resultSelector(this.item, this.subitem));
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.subitem$enumerator = this.collectionSelector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(this.resultSelector(this.item, this.subitem));
+                                return true;
+                            }
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$SelectMany$2$3$(TSource, TCollection, TResult).prototype.$ctor.$new(this.source, this.collectionSelector, this.resultSelector);
+            }
+        };
     }).call($t, $t.YieldEnumerator$SelectMany$2$3, $t.YieldEnumerator$SelectMany$2$3.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SelectMany$2$3);
     $t.YieldEnumerator$Take$1 = $define("System.Linq.Enumerable.YieldEnumerator$Take<TSource>", System.YieldIterator$1);
@@ -5757,11 +5889,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Take", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Take`1", System.Linq.Enumerable.YieldEnumerator$Take$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("count", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Take", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Take`1", System.Linq.Enumerable.YieldEnumerator$Take$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("count", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Take$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Take$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Take$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.count = 0;
@@ -5779,41 +5912,52 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, count);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (this.index >= this.count)
-                                break;
-                            this.$state = 3;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (this.index >= this.count)
+                                    break;
+                                this.$state = 3;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Take$1$(TSource).prototype.$ctor.$new(this.source, this.count);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Take$1, $t.YieldEnumerator$Take$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Take$1);
     $t.YieldEnumerator$TakeWhile$1 = $define("System.Linq.Enumerable.YieldEnumerator$TakeWhile<TSource>", System.YieldIterator$1);
@@ -5826,11 +5970,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TakeWhile", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$TakeWhile`1", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TakeWhile", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$TakeWhile`1", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$TakeWhile$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$TakeWhile$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.predicate = null;
@@ -5847,38 +5992,49 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (!this.predicate(this.item))
-                                break;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (!this.predicate(this.item))
+                                    break;
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$(TSource).prototype.$ctor.$new(this.source, this.predicate);
+            }
+        };
     }).call($t, $t.YieldEnumerator$TakeWhile$1, $t.YieldEnumerator$TakeWhile$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$TakeWhile$1);
     $t.YieldEnumerator$TakeWhile$1$1 = $define("System.Linq.Enumerable.YieldEnumerator$TakeWhile$1<TSource>", System.YieldIterator$1);
@@ -5891,11 +6047,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TakeWhile$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$TakeWhile$1`1", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TakeWhile$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$TakeWhile$1`1", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$TakeWhile$1$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$TakeWhile$1$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.predicate = null;
@@ -5913,43 +6070,54 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.index = 0;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (!this.predicate(this.item, this.index))
-                                break;
-                            this.$state = 3;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.index++;
-                        this.$state = 2;
-                        continue $top;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.index = 0;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (!this.predicate(this.item, this.index))
+                                    break;
+                                this.$state = 3;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.index++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$TakeWhile$1$1$(TSource).prototype.$ctor.$new(this.source, this.predicate);
+            }
+        };
     }).call($t, $t.YieldEnumerator$TakeWhile$1$1, $t.YieldEnumerator$TakeWhile$1$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$TakeWhile$1$1);
     $t.YieldEnumerator$Skip$1 = $define("System.Linq.Enumerable.YieldEnumerator$Skip<TSource>", System.YieldIterator$1);
@@ -5962,11 +6130,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Skip", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Skip`1", System.Linq.Enumerable.YieldEnumerator$Skip$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("count", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Skip", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Skip`1", System.Linq.Enumerable.YieldEnumerator$Skip$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("count", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Skip$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Skip$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Skip$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.count = 0;
@@ -5984,38 +6153,49 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, count);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        this.index = -1;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.index++;
-                            if (this.index < this.count)
-                                continue;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            this.index = -1;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.index++;
+                                if (this.index < this.count)
+                                    continue;
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Skip$1$(TSource).prototype.$ctor.$new(this.source, this.count);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Skip$1, $t.YieldEnumerator$Skip$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Skip$1);
     $t.YieldEnumerator$SkipWhile$1 = $define("System.Linq.Enumerable.YieldEnumerator$SkipWhile<TSource>", System.YieldIterator$1);
@@ -6028,11 +6208,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SkipWhile", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SkipWhile`1", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SkipWhile", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SkipWhile`1", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$SkipWhile$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$SkipWhile$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.predicate = null;
@@ -6049,38 +6230,49 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (this.predicate(this.item))
-                                continue;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (this.predicate(this.item))
+                                    continue;
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$(TSource).prototype.$ctor.$new(this.source, this.predicate);
+            }
+        };
     }).call($t, $t.YieldEnumerator$SkipWhile$1, $t.YieldEnumerator$SkipWhile$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SkipWhile$1);
     $t.YieldEnumerator$SkipWhile$1$1 = $define("System.Linq.Enumerable.YieldEnumerator$SkipWhile$1<TSource>", System.YieldIterator$1);
@@ -6093,11 +6285,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SkipWhile$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SkipWhile$1`1", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$SkipWhile$1", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$SkipWhile$1`1", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("predicate", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("index", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$SkipWhile$1$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$SkipWhile$1$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.predicate = null;
@@ -6115,40 +6308,51 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        if (this.predicate == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                        this.index = -1;
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.index++;
-                            if (this.predicate(this.item, this.index))
-                                continue;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            if (this.predicate == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                            this.index = -1;
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.index++;
+                                if (this.predicate(this.item, this.index))
+                                    continue;
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$SkipWhile$1$1$(TSource).prototype.$ctor.$new(this.source, this.predicate);
+            }
+        };
     }).call($t, $t.YieldEnumerator$SkipWhile$1$1, $t.YieldEnumerator$SkipWhile$1$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$SkipWhile$1$1);
     $t.YieldEnumerator$Join$4 = $define("System.Linq.Enumerable.YieldEnumerator$Join<TOuter, TInner, TKey, TResult>", System.YieldIterator$1);
@@ -6161,11 +6365,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Join", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Join`4", System.Linq.Enumerable.YieldEnumerator$Join$4, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outer", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("inner", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outerKeySelector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("innerKeySelector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("resultSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outers", $array(TOuter), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("dictionary", System.Collections.Generic.Dictionary$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outerItem", TOuter, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outerItem$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("key", TKey, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("set", System.Tuple$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("innerItem", TInner, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("innerItem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("outer", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("inner", System.Collections.Generic.IEnumerable$1, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("outerKeySelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("innerKeySelector", System.Func$2, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 4, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Join", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Join`4", System.Linq.Enumerable.YieldEnumerator$Join$4, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outer", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("inner", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outerKeySelector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("innerKeySelector", System.Func$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("resultSelector", System.Func$3, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outers", $array(TOuter), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("dictionary", System.Collections.Generic.Dictionary$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outerItem", TOuter, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("outerItem$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("key", TKey, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("set", System.Tuple$2, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("innerItem", TInner, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("innerItem$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Join$4.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("outer", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("inner", System.Collections.Generic.IEnumerable$1, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("outerKeySelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("innerKeySelector", System.Func$2, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 4, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Join$4$ = function() {
             return $generic.call(this, this.YieldEnumerator$Join$4, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.outer = null;
         $p.inner = null;
@@ -6201,93 +6406,115 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             );
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.outers = System.Linq.Enumerable.ToArray(TOuter, this.outer);
-                        if (this.outer == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("outer").InternalInit(new Error());
-                        if (this.inner == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("inner").InternalInit(new Error());
-                        if (this.outerKeySelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("outerKeySelector").InternalInit(new Error());
-                        if (this.innerKeySelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("innerKeySelector").InternalInit(new Error());
-                        if (this.resultSelector == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                        this.dictionary = System.Collections.Generic.Dictionary$2$(TKey, System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner))).prototype.$ctor.$new();
-                        {
-                            var $anon$1iterator = this.outers;
-                            var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-                            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                var item = $anon$2enumerator.System$Collections$IEnumerator$get_Current();
-                                var key = this.outerKeySelector(item);
-                                var lists;
-                                if (!(function() {
-                                    var $anon$3 = {
-                                        value: null
-                                    };
-                                    var $result$ = this.dictionary.TryGetValue(key, $anon$3);
-                                    lists = $anon$3.value;
-                                    return $result$;
-                                }).call(this)) {
-                                    lists = System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner)).prototype.$ctor.$new(System.Collections.Generic.List$1$(TOuter).prototype.$ctor.$new(), System.Collections.Generic.List$1$(TInner).prototype.$ctor.$new());
-                                    this.dictionary.set_Item(key, lists);
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.outers = System.Linq.Enumerable.ToArray(TOuter, this.outer);
+                            if (this.outer == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("outer").InternalInit(new Error());
+                            if (this.inner == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("inner").InternalInit(new Error());
+                            if (this.outerKeySelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("outerKeySelector").InternalInit(new Error());
+                            if (this.innerKeySelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("innerKeySelector").InternalInit(new Error());
+                            if (this.resultSelector == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                            this.dictionary = System.Collections.Generic.Dictionary$2$(TKey, System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner))).prototype.$ctor.$new();
+                            {
+                                var $anon$1iterator = this.outers;
+                                var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
+                                while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var item = $anon$2enumerator.System$Collections$IEnumerator$get_Current();
+                                    var key = this.outerKeySelector(item);
+                                    var lists;
+                                    if (!(function() {
+                                        var $anon$3 = {
+                                            value: null
+                                        };
+                                        var $result$ = this.dictionary.TryGetValue(key, $anon$3);
+                                        lists = $anon$3.value;
+                                        return $result$;
+                                    }).call(this)) {
+                                        lists = System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner)).prototype.$ctor.$new(System.Collections.Generic.List$1$(TOuter).prototype.$ctor.$new(), System.Collections.Generic.List$1$(TInner).prototype.$ctor.$new());
+                                        this.dictionary.set_Item(key, lists);
+                                    }
+                                    lists.get_Item1().Add(item);
                                 }
-                                lists.get_Item1().Add(item);
-                            }
-                        }{
-                            var $anon$4iterator = this.inner;
-                            var $anon$5enumerator = $anon$4iterator.System$Collections$IEnumerable$GetEnumerator();
-                            while ($anon$5enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                var item = $anon$5enumerator.System$Collections$IEnumerator$get_Current();
-                                var key = this.innerKeySelector(item);
-                                var lists;
-                                if (!(function() {
-                                    var $anon$6 = {
-                                        value: null
-                                    };
-                                    var $result$ = this.dictionary.TryGetValue(key, $anon$6);
-                                    lists = $anon$6.value;
-                                    return $result$;
-                                }).call(this))
-                                    continue;
-                                lists.get_Item2().Add(item);
-                            }
-                        }this.outerItem$enumerator = this.outers.GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.outerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.outerItem = this.outerItem$enumerator.System$Collections$IEnumerator$get_Current();
-                            this.key = this.outerKeySelector(this.outerItem);
-                            this.set = this.dictionary.get_Item(this.key);
-                            this.innerItem$enumerator = this.set.get_Item2().GetEnumerator();
-                            this.$state = 3;
+                            }{
+                                var $anon$4iterator = this.inner;
+                                var $anon$5enumerator = $anon$4iterator.System$Collections$IEnumerable$GetEnumerator();
+                                while ($anon$5enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                    var item = $anon$5enumerator.System$Collections$IEnumerator$get_Current();
+                                    var key = this.innerKeySelector(item);
+                                    var lists;
+                                    if (!(function() {
+                                        var $anon$6 = {
+                                            value: null
+                                        };
+                                        var $result$ = this.dictionary.TryGetValue(key, $anon$6);
+                                        lists = $anon$6.value;
+                                        return $result$;
+                                    }).call(this))
+                                        continue;
+                                    lists.get_Item2().Add(item);
+                                }
+                            }this.outerItem$enumerator = this.outers.GetEnumerator();
+                            this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        while (this.innerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.innerItem = this.innerItem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            this.$state = 3;
-                            this.set_Current(this.resultSelector(this.outerItem, this.innerItem));
-                            return true;
-                        }
-                        this.$state = 2;
-                        continue $top;
+                        case 2:
+                            while (this.outerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.outerItem = this.outerItem$enumerator.System$Collections$IEnumerator$get_Current();
+                                this.key = this.outerKeySelector(this.outerItem);
+                                this.set = this.dictionary.get_Item(this.key);
+                                this.innerItem$enumerator = this.set.get_Item2().GetEnumerator();
+                                this.$state = 3;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            while (this.innerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.innerItem = this.innerItem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 3;
+                                this.set_Current(this.resultSelector(this.outerItem, this.innerItem));
+                                return true;
+                            }
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Join$4$(
+                    TOuter, 
+                    TInner, 
+                    TKey, 
+                    TResult
+                ).prototype.$ctor.$new(
+                    this.outer, 
+                    this.inner, 
+                    this.outerKeySelector, 
+                    this.innerKeySelector, 
+                    this.resultSelector
+                );
+            }
+        };
     }).call($t, $t.YieldEnumerator$Join$4, $t.YieldEnumerator$Join$4.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Join$4);
     $t.YieldEnumerator$Concat$1 = $define("System.Linq.Enumerable.YieldEnumerator$Concat<T>", System.YieldIterator$1);
@@ -6300,11 +6527,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Concat", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Concat`1", System.Linq.Enumerable.YieldEnumerator$Concat$1, System.YieldIterator$1$(T), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("other", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", T, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2", T, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("other", System.Collections.Generic.IEnumerable$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Concat", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Concat`1", System.Linq.Enumerable.YieldEnumerator$Concat$1, System.YieldIterator$1$(T), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("other", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", T, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2", T, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Concat$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("other", System.Collections.Generic.IEnumerable$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Concat$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Concat$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.other = null;
@@ -6323,45 +6551,56 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, other);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current(this.item);
-                            return true;
-                        }
-                        this.$state = 3;
-                        continue $top;
-                    case 3:
-                        this.item2$enumerator = this.other.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 4;
-                        continue $top;
-                    case 4:
-                        while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item2 = this.item2$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
+                            this.$state = 3;
+                            continue $top;
+                        case 3:
+                            this.item2$enumerator = this.other.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 4;
-                            this.set_Current(this.item2);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 4:
+                            while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item2 = this.item2$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                this.$state = 4;
+                                this.set_Current(this.item2);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Concat$1$(T).prototype.$ctor.$new(this.source, this.other);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Concat$1, $t.YieldEnumerator$Concat$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Concat$1);
     $t.YieldEnumerator$Except$1 = $define("System.Linq.Enumerable.YieldEnumerator$Except<TSource>", System.YieldIterator$1);
@@ -6374,11 +6613,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Except", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Except`1", System.Linq.Enumerable.YieldEnumerator$Except$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("first", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("second", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("set", System.Collections.Generic.HashSet$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("first", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("second", System.Collections.Generic.IEnumerable$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Except", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Except`1", System.Linq.Enumerable.YieldEnumerator$Except$1, System.YieldIterator$1$(TSource), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("first", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("second", System.Collections.Generic.IEnumerable$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("set", System.Collections.Generic.HashSet$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", TSource, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.Generic.IEnumerator$1, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Except$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("first", System.Collections.Generic.IEnumerable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("second", System.Collections.Generic.IEnumerable$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Except$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Except$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.first = null;
         $p.second = null;
@@ -6396,41 +6636,52 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, first, second);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.first == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("first").InternalInit(new Error());
-                        if (this.second == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("second").InternalInit(new Error());
-                        this.set = System.Collections.Generic.HashSet$1$(TSource).prototype.$ctor$1.$new(this.second);
-                        this.item$enumerator = this.first.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                            if (!this.set.Contains(this.item)) {
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.first == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("first").InternalInit(new Error());
+                            if (this.second == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("second").InternalInit(new Error());
+                            this.set = System.Collections.Generic.HashSet$1$(TSource).prototype.$ctor$1.$new(this.second);
+                            this.item$enumerator = this.first.System$Collections$Generic$IEnumerable$1$GetEnumerator();
                             this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                                if (!this.set.Contains(this.item)) {
+                                    this.$state = 2;
+                                    this.set_Current(this.item);
+                                    return true;
+                                }
+                                this.$state = 2;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Except$1$(TSource).prototype.$ctor.$new(this.first, this.second);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Except$1, $t.YieldEnumerator$Except$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Except$1);
     $t.YieldEnumerator$Repeat$1 = $define("System.Linq.Enumerable.YieldEnumerator$Repeat<TResult>", System.YieldIterator$1);
@@ -6443,11 +6694,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Repeat", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Repeat`1", System.Linq.Enumerable.YieldEnumerator$Repeat$1, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("element", TResult, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("count", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("element", TResult, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Repeat", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Repeat`1", System.Linq.Enumerable.YieldEnumerator$Repeat$1, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("element", TResult, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("count", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Repeat$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("element", TResult, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("count", System.Int32, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Repeat$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Repeat$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.element = null;
         $p.count = 0;
@@ -6463,42 +6715,53 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, element, count);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.count < 0) {
-                            throw System.ArgumentOutOfRangeException.prototype.$ctor$1.$new("count").InternalInit(new Error());
-                        }
-                        else {
-                            this.i = 0;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.count < 0) {
+                                throw System.ArgumentOutOfRangeException.prototype.$ctor$1.$new("count").InternalInit(new Error());
+                            }
+                            else {
+                                this.i = 0;
+                                this.$state = 2;
+                                continue $top;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 2:
+                            while (this.i < this.count) {
+                                this.$state = 3;
+                                this.set_Current(this.element);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.i++;
                             this.$state = 2;
                             continue $top;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 2:
-                        while (this.i < this.count) {
-                            this.$state = 3;
-                            this.set_Current(this.element);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.i++;
-                        this.$state = 2;
-                        continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Repeat$1$(TResult).prototype.$ctor.$new(this.element, this.count);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Repeat$1, $t.YieldEnumerator$Repeat$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Repeat$1);
     $t.YieldEnumerator$Cast$1 = $define("System.Linq.Enumerable.YieldEnumerator$Cast<TResult>", System.YieldIterator$1);
@@ -6511,11 +6774,12 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Cast", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Cast`1", System.Linq.Enumerable.YieldEnumerator$Cast$1, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.IEnumerable, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", System.Object, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.IEnumerable, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Cast", $arrayinit([], System.Attribute));this.$type.Init("System.Linq.Enumerable.YieldEnumerator$Cast`1", System.Linq.Enumerable.YieldEnumerator$Cast$1, System.YieldIterator$1$(TResult), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("source", System.Collections.IEnumerable, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", System.Object, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Linq.Enumerable.YieldEnumerator$Cast$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.Collections.IEnumerable, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         this.YieldEnumerator$Cast$1$ = function() {
             return $generic.call(this, this.YieldEnumerator$Cast$1, arguments);
         };
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
         $p.item = null;
@@ -6530,34 +6794,45 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (this.source == null)
-                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                        this.item$enumerator = this.source.System$Collections$IEnumerable$GetEnumerator();
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                            this.item = this.item$enumerator.System$Collections$IEnumerator$get_Current();
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            if (this.source == null)
+                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                            this.item$enumerator = this.source.System$Collections$IEnumerable$GetEnumerator();
                             this.$state = 2;
-                            this.set_Current($cast(TResult, this.item));
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
+                            continue $top;
+                        case 2:
+                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                this.item = this.item$enumerator.System$Collections$IEnumerator$get_Current();
+                                this.$state = 2;
+                                this.set_Current($cast(TResult, this.item));
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return System.Linq.Enumerable.YieldEnumerator$Cast$1$(TResult).prototype.$ctor.$new(this.source);
+            }
+        };
     }).call($t, $t.YieldEnumerator$Cast$1, $t.YieldEnumerator$Cast$1.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$Cast$1);
 }).call(null, System.Linq.Enumerable, System.Linq.Enumerable.prototype);
@@ -10709,9 +10984,10 @@ $mscorlib$AssemblyTypes.push(System.Single);
         $t.$GetType = function() {
             return System.Type._GetTypeFromTypeFunc(this);
         };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerator", $arrayinit([], System.Attribute));this.$type.Init("System.String.YieldEnumerator$GetEnumerator", String.YieldEnumerator$GetEnumerator, System.YieldIterator$1$(System.Char), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", String.YieldEnumerator$GetEnumerator.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", String.YieldEnumerator$GetEnumerator.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", String.YieldEnumerator$GetEnumerator.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$GetEnumerator", $arrayinit([], System.Attribute));this.$type.Init("System.String.YieldEnumerator$GetEnumerator", String.YieldEnumerator$GetEnumerator, System.YieldIterator$1$(System.Char), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$this", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", String.YieldEnumerator$GetEnumerator.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", String.YieldEnumerator$GetEnumerator.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", String.YieldEnumerator$GetEnumerator.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", String.YieldEnumerator$GetEnumerator.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("$this", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
         $t.$StaticInitializer = function() {};
         $p.$this = null;
+        $p.$isStarted = false;
         $p.$state = 0;
         $p.i = 0;
         $p.$ctor = function($this) {
@@ -10724,35 +11000,46 @@ $mscorlib$AssemblyTypes.push(System.Single);
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            return this;
+            if (this.$isStarted)
+                return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            else
+                return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            $top:
-            while (true) {
-                switch (this.$state) {
-                    case 0:
-                        return false;
-                    case 1:
-                        this.i = 0;
-                        this.$state = 2;
-                        continue $top;
-                    case 2:
-                        while (this.i < this.$this.length) {
-                            this.$state = 3;
-                            this.set_Current(this[this.i]);
-                            return true;
-                        }
-                        this.$state = 0;
-                        continue $top;
-                    case 3:
-                        this.i++;
-                        this.$state = 2;
-                        continue $top;
+            {
+                this.$isStarted = true;
+                $top:
+                while (true) {
+                    switch (this.$state) {
+                        case 0:
+                            return false;
+                        case 1:
+                            this.i = 0;
+                            this.$state = 2;
+                            continue $top;
+                        case 2:
+                            while (this.i < this.$this.length) {
+                                this.$state = 3;
+                                this.set_Current(this[this.i]);
+                                return true;
+                            }
+                            this.$state = 0;
+                            continue $top;
+                        case 3:
+                            this.i++;
+                            this.$state = 2;
+                            continue $top;
+                    }
                 }
             }
         };
         $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+        $p.Clone = function() {
+            {
+                return String.YieldEnumerator$GetEnumerator.prototype.$ctor.$new(this.$this);
+            }
+        };
     }).call($t, $t.YieldEnumerator$GetEnumerator, $t.YieldEnumerator$GetEnumerator.prototype);
     $mscorlib$AssemblyTypes.push($t.YieldEnumerator$GetEnumerator);
 }).call(null, String, String.prototype);

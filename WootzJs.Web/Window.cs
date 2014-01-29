@@ -12,6 +12,7 @@ namespace WootzJs.Web
         public static PopStateEventHandler OnPopState;
 
         [Js(Name = "history")]
+// ReSharper disable once UnassignedReadonlyField
         public static readonly History History;
     }
 }

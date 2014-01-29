@@ -62,6 +62,12 @@ namespace WootzJs.Compiler
                 var symbol = semanticModel.GetSymbolInfo(node).Symbol;
                 if (symbol == null)
                 {
+                    var diagnostics = semanticModel.GetDiagnostics();
+                    if (node.Parent is ObjectCreationExpressionSyntax)
+                    {
+                        var classText = node.Parent.Parent.Parent.Parent.Parent.Parent.NormalizeWhitespace().ToString();
+                        return node;
+                    }
                     return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName("$this"), node);
                 }
             }

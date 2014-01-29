@@ -59,7 +59,7 @@ namespace WootzJs.Compiler
             return Syntax.LiteralExpression(SyntaxKind.NumericLiteralExpression, Syntax.Literal(value));
         }
 
-        public static BinaryExpressionSyntax Assign(ExpressionSyntax left, ExpressionSyntax right)
+        public static BinaryExpressionSyntax Assign(this ExpressionSyntax left, ExpressionSyntax right)
         {
             return Syntax.BinaryExpression(SyntaxKind.AssignExpression, left, right);
         }
@@ -259,6 +259,17 @@ namespace WootzJs.Compiler
         public static ExpressionSyntax Reference(this VariableDeclaratorSyntax variable)
         {
             return Syntax.IdentifierName(variable.Identifier);
+        }
+
+        public static InvocationExpressionSyntax Invoke(this ExpressionSyntax target, params ExpressionSyntax[] arguments)
+        {
+            return Syntax.InvocationExpression(target, Syntax.ArgumentList(Syntax.SeparatedList(arguments.Select(x => Syntax.Argument(x)), arguments.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
+        }
+
+        public static ObjectCreationExpressionSyntax New(this TypeSyntax type, params ExpressionSyntax[] arguments)
+        {
+            return Syntax.ObjectCreationExpression(type)
+                .WithArgumentList(Syntax.ArgumentList(Syntax.SeparatedList(arguments.Select(x => Syntax.Argument(x)), arguments.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
         }
     }
 }

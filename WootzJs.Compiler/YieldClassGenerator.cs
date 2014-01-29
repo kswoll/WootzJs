@@ -27,6 +27,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
@@ -38,6 +39,7 @@ namespace WootzJs.Compiler
         private MethodDeclarationSyntax node;
         private MethodSymbol method;
         
+        public const string isStarted = "$isStarted";
         public const string state = "$state";
 
         public YieldClassGenerator(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax, MethodDeclarationSyntax node)
@@ -62,6 +64,9 @@ namespace WootzJs.Compiler
             var stateGenerator = new YieldStateGenerator(compilation, node);
             stateGenerator.GenerateStates();
             var states = stateGenerator.States;
+
+            var isStartedField = Cs.Field(Cs.Bool(), isStarted);
+            members.Add(isStartedField);
 
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
@@ -101,11 +106,15 @@ namespace WootzJs.Compiler
             members.Add(constructor);
 
             var elementType = ((NamedTypeSymbol)method.ReturnType).TypeArguments[0];
+            var ienumerable = Syntax.ParseTypeName("System.Collections.Generic.IEnumerable<" + elementType.ToDisplayString() + ">");
             var ienumerator = Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
 
             var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
                 .AddModifiers(Cs.Public(), Cs.Override())
-                .WithBody(Syntax.Block(Cs.Return(Cs.This())));
+                .WithBody(Cs.Block(Cs.If(
+                    Syntax.IdentifierName(isStarted), 
+                    Cs.Return(Cs.This().Member("Clone").Invoke().Member("GetEnumerator").Invoke()), 
+                    Cs.Return(Cs.This()))));
             members.Add(getEnumerator);
 
             // Generate the MoveNext method, which looks something like:
@@ -118,14 +127,36 @@ namespace WootzJs.Compiler
             //     }
             // }
             
-            var moveNextBody = Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
-                Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
-                    Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
-
+            var moveNextBody = Cs.Block(
+                Cs.Express(Syntax.IdentifierName(isStarted).Assign(Cs.True())),
+                Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
+                    Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
+                        Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray()))));
             var moveNext = Syntax.MethodDeclaration(Cs.Bool(), "MoveNext")
                 .AddModifiers(Cs.Public(), Cs.Override())
                 .WithBody(Syntax.Block(moveNextBody));
             members.Add(moveNext);
+
+            TypeSyntax classNameWithTypeArguments = Syntax.IdentifierName(className);
+            if (method.TypeParameters.Any())
+            {
+                classNameWithTypeArguments = Syntax.GenericName(
+                    Syntax.Identifier(className), 
+                    Syntax.TypeArgumentList(Syntax.SeparatedList(
+                        method.TypeParameters.Select(x => Syntax.ParseTypeName(x.Name)),
+                        method.TypeParameters.Select(x => x).Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))
+                    ));
+            }
+
+            var cloneBody = Cs.Block(
+                Cs.Return(classNameWithTypeArguments.New(
+                    constructorParameters.Select(x => Syntax.IdentifierName(x.Identifier)).ToArray()
+                ))
+            );
+            var clone = Syntax.MethodDeclaration(ienumerable, "Clone")
+                .AddModifiers(Cs.Public())
+                .WithBody(Syntax.Block(cloneBody));
+            members.Add(clone);
 
             var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
             var result = Syntax.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
