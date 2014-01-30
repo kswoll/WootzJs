@@ -27,19 +27,12 @@
 
 using System;
 using System.Linq;
-using System.Runtime.WootzJs;
 using Roslyn.Compilers.CSharp;
-using NamedTypeSymbol = Roslyn.Compilers.CSharp.NamedTypeSymbol;
-using SyntaxNode = Roslyn.Compilers.CSharp.SyntaxNode;
-using TypeSymbol = Roslyn.Compilers.CSharp.TypeSymbol;
-using TypeSyntax = Roslyn.Compilers.CSharp.TypeSyntax;
 
 namespace WootzJs.Compiler.JsAst
 {
     public static class Js
     {
-        internal static Context context;
-
         public static JsLocalVariableDeclaration Local(JsVariableDeclaration declaration)
         {
             return new JsLocalVariableDeclaration(declaration);
@@ -89,7 +82,7 @@ namespace WootzJs.Compiler.JsAst
 
         public static JsUnaryExpression Increment(this JsExpression expression)
         {
-            return Js.Unary(JsUnaryOperator.PostIncrement, expression);
+            return Unary(JsUnaryOperator.PostIncrement, expression);
         }
 
         public static JsVariableReferenceExpression Reference(string name)
@@ -223,7 +216,7 @@ namespace WootzJs.Compiler.JsAst
 
         public static JsFunction Body(this JsFunction function, JsExpression expression)
         {
-            function.Body.Add(Js.Express(expression));
+            function.Body.Add(Express(expression));
             return function;
         }
 
@@ -280,7 +273,7 @@ namespace WootzJs.Compiler.JsAst
             if (value is TypedConstant)
                 return Literal(((TypedConstant)value).Value);
             if (value is TypeSymbol)
-                return Js.Reference(((TypeSymbol)value).GetFullName());
+                return Reference(((TypeSymbol)value).GetFullName());
             else
                 throw new Exception("Unexpected primitive type: " + value);
         }
@@ -543,7 +536,7 @@ namespace WootzJs.Compiler.JsAst
 
         public static void Return(this JsBlockStatement blockStatement, JsExpression expression)
         {
-            blockStatement.Add(Js.Return(expression));
+            blockStatement.Add(Return(expression));
         }
 
         public static void Assign(this JsBlockStatement blockStatement, JsExpression left, JsExpression right)

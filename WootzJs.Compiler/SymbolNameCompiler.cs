@@ -28,17 +28,32 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Roslyn.Compilers.CSharp;
+using Roslyn.Services;
 
 namespace WootzJs.Compiler
 {
     public class SymbolNameCompiler
     {
-        public static SymbolNameMap CompileSymbolNames(Compilation compilation)
+        public static SymbolNameMap CompileSymbolNames(IProject project, Compilation compilation)
         {
+            var assemblyInfoByAssemblySymbol = project.MetadataReferences
+                .ToDictionary(x => compilation.GetReferencedAssemblySymbol(x), x => Assembly.ReflectionOnlyLoadFrom(x.Display));
+            var referencedAssembliesByAssemblySymbol = assemblyInfoByAssemblySymbol
+                .ToDictionary(x => x.Key, x => x.Value.GetReferencedAssemblies().Select(y => y.Name));
+
+            foreach (var metadataReference in project.MetadataReferences)
+            {
+                var assemblyLocation = metadataReference.Display;
+                var assemblySymbol = compilation.GetReferencedAssemblySymbol(metadataReference);
+                var reflectionAssembly = Assembly.ReflectionOnlyLoadFrom(assemblyLocation);
+                var referencedAssemblies = reflectionAssembly.GetReferencedAssemblies();
+            }
+
             var mainAssembly = Tuple.Create(compilation.Assembly, compilation.References.Select(x => compilation.GetReferencedAssemblySymbol(x)).ToArray());
-            var referencedAssemblies = mainAssembly.Item2.Select(x => Tuple.Create(x, AssembliesSorter.GetReferencedAssemblies(x).ToArray()));
-            var assemblies = new[] { mainAssembly }.Concat(referencedAssemblies).ToArray();
+//            var referencedAssemblies = mainAssembly.Item2.Select(x => Tuple.Create(x, AssembliesSorter.GetReferencedAssemblies(x).ToArray()));
+            var assemblies = new[] { mainAssembly };//.Concat(referencedAssemblies).ToArray();
 
             var sortedAssemblies = AssembliesSorter.Sort(assemblies);
 

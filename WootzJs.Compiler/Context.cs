@@ -33,6 +33,13 @@ namespace WootzJs.Compiler
 {
     public class Context
     {
+        private static Context instance;
+
+        public static Context Instance
+        {
+            get { return instance; }
+        }
+
         public ISolution Solution { get; private set; } 
         public IProject Project { get; private set; }
         public Compilation Compilation { get; private set; }
@@ -140,17 +147,18 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol JsString { get; private set; }
         public MethodSymbol SafeToString { get; private set; }
 
-        public Context(ISolution solution, IProject project, Compilation compilation)
+        public static void Update(ISolution solution, IProject project, Compilation compilation)
         {
-            Update(solution, project, compilation);
+            instance = new Context();
+            instance.UpdateContext(solution, project, compilation);
         }
 
-        public void Update(ISolution solution, IProject project, Compilation compilation)
+        private void UpdateContext(ISolution solution, IProject project, Compilation compilation)
         {
             Solution = solution;
             Project = project;
             Compilation = compilation;
-            SymbolNames = SymbolNameCompiler.CompileSymbolNames(compilation);
+            SymbolNames = SymbolNameCompiler.CompileSymbolNames(project, compilation);
 
             ObjectToString = compilation.ObjectType.GetMembers("ToString").OfType<MethodSymbol>().Single();
             String = compilation.GetTypeByMetadataName("System.String");

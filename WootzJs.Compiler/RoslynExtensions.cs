@@ -36,8 +36,6 @@ namespace WootzJs.Compiler
 {
     public static class RoslynExtensions
     {
-        internal static Context context;
-
         public static string GetFullName(this TypeInfo typeInfo)
         {
             return typeInfo.ConvertedType.GetFullName();
@@ -47,7 +45,7 @@ namespace WootzJs.Compiler
         {
             string result = namespaceSymbol.MetadataName;
             if (!namespaceSymbol.IsGlobalNamespace && !namespaceSymbol.ContainingNamespace.IsGlobalNamespace)
-                result = context.SymbolNames[namespaceSymbol.ContainingNamespace, namespaceSymbol.ContainingNamespace.GetFullName()] + "." + result;
+                result = Context.Instance.SymbolNames[namespaceSymbol.ContainingNamespace, namespaceSymbol.ContainingNamespace.GetFullName()] + "." + result;
             return result;
         }
 
@@ -154,7 +152,7 @@ namespace WootzJs.Compiler
             var classDeclaration = node.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => true);
             if (classDeclaration == null)
                 return null;
-            return context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
+            return Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }
 
         public static MethodSymbol GetContainingMethod(this SyntaxNode node)
@@ -163,9 +161,9 @@ namespace WootzJs.Compiler
             if (method == null)
                 return null;
             if (method is ConstructorDeclarationSyntax)
-                return context.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((ConstructorDeclarationSyntax)method);
+                return Context.Instance.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((ConstructorDeclarationSyntax)method);
             else
-                return context.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((MethodDeclarationSyntax)method);
+                return Context.Instance.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((MethodDeclarationSyntax)method);
         }
 
         public static MethodSymbol GetRootOverride(this MethodSymbol method)
@@ -316,8 +314,10 @@ namespace WootzJs.Compiler
 
         public static InvocationExpressionSyntax Wrap(this BlockSyntax block)
         {
-            var jsni = new CsJsni(context);
-            return Syntax.InvocationExpression(Syntax.ParenthesizedExpression(Syntax.CastExpression(context.Func.Construct(context.JsObject).ToTypeSyntax(), jsni.Function(block))));
+            var jsni = new CsJsni(Context.Instance);
+            return Syntax.InvocationExpression(Syntax.ParenthesizedExpression(Syntax.CastExpression(
+                Context.Instance.Func.Construct(Context.Instance.JsObject).ToTypeSyntax(), 
+                jsni.Function(block))));
         }
 
         public static InvocationExpressionSyntax Invoke(this MethodSymbol method, params ExpressionSyntax[] arguments)
@@ -338,7 +338,7 @@ namespace WootzJs.Compiler
 
         public static Compilation Recompile(this Compilation compilation, CompilationUnitSyntax compilationUnit)
         {
-            var document = context.Project.GetDocument(compilationUnit.SyntaxTree);
+            var document = Context.Instance.Project.GetDocument(compilationUnit.SyntaxTree);
             document = document.UpdateSyntaxRoot(compilationUnit);
             compilation = (Compilation)compilation.ReplaceSyntaxTree(compilationUnit.SyntaxTree, document.GetSyntaxTree());            
             return compilation;
