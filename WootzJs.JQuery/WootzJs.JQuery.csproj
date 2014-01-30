@@ -53,6 +53,7 @@
     <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
 if errorlevel 1 goto BuildEventFailed
 copy $(SolutionDir)build\mscorlib.js $(TargetDir)
+copy $(TargetDir)WootzJs.JQuery.* $(SolutionDir)build
 if errorlevel 1 goto BuildEventFailed
 goto BuildEventOK
 :BuildEventFailed

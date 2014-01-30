@@ -56,15 +56,6 @@ namespace System
 			return this.As<JsObject>().toString();
 		}
 
-		/// <summary>
-		/// Converts an object to its culture-sensitive string representation.
-		/// </summary>
-		/// <returns>The culture-sensitive string representation of the object.</returns>
-		public virtual string ToLocaleString()
-		{
-			return null;
-		}
-
         public virtual bool Equals(object obj)
         {
             return this == obj;
@@ -96,18 +87,6 @@ namespace System
         public static bool ReferenceEquals(object o1, object o2)
         {
             return true;
-        }
-
-        public Type MakeArrayType()
-        {
-            return MakeArrayType(1);
-        }
-
-        public Type MakeArrayType(int rank)
-        {
-            if (rank > 1)
-                throw new InvalidOperationException("Rank must be 1");
-            return Type._GetTypeFromTypeFunc(SpecialFunctions.MakeArrayType(___type));
         }
 	}
 }

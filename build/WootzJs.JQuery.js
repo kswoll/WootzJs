@@ -3,7 +3,7 @@ var $WootzJs$JQuery$Assembly = null;
 var $WootzJs$JQuery$AssemblyTypes = [];
 window.$WootzJs$JQuery$GetAssembly = function() {
     if ($WootzJs$JQuery$Assembly == null)
-        $WootzJs$JQuery$Assembly = System.Reflection.Assembly.prototype.$ctor.$new("WootzJs.JQuery", $WootzJs$JQuery$AssemblyTypes);
+        $WootzJs$JQuery$Assembly = System.Reflection.Assembly.prototype.$ctor.$new("WootzJs.JQuery", $WootzJs$JQuery$AssemblyTypes, $arrayinit([], System.Attribute));
     return $WootzJs$JQuery$Assembly;
 };
 $assemblies.push(window.$WootzJs$JQuery$GetAssembly);
