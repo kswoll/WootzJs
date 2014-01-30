@@ -34,11 +34,13 @@ namespace WootzJs.Compiler
 {
     public class NamespaceTransformer : SyntaxWalker
     {
+        private Context context;
         private JsBlockStatement body;
         private HashSet<string> processedNamespaces = new HashSet<string>();
 
-        public NamespaceTransformer(JsBlockStatement body) 
+        public NamespaceTransformer(Context context, JsBlockStatement body) 
         {
+            this.context = context;
             this.body = body;
         }
 
@@ -64,9 +66,9 @@ namespace WootzJs.Compiler
 
         public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
         {
-            var semanticModel = Context.Instance.Compilation.GetSemanticModel(node.SyntaxTree);
+            var semanticModel = context.Compilation.GetSemanticModel(node.SyntaxTree);
             var symbol = semanticModel.GetDeclaredSymbol(node);
-            var fullName = Context.Instance.SymbolNames[symbol, symbol.GetFullName()];
+            var fullName = context.SymbolNames[symbol, symbol.GetFullName()];
             ProcessNamespace(fullName);
         }
     }

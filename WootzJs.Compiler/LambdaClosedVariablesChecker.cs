@@ -17,7 +17,7 @@ namespace WootzJs.Compiler
 
         public LambdaClosedVariablesChecker(SyntaxNode node)
         {
-            model = Context.Instance.Compilation.GetSemanticModel(node.SyntaxTree);
+            model = RoslynExtensions.context.Compilation.GetSemanticModel(node.SyntaxTree);
             outerScope = node.GetContainingMethod();
         }
 

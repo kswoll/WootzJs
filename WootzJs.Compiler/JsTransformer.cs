@@ -44,16 +44,18 @@ namespace WootzJs.Compiler
         internal SemanticModel model;
         internal List<Scope> scopes = new List<Scope>();
         internal Idioms idioms;
+        internal Context context;
         internal List<JsBlockStatement> outputBlockStack = new List<JsBlockStatement>();
         private Stack<IJsDeclaration> initializableObjectsStack = new Stack<IJsDeclaration>();
         private Stack<Symbol> declarationStack = new Stack<Symbol>();
         private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
 
-        public JsTransformer(SyntaxTree syntaxTree, SemanticModel model)
+        public JsTransformer(Context context, SyntaxTree syntaxTree, SemanticModel model)
         {
+            this.context = context;
             this.syntaxTree = syntaxTree;
             this.model = model;
-            idioms = new Idioms(this);
+            idioms = new Idioms(context, this);
         }
 
         public int GetLabelDepth(string label)
@@ -339,7 +341,7 @@ namespace WootzJs.Compiler
             var constructorNameParameter = Js.Parameter("name");
             var constructorValueParameter = Js.Parameter("value");
             var constructorBlock = new JsBlockStatement();
-            constructorBlock.Express(idioms.InvokeMethodAsThis((MethodSymbol)Context.Instance.EnumType.GetConstructors().Where(x => !x.IsStatic).First(), 
+            constructorBlock.Express(idioms.InvokeMethodAsThis((MethodSymbol)context.EnumType.GetConstructors().Where(x => !x.IsStatic).First(), 
                 constructorNameParameter.GetReference(), constructorValueParameter.GetReference()));
             typeInitializer.Add(idioms.StoreInPrototype("$ctor", Js.Function(constructorNameParameter, constructorValueParameter).Body(constructorBlock)));
             typeInitializer.Aggregate(idioms.InitializeConstructor(enumType, "$ctor", new[] { "name", "value" }));
@@ -448,7 +450,7 @@ namespace WootzJs.Compiler
             }
 
             // Also store all interface implementations
-            foreach (PropertySymbol interfaceImplementation in property.GetRootOverride().FindImplementedInterfaceMembers(Context.Instance.Solution))
+            foreach (PropertySymbol interfaceImplementation in property.GetRootOverride().FindImplementedInterfaceMembers(context.Solution))
             {
                 if (interfaceImplementation.GetMethod != null)
                     block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
@@ -590,7 +592,7 @@ namespace WootzJs.Compiler
                 block.Add(idioms.StoreInPrototype(memberName, methodFunction));
 
                 // Also store all interface implementations
-                foreach (MethodSymbol interfaceImplementation in method.GetRootOverride().FindImplementedInterfaceMembers(Context.Instance.Solution))
+                foreach (MethodSymbol interfaceImplementation in method.GetRootOverride().FindImplementedInterfaceMembers(context.Solution))
                 {
                     block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMemberName(), idioms.GetFromPrototype(memberName)));
                 }
@@ -1021,12 +1023,12 @@ namespace WootzJs.Compiler
 
             var originalType = model.GetTypeInfo(node.Expression).ConvertedType;
 
-            if (typeInfo == Context.Instance.Int32 && originalType == Context.Instance.Char)
+            if (typeInfo == context.Int32 && originalType == context.Char)
             {
                 return target.Member("charCodeAt").Invoke();
             }
 
-            var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(typeInfo), target);
+            var cast = idioms.InvokeStatic(context.ObjectCast.Construct(typeInfo), target);
             return ImplicitCheck(node, cast);
         }
 
@@ -1052,7 +1054,7 @@ namespace WootzJs.Compiler
             PopOutput();
             PopScope();
 
-            var createDelegate = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, Js.This(), idioms.Type(delegateType), Js.Function(parameters).Body(block));
+            var createDelegate = idioms.InvokeStatic(context.ObjectCreateDelegate, Js.This(), idioms.Type(delegateType), Js.Function(parameters).Body(block));
             return createDelegate;
         }
 
@@ -1172,14 +1174,14 @@ namespace WootzJs.Compiler
             var method = (MethodSymbol)symbol.Symbol;
             var type = method.ContainingType;
 
-            if (type == Context.Instance.MulticastDelegateType)
+            if (type == context.MulticastDelegateType)
             {
                 return ImplicitCheck(node, idioms.CreateMulticastDelegate((JsExpression)node.ArgumentList.Arguments[0].Accept(this), 
                     (JsExpression)node.ArgumentList.Arguments[1].Accept(this)));
             }
 
             var isExported = type.IsExported();
-            var isBuiltIn = type.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
+            var isBuiltIn = type.GetAttributeValue(context.JsAttributeType, "BuiltIn", false);
             var actualArguments = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
             var args = idioms.TranslateArguments(method, (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, actualArguments.ToArray()).ToList();
             if (isExported && !isBuiltIn)
@@ -1209,7 +1211,7 @@ namespace WootzJs.Compiler
             }
             else
             {
-                if (type.GetAttributeValue(Context.Instance.JsAttributeType, "InvokeConstructorAsClass", true))
+                if (type.GetAttributeValue(context.JsAttributeType, "InvokeConstructorAsClass", true))
                     return ImplicitCheck(node, Js.Invoke(idioms.Type(type), args.ToArray()));
                 else
                     return ImplicitCheck(node, Js.New(idioms.Type(type), args.ToArray()));
@@ -1395,7 +1397,7 @@ namespace WootzJs.Compiler
             else
             {
                 expression = (JsExpression)node.Expression.Accept(this);
-                expression = idioms.Invoke(expression, Context.Instance.InternalInit, Js.New(Js.Reference("Error")));
+                expression = idioms.Invoke(expression, context.InternalInit, Js.New(Js.Reference("Error")));
             }
 
             return Js.Throw(expression);
@@ -1541,19 +1543,19 @@ namespace WootzJs.Compiler
             else
             {
                 var iterator = Js.Variable(GenerateUniqueNameInScope() + "iterator", enumerable);
-                var enumerator = Js.Variable(GenerateUniqueNameInScope() + "enumerator", idioms.Invoke(iterator.GetReference(), Context.Instance.EnumerableGetEnumerator));
+                var enumerator = Js.Variable(GenerateUniqueNameInScope() + "enumerator", idioms.Invoke(iterator.GetReference(), context.EnumerableGetEnumerator));
                 block.Local(iterator);
                 block.Local(enumerator);
                 
                 var whileBlock = new JsBlockStatement();
                 PushOutput(whileBlock);
-                var item = Js.Variable(node.Identifier.ToString(), idioms.Get(enumerator.GetReference(), Context.Instance.EnumeratorCurrent));
+                var item = Js.Variable(node.Identifier.ToString(), idioms.Get(enumerator.GetReference(), context.EnumeratorCurrent));
                 DeclareInCurrentScope(item);
 
                 whileBlock.Local(item);
                 whileBlock.Aggregate((JsStatement)node.Statement.Accept(this));
 
-                var whileLoop = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.While(idioms.Invoke(enumerator.GetReference(), Context.Instance.EnumeratorMoveNext), whileBlock));
+                var whileLoop = new LoopTransformer(this, node, loopEntry.Depth, node.Statement).TransformLoop(Js.While(idioms.Invoke(enumerator.GetReference(), context.EnumeratorMoveNext), whileBlock));
                 block.Add(whileLoop);
             }
 
@@ -1594,7 +1596,7 @@ namespace WootzJs.Compiler
             foreach (var disposable in disposables)
             {
                 tryStatement.Finally = new JsBlockStatement();
-                tryStatement.Finally.Express(idioms.Invoke(disposable.GetReference(), Context.Instance.IDisposableDispose));
+                tryStatement.Finally.Express(idioms.Invoke(disposable.GetReference(), context.IDisposableDispose));
             }
 
             result.Add(tryStatement);
@@ -1859,7 +1861,7 @@ namespace WootzJs.Compiler
                 var addBlock = new JsBlockStatement();
                 PushOutput(addBlock);
                 addBlock.Assign(Js.This().Member(backingField), 
-                    idioms.InvokeStatic(Context.Instance.DelegateCombine,  Js.This().Member(backingField), addParameter.GetReference()));
+                    idioms.InvokeStatic(context.DelegateCombine,  Js.This().Member(backingField), addParameter.GetReference()));
                 block.Add(idioms.StoreInPrototype("add_" + propertyName, Js.Function(addParameter).Body(addBlock)));
                 PopOutput();
 
@@ -1868,7 +1870,7 @@ namespace WootzJs.Compiler
                 var removeBlock = new JsBlockStatement();
                 PushOutput(removeBlock);
                 removeBlock.Assign(Js.This().Member(backingField), 
-                    idioms.InvokeStatic(Context.Instance.DelegateRemove, Js.This().Member(backingField), removeParameter.GetReference()));
+                    idioms.InvokeStatic(context.DelegateRemove, Js.This().Member(backingField), removeParameter.GetReference()));
                 block.Add(idioms.StoreInPrototype("remove_" + propertyName, 
                     Js.Function(removeParameter).Body(removeBlock)));
                 PopOutput();
@@ -2193,15 +2195,15 @@ namespace WootzJs.Compiler
         {
             var typeInfo = model.GetTypeInfo(node);
             var namedTypeSymbol = typeInfo.ConvertedType as NamedTypeSymbol;
-            if (typeInfo.Type != typeInfo.ConvertedType && namedTypeSymbol != null && namedTypeSymbol.OriginalDefinition != namedTypeSymbol && namedTypeSymbol.OriginalDefinition == Context.Instance.ExpressionLambda)
+            if (typeInfo.Type != typeInfo.ConvertedType && namedTypeSymbol != null && namedTypeSymbol.OriginalDefinition != namedTypeSymbol && namedTypeSymbol.OriginalDefinition == context.ExpressionLambda)
             {
-                var expressionTreeTransformer = new ExpressionTreeTransformer(model, idioms);
+                var expressionTreeTransformer = new ExpressionTreeTransformer(context, model, idioms);
                 return node.Accept(expressionTreeTransformer);
             }
             if (typeInfo.Type != typeInfo.ConvertedType && typeInfo.ImplicitConversion.IsMethodGroup && namedTypeSymbol.DelegateInvokeMethod != null)
             {
                 var thisReference = node is MemberAccessExpressionSyntax ? (JsExpression)((MemberAccessExpressionSyntax)node).Expression.Accept(this) : Js.This();
-                result = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, thisReference, idioms.Type(typeInfo.ConvertedType), (JsExpression)result);
+                result = idioms.InvokeStatic(context.ObjectCreateDelegate, thisReference, idioms.Type(typeInfo.ConvertedType), (JsExpression)result);
             }
             if (typeInfo.ImplicitConversion.IsUserDefined && typeInfo.ImplicitConversion.Method.IsExported())
             {

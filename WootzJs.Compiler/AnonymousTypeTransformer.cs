@@ -34,23 +34,25 @@ namespace WootzJs.Compiler
 {
     public class AnonymousTypeTransformer : SyntaxWalker
     {
+        private Context context;
         private JsBlockStatement body;
         private List<Tuple<NamedTypeSymbol, Action>> actions;
         private HashSet<NamedTypeSymbol> processedTypes = new HashSet<NamedTypeSymbol>();
         private Idioms idioms;
 
-        public AnonymousTypeTransformer(JsBlockStatement body, List<Tuple<NamedTypeSymbol, Action>> actions) 
+        public AnonymousTypeTransformer(Context context, JsBlockStatement body, List<Tuple<NamedTypeSymbol, Action>> actions) 
         {
+            this.context = context;
             this.body = body;
             this.actions = actions;
-            this.idioms = new Idioms(null);
+            this.idioms = new Idioms(context, null);
         }
 
         public override void VisitAnonymousObjectCreationExpression(AnonymousObjectCreationExpressionSyntax node)
         {
             var jsBlock = new JsBlockStatement();
 
-            var model = Context.Instance.Compilation.GetSemanticModel(node.SyntaxTree);
+            var model = context.Compilation.GetSemanticModel(node.SyntaxTree);
             var classType = model.GetDeclaredSymbol(node);
             if (processedTypes.Contains(classType))
                 return;

@@ -35,9 +35,11 @@ namespace WootzJs.Compiler
 {
     public static class JsNames
     {
+        internal static Context context;
+
         public static string GetShortTypeName(this TypeSymbol type)
         {
-            var nameOverride = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+            var nameOverride = type.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
 
@@ -70,7 +72,7 @@ namespace WootzJs.Compiler
 
         public static string GetTypeName(this TypeSymbol type)
         {
-            var nameOverride = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+            var nameOverride = type.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
 
@@ -128,7 +130,7 @@ namespace WootzJs.Compiler
             {
                 
             }
-            var nameOverride = method.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+            var nameOverride = method.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
 
@@ -215,7 +217,7 @@ namespace WootzJs.Compiler
 
         public static string GetMemberName(this PropertySymbol symbol)
         {
-            var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+            var nameOverride = symbol.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
 
@@ -289,7 +291,7 @@ namespace WootzJs.Compiler
 
         public static string GetMemberName(this FieldSymbol symbol)
         {
-            var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+            var nameOverride = symbol.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
             return GetDefaultMemberName(symbol);
@@ -297,7 +299,7 @@ namespace WootzJs.Compiler
 
         public static string GetMemberName(this EventSymbol symbol)
         {
-            var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+            var nameOverride = symbol.GetAttributeValue<string>(context.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;
             return GetDefaultMemberName(symbol);
