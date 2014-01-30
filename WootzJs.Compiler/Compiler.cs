@@ -42,22 +42,8 @@ namespace WootzJs.Compiler
     {
         public static void Main(string[] args)
         {
-                new Compiler().Compile(args[0], args[1]);
-//            Console.ReadLine();
-/*
-            try
-            {
-                new Compiler().Compile(args[0], args[1]);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e);
-                Environment.Exit(100);
-            }
-*/
+            new Compiler().Compile(args[0], args[1]);
         }
-
-        private Context context;
 
         public void Compile(string projectFile, string outputFolder)
         {
@@ -73,12 +59,7 @@ namespace WootzJs.Compiler
             var project = Solution.LoadStandAloneProject(projectFile);
             var projectName = project.AssemblyName;
             var compilation = (Compilation)project.GetCompilation();
-            context = new Context(project.Solution, project, compilation);
-
-            RoslynExtensions.context = context;
-            Js.context = context;
-            JsNames.context = context;
-            WootzJsExtensions.context = context;
+            Context.Update(project.Solution, project, compilation);
 
             // Check for yield
             foreach (var syntaxTree in compilation.SyntaxTrees)
@@ -89,7 +70,7 @@ namespace WootzJs.Compiler
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldGenerator);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit));
             }
-            context.Update(project.Solution, project, compilation);
+            Context.Update(project.Solution, project, compilation);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = syntaxTree.GetRoot();
@@ -98,7 +79,7 @@ namespace WootzJs.Compiler
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit));
             }
-            context.Update(project.Solution, project, compilation);
+            Context.Update(project.Solution, project, compilation);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
@@ -118,7 +99,7 @@ namespace WootzJs.Compiler
             jsCompilationUnit.Body.Local(assemblyTypes);
 
             // Build $GetAssemblyMethod, which lazily creates a new Assembly instance
-            var globalIdioms = new Idioms(context, null);
+            var globalIdioms = new Idioms(null);
             var getAssembly = Js.Function();
             getAssembly.Body.If(
                 assemblyVariable.GetReference().EqualTo(Js.Null()), 
@@ -143,7 +124,7 @@ namespace WootzJs.Compiler
             // System.Text.StringBuilder = function() { ... }
             //
             // This allows access to classes using dot notation in the expected way.
-            var namespaceTransformer = new NamespaceTransformer(context, jsCompilationUnit.Body);
+            var namespaceTransformer = new NamespaceTransformer(jsCompilationUnit.Body);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = syntaxTree.GetRoot();
@@ -154,7 +135,7 @@ namespace WootzJs.Compiler
 
             // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
             // declarations with a series of auto implemented properties.
-            var anonymousTypeTransformer = new AnonymousTypeTransformer(context, jsCompilationUnit.Body, actions);
+            var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = syntaxTree.GetRoot();
@@ -167,7 +148,7 @@ namespace WootzJs.Compiler
             {
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var compilationUnit = syntaxTree.GetRoot();
-                var transformer = new JsTransformer(context, syntaxTree, semanticModel);
+                var transformer = new JsTransformer(syntaxTree, semanticModel);
 
                 var typeDeclarations = GetTypeDeclarations(compilationUnit);
                 foreach (var type in typeDeclarations)
@@ -229,7 +210,7 @@ namespace WootzJs.Compiler
                 for (var i = 0; i < list.Count; i++)
                 {
                     var item = list[i];
-                    if (item.Item1 == context.SpecialFunctions)
+                    if (item.Item1 == Context.Instance.SpecialFunctions)
                     {
                         if (i != 0)
                         {
@@ -271,7 +252,7 @@ namespace WootzJs.Compiler
                         }                        
                     }
 */
-                    var precedes = item.Item1.GetAttributeValue<TypeSymbol>(context.PrecedesAttribute, "Type");
+                    var precedes = item.Item1.GetAttributeValue<TypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
                     if (precedes != null)
                     {
                         int precedesIndex;

@@ -36,14 +36,12 @@ namespace WootzJs.Compiler
 {
     public class ExpressionTreeTransformer : SyntaxVisitor<JsExpression>
     {
-        private Context context;
         private Idioms idioms;
         private SemanticModel model;
         private Dictionary<string, string> parameterVariables;
 
-        public ExpressionTreeTransformer(Context context, SemanticModel model, Idioms idioms)
+        public ExpressionTreeTransformer(SemanticModel model, Idioms idioms)
         {
-            this.context = context;
             this.model = model;
             this.idioms = idioms;
             this.parameterVariables = new Dictionary<string, string>();
@@ -56,7 +54,7 @@ namespace WootzJs.Compiler
 
         private MethodSymbol GetExpressionMethod(string methodName, params TypeSymbol[] parameterTypes)
         {
-            return context.Expression.GetMethod(methodName, parameterTypes);
+            return Context.Instance.Expression.GetMethod(methodName, parameterTypes);
         }
 
 /*
@@ -81,17 +79,17 @@ namespace WootzJs.Compiler
         {
             var expressionType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             NamedTypeSymbol delegateType;
-            if (expressionType.OriginalDefinition == context.ExpressionGeneric)
+            if (expressionType.OriginalDefinition == Context.Instance.ExpressionGeneric)
                 delegateType = (NamedTypeSymbol)expressionType.TypeArguments[0];
             else
                 delegateType = expressionType;
             var lambdaParameters = parameters.ToArray();
             var delegateMethod = (MethodSymbol)delegateType.GetMembers("Invoke")[0]; 
 //            Compiler.CsCompilation.FindType()
-            var lambdaMethods = context.Expression.GetMembers("Lambda").OfType<MethodSymbol>().ToArray();
-            var lambdaMethods2 = lambdaMethods.Where(x => x.TypeParameters.Count == 1 && x.Parameters.Count == 2 && x.Parameters[0].Type == context.Expression && x.Parameters[1].Type == context.ParameterExpressionArray).ToArray();
+            var lambdaMethods = Context.Instance.Expression.GetMembers("Lambda").OfType<MethodSymbol>().ToArray();
+            var lambdaMethods2 = lambdaMethods.Where(x => x.TypeParameters.Count == 1 && x.Parameters.Count == 2 && x.Parameters[0].Type == Context.Instance.Expression && x.Parameters[1].Type == Context.Instance.ParameterExpressionArray).ToArray();
             var lambdaMethod = lambdaMethods2.Single();
-            var parameterMethod = context.Expression.GetMembers("Parameter").OfType<MethodSymbol>().Single(x => x.Parameters.Count == 2 && x.Parameters[0].Type == context.TypeType && x.Parameters[1].Type == context.String);
+            var parameterMethod = Context.Instance.Expression.GetMembers("Parameter").OfType<MethodSymbol>().Single(x => x.Parameters.Count == 2 && x.Parameters[0].Type == Context.Instance.TypeType && x.Parameters[1].Type == Context.Instance.String);
             lambdaMethod = lambdaMethod.Construct(delegateType);
 
             var jsLambda = idioms.InvokeStatic(lambdaMethod);
@@ -133,7 +131,7 @@ namespace WootzJs.Compiler
             }
             else
             {
-                var constantMethod = context.Expression.GetMethod("Constant", context.ObjectType, context.TypeType);
+                var constantMethod = Context.Instance.Expression.GetMethod("Constant", Context.Instance.ObjectType, Context.Instance.TypeType);
                 var typeInfo = model.GetTypeInfo(node);
                 return idioms.InvokeStatic(constantMethod, Js.Reference(key), idioms.TypeOf(typeInfo.ConvertedType));
             }
@@ -141,7 +139,7 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitLiteralExpression(LiteralExpressionSyntax node)
         {
-            var constantMethod = context.Expression.GetMethod("Constant", context.ObjectType, context.TypeType);
+            var constantMethod = Context.Instance.Expression.GetMethod("Constant", Context.Instance.ObjectType, Context.Instance.TypeType);
             var typeInfo = model.GetTypeInfo(node);
             return idioms.InvokeStatic(constantMethod, Js.Literal(node.Token.Value), idioms.TypeOf(typeInfo.ConvertedType));
         }
@@ -154,14 +152,14 @@ namespace WootzJs.Compiler
                 {
                     var operand = node.Left.Accept(this);
                     var type = (NamedTypeSymbol)model.GetSymbolInfo(node.Right).Symbol;
-                    var typeIs = GetExpressionMethod("TypeIs", context.Expression, context.TypeType);
+                    var typeIs = GetExpressionMethod("TypeIs", Context.Instance.Expression, Context.Instance.TypeType);
                     return idioms.InvokeStatic(typeIs, operand, idioms.TypeOf(type));
                 }
                 case SyntaxKind.AsExpression:
                 {
                     var operand = node.Left.Accept(this);
                     var type = (NamedTypeSymbol)model.GetSymbolInfo(node.Right).Symbol;
-                    var typeAs = GetExpressionMethod("TypeAs", context.Expression, context.TypeType);
+                    var typeAs = GetExpressionMethod("TypeAs", Context.Instance.Expression, Context.Instance.TypeType);
                     return idioms.InvokeStatic(typeAs, operand, idioms.TypeOf(type));
                 }
             }
@@ -230,8 +228,8 @@ namespace WootzJs.Compiler
             var left = node.Left.Accept(this);
             var right = node.Right.Accept(this);
             
-            var jsMethodInfo = GetExpressionMethod("MakeBinary", context.ExpressionType, context.Expression, context.Expression);
-            var opExpression = idioms.GetEnumValue(context.ExpressionType.GetMembers(op.ToString()).OfType<FieldSymbol>().Single());
+            var jsMethodInfo = GetExpressionMethod("MakeBinary", Context.Instance.ExpressionType, Context.Instance.Expression, Context.Instance.Expression);
+            var opExpression = idioms.GetEnumValue(Context.Instance.ExpressionType.GetMembers(op.ToString()).OfType<FieldSymbol>().Single());
 
             var jsMethod = idioms.InvokeStatic(jsMethodInfo, opExpression, left, right);
 
@@ -248,19 +246,19 @@ namespace WootzJs.Compiler
             {
                 var property = (PropertySymbol)symbol.Symbol;
                 var propertyInfo = idioms.MemberOf(property);
-                var jsMethodInfo = GetExpressionMethod("MakeIndex", context.Expression, context.PropertyInfo, context.EnumerableGeneric.Construct(context.Expression));
+                var jsMethodInfo = GetExpressionMethod("MakeIndex", Context.Instance.Expression, Context.Instance.PropertyInfo, Context.Instance.EnumerableGeneric.Construct(Context.Instance.Expression));
                 return idioms.InvokeStatic(jsMethodInfo, target, propertyInfo, Js.Array(node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToArray()));
             }
             else
             {
                 if (node.ArgumentList.Arguments.Count == 1)
                 {
-                    var jsMethodInfo = GetExpressionMethod("ArrayIndex", context.Expression, context.Expression);
+                    var jsMethodInfo = GetExpressionMethod("ArrayIndex", Context.Instance.Expression, Context.Instance.Expression);
                     return idioms.InvokeStatic(jsMethodInfo, target, node.ArgumentList.Arguments.Single().Accept(this));
                 }
                 else
                 {
-                    var jsMethodInfo = GetExpressionMethod("ArrayIndex", context.Expression, context.ExpressionArray);
+                    var jsMethodInfo = GetExpressionMethod("ArrayIndex", Context.Instance.Expression, Context.Instance.ExpressionArray);
                     return idioms.InvokeStatic(jsMethodInfo, target, node.ArgumentList.Arguments.Single().Accept(this));
                 }
             }
@@ -273,7 +271,7 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitConditionalExpression(ConditionalExpressionSyntax node)
         {
-            var jsMethodInfo = GetExpressionMethod("Condition", context.Expression, context.Expression, context.Expression, context.TypeType);
+            var jsMethodInfo = GetExpressionMethod("Condition", Context.Instance.Expression, Context.Instance.Expression, Context.Instance.Expression, Context.Instance.TypeType);
             var type = model.GetTypeInfo(node).ConvertedType;
             return idioms.InvokeStatic(jsMethodInfo, 
                 node.Condition.Accept(this),
@@ -285,7 +283,7 @@ namespace WootzJs.Compiler
         public override JsExpression VisitDefaultExpression(DefaultExpressionSyntax node)
         {
             var type = model.GetTypeInfo(node).ConvertedType;
-            var jsMethodInfo = GetExpressionMethod("Default", context.TypeType);
+            var jsMethodInfo = GetExpressionMethod("Default", Context.Instance.TypeType);
             return idioms.InvokeStatic(jsMethodInfo, idioms.TypeOf(type));
         }
 
@@ -295,24 +293,24 @@ namespace WootzJs.Compiler
             var method = (MethodSymbol)symbol;
             if (method.IsStatic)
             {
-                var jsMethodInfo = GetExpressionMethod("Call", context.MethodInfo, context.ExpressionArray);
+                var jsMethodInfo = GetExpressionMethod("Call", Context.Instance.MethodInfo, Context.Instance.ExpressionArray);
                 var arguments = node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToList();
                 return idioms.InvokeStatic(jsMethodInfo, idioms.MemberOf(method), Js.Array(arguments.ToArray()));
             }
             if (method.ContainingType.DelegateInvokeMethod != method)
             {
-                var jsMethodInfo = GetExpressionMethod("Call", context.Expression, context.MethodInfo, context.ExpressionArray);
+                var jsMethodInfo = GetExpressionMethod("Call", Context.Instance.Expression, Context.Instance.MethodInfo, Context.Instance.ExpressionArray);
                 var methodTarget = ((MemberAccessExpressionSyntax)node.Expression).Expression.Accept(this);
                 var arguments = node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToArray();
-                var jsMethod = idioms.InvokeStatic(jsMethodInfo, methodTarget, idioms.MemberOf(method), idioms.MakeArray(Js.Array(arguments), context.ExpressionArray));
+                var jsMethod = idioms.InvokeStatic(jsMethodInfo, methodTarget, idioms.MemberOf(method), idioms.MakeArray(Js.Array(arguments), Context.Instance.ExpressionArray));
                 return jsMethod;                
             }
             else 
             {
-                var jsMethodInfo = GetExpressionMethod("Invoke", context.Expression, context.ExpressionArray);
+                var jsMethodInfo = GetExpressionMethod("Invoke", Context.Instance.Expression, Context.Instance.ExpressionArray);
                 var target = node.Expression.Accept(this);
                 var arguments = node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToArray();
-                return idioms.InvokeStatic(jsMethodInfo, target, idioms.MakeArray(Js.Array(arguments), context.ExpressionArray));
+                return idioms.InvokeStatic(jsMethodInfo, target, idioms.MakeArray(Js.Array(arguments), Context.Instance.ExpressionArray));
             }
         }
 
@@ -322,7 +320,7 @@ namespace WootzJs.Compiler
             var member = idioms.MemberOf(symbol);
 
             //System.Linq.Expressions.Expression.Bind(MemberInfo, Expression)
-            var jsMethodInfo = GetExpressionMethod("Bind", context.MemberInfo, context.Expression);
+            var jsMethodInfo = GetExpressionMethod("Bind", Context.Instance.MemberInfo, Context.Instance.Expression);
             return idioms.InvokeStatic(jsMethodInfo, member, node.Right.Accept(this));
         }
 
@@ -331,18 +329,18 @@ namespace WootzJs.Compiler
             var constructor = (MethodSymbol)model.GetSymbolInfo(node).Symbol;
             var jsConstructor = idioms.MemberOf(constructor);
             var args = node.ArgumentList == null ? new JsExpression[0] : node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToArray();
-            var jsMethodInfo = GetExpressionMethod("New", context.ConstructorInfo, context.ExpressionArray);
+            var jsMethodInfo = GetExpressionMethod("New", Context.Instance.ConstructorInfo, Context.Instance.ExpressionArray);
             var jsMethod = idioms.InvokeStatic(jsMethodInfo, jsConstructor, Js.Array(args));
             
             if (node.Initializer != null && node.Initializer.Expressions.Count > 0)
             {
                 if (node.Initializer.Kind == SyntaxKind.ObjectInitializerExpression)
                 {
-                    var memberInit = GetExpressionMethod("MemberInit", context.NewExpression, context.MemberBindingArray);
+                    var memberInit = GetExpressionMethod("MemberInit", Context.Instance.NewExpression, Context.Instance.MemberBindingArray);
                     var jsMemberInit = idioms.InvokeStatic(
                         memberInit, 
                         jsMethod,
-                        idioms.Array(context.MemberBindingArray, node.Initializer.Expressions.Select(x => VisitMemberInit((BinaryExpressionSyntax)x)).ToArray()));
+                        idioms.Array(Context.Instance.MemberBindingArray, node.Initializer.Expressions.Select(x => VisitMemberInit((BinaryExpressionSyntax)x)).ToArray()));
                     return jsMemberInit;
                 }
                 else 
@@ -362,8 +360,8 @@ namespace WootzJs.Compiler
                     }
                     var addMethodInfo = constructor.ContainingType.GetMembers("Add").OfType<MethodSymbol>().First(x => x.Parameters.Count == subitemCount);
                     var addMethod = idioms.MemberOf(addMethodInfo);
-                    var elementInitMethodInfo = GetExpressionMethod("ElementInit", context.MethodInfo, context.ExpressionArray);
-                    var jsMemberInitMethodInfo = GetExpressionMethod("ListInit", context.NewExpression, context.ElementInitArray);
+                    var elementInitMethodInfo = GetExpressionMethod("ElementInit", Context.Instance.MethodInfo, Context.Instance.ExpressionArray);
+                    var jsMemberInitMethodInfo = GetExpressionMethod("ListInit", Context.Instance.NewExpression, Context.Instance.ElementInitArray);
 
                     var jsMemberInitMethod = idioms.InvokeStatic(
                         jsMemberInitMethodInfo,
@@ -372,8 +370,8 @@ namespace WootzJs.Compiler
                             .Select(x => idioms.InvokeStatic(
                                 elementInitMethodInfo, 
                                 addMethod,
-                                idioms.MakeArray(Js.Array(x.Select(y => y.Accept(this)).ToArray()), context.ExpressionArray)))
-                            .ToArray()), context.ElementInitArray));
+                                idioms.MakeArray(Js.Array(x.Select(y => y.Accept(this)).ToArray()), Context.Instance.ExpressionArray)))
+                            .ToArray()), Context.Instance.ElementInitArray));
                     return jsMemberInitMethod;                    
                 }
             }
@@ -397,11 +395,11 @@ namespace WootzJs.Compiler
         {
             var type = (ArrayTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             var elementType = type.ElementType;
-            var newArrayInit = GetExpressionMethod("NewArrayInit", context.TypeType, context.ExpressionArray);
+            var newArrayInit = GetExpressionMethod("NewArrayInit", Context.Instance.TypeType, Context.Instance.ExpressionArray);
             var jsMethod = idioms.InvokeStatic(
                 newArrayInit,
                 idioms.TypeOf(elementType),
-                idioms.Array(context.ExpressionArray, node.Initializer.Expressions.Select(x => x.Accept(this)).ToArray()));
+                idioms.Array(Context.Instance.ExpressionArray, node.Initializer.Expressions.Select(x => x.Accept(this)).ToArray()));
             return jsMethod;
         }
 
@@ -411,20 +409,20 @@ namespace WootzJs.Compiler
             var elementType = type.ElementType;
             if (node.Initializer != null)
             {
-                var newArrayInit = GetExpressionMethod("NewArrayInit", context.TypeType, context.ExpressionArray);
+                var newArrayInit = GetExpressionMethod("NewArrayInit", Context.Instance.TypeType, Context.Instance.ExpressionArray);
                 var jsMethod = idioms.InvokeStatic(
                     newArrayInit,
                     idioms.TypeOf(elementType),
-                    idioms.Array(context.ExpressionArray, node.Initializer.Expressions.Select(x => x.Accept(this)).ToArray()));
+                    idioms.Array(Context.Instance.ExpressionArray, node.Initializer.Expressions.Select(x => x.Accept(this)).ToArray()));
                 return jsMethod;
             }
             else
             {
-                var jsMethodInfo = GetExpressionMethod("NewArrayBounds", context.TypeType, context.ExpressionArray);
+                var jsMethodInfo = GetExpressionMethod("NewArrayBounds", Context.Instance.TypeType, Context.Instance.ExpressionArray);
                 var jsMethod = idioms.InvokeStatic(
                     jsMethodInfo, 
                     idioms.TypeOf(elementType), 
-                    idioms.Array(context.ExpressionArray, node.Type.RankSpecifiers[0].Sizes.Select(x => x.Accept(this)).ToArray()));
+                    idioms.Array(Context.Instance.ExpressionArray, node.Type.RankSpecifiers[0].Sizes.Select(x => x.Accept(this)).ToArray()));
                 return jsMethod;
             }
         }
@@ -457,8 +455,8 @@ namespace WootzJs.Compiler
                     throw new Exception("Unknown operation: " + node.Kind);
             }
 
-            var makeUnary = GetExpressionMethod("MakeUnary", context.ExpressionType, context.Expression, context.TypeType);
-            var opExpression = idioms.GetEnumValue(context.ExpressionType.GetMembers(op.ToString()).OfType<FieldSymbol>().Single());
+            var makeUnary = GetExpressionMethod("MakeUnary", Context.Instance.ExpressionType, Context.Instance.Expression, Context.Instance.TypeType);
+            var opExpression = idioms.GetEnumValue(Context.Instance.ExpressionType.GetMembers(op.ToString()).OfType<FieldSymbol>().Single());
             var operand = expression.Accept(this);
             var type = model.GetTypeInfo(node).ConvertedType;
             return idioms.InvokeStatic(
