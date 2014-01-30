@@ -4,7 +4,18 @@ var $mscorlib$Assembly = null;
 var $mscorlib$AssemblyTypes = [];
 window.$mscorlib$GetAssembly = function() {
     if ($mscorlib$Assembly == null)
-        $mscorlib$Assembly = System.Reflection.Assembly.prototype.$ctor.$new("mscorlib", $mscorlib$AssemblyTypes, $arrayinit([], System.Attribute));
+        $mscorlib$Assembly = System.Reflection.Assembly.prototype.$ctor.$new("mscorlib", $mscorlib$AssemblyTypes, $arrayinit([
+            System.Reflection.AssemblyTitleAttribute.prototype.$ctor.$new("mscorlib"), 
+            System.Reflection.AssemblyDescriptionAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyConfigurationAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyCompanyAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyProductAttribute.prototype.$ctor.$new("WootzJs.Runtime"), 
+            System.Reflection.AssemblyTrademarkAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyCultureAttribute.prototype.$ctor.$new(""), 
+            System.Runtime.InteropServices.GuidAttribute.prototype.$ctor.$new("d4892cd9-d8a0-41d5-bd0d-c8bc3f3b0cdc"), 
+            System.Reflection.AssemblyVersionAttribute.prototype.$ctor.$new("4.0.0.0"), 
+            System.Reflection.AssemblyFileVersionAttribute.prototype.$ctor.$new("4.0.0.0")
+        ], System.Attribute));
     return $mscorlib$Assembly;
 };
 $assemblies.push(window.$mscorlib$GetAssembly);
@@ -168,7 +179,7 @@ System.Object = $define("object", Object);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Object", $arrayinit([], System.Attribute));this.$type.Init("System.Object", System.Object, null, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetType", System.Object.prototype.GetType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString", System.Object.prototype.ToString, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToLocaleString", System.Object.prototype.ToLocaleString, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Equals", System.Object.prototype.Equals, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("obj", System.Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetHashCode", System.Object.prototype.GetHashCode, $arrayinit([], System.Reflection.ParameterInfo), System.Int32, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetStringHashCode", System.Object.prototype.GetStringHashCode, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReferenceEquals", System.Object.prototype.ReferenceEquals, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("o1", System.Object, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("o2", System.Object, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MakeArrayType", System.Object.prototype.MakeArrayType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MakeArrayType$1", System.Object.prototype.MakeArrayType$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("rank", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Object.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Object", $arrayinit([], System.Attribute));this.$type.Init("System.Object", System.Object, null, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetType", System.Object.prototype.GetType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToString", System.Object.prototype.ToString, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Equals", System.Object.prototype.Equals, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("obj", System.Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetHashCode", System.Object.prototype.GetHashCode, $arrayinit([], System.Reflection.ParameterInfo), System.Int32, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetStringHashCode", System.Object.prototype.GetStringHashCode, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReferenceEquals", System.Object.prototype.ReferenceEquals, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("o1", System.Object, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("o2", System.Object, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Object.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {};
     $p.$ctor.$type = $t;
@@ -183,9 +194,6 @@ System.Object = $define("object", Object);
             return "";
         return this.toString();
     };
-    $p.ToLocaleString = function() {
-        return null;
-    };
     $p.Equals = function(obj) {
         return this == obj;
     };
@@ -197,14 +205,6 @@ System.Object = $define("object", Object);
     };
     $t.ReferenceEquals = function(o1, o2) {
         return true;
-    };
-    $p.MakeArrayType = function() {
-        return this.MakeArrayType$1(1);
-    };
-    $p.MakeArrayType$1 = function(rank) {
-        if (rank > 1)
-            throw System.InvalidOperationException.prototype.$ctor$1.$new("Rank must be 1").InternalInit(new Error());
-        return System.Type._GetTypeFromTypeFunc($array(this.$type));
     };
 }).call(null, System.Object, System.Object.prototype);
 $mscorlib$AssemblyTypes.push(System.Object);
@@ -2710,43 +2710,42 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.bucket$enumerator = this.$this.buckets.GetEnumerator();
-                            this.$state = 2;
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.bucket$enumerator = this.$this.buckets.GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.bucket$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.bucket = this.bucket$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.item$enumerator = this.bucket.Items.GetEnumerator();
+                            this.$state = 3;
                             continue $top;
-                        case 2:
-                            while (this.bucket$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.bucket = this.bucket$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.item$enumerator = this.bucket.Items.GetEnumerator();
-                                this.$state = 3;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(System.Collections.Generic.KeyValuePair$2$(TKey, TValue).prototype.$ctor$1.$new(this.item.get_Key(), this.item.get_Value()));
-                                return true;
-                            }
-                            this.$state = 2;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(System.Collections.Generic.KeyValuePair$2$(TKey, TValue).prototype.$ctor$1.$new(this.item.get_Key(), this.item.get_Value()));
+                            return true;
+                        }
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -3322,37 +3321,36 @@ System.Collections.Generic.Queue$1 = $define("System.Collections.Generic.Queue<T
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < this.$this.storage.length) {
-                                this.$state = 3;
-                                this.set_Current(this.$this.storage[this.i]);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.i = 0;
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.i < this.$this.storage.length) {
+                            this.$state = 3;
+                            this.set_Current(this.$this.storage[this.i]);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.i++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -3883,37 +3881,36 @@ System.Collections.Generic.Stack$1 = $define("System.Collections.Generic.Stack<T
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = this.$this.storage.length - 1;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i >= 0) {
-                                this.$state = 3;
-                                this.set_Current(this.$this.storage[this.i]);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i--;
-                            this.$state = 2;
-                            continue $top;
-                    }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.i = this.$this.storage.length - 1;
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.i >= 0) {
+                            this.$state = 3;
+                            this.set_Current(this.$this.storage[this.i]);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.i--;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5229,38 +5226,37 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (this.predicate(this.item)) {
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
                             this.$state = 2;
                             continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (this.predicate(this.item)) {
-                                    this.$state = 2;
-                                    this.set_Current(this.item);
-                                    return true;
-                                }
-                                this.$state = 2;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -5305,47 +5301,46 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.predicate == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                            this.index = 0;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (this.predicate(this.item, this.index)) {
-                                    this.$state = 3;
-                                    this.set_Current(this.item);
-                                    return true;
-                                }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.predicate == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                        this.index = 0;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (this.predicate(this.item, this.index)) {
                                 this.$state = 3;
-                                continue $top;
+                                this.set_Current(this.item);
+                                return true;
                             }
-                            this.$state = 0;
+                            this.$state = 3;
                             continue $top;
-                        case 3:
-                            this.index++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.index++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5389,34 +5384,33 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 2;
-                                this.set_Current(this.selector(this.item));
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current(this.selector(this.item));
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -5461,43 +5455,42 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.selector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
-                            this.index = 0;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.selector(this.item, this.index));
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.index++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.selector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
+                        this.index = 0;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(this.selector(this.item, this.index));
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.index++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5543,43 +5536,42 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.subitem$enumerator = this.selector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 3;
                             continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.subitem$enumerator = this.selector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                                this.$state = 3;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.subitem);
-                                return true;
-                            }
-                            this.$state = 2;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(this.subitem);
+                            return true;
+                        }
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5626,52 +5618,51 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, selector);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                System.ArgumentNullException.prototype.$ctor.$new("source");
-                            if (this.selector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
-                            this.index = 0;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            System.ArgumentNullException.prototype.$ctor.$new("source");
+                        if (this.selector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("selector").InternalInit(new Error());
+                        this.index = 0;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.subitem$enumerator = this.selector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 3;
                             continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.subitem$enumerator = this.selector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                                this.$state = 3;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.subitem);
-                                return true;
-                            }
-                            this.$state = 4;
-                            continue $top;
-                        case 4:
-                            this.index++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(this.subitem);
+                            return true;
+                        }
+                        this.$state = 4;
+                        continue $top;
+                    case 4:
+                        this.index++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5725,54 +5716,53 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             );
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.collectionSelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
-                            if (this.resultSelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                            this.index = 0;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.collectionSelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
+                        if (this.resultSelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                        this.index = 0;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.subitem$enumerator = this.collectionSelector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 3;
                             continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.subitem$enumerator = this.collectionSelector(this.item, this.index).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                                this.$state = 3;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.resultSelector(this.item, this.subitem));
-                                return true;
-                            }
-                            this.$state = 4;
-                            continue $top;
-                        case 4:
-                            this.index++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(this.resultSelector(this.item, this.subitem));
+                            return true;
+                        }
+                        this.$state = 4;
+                        continue $top;
+                    case 4:
+                        this.index++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5825,49 +5815,48 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             );
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.collectionSelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
-                            if (this.resultSelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.collectionSelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("collectionSelector").InternalInit(new Error());
+                        if (this.resultSelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.subitem$enumerator = this.collectionSelector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.$state = 3;
                             continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.subitem$enumerator = this.collectionSelector(this.item).System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                                this.$state = 3;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.resultSelector(this.item, this.subitem));
-                                return true;
-                            }
-                            this.$state = 2;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        while (this.subitem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.subitem = this.subitem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(this.resultSelector(this.item, this.subitem));
+                            return true;
+                        }
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5912,43 +5901,42 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, count);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            this.index = 0;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (this.index >= this.count)
-                                    break;
-                                this.$state = 3;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.index++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        this.index = 0;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (this.index >= this.count)
+                                break;
+                            this.$state = 3;
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.index++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -5992,40 +5980,39 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.predicate == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.predicate == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (!this.predicate(this.item))
+                                break;
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (!this.predicate(this.item))
-                                    break;
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -6070,45 +6057,44 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.predicate == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                            this.index = 0;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (!this.predicate(this.item, this.index))
-                                    break;
-                                this.$state = 3;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.index++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.predicate == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                        this.index = 0;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (!this.predicate(this.item, this.index))
+                                break;
+                            this.$state = 3;
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.index++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -6153,40 +6139,39 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, count);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            this.index = -1;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        this.index = -1;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.index++;
+                            if (this.index < this.count)
+                                continue;
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.index++;
-                                if (this.index < this.count)
-                                    continue;
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -6230,40 +6215,39 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.predicate == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.predicate == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (this.predicate(this.item))
+                                continue;
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (this.predicate(this.item))
-                                    continue;
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -6308,42 +6292,41 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, predicate);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            if (this.predicate == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
-                            this.index = -1;
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        if (this.predicate == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("predicate").InternalInit(new Error());
+                        this.index = -1;
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.index++;
+                            if (this.predicate(this.item, this.index))
+                                continue;
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.index++;
-                                if (this.predicate(this.item, this.index))
-                                    continue;
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -6406,95 +6389,94 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             );
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.outers = System.Linq.Enumerable.ToArray(TOuter, this.outer);
-                            if (this.outer == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("outer").InternalInit(new Error());
-                            if (this.inner == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("inner").InternalInit(new Error());
-                            if (this.outerKeySelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("outerKeySelector").InternalInit(new Error());
-                            if (this.innerKeySelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("innerKeySelector").InternalInit(new Error());
-                            if (this.resultSelector == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
-                            this.dictionary = System.Collections.Generic.Dictionary$2$(TKey, System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner))).prototype.$ctor.$new();
-                            {
-                                var $anon$1iterator = this.outers;
-                                var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
-                                while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                    var item = $anon$2enumerator.System$Collections$IEnumerator$get_Current();
-                                    var key = this.outerKeySelector(item);
-                                    var lists;
-                                    if (!(function() {
-                                        var $anon$3 = {
-                                            value: null
-                                        };
-                                        var $result$ = this.dictionary.TryGetValue(key, $anon$3);
-                                        lists = $anon$3.value;
-                                        return $result$;
-                                    }).call(this)) {
-                                        lists = System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner)).prototype.$ctor.$new(System.Collections.Generic.List$1$(TOuter).prototype.$ctor.$new(), System.Collections.Generic.List$1$(TInner).prototype.$ctor.$new());
-                                        this.dictionary.set_Item(key, lists);
-                                    }
-                                    lists.get_Item1().Add(item);
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.outers = System.Linq.Enumerable.ToArray(TOuter, this.outer);
+                        if (this.outer == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("outer").InternalInit(new Error());
+                        if (this.inner == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("inner").InternalInit(new Error());
+                        if (this.outerKeySelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("outerKeySelector").InternalInit(new Error());
+                        if (this.innerKeySelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("innerKeySelector").InternalInit(new Error());
+                        if (this.resultSelector == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("resultSelector").InternalInit(new Error());
+                        this.dictionary = System.Collections.Generic.Dictionary$2$(TKey, System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner))).prototype.$ctor.$new();
+                        {
+                            var $anon$1iterator = this.outers;
+                            var $anon$2enumerator = $anon$1iterator.System$Collections$IEnumerable$GetEnumerator();
+                            while ($anon$2enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                var item = $anon$2enumerator.System$Collections$IEnumerator$get_Current();
+                                var key = this.outerKeySelector(item);
+                                var lists;
+                                if (!(function() {
+                                    var $anon$3 = {
+                                        value: null
+                                    };
+                                    var $result$ = this.dictionary.TryGetValue(key, $anon$3);
+                                    lists = $anon$3.value;
+                                    return $result$;
+                                }).call(this)) {
+                                    lists = System.Tuple$2$(System.Collections.Generic.List$1$(TOuter), System.Collections.Generic.List$1$(TInner)).prototype.$ctor.$new(System.Collections.Generic.List$1$(TOuter).prototype.$ctor.$new(), System.Collections.Generic.List$1$(TInner).prototype.$ctor.$new());
+                                    this.dictionary.set_Item(key, lists);
                                 }
-                            }{
-                                var $anon$4iterator = this.inner;
-                                var $anon$5enumerator = $anon$4iterator.System$Collections$IEnumerable$GetEnumerator();
-                                while ($anon$5enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                    var item = $anon$5enumerator.System$Collections$IEnumerator$get_Current();
-                                    var key = this.innerKeySelector(item);
-                                    var lists;
-                                    if (!(function() {
-                                        var $anon$6 = {
-                                            value: null
-                                        };
-                                        var $result$ = this.dictionary.TryGetValue(key, $anon$6);
-                                        lists = $anon$6.value;
-                                        return $result$;
-                                    }).call(this))
-                                        continue;
-                                    lists.get_Item2().Add(item);
-                                }
-                            }this.outerItem$enumerator = this.outers.GetEnumerator();
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.outerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.outerItem = this.outerItem$enumerator.System$Collections$IEnumerator$get_Current();
-                                this.key = this.outerKeySelector(this.outerItem);
-                                this.set = this.dictionary.get_Item(this.key);
-                                this.innerItem$enumerator = this.set.get_Item2().GetEnumerator();
-                                this.$state = 3;
-                                continue $top;
+                                lists.get_Item1().Add(item);
                             }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            while (this.innerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.innerItem = this.innerItem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 3;
-                                this.set_Current(this.resultSelector(this.outerItem, this.innerItem));
-                                return true;
+                        }{
+                            var $anon$4iterator = this.inner;
+                            var $anon$5enumerator = $anon$4iterator.System$Collections$IEnumerable$GetEnumerator();
+                            while ($anon$5enumerator.System$Collections$IEnumerator$MoveNext()) {
+                                var item = $anon$5enumerator.System$Collections$IEnumerator$get_Current();
+                                var key = this.innerKeySelector(item);
+                                var lists;
+                                if (!(function() {
+                                    var $anon$6 = {
+                                        value: null
+                                    };
+                                    var $result$ = this.dictionary.TryGetValue(key, $anon$6);
+                                    lists = $anon$6.value;
+                                    return $result$;
+                                }).call(this))
+                                    continue;
+                                lists.get_Item2().Add(item);
                             }
-                            this.$state = 2;
+                        }this.outerItem$enumerator = this.outers.GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.outerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.outerItem = this.outerItem$enumerator.System$Collections$IEnumerator$get_Current();
+                            this.key = this.outerKeySelector(this.outerItem);
+                            this.set = this.dictionary.get_Item(this.key);
+                            this.innerItem$enumerator = this.set.get_Item2().GetEnumerator();
+                            this.$state = 3;
                             continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        while (this.innerItem$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.innerItem = this.innerItem$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            this.$state = 3;
+                            this.set_Current(this.resultSelector(this.outerItem, this.innerItem));
+                            return true;
+                        }
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -6551,47 +6533,46 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source, other);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.item$enumerator = this.source.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 2;
-                                this.set_Current(this.item);
-                                return true;
-                            }
-                            this.$state = 3;
-                            continue $top;
-                        case 3:
-                            this.item2$enumerator = this.other.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                            this.set_Current(this.item);
+                            return true;
+                        }
+                        this.$state = 3;
+                        continue $top;
+                    case 3:
+                        this.item2$enumerator = this.other.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 4;
+                        continue $top;
+                    case 4:
+                        while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item2 = this.item2$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
                             this.$state = 4;
-                            continue $top;
-                        case 4:
-                            while (this.item2$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item2 = this.item2$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                this.$state = 4;
-                                this.set_Current(this.item2);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current(this.item2);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -6636,43 +6617,42 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, first, second);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.first == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("first").InternalInit(new Error());
-                            if (this.second == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("second").InternalInit(new Error());
-                            this.set = System.Collections.Generic.HashSet$1$(TSource).prototype.$ctor$1.$new(this.second);
-                            this.item$enumerator = this.first.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.first == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("first").InternalInit(new Error());
+                        if (this.second == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("second").InternalInit(new Error());
+                        this.set = System.Collections.Generic.HashSet$1$(TSource).prototype.$ctor$1.$new(this.second);
+                        this.item$enumerator = this.first.System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
+                            if (!this.set.Contains(this.item)) {
+                                this.$state = 2;
+                                this.set_Current(this.item);
+                                return true;
+                            }
                             this.$state = 2;
                             continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$Generic$IEnumerator$1$get_Current();
-                                if (!this.set.Contains(this.item)) {
-                                    this.$state = 2;
-                                    this.set_Current(this.item);
-                                    return true;
-                                }
-                                this.$state = 2;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -6715,44 +6695,43 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, element, count);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.count < 0) {
-                                throw System.ArgumentOutOfRangeException.prototype.$ctor$1.$new("count").InternalInit(new Error());
-                            }
-                            else {
-                                this.i = 0;
-                                this.$state = 2;
-                                continue $top;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 2:
-                            while (this.i < this.count) {
-                                this.$state = 3;
-                                this.set_Current(this.element);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.count < 0) {
+                            throw System.ArgumentOutOfRangeException.prototype.$ctor$1.$new("count").InternalInit(new Error());
+                        }
+                        else {
+                            this.i = 0;
                             this.$state = 2;
                             continue $top;
-                    }
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 2:
+                        while (this.i < this.count) {
+                            this.$state = 3;
+                            this.set_Current(this.element);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.i++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -6794,36 +6773,35 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             return new $p.$ctor.$type(this, source);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            if (this.source == null)
-                                throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
-                            this.item$enumerator = this.source.System$Collections$IEnumerable$GetEnumerator();
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        if (this.source == null)
+                            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+                        this.item$enumerator = this.source.System$Collections$IEnumerable$GetEnumerator();
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
+                            this.item = this.item$enumerator.System$Collections$IEnumerator$get_Current();
                             this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.item$enumerator.System$Collections$IEnumerator$MoveNext()) {
-                                this.item = this.item$enumerator.System$Collections$IEnumerator$get_Current();
-                                this.$state = 2;
-                                this.set_Current($cast(TResult, this.item));
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                    }
+                            this.set_Current($cast(TResult, this.item));
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
                 }
             }
         };
@@ -10547,7 +10525,7 @@ System.Runtime.WootzJs.SpecialNames = $define("System.Runtime.WootzJs.SpecialNam
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("SpecialNames", $arrayinit([], System.Attribute));this.$type.Init("System.Runtime.WootzJs.SpecialNames", System.Runtime.WootzJs.SpecialNames, System.Object, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("TypeInitializerTypeFunction", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$t", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeInitializerPrototype", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$p", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("GetTypeFromType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$GetType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeField", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$type", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeName", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$typeName", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("ClassTypeArguments", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$typeParameters", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeInitializer", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$TypeInitializer", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("StaticInitializer", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$StaticInitializer", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("IsStaticInitialized", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$isStaticInitialized", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("MakeGenericType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("MakeGenericTypeConstructor", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$generic", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("MakeArrayType$2", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$array", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("BaseType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$baseType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("ArrayType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$arrayType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("CreateType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$CreateType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("GetAssembly", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$GetAssembly", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Assemblies", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$assemblies", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("New", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$new", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Define", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$define", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("InitializeArray", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$arrayinit", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("ElementType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$elementType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("SafeToString", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$safeToString", $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Runtime.WootzJs.SpecialNames.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("SpecialNames", $arrayinit([], System.Attribute));this.$type.Init("System.Runtime.WootzJs.SpecialNames", System.Runtime.WootzJs.SpecialNames, System.Object, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("TypeInitializerTypeFunction", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$t", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeInitializerPrototype", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$p", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("GetTypeFromType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$GetType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeField", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$type", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeName", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$typeName", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("ClassTypeArguments", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$typeParameters", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("TypeInitializer", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$TypeInitializer", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("StaticInitializer", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$StaticInitializer", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("IsStaticInitialized", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$isStaticInitialized", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("MakeGenericType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("MakeGenericTypeConstructor", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$generic", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("MakeArrayType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$array", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("BaseType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$baseType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("ArrayType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$arrayType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("CreateType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$CreateType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("GetAssembly", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$GetAssembly", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Assemblies", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$assemblies", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("New", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$new", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Define", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$define", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("InitializeArray", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$arrayinit", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("ElementType", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$elementType", $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("SafeToString", String, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, "$safeToString", $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Runtime.WootzJs.SpecialNames.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {
         System.Runtime.WootzJs.SpecialNames.TypeInitializerTypeFunction = "$t";
         System.Runtime.WootzJs.SpecialNames.TypeInitializerPrototype = "$p";
@@ -10560,7 +10538,7 @@ System.Runtime.WootzJs.SpecialNames = $define("System.Runtime.WootzJs.SpecialNam
         System.Runtime.WootzJs.SpecialNames.IsStaticInitialized = "$isStaticInitialized";
         System.Runtime.WootzJs.SpecialNames.MakeGenericType = "$";
         System.Runtime.WootzJs.SpecialNames.MakeGenericTypeConstructor = "$generic";
-        System.Runtime.WootzJs.SpecialNames.MakeArrayType$2 = "$array";
+        System.Runtime.WootzJs.SpecialNames.MakeArrayType = "$array";
         System.Runtime.WootzJs.SpecialNames.BaseType = "$baseType";
         System.Runtime.WootzJs.SpecialNames.ArrayType = "$arrayType";
         System.Runtime.WootzJs.SpecialNames.CreateType = "$CreateType";
@@ -10590,7 +10568,7 @@ System.Runtime.WootzJs.SpecialNames = $define("System.Runtime.WootzJs.SpecialNam
     $p.IsStaticInitialized = null;
     $p.MakeGenericType = null;
     $p.MakeGenericTypeConstructor = null;
-    $p.MakeArrayType$2 = null;
+    $p.MakeArrayType = null;
     $p.BaseType = null;
     $p.ArrayType = null;
     $p.CreateType = null;
@@ -11000,37 +10978,36 @@ $mscorlib$AssemblyTypes.push(System.Single);
             return new $p.$ctor.$type(this, $this);
         };
         $p.GetEnumerator = function() {
-            if (this.$isStarted)
+            var $isStartedLocal = this.$isStarted;
+            this.$isStarted = true;
+            if ($isStartedLocal)
                 return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
             else
                 return this;
         };
         $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
         $p.MoveNext = function() {
-            {
-                this.$isStarted = true;
-                $top:
-                while (true) {
-                    switch (this.$state) {
-                        case 0:
-                            return false;
-                        case 1:
-                            this.i = 0;
-                            this.$state = 2;
-                            continue $top;
-                        case 2:
-                            while (this.i < this.$this.length) {
-                                this.$state = 3;
-                                this.set_Current(this[this.i]);
-                                return true;
-                            }
-                            this.$state = 0;
-                            continue $top;
-                        case 3:
-                            this.i++;
-                            this.$state = 2;
-                            continue $top;
-                    }
+            $top:
+            while (true) {
+                switch (this.$state) {
+                    case 0:
+                        return false;
+                    case 1:
+                        this.i = 0;
+                        this.$state = 2;
+                        continue $top;
+                    case 2:
+                        while (this.i < this.$this.length) {
+                            this.$state = 3;
+                            this.set_Current(this[this.i]);
+                            return true;
+                        }
+                        this.$state = 0;
+                        continue $top;
+                    case 3:
+                        this.i++;
+                        this.$state = 2;
+                        continue $top;
                 }
             }
         };
@@ -12789,7 +12766,7 @@ System.Type = $define("System.Type", System.Reflection.MemberInfo);
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Type", $arrayinit([], System.Attribute));this.$type.Init("System.Type", System.Type, System.Reflection.MemberInfo, $arrayinit([System.Reflection.ICustomAttributeProvider], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("DefaultBinder", System.Reflection.Binder, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().InitOnly, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$FullName$k__BackingField", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("interfaces", $array(Function), System.Reflection.FieldAttributes().Assembly, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("fields", $array(System.Reflection.FieldInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("methods", $array(System.Reflection.MethodInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("constructors", $array(System.Reflection.ConstructorInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("properties", $array(System.Reflection.PropertyInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("events", $array(System.Reflection.EventInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("isValueType", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("$cctor", System.Type.prototype.$cctor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_FullName", System.Type.prototype.get_FullName, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_FullName", System.Type.prototype.set_FullName, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_MemberType", System.Type.prototype.get_MemberType, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MemberTypes, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Init", System.Type.prototype.Init, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fullName", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("thisType", Function, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("baseType", Function, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("interfaces", $array(Function), 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("fields", $array(System.Reflection.FieldInfo), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("methods", $array(System.Reflection.MethodInfo), 5, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("constructors", $array(System.Reflection.ConstructorInfo), 6, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("properties", $array(System.Reflection.PropertyInfo), 7, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("events", $array(System.Reflection.EventInfo), 8, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("isValueType", System.Boolean, 9, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementType", Function, 10, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("_GetTypeFromInstance", System.Type.prototype._GetTypeFromInstance, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("instance", Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Assembly | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("_GetTypeFromTypeFunc", System.Type.prototype._GetTypeFromTypeFunc, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("typeFunction", Function, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetTypeFromHandle", System.Type.prototype.GetTypeFromHandle, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("typeHandle", System.RuntimeTypeHandle, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_BaseType", System.Type.prototype.get_BaseType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Assembly", System.Type.prototype.get_Assembly, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.Assembly, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetType$1", System.Type.prototype.GetType$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("typeName", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetElementType", System.Type.prototype.GetElementType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsAssignableFrom", System.Type.prototype.IsAssignableFrom, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", System.Type, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsClass", System.Type.prototype.IsClass, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", System.Type, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsInterface", System.Type.prototype.IsInterface, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", System.Type, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsInstanceOfType", System.Type.prototype.IsInstanceOfType, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("o", System.Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetInterfaces", System.Type.prototype.GetInterfaces, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Type), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperties", System.Type.prototype.GetProperties, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.PropertyInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEvents", System.Type.prototype.GetEvents, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.EventInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethods", System.Type.prototype.GetMethods, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.MethodInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethodImpl", System.Type.prototype.GetMethodImpl, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("callConvention", System.Reflection.CallingConventions, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 5, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethod$2", System.Type.prototype.GetMethod$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethod$1", System.Type.prototype.GetMethod$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethod", System.Type.prototype.GetMethod, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$7", System.Type.prototype.GetProperty$7, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 5, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$6", System.Type.prototype.GetProperty$6, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$1", System.Type.prototype.GetProperty$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$5", System.Type.prototype.GetProperty$5, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$3", System.Type.prototype.GetProperty$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$2", System.Type.prototype.GetProperty$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$4", System.Type.prototype.GetProperty$4, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Assembly, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty", System.Type.prototype.GetProperty, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetPropertyImpl", System.Type.prototype.GetPropertyImpl, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 5, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructors", System.Type.prototype.GetConstructors, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.ConstructorInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetField$1", System.Type.prototype.GetField$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.FieldInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetField", System.Type.prototype.GetField, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.FieldInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetFields", System.Type.prototype.GetFields, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.FieldInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetFields$1", System.Type.prototype.GetFields$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), $array(System.Reflection.FieldInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsValueType", System.Type.prototype.get_IsValueType, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructor$2", System.Type.prototype.GetConstructor$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("callConvention", System.Reflection.CallingConventions, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 4, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructor$1", System.Type.prototype.GetConstructor$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructor", System.Type.prototype.GetConstructor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructorImpl", System.Type.prototype.GetConstructorImpl, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("callConvention", System.Reflection.CallingConventions, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 4, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumValues", System.Type.prototype.GetEnumValues, $arrayinit([], System.Reflection.ParameterInfo), Array, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Type.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("attributes", $array(System.Attribute), 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("FullName", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_FullName", System.Type.prototype.get_FullName, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_FullName", System.Type.prototype.set_FullName, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("MemberType", System.Reflection.MemberTypes, System.Reflection.MethodInfo.prototype.$ctor.$new("get_MemberType", System.Type.prototype.get_MemberType, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MemberTypes, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("BaseType", System.Type, System.Reflection.MethodInfo.prototype.$ctor.$new("get_BaseType", System.Type.prototype.get_BaseType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Assembly", System.Reflection.Assembly, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Assembly", System.Type.prototype.get_Assembly, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.Assembly, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("IsValueType", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsValueType", System.Type.prototype.get_IsValueType, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Type", $arrayinit([], System.Attribute));this.$type.Init("System.Type", System.Type, System.Reflection.MemberInfo, $arrayinit([System.Reflection.ICustomAttributeProvider], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("DefaultBinder", System.Reflection.Binder, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().InitOnly, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$FullName$k__BackingField", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("interfaces", $array(Function), System.Reflection.FieldAttributes().Assembly, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("fields", $array(System.Reflection.FieldInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("methods", $array(System.Reflection.MethodInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("constructors", $array(System.Reflection.ConstructorInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("properties", $array(System.Reflection.PropertyInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("events", $array(System.Reflection.EventInfo), System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("isValueType", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("$cctor", System.Type.prototype.$cctor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_FullName", System.Type.prototype.get_FullName, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_FullName", System.Type.prototype.set_FullName, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_MemberType", System.Type.prototype.get_MemberType, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MemberTypes, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Init", System.Type.prototype.Init, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("fullName", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("thisType", Function, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("baseType", Function, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("interfaces", $array(Function), 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("fields", $array(System.Reflection.FieldInfo), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("methods", $array(System.Reflection.MethodInfo), 5, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("constructors", $array(System.Reflection.ConstructorInfo), 6, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("properties", $array(System.Reflection.PropertyInfo), 7, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("events", $array(System.Reflection.EventInfo), 8, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("isValueType", System.Boolean, 9, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementType", Function, 10, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("_GetTypeFromInstance", System.Type.prototype._GetTypeFromInstance, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("instance", Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Assembly | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("_GetTypeFromTypeFunc", System.Type.prototype._GetTypeFromTypeFunc, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("typeFunction", Function, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetTypeFromHandle", System.Type.prototype.GetTypeFromHandle, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("typeHandle", System.RuntimeTypeHandle, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_BaseType", System.Type.prototype.get_BaseType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Assembly", System.Type.prototype.get_Assembly, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.Assembly, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetType$1", System.Type.prototype.GetType$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("typeName", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetElementType", System.Type.prototype.GetElementType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsAssignableFrom", System.Type.prototype.IsAssignableFrom, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", System.Type, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsClass", System.Type.prototype.IsClass, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", System.Type, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsInterface", System.Type.prototype.IsInterface, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", System.Type, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsInstanceOfType", System.Type.prototype.IsInstanceOfType, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("o", System.Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetInterfaces", System.Type.prototype.GetInterfaces, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Type), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperties", System.Type.prototype.GetProperties, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.PropertyInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEvents", System.Type.prototype.GetEvents, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.EventInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethods", System.Type.prototype.GetMethods, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.MethodInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethodImpl", System.Type.prototype.GetMethodImpl, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("callConvention", System.Reflection.CallingConventions, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 5, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethod$2", System.Type.prototype.GetMethod$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethod$1", System.Type.prototype.GetMethod$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetMethod", System.Type.prototype.GetMethod, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$7", System.Type.prototype.GetProperty$7, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 5, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$6", System.Type.prototype.GetProperty$6, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$1", System.Type.prototype.GetProperty$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$5", System.Type.prototype.GetProperty$5, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$3", System.Type.prototype.GetProperty$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$2", System.Type.prototype.GetProperty$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty$4", System.Type.prototype.GetProperty$4, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Assembly, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetProperty", System.Type.prototype.GetProperty, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetPropertyImpl", System.Type.prototype.GetPropertyImpl, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("returnType", System.Type, 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 4, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 5, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.PropertyInfo, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructors", System.Type.prototype.GetConstructors, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.ConstructorInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetField$1", System.Type.prototype.GetField$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.FieldInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetField", System.Type.prototype.GetField, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.FieldInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetFields", System.Type.prototype.GetFields, $arrayinit([], System.Reflection.ParameterInfo), $array(System.Reflection.FieldInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetFields$1", System.Type.prototype.GetFields$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), $array(System.Reflection.FieldInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsValueType", System.Type.prototype.get_IsValueType, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructor$2", System.Type.prototype.GetConstructor$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("callConvention", System.Reflection.CallingConventions, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 4, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructor$1", System.Type.prototype.GetConstructor$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructor", System.Type.prototype.GetConstructor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetConstructorImpl", System.Type.prototype.GetConstructorImpl, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("bindingAttr", System.Reflection.BindingFlags, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("binder", System.Reflection.Binder, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("callConvention", System.Reflection.CallingConventions, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("types", $array(System.Type), 3, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("modifiers", $array(System.Reflection.ParameterModifier), 4, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.ConstructorInfo, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumValues", System.Type.prototype.GetEnumValues, $arrayinit([], System.Reflection.ParameterInfo), Array, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MakeArrayType", System.Type.prototype.MakeArrayType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MakeArrayType$1", System.Type.prototype.MakeArrayType$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("rank", System.Int32, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Type.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("name", String, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("attributes", $array(System.Attribute), 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("FullName", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_FullName", System.Type.prototype.get_FullName, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_FullName", System.Type.prototype.set_FullName, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("MemberType", System.Reflection.MemberTypes, System.Reflection.MethodInfo.prototype.$ctor.$new("get_MemberType", System.Type.prototype.get_MemberType, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MemberTypes, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("BaseType", System.Type, System.Reflection.MethodInfo.prototype.$ctor.$new("get_BaseType", System.Type.prototype.get_BaseType, $arrayinit([], System.Reflection.ParameterInfo), System.Type, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Assembly", System.Reflection.Assembly, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Assembly", System.Type.prototype.get_Assembly, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.Assembly, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("IsValueType", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_IsValueType", System.Type.prototype.get_IsValueType, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {
         System.Type.DefaultBinder = System.Reflection.Binder.prototype.$ctor.$new();
     };
@@ -13283,6 +13260,14 @@ System.Type = $define("System.Type", System.Reflection.MemberInfo);
     };
     $p.GetEnumValues = function() {
         return System.Enum.GetEnumValues(this);
+    };
+    $p.MakeArrayType = function() {
+        return this.MakeArrayType$1(1);
+    };
+    $p.MakeArrayType$1 = function(rank) {
+        if (rank > 1)
+            throw System.InvalidOperationException.prototype.$ctor$1.$new("Rank must be 1").InternalInit(new Error());
+        return System.Type._GetTypeFromTypeFunc($array(this.$type));
     };
 }).call(null, System.Type, System.Type.prototype);
 $mscorlib$AssemblyTypes.push(System.Type);

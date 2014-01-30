@@ -40,6 +40,7 @@ namespace WootzJs.Compiler
         private MethodSymbol method;
         
         public const string isStarted = "$isStarted";
+        public const string isStartedLocal = "$isStartedLocal";
         public const string state = "$state";
 
         public YieldClassGenerator(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax, MethodDeclarationSyntax node)
@@ -112,9 +113,10 @@ namespace WootzJs.Compiler
             var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
                 .AddModifiers(Cs.Public(), Cs.Override())
                 .WithBody(Cs.Block(
+                    Cs.Local(isStartedLocal, Syntax.IdentifierName(isStarted)),
                     Cs.Express(Syntax.IdentifierName(isStarted).Assign(Cs.True())),
                     Cs.If(
-                        Syntax.IdentifierName(isStarted), 
+                        Syntax.IdentifierName(isStartedLocal), 
                         Cs.Return(Cs.This().Member("Clone").Invoke().Member("GetEnumerator").Invoke()), 
                         Cs.Return(Cs.This()))));
             members.Add(getEnumerator);

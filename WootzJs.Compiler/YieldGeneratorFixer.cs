@@ -68,6 +68,11 @@ namespace WootzJs.Compiler
                         var classText = node.Parent.Parent.Parent.Parent.Parent.Parent.NormalizeWhitespace().ToString();
                         return node;
                     }
+                    if (node.Parent is VariableDeclarationSyntax)
+                    {
+                        var classText = node.Parent.Parent.Parent.Parent.Parent.Parent.NormalizeWhitespace().ToString();
+                        return node;                        
+                    }
                     return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName("$this"), node);
                 }
             }

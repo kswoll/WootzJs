@@ -241,11 +241,23 @@ namespace WootzJs.Compiler
 
         public static BlockSyntax Local(this BlockSyntax block, string name, ExpressionSyntax initializer, out VariableDeclaratorSyntax variable)
         {
+            var declaration = Local(name, initializer, out variable);
+            block = block.AddStatements(declaration);
+            return block;
+        }
+
+        public static LocalDeclarationStatementSyntax Local(string name, ExpressionSyntax initializer, out VariableDeclaratorSyntax variable)
+        {
             variable = Syntax.VariableDeclarator(name).WithInitializer(Syntax.EqualsValueClause(initializer));           
             var declaration = Syntax.LocalDeclarationStatement(Syntax.VariableDeclaration(Syntax.ParseTypeName("var"),
                 Syntax.SeparatedList(variable)));
-            block = block.AddStatements(declaration);
-            return block;
+            return declaration; 
+        }
+
+        public static LocalDeclarationStatementSyntax Local(string name, ExpressionSyntax initializer)
+        {
+            VariableDeclaratorSyntax variable;
+            return Local(name, initializer, out variable);
         }
 
         public static BlockSyntax If(this BlockSyntax block, ExpressionSyntax condition, StatementSyntax ifTrue, StatementSyntax ifFalse = null)
