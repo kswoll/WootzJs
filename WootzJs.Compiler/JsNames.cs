@@ -124,10 +124,6 @@ namespace WootzJs.Compiler
 
         public static string GetMemberName(this MethodSymbol method)
         {
-            if (method.Name == "Join")
-            {
-                
-            }
             var nameOverride = method.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
                 return nameOverride;

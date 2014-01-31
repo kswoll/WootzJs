@@ -42,5 +42,45 @@ namespace System.Runtime.WootzJs
         {
             return GetEnumerator();
         }
+
+        public static implicit operator JsObject(bool value)
+        {
+            return value.As<JsObject>();
+        }
+
+        public static implicit operator bool(JsObject value)
+        {
+            return value.As<bool>();
+        }
+
+        public static implicit operator int(JsObject value)
+        {
+            return value.As<int>();
+        }
+
+        public static implicit operator short(JsObject value)
+        {
+            return value.As<short>();
+        }
+
+        public static implicit operator byte(JsObject value)
+        {
+            return value.As<byte>();
+        }
+
+        public static implicit operator long(JsObject value)
+        {
+            return value.As<long>();
+        }
+
+        public static implicit operator float(JsObject value)
+        {
+            return value.As<float>();
+        }
+
+        public static implicit operator double(JsObject value)
+        {
+            return value.As<double>();
+        }
     }
 }

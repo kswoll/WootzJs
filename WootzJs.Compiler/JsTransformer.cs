@@ -691,7 +691,8 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitArrayType(ArrayTypeSyntax node)
         {
-            throw new Exception();
+            var symbol = model.GetTypeInfo(node);
+            return idioms.Type(symbol.ConvertedType);
         }
 
         public override JsNode VisitArrayRankSpecifier(ArrayRankSpecifierSyntax node)
@@ -975,9 +976,14 @@ namespace WootzJs.Compiler
             {
                 var property = (PropertySymbol)symbol.Symbol;
                 var isExported = property.IsExported();
+                var nameOverride = property.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
                 if (isExported)
                 {
                     return idioms.Get(target, property, arguments);
+                }
+                else if (nameOverride != null)
+                {
+                    return target.Member(nameOverride).Invoke(arguments);
                 }
             }
 

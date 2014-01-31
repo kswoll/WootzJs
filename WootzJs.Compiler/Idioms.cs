@@ -633,6 +633,11 @@ namespace WootzJs.Compiler
                 {
                     var field = (FieldSymbol)symbol;
                     var result = (JsExpression)@this.Member(field.GetMemberName());
+
+                    if (field.Type is ArrayTypeSymbol && !field.IsExported())
+                    {
+                        result = MakeArray(result, (ArrayTypeSymbol)field.Type);
+                    }
 /*
                     if (field.Type.TypeKind == TypeKind.Enum)
                         result = GetEnumValue(result);
@@ -803,14 +808,14 @@ namespace WootzJs.Compiler
                 if (leftSymbol is PropertySymbol || leftSymbol is EventSymbol)
                 {
                     var isExported = leftSymbol.IsExported();
+                    var nameOverride = leftSymbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
+                    var target = left.GetLogicalTarget();
+                    var arguments = new List<JsExpression>();
+                    if (left is JsInvocationExpression)
+                        arguments.AddRange(((JsInvocationExpression)left).Arguments);
+                    arguments.Add(right);
                     if (isExported)
                     {
-                        var arguments = new List<JsExpression>();
-                        var target = left.GetLogicalTarget();
-
-                        if (left is JsInvocationExpression)
-                            arguments.AddRange(((JsInvocationExpression)left).Arguments);
-                        arguments.Add(right);
 
                         MethodSymbol methodSymbol;
                         if (leftSymbol is PropertySymbol)
@@ -829,6 +834,11 @@ namespace WootzJs.Compiler
                             }
                         }
                         result = target.Member(methodSymbol.Name).Invoke(arguments.ToArray());
+                        return true;
+                    }
+                    else if (nameOverride != null)
+                    {
+                        result = target.Member(nameOverride).Invoke(arguments.ToArray());
                         return true;
                     }
                 }
@@ -1602,14 +1612,7 @@ namespace WootzJs.Compiler
             return MakeArray(Js.Array(elements), arrayType);
         }
 
-        public JsInvocationExpression MakeArray(JsArrayExpression array, ArrayTypeSymbol arrayType)
-        {
-            return Js.Reference(SpecialNames.InitializeArray).Invoke(
-                array,
-                Type(arrayType.ElementType));
-        }
-
-        public JsInvocationExpression MakeArray(JsNewArrayExpression array, ArrayTypeSymbol arrayType)
+        public JsInvocationExpression MakeArray(JsExpression array, ArrayTypeSymbol arrayType)
         {
             return Js.Reference(SpecialNames.InitializeArray).Invoke(
                 array,

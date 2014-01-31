@@ -81,6 +81,9 @@ function $delegate(thisExpression, delegateType, lambda) {
     return delegateFunc;
 }
 function $arrayinit(array, elementType) {
+    if (array.$isInitialized)
+        return array;
+    array.$isInitialized = true;
     var arrayType = $array(elementType);
     {
         for (var property in arrayType.prototype) {
@@ -10260,6 +10263,32 @@ System.Runtime.InteropServices.CallingConvention = $define("System.Runtime.Inter
     };
 }).call(null, System.Runtime.InteropServices.CallingConvention, System.Runtime.InteropServices.CallingConvention.prototype);
 $mscorlib$AssemblyTypes.push(System.Runtime.InteropServices.CallingConvention);
+System.Runtime.InteropServices.ComVisibleAttribute = $define("System.Runtime.InteropServices.ComVisibleAttribute", System.Attribute);
+(System.Runtime.InteropServices.ComVisibleAttribute.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$mscorlib$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Attribute;
+    $p.$typeName = "System.Runtime.InteropServices.ComVisibleAttribute";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ComVisibleAttribute", $arrayinit([System.Runtime.InteropServices.ComVisibleAttribute.prototype.$ctor.$new(true), (function() {var $obj$ = System.AttributeUsageAttribute.prototype.$ctor.$new(5597);$obj$.set_Inherited(false);return $obj$;}).call(this)], System.Attribute));this.$type.Init("System.Runtime.InteropServices.ComVisibleAttribute", System.Runtime.InteropServices.ComVisibleAttribute, System.Attribute, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("_val", System.Boolean, System.Reflection.FieldAttributes().Assembly, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_Value", System.Runtime.InteropServices.ComVisibleAttribute.prototype.get_Value, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Runtime.InteropServices.ComVisibleAttribute.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("visibility", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Value", System.Boolean, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Value", System.Runtime.InteropServices.ComVisibleAttribute.prototype.get_Value, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p._val = false;
+    $p.get_Value = function() {
+        return this._val;
+    };
+    $p.$ctor = function(visibility) {
+        System.Attribute.prototype.$ctor.call(this);
+        this._val = visibility;
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function(visibility) {
+        return new $p.$ctor.$type(this, visibility);
+    };
+}).call(null, System.Runtime.InteropServices.ComVisibleAttribute, System.Runtime.InteropServices.ComVisibleAttribute.prototype);
+$mscorlib$AssemblyTypes.push(System.Runtime.InteropServices.ComVisibleAttribute);
 System.Runtime.InteropServices.GuidAttribute = $define("System.Runtime.InteropServices.GuidAttribute", System.Attribute);
 (System.Runtime.InteropServices.GuidAttribute.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$mscorlib$GetAssembly;

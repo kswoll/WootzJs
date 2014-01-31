@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Runtime.WootzJs;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -84,6 +85,49 @@ namespace WootzJs.Compiler.Tests
             var array = new[] { 1, 2, 3 };
             array.GetEnumerator();
             QUnit.IsTrue(true);     // Just making sure the method is present
+        }
+
+        [Test]
+        public void ExportArray()
+        {
+            Jsni.reference("window").memberset("ExportTest", Jsni.@object(new { Values = Jsni.array() }));
+            ExportTest.Values[0] = Tuple.Create("foo", 1);
+            QUnit.IsTrue(ExportTest.Values is Tuple<string, int>[]);
+        }
+
+        [Test]
+        public void IndexerOverride()
+        {
+            Jsni.reference("window").memberset("IndexerOverride", Jsni.@object(new
+            {
+                items = Jsni.array(),
+                item = Jsni.function((index, value) => 
+                {
+                    if (Jsni.arguments().As<JsArray>().length == 1)
+                        return Jsni.@this().member("items").As<JsArray>()[index];
+                    else
+                    {
+                        Jsni.@this().member("items").As<JsArray>()[index] = value;
+                        return null;
+                    }
+                })
+            }));
+            var indexerOverride = Jsni.reference("window").member("IndexerOverride").As<IndexerOverrideClass>();
+            indexerOverride[3] = "foo";
+            QUnit.AreEqual(indexerOverride[3], "foo");
+        }
+
+        [Js(Name = "ExportTest", Export = false)]
+        class ExportTest
+        {
+            public static Tuple<string, int>[] Values;
+        }
+
+        [Js(Name = "IndexerOverride", Export = false)]
+        class IndexerOverrideClass
+        {
+            [Js(Name = "item")]
+            public extern string this[int index] { get; set; }
         }
     }
 }

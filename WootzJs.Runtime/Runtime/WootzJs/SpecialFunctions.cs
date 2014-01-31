@@ -101,6 +101,10 @@ namespace System.Runtime.WootzJs
         [Js(Name=SpecialNames.InitializeArray)]
         internal static JsArray InitializeArray(JsArray array, JsTypeFunction elementType)
         {
+            if (array.member("$isInitialized"))
+                return array;
+
+            array.memberset("$isInitialized", true);
             var arrayType = MakeArrayType(elementType);
             foreach (var property in arrayType.member("prototype"))
             {

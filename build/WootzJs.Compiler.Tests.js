@@ -3,7 +3,19 @@ var $WootzJs$Compiler$Tests$Assembly = null;
 var $WootzJs$Compiler$Tests$AssemblyTypes = [];
 window.$WootzJs$Compiler$Tests$GetAssembly = function() {
     if ($WootzJs$Compiler$Tests$Assembly == null)
-        $WootzJs$Compiler$Tests$Assembly = System.Reflection.Assembly.prototype.$ctor.$new("WootzJs.Compiler.Tests", $WootzJs$Compiler$Tests$AssemblyTypes);
+        $WootzJs$Compiler$Tests$Assembly = System.Reflection.Assembly.prototype.$ctor.$new("WootzJs.Compiler.Tests", $WootzJs$Compiler$Tests$AssemblyTypes, $arrayinit([
+            System.Reflection.AssemblyTitleAttribute.prototype.$ctor.$new("WootzJs.Compiler.Tests"), 
+            System.Reflection.AssemblyDescriptionAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyConfigurationAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyCompanyAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyProductAttribute.prototype.$ctor.$new("WootzJs.Compiler.Tests"), 
+            System.Reflection.AssemblyCopyrightAttribute.prototype.$ctor.$new("Copyright ©  2013"), 
+            System.Reflection.AssemblyTrademarkAttribute.prototype.$ctor.$new(""), 
+            System.Reflection.AssemblyCultureAttribute.prototype.$ctor.$new(""), 
+            System.Runtime.InteropServices.GuidAttribute.prototype.$ctor.$new("aa7653a6-1fb6-4cb9-b5db-050e8e1a15e5"), 
+            System.Reflection.AssemblyVersionAttribute.prototype.$ctor.$new("1.0.0.0"), 
+            System.Reflection.AssemblyFileVersionAttribute.prototype.$ctor.$new("1.0.0.0")
+        ], System.Attribute));
     return $WootzJs$Compiler$Tests$Assembly;
 };
 $assemblies.push(window.$WootzJs$Compiler$Tests$GetAssembly);
@@ -41,6 +53,31 @@ window.$AnonymousType$1 = $define("<anonymous type: string MyProperty>", System.
     };
 }).call(null, $AnonymousType$1, $AnonymousType$1.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push($AnonymousType$1);
+window.$AnonymousType$2 = $define("<anonymous type: System.Runtime.WootzJs.JsArray Values>", System.Object);
+($AnonymousType$2.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "$AnonymousType$2";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("", $arrayinit([], System.Attribute));this.$type.Init("$AnonymousType$2", $AnonymousType$2, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_Values", $AnonymousType$2.prototype.get_Values, $arrayinit([], System.Reflection.ParameterInfo), Array, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", $AnonymousType$2.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("Values", Array, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Values", Array, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Values", $AnonymousType$2.prototype.get_Values, $arrayinit([], System.Reflection.ParameterInfo), Array, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.$Values$k__BackingField = null;
+    $p.get_Values = function() {
+        return this.$Values$k__BackingField;
+    };
+}).call(null, $AnonymousType$2, $AnonymousType$2.prototype);
+$WootzJs$Compiler$Tests$AssemblyTypes.push($AnonymousType$2);
 WootzJs.Compiler.Tests.AnonymousTypeTests = $define("WootzJs.Compiler.Tests.AnonymousTypeTests", System.Object);
 (WootzJs.Compiler.Tests.AnonymousTypeTests.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -80,7 +117,7 @@ WootzJs.Compiler.Tests.ArrayTests = $define("WootzJs.Compiler.Tests.ArrayTests",
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ArrayTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ArrayTests", WootzJs.Compiler.Tests.ArrayTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("LengthProperty", WootzJs.Compiler.Tests.ArrayTests.prototype.LengthProperty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndex", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndexSet", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndexSet, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayCopy", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayCopy, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StringArrayType", WootzJs.Compiler.Tests.ArrayTests.prototype.StringArrayType, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateArray", WootzJs.Compiler.Tests.ArrayTests.prototype.CreateArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.ArrayTests.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ArrayTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ArrayTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ArrayTests", WootzJs.Compiler.Tests.ArrayTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("LengthProperty", WootzJs.Compiler.Tests.ArrayTests.prototype.LengthProperty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndex", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndexSet", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndexSet, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayCopy", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayCopy, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StringArrayType", WootzJs.Compiler.Tests.ArrayTests.prototype.StringArrayType, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateArray", WootzJs.Compiler.Tests.ArrayTests.prototype.CreateArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.ArrayTests.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ExportArray", WootzJs.Compiler.Tests.ArrayTests.prototype.ExportArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ArrayTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -121,6 +158,18 @@ WootzJs.Compiler.Tests.ArrayTests = $define("WootzJs.Compiler.Tests.ArrayTests",
         var array = $arrayinit([1, 2, 3], System.Int32);
         array.GetEnumerator();
         QUnit.ok(true);
+    };
+    $p.ExportArray = function() {
+        window.ExportTest = {
+            Values: []
+        };
+        $arrayinit(ExportTest.Values, System.Tuple$2$(String, System.Int32))[0] = System.Tuple.Create$1(
+            String, 
+            System.Int32, 
+            "foo", 
+            1
+        );
+        QUnit.ok($array(System.Tuple$2$(String, System.Int32)).$GetType().IsInstanceOfType($arrayinit(ExportTest.Values, System.Tuple$2$(String, System.Int32))));
     };
 }).call(null, WootzJs.Compiler.Tests.ArrayTests, WootzJs.Compiler.Tests.ArrayTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.ArrayTests);
@@ -344,6 +393,70 @@ WootzJs.Compiler.Tests.Collections.Generic.ListTests = $define("WootzJs.Compiler
     };
 }).call(null, WootzJs.Compiler.Tests.Collections.Generic.ListTests, WootzJs.Compiler.Tests.Collections.Generic.ListTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.Collections.Generic.ListTests);
+WootzJs.Compiler.Tests.Collections.Generic.QueueTests = $define("WootzJs.Compiler.Tests.Collections.Generic.QueueTests", System.Object);
+(WootzJs.Compiler.Tests.Collections.Generic.QueueTests.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Compiler.Tests.Collections.Generic.QueueTests";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("QueueTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.Collections.Generic.QueueTests", WootzJs.Compiler.Tests.Collections.Generic.QueueTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("EnqueueOne", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.EnqueueOne, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DequeueOne", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.DequeueOne, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("EnqueueTwo", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.EnqueueTwo, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DequeueTwo", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.DequeueTwo, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Peek", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.Peek, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PeekEmpty", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.PeekEmpty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.EnqueueOne = function() {
+        var queue = System.Collections.Generic.Queue$1$(String).prototype.$ctor.$new();
+        queue.Enqueue("foo");
+        var item = System.Linq.Enumerable.First(String, queue);
+        QUnit.equal(item, "foo");
+    };
+    $p.DequeueOne = function() {
+        var queue = System.Collections.Generic.Queue$1$(String).prototype.$ctor.$new();
+        queue.Enqueue("foo");
+        var item = queue.Dequeue();
+        QUnit.equal(item, "foo");
+    };
+    $p.EnqueueTwo = function() {
+        var queue = System.Collections.Generic.Queue$1$(String).prototype.$ctor.$new();
+        queue.Enqueue("one");
+        queue.Enqueue("two");
+        var items = System.Linq.Enumerable.ToArray(String, queue);
+        QUnit.equal(items[0], "one");
+        QUnit.equal(items[1], "two");
+    };
+    $p.DequeueTwo = function() {
+        var queue = System.Collections.Generic.Queue$1$(String).prototype.$ctor.$new();
+        queue.Enqueue("one");
+        queue.Enqueue("two");
+        QUnit.equal(queue.Dequeue(), "one");
+        QUnit.equal(queue.Dequeue(), "two");
+    };
+    $p.Peek = function() {
+        var queue = System.Collections.Generic.Queue$1$(String).prototype.$ctor.$new();
+        queue.Enqueue("one");
+        var value = queue.Peek();
+        QUnit.equal(value, "one");
+    };
+    $p.PeekEmpty = function() {
+        var queue = System.Collections.Generic.Queue$1$(String).prototype.$ctor.$new();
+        try {
+            queue.Peek();
+            QUnit.ok(false);
+        }
+        catch (e) {
+            QUnit.ok(true);
+        }
+    };
+}).call(null, WootzJs.Compiler.Tests.Collections.Generic.QueueTests, WootzJs.Compiler.Tests.Collections.Generic.QueueTests.prototype);
+$WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.Collections.Generic.QueueTests);
 WootzJs.Compiler.Tests.Collections.Generic.StackTests = $define("WootzJs.Compiler.Tests.Collections.Generic.StackTests", System.Object);
 (WootzJs.Compiler.Tests.Collections.Generic.StackTests.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -411,7 +524,7 @@ WootzJs.Compiler.Tests.ConstructorTests = $define("WootzJs.Compiler.Tests.Constr
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ConstructorTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ConstructorTests", WootzJs.Compiler.Tests.ConstructorTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ConstructorsWithOverloads", WootzJs.Compiler.Tests.ConstructorTests.prototype.ConstructorsWithOverloads, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("InitializedStaticField", WootzJs.Compiler.Tests.ConstructorTests.prototype.InitializedStaticField, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StaticConstructor", WootzJs.Compiler.Tests.ConstructorTests.prototype.StaticConstructor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ConstructorTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ConstructorTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ConstructorTests", WootzJs.Compiler.Tests.ConstructorTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ConstructorsWithOverloads", WootzJs.Compiler.Tests.ConstructorTests.prototype.ConstructorsWithOverloads, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("InitializedStaticField", WootzJs.Compiler.Tests.ConstructorTests.prototype.InitializedStaticField, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StaticConstructor", WootzJs.Compiler.Tests.ConstructorTests.prototype.StaticConstructor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ConstructorWithDefaultParameters", WootzJs.Compiler.Tests.ConstructorTests.prototype.ConstructorWithDefaultParameters, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ConstructorTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -433,6 +546,11 @@ WootzJs.Compiler.Tests.ConstructorTests = $define("WootzJs.Compiler.Tests.Constr
     };
     $p.StaticConstructor = function() {
         QUnit.equal(WootzJs.Compiler.Tests.ConstructorTests.ClassWithStaticConstructor().InitializedValue, "foo");
+    };
+    $p.ConstructorWithDefaultParameters = function() {
+        var instance = WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters.prototype.$ctor.$new(4, 5);
+        QUnit.equal(instance.get_I(), 4);
+        QUnit.equal(instance.get_J(), 5);
     };
     $t.TestClass = $define("WootzJs.Compiler.Tests.ConstructorTests.TestClass", System.Object);
     ($t.TestClass.$TypeInitializer = function($t, $p) {
@@ -525,6 +643,37 @@ WootzJs.Compiler.Tests.ConstructorTests = $define("WootzJs.Compiler.Tests.Constr
         };
     }).call($t, $t.ClassWithStaticConstructor, $t.ClassWithStaticConstructor.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.ClassWithStaticConstructor);
+    $t.ClassWithDefaultParameters = $define("WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters", System.Object);
+    ($t.ClassWithDefaultParameters.$TypeInitializer = function($t, $p) {
+        $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+        $p.$type = $t;
+        $t.$baseType = System.Object;
+        $p.$typeName = "WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters";
+        $t.$typeName = $p.$typeName;
+        $t.$GetType = function() {
+            return System.Type._GetTypeFromTypeFunc(this);
+        };
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ClassWithDefaultParameters", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters", WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters, System.Object, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("j", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_I", WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters.prototype.get_I, $arrayinit([], System.Reflection.ParameterInfo), System.Int32, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_J", WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters.prototype.get_J, $arrayinit([], System.Reflection.ParameterInfo), System.Int32, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("i", System.Int32, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("j", System.Int32, 1, System.Reflection.ParameterAttributes().HasDefault, 5, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("I", System.Int32, System.Reflection.MethodInfo.prototype.$ctor.$new("get_I", WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters.prototype.get_I, $arrayinit([], System.Reflection.ParameterInfo), System.Int32, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("J", System.Int32, System.Reflection.MethodInfo.prototype.$ctor.$new("get_J", WootzJs.Compiler.Tests.ConstructorTests.ClassWithDefaultParameters.prototype.get_J, $arrayinit([], System.Reflection.ParameterInfo), System.Int32, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$StaticInitializer = function() {};
+        $p.i = 0;
+        $p.j = 0;
+        $p.$ctor = function(i, j) {
+            System.Object.prototype.$ctor.call(this);
+            this.i = i;
+            this.j = j;
+        };
+        $p.$ctor.$type = $t;
+        $p.$ctor.$new = function(i, j) {
+            return new $p.$ctor.$type(this, i, j);
+        };
+        $p.get_I = function() {
+            return this.i;
+        };
+        $p.get_J = function() {
+            return this.j;
+        };
+    }).call($t, $t.ClassWithDefaultParameters, $t.ClassWithDefaultParameters.prototype);
+    $WootzJs$Compiler$Tests$AssemblyTypes.push($t.ClassWithDefaultParameters);
 }).call(null, WootzJs.Compiler.Tests.ConstructorTests, WootzJs.Compiler.Tests.ConstructorTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.ConstructorTests);
 WootzJs.Compiler.Tests.DefaultTests = $define("WootzJs.Compiler.Tests.DefaultTests", System.Object);
@@ -574,7 +723,7 @@ WootzJs.Compiler.Tests.DelegateTests = $define("WootzJs.Compiler.Tests.DelegateT
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("DelegateTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.DelegateTests", WootzJs.Compiler.Tests.DelegateTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("SimpleLambda", WootzJs.Compiler.Tests.DelegateTests.prototype.SimpleLambda, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("AnonymousMethod", WootzJs.Compiler.Tests.DelegateTests.prototype.AnonymousMethod, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ModifyClosedVariable", WootzJs.Compiler.Tests.DelegateTests.prototype.ModifyClosedVariable, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CastDelegate", WootzJs.Compiler.Tests.DelegateTests.prototype.CastDelegate, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DynamicInvoke", WootzJs.Compiler.Tests.DelegateTests.prototype.DynamicInvoke, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MethodDelegate", WootzJs.Compiler.Tests.DelegateTests.prototype.MethodDelegate, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.DelegateTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("DelegateTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.DelegateTests", WootzJs.Compiler.Tests.DelegateTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("SimpleLambda", WootzJs.Compiler.Tests.DelegateTests.prototype.SimpleLambda, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("AnonymousMethod", WootzJs.Compiler.Tests.DelegateTests.prototype.AnonymousMethod, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ModifyClosedVariable", WootzJs.Compiler.Tests.DelegateTests.prototype.ModifyClosedVariable, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CastDelegate", WootzJs.Compiler.Tests.DelegateTests.prototype.CastDelegate, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DynamicInvoke", WootzJs.Compiler.Tests.DelegateTests.prototype.DynamicInvoke, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MethodDelegate", WootzJs.Compiler.Tests.DelegateTests.prototype.MethodDelegate, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MethodDelegateOnThis", WootzJs.Compiler.Tests.DelegateTests.prototype.MethodDelegateOnThis, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("M", WootzJs.Compiler.Tests.DelegateTests.prototype.M, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.DelegateTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -632,6 +781,14 @@ WootzJs.Compiler.Tests.DelegateTests = $define("WootzJs.Compiler.Tests.DelegateT
         var methodDelegate = $delegate(methodClass, System.Func$1$(String), methodClass.M);
         var s = methodDelegate();
         QUnit.equal(s, "foo");
+    };
+    $p.MethodDelegateOnThis = function() {
+        var methodDelegate = $delegate(this, System.Func$1$(String), this.M);
+        var s = methodDelegate();
+        QUnit.equal(s, "bar");
+    };
+    $p.M = function() {
+        return "bar";
     };
     $t.MyClass = $define("WootzJs.Compiler.Tests.DelegateTests.MyClass", System.Object);
     ($t.MyClass.$TypeInitializer = function($t, $p) {
@@ -1587,7 +1744,7 @@ WootzJs.Compiler.Tests.Linq.EnumerableTests = $define("WootzJs.Compiler.Tests.Li
             String, 
             array, 
             $delegate(this, System.Func$3$(String, System.Int32, String), function(x, i) {
-                return x + "a" + i;
+                return x + "a" + $safeToString(i);
             })
         ));
         QUnit.equal(two[0], "1a0");
@@ -1624,7 +1781,7 @@ WootzJs.Compiler.Tests.Linq.EnumerableTests = $define("WootzJs.Compiler.Tests.Li
                     String, 
                     x, 
                     $delegate(this, System.Func$2$(String, String), function(y) {
-                        return y + i;
+                        return y + $safeToString(i);
                     })
                 );
             })
@@ -1650,7 +1807,7 @@ WootzJs.Compiler.Tests.Linq.EnumerableTests = $define("WootzJs.Compiler.Tests.Li
                     String, 
                     x, 
                     $delegate(this, System.Func$2$(String, String), function(y) {
-                        return y + i;
+                        return y + $safeToString(i);
                     })
                 );
             }), 
@@ -2821,6 +2978,42 @@ WootzJs.Compiler.Tests.Linq.Expressions.UnaryExpressionTests = $define("WootzJs.
     };
 }).call(null, WootzJs.Compiler.Tests.Linq.Expressions.UnaryExpressionTests, WootzJs.Compiler.Tests.Linq.Expressions.UnaryExpressionTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.Linq.Expressions.UnaryExpressionTests);
+WootzJs.Compiler.Tests.MathTests = $define("WootzJs.Compiler.Tests.MathTests", System.Object);
+(WootzJs.Compiler.Tests.MathTests.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Compiler.Tests.MathTests";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("MathTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.MathTests", WootzJs.Compiler.Tests.MathTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Round", WootzJs.Compiler.Tests.MathTests.prototype.Round, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.MathTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.Round = function() {
+        QUnit.equal(System.Math.Round$1(1.1, 3), 1.1);
+        QUnit.equal(System.Math.Round$1(1.12, 3), 1.12);
+        QUnit.equal(System.Math.Round$1(1.123, 3), 1.123);
+        QUnit.equal(System.Math.Round$1(1.1234, 3), 1.123);
+        QUnit.equal(System.Math.Round$2(2.45, 1, System.MidpointRounding().ToEven), 2.4);
+        QUnit.equal(System.Math.Round$2(2.55, 1, System.MidpointRounding().ToEven), 2.6);
+        QUnit.equal(System.Math.Round$2(-2.45, 1, System.MidpointRounding().ToEven), -2.4);
+        QUnit.equal(System.Math.Round$2(-2.55, 1, System.MidpointRounding().ToEven), -2.6);
+        QUnit.equal(System.Math.Round$2(2.5, 0, System.MidpointRounding().ToEven), 2);
+        QUnit.equal(System.Math.Round$2(3.5, 0, System.MidpointRounding().ToEven), 4);
+        QUnit.equal(System.Math.Round$2(-2.5, 0, System.MidpointRounding().ToEven), -2);
+        QUnit.equal(System.Math.Round$2(-3.5, 0, System.MidpointRounding().ToEven), -4);
+        QUnit.equal(System.Math.Round$2(-2.9999, 3, System.MidpointRounding().ToEven), -3);
+    };
+}).call(null, WootzJs.Compiler.Tests.MathTests, WootzJs.Compiler.Tests.MathTests.prototype);
+$WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.MathTests);
 WootzJs.Compiler.Tests.MethodTests = $define("WootzJs.Compiler.Tests.MethodTests", System.Object);
 (WootzJs.Compiler.Tests.MethodTests.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -3871,7 +4064,7 @@ WootzJs.Compiler.Tests.Reflection.AssemblyTests = $define("WootzJs.Compiler.Test
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("AssemblyTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.Reflection.AssemblyTests", WootzJs.Compiler.Tests.Reflection.AssemblyTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("FullName", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.FullName, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("AllAssemblies", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.AllAssemblies, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeByName", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.TypeByName, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeByNameThrowsOnNotFound", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.TypeByNameThrowsOnNotFound, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeByNameIgnoreCase", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.TypeByNameIgnoreCase, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("AssemblyTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.Reflection.AssemblyTests", WootzJs.Compiler.Tests.Reflection.AssemblyTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("FullName", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.FullName, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("AllAssemblies", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.AllAssemblies, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeByName", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.TypeByName, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeByNameThrowsOnNotFound", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.TypeByNameThrowsOnNotFound, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeByNameIgnoreCase", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.TypeByNameIgnoreCase, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("AssemblyTitle", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.AssemblyTitle, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.Reflection.AssemblyTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3910,6 +4103,11 @@ WootzJs.Compiler.Tests.Reflection.AssemblyTests = $define("WootzJs.Compiler.Test
         var assembly = System.AppDomain().get_CurrentDomain().GetAssemblies()[1];
         var type = assembly.GetType$3("WOOTZJS.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
         QUnit.ok(type != null);
+    };
+    $p.AssemblyTitle = function() {
+        var assembly = System.AppDomain().get_CurrentDomain().GetAssemblies()[1];
+        var assemblyTitleAttribute = $cast(System.Reflection.AssemblyTitleAttribute, assembly.GetCustomAttributes$1(System.Reflection.AssemblyTitleAttribute.$GetType(), false)[0]);
+        QUnit.equal(assemblyTitleAttribute.get_Title(), "WootzJs.Compiler.Tests");
     };
     $t.TestClass = $define("WootzJs.Compiler.Tests.Reflection.AssemblyTests.TestClass", System.Object);
     ($t.TestClass.$TypeInitializer = function($t, $p) {
@@ -4187,7 +4385,7 @@ WootzJs.Compiler.Tests.StringTests = $define("WootzJs.Compiler.Tests.StringTests
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("StringTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.StringTests", WootzJs.Compiler.Tests.StringTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ToUpper", WootzJs.Compiler.Tests.StringTests.prototype.ToUpper, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToLower", WootzJs.Compiler.Tests.StringTests.prototype.ToLower, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Length", WootzJs.Compiler.Tests.StringTests.prototype.Length, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("EndsWith", WootzJs.Compiler.Tests.StringTests.prototype.EndsWith, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StartsWith", WootzJs.Compiler.Tests.StringTests.prototype.StartsWith, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Compare", WootzJs.Compiler.Tests.StringTests.prototype.Compare, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IndexOf", WootzJs.Compiler.Tests.StringTests.prototype.IndexOf, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LastIndexOf", WootzJs.Compiler.Tests.StringTests.prototype.LastIndexOf, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Substring", WootzJs.Compiler.Tests.StringTests.prototype.Substring, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SplitCharArray", WootzJs.Compiler.Tests.StringTests.prototype.SplitCharArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SplitCharArrayWithCount", WootzJs.Compiler.Tests.StringTests.prototype.SplitCharArrayWithCount, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CharCode", WootzJs.Compiler.Tests.StringTests.prototype.CharCode, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PreIncrementCharacter", WootzJs.Compiler.Tests.StringTests.prototype.PreIncrementCharacter, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PostIncrementCharacter", WootzJs.Compiler.Tests.StringTests.prototype.PostIncrementCharacter, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StringFormat", WootzJs.Compiler.Tests.StringTests.prototype.StringFormat, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Foreach", WootzJs.Compiler.Tests.StringTests.prototype.Foreach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Contains", WootzJs.Compiler.Tests.StringTests.prototype.Contains, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsWhiteSpace", WootzJs.Compiler.Tests.StringTests.prototype.IsWhiteSpace, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsDigit", WootzJs.Compiler.Tests.StringTests.prototype.IsDigit, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.StringTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("StringTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.StringTests", WootzJs.Compiler.Tests.StringTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ToUpper", WootzJs.Compiler.Tests.StringTests.prototype.ToUpper, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToLower", WootzJs.Compiler.Tests.StringTests.prototype.ToLower, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Length", WootzJs.Compiler.Tests.StringTests.prototype.Length, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("EndsWith", WootzJs.Compiler.Tests.StringTests.prototype.EndsWith, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StartsWith", WootzJs.Compiler.Tests.StringTests.prototype.StartsWith, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Compare", WootzJs.Compiler.Tests.StringTests.prototype.Compare, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IndexOf", WootzJs.Compiler.Tests.StringTests.prototype.IndexOf, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LastIndexOf", WootzJs.Compiler.Tests.StringTests.prototype.LastIndexOf, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Substring", WootzJs.Compiler.Tests.StringTests.prototype.Substring, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SplitCharArray", WootzJs.Compiler.Tests.StringTests.prototype.SplitCharArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SplitCharArrayWithCount", WootzJs.Compiler.Tests.StringTests.prototype.SplitCharArrayWithCount, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CharCode", WootzJs.Compiler.Tests.StringTests.prototype.CharCode, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PreIncrementCharacter", WootzJs.Compiler.Tests.StringTests.prototype.PreIncrementCharacter, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PostIncrementCharacter", WootzJs.Compiler.Tests.StringTests.prototype.PostIncrementCharacter, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StringFormat", WootzJs.Compiler.Tests.StringTests.prototype.StringFormat, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Foreach", WootzJs.Compiler.Tests.StringTests.prototype.Foreach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Contains", WootzJs.Compiler.Tests.StringTests.prototype.Contains, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsWhiteSpace", WootzJs.Compiler.Tests.StringTests.prototype.IsWhiteSpace, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IsDigit", WootzJs.Compiler.Tests.StringTests.prototype.IsDigit, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToStringOnNull", WootzJs.Compiler.Tests.StringTests.prototype.ToStringOnNull, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.StringTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -4312,6 +4510,11 @@ WootzJs.Compiler.Tests.StringTests = $define("WootzJs.Compiler.Tests.StringTests
         QUnit.ok(System.Char.IsDigit("3"));
         QUnit.ok(System.Char.IsDigit("9"));
         QUnit.ok(!System.Char.IsDigit("a"));
+    };
+    $p.ToStringOnNull = function() {
+        var o = null;
+        var s = "foo" + $safeToString(o);
+        QUnit.equal(s, "foo");
     };
 }).call(null, WootzJs.Compiler.Tests.StringTests, WootzJs.Compiler.Tests.StringTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.StringTests);
@@ -4943,7 +5146,7 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests", WootzJs.Compiler.Tests.YieldTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("YieldBreak", WootzJs.Compiler.Tests.YieldTests.prototype.YieldBreak, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnOne", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnOne, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnTwo", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnTwo, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementTrue", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementFalse", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementTwoItemsTrue", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementTwoItemsTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementTwoItemsFalse", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementTwoItemsFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTrueTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTrueTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTrueFalse", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTrueFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfFalseTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfFalseTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfFalseFalse", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfFalseFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTwoStatementsTrueTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTwoStatementsTrueTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTwoStatementsTrueFalse", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTwoStatementsTrueFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTwoStatementsFalseTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTwoStatementsFalseTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnAfterIfTrue", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnAfterIfTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnAfterIfFalse", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnAfterIfFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IterateVariable", WootzJs.Compiler.Tests.YieldTests.prototype.IterateVariable, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("WhileLoop", WootzJs.Compiler.Tests.YieldTests.prototype.WhileLoop, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfWithErrataAfterYield", WootzJs.Compiler.Tests.YieldTests.prototype.IfWithErrataAfterYield, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoop", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoop, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopNoVariableWithInitializer", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopNoVariableWithInitializer, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopNoVariableNoInitializer", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopNoVariableNoInitializer, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopNoVariableNoInitializerNoIncrementor", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopNoVariableNoInitializerNoIncrementor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopTwoVariablesTwoIncrementors", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopTwoVariablesTwoIncrementors, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedLoops", WootzJs.Compiler.Tests.YieldTests.prototype.NestedLoops, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeParameter", WootzJs.Compiler.Tests.YieldTests.prototype.TypeParameter, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Foreach", WootzJs.Compiler.Tests.YieldTests.prototype.Foreach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DoWhileFalse", WootzJs.Compiler.Tests.YieldTests.prototype.DoWhileFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DoWhileLessThan3", WootzJs.Compiler.Tests.YieldTests.prototype.DoWhileLessThan3, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchOne", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchOne, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchTwo", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchTwo, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchThree", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchThree, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchDefault", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchDefault, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakWhile", WootzJs.Compiler.Tests.YieldTests.prototype.BreakWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueWhile", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakFor", WootzJs.Compiler.Tests.YieldTests.prototype.BreakFor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueFor", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueFor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakForeach", WootzJs.Compiler.Tests.YieldTests.prototype.BreakForeach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueForeach", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueForeach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakDoWhile", WootzJs.Compiler.Tests.YieldTests.prototype.BreakDoWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueDoWhile", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueDoWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TryFinally", WootzJs.Compiler.Tests.YieldTests.prototype.TryFinally, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedTryFinally", WootzJs.Compiler.Tests.YieldTests.prototype.NestedTryFinally, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TryFinallyThrowsException", WootzJs.Compiler.Tests.YieldTests.prototype.TryFinallyThrowsException, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LabeledStatementGotoFirst", WootzJs.Compiler.Tests.YieldTests.prototype.LabeledStatementGotoFirst, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LabeledStatementGotoSecond", WootzJs.Compiler.Tests.YieldTests.prototype.LabeledStatementGotoSecond, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CollidingForeach", WootzJs.Compiler.Tests.YieldTests.prototype.CollidingForeach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CollidingFor", WootzJs.Compiler.Tests.YieldTests.prototype.CollidingFor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests", WootzJs.Compiler.Tests.YieldTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("YieldBreak", WootzJs.Compiler.Tests.YieldTests.prototype.YieldBreak, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnOne", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnOne, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnTwo", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnTwo, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementTrue", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementFalse", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementTwoItemsTrue", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementTwoItemsTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfStatementTwoItemsFalse", WootzJs.Compiler.Tests.YieldTests.prototype.IfStatementTwoItemsFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTrueTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTrueTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTrueFalse", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTrueFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfFalseTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfFalseTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfFalseFalse", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfFalseFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTwoStatementsTrueTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTwoStatementsTrueTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTwoStatementsTrueFalse", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTwoStatementsTrueFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedIfTwoStatementsFalseTrue", WootzJs.Compiler.Tests.YieldTests.prototype.NestedIfTwoStatementsFalseTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnAfterIfTrue", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnAfterIfTrue, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReturnAfterIfFalse", WootzJs.Compiler.Tests.YieldTests.prototype.ReturnAfterIfFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IterateVariable", WootzJs.Compiler.Tests.YieldTests.prototype.IterateVariable, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("WhileLoop", WootzJs.Compiler.Tests.YieldTests.prototype.WhileLoop, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IfWithErrataAfterYield", WootzJs.Compiler.Tests.YieldTests.prototype.IfWithErrataAfterYield, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoop", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoop, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopNoVariableWithInitializer", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopNoVariableWithInitializer, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopNoVariableNoInitializer", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopNoVariableNoInitializer, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopNoVariableNoInitializerNoIncrementor", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopNoVariableNoInitializerNoIncrementor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ForLoopTwoVariablesTwoIncrementors", WootzJs.Compiler.Tests.YieldTests.prototype.ForLoopTwoVariablesTwoIncrementors, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedLoops", WootzJs.Compiler.Tests.YieldTests.prototype.NestedLoops, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TypeParameter", WootzJs.Compiler.Tests.YieldTests.prototype.TypeParameter, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Foreach", WootzJs.Compiler.Tests.YieldTests.prototype.Foreach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DoWhileFalse", WootzJs.Compiler.Tests.YieldTests.prototype.DoWhileFalse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("DoWhileLessThan3", WootzJs.Compiler.Tests.YieldTests.prototype.DoWhileLessThan3, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchOne", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchOne, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchTwo", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchTwo, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchThree", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchThree, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SwitchDefault", WootzJs.Compiler.Tests.YieldTests.prototype.SwitchDefault, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakWhile", WootzJs.Compiler.Tests.YieldTests.prototype.BreakWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueWhile", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakFor", WootzJs.Compiler.Tests.YieldTests.prototype.BreakFor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueFor", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueFor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakForeach", WootzJs.Compiler.Tests.YieldTests.prototype.BreakForeach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueForeach", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueForeach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BreakDoWhile", WootzJs.Compiler.Tests.YieldTests.prototype.BreakDoWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ContinueDoWhile", WootzJs.Compiler.Tests.YieldTests.prototype.ContinueDoWhile, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TryFinally", WootzJs.Compiler.Tests.YieldTests.prototype.TryFinally, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("NestedTryFinally", WootzJs.Compiler.Tests.YieldTests.prototype.NestedTryFinally, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TryFinallyThrowsException", WootzJs.Compiler.Tests.YieldTests.prototype.TryFinallyThrowsException, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LabeledStatementGotoFirst", WootzJs.Compiler.Tests.YieldTests.prototype.LabeledStatementGotoFirst, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LabeledStatementGotoSecond", WootzJs.Compiler.Tests.YieldTests.prototype.LabeledStatementGotoSecond, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CollidingForeach", WootzJs.Compiler.Tests.YieldTests.prototype.CollidingForeach, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CollidingFor", WootzJs.Compiler.Tests.YieldTests.prototype.CollidingFor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ReuseEnumerable", WootzJs.Compiler.Tests.YieldTests.prototype.ReuseEnumerable, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -5259,6 +5462,17 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
         QUnit.equal(ints[2], 3);
         QUnit.equal(ints[3], 4);
     };
+    $p.ReuseEnumerable = function() {
+        var enumerable = WootzJs.Compiler.Tests.YieldTests.YieldClass.ReturnTwo();
+        var strings = System.Linq.Enumerable.ToArray(String, enumerable);
+        QUnit.equal(strings.length, 2);
+        QUnit.equal(strings[0], "one");
+        QUnit.equal(strings[1], "two");
+        strings = System.Linq.Enumerable.ToArray(String, enumerable);
+        QUnit.equal(strings.length, 2);
+        QUnit.equal(strings[0], "one");
+        QUnit.equal(strings[1], "two");
+    };
     $t.YieldClass = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass", System.Object);
     ($t.YieldClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -5399,8 +5613,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$YieldBreak", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$YieldBreak", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.$ctor = function() {
                 System.YieldIterator$1$(String).prototype.$ctor.call(this);
@@ -5411,7 +5626,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5427,6 +5647,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$YieldBreak.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$YieldBreak, $t.YieldEnumerator$YieldBreak.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$YieldBreak);
         $t.YieldEnumerator$ReturnOne = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne", System.YieldIterator$1);
@@ -5439,8 +5664,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ReturnOne", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ReturnOne", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.$ctor = function() {
                 System.YieldIterator$1$(String).prototype.$ctor.call(this);
@@ -5451,7 +5677,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5468,6 +5699,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnOne.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ReturnOne, $t.YieldEnumerator$ReturnOne.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ReturnOne);
         $t.YieldEnumerator$ReturnTwo = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo", System.YieldIterator$1);
@@ -5480,8 +5716,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ReturnTwo", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ReturnTwo", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.$ctor = function() {
                 System.YieldIterator$1$(String).prototype.$ctor.call(this);
@@ -5492,7 +5729,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5513,6 +5755,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnTwo.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ReturnTwo, $t.YieldEnumerator$ReturnTwo.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ReturnTwo);
         $t.YieldEnumerator$IfStatement = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement", System.YieldIterator$1);
@@ -5525,8 +5772,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$IfStatement", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$IfStatement", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag = false;
             $p.$ctor = function(flag) {
@@ -5539,7 +5787,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5565,6 +5818,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatement.prototype.$ctor.$new(this.flag);
+                }
+            };
         }).call($t, $t.YieldEnumerator$IfStatement, $t.YieldEnumerator$IfStatement.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$IfStatement);
         $t.YieldEnumerator$IfStatementTwoItems = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems", System.YieldIterator$1);
@@ -5577,8 +5835,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$IfStatementTwoItems", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$IfStatementTwoItems", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag = false;
             $p.$ctor = function(flag) {
@@ -5591,7 +5850,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5625,6 +5889,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfStatementTwoItems.prototype.$ctor.$new(this.flag);
+                }
+            };
         }).call($t, $t.YieldEnumerator$IfStatementTwoItems, $t.YieldEnumerator$IfStatementTwoItems.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$IfStatementTwoItems);
         $t.YieldEnumerator$NestedIf = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf", System.YieldIterator$1);
@@ -5637,8 +5906,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedIf", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag1", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag2", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag1", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("flag2", System.Boolean, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedIf", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag1", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag2", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag1", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("flag2", System.Boolean, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag1 = false;
             $p.flag2 = false;
@@ -5653,7 +5923,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag1, flag2);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5697,6 +5972,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIf.prototype.$ctor.$new(this.flag1, this.flag2);
+                }
+            };
         }).call($t, $t.YieldEnumerator$NestedIf, $t.YieldEnumerator$NestedIf.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedIf);
         $t.YieldEnumerator$NestedIfTwoStatements = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements", System.YieldIterator$1);
@@ -5709,8 +5989,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedIfTwoStatements", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag1", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag2", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag1", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("flag2", System.Boolean, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedIfTwoStatements", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag1", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag2", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag1", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("flag2", System.Boolean, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag1 = false;
             $p.flag2 = false;
@@ -5725,7 +6006,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag1, flag2);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5785,6 +6071,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedIfTwoStatements.prototype.$ctor.$new(this.flag1, this.flag2);
+                }
+            };
         }).call($t, $t.YieldEnumerator$NestedIfTwoStatements, $t.YieldEnumerator$NestedIfTwoStatements.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedIfTwoStatements);
         $t.YieldEnumerator$ReturnAfterIf = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf", System.YieldIterator$1);
@@ -5797,8 +6088,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ReturnAfterIf", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ReturnAfterIf", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag = false;
             $p.$ctor = function(flag) {
@@ -5811,7 +6103,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5857,6 +6154,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ReturnAfterIf.prototype.$ctor.$new(this.flag);
+                }
+            };
         }).call($t, $t.YieldEnumerator$ReturnAfterIf, $t.YieldEnumerator$ReturnAfterIf.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ReturnAfterIf);
         $t.YieldEnumerator$InitializeVariable = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable", System.YieldIterator$1);
@@ -5869,8 +6171,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$InitializeVariable", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$InitializeVariable", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.s = null;
             $p.$ctor = function() {
@@ -5882,7 +6185,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5900,6 +6208,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$InitializeVariable.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$InitializeVariable, $t.YieldEnumerator$InitializeVariable.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$InitializeVariable);
         $t.YieldEnumerator$WhileLoop = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop", System.YieldIterator$1);
@@ -5912,8 +6225,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$WhileLoop", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$WhileLoop", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -5925,7 +6239,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -5954,6 +6273,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$WhileLoop.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$WhileLoop, $t.YieldEnumerator$WhileLoop.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$WhileLoop);
         $t.YieldEnumerator$IfWithErrataAfterYield = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield", System.YieldIterator$1);
@@ -5966,8 +6290,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$IfWithErrataAfterYield", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$IfWithErrataAfterYield", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag = false;
             $p.i = 0;
@@ -5981,7 +6306,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6011,6 +6341,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$IfWithErrataAfterYield.prototype.$ctor.$new(this.flag);
+                }
+            };
         }).call($t, $t.YieldEnumerator$IfWithErrataAfterYield, $t.YieldEnumerator$IfWithErrataAfterYield.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$IfWithErrataAfterYield);
         $t.YieldEnumerator$ForLoop = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop", System.YieldIterator$1);
@@ -6023,8 +6358,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoop", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoop", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6036,7 +6372,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6065,6 +6406,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoop.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ForLoop, $t.YieldEnumerator$ForLoop.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoop);
         $t.YieldEnumerator$ForLoopNoVariableWithInitializer = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer", System.YieldIterator$1);
@@ -6077,8 +6423,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopNoVariableWithInitializer", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopNoVariableWithInitializer", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6090,7 +6437,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6119,6 +6471,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ForLoopNoVariableWithInitializer, $t.YieldEnumerator$ForLoopNoVariableWithInitializer.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopNoVariableWithInitializer);
         $t.YieldEnumerator$ForLoopNoVariableNoInitializer = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer", System.YieldIterator$1);
@@ -6131,8 +6488,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopNoVariableNoInitializer", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopNoVariableNoInitializer", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6144,7 +6502,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6173,6 +6536,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ForLoopNoVariableNoInitializer, $t.YieldEnumerator$ForLoopNoVariableNoInitializer.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopNoVariableNoInitializer);
         $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor", System.YieldIterator$1);
@@ -6185,8 +6553,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6198,7 +6567,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6227,6 +6601,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor, $t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopNoVariableNoInitializerNoIncrementor);
         $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors", System.YieldIterator$1);
@@ -6239,8 +6618,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopTwoVariablesTwoIncrementors", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("j", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ForLoopTwoVariablesTwoIncrementors", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("j", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.j = 0;
@@ -6253,7 +6633,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6284,6 +6669,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors, $t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ForLoopTwoVariablesTwoIncrementors);
         $t.YieldEnumerator$NestedLoops = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops", System.YieldIterator$1);
@@ -6296,8 +6686,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedLoops", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("j", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedLoops", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("j", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.j = 0;
@@ -6310,7 +6701,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6355,6 +6751,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedLoops.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$NestedLoops, $t.YieldEnumerator$NestedLoops.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedLoops);
         $t.YieldEnumerator$TypeParameter$1 = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter<T>", System.YieldIterator$1);
@@ -6367,11 +6768,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TypeParameter", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter`1", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TypeParameter", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter`1", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
             this.YieldEnumerator$TypeParameter$1$ = function() {
                 return $generic.call(this, this.YieldEnumerator$TypeParameter$1, arguments);
             };
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.$ctor = function() {
                 System.YieldIterator$1$(String).prototype.$ctor.call(this);
@@ -6382,7 +6784,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6399,6 +6806,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TypeParameter$1$(T).prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$TypeParameter$1, $t.YieldEnumerator$TypeParameter$1.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$TypeParameter$1);
         $t.YieldEnumerator$Foreach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach", System.YieldIterator$1);
@@ -6411,8 +6823,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Foreach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Foreach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach, System.YieldIterator$1$(String), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.s = null;
             $p.s$enumerator = null;
@@ -6425,7 +6838,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6451,6 +6869,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Foreach.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$Foreach, $t.YieldEnumerator$Foreach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$Foreach);
         $t.YieldEnumerator$DoWhileFalse = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse", System.YieldIterator$1);
@@ -6463,8 +6886,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$DoWhileFalse", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$DoWhileFalse", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6476,7 +6900,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6507,6 +6936,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileFalse.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$DoWhileFalse, $t.YieldEnumerator$DoWhileFalse.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$DoWhileFalse);
         $t.YieldEnumerator$DoWhileLessThan3 = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3", System.YieldIterator$1);
@@ -6519,8 +6953,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$DoWhileLessThan3", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$DoWhileLessThan3", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6532,7 +6967,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6563,6 +7003,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$DoWhileLessThan3.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$DoWhileLessThan3, $t.YieldEnumerator$DoWhileLessThan3.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$DoWhileLessThan3);
         $t.YieldEnumerator$Switch = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch", System.YieldIterator$1);
@@ -6575,8 +7020,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Switch", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$Switch", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("s", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.s = null;
             $p.$ctor = function(s) {
@@ -6589,7 +7035,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, s);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6635,6 +7086,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$Switch.prototype.$ctor.$new(this.s);
+                }
+            };
         }).call($t, $t.YieldEnumerator$Switch, $t.YieldEnumerator$Switch.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$Switch);
         $t.YieldEnumerator$BreakWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile", System.YieldIterator$1);
@@ -6647,8 +7103,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6660,7 +7117,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6689,6 +7151,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakWhile.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$BreakWhile, $t.YieldEnumerator$BreakWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakWhile);
         $t.YieldEnumerator$ContinueWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile", System.YieldIterator$1);
@@ -6701,8 +7168,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6714,7 +7182,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6742,6 +7215,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueWhile.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ContinueWhile, $t.YieldEnumerator$ContinueWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueWhile);
         $t.YieldEnumerator$BreakFor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor", System.YieldIterator$1);
@@ -6754,8 +7232,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakFor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakFor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6767,7 +7246,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6796,6 +7280,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakFor.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$BreakFor, $t.YieldEnumerator$BreakFor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakFor);
         $t.YieldEnumerator$ContinueFor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor", System.YieldIterator$1);
@@ -6808,8 +7297,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueFor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueFor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6821,7 +7311,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6849,6 +7344,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueFor.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ContinueFor, $t.YieldEnumerator$ContinueFor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueFor);
         $t.YieldEnumerator$BreakForeach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach", System.YieldIterator$1);
@@ -6861,8 +7361,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakForeach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakForeach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.i$enumerator = null;
@@ -6875,7 +7376,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6904,6 +7410,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakForeach.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$BreakForeach, $t.YieldEnumerator$BreakForeach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakForeach);
         $t.YieldEnumerator$ContinueForeach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach", System.YieldIterator$1);
@@ -6916,8 +7427,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueForeach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueForeach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.i$enumerator = null;
@@ -6930,7 +7442,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -6958,6 +7475,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueForeach.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ContinueForeach, $t.YieldEnumerator$ContinueForeach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueForeach);
         $t.YieldEnumerator$BreakDoWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile", System.YieldIterator$1);
@@ -6970,8 +7492,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakDoWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$BreakDoWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -6983,7 +7506,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7014,6 +7542,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$BreakDoWhile.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$BreakDoWhile, $t.YieldEnumerator$BreakDoWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$BreakDoWhile);
         $t.YieldEnumerator$ContinueDoWhile = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile", System.YieldIterator$1);
@@ -7026,8 +7559,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueDoWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$ContinueDoWhile", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -7039,7 +7573,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7069,6 +7608,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$ContinueDoWhile.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$ContinueDoWhile, $t.YieldEnumerator$ContinueDoWhile.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$ContinueDoWhile);
         $t.YieldEnumerator$TryFinally = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally", System.YieldIterator$1);
@@ -7081,8 +7625,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TryFinally", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex1", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TryFinally", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex1", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ex1 = null;
@@ -7095,7 +7640,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7146,6 +7696,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinally.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$TryFinally, $t.YieldEnumerator$TryFinally.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$TryFinally);
         $t.YieldEnumerator$NestedTryFinally = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally", System.YieldIterator$1);
@@ -7158,8 +7713,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedTryFinally", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex1", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex2", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$NestedTryFinally", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex1", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex2", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ex1 = null;
@@ -7173,7 +7729,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7261,6 +7822,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$NestedTryFinally.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$NestedTryFinally, $t.YieldEnumerator$NestedTryFinally.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$NestedTryFinally);
         $t.YieldEnumerator$TryFinallyThrowsException = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException", System.YieldIterator$1);
@@ -7273,8 +7839,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TryFinallyThrowsException", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex1", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$TryFinallyThrowsException", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$ex1", System.Exception, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag = false;
             $p.i = 0;
@@ -7289,7 +7856,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7331,6 +7903,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$TryFinallyThrowsException.prototype.$ctor.$new(this.flag);
+                }
+            };
         }).call($t, $t.YieldEnumerator$TryFinallyThrowsException, $t.YieldEnumerator$TryFinallyThrowsException.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$TryFinallyThrowsException);
         $t.YieldEnumerator$LabeledStatementGotoFirst = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst", System.YieldIterator$1);
@@ -7343,8 +7920,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$LabeledStatementGotoFirst", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$LabeledStatementGotoFirst", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("flag", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("flag", System.Boolean, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.flag = false;
             $p.i = 0;
@@ -7358,7 +7936,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this, flag);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7391,6 +7974,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoFirst.prototype.$ctor.$new(this.flag);
+                }
+            };
         }).call($t, $t.YieldEnumerator$LabeledStatementGotoFirst, $t.YieldEnumerator$LabeledStatementGotoFirst.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$LabeledStatementGotoFirst);
         $t.YieldEnumerator$LabeledStatementGotoSecond = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond", System.YieldIterator$1);
@@ -7403,8 +7991,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$LabeledStatementGotoSecond", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$LabeledStatementGotoSecond", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.$ctor = function() {
@@ -7416,7 +8005,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7448,6 +8042,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$LabeledStatementGotoSecond.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$LabeledStatementGotoSecond, $t.YieldEnumerator$LabeledStatementGotoSecond.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$LabeledStatementGotoSecond);
         $t.YieldEnumerator$CollidingForeach = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach", System.YieldIterator$1);
@@ -7460,8 +8059,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$CollidingForeach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$CollidingForeach", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("item2$enumerator", System.Collections.IEnumerator, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.item = 0;
             $p.item$enumerator = null;
@@ -7476,7 +8076,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7515,6 +8120,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingForeach.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$CollidingForeach, $t.YieldEnumerator$CollidingForeach.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$CollidingForeach);
         $t.YieldEnumerator$CollidingFor = $define("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor", System.YieldIterator$1);
@@ -7527,8 +8137,9 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
             $t.$GetType = function() {
                 return System.Type._GetTypeFromTypeFunc(this);
             };
-            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$CollidingFor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i2", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+            $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("YieldEnumerator$CollidingFor", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor, System.YieldIterator$1$(System.Int32), $arrayinit([System.Collections.Generic.IEnumerator$1, System.Collections.IEnumerator, System.IDisposable, System.Collections.Generic.IEnumerable$1, System.Collections.IEnumerable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$isStarted", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("$state", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("i2", System.Int32, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerator$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MoveNext", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.MoveNext, $arrayinit([], System.Reflection.ParameterInfo), System.Boolean, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Clone", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.Clone, $arrayinit([], System.Reflection.ParameterInfo), System.Collections.Generic.IEnumerable$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
             $t.$StaticInitializer = function() {};
+            $p.$isStarted = false;
             $p.$state = 0;
             $p.i = 0;
             $p.i2 = 0;
@@ -7541,7 +8152,12 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 return new $p.$ctor.$type(this);
             };
             $p.GetEnumerator = function() {
-                return this;
+                var $isStartedLocal = this.$isStarted;
+                this.$isStarted = true;
+                if ($isStartedLocal)
+                    return this.Clone().System$Collections$Generic$IEnumerable$1$GetEnumerator();
+                else
+                    return this;
             };
             $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = $p.GetEnumerator;
             $p.MoveNext = function() {
@@ -7586,6 +8202,11 @@ WootzJs.Compiler.Tests.YieldTests = $define("WootzJs.Compiler.Tests.YieldTests",
                 }
             };
             $p.System$Collections$IEnumerator$MoveNext = $p.MoveNext;
+            $p.Clone = function() {
+                {
+                    return WootzJs.Compiler.Tests.YieldTests.YieldClass.YieldEnumerator$CollidingFor.prototype.$ctor.$new();
+                }
+            };
         }).call($t, $t.YieldEnumerator$CollidingFor, $t.YieldEnumerator$CollidingFor.prototype);
         $WootzJs$Compiler$Tests$AssemblyTypes.push($t.YieldEnumerator$CollidingFor);
     }).call($t, $t.YieldClass, $t.YieldClass.prototype);

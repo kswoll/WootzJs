@@ -10,7 +10,7 @@
     <NoStdLib>True</NoStdLib>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
-	<AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+	  <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib">

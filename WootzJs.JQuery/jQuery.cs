@@ -40,7 +40,7 @@ namespace WootzJs.JQuery
         {
         }
 
-        public jQuery(IHtmlElement element)
+        public jQuery(Element element)
         {
         }
 

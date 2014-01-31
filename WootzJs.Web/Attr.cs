@@ -31,17 +31,15 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
 {
-    [Js(Name = "window", Export = false)]
-    public static class Window
+    public class Attr
     {
-        [Js(Name = "location")]
-        public static Location Location;
+        [Js(Name = "idId")]
+        public readonly bool IsId;
 
-        [Js(Name = "onpopstate")]
-        public static PopStateEventHandler OnPopState;
+        [Js(Name = "name")]
+        public string Name;
 
-        [Js(Name = "history")]
-// ReSharper disable once UnassignedReadonlyField
-        public static readonly History History;
+        [Js(Name = "value")]
+        public string Value;
     }
 }

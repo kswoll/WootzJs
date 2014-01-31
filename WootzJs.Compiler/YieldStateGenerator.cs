@@ -408,7 +408,7 @@ namespace WootzJs.Compiler
 
                 // Hoist the enumerator into a field
                 var enumerator = Syntax.Identifier(node.Identifier + "$enumerator");
-                var genericEnumeratorType = compilation.GetTypeByMetadataName("System.Collections.Generic.IEnumerable`1");
+                var genericEnumeratorType = compilation.FindType("System.Collections.Generic.IEnumerable`1");
                 var elementType = targetType.ConvertedType.GetGenericArgument(genericEnumeratorType, 0);
                 var enumeratorType = elementType == null ?
                     Syntax.ParseTypeName("System.Collections.IEnumerator") :

@@ -37,11 +37,17 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attr.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="DomTokenList.cs" />
     <Compile Include="History.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="PopStateEvent.cs" />
-    <Compile Include="IHtmlElement.cs" />
+    <Compile Include="Element.cs" />
     <Compile Include="PopStateEventHandler.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="StyleSheet.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="Window.cs" />
   </ItemGroup>
   <Import Project="c:\dev\WootzJs\build\WootzJs.targets" />

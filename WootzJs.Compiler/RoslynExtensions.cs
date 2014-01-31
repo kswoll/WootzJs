@@ -359,5 +359,20 @@ namespace WootzJs.Compiler
             }
             return compilation.Recompile((CompilationUnitSyntax)newNode);
         }
+
+        public static NamedTypeSymbol FindType(this Compilation compilation, string fullName)
+        {
+            var result = compilation.GetTypeByMetadataName(fullName);
+            if (result == null)
+            {
+                foreach (var assembly in Context.Instance.Project.MetadataReferences.Select(x => compilation.GetReferencedAssemblySymbol(x)))
+                {
+                    result = assembly.GetTypeByMetadataName(fullName);
+                    if (result != null)
+                        break;
+                }
+            }
+            return result;
+        }
     }
 }

@@ -194,6 +194,7 @@
     <Compile Include="Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="Runtime\InteropServices\CallingConvention.cs" />
     <Compile Include="Runtime\InteropServices\CharSet.cs" />
+    <Compile Include="Runtime\InteropServices\ComVisibleAttribute.cs" />
     <Compile Include="Runtime\InteropServices\GuidAttribute.cs" />
     <Compile Include="Runtime\InteropServices\LayoutKind.cs" />
     <Compile Include="Runtime\InteropServices\OutAttribute.cs" />
