@@ -27,51 +27,10 @@
 
 #endregion
 
-using System.Runtime.WootzJs;
-
-// ReSharper disable UnassignedReadonlyField
 namespace WootzJs.Web
 {
-    [Js(Name = "document", Export = false)]
-    public class Document
+    public class Event
     {
-        [Js(Name = "getElementById")]
-        public static extern Element GetElementById(string id);
-
-        [Js(Name = "createElement")]
-        public static extern Element CreateElement(string tagName);
-
-        [Js(Name = "createAttribute")]
-        public static extern Attr CreateAttribute(string name);
-
-        [Js(Name = "createTextNode")]
-        public static extern Text CreateTextNode(string data);
-
-        [Js(Name = "head")]
-        public static Element Head;
-
-        [Js(Name = "body")]
-        public static Element Body;
-
-        [Js(Name = "cookie")]
-        public static string Cookie;
-
-        [Js(Name = "title")]
-        public static string Title;
-
-        [Js(Name = "open")]
-        public static extern void Open();
-
-        [Js(Name = "close")]
-        public static extern void Close();
-
-        [Js(Name = "write")]
-        public static extern void Write();
-
-        [Js(Name = "writeln")]
-        public static extern void WriteLine();
-
-        [Js(Name = "styleSheets")]
-        public static readonly StyleSheet[] StyleSheets;
+         
     }
 }

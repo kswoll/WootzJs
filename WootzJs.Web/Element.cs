@@ -27,6 +27,7 @@
 
 #endregion
 
+using System;
 using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
@@ -34,5 +35,70 @@ namespace WootzJs.Web
     [Js(Export = false)]
     public class Element : Node
     {
+        [Js(Name = "classList")]
+        public extern DomTokenList ClassList { get; }
+
+        [Js(Name = "className")]
+        public extern string ClassName { get; set; }
+
+        [Js(Name = "childElementCount")]
+        public extern int ChildElementCount { get; }
+
+        [Js(Name = "children")]
+        public extern HtmlCollection Children { get; }
+
+        [Js(Name = "firstElementChild")]
+        public extern Element FirstElementChild { get; }
+
+        [Js(Name = "lastElementChild")]
+        public extern Element LastElementChild { get; }
+
+        [Js(Name = "nextElementSibling")]
+        public extern Element NextElementSibling { get; }
+
+        [Js(Name = "previousElementSibling")]
+        public extern Element PreviousElementSibling { get; }
+
+        [Js(Name = "id")]
+        public extern string Id { get; }
+
+        [Js(Name = "tagName")]
+        public extern string TagName { get; }
+
+        [Js(Name = "addEventListener")]
+        public extern void AddEventListener(string type, Action<Event> listener, bool useCapture = false);
+
+        [Js(Name = "dispatchEvent")]
+        public extern bool DispatchEvent(Event evt);
+
+        [Js(Name = "getAttribute")]
+        public extern string GetAttribute(string name);
+
+        [Js(Name = "getElementsByClassName")]
+        public extern HtmlCollection GetElementsByClassName(string className);
+
+        [Js(Name = "getElementsByTagName")]
+        public extern HtmlCollection GetElementsByTagName(string tagName);
+
+        [Js(Name = "hasAttribute")]
+        public extern bool HasAttribute(string name);
+
+        [Js(Name = "querySelector")]
+        public extern Node QuerySelector(string selectors);
+
+        [Js(Name = "querySelectorAll")]
+        public extern NodeList QuerySelectorAll(string selectors);
+
+        [Js(Name = "removeAttribute")]
+        public extern void RemoveAttribute(string name);
+
+        [Js(Name = "removeEventListener")]
+        public extern void RemoveEventListener(string type, Action<Event> listener, bool useCapture = false);
+
+        [Js(Name = "setAttribute")]
+        public extern void SetAttribute(string name, string value);
+
+        [Js(Name = "style")]
+        public extern Style Style { get; }
     }
 }
