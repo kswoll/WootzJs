@@ -79,10 +79,10 @@ namespace System.Runtime.WootzJs
             string nameOverride1 = null, string nameOverride2 = null, string nameOverride3 = null, string nameOverride4 = null, string nameOverride5 = null, 
             string nameOverride6 = null, string nameOverride7 = null, string nameOverride8 = null);
         public static extern JsString _typeof(JsObject o);
-        public static extern JsObject member(JsObject target, string name);
-        public static extern JsObject memberset(JsObject target, string name, JsObject value);
+        public static extern JsObject member(this JsObject target, string name);
+        public static extern JsObject memberset(this JsObject target, string name, JsObject value);
         public static extern JsArray array(params JsObject[] elements);
-        public static extern JsObject invoke(JsObject target, params JsObject[] arguments);
+        public static extern JsObject invoke(this JsObject target, params JsObject[] arguments);
 // ReSharper disable once UnusedTypeParameter
         public static extern JsTypeFunction type<T>();
         public static extern JsTypeFunction type(Type type);

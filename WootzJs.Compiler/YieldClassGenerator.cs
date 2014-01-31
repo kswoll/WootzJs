@@ -110,6 +110,13 @@ namespace WootzJs.Compiler
             var ienumerable = Syntax.ParseTypeName("System.Collections.Generic.IEnumerable<" + elementType.ToDisplayString() + ">");
             var ienumerator = Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
 
+            // Generate the GetEnumerator method, which looks something like:
+            // var $isStartedLocal = $isStarted;
+            // $isStarted = true;
+            // if ($isStartedLocal) 
+            //     return this.Clone().GetEnumerator();
+            // else
+            //     return this;
             var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
                 .AddModifiers(Cs.Public(), Cs.Override())
                 .WithBody(Cs.Block(
@@ -122,6 +129,7 @@ namespace WootzJs.Compiler
             members.Add(getEnumerator);
 
             // Generate the MoveNext method, which looks something like:
+            // $top:
             // while (true)
             // {
             //     switch (state) 
@@ -130,7 +138,6 @@ namespace WootzJs.Compiler
             //         case 1: ...
             //     }
             // }
-            
             var moveNextBody = Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
                 Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
                     Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));

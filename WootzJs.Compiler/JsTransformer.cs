@@ -904,12 +904,13 @@ namespace WootzJs.Compiler
             var target = (JsExpression)node.Expression.Accept(this);
             var targetType = node.Expression is MemberAccessExpressionSyntax ? model.GetTypeInfo(((MemberAccessExpressionSyntax)node.Expression).Expression).ConvertedType : null;
             var methodTarget = target is JsMemberReferenceExpression ? ((JsMemberReferenceExpression)target).Target : target;    // methodTarget has meaning only for method (as opposed to delegate) invocations
+            var originalMethodTarget = node.Expression is MemberAccessExpressionSyntax ? ((MemberAccessExpressionSyntax)node.Expression).Expression : node.Expression;
 
             if (idioms.TryUnwrapAsExpression(method, target, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
             if (idioms.TryUnwrapJsFunctionInvoke(method, node, methodTarget, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
-            if (idioms.TryUnwrapJsniExpression(method, node, actualArguments, out specialResult))
+            if (idioms.TryUnwrapJsniExpression(method, originalMethodTarget, node.ArgumentList.Arguments.Select(x => x.Expression).ToArray(), methodTarget, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
             if (idioms.TryNullableGetValueOrDefault(method, target, out specialResult))
                 return ImplicitCheck(node, specialResult);

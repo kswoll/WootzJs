@@ -102,11 +102,12 @@ namespace System.Runtime.WootzJs
         internal static JsArray InitializeArray(JsArray array, JsTypeFunction elementType)
         {
             var arrayType = MakeArrayType(elementType);
-            foreach (var property in Jsni.member(arrayType, "prototype"))
+            foreach (var property in arrayType.member("prototype"))
             {
-                array[property] = Jsni.member(arrayType, "prototype")[property];
+                array[property] = arrayType.member("prototype")[property];
             }
-            Jsni.invoke(Jsni.member(Jsni.member(Jsni.member(arrayType, "prototype"), "$ctor"), "call"), array);
+
+            arrayType.member("prototype").member("$ctor").member("call").invoke(array);
 
 /*
             Jsni.apply(

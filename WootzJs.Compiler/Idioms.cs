@@ -1202,11 +1202,18 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryUnwrapJsniExpression(MethodSymbol method, InvocationExpressionSyntax invocation, JsExpression[] arguments, out JsExpression result)
+        public bool TryUnwrapJsniExpression(MethodSymbol method, ExpressionSyntax originalTarget, ExpressionSyntax[] originalArguments, JsExpression target, JsExpression[] arguments, out JsExpression result)
         {
             // Special compiler handler of Jsni -- these are special methods that translate into otherwise inexpressible javascript
             if (method.ContainingType == Context.Instance.JsniType)
             {
+                if (method.ReducedFrom != null && method.ReducedFrom != method)
+                {
+                    method = method.ReducedFrom;
+                    arguments = new[] { target }.Concat(arguments).ToArray();
+                    originalArguments = new[] { originalTarget }.Concat(originalArguments).ToArray();
+                    target = null;
+                }
                 switch (method.Name)
                 {
                     case "apply":
@@ -1214,7 +1221,7 @@ namespace WootzJs.Compiler
                         if (method.TypeArguments.Any())
                         {
                             // First argument is an Action -- we want to deconstruct it to extract the target and method name.
-                            var body = invocation.ArgumentList.Arguments[0].Expression.GetBody();
+                            var body = originalArguments[0].GetBody();
                             var lambdaInvocation = (InvocationExpressionSyntax)body;
                             var lambdaMethod = (MethodSymbol)transformer.model.GetSymbolInfo(lambdaInvocation).Symbol;
                             result = Type(lambdaMethod.ContainingType).Member("prototype").Member(lambdaMethod.GetMemberName()).Member("apply").Invoke(arguments[1], arguments[2]);
@@ -1231,7 +1238,7 @@ namespace WootzJs.Compiler
                         if (method.TypeArguments.Any())
                         {
                             // First argument is an Action -- we want to deconstruct it to extract the target and method name.
-                            var body = invocation.ArgumentList.Arguments[0].Expression.GetBody();
+                            var body = originalArguments[0].GetBody();
                             var lambdaInvocation = (InvocationExpressionSyntax)body;
                             var lambdaMethod = (MethodSymbol)transformer.model.GetSymbolInfo(lambdaInvocation).Symbol;
                             result = Type(lambdaMethod.ContainingType).Member("prototype").Member(lambdaMethod.GetMemberName()).Member("call").Invoke(arguments.Skip(1).ToArray());
@@ -1261,22 +1268,22 @@ namespace WootzJs.Compiler
                         return true;
                     case "memberset":
                     {
-                        var memberName = GetConstantString(invocation.ArgumentList.Arguments[1].Expression);
+                        var memberName = GetConstantString(originalArguments[1]);
                         result = Js.Assign(arguments[0].Member(memberName), arguments[2]);
                         return true;
                     }
                     case "member":
                     {
-                        var memberName = GetConstantString(invocation.ArgumentList.Arguments[1].Expression);
+                        var memberName = GetConstantString(originalArguments[1]);
                         result = arguments[0].Member(memberName);
                         return true;
                     }
                     case "function":
                     case "procedure":
-                        var nameArguments = invocation.ArgumentList.Arguments.Skip(1).ToArray();
-                        var nameOverrides = nameArguments.Select(x => GetConstantString(x.Expression)).ToArray();
+                        var nameArguments = originalArguments.Skip(1).ToArray();
+                        var nameOverrides = nameArguments.Select(x => GetConstantString(x)).ToArray();
 
-                        var lambda = invocation.ArgumentList.Arguments[0].Expression;
+                        var lambda = originalArguments[0];
                         var lambdaParameters = lambda.GetParameters();
                         transformer.PushScope(null);
 
@@ -1336,7 +1343,7 @@ namespace WootzJs.Compiler
                         result = Js.TypeOf(typeofTarget);
                         return true;
                     case "reference":
-                        result = Js.Reference(GetConstantString(invocation.ArgumentList.Arguments[0].Expression));
+                        result = Js.Reference(GetConstantString(originalArguments[0]));
                         return true;
                     case "parseInt":
                         result = Js.Reference("parseInt").Invoke(arguments);
@@ -1352,22 +1359,22 @@ namespace WootzJs.Compiler
                         return true;
                     case "object":
                         // Deconstruct the object passed in into a JS object
-                        var obj = (AnonymousObjectCreationExpressionSyntax)invocation.ArgumentList.Arguments[0].Expression;
+                        var obj = (AnonymousObjectCreationExpressionSyntax)originalArguments[0];
                         result = Js.Object(
                             obj.Initializers.Select(x => Js.Item(
                                 x.NameEquals.Name.ToString(),
                                 (JsExpression)x.Expression.Accept(transformer)
                             )).ToArray()
                         );
-                        if (arguments.Length > 1 && invocation.ArgumentList.Arguments[1].Expression.IsTrue())
+                        if (arguments.Length > 1 && originalArguments[1].IsTrue())
                         {
                             result = result.Compact();
                         }
                         return true;
                     case "regex":
-                        result = new JsRegexExpression(GetConstantString(invocation.ArgumentList.Arguments[0].Expression));
-                        if (invocation.ArgumentList.Arguments.Count > 1)
-                            ((JsRegexExpression)result).Suffix = GetConstantString(invocation.ArgumentList.Arguments[1].Expression);
+                        result = new JsRegexExpression(GetConstantString(originalArguments[0]));
+                        if (originalArguments.Length > 1)
+                            ((JsRegexExpression)result).Suffix = GetConstantString(originalArguments[1]);
                         return true;
                 }
             }            

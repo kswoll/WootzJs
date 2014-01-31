@@ -489,6 +489,21 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(ints[3], 4);
         }
 
+        [Test]
+        public void ReuseEnumerable()
+        {
+            var enumerable = YieldClass.ReturnTwo();
+            var strings = enumerable.ToArray();
+            QUnit.AreEqual(strings.Length, 2);
+            QUnit.AreEqual(strings[0], "one");
+            QUnit.AreEqual(strings[1], "two");
+            
+            strings = enumerable.ToArray();
+            QUnit.AreEqual(strings.Length, 2);
+            QUnit.AreEqual(strings[0], "one");
+            QUnit.AreEqual(strings[1], "two");
+        }
+
         public class YieldClass
         {
             public static IEnumerable<string> YieldBreak()
