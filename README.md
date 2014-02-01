@@ -1,114 +1,18 @@
-WootzJs
-=======
-
 WootzJs is a C# to Javascript cross-compiler.  You write your code in C#, and the result is
-Javascript that can be run in any browser (or other host).  You may be wondering why we need
-another C# to JS compiler, since there are already at least three options available to 
-developers wishing to leverage this concept.  
+Javascript that can be run in any browser (or other host).  It's built on top of [Microsoft Roslyn](http://msdn.microsoft.com/en-us/vstudio/roslyn.aspx), which handles the complex process of converting your C# code into syntax trees with symbol information.
 
-* Script#
-* JSIL
-* SharpKit
+The design is focused on facilitating [single-page applications](http://en.wikipedia.org/wiki/Single-page_application).  While it is possible to build standard web sites where each URL resolves to a different page, you will be fighting WootzJs in order to achieve this.   The goal is to produce a single `.js` file for the entire site (or at least for every "sub site").  To a large extent, it is far simpler to bind HTML elements to your C# code than vice-versa.  That being said, any metaphor is workable.
 
-All of these products bring something to the table that the others do not.  
-
-Script#
--------
-
-Script# is very stable and consistent -- the featureset it implements works and there are rarely edge-case 
-surprises that fail.  However, it is still stuck in C# 2.0 (without even the generics found in
-that version of C#).  This means that the modern C# developer is giving up an *enormous* set of
-language features that most of us depend on without reservation -- particularly the 
-aforementioned generics in addition to lambdas and LINQ.  This makes Script# essentially a non-starter
-for many developers.
-
-JSIL
--------
-
-JSIL is an *extremely* impressive work that cross-compiles IL into Javascript.  It is so robust it can easily
-handle the cross-compilation of large 3d video games.  The downside is that because of its completeness the 
-resultant Javascript files are *enormous*.  If you just want mscorlib.dll and System.dll, it's about a 50MB
-download.  Furthermore, this project is really not designed to be used in the context of a web application, 
-and the amount of effort required to get started is a bit daunting.
-
-This toolkit too implements a custom `mscorlib`, again allowing you to know what capabilities are available
-to you.
-
-SharpKit
--------
-
-This commercial product strives to provide support for most of the C# 4.0 language features.  It generally
-succeeds and there's a decent chance this product will meet your needs.  It is lightweight (small .JS files),
-supports modern C# language features (generics, LINQ, etc.) and is usually reliable, though there are a 
-surprising number of edge cases that you will invariably encounter that are not supported.  
-
-For example,
-the type system is shallow and does not support representing generics or arrays (i.e. `typeof(Foo[]) == 
-typeof(Bar[])`, `typeof(List<string>) == typeof(List<int>)`).  The support for reflection is limited,
-with various member types incapable of supporting attributes.  Expression tree support is non-existent, 
-and the yield implementation is inefficient (no state machine).  Also, a custom `mscorlib` is not available,
-and script C# files and normal C# files are intermingled in your projects, forcing you to decorate each and
-every script file with a `[JsType]` attribute to distinguish them from normally compiled classes.
-
-So that brings us back to...
-
-WootzJs
--------
-
-WootzJs strives to be a fairly lightweight (goal is a ~100k minified JS file) cross-compiler that allows
-for all the major C# language features.  In fact, all features except for async/await should be already
-supported. (and support for async is forthcoming, but will probably take a couple weeks to implement)
-
-Notable Language Features Supported:
-
-* `yield` statements (generated as an efficient state machine)
-* `ref` and `out` parameters
-* lambdas and anonymous methods
-* expression trees
-* lambdas and delegates (with proper capturing of `this`)
-* generics support in both the compiler and the runtime
-* C# semantics for closures (if you capture a variable via closure, that variable retains its value
-at the time of capture if the value were to change in the outer scope.
-
-There are extensive QUnit tests that allow for a high degree of confidence in the reliability
-of its output.  It is implemented using Roslyn, which means it will be first in line to take
-advantage of future language improvements, since those will now be implemented via Roslyn itself.
-
-What WootzJs Is Not
-------
-
-WootzJs has been designed from the beginning with the following goals as *explicitly* not part of the 
-mission.
-
-* The prettiness of the JS.  Obviously it's better for the code to look pretty than not, and the output
-should be fairly readable.  That being said, if there's ever even a bit of tradeoff between the looks of the
-output and the behavior of the code, behavior wins every time.
-* The size of the output.  Again, it's clearly better for the output to be smaller than larger, but if for
-example, we have to decide between reflection and output size, reflection wins.  That being said, it is 
-a requirement that the output size be manageable, so anything over a few 100K would be way over the 
-limit.
-* The interoperability of your C# types with Javascript APIs.  For example, C# properties are implemented 
-using a getter and setter.  Anonymous types are classes composed of properties.  Therefore, anonymous types
-are composed of backing fields with getters and setters.  This is clearly fine when living in C#, but if 
-you try to pass an object with properties (anonymous or otherwise) to something expecting to consume JSON,
-the consumer will have a sad.  That being said, there are (will) of course be APIs to serialize to and from
-JSON.
-* The appearance that your C# classes and methods are actually Javascript "classes" and functions.  For 
-example, the `new` operator in Javascript applies to a function.  Naturally, this means that the concept
-of constructor overloads go right out the window.  (Needless to say, all forms of method overloading is a 
-foreign concept to JS).  This means that if you have a class `Foo` in Javascript, you would construct it via 
-`new Foo(arg1, arg2, ...)`.  In WootzJs, each constructor is its own method defined in the prototype.  Thus,
-to instantiate `Foo` in WootzJs, the compiler generates code like `Foo.prototype.$ctor.$new()`.  
-
-Who is WootzJs for?
-======
-
-The goal of WootzJs is to allow you to write Javascript applications in a similar fashion to Google Web 
-Toolkit.  This implies the following patterns:
-
-* The UI is created via C#, no HTML is involved.  
-* The styles are defined in C#, no CSS is involved.
-* The goal is to live within C#, interoperability is not prioritized (though the system supports a native
-interface that will allow you to interact with any sort of existing JS files).
-
-That being said, other use-cases will be supported, but with sometimes non-ideal syntax.
+* [Getting Started](https://github.com/kswoll/WootzJs/wiki/Getting-Started)
+    A series of guides starting with writing a "Hello World" app.
+* [Interacting with the Browser](https://github.com/kswoll/WootzJs/wiki/Interacting-With-the-Browser)
+    The next in the series, showing how create HTML content in the browser.
+* [Comparisons with other C# to Javascript cross-compilers](https://github.com/kswoll/WootzJs/wiki/Comparisons-with-other-C%23-to-JS-Cross-compilers)
+    There are several other options available to those who want to convert C# to Javascript.  How do the available options compare with WootzJs?
+* [Technical Overview](https://github.com/kswoll/WootzJs/wiki/Technical-Design)
+    A technical description of the transformation process and its generated output.
+* [JSNI](https://github.com/kswoll/WootzJs/wiki/JSNI---JavaScript-Native-Interface), or JavaScript Native Interface, is how you generate JS code that would be otherwise inexpressible in C#.
+* [Customizing the Generated Output](https://github.com/kswoll/WootzJs/wiki/Customizing-the-Generated-Output)
+    Similar to JSNI, you can use `[Js]` attribute to customize various aspects of the generation process.  
+* [Contributing](https://github.com/kswoll/WootzJs/wiki/Contributing) to WootzJs
+* [Project Map](https://github.com/kswoll/WootzJs/wiki/Project-Map)

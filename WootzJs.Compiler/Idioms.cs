@@ -811,6 +811,7 @@ namespace WootzJs.Compiler
                     var nameOverride = leftSymbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
                     var target = left.GetLogicalTarget();
                     var arguments = new List<JsExpression>();
+                    var property = (PropertySymbol)leftSymbol;
                     if (left is JsInvocationExpression)
                         arguments.AddRange(((JsInvocationExpression)left).Arguments);
                     arguments.Add(right);
@@ -836,7 +837,7 @@ namespace WootzJs.Compiler
                         result = target.Member(methodSymbol.Name).Invoke(arguments.ToArray());
                         return true;
                     }
-                    else if (nameOverride != null)
+                    else if (nameOverride != null && property.SetMethod.Parameters.Count > 1)
                     {
                         result = target.Member(nameOverride).Invoke(arguments.ToArray());
                         return true;
