@@ -1368,6 +1368,9 @@ namespace WootzJs.Compiler
                     case "decodeURIComponent":
                         result = Js.Reference("decodeURIComponent").Invoke(arguments);
                         return true;
+                    case "getComputedStyle":
+                        result = Js.Reference("getComputedStyle").Invoke(arguments);
+                        return true;
                     case "isNaN":
                         result = Js.Reference("isNaN").Invoke(arguments);
                         return true;

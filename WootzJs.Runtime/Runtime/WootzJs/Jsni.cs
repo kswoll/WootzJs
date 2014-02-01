@@ -94,5 +94,6 @@ namespace System.Runtime.WootzJs
         public static extern JsObject @object(object o, bool compact = false);
         public static extern string encodeURIComponent(string s);
         public static extern string decodeURIComponent(string s);
+        public static extern JsObject getComputedStyle(JsObject element);
     }
 }

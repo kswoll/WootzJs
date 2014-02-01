@@ -35,6 +35,11 @@ namespace WootzJs.Web
     [Js(Export = false)]
     public class Element : Node
     {
+        public const string InsertPositionBeforeBegin = "beforebegin";
+        public const string InsertPositionAfterBegin = "afterbegin";
+        public const string InsertPositionBeforeEnd = "beforeend";
+        public const string InsertPositionAfterEnd = "afterend";
+
         [Js(Name = "classList")]
         public extern DomTokenList ClassList { get; }
 
@@ -65,6 +70,12 @@ namespace WootzJs.Web
         [Js(Name = "tagName")]
         public extern string TagName { get; }
 
+        [Js(Name = "innerHTML")]
+        public extern string InnerHtml { get; }
+
+        [Js(Name = "outerHTML")]
+        public extern string OuterHtml { get; }
+
         [Js(Name = "addEventListener")]
         public extern void AddEventListener(string type, Action<Event> listener, bool useCapture = false);
 
@@ -82,6 +93,9 @@ namespace WootzJs.Web
 
         [Js(Name = "hasAttribute")]
         public extern bool HasAttribute(string name);
+
+        [Js(Name = "insertAdjacentHTML")]
+        public extern void InsertAdjacentHtml(string position, string html);
 
         [Js(Name = "querySelector")]
         public extern Node QuerySelector(string selectors);
