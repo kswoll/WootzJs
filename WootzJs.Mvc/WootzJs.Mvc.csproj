@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3459EB2-6E10-483C-BFB2-52BA92CA8E71}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WootzJs.Mvc</RootNamespace>
+    <AssemblyName>WootzJs.Mvc</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ExpressionTrees\Evaluator.cs" />
+    <Compile Include="ExpressionTrees\EvaluatorExtensions.cs" />
+    <Compile Include="ExpressionTrees\GenericMath.cs" />
+    <Compile Include="Mvc\ActionResult.cs" />
+    <Compile Include="Mvc\Controller.cs" />
+    <Compile Include="Mvc\ControllerActionInvoker.cs" />
+    <Compile Include="Mvc\ControllerContext.cs" />
+    <Compile Include="Mvc\DefaultAttribute.cs" />
+    <Compile Include="Mvc\DefaultControllerFactory.cs" />
+    <Compile Include="Mvc\HttpPostAttribute.cs" />
+    <Compile Include="Mvc\IActionInvoker.cs" />
+    <Compile Include="Mvc\IControllerFactory.cs" />
+    <Compile Include="Mvc\MvcApplication.cs" />
+    <Compile Include="Mvc\NavigationContext.cs" />
+    <Compile Include="Mvc\NavigationRequest.cs" />
+    <Compile Include="Mvc\NavigationResponse.cs" />
+    <Compile Include="Mvc\RouteAttribute.cs" />
+    <Compile Include="Mvc\Routes\DuplicateRouteException.cs" />
+    <Compile Include="Mvc\Routes\IRouteNode.cs" />
+    <Compile Include="Mvc\Routes\IRoutePart.cs" />
+    <Compile Include="Mvc\Routes\RouteBuilder.cs" />
+    <Compile Include="Mvc\Routes\RouteData.cs" />
+    <Compile Include="Mvc\Routes\RouteDefault.cs" />
+    <Compile Include="Mvc\Routes\RouteGenerator.cs" />
+    <Compile Include="Mvc\Routes\RouteLiteral.cs" />
+    <Compile Include="Mvc\Routes\RouteNode.cs" />
+    <Compile Include="Mvc\Routes\RoutePart.cs" />
+    <Compile Include="Mvc\Routes\RoutePath.cs" />
+    <Compile Include="Mvc\Routes\RouteTree.cs" />
+    <Compile Include="Mvc\Routes\RouteVariable.cs" />
+    <Compile Include="Mvc\Routes\RouteWildcard.cs" />
+    <Compile Include="Mvc\MiscExtensions.cs" />
+    <Compile Include="Mvc\ViewContext.cs" />
+    <Compile Include="Mvc\ViewResult.cs" />
+    <Compile Include="Mvc\Views\ActionHelper.cs" />
+    <Compile Include="Mvc\Views\AlignmentPanel.cs" />
+    <Compile Include="Mvc\Views\CenteredPanel.cs" />
+    <Compile Include="Mvc\Views\CheckBox.cs" />
+    <Compile Include="Mvc\Views\Control.cs" />
+    <Compile Include="Mvc\Views\Css\CssBorder.cs" />
+    <Compile Include="Mvc\Views\Css\CssBorderCollapse.cs" />
+    <Compile Include="Mvc\Views\Css\CssBorderSide.cs" />
+    <Compile Include="Mvc\Views\Css\CssBoxShadow.cs" />
+    <Compile Include="Mvc\Views\Css\CssColor.cs" />
+    <Compile Include="Mvc\Views\Css\CssCursor.cs" />
+    <Compile Include="Mvc\Views\Css\CssDeclaration.cs" />
+    <Compile Include="Mvc\Views\Css\CssFont.cs" />
+    <Compile Include="Mvc\Views\Css\CssFontStyle.cs" />
+    <Compile Include="Mvc\Views\Css\CssFontWeight.cs" />
+    <Compile Include="Mvc\Views\Css\CssFontWeightType.cs" />
+    <Compile Include="Mvc\Views\Css\CssInherit.cs" />
+    <Compile Include="Mvc\Views\Css\CssInset.cs" />
+    <Compile Include="Mvc\Views\Css\CssMargin.cs" />
+    <Compile Include="Mvc\Views\Css\CssNameAttribute.cs" />
+    <Compile Include="Mvc\Views\Css\CssNumericValue.cs" />
+    <Compile Include="Mvc\Views\Css\CssPadding.cs" />
+    <Compile Include="Mvc\Views\Css\CssPercent.cs" />
+    <Compile Include="Mvc\Views\Css\CssString.cs" />
+    <Compile Include="Mvc\Views\Css\CssTextAlign.cs" />
+    <Compile Include="Mvc\Views\Css\CssUnit.cs" />
+    <Compile Include="Mvc\Views\Css\CssValue.cs" />
+    <Compile Include="Mvc\Views\Css\CssVerticalAlign.cs" />
+    <Compile Include="Mvc\Views\Css\Style.cs" />
+    <Compile Include="Mvc\Views\DropDown.cs" />
+    <Compile Include="Mvc\Views\FillPanel.cs" />
+    <Compile Include="Mvc\Views\FixedPanel.cs" />
+    <Compile Include="Mvc\Views\FlowPanel.cs" />
+    <Compile Include="Mvc\Views\HorizontalAlignment.cs" />
+    <Compile Include="Mvc\Views\HorizontalPanel.cs" />
+    <Compile Include="Mvc\Views\HtmlControl.cs" />
+    <Compile Include="Mvc\Views\IInlineControl.cs" />
+    <Compile Include="Mvc\Views\Image.cs" />
+    <Compile Include="Mvc\Views\Layout.cs" />
+    <Compile Include="Mvc\Views\Link.cs" />
+    <Compile Include="Mvc\Views\LinkPanel.cs" />
+    <Compile Include="Mvc\Views\SidePanel.cs" />
+    <Compile Include="Mvc\Views\TablePanel.cs" />
+    <Compile Include="Mvc\Views\Text.cs" />
+    <Compile Include="Mvc\Views\TextBox.cs" />
+    <Compile Include="Mvc\Views\UrlGenerator.cs" />
+    <Compile Include="Mvc\Views\VerticalAlignment.cs" />
+    <Compile Include="Mvc\Views\VerticalPanel.cs" />
+    <Compile Include="Mvc\Views\View.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WootzJs.JQuery">
+      <HintPath>..\WootzJs.JQuery\bin\Debug\WootzJs.JQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="WootzJs.Web">
+      <HintPath>..\WootzJs.Web\bin\Debug\WootzJs.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\build\WootzJs.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+if errorlevel 1 goto BuildEventFailed
+copy $(SolutionDir)build\mscorlib.js $(TargetDir)
+copy $(TargetDir)WootzJs.Mvc.* $(SolutionDir)build
+if errorlevel 1 goto BuildEventFailed
+goto BuildEventOK
+:BuildEventFailed
+echo POSTBUILDSTEP for $(ProjectName) FAILED
+exit 1
+:BuildEventOK
+echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

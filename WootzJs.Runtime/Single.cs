@@ -36,6 +36,11 @@ namespace System
 	[StructLayout(LayoutKind.Auto)]
 	public struct Single
 	{
+		public static float Parse(string s)
+		{
+			return Jsni.parseFloat(s.As<JsString>()).As<float>();
+		}
+
 		public static implicit operator Number(float i)
 		{
 			return i.As<Number>();

@@ -92,5 +92,7 @@ namespace System.Runtime.WootzJs
         public static extern bool isNaN(JsNumber number);
         public static extern bool instanceof(JsObject expression, JsObject type);
         public static extern JsObject @object(object o, bool compact = false);
+        public static extern string encodeURIComponent(string s);
+        public static extern string decodeURIComponent(string s);
     }
 }

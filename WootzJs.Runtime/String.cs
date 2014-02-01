@@ -395,7 +395,7 @@ namespace System
         private static string InternalJoin(string separator, params string[] value)
         {
             var array = value.As<JsArray>();
-            return array.join(separator.As<JsString>());            
+            return array.join(separator.As<JsString>());
         }
 
         [Js(Export = false)]
@@ -728,6 +728,27 @@ namespace System
         public bool Equals(string other)
         {
             return this == other;
+        }
+
+        /// <summary>
+        /// Determines whether this string and a specified <see cref="T:System.String"/> object have the same value. A parameter specifies the culture, case, and sort rules used in the comparison.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the value of the <paramref name="value"/> parameter is the same as this string; otherwise, false.
+        /// </returns>
+        /// <param name="value">The string to compare to this instance.</param><param name="comparisonType">One of the enumeration values that specifies how the strings will be compared. </param><exception cref="T:System.ArgumentException"><paramref name="comparisonType"/> is not a <see cref="T:System.StringComparison"/> value. </exception><filterpriority>2</filterpriority>
+        public bool Equals(string value, StringComparison comparisonType)
+        {
+            switch (comparisonType)
+            {
+                case StringComparison.CurrentCultureIgnoreCase:
+                case StringComparison.InvariantCultureIgnoreCase:
+                case StringComparison.OrdinalIgnoreCase:
+                    return ToUpper() == value.ToUpper();
+                default:
+                    return this == value;
+            }
         }
     }
 }

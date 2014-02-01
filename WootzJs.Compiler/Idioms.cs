@@ -811,7 +811,7 @@ namespace WootzJs.Compiler
                     var nameOverride = leftSymbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
                     var target = left.GetLogicalTarget();
                     var arguments = new List<JsExpression>();
-                    var property = (PropertySymbol)leftSymbol;
+                    var property = leftSymbol as PropertySymbol;
                     if (left is JsInvocationExpression)
                         arguments.AddRange(((JsInvocationExpression)left).Arguments);
                     arguments.Add(right);
@@ -837,7 +837,7 @@ namespace WootzJs.Compiler
                         result = target.Member(methodSymbol.Name).Invoke(arguments.ToArray());
                         return true;
                     }
-                    else if (nameOverride != null && property.SetMethod.Parameters.Count > 1)
+                    else if (nameOverride != null && property != null && property.SetMethod.Parameters.Count > 1)
                     {
                         result = target.Member(nameOverride).Invoke(arguments.ToArray());
                         return true;
@@ -1361,6 +1361,12 @@ namespace WootzJs.Compiler
                         return true;
                     case "parseFloat":
                         result = Js.Reference("parseFloat").Invoke(arguments);
+                        return true;
+                    case "encodeURIComponent":
+                        result = Js.Reference("encodeURIComponent").Invoke(arguments);
+                        return true;
+                    case "decodeURIComponent":
+                        result = Js.Reference("decodeURIComponent").Invoke(arguments);
                         return true;
                     case "isNaN":
                         result = Js.Reference("isNaN").Invoke(arguments);
