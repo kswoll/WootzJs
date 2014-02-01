@@ -3,6 +3,8 @@ Javascript that can be run in any browser (or other host).  It's built on top of
 
 The design is focused on facilitating [single-page applications](http://en.wikipedia.org/wiki/Single-page_application).  While it is possible to build standard web sites where each URL resolves to a different page, you will be fighting WootzJs in order to achieve this.   The goal is to produce a single `.js` file for the entire site (or at least for every "sub site").  To a large extent, it is far simpler to bind HTML elements to your C# code than vice-versa.  That being said, any metaphor is workable.
 
+WootzJs also includes a web framework, `WootzJs.Mvc` for creating single-page applications.  It leverages the HTML 5 history API to create an MVC framework with routing, controllers, models, and views.  The views are generated programmatically via C#, in a style similar to Google Web Toolkit.  The MVC portion looks substantively similar to what you'd expect coming from ASP.NET/MVC.  
+
 * [Getting Started](https://github.com/kswoll/WootzJs/wiki/Getting-Started)
     A series of guides starting with writing a "Hello World" app.
 * [Interacting with the Browser](https://github.com/kswoll/WootzJs/wiki/Interacting-With-the-Browser)
