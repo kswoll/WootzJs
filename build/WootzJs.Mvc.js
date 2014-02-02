@@ -4598,13 +4598,13 @@ WootzJs.Mvc.Mvc.Views.DropDown = $define("WootzJs.Mvc.Mvc.Views.DropDown", Wootz
         var result = WootzJs.Web.Browser().get_Document().createElement("div");
         result.appendChild(this.contentNode);
         result.appendChild(overlayAnchor);
-        result.addEventListener("mouseenter", $delegate(
+        result.addEventListener("mouseentered", $delegate(
             this, 
             System.Action$1$(Event), 
             this.OnJsContentMouseEnter, 
             "OnJsContentMouseEnter$delegate"
         ));
-        result.addEventListener("mouseleave", $delegate(
+        result.addEventListener("mouseexited", $delegate(
             this, 
             System.Action$1$(Event), 
             this.OnJsContentMouseLeave, 
@@ -5202,12 +5202,10 @@ WootzJs.Mvc.Mvc.Views.MouseTrackingEngine = $define("WootzJs.Mvc.Mvc.Views.Mouse
             var current = currentElement;
             while (current != null) {
                 var hasMouse = current.$hasMouse;
-                if (!hasMouse) {
+                if (!hasMouse)
                     this.FireMouseEntered(current);
-                }
-                else {
+                else
                     break;
-                }
                 current = current.parentElement;
             }
             if (this.lastElement != null && !WootzJs.Web.ElementExtensions.IsDescendentOf(currentElement, this.lastElement)) {
@@ -5215,6 +5213,8 @@ WootzJs.Mvc.Mvc.Views.MouseTrackingEngine = $define("WootzJs.Mvc.Mvc.Views.Mouse
                 while (last != null) {
                     if (!last.contains(currentElement))
                         this.FireMouseExited(last);
+                    else
+                        break;
                     last = last.parentElement;
                 }
             }

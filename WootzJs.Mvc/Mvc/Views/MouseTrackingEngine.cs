@@ -1,4 +1,5 @@
-﻿using System.Runtime.WootzJs;
+﻿using System;
+using System.Runtime.WootzJs;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
@@ -23,13 +24,9 @@ namespace WootzJs.Mvc.Mvc.Views
                 {
                     var hasMouse = current.As<JsObject>().member("$hasMouse");
                     if (!hasMouse)
-                    {
                         FireMouseEntered(current);
-                    }
                     else
-                    {
                         break;
-                    }
                     current = current.ParentElement;
                 }
 
@@ -41,6 +38,8 @@ namespace WootzJs.Mvc.Mvc.Views
                     {
                         if (!last.Contains(currentElement))
                             FireMouseExited(last);
+                        else
+                            break;
                         last = last.ParentElement;
                     }
                 }

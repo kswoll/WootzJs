@@ -77,14 +77,14 @@ WootzJs.Web.DocumentExtensions = $define("WootzJs.Web.DocumentExtensions", Syste
         return result.length > 0 ? result.item(0) : null;
     };
     $t.CreateCustomEvent = function(document, eventType, args) {
-        if (WootzJs.Web.Browser().get_Window().CustomEvent) {
+        try {
             return new CustomEvent(eventType, args);
         }
-        else {
+        catch (e) {
             var evt = document.createEvent("CustomEvent");
             evt.initCustomEvent(
                 eventType, 
-                true, 
+                false, 
                 true, 
                 args
             );

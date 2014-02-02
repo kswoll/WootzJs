@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
@@ -13,14 +14,14 @@ namespace WootzJs.Web
 
         public static Event CreateCustomEvent(this Document document, string eventType, object args)
         {
-            if (Browser.Window.As<JsObject>().member("CustomEvent").As<bool>())
+            try
             {
                 return Jsni.@new(Jsni.reference("CustomEvent"), eventType, args.As<JsObject>()).As<Event>();
-            }
-            else
+            } 
+            catch (Exception e)
             {
                 var evt = document.CreateEvent("CustomEvent");
-                evt.As<JsObject>().member("initCustomEvent").invoke(eventType, true, true, args.As<JsObject>());
+                evt.As<JsObject>().member("initCustomEvent").invoke(eventType, false, true, args.As<JsObject>());
                 return evt;
             }
         }
