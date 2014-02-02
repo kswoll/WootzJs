@@ -35,6 +35,20 @@ namespace WootzJs.Compiler
 {
     public static class JsNames
     {
+        public static string GetMemberName(this Symbol symbol)
+        {
+            if (symbol is MethodSymbol)
+                return ((MethodSymbol)symbol).GetMemberName();
+            else if (symbol is FieldSymbol)
+                return ((FieldSymbol)symbol).GetMemberName();
+            else if (symbol is PropertySymbol)
+                return ((PropertySymbol)symbol).GetMemberName();
+            else if (symbol is EventSymbol)
+                return ((EventSymbol)symbol).GetMemberName();
+            else
+                throw new Exception();
+        }
+
         public static string GetShortTypeName(this TypeSymbol type)
         {
             var nameOverride = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");

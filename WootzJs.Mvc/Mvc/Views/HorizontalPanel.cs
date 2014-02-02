@@ -120,7 +120,7 @@ namespace WootzJs.Mvc.Mvc.Views
             
             if (spaceBefore != 0)
             {
-                div.Style.MarginLeft = spaceBefore.ToString();
+                div.Style.MarginLeft = spaceBefore + "px";
             }
 
             div.AppendChild(child.Node);

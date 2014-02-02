@@ -31,7 +31,7 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
 {
-    [Js(Export = false)]
+    [Js(Name = "Node", Export = false)]
     public class Node
     {
         [Js(Name = "childNodes")]

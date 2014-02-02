@@ -27,8 +27,11 @@
 
 #endregion
 
+using System.Runtime.WootzJs;
+
 namespace WootzJs.Web
 {
+    [Js(Export = false)]
     public class MouseEvent : Event
     {
          

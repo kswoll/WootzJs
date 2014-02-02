@@ -32,7 +32,7 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
 {
-    [Js(Export = false)]
+    [Js(Name = "Element", Export = false)]
     public class Element : Node
     {
         public const string InsertPositionBeforeBegin = "beforebegin";

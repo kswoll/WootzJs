@@ -26,7 +26,7 @@ namespace WootzJs.Mvc.Mvc.Views
             var span = Browser.Document.CreateElement("span");
             checkbox = Browser.Document.CreateElement("input");
             checkbox.SetAttribute("type", "checkbox");
-            checkbox.AddEventListener("onchange", OnJsChanged);
+            checkbox.AddEventListener("change", OnJsChanged);
             span.AppendChild(checkbox);
             span.AppendChild(label);
 

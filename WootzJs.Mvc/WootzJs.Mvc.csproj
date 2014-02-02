@@ -105,6 +105,7 @@
     <Compile Include="Mvc\Views\Layout.cs" />
     <Compile Include="Mvc\Views\Link.cs" />
     <Compile Include="Mvc\Views\LinkPanel.cs" />
+    <Compile Include="Mvc\Views\MouseTrackingEngine.cs" />
     <Compile Include="Mvc\Views\SidePanel.cs" />
     <Compile Include="Mvc\Views\TablePanel.cs" />
     <Compile Include="Mvc\Views\Text.cs" />
@@ -116,9 +117,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="WootzJs.JQuery">
-      <HintPath>..\WootzJs.JQuery\bin\Debug\WootzJs.JQuery.dll</HintPath>
-    </Reference>
     <Reference Include="WootzJs.Web">
       <HintPath>..\WootzJs.Web\bin\Debug\WootzJs.Web.dll</HintPath>
     </Reference>

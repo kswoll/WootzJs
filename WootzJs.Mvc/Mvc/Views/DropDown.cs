@@ -72,8 +72,8 @@ namespace WootzJs.Mvc.Mvc.Views
             var result = Browser.Document.CreateElement("div");
             result.AppendChild(contentNode);
             result.AppendChild(overlayAnchor);
-            result.AddEventListener("onmouseenter", OnJsContentMouseEnter);
-            result.AddEventListener("onmouseleave", OnJsContentMouseLeave);
+            result.AddEventListener("mouseenter", OnJsContentMouseEnter);
+            result.AddEventListener("mouseleave", OnJsContentMouseLeave);
             return result;
         }
 

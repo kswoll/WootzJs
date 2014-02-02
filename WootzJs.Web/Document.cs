@@ -39,10 +39,13 @@ namespace WootzJs.Web
         public extern Element GetElementById(string id);
 
         [Js(Name = "getElementsByTagName")]
-        public extern Element[] GetElementsByTagName(string tagName);
+        public extern HtmlCollection GetElementsByTagName(string tagName);
 
         [Js(Name = "createElement")]
         public extern Element CreateElement(string tagName);
+
+        [Js(Name = "createEvent")]
+        public extern Event CreateEvent(string type);
 
         [Js(Name = "createAttribute")]
         public extern Attr CreateAttribute(string name);

@@ -52,6 +52,11 @@ namespace WootzJs.Mvc.Mvc.Views
                     middleRow.InsertAfter(topRow);
                 else
                     Node.Prepend(middleRow);
+
+                if (Spacing != 0 && topRow != null)
+                {
+                    topCellContent.Style.PaddingBottom = Spacing + "px";
+                }
             }
             return middleRow;
         }
@@ -71,7 +76,7 @@ namespace WootzJs.Mvc.Mvc.Views
             if (topCell == null)
             {
                 topCell = Browser.Document.CreateElement("td");
-                topCell.SetAttribute("colspan", 3.ToString());
+                topCell.SetAttribute("colspan", "3");
                 GetTopRow().AppendChild(topCell);
 
                 topCellContent = Browser.Document.CreateElement("div");
@@ -81,7 +86,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
                 if (Spacing != 0 && (middleRow != null || bottomRow != null))
                 {
-                    topCellContent.Style.PaddingBottom = Spacing.ToString();
+                    topCellContent.Style.PaddingBottom = Spacing + "px";
                 }
             }
 
@@ -93,7 +98,7 @@ namespace WootzJs.Mvc.Mvc.Views
             if (bottomCell == null)
             {
                 bottomCell = Browser.Document.CreateElement("td");
-                bottomCell.SetAttribute("colspan", 3.ToString());
+                bottomCell.SetAttribute("colspan", "3");
                 GetBottomRow().AppendChild(bottomCell);
 
                 bottomCellContent = Browser.Document.CreateElement("div");
@@ -103,7 +108,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
                 if (Spacing != 0 && (middleRow != null))
                 {
-                    bottomCellContent.Style.PaddingTop = Spacing.ToString();
+                    bottomCellContent.Style.PaddingTop = Spacing + "px";
                 }
             }
             return bottomCellContent;
@@ -135,7 +140,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
                 if (Spacing != 0 && (centerCell != null || rightCell != null))
                 {
-                    leftCellContent.Style.PaddingLeft = Spacing.ToString();
+                    leftCellContent.Style.PaddingLeft = Spacing + "px";
                 }
             }
             return leftCellContent;
@@ -178,7 +183,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
                 if (Spacing != 0 && middleRow != null)
                 {
-                    rightCellContent.Style.PaddingLeft = Spacing.ToString();
+                    rightCellContent.Style.PaddingLeft = Spacing + "px";
                 }
             }
             return rightCellContent;
@@ -367,19 +372,19 @@ namespace WootzJs.Mvc.Mvc.Views
                 spacing = value;
                 if (Top != null && (Left != null || Center != null || Right != null || Bottom != null))
                 {
-                    GetTopCell().Style.PaddingBottom = value.ToString();
+                    GetTopCell().Style.PaddingBottom = value + "px";
                 }
                 if (Left != null && (Center != null || Right != null))
                 {
-                    GetLeftCell().Style.PaddingRight = value.ToString();
+                    GetLeftCell().Style.PaddingRight = value + "px";
                 }
                 if (Right != null && Center != null)
                 {
-                    GetRightCell().Style.PaddingLeft = value.ToString();
+                    GetRightCell().Style.PaddingLeft = value + "px";
                 }
                 if (Bottom != null && (Left != null || Center != null || Right != null))
                 {
-                    GetBottomCell().Style.PaddingTop = value.ToString();
+                    GetBottomCell().Style.PaddingTop = value + "px";
                 }
             }
         }

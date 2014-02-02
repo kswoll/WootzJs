@@ -33,7 +33,7 @@ namespace System.Runtime.WootzJs
     public static class Jsni
     {
         public static extern JsRegExp regex(string pattern, string suffix = null);
-        public static extern JsObject @new(JsObject target);
+        public static extern JsObject @new(JsObject target, params JsObject[] arguments);
         public static extern JsObject arguments();
         public static extern JsObject @this();
         public static extern JsObject apply(JsObject target, JsObject thisReference, JsArray arguments);

@@ -1285,7 +1285,7 @@ namespace WootzJs.Compiler
                         return true;
                     case "new":
                     case "@new":
-                        result = Js.New(arguments[0]);
+                        result = Js.New(arguments[0], arguments.Skip(1).ToArray());
                         return true;
                     case "array":
                         result = Js.Array(arguments);

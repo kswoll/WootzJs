@@ -1,5 +1,4 @@
-﻿using WootzJs.JQuery;
-using WootzJs.Web;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views.Css
 {

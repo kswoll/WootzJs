@@ -93,6 +93,7 @@ namespace WootzJs.Compiler.Tests
             Func<string> methodDelegate = methodClass.M;
             var s = methodDelegate();
             QUnit.AreEqual(s, "foo");
+            QUnit.AreEqual(methodDelegate.Target, methodClass);
         }
 
         [Test]
@@ -101,6 +102,17 @@ namespace WootzJs.Compiler.Tests
             Func<string> methodDelegate = M;
             var s = methodDelegate();
             QUnit.AreEqual(s, "bar");
+        }
+
+        [Test]
+        public void MethodTargets()
+        {
+            var methodClass1 = new MethodClass("foo1");
+            var methodClass2 = new MethodClass("foo2");
+            Func<string> delegate1 = methodClass1.M;
+            Func<string> delegate2 = methodClass2.M;
+            QUnit.AreEqual(delegate1(), "foo1");
+            QUnit.AreEqual(delegate2(), "foo2");
         }
 
         private string M()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.WootzJs;
 using WootzJs.Web;
 using Style = WootzJs.Mvc.Mvc.Views.Css.Style;
 
@@ -8,6 +9,11 @@ namespace WootzJs.Mvc.Mvc.Views
 {
     public class Control
     {
+        static Control()
+        {
+            new MouseTrackingEngine().Initialize();
+        }
+
         public Control Parent { get; private set; }
         public View View { get; internal set; }
 
@@ -27,15 +33,8 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public Control(Element node)
         {
-            this.node = node;
+            Node = node;
         }
-
-/*
-        public Control(string nodeCreationText)
-        {
-            NodeCreationText = nodeCreationText;
-        }
-*/
 
         public ViewContext ViewContext
         {
@@ -61,13 +60,25 @@ namespace WootzJs.Mvc.Mvc.Views
             set
             {
                 style = value;
-                style.Attach(node.Style);
+                style.Attach(Node.Style);
             }
         }
 
         public Element Node
         {
             get { return EnsureNodeExists(); }
+            private set
+            {
+                node = value;
+                node.As<JsObject>().memberset("$control", this.As<JsObject>());
+                Node.AddEventListener("mouseentered", OnJsMouseEnter);
+                Node.AddEventListener("mouseexited", OnJsMouseLeave);
+            }
+        }
+
+        public static Control GetControlForElement(Element element)
+        {
+            return element.As<JsObject>().member("$control").As<Control>();
         }
 
         protected virtual Element CreateNode()
@@ -79,7 +90,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (node == null)
             {
-                node = CreateNode();
+                Node = CreateNode();
                 node.SetAttribute("data-class-name", GetType().FullName);
                 if (style != null)
                     style.Attach(node.Style);
@@ -130,7 +141,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (click == null)
             {
-                Node.AddEventListener("onclick", OnJsClick);
+                Node.AddEventListener("click", OnJsClick);
                 click = new List<Action>();
             }
             click.Add(handler);
@@ -144,7 +155,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (!click.Any())
                 {
                     click = null;
-                    Node.RemoveEventListener("onclick", OnJsClick);
+                    Node.RemoveEventListener("click", OnJsClick);
                 }
             }
         }
@@ -153,7 +164,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (mouseEnter == null)
             {
-                Node.AddEventListener("onmouseenter", OnJsMouseEnter);
+//                Node.AddEventListener("mouseentered", OnJsMouseEnter);
                 mouseEnter = new List<Action>();
             }
             mouseEnter.Add(handler);
@@ -167,7 +178,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (!mouseEnter.Any())
                 {
                     mouseEnter = null;
-                    Node.RemoveEventListener("onmouseenter", OnJsMouseEnter);
+                    Node.RemoveEventListener("mouseentered", OnJsMouseEnter);
                 }
             }
         }
@@ -176,7 +187,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (mouseLeave == null)
             {
-                Node.AddEventListener("onmouseleave", OnJsMouseLeave);
+//                Node.AddEventListener("mouseexited", OnJsMouseLeave);
                 mouseLeave = new List<Action>();
             }
             mouseLeave.Add(handler);
@@ -190,7 +201,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (!mouseLeave.Any())
                 {
                     mouseLeave = null;
-                    Node.RemoveEventListener("onmouseleave", OnJsMouseLeave);
+                    Node.RemoveEventListener("mouseexited", OnJsMouseLeave);
                 }
             }
         }

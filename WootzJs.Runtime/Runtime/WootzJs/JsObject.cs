@@ -48,6 +48,11 @@ namespace System.Runtime.WootzJs
             return value.As<JsObject>();
         }
 
+        public static implicit operator JsObject(string value)
+        {
+            return value.As<JsObject>();
+        }
+
         public static implicit operator bool(JsObject value)
         {
             return value.As<bool>();

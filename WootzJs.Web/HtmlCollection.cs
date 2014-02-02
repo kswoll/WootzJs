@@ -34,10 +34,13 @@ namespace WootzJs.Web
     [Js(Export = false)]
     public class HtmlCollection
     {
+        [Js(Name = "length")]
+        public extern int Length { get; }
+
         [Js(Name = "item")]
-        public extern Node this[int index] { get; set; }
+        public extern Element this[int index] { get; set; }
 
         [Js(Name = "namedItem")]
-        public extern Node NamedItem(int index);
+        public extern Element NamedItem(int index);
     }
 }

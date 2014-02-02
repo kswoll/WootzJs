@@ -17,7 +17,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             var textBox = Browser.Document.CreateElement("input");
             textBox.SetAttribute("type", "text");
-            textBox.AddEventListener("onchange", OnJsChanged);
+            textBox.AddEventListener("change", OnJsChanged);
 
             return textBox;
         }

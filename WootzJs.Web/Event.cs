@@ -27,10 +27,41 @@
 
 #endregion
 
+using System.Runtime.WootzJs;
+
 namespace WootzJs.Web
 {
+    [Js(Name = "Event", Export = false)]
     public class Event
     {
-         
+        [Js(Name = "bubbles")]
+        public extern bool Bubbles { get; set; }
+
+        [Js(Name = "cancelable")]
+        public extern bool Cancelable { get; set; }
+
+        [Js(Name = "currentTarget")]
+        public extern Element CurrentTarget { get; set; }
+
+        [Js(Name = "defaultPrevented")]
+        public extern bool DefaultPrevented { get; }
+
+        [Js(Name = "target")]
+        public extern Element Target { get; }
+
+        [Js(Name = "relatedTarget")]
+        public extern Element RelatedTarget { get; }
+
+        [Js(Name = "type")]
+        public extern string Type { get; }
+
+        [Js(Name = "preventDefault")]
+        public extern void PreventDefault();
+
+        [Js(Name = "stopImmediatePropagation")]
+        public extern void StopImmediatePropagation();
+
+        [Js(Name = "stopPropagation")]
+        public extern void StopPropagation();
     }
 }
