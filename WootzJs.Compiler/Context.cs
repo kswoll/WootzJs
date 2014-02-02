@@ -139,7 +139,17 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol String { get; private set; }
         public MethodSymbol ObjectToString { get; private set; }
         public NamedTypeSymbol Char { get; private set; }
+        public NamedTypeSymbol Int64 { get; private set; }
         public NamedTypeSymbol Int32 { get; private set; }
+        public NamedTypeSymbol Int16 { get; private set; }
+        public NamedTypeSymbol UInt64 { get; private set; }
+        public NamedTypeSymbol UInt32 { get; private set; }
+        public NamedTypeSymbol UInt16 { get; private set; }
+        public NamedTypeSymbol Byte { get; private set; }
+        public NamedTypeSymbol SByte { get; private set; }
+        public NamedTypeSymbol Single { get; private set; }
+        public NamedTypeSymbol Double { get; private set; }
+        public NamedTypeSymbol Decimal { get; private set; }
         public NamedTypeSymbol Constant { get; private set; }
         public NamedTypeSymbol Action { get; private set; }
         public NamedTypeSymbol Func { get; private set; }
@@ -168,7 +178,17 @@ namespace WootzJs.Compiler
             String = compilation.FindType("System.String");
             SpecialFunctions = compilation.FindType("System.Runtime.WootzJs.SpecialFunctions");
             Char = compilation.FindType("System.Char");
+            Byte = compilation.FindType("System.Byte");
+            Int16 = compilation.FindType("System.Int16");
             Int32 = compilation.FindType("System.Int32");
+            Int64 = compilation.FindType("System.Int64");
+            SByte = compilation.FindType("System.SByte");
+            UInt16 = compilation.FindType("System.UInt16");
+            UInt32 = compilation.FindType("System.UInt32");
+            UInt64 = compilation.FindType("System.UInt64");
+            Single = compilation.FindType("System.Single");
+            Double = compilation.FindType("System.Double");
+            Decimal = compilation.FindType("System.Decimal");
             Exception = compilation.FindType("System.Exception");
             InternalInit = Exception.GetMethodByName("InternalInit");
             Assembly = compilation.FindType("System.Reflection.Assembly");

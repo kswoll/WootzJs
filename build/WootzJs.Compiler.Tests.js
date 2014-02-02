@@ -78,6 +78,35 @@ window.$AnonymousType$2 = $define("<anonymous type: System.Runtime.WootzJs.JsArr
     };
 }).call(null, $AnonymousType$2, $AnonymousType$2.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push($AnonymousType$2);
+window.$AnonymousType$3 = $define("<anonymous type: System.Runtime.WootzJs.JsArray items, System.Runtime.WootzJs.JsFunction item>", System.Object);
+($AnonymousType$3.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "$AnonymousType$3";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("", $arrayinit([], System.Attribute));this.$type.Init("$AnonymousType$3", $AnonymousType$3, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_items", $AnonymousType$3.prototype.get_items, $arrayinit([], System.Reflection.ParameterInfo), Array, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_item", $AnonymousType$3.prototype.get_item, $arrayinit([], System.Reflection.ParameterInfo), Function, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", $AnonymousType$3.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("items", Array, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("item", Function, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("items", Array, System.Reflection.MethodInfo.prototype.$ctor.$new("get_items", $AnonymousType$3.prototype.get_items, $arrayinit([], System.Reflection.ParameterInfo), Array, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("item", Function, System.Reflection.MethodInfo.prototype.$ctor.$new("get_item", $AnonymousType$3.prototype.get_item, $arrayinit([], System.Reflection.ParameterInfo), Function, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.$items$k__BackingField = null;
+    $p.get_items = function() {
+        return this.$items$k__BackingField;
+    };
+    $p.$item$k__BackingField = null;
+    $p.get_item = function() {
+        return this.$item$k__BackingField;
+    };
+}).call(null, $AnonymousType$3, $AnonymousType$3.prototype);
+$WootzJs$Compiler$Tests$AssemblyTypes.push($AnonymousType$3);
 WootzJs.Compiler.Tests.AnonymousTypeTests = $define("WootzJs.Compiler.Tests.AnonymousTypeTests", System.Object);
 (WootzJs.Compiler.Tests.AnonymousTypeTests.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -117,7 +146,7 @@ WootzJs.Compiler.Tests.ArrayTests = $define("WootzJs.Compiler.Tests.ArrayTests",
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ArrayTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ArrayTests", WootzJs.Compiler.Tests.ArrayTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("LengthProperty", WootzJs.Compiler.Tests.ArrayTests.prototype.LengthProperty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndex", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndexSet", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndexSet, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayCopy", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayCopy, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StringArrayType", WootzJs.Compiler.Tests.ArrayTests.prototype.StringArrayType, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateArray", WootzJs.Compiler.Tests.ArrayTests.prototype.CreateArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.ArrayTests.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ExportArray", WootzJs.Compiler.Tests.ArrayTests.prototype.ExportArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ArrayTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ArrayTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.ArrayTests", WootzJs.Compiler.Tests.ArrayTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("LengthProperty", WootzJs.Compiler.Tests.ArrayTests.prototype.LengthProperty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndex", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayIndexSet", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayIndexSet, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ArrayCopy", WootzJs.Compiler.Tests.ArrayTests.prototype.ArrayCopy, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("StringArrayType", WootzJs.Compiler.Tests.ArrayTests.prototype.StringArrayType, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateArray", WootzJs.Compiler.Tests.ArrayTests.prototype.CreateArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetEnumerator", WootzJs.Compiler.Tests.ArrayTests.prototype.GetEnumerator, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ExportArray", WootzJs.Compiler.Tests.ArrayTests.prototype.ExportArray, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IndexerOverride", WootzJs.Compiler.Tests.ArrayTests.prototype.IndexerOverride, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.ArrayTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -170,6 +199,22 @@ WootzJs.Compiler.Tests.ArrayTests = $define("WootzJs.Compiler.Tests.ArrayTests",
             1
         );
         QUnit.ok($array(System.Tuple$2$(String, System.Int32)).$GetType().IsInstanceOfType($arrayinit(ExportTest.Values, System.Tuple$2$(String, System.Int32))));
+    };
+    $p.IndexerOverride = function() {
+        window.IndexerOverride = {
+            items: [],
+            item: function(index, value) {
+                if (arguments.length == 1)
+                    return this.items[index];
+                else {
+                    this.items[index] = value;
+                    return null;
+                }
+            }
+        };
+        var indexerOverride = window.IndexerOverride;
+        indexerOverride.item(3, "foo");
+        QUnit.equal(indexerOverride.item(3), "foo");
     };
 }).call(null, WootzJs.Compiler.Tests.ArrayTests, WootzJs.Compiler.Tests.ArrayTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.ArrayTests);
@@ -3349,7 +3394,7 @@ WootzJs.Compiler.Tests.NumberTests = $define("WootzJs.Compiler.Tests.NumberTests
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("NumberTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.NumberTests", WootzJs.Compiler.Tests.NumberTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ToHex", WootzJs.Compiler.Tests.NumberTests.prototype.ToHex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IntTryParse", WootzJs.Compiler.Tests.NumberTests.prototype.IntTryParse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.NumberTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("NumberTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.NumberTests", WootzJs.Compiler.Tests.NumberTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ToHex", WootzJs.Compiler.Tests.NumberTests.prototype.ToHex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IntTryParse", WootzJs.Compiler.Tests.NumberTests.prototype.IntTryParse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TruncFloatViaCast", WootzJs.Compiler.Tests.NumberTests.prototype.TruncFloatViaCast, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.NumberTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3373,6 +3418,11 @@ WootzJs.Compiler.Tests.NumberTests = $define("WootzJs.Compiler.Tests.NumberTests
             i = $anon$1.value;
             return $result$;
         }).call(this));
+        QUnit.equal(i, 1);
+    };
+    $p.TruncFloatViaCast = function() {
+        var f = 1.234;
+        var i = $cast(System.Int32, f);
         QUnit.equal(i, 1);
     };
 }).call(null, WootzJs.Compiler.Tests.NumberTests, WootzJs.Compiler.Tests.NumberTests.prototype);

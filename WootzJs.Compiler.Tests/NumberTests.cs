@@ -45,5 +45,13 @@ namespace WootzJs.Compiler.Tests
             QUnit.IsTrue(int.TryParse(s, out i));
             QUnit.AreEqual(i, 1);
         }
+
+        [Test]
+        public void TruncFloatViaCast()
+        {
+            var f = 1.234f;
+            var i = (int)f;
+            QUnit.AreEqual(i, 1);
+        }
     }
 }

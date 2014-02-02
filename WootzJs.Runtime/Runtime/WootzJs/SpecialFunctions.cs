@@ -243,5 +243,11 @@ namespace System.Runtime.WootzJs
         {
             return o == null ? "" : o.ToString();
         }
+
+        [Js(Name = SpecialNames.Truncate)]
+        public static JsNumber Truncate(JsNumber number)
+        {
+            return number < 0 ? JsMath.ceil(number) : JsMath.floor(number);
+        }
     }
 }

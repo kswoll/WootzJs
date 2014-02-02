@@ -1026,11 +1026,20 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, target);
             }
 
-            var originalType = model.GetTypeInfo(node.Expression).ConvertedType;
+            var originalTypeInfo = model.GetTypeInfo(node.Expression);
+            var originalType = originalTypeInfo.ConvertedType;
 
             if (typeInfo == Context.Instance.Int32 && originalType == Context.Instance.Char)
             {
                 return target.Member("charCodeAt").Invoke();
+            }
+            if ((typeInfo == Context.Instance.Byte || typeInfo == Context.Instance.SByte ||
+                typeInfo == Context.Instance.Int16 || typeInfo == Context.Instance.UInt16 ||
+                typeInfo == Context.Instance.Int32 || typeInfo == Context.Instance.UInt32 ||
+                typeInfo == Context.Instance.Int64 || typeInfo == Context.Instance.UInt64) &&
+                (originalType == Context.Instance.Single || originalType == Context.Instance.Double || originalType == Context.Instance.Decimal))
+            {
+                return Js.Reference(SpecialNames.Truncate).Invoke((JsExpression)target);
             }
 
             var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(typeInfo), target);
