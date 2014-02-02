@@ -30,11 +30,6 @@ namespace System.Runtime.WootzJs
     [Js(Name = "Number", Export = false)]
     public class JsNumber : JsObject
     {
-        public JsNumber valueOf()
-        {
-            return null;
-        }
-
         /// <summary>
         /// The toString() method returns a string representing the specified Number object.
         /// 
@@ -46,10 +41,13 @@ namespace System.Runtime.WootzJs
         /// <param name="radix">An integer between 2 and 36 specifying the base to use for representing numeric values.</param>
         /// <returns>For Number objects, the toString() method returns a string representation of the object in the specified radix.</returns>
         [Js(Name = "toString")]
-        public JsString toString(int radix)
-        {
-            return null;
-        }
+        public extern JsString toString(int radix);
+
+        public extern string toExponential(int fractionDigits);
+        public extern string toFixed(int digits);
+        public extern string toLocaleString(string locales = null, object options = null);
+        public extern string toPrecision(int precision);
+        public static extern JsNumber valueOf();
 
         public static extern bool operator <(JsNumber left, JsNumber right);
         public static extern bool operator >(JsNumber left, JsNumber right);

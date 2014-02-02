@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Runtime.WootzJs;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -52,6 +54,13 @@ namespace WootzJs.Compiler.Tests
             var f = 1.234f;
             var i = (int)f;
             QUnit.AreEqual(i, 1);
+        }
+
+        [Test]
+        public void ToLocaleString()
+        {
+            var s = 1.234.As<JsNumber>().toLocaleString();
+            QUnit.AreEqual(s, "1.234");
         }
     }
 }
