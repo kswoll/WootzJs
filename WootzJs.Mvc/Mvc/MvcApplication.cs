@@ -39,12 +39,7 @@ namespace WootzJs.Mvc.Mvc
             Port = Browser.Window.Location.Port;
             Scheme = Browser.Window.Location.Protocol;
 
-//            html.Style.Height = new CssNumericValue(100, CssUnit.Percent);
-//            body.Style.Height = new CssNumericValue(100, CssUnit.Percent);
-
-
-
-            Browser.Window.OnPopState = OnPopState;
+            Browser.Window.AddEventListener("onpopstate", evt => OnPopState((PopStateEvent)evt));
 
             var path = Browser.Window.Location.PathName;
             Console.WriteLine(path);
@@ -54,7 +49,7 @@ namespace WootzJs.Mvc.Mvc
             var routeGenerator = new RouteGenerator();
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
-            Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + (string)Browser.Window.Location.Search : ""), false);
+            Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + Browser.Window.Location.Search : ""), false);
 
             OnStarted();
         }

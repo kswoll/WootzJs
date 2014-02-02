@@ -1496,7 +1496,9 @@ WootzJs.Mvc.Mvc.MvcApplication = $define("WootzJs.Mvc.Mvc.MvcApplication", Syste
         this.set_Host(WootzJs.Web.Browser().get_Window().location.host);
         this.set_Port(WootzJs.Web.Browser().get_Window().location.port);
         this.set_Scheme(WootzJs.Web.Browser().get_Window().location.protocol);
-        WootzJs.Web.Browser().get_Window().onpopstate = $delegate(this, WootzJs.Web.PopStateEventHandler, this.OnPopState);
+        WootzJs.Web.Browser().get_Window().addEventListener("onpopstate", $delegate(this, System.Action$1$(WootzJs.Web.Event), function(evt) {
+            return this.OnPopState($cast(Event, evt));
+        }));
         var path = WootzJs.Web.Browser().get_Window().location.pathname;
         System.Console.WriteLine$1(path);
         this.set_ControllerFactory(WootzJs.Mvc.Mvc.DefaultControllerFactory.prototype.$ctor.$new());

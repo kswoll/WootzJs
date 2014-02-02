@@ -183,16 +183,16 @@ $WootzJs$Web$AssemblyTypes.push(WootzJs.Web.NodeType);
 (Event.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
     $p.$type = $t;
-    $t.$baseType = System.Object;
+    $t.$baseType = WootzJs.Web.Event;
     $p.$typeName = "WootzJs.Web.PopStateEvent";
     $t.$typeName = $p.$typeName;
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("PopStateEvent", $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("Event");$obj$.set_BuiltIn(true);return $obj$;}).call(this)], System.Attribute));this.$type.Init("Event", Event, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", Event.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("PopStateEvent", $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("Event");$obj$.set_BuiltIn(true);return $obj$;}).call(this)], System.Attribute));this.$type.Init("Event", Event, WootzJs.Web.Event, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", Event.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
-        System.Object.prototype.$ctor.call(this);
+        WootzJs.Web.Event.prototype.$ctor.call(this);
     };
     $p.$ctor.$type = $t;
     $p.$ctor.$new = function() {

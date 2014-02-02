@@ -32,7 +32,7 @@ using System.Runtime.WootzJs;
 namespace WootzJs.Web
 {
     [Js(Name = "window", Export = false)]
-    public class Window
+    public class Window : Element
     {
         [Js(Name = "location")]
         public Location Location;
@@ -41,7 +41,6 @@ namespace WootzJs.Web
         public PopStateEventHandler OnPopState;
 
         [Js(Name = "history")]
-// ReSharper disable once UnassignedReadonlyField
-        public readonly History History;
+        public extern History History { get; }
     }
 }
