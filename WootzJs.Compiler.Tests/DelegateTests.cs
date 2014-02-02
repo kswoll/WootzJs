@@ -113,6 +113,8 @@ namespace WootzJs.Compiler.Tests
             Func<string> delegate2 = methodClass2.M;
             QUnit.AreEqual(delegate1(), "foo1");
             QUnit.AreEqual(delegate2(), "foo2");
+            QUnit.AreEqual(delegate1.Target, methodClass1);
+            QUnit.AreEqual(delegate2.Target, methodClass2);
         }
 
         private string M()

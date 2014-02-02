@@ -71,8 +71,6 @@ namespace WootzJs.Mvc.Mvc.Views
             {
                 node = value;
                 node.As<JsObject>().memberset("$control", this.As<JsObject>());
-                Node.AddEventListener("mouseentered", OnJsMouseEnter);
-                Node.AddEventListener("mouseexited", OnJsMouseLeave);
             }
         }
 
@@ -164,7 +162,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (mouseEnter == null)
             {
-//                Node.AddEventListener("mouseentered", OnJsMouseEnter);
+                Node.AddEventListener("mouseentered", OnJsMouseEnter);
                 mouseEnter = new List<Action>();
             }
             mouseEnter.Add(handler);
@@ -187,7 +185,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (mouseLeave == null)
             {
-//                Node.AddEventListener("mouseexited", OnJsMouseLeave);
+                Node.AddEventListener("mouseexited", OnJsMouseLeave);
                 mouseLeave = new List<Action>();
             }
             mouseLeave.Add(handler);

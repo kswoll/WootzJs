@@ -107,8 +107,6 @@ WootzJs.Mvc.Mvc.Views.Control = $define("WootzJs.Mvc.Mvc.Views.Control", System.
     $p.set_Node = function(value) {
         this.node = value;
         this.node.$control = this;
-        this.get_Node().addEventListener("mouseentered", $delegate(this, System.Action$1$(Event), this.OnJsMouseEnter));
-        this.get_Node().addEventListener("mouseexited", $delegate(this, System.Action$1$(Event), this.OnJsMouseLeave));
     };
     $t.GetControlForElement = function(element) {
         return element.$control;
@@ -150,7 +148,12 @@ WootzJs.Mvc.Mvc.Views.Control = $define("WootzJs.Mvc.Mvc.Views.Control", System.
     $p.OnRemoved = function() {};
     $p.Click = function(handler) {
         if (this.click == null) {
-            this.get_Node().addEventListener("click", $delegate(this, System.Action$1$(Event), this.OnJsClick));
+            this.get_Node().addEventListener("click", $delegate(
+                this, 
+                System.Action$1$(Event), 
+                this.OnJsClick, 
+                "OnJsClick$delegate"
+            ));
             this.click = System.Collections.Generic.List$1$(System.Action).prototype.$ctor.$new();
         }
         this.click.Add(handler);
@@ -160,12 +163,23 @@ WootzJs.Mvc.Mvc.Views.Control = $define("WootzJs.Mvc.Mvc.Views.Control", System.
             this.click.Remove(handler);
             if (!System.Linq.Enumerable.Any(System.Action, this.click)) {
                 this.click = null;
-                this.get_Node().removeEventListener("click", $delegate(this, System.Action$1$(Event), this.OnJsClick));
+                this.get_Node().removeEventListener("click", $delegate(
+                    this, 
+                    System.Action$1$(Event), 
+                    this.OnJsClick, 
+                    "OnJsClick$delegate"
+                ));
             }
         }
     };
     $p.MouseEnter = function(handler) {
         if (this.mouseEnter == null) {
+            this.get_Node().addEventListener("mouseentered", $delegate(
+                this, 
+                System.Action$1$(Event), 
+                this.OnJsMouseEnter, 
+                "OnJsMouseEnter$delegate"
+            ));
             this.mouseEnter = System.Collections.Generic.List$1$(System.Action).prototype.$ctor.$new();
         }
         this.mouseEnter.Add(handler);
@@ -175,12 +189,23 @@ WootzJs.Mvc.Mvc.Views.Control = $define("WootzJs.Mvc.Mvc.Views.Control", System.
             this.mouseEnter.Remove(handler);
             if (!System.Linq.Enumerable.Any(System.Action, this.mouseEnter)) {
                 this.mouseEnter = null;
-                this.get_Node().removeEventListener("mouseentered", $delegate(this, System.Action$1$(Event), this.OnJsMouseEnter));
+                this.get_Node().removeEventListener("mouseentered", $delegate(
+                    this, 
+                    System.Action$1$(Event), 
+                    this.OnJsMouseEnter, 
+                    "OnJsMouseEnter$delegate"
+                ));
             }
         }
     };
     $p.MouseLeave = function(handler) {
         if (this.mouseLeave == null) {
+            this.get_Node().addEventListener("mouseexited", $delegate(
+                this, 
+                System.Action$1$(Event), 
+                this.OnJsMouseLeave, 
+                "OnJsMouseLeave$delegate"
+            ));
             this.mouseLeave = System.Collections.Generic.List$1$(System.Action).prototype.$ctor.$new();
         }
         this.mouseLeave.Add(handler);
@@ -190,7 +215,12 @@ WootzJs.Mvc.Mvc.Views.Control = $define("WootzJs.Mvc.Mvc.Views.Control", System.
             this.mouseLeave.Remove(handler);
             if (!System.Linq.Enumerable.Any(System.Action, this.mouseLeave)) {
                 this.mouseLeave = null;
-                this.get_Node().removeEventListener("mouseexited", $delegate(this, System.Action$1$(Event), this.OnJsMouseLeave));
+                this.get_Node().removeEventListener("mouseexited", $delegate(
+                    this, 
+                    System.Action$1$(Event), 
+                    this.OnJsMouseLeave, 
+                    "OnJsMouseLeave$delegate"
+                ));
             }
         }
     };
@@ -2896,7 +2926,12 @@ WootzJs.Mvc.Mvc.Views.CheckBox = $define("WootzJs.Mvc.Mvc.Views.CheckBox", Wootz
         var span = WootzJs.Web.Browser().get_Document().createElement("span");
         this.checkbox = WootzJs.Web.Browser().get_Document().createElement("input");
         this.checkbox.setAttribute("type", "checkbox");
-        this.checkbox.addEventListener("change", $delegate(this, System.Action$1$(Event), this.OnJsChanged));
+        this.checkbox.addEventListener("change", $delegate(
+            this, 
+            System.Action$1$(Event), 
+            this.OnJsChanged, 
+            "OnJsChanged$delegate"
+        ));
         span.appendChild(this.checkbox);
         span.appendChild(this.label);
         return span;
@@ -4563,8 +4598,18 @@ WootzJs.Mvc.Mvc.Views.DropDown = $define("WootzJs.Mvc.Mvc.Views.DropDown", Wootz
         var result = WootzJs.Web.Browser().get_Document().createElement("div");
         result.appendChild(this.contentNode);
         result.appendChild(overlayAnchor);
-        result.addEventListener("mouseenter", $delegate(this, System.Action$1$(Event), this.OnJsContentMouseEnter));
-        result.addEventListener("mouseleave", $delegate(this, System.Action$1$(Event), this.OnJsContentMouseLeave));
+        result.addEventListener("mouseenter", $delegate(
+            this, 
+            System.Action$1$(Event), 
+            this.OnJsContentMouseEnter, 
+            "OnJsContentMouseEnter$delegate"
+        ));
+        result.addEventListener("mouseleave", $delegate(
+            this, 
+            System.Action$1$(Event), 
+            this.OnJsContentMouseLeave, 
+            "OnJsContentMouseLeave$delegate"
+        ));
         return result;
     };
     $p.OnJsContentMouseEnter = function(arg) {
@@ -5138,8 +5183,18 @@ WootzJs.Mvc.Mvc.Views.MouseTrackingEngine = $define("WootzJs.Mvc.Mvc.Views.Mouse
     };
     $p.lastElement = null;
     $p.Initialize = function() {
-        WootzJs.Web.Browser().get_Window().addEventListener("mousemove", $delegate(this, System.Action$1$(Event), this.OnMouseMove));
-        WootzJs.Web.Browser().get_Window().addEventListener("mouseout", $delegate(this, System.Action$1$(Event), this.OnMouseOut));
+        WootzJs.Web.Browser().get_Window().addEventListener("mousemove", $delegate(
+            this, 
+            System.Action$1$(Event), 
+            this.OnMouseMove, 
+            "OnMouseMove$delegate"
+        ));
+        WootzJs.Web.Browser().get_Window().addEventListener("mouseout", $delegate(
+            this, 
+            System.Action$1$(Event), 
+            this.OnMouseOut, 
+            "OnMouseOut$delegate"
+        ));
     };
     $p.OnMouseMove = function(evt) {
         var currentElement = evt.target;
@@ -5737,7 +5792,12 @@ WootzJs.Mvc.Mvc.Views.TextBox = $define("WootzJs.Mvc.Mvc.Views.TextBox", WootzJs
     $p.CreateNode = function() {
         var textBox = WootzJs.Web.Browser().get_Document().createElement("input");
         textBox.setAttribute("type", "text");
-        textBox.addEventListener("change", $delegate(this, System.Action$1$(Event), this.OnJsChanged));
+        textBox.addEventListener("change", $delegate(
+            this, 
+            System.Action$1$(Event), 
+            this.OnJsChanged, 
+            "OnJsChanged$delegate"
+        ));
         return textBox;
     };
     $p.OnJsChanged = function(evt) {
