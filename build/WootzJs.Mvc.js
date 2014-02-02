@@ -1462,7 +1462,7 @@ WootzJs.Mvc.Mvc.MvcApplication = $define("WootzJs.Mvc.Mvc.MvcApplication", Syste
         System.Object.prototype.$ctor.call(this);
         this.html = WootzJs.Mvc.Mvc.Views.HtmlControl.prototype.$ctor.$new("html");
         this.body = WootzJs.Mvc.Mvc.Views.HtmlControl.prototype.$ctor.$new("body");
-        this.initialPath = window.location.pathname;
+        this.initialPath = WootzJs.Web.Browser().get_Window().location.pathname;
     };
     $p.$ctor.$type = $t;
     $p.$ctor.$new = function() {
@@ -1493,16 +1493,16 @@ WootzJs.Mvc.Mvc.MvcApplication = $define("WootzJs.Mvc.Mvc.MvcApplication", Syste
         return this.body;
     };
     $p.Start = function(assembly) {
-        this.set_Host(window.location.host);
-        this.set_Port(window.location.port);
-        this.set_Scheme(window.location.protocol);
-        window.onpopstate = $delegate(this, WootzJs.Web.PopStateEventHandler, this.OnPopState);
-        var path = window.location.pathname;
+        this.set_Host(WootzJs.Web.Browser().get_Window().location.host);
+        this.set_Port(WootzJs.Web.Browser().get_Window().location.port);
+        this.set_Scheme(WootzJs.Web.Browser().get_Window().location.protocol);
+        WootzJs.Web.Browser().get_Window().onpopstate = $delegate(this, WootzJs.Web.PopStateEventHandler, this.OnPopState);
+        var path = WootzJs.Web.Browser().get_Window().location.pathname;
         System.Console.WriteLine$1(path);
         this.set_ControllerFactory(WootzJs.Mvc.Mvc.DefaultControllerFactory.prototype.$ctor.$new());
         var routeGenerator = WootzJs.Mvc.Mvc.Routes.RouteGenerator.prototype.$ctor.$new();
         this.routeTree = routeGenerator.GenerateRoutes$1(assembly);
-        this.Open$1(path + (!String.IsNullOrEmpty(window.location.search) ? "?" + $cast(String, window.location.search) : ""), false);
+        this.Open$1(path + (!String.IsNullOrEmpty(WootzJs.Web.Browser().get_Window().location.search) ? "?" + $cast(String, WootzJs.Web.Browser().get_Window().location.search) : ""), false);
         this.OnStarted();
     };
     $p.OnStarted = function() {};
@@ -1521,7 +1521,7 @@ WootzJs.Mvc.Mvc.MvcApplication = $define("WootzJs.Mvc.Mvc.MvcApplication", Syste
         this.currentPath = path;
         var view = this.Execute(path, queryString);
         if (pushState)
-            window.history.pushState(url, view.get_Title(), url);
+            WootzJs.Web.Browser().get_Window().history.pushState(url, view.get_Title(), url);
         if (WootzJs.Mvc.Mvc.Views.Layout.$GetType().IsInstanceOfType(this.view) && view.get_LayoutType() != null) {
             var layout = $cast(WootzJs.Mvc.Mvc.Views.Layout, this.view);
             var container = layout.FindLayout(view.get_LayoutType());

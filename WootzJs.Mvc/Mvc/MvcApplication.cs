@@ -20,7 +20,7 @@ namespace WootzJs.Mvc.Mvc
         private View view;
         private HtmlControl html = new HtmlControl("html");
         private HtmlControl body = new HtmlControl("body");
-        private string initialPath = Window.Location.PathName;
+        private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
 
         public HtmlControl Html
@@ -35,16 +35,18 @@ namespace WootzJs.Mvc.Mvc
 
         public void Start(Assembly assembly)
         {
-            Host = Window.Location.Host;
-            Port = Window.Location.Port;
-            Scheme = Window.Location.Protocol;
+            Host = Browser.Window.Location.Host;
+            Port = Browser.Window.Location.Port;
+            Scheme = Browser.Window.Location.Protocol;
 
 //            html.Style.Height = new CssNumericValue(100, CssUnit.Percent);
 //            body.Style.Height = new CssNumericValue(100, CssUnit.Percent);
 
-            Window.OnPopState = OnPopState;
 
-            var path = Window.Location.PathName;
+
+            Browser.Window.OnPopState = OnPopState;
+
+            var path = Browser.Window.Location.PathName;
             Console.WriteLine(path);
 
             ControllerFactory = new DefaultControllerFactory();
@@ -52,7 +54,7 @@ namespace WootzJs.Mvc.Mvc
             var routeGenerator = new RouteGenerator();
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
-            Open(path + (!string.IsNullOrEmpty(Window.Location.Search) ? "?" + (string)Window.Location.Search : ""), false);
+            Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + (string)Browser.Window.Location.Search : ""), false);
 
             OnStarted();
         }
@@ -83,7 +85,7 @@ namespace WootzJs.Mvc.Mvc
             var view = Execute(path, queryString);
 
             if (pushState)
-                Window.History.PushState(url, view.Title, url);
+                Browser.Window.History.PushState(url, view.Title, url);
 
             if (this.view is Layout && view.LayoutType != null)
             {

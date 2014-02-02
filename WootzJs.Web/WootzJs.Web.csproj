@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attr.cs" />
+    <Compile Include="Browser.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="DomTokenList.cs" />
     <Compile Include="Event.cs" />

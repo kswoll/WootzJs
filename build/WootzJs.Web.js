@@ -33,6 +33,33 @@ WootzJs.Web.Attr = $define("WootzJs.Web.Attr", System.Object);
     $p.value = null;
 }).call(null, WootzJs.Web.Attr, WootzJs.Web.Attr.prototype);
 $WootzJs$Web$AssemblyTypes.push(WootzJs.Web.Attr);
+WootzJs.Web.Browser = $define("WootzJs.Web.Browser", System.Object);
+(WootzJs.Web.Browser.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Web.Browser";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Browser", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Web.Browser", WootzJs.Web.Browser, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_Window", WootzJs.Web.Browser.prototype.get_Window, $arrayinit([], System.Reflection.ParameterInfo), window, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Document", WootzJs.Web.Browser.prototype.get_Document, $arrayinit([], System.Reflection.ParameterInfo), document, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Web.Browser.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Window", window, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Window", WootzJs.Web.Browser.prototype.get_Window, $arrayinit([], System.Reflection.ParameterInfo), window, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Document", document, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Document", WootzJs.Web.Browser.prototype.get_Document, $arrayinit([], System.Reflection.ParameterInfo), document, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p.$ctor = function() {
+        System.Object.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $t.get_Window = function() {
+        return window;
+    };
+    $t.get_Document = function() {
+        return document;
+    };
+}).call(null, WootzJs.Web.Browser, WootzJs.Web.Browser.prototype);
+$WootzJs$Web$AssemblyTypes.push(WootzJs.Web.Browser);
 WootzJs.Web.Event = $define("WootzJs.Web.Event", System.Object);
 (WootzJs.Web.Event.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
