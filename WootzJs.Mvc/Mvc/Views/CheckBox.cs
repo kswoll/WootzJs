@@ -1,5 +1,5 @@
 ﻿using System;
-using WootzJs.JQuery;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -7,8 +7,8 @@ namespace WootzJs.Mvc.Mvc.Views
     {
         public event Action Changed;
 
-        private jQuery label;
-        private jQuery checkbox;
+        private Element label;
+        private Element checkbox;
 
         public CheckBox()
         {
@@ -19,21 +19,21 @@ namespace WootzJs.Mvc.Mvc.Views
             Text = text;
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            label = new jQuery("<span></span>");
+            label = Browser.Document.CreateElement("span");
 
-            var span = new jQuery("<span></span>");
-            checkbox = new jQuery("<input />");
-            checkbox.attr("type", "checkbox");
-            checkbox.change(OnJsChanged);
-            span.append(checkbox);
-            span.append(label);
+            var span = Browser.Document.CreateElement("span");
+            checkbox = Browser.Document.CreateElement("input");
+            checkbox.SetAttribute("type", "checkbox");
+            checkbox.AddEventListener("onchange", OnJsChanged);
+            span.AppendChild(checkbox);
+            span.AppendChild(label);
 
             return span;
         }
 
-        private void OnJsChanged(JqEvent evt)
+        private void OnJsChanged(Event evt)
         {
             var changed = Changed;
             if (changed != null)
@@ -45,12 +45,15 @@ namespace WootzJs.Mvc.Mvc.Views
             get
             {
                 EnsureNodeExists();
-                return checkbox.@is(":checked");
+                return checkbox.HasAttribute("checked");
             }
             set
             {
                 EnsureNodeExists();
-                checkbox.prop("checked", true);
+                if (value)
+                    checkbox.SetAttribute("checked", "checked");
+                else
+                    checkbox.RemoveAttribute("checked");
             }
         }
 
@@ -59,12 +62,12 @@ namespace WootzJs.Mvc.Mvc.Views
             get
             {
                 EnsureNodeExists();
-                return label.text();
+                return label.InnerHtml;
             }
             set
             {
                 EnsureNodeExists();
-                label.text(value);
+                label.InnerHtml = value;
             }
         }
     }

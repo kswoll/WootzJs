@@ -1,5 +1,5 @@
 ﻿using System;
-using WootzJs.JQuery;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -7,9 +7,9 @@ namespace WootzJs.Mvc.Mvc.Views
     {
         public int Spacing { get; set; }
 
-        private jQuery row;
-        private jQuery firstSpacer;
-        private jQuery lastSpacer;
+        private Element row;
+        private Element firstSpacer;
+        private Element lastSpacer;
 
         /// <summary>
         /// Controls the overall alignment of the entire panel
@@ -34,12 +34,12 @@ namespace WootzJs.Mvc.Mvc.Views
                 EnsureNodeExists();
                 if (firstSpacer != null)
                 {
-                    firstSpacer.remove();
+                    firstSpacer.Remove();
                     firstSpacer = null;
                 }
                 if (lastSpacer != null)
                 {
-                    lastSpacer.remove();
+                    lastSpacer.Remove();
                     lastSpacer = null;
                 }
                 switch (value)
@@ -47,22 +47,22 @@ namespace WootzJs.Mvc.Mvc.Views
                     case HorizontalAlignment.Fill:
                         break;
                     case HorizontalAlignment.Center:
-                        firstSpacer = new jQuery("<td></td>");
-                        firstSpacer.css("width", "50%");
-                        row.prepend(firstSpacer);
-                        lastSpacer = new jQuery("<td></td>");
-                        lastSpacer.css("width", "50%");
-                        row.append(lastSpacer);
+                        firstSpacer = Browser.Document.CreateElement("td");
+                        firstSpacer.Style.Width = "50%";
+                        row.Prepend(firstSpacer);
+                        lastSpacer = Browser.Document.CreateElement("td");
+                        lastSpacer.Style.Width = "50%";
+                        row.AppendChild(lastSpacer);
                         break;
                     case HorizontalAlignment.Left:
-                        lastSpacer = new jQuery("<td></td>");
-                        lastSpacer.css("width", "100%");
-                        row.append(lastSpacer);
+                        lastSpacer = Browser.Document.CreateElement("td");
+                        lastSpacer.Style.Width = "100%";
+                        row.AppendChild(lastSpacer);
                         break;
                    case HorizontalAlignment.Right:
-                        firstSpacer = new jQuery("<td></td>");
-                        firstSpacer.css("width", "100%");
-                        row.prepend(firstSpacer);
+                        firstSpacer = Browser.Document.CreateElement("td");
+                        firstSpacer.Style.Width = "100%";
+                        row.Prepend(firstSpacer);
                         break;
                     default:
                         throw new InvalidOperationException();
@@ -70,11 +70,11 @@ namespace WootzJs.Mvc.Mvc.Views
             }
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var table = new jQuery("<table></table>");
-            row = new jQuery("<tr></tr>");
-            table.append(row);
+            var table = Browser.Document.CreateElement("table");
+            row = Browser.Document.CreateElement("tr");
+            table.AppendChild(row);
             return table;
         }
 
@@ -97,38 +97,38 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             base.Add(child);
 
-            var cell = new jQuery("<td></td>");
-            var div = new jQuery("<div></div>");
-            cell.append(div);
+            var cell = Browser.Document.CreateElement("td");
+            var div = Browser.Document.CreateElement("div");
+            cell.AppendChild(div);
 
             switch (alignment)
             {
                 case VerticalAlignment.Fill:
-                    child.Node.css("height", "100%");
-                    div.css("height", "100%");
+                    child.Node.Style.Height = "100%";
+                    div.Style.Height = "100%";
                     break;
                 case VerticalAlignment.Top:
-                    cell.css("vertical-align", "top");
+                    cell.Style.VerticalAlign = "top";
                     break;
                 case VerticalAlignment.Middle:
-                    cell.css("vertical-align", "middle");
+                    cell.Style.VerticalAlign = "middle";
                     break;
                 case VerticalAlignment.Bottom:
-                    cell.css("vertical-align", "bottom");
+                    cell.Style.VerticalAlign = "bottom";
                     break;
             }
             
             if (spaceBefore != 0)
             {
-                div.css("margin-left", spaceBefore);
+                div.Style.MarginLeft = spaceBefore.ToString();
             }
 
-            div.append(child.Node);
+            div.AppendChild(child.Node);
 
             if (lastSpacer != null)
-                cell.insertBefore(lastSpacer);
+                cell.InsertBefore(lastSpacer);
             else
-                row.append(cell);
+                row.AppendChild(cell);
         }
     }
 }

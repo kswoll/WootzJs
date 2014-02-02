@@ -1,4 +1,5 @@
 ﻿using WootzJs.JQuery;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -15,10 +16,10 @@ namespace WootzJs.Mvc.Mvc.Views
             Text = text;
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var a = new jQuery("<a></a>");
-            a.attr("href", "javascript:void(0);");
+            var a = Browser.Document.CreateElement("a");
+            a.SetAttribute("href", "javascript:void(0);");
 
             return a;
         }
@@ -28,13 +29,10 @@ namespace WootzJs.Mvc.Mvc.Views
         /// </summary>
         public string Text
         {
-            get { return Node.text(); }
+            get { return Node.InnerHtml; }
             set
             {
-                if (!useTextMode)
-                    Node.empty();
-
-                Node.text(value);
+                Node.InnerHtml = value;
                 useTextMode = true;
             }
         }
@@ -46,7 +44,7 @@ namespace WootzJs.Mvc.Mvc.Views
         public void Add(IInlineControl child)
         {
             if (useTextMode)
-                Node.empty();
+                Node.InnerHtml = "";
 
             Add((Control)child);
             useTextMode = false;

@@ -1,11 +1,11 @@
-﻿using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
     public class CenteredPanel : Control
     {
         private Control content;
-        private jQuery contentContainer;
+        private Element contentContainer;
 
         public CenteredPanel()
         {
@@ -16,30 +16,29 @@ namespace WootzJs.Mvc.Mvc.Views
             Content = content;
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var table = new jQuery("<table></table>");
-            table.css("width", "100%");
-            table.css("height", "100%");
-            table.css("border-collapse", "collapse");
+            var table = Browser.Document.CreateElement("table");
+            table.Style.Width = "100%";
+            table.Style.Height = "100%";
+            table.Style.BorderCollapse = "collapse";
 
-            var row = new jQuery("<tr></tr>");
-            table.append(row);
+            var row = Browser.Document.CreateElement("tr");
+            table.AppendChild(row);
 
-            var td = new jQuery("<td></td>");
-            td.attr("align", "center");   // This one little attribute is why table layouts are awesome
-            td.css("vertical-align", "middle");
-//            contentContainer.css("height", "100%");
+            var td = Browser.Document.CreateElement("td");
+            td.SetAttribute("align", "center");   // This one little attribute is why table layouts are awesome
+            td.Style.VerticalAlign = "middle";
 
-            contentContainer = new jQuery("<div></div>");
-            td.append(contentContainer);
+            contentContainer = Browser.Document.CreateElement("div");
+            td.AppendChild(contentContainer);
 
-            row.append(td);
+            row.AppendChild(td);
 
-            var outerDiv = new jQuery("<div></div>");
-            outerDiv.css("width", "100%");
-            outerDiv.css("height", "100%");
-            outerDiv.append(table);
+            var outerDiv = Browser.Document.CreateElement("div");
+            outerDiv.Style.Width = "100%";
+            outerDiv.Style.Height = "100%";
+            outerDiv.AppendChild(table);
 
             return outerDiv;
         }
@@ -52,7 +51,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (content != null)
                 {
                     Remove(content);
-                    content.Node.remove();
+                    content.Node.Remove();
                 }
 
                 content = value;
@@ -61,7 +60,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 {
                     Add(content);
                     var childNode = value.Node;
-                    contentContainer.append(childNode);
+                    contentContainer.AppendChild(childNode);
                 }
             }
         }

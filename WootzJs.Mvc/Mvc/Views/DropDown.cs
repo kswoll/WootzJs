@@ -1,4 +1,4 @@
-﻿using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -6,8 +6,8 @@ namespace WootzJs.Mvc.Mvc.Views
     {
         private Control content;
         private Control overlay;
-        private jQuery contentNode;
-        private jQuery overlayContainer;
+        private Element contentNode;
+        private Element overlayContainer;
 
         public DropDown()
         {
@@ -27,13 +27,13 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (content != null)
                 {
                     Remove(content);
-                    content.Node.remove();
+                    content.Node.Remove();
                 }
                 content = value;
                 if (content != null)
                 {
                     Add(value);
-                    contentNode.append(content.Node);
+                    contentNode.AppendChild(content.Node);
                 }
             }
         }
@@ -46,47 +46,47 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (overlay != null)
                 {
                     Remove(overlay);
-                    overlay.Node.remove();
+                    overlay.Node.Remove();
                 }
                 overlay = value;
                 if (overlay != null)
                 {
                     Add(overlay);
-                    overlayContainer.append(overlay.Node);
+                    overlayContainer.AppendChild(overlay.Node);
                 }
             }
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            contentNode = new jQuery("<div></div>");
+            contentNode = Browser.Document.CreateElement("div");
 
-            overlayContainer = new jQuery("<div></div>");
-            overlayContainer.css("position", "absolute");
-            overlayContainer.css("display", "none");
+            overlayContainer = Browser.Document.CreateElement("div");
+            overlayContainer.Style.Position = "absolute";
+            overlayContainer.Style.Display = "none";
 
-            var overlayAnchor = new jQuery("<div></div>");
-            overlayAnchor.css("position", "relative");
-            overlayAnchor.append(overlayContainer);
+            var overlayAnchor = Browser.Document.CreateElement("div");
+            overlayAnchor.Style.Position = "relative";
+            overlayAnchor.AppendChild(overlayContainer);
 
-            var result = new jQuery("<div></div>");
-            result.append(contentNode);
-            result.append(overlayAnchor);
-            result.mouseenter(OnJsContentMouseEnter);
-            result.mouseleave(OnJsContentMouseLeave);
+            var result = Browser.Document.CreateElement("div");
+            result.AppendChild(contentNode);
+            result.AppendChild(overlayAnchor);
+            result.AddEventListener("onmouseenter", OnJsContentMouseEnter);
+            result.AddEventListener("onmouseleave", OnJsContentMouseLeave);
             return result;
         }
 
-        private void OnJsContentMouseEnter(JqEvent arg)
+        private void OnJsContentMouseEnter(Event arg)
         {
             if (overlay != null)
-                overlayContainer.css("display", "");
+                overlayContainer.Style.Display = "";
         }
 
-        private void OnJsContentMouseLeave(JqEvent arg)
+        private void OnJsContentMouseLeave(Event arg)
         {
             if (overlay != null)
-                overlayContainer.css("display", "none");
+                overlayContainer.Style.Display = "none";
         }
     }
 }

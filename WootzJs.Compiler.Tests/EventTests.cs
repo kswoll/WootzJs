@@ -108,6 +108,27 @@ namespace WootzJs.Compiler.Tests
             QUnit.IsTrue(action is Action);
         }
 
+        [Test]
+        public void RemoveMethodHandler()
+        {
+            var eventClass = new EventClass();
+            var eventHandlers = new EventHandlers();
+            eventClass.Foo += eventHandlers.M1;
+            eventClass.Foo += eventHandlers.M2;
+            eventClass.OnFoo();
+
+            QUnit.AreEqual(eventHandlers.m1, "M1");
+            QUnit.AreEqual(eventHandlers.m2, "M2");
+
+            eventHandlers.m1 = null;
+            eventHandlers.m2 = null;
+            eventClass.Foo -= eventHandlers.M1;
+            eventClass.OnFoo();
+
+            QUnit.AreEqual(eventHandlers.m2, "M2");
+            QUnit.IsTrue(eventHandlers.m1 == null);
+        }
+
         public class EventClass
         {
             public event Action Foo;
@@ -145,5 +166,21 @@ namespace WootzJs.Compiler.Tests
                     bar();
             }
         } 
+
+        public class EventHandlers
+        {
+            public string m1;
+            public string m2;
+
+            public void M1()
+            {
+                m1 = "M1";
+            }
+
+            public void M2()
+            {
+                m2 = "M2";
+            }
+        }
     }
 }

@@ -83,6 +83,9 @@ namespace System.Runtime.WootzJs
         [Js(Name = "$delegate")]
         public static JsFunction CreateDelegate(JsObject thisExpression, JsTypeFunction delegateType, JsFunction lambda)
         {
+            if (lambda.member("$delegate") != null)
+                return lambda.member("$delegate").As<JsFunction>();
+
             JsFunction delegateFunc = null;
             delegateFunc = Jsni.function(() =>
             {
@@ -95,6 +98,7 @@ namespace System.Runtime.WootzJs
             delegateType.TypeInitializer.invoke(delegateFunc, delegateFunc);
             Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, new[] { delegateFunc }.As<JsArray>());
             Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
+            lambda.memberset("$delegate", delegateFunc);
             return delegateFunc;
         }
 

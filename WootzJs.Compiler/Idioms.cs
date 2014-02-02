@@ -607,7 +607,7 @@ namespace WootzJs.Compiler
             return arguments.ToArray();
         }
 
-        public JsExpression GetPropertyValue(JsExpression target, PropertySymbol property)
+        public JsExpression GetPropertyValue(JsExpression target, PropertySymbol property, bool isBaseReference = false)
         {
             bool isExported = property.IsExported();
             var propertyName = property.GetMemberName();
@@ -618,14 +618,14 @@ namespace WootzJs.Compiler
             else
             {
                 bool isExtension = property.IsExtension();
-                if (isExtension)
+                if (isExtension || isBaseReference)
                     return InvokeMethodAs(property.GetMethod, target);
                 else 
                     return Js.Invoke(Js.Member(target, property.GetMethod.GetMemberName()));
             }
         }
 
-        public JsExpression MemberReference(JsExpression @this, Symbol symbol, bool isSetter = false)
+        public JsExpression MemberReference(JsExpression @this, Symbol symbol, bool isSetter = false, bool isBaseReference = false)
         {
             switch (symbol.Kind)
             {
@@ -665,7 +665,7 @@ namespace WootzJs.Compiler
                         }
                     }
 
-                    return GetPropertyValue(@this, property);
+                    return GetPropertyValue(@this, property, isBaseReference);
                 }
                 case SymbolKind.Parameter:
                     return transformer.ReferenceDeclarationInScope(symbol.Name).GetReference();
@@ -812,12 +812,25 @@ namespace WootzJs.Compiler
                     var target = left.GetLogicalTarget();
                     var arguments = new List<JsExpression>();
                     var property = leftSymbol as PropertySymbol;
+                    var isCall = false;
                     if (left is JsInvocationExpression)
-                        arguments.AddRange(((JsInvocationExpression)left).Arguments);
+                    {
+                        var invocationExpression = (JsInvocationExpression)left;
+                        if (invocationExpression.Target is JsMemberReferenceExpression)
+                        {
+                            var innerMemberReference = (JsMemberReferenceExpression)invocationExpression.Target;
+                            if (innerMemberReference.Name == "call" && target is JsMemberReferenceExpression && ((JsMemberReferenceExpression)target).Name.StartsWith("get_"))
+                            {
+                                isCall = true;
+                                target = target.GetLogicalTarget();
+                            }
+                        }
+                        
+                        arguments.AddRange(invocationExpression.Arguments);
+                    }
                     arguments.Add(right);
                     if (isExported)
                     {
-
                         MethodSymbol methodSymbol;
                         if (leftSymbol is PropertySymbol)
                             methodSymbol = ((PropertySymbol)leftSymbol).SetMethod;
@@ -834,7 +847,10 @@ namespace WootzJs.Compiler
                                     break;
                             }
                         }
-                        result = target.Member(methodSymbol.Name).Invoke(arguments.ToArray());
+                        target = target.Member(methodSymbol.Name);
+                        if (isCall)
+                            target = target.Member("call");
+                        result = target.Invoke(arguments.ToArray());
                         return true;
                     }
                     else if (nameOverride != null && property != null && property.SetMethod.Parameters.Count > 1)

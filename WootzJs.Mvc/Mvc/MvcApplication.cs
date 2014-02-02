@@ -18,8 +18,8 @@ namespace WootzJs.Mvc.Mvc
 
         private RouteTree routeTree;
         private View view;
-        private HtmlControl html = new HtmlControl("html");
-        private HtmlControl body = new HtmlControl("body");
+        private HtmlControl html = new HtmlControl(Browser.Document.GetElementByTagName("html"));
+        private HtmlControl body = new HtmlControl(Browser.Document.GetElementByTagName("body"));
         private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
 

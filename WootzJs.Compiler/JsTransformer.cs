@@ -783,7 +783,21 @@ namespace WootzJs.Compiler
                 var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
                 var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
             }
-            var result = idioms.MemberReference((JsExpression)node.Expression.Accept(this), symbolInfo.Symbol);
+
+            JsExpression target;
+            bool isBaseReference;
+            if (node.Expression is BaseExpressionSyntax)
+            {
+                isBaseReference = true;
+                target = Js.This();
+            }
+            else
+            {
+                isBaseReference = false;
+                target = (JsExpression)node.Expression.Accept(this);
+            }
+
+            var result = idioms.MemberReference(target, symbolInfo.Symbol, false, isBaseReference);
             return ImplicitCheck(node, result);
         }
 

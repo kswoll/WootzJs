@@ -1,4 +1,5 @@
 ﻿using WootzJs.JQuery;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views.Css
 {
@@ -10,7 +11,7 @@ namespace WootzJs.Mvc.Mvc.Views.Css
         private CssBoxShadow boxShadow;
         private CssFont font;
 
-        internal override void Attach(jQuery node)
+        internal override void Attach(ElementStyle node)
         {
             base.Attach(node);
 //            if (margin != null)

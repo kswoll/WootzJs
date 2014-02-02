@@ -32,7 +32,7 @@ using System.Runtime.WootzJs;
 namespace WootzJs.Web
 {
     [Js(Export = false)]
-    public class Text : Node
+    public class TextNode : Node
     {
         
     }

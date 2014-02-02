@@ -1,18 +1,18 @@
-﻿using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
     public class VerticalPanel : Control
     {
-        private jQuery table;
+        private Element table;
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            table = new jQuery("<table></table>");
-            table.css("width", "100%");
+            table = Browser.Document.CreateElement("table");
+            table.Style.Width = "100%";
 
-            var div = new jQuery("<div></div>");
-            div.append(table);
+            var div = Browser.Document.CreateElement("div");
+            div.AppendChild(table);
 
             return div;
         }
@@ -36,36 +36,36 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             base.Add(child);
 
-            var row = new jQuery("<tr></tr>");
-            var cell = new jQuery("<td></td>");
-            var div = new jQuery("<div></div>");
-            cell.append(div);
+            var row = Browser.Document.CreateElement("tr");
+            var cell = Browser.Document.CreateElement("td");
+            var div = Browser.Document.CreateElement("div");
+            cell.AppendChild(div);
 
             switch (alignment)
             {
                 case HorizontalAlignment.Fill:
-                    child.Node.css("width", "100%");
-                    div.css("width", "100%");
+                    child.Node.Style.Width = "100%";
+                    div.Style.Width = "100%";
                     break;
                 case HorizontalAlignment.Left:
-                    cell.attr("align", "left");
+                    cell.SetAttribute("align", "left");
                     break;
                 case HorizontalAlignment.Center:
-                    cell.attr("align", "center");
+                    cell.SetAttribute("align", "center");
                     break;
                 case HorizontalAlignment.Right:
-                    cell.attr("align", "right");
+                    cell.SetAttribute("align", "right");
                     break;
             }
             
             if (spaceAbove != 0)
             {
-                div.css("margin-top", spaceAbove); // TODO!?  Shouldn't this be padding?
+                div.Style.MarginTop = spaceAbove + "px";   // TODO!?  Shouldn't this be padding?
             }
 
-            div.append(child.Node);
-            row.append(cell);
-            table.append(row);
+            div.AppendChild(child.Node);
+            row.AppendChild(cell);
+            table.AppendChild(row);
         }
     }
 }

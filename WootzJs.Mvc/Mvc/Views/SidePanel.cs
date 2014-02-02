@@ -1,5 +1,4 @@
-﻿using System.Runtime.WootzJs;
-using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -12,99 +11,99 @@ namespace WootzJs.Mvc.Mvc.Views
         private Control center;
         private int spacing;
 
-        private jQuery topRow;
-        private jQuery bottomRow;
-        private jQuery middleRow;
-        private jQuery topCell;
-        private jQuery bottomCell;
-        private jQuery leftCell;
-        private jQuery rightCell;
-        private jQuery centerCell;
+        private Element topRow;
+        private Element bottomRow;
+        private Element middleRow;
+        private Element topCell;
+        private Element bottomCell;
+        private Element leftCell;
+        private Element rightCell;
+        private Element centerCell;
 
         // The content divs are necessary so that the child cells may freely use padding without breaking the layout.
-        private jQuery topCellContent;
-        private jQuery bottomCellContent;
-        private jQuery leftCellContent;
-        private jQuery rightCellContent;
-        private jQuery centerCellContent;
+        private Element topCellContent;
+        private Element bottomCellContent;
+        private Element leftCellContent;
+        private Element rightCellContent;
+        private Element centerCellContent;
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var table = new jQuery("<table></table>");
+            var table = Browser.Document.CreateElement("table");
             return table;
         }
 
-        private jQuery GetTopRow()
+        private Element GetTopRow()
         {
             if (topRow == null)
             {
-                topRow = new jQuery("<tr></tr>");
-                Node.prepend(topRow);
+                topRow = Browser.Document.CreateElement("tr");
+                Node.Prepend(topRow);
             }
             return topRow;
         }
 
-        private jQuery GetMiddleRow()
+        private Element GetMiddleRow()
         {
             if (middleRow == null)
             {
-                middleRow = new jQuery("<tr></tr>");
+                middleRow = Browser.Document.CreateElement("tr");
                 if (topRow != null)
-                    middleRow.insertAfter(topRow);
+                    middleRow.InsertAfter(topRow);
                 else
-                    Node.prepend(middleRow);
+                    Node.Prepend(middleRow);
             }
             return middleRow;
         }
 
-        private jQuery GetBottomRow()
+        private Element GetBottomRow()
         {
             if (bottomRow == null)
             {
-                bottomRow = new jQuery("<tr></tr>");
-                Node.append(bottomRow);
+                bottomRow = Browser.Document.CreateElement("tr");
+                Node.AppendChild(bottomRow);
             }
             return bottomRow;
         }
 
-        private jQuery GetTopCell()
+        private Element GetTopCell()
         {
             if (topCell == null)
             {
-                topCell = new jQuery("<td></td>");
-                topCell.attr("colspan", 3);
-                GetTopRow().append(topCell);
+                topCell = Browser.Document.CreateElement("td");
+                topCell.SetAttribute("colspan", 3.ToString());
+                GetTopRow().AppendChild(topCell);
 
-                topCellContent = new jQuery("<div></div>");
-                topCellContent.css("width", "100%");
-                topCellContent.css("height", "100%");
-                topCell.append(topCellContent);
+                topCellContent = Browser.Document.CreateElement("div");
+                topCellContent.Style.Width = "100%";
+                topCellContent.Style.Height = "100%";
+                topCell.AppendChild(topCellContent);
 
                 if (Spacing != 0 && (middleRow != null || bottomRow != null))
                 {
-                    topCellContent.css("padding-bottom", (JsNumber)Spacing);
+                    topCellContent.Style.PaddingBottom = Spacing.ToString();
                 }
             }
 
             return topCellContent;
         }
 
-        private jQuery GetBottomCell()
+        private Element GetBottomCell()
         {
             if (bottomCell == null)
             {
-                bottomCell = new jQuery("<td></td>");
-                bottomCell.attr("colspan", 3);
-                GetBottomRow().append(bottomCell);
+                bottomCell = Browser.Document.CreateElement("td");
+                bottomCell.SetAttribute("colspan", 3.ToString());
+                GetBottomRow().AppendChild(bottomCell);
 
-                bottomCellContent = new jQuery("<div></div>");
-                bottomCellContent.css("width", "100%");
-                bottomCellContent.css("height", "100%");
-                bottomCell.append(bottomCellContent);
+                bottomCellContent = Browser.Document.CreateElement("div");
+                bottomCellContent.Style.Width = "100%";
+                bottomCellContent.Style.Height = "100%";
+                bottomCell.AppendChild(bottomCellContent);
 
                 if (Spacing != 0 && (middleRow != null))
                 {
-                    bottomCellContent.css("padding-top", Spacing);
+                    bottomCellContent.Style.PaddingTop = Spacing.ToString();
                 }
             }
             return bottomCellContent;
@@ -113,73 +112,73 @@ namespace WootzJs.Mvc.Mvc.Views
         private void AdjustColSpan()
         {
             if (leftCell != null)
-                leftCell.attr("colspan", center == null && right == null ? 3 : 1);
+                leftCell.SetAttribute("colspan", center == null && right == null ? "3" : "1");
             if (centerCell != null)
-                centerCell.attr("colspan", left != null && right != null ? 1 : left != null || right != null ? 2 : 3);
+                centerCell.SetAttribute("colspan", left != null && right != null ? "1" : left != null || right != null ? "2" : "3");
             if (rightCell != null)
-                rightCell.attr("colspan", center == null && left == null ? 3 : 1);
+                rightCell.SetAttribute("colspan", center == null && left == null ? "3" : "1");
         }
 
-        private jQuery GetLeftCell()
+        private Element GetLeftCell()
         {
             if (leftCell == null)
             {
-                leftCell = new jQuery("<td></td>");
-                leftCell.css("height", "100%");
+                leftCell = Browser.Document.CreateElement("td");
+                leftCell.Style.Height = "100%";
                 AdjustColSpan();
-                GetMiddleRow().prepend(leftCell);
+                GetMiddleRow().Prepend(leftCell);
 
-                leftCellContent = new jQuery("<div></div>");
-                leftCellContent.css("width", "100%");
-                leftCellContent.css("height", "100%");
-                leftCell.append(leftCellContent);
+                leftCellContent = Browser.Document.CreateElement("div");
+                leftCellContent.Style.Width = "100%";
+                leftCellContent.Style.Height = "100%";
+                leftCell.AppendChild(leftCellContent);
 
                 if (Spacing != 0 && (centerCell != null || rightCell != null))
                 {
-                    leftCellContent.css("padding-left", Spacing);
+                    leftCellContent.Style.PaddingLeft = Spacing.ToString();
                 }
             }
             return leftCellContent;
         }
 
-        private jQuery GetCenterCell()
+        private Element GetCenterCell()
         {
             if (centerCell == null)
             {
-                centerCell = new jQuery("<td></td>");
-                centerCell.css("height", "100%");
-                centerCell.css("width", "100%");
+                centerCell = Browser.Document.CreateElement("td");
+                centerCell.Style.Height = "100%";
+                centerCell.Style.Width = "100%";
                 AdjustColSpan();
                 if (leftCell != null)
-                    centerCell.insertAfter(leftCell);
+                    centerCell.InsertAfter(leftCell);
                 else
-                    GetMiddleRow().prepend(centerCell);
+                    GetMiddleRow().Prepend(centerCell);
 
-                centerCellContent = new jQuery("<div></div>");
-                centerCellContent.css("width", "100%");
-                centerCellContent.css("height", "100%");
-                centerCell.append(centerCellContent);
+                centerCellContent = Browser.Document.CreateElement("div");
+                centerCellContent.Style.Width = "100%";
+                centerCellContent.Style.Height = "100%";
+                centerCell.AppendChild(centerCellContent);
             }
             return centerCellContent;
         }
 
-        private jQuery GetRightCell()
+        private Element GetRightCell()
         {
             if (rightCell == null)
             {
-                rightCell = new jQuery("<td></td>");
-                rightCell.css("height", "100%");
+                rightCell = Browser.Document.CreateElement("td");
+                rightCell.Style.Height = "100%";
                 AdjustColSpan();
-                GetMiddleRow().append(rightCell);
+                GetMiddleRow().AppendChild(rightCell);
 
-                rightCellContent = new jQuery("<div></div>");
-                rightCellContent.css("width", "100%");
-                rightCellContent.css("height", "100%");
-                rightCell.append(rightCellContent);
+                rightCellContent = Browser.Document.CreateElement("div");
+                rightCellContent.Style.Width = "100%";
+                rightCellContent.Style.Height = "100%";
+                rightCell.AppendChild(rightCellContent);
 
                 if (Spacing != 0 && middleRow != null)
                 {
-                    rightCellContent.css("padding-left", Spacing);
+                    rightCellContent.Style.PaddingLeft = Spacing.ToString();
                 }
             }
             return rightCellContent;
@@ -188,7 +187,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private void RemoveTopRow()
         {
             if (topRow != null)
-                topRow.remove();
+                topRow.Remove();
             topRow = null;
         }
 
@@ -196,9 +195,9 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (middleRow != null)
             {
-                middleRow.remove();
+                middleRow.Remove();
                 if (topCell != null && bottom == null)
-                    topCell.css("padding-bottom", "");
+                    topCell.Style.PaddingBottom = "";
             }
             middleRow = null;
         }
@@ -206,7 +205,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private void RemoveBottomRow()
         {
             if (bottomRow != null)
-                bottomRow.remove();
+                bottomRow.Remove();
             bottomRow = null;
         }
 
@@ -219,7 +218,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private void RemoveTopCell()
         {
             if (topCell != null)
-                topCell.remove();
+                topCell.Remove();
             topCell = null;
             topCellContent = null;
             RemoveTopRow();
@@ -228,7 +227,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private void RemoveBottomCell()
         {
             if (bottomCell != null)
-                bottomCell.remove();
+                bottomCell.Remove();
             bottomCell = null;
             bottomCellContent = null;
             RemoveBottomRow();
@@ -237,7 +236,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private void RemoveLeftCell()
         {
             if (leftCell != null)
-                leftCell.remove();
+                leftCell.Remove();
             leftCell = null;
             leftCellContent = null;
             RemoveMiddleRowIfEmpty();
@@ -247,9 +246,9 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (centerCell != null)
             {
-                centerCell.remove();
+                centerCell.Remove();
                 if (leftCell != null && right == null)
-                    leftCell.css("padding-right", "");
+                    leftCell.Style.PaddingRight = "";
             }
             centerCell = null;
             centerCellContent = null;
@@ -259,7 +258,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private void RemoveRightCell()
         {
             if (rightCell != null)
-                rightCell.remove();
+                rightCell.Remove();
             rightCell = null;
             rightCellContent = null;
             RemoveMiddleRowIfEmpty();
@@ -279,7 +278,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (top != null)
                 {
                     Add(top);
-                    GetTopCell().append(value.Node);
+                    GetTopCell().AppendChild(value.Node);
                 }
             }
         }
@@ -298,7 +297,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (bottom != null)
                 {
                     Add(bottom);
-                    GetBottomCell().append(value.Node);
+                    GetBottomCell().AppendChild(value.Node);
                 }
             }
         }
@@ -317,7 +316,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (left != null)
                 {
                     Add(left);
-                    GetLeftCell().append(value.Node);
+                    GetLeftCell().AppendChild(value.Node);
                 }
             }
         }
@@ -336,7 +335,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (center != null)
                 {
                     Add(center);
-                    GetCenterCell().append(value.Node);
+                    GetCenterCell().AppendChild(value.Node);
                 }
             }
         }
@@ -355,7 +354,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (right != null)
                 {
                     Add(right);
-                    GetRightCell().append(value.Node);
+                    GetRightCell().AppendChild(value.Node);
                 }
             }
         }
@@ -368,19 +367,19 @@ namespace WootzJs.Mvc.Mvc.Views
                 spacing = value;
                 if (Top != null && (Left != null || Center != null || Right != null || Bottom != null))
                 {
-                    GetTopCell().css("padding-bottom", value);
+                    GetTopCell().Style.PaddingBottom = value.ToString();
                 }
                 if (Left != null && (Center != null || Right != null))
                 {
-                    GetLeftCell().css("padding-right", value);
+                    GetLeftCell().Style.PaddingRight = value.ToString();
                 }
                 if (Right != null && Center != null)
                 {
-                    GetRightCell().css("padding-left", value);
+                    GetRightCell().Style.PaddingLeft = value.ToString();
                 }
                 if (Bottom != null && (Left != null || Center != null || Right != null))
                 {
-                    GetBottomCell().css("padding-top", value);
+                    GetBottomCell().Style.PaddingTop = value.ToString();
                 }
             }
         }

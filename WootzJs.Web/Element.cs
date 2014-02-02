@@ -71,10 +71,10 @@ namespace WootzJs.Web
         public extern string TagName { get; }
 
         [Js(Name = "innerHTML")]
-        public extern string InnerHtml { get; }
+        public extern string InnerHtml { get; set; }
 
         [Js(Name = "outerHTML")]
-        public extern string OuterHtml { get; }
+        public extern string OuterHtml { get; set; }
 
         [Js(Name = "addEventListener")]
         public extern void AddEventListener(string type, Action<Event> listener, bool useCapture = false);
@@ -113,6 +113,6 @@ namespace WootzJs.Web
         public extern void SetAttribute(string name, string value);
 
         [Js(Name = "style")]
-        public extern Style Style { get; }
+        public extern ElementStyle Style { get; }
     }
 }

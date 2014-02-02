@@ -60,6 +60,23 @@ WootzJs.Web.Browser = $define("WootzJs.Web.Browser", System.Object);
     };
 }).call(null, WootzJs.Web.Browser, WootzJs.Web.Browser.prototype);
 $WootzJs$Web$AssemblyTypes.push(WootzJs.Web.Browser);
+WootzJs.Web.DocumentExtensions = $define("WootzJs.Web.DocumentExtensions", System.Object);
+(WootzJs.Web.DocumentExtensions.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Web.DocumentExtensions";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("DocumentExtensions", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Web.DocumentExtensions", WootzJs.Web.DocumentExtensions, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetElementByTagName", WootzJs.Web.DocumentExtensions.prototype.GetElementByTagName, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("document", document, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("tagName", String, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), WootzJs.Web.Element, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $t.GetElementByTagName = function(document, tagName) {
+        return System.Linq.Enumerable.SingleOrDefault(WootzJs.Web.Element, document.getElementsByTagName(tagName));
+    };
+}).call(null, WootzJs.Web.DocumentExtensions, WootzJs.Web.DocumentExtensions.prototype);
+$WootzJs$Web$AssemblyTypes.push(WootzJs.Web.DocumentExtensions);
 WootzJs.Web.Event = $define("WootzJs.Web.Event", System.Object);
 (WootzJs.Web.Event.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
@@ -95,6 +112,36 @@ WootzJs.Web.IChildNode = $define("WootzJs.Web.IChildNode", System.Object);
     $t.$StaticInitializer = function() {};
 }).call(null, WootzJs.Web.IChildNode, WootzJs.Web.IChildNode.prototype);
 $WootzJs$Web$AssemblyTypes.push(WootzJs.Web.IChildNode);
+WootzJs.Web.InputElement = $define("WootzJs.Web.InputElement", WootzJs.Web.Element);
+(WootzJs.Web.InputElement.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = WootzJs.Web.Element;
+    $p.$typeName = "WootzJs.Web.InputElement";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("InputElement", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Web.InputElement", WootzJs.Web.InputElement, WootzJs.Web.Element, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$Value$k__BackingField", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_Value", WootzJs.Web.InputElement.prototype.get_Value, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Value", WootzJs.Web.InputElement.prototype.set_Value, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_ValueAsDate", WootzJs.Web.InputElement.prototype.get_ValueAsDate, $arrayinit([], System.Reflection.ParameterInfo), Object, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_ValueAsDate", WootzJs.Web.InputElement.prototype.set_ValueAsDate, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_ValueAsNumber", WootzJs.Web.InputElement.prototype.get_ValueAsNumber, $arrayinit([], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_ValueAsNumber", WootzJs.Web.InputElement.prototype.set_ValueAsNumber, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", Number, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Web.InputElement.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Value", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Value", WootzJs.Web.InputElement.prototype.get_Value, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Value", WootzJs.Web.InputElement.prototype.set_Value, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("value");return $obj$;}).call(this)], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("ValueAsDate", Object, System.Reflection.MethodInfo.prototype.$ctor.$new("get_ValueAsDate", WootzJs.Web.InputElement.prototype.get_ValueAsDate, $arrayinit([], System.Reflection.ParameterInfo), Object, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_ValueAsDate", WootzJs.Web.InputElement.prototype.set_ValueAsDate, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", Object, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("valueAsDate");return $obj$;}).call(this)], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("ValueAsNumber", Number, System.Reflection.MethodInfo.prototype.$ctor.$new("get_ValueAsNumber", WootzJs.Web.InputElement.prototype.get_ValueAsNumber, $arrayinit([], System.Reflection.ParameterInfo), Number, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_ValueAsNumber", WootzJs.Web.InputElement.prototype.set_ValueAsNumber, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", Number, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([(function() {var $obj$ = System.Runtime.WootzJs.JsAttribute.prototype.$ctor.$new();$obj$.set_Name("valueAsNumber");return $obj$;}).call(this)], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $p.$ctor = function() {
+        WootzJs.Web.Element.prototype.$ctor.call(this);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function() {
+        return new $p.$ctor.$type(this);
+    };
+    $p.$value$k__BackingField = null;
+    $p.get_Value = function() {return this.$value$k__BackingField;};
+    $p.set_Value = function(value) {this.$value$k__BackingField = value;};
+    $p.$valueAsDate$k__BackingField = null;
+    $p.get_ValueAsDate = function() {return this.$valueAsDate$k__BackingField;};
+    $p.set_ValueAsDate = function(value) {this.$valueAsDate$k__BackingField = value;};
+    $p.$valueAsNumber$k__BackingField = null;
+    $p.get_ValueAsNumber = function() {return this.$valueAsNumber$k__BackingField;};
+    $p.set_ValueAsNumber = function(value) {this.$valueAsNumber$k__BackingField = value;};
+}).call(null, WootzJs.Web.InputElement, WootzJs.Web.InputElement.prototype);
+$WootzJs$Web$AssemblyTypes.push(WootzJs.Web.InputElement);
 WootzJs.Web.IParentNode = $define("WootzJs.Web.IParentNode", System.Object);
 (WootzJs.Web.IParentNode.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
@@ -134,6 +181,39 @@ WootzJs.Web.MouseEvent = $define("WootzJs.Web.MouseEvent", WootzJs.Web.Event);
     };
 }).call(null, WootzJs.Web.MouseEvent, WootzJs.Web.MouseEvent.prototype);
 $WootzJs$Web$AssemblyTypes.push(WootzJs.Web.MouseEvent);
+WootzJs.Web.NodeExtensions = $define("WootzJs.Web.NodeExtensions", System.Object);
+(WootzJs.Web.NodeExtensions.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Web.NodeExtensions";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("NodeExtensions", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Web.NodeExtensions", WootzJs.Web.NodeExtensions, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Prepend", WootzJs.Web.NodeExtensions.prototype.Prepend, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("node", WootzJs.Web.Node, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Web.Node, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("InsertBefore", WootzJs.Web.NodeExtensions.prototype.InsertBefore, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Web.Node, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("referenceNode", WootzJs.Web.Node, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("InsertAfter", WootzJs.Web.NodeExtensions.prototype.InsertAfter, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Web.Node, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("referenceNode", WootzJs.Web.Node, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("InsertAfter$1", WootzJs.Web.NodeExtensions.prototype.InsertAfter$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("parent", WootzJs.Web.Node, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Web.Node, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("referenceNode", WootzJs.Web.Node, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Remove", WootzJs.Web.NodeExtensions.prototype.Remove, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("node", WootzJs.Web.Node, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {};
+    $t.Prepend = function(node, child) {
+        node.insertBefore(child, node.firstChild);
+    };
+    $t.InsertBefore = function(child, referenceNode) {
+        referenceNode.parentNode.insertBefore(child, referenceNode);
+    };
+    $t.InsertAfter = function(child, referenceNode) {
+        WootzJs.Web.NodeExtensions.InsertAfter$1(referenceNode.parentNode, child, referenceNode);
+    };
+    $t.InsertAfter$1 = function(parent, child, referenceNode) {
+        var nextReferenceNode = referenceNode.nextSibling;
+        if (nextReferenceNode == null)
+            parent.appendChild(child);
+        else
+            parent.insertBefore(child, nextReferenceNode);
+    };
+    $t.Remove = function(node) {
+        node.parentNode.removeChild(node);
+    };
+}).call(null, WootzJs.Web.NodeExtensions, WootzJs.Web.NodeExtensions.prototype);
+$WootzJs$Web$AssemblyTypes.push(WootzJs.Web.NodeExtensions);
 WootzJs.Web.NodeType = $define("WootzJs.Web.NodeType", System.Enum);
 (WootzJs.Web.NodeType.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Web$GetAssembly;

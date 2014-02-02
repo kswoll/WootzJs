@@ -1027,7 +1027,7 @@ WootzJs.Compiler.Tests.EventTests = $define("WootzJs.Compiler.Tests.EventTests",
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("EventTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.EventTests", WootzJs.Compiler.Tests.EventTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("BasicEvent", WootzJs.Compiler.Tests.EventTests.prototype.BasicEvent, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BasicEventExplicitThis", WootzJs.Compiler.Tests.EventTests.prototype.BasicEventExplicitThis, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MulticastEvent", WootzJs.Compiler.Tests.EventTests.prototype.MulticastEvent, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MulticastEventRemove", WootzJs.Compiler.Tests.EventTests.prototype.MulticastEventRemove, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("EventAccessor", WootzJs.Compiler.Tests.EventTests.prototype.EventAccessor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MulticastEventKeepsDelegateType", WootzJs.Compiler.Tests.EventTests.prototype.MulticastEventKeepsDelegateType, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.EventTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("EventTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.EventTests", WootzJs.Compiler.Tests.EventTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("BasicEvent", WootzJs.Compiler.Tests.EventTests.prototype.BasicEvent, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("BasicEventExplicitThis", WootzJs.Compiler.Tests.EventTests.prototype.BasicEventExplicitThis, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MulticastEvent", WootzJs.Compiler.Tests.EventTests.prototype.MulticastEvent, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MulticastEventRemove", WootzJs.Compiler.Tests.EventTests.prototype.MulticastEventRemove, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("EventAccessor", WootzJs.Compiler.Tests.EventTests.prototype.EventAccessor, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("MulticastEventKeepsDelegateType", WootzJs.Compiler.Tests.EventTests.prototype.MulticastEventKeepsDelegateType, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("RemoveMethodHandler", WootzJs.Compiler.Tests.EventTests.prototype.RemoveMethodHandler, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.EventTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -1110,6 +1110,21 @@ WootzJs.Compiler.Tests.EventTests = $define("WootzJs.Compiler.Tests.EventTests",
         var action = eventClass.GetFoo();
         QUnit.ok(System.Action.$GetType().IsInstanceOfType(action));
     };
+    $p.RemoveMethodHandler = function() {
+        var eventClass = WootzJs.Compiler.Tests.EventTests.EventClass.prototype.$ctor.$new();
+        var eventHandlers = WootzJs.Compiler.Tests.EventTests.EventHandlers.prototype.$ctor.$new();
+        eventClass.add_Foo($delegate(eventHandlers, System.Action, eventHandlers.M1));
+        eventClass.add_Foo($delegate(eventHandlers, System.Action, eventHandlers.M2));
+        eventClass.OnFoo();
+        QUnit.equal(eventHandlers.m1, "M1");
+        QUnit.equal(eventHandlers.m2, "M2");
+        eventHandlers.m1 = null;
+        eventHandlers.m2 = null;
+        eventClass.remove_Foo($delegate(eventHandlers, System.Action, eventHandlers.M1));
+        eventClass.OnFoo();
+        QUnit.equal(eventHandlers.m2, "M2");
+        QUnit.ok(eventHandlers.m1 == null);
+    };
     $t.EventClass = $define("WootzJs.Compiler.Tests.EventTests.EventClass", System.Object);
     ($t.EventClass.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
@@ -1167,6 +1182,35 @@ WootzJs.Compiler.Tests.EventTests = $define("WootzJs.Compiler.Tests.EventTests",
         };
     }).call($t, $t.EventClass, $t.EventClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.EventClass);
+    $t.EventHandlers = $define("WootzJs.Compiler.Tests.EventTests.EventHandlers", System.Object);
+    ($t.EventHandlers.$TypeInitializer = function($t, $p) {
+        $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+        $p.$type = $t;
+        $t.$baseType = System.Object;
+        $p.$typeName = "WootzJs.Compiler.Tests.EventTests.EventHandlers";
+        $t.$typeName = $p.$typeName;
+        $t.$GetType = function() {
+            return System.Type._GetTypeFromTypeFunc(this);
+        };
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("EventHandlers", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.EventTests.EventHandlers", WootzJs.Compiler.Tests.EventTests.EventHandlers, System.Object, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("m1", String, System.Reflection.FieldAttributes().Public, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("m2", String, System.Reflection.FieldAttributes().Public, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("M1", WootzJs.Compiler.Tests.EventTests.EventHandlers.prototype.M1, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("M2", WootzJs.Compiler.Tests.EventTests.EventHandlers.prototype.M2, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.EventTests.EventHandlers.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$StaticInitializer = function() {};
+        $p.$ctor = function() {
+            System.Object.prototype.$ctor.call(this);
+        };
+        $p.$ctor.$type = $t;
+        $p.$ctor.$new = function() {
+            return new $p.$ctor.$type(this);
+        };
+        $p.m1 = null;
+        $p.m2 = null;
+        $p.M1 = function() {
+            this.m1 = "M1";
+        };
+        $p.M2 = function() {
+            this.m2 = "M2";
+        };
+    }).call($t, $t.EventHandlers, $t.EventHandlers.prototype);
+    $WootzJs$Compiler$Tests$AssemblyTypes.push($t.EventHandlers);
 }).call(null, WootzJs.Compiler.Tests.EventTests, WootzJs.Compiler.Tests.EventTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.EventTests);
 WootzJs.Compiler.Tests.FieldTests = $define("WootzJs.Compiler.Tests.FieldTests", System.Object);
@@ -3394,7 +3438,7 @@ WootzJs.Compiler.Tests.NumberTests = $define("WootzJs.Compiler.Tests.NumberTests
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("NumberTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.NumberTests", WootzJs.Compiler.Tests.NumberTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ToHex", WootzJs.Compiler.Tests.NumberTests.prototype.ToHex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IntTryParse", WootzJs.Compiler.Tests.NumberTests.prototype.IntTryParse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TruncFloatViaCast", WootzJs.Compiler.Tests.NumberTests.prototype.TruncFloatViaCast, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.NumberTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("NumberTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.NumberTests", WootzJs.Compiler.Tests.NumberTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("ToHex", WootzJs.Compiler.Tests.NumberTests.prototype.ToHex, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("IntTryParse", WootzJs.Compiler.Tests.NumberTests.prototype.IntTryParse, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TruncFloatViaCast", WootzJs.Compiler.Tests.NumberTests.prototype.TruncFloatViaCast, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("ToLocaleString", WootzJs.Compiler.Tests.NumberTests.prototype.ToLocaleString, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.NumberTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3422,8 +3466,12 @@ WootzJs.Compiler.Tests.NumberTests = $define("WootzJs.Compiler.Tests.NumberTests
     };
     $p.TruncFloatViaCast = function() {
         var f = 1.234;
-        var i = $cast(System.Int32, f);
+        var i = $trunc(f);
         QUnit.equal(i, 1);
+    };
+    $p.ToLocaleString = function() {
+        var s = 1.234.toLocaleString();
+        QUnit.equal(s, "1.234");
     };
 }).call(null, WootzJs.Compiler.Tests.NumberTests, WootzJs.Compiler.Tests.NumberTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.NumberTests);
@@ -3569,7 +3617,7 @@ WootzJs.Compiler.Tests.PropertyTests = $define("WootzJs.Compiler.Tests.PropertyT
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("PropertyTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.PropertyTests", WootzJs.Compiler.Tests.PropertyTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("StaticProperty", WootzJs.Compiler.Tests.PropertyTests.prototype.StaticProperty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PrimitiveFields", WootzJs.Compiler.Tests.PropertyTests.prototype.PrimitiveFields, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.PropertyTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("PropertyTests", $arrayinit([WootzJs.Compiler.Tests.TestFixtureAttribute.prototype.$ctor.$new()], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.PropertyTests", WootzJs.Compiler.Tests.PropertyTests, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("StaticProperty", WootzJs.Compiler.Tests.PropertyTests.prototype.StaticProperty, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("PrimitiveFields", WootzJs.Compiler.Tests.PropertyTests.prototype.PrimitiveFields, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("TestBaseReferences", WootzJs.Compiler.Tests.PropertyTests.prototype.TestBaseReferences, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([WootzJs.Compiler.Tests.TestAttribute.prototype.$ctor.$new()], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.PropertyTests.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {};
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3593,6 +3641,11 @@ WootzJs.Compiler.Tests.PropertyTests = $define("WootzJs.Compiler.Tests.PropertyT
         QUnit.equal(primitiveFields.get_UInt(), 0);
         QUnit.equal(primitiveFields.get_Long(), 0);
         QUnit.equal(primitiveFields.get_ULong(), 0);
+    };
+    $p.TestBaseReferences = function() {
+        var instance = WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences.prototype.$ctor.$new();
+        instance.set_MyProperty("foo");
+        QUnit.equal(instance.get_MyProperty(), "foo");
     };
     $t.StaticPropertyClass = $define("WootzJs.Compiler.Tests.PropertyTests.StaticPropertyClass", System.Object);
     ($t.StaticPropertyClass.$TypeInitializer = function($t, $p) {
@@ -3666,6 +3719,57 @@ WootzJs.Compiler.Tests.PropertyTests = $define("WootzJs.Compiler.Tests.PropertyT
         $p.set_ULong = function(value) {this.$ULong$k__BackingField = value;};
     }).call($t, $t.PrimitiveFieldsClass, $t.PrimitiveFieldsClass.prototype);
     $WootzJs$Compiler$Tests$AssemblyTypes.push($t.PrimitiveFieldsClass);
+    $t.ClassWithBasePropertyReferences = $define("WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences", System.Object);
+    ($t.ClassWithBasePropertyReferences.$TypeInitializer = function($t, $p) {
+        $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+        $p.$type = $t;
+        $t.$baseType = System.Object;
+        $p.$typeName = "WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences";
+        $t.$typeName = $p.$typeName;
+        $t.$GetType = function() {
+            return System.Type._GetTypeFromTypeFunc(this);
+        };
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("ClassWithBasePropertyReferences", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences, System.Object, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("$MyProperty$k__BackingField", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_MyProperty", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.get_MyProperty, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_MyProperty", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.set_MyProperty, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("MyProperty", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_MyProperty", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.get_MyProperty, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_MyProperty", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.set_MyProperty, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$StaticInitializer = function() {};
+        $p.$ctor = function() {
+            System.Object.prototype.$ctor.call(this);
+        };
+        $p.$ctor.$type = $t;
+        $p.$ctor.$new = function() {
+            return new $p.$ctor.$type(this);
+        };
+        $p.$MyProperty$k__BackingField = null;
+        $p.get_MyProperty = function() {return this.$MyProperty$k__BackingField;};
+        $p.set_MyProperty = function(value) {this.$MyProperty$k__BackingField = value;};
+    }).call($t, $t.ClassWithBasePropertyReferences, $t.ClassWithBasePropertyReferences.prototype);
+    $WootzJs$Compiler$Tests$AssemblyTypes.push($t.ClassWithBasePropertyReferences);
+    $t.SubclassWithBasePropertyReferences = $define("WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences", WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences);
+    ($t.SubclassWithBasePropertyReferences.$TypeInitializer = function($t, $p) {
+        $t.$GetAssembly = window.$WootzJs$Compiler$Tests$GetAssembly;
+        $p.$type = $t;
+        $t.$baseType = WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences;
+        $p.$typeName = "WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences";
+        $t.$typeName = $p.$typeName;
+        $t.$GetType = function() {
+            return System.Type._GetTypeFromTypeFunc(this);
+        };
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("SubclassWithBasePropertyReferences", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences", WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences, WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_MyProperty", WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences.prototype.get_MyProperty, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_MyProperty", WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences.prototype.set_MyProperty, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("MyProperty", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_MyProperty", WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences.prototype.get_MyProperty, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_MyProperty", WootzJs.Compiler.Tests.PropertyTests.SubclassWithBasePropertyReferences.prototype.set_MyProperty, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$StaticInitializer = function() {};
+        $p.$ctor = function() {
+            WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.$ctor.call(this);
+        };
+        $p.$ctor.$type = $t;
+        $p.$ctor.$new = function() {
+            return new $p.$ctor.$type(this);
+        };
+        $p.get_MyProperty = function() {
+            return WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.get_MyProperty.call(this);
+        };
+        $p.set_MyProperty = function(value) {
+            WootzJs.Compiler.Tests.PropertyTests.ClassWithBasePropertyReferences.prototype.set_MyProperty.call(this, value);
+        };
+    }).call($t, $t.SubclassWithBasePropertyReferences, $t.SubclassWithBasePropertyReferences.prototype);
+    $WootzJs$Compiler$Tests$AssemblyTypes.push($t.SubclassWithBasePropertyReferences);
 }).call(null, WootzJs.Compiler.Tests.PropertyTests, WootzJs.Compiler.Tests.PropertyTests.prototype);
 $WootzJs$Compiler$Tests$AssemblyTypes.push(WootzJs.Compiler.Tests.PropertyTests);
 WootzJs.Compiler.Tests.Reflection.AttributeTests = $define("WootzJs.Compiler.Tests.Reflection.AttributeTests", System.Object);

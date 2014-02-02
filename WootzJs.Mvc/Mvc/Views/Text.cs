@@ -3,8 +3,9 @@ namespace WootzJs.Mvc.Mvc.Views
 {
     public class Text : Control, IInlineControl
     {
-        public Text() : base("<span></span>")
+        public Text()
         {
+            TagName = "span";
         }
 
         public Text(string value)
@@ -14,8 +15,8 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public string Value
         {
-            get { return Node.text(); }
-            set { Node.text(value); }
+            get { return Node.InnerHtml; }
+            set { Node.InnerHtml = value; }
         }
     }
 }

@@ -32,7 +32,7 @@ using System.Runtime.WootzJs;
 namespace WootzJs.Web
 {
     [Js(Export = false)]
-    public class Style
+    public class ElementStyle
     {
         [Js(Name = "background")]
         public extern string Background { get; set; }
@@ -178,6 +178,9 @@ namespace WootzJs.Web
         [Js(Name = "float")]
         public extern string Float { get; set; }
         
+        [Js(Name = "height")]
+        public extern string Height { get; set; }
+
         [Js(Name = "left")]
         public extern string Left { get; set; }
         
@@ -267,7 +270,10 @@ namespace WootzJs.Web
         
         [Js(Name = "top")]
         public extern string Top { get; set; }
-        
+ 
+        [Js(Name = "verticalAlign")]
+        public extern string VerticalAlign { get; set; }
+       
         [Js(Name = "visibility")]
         public extern string Visibility { get; set; }
         
@@ -288,5 +294,7 @@ namespace WootzJs.Web
         
         [Js(Name = "zIndex")]
         public extern string ZIndex { get; set; }
+
+        public extern string this[string key] { get; set; }
     }
 }

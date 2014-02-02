@@ -1,4 +1,4 @@
-﻿using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views.Css
 {
@@ -7,7 +7,7 @@ namespace WootzJs.Mvc.Mvc.Views.Css
         internal CssBorder border;
         internal string side;
 
-        internal void Attach(jQuery node, CssBorder border, string side)
+        internal void Attach(ElementStyle node, CssBorder border, string side)
         {
             this.border = border;
             this.side = side;

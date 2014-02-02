@@ -1,4 +1,4 @@
-﻿using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views.Css
 {
@@ -16,7 +16,7 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             Set("border-color", "");
         }
 
-        internal override void Attach(jQuery node)
+        internal override void Attach(ElementStyle node)
         {
             base.Attach(node);
 

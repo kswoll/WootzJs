@@ -29,52 +29,17 @@
 
 using System.Runtime.WootzJs;
 
-// ReSharper disable UnassignedReadonlyField
 namespace WootzJs.Web
 {
-    [Js(Name = "document", Export = false)]
-    public class Document
+    public class InputElement : Element
     {
-        [Js(Name = "getElementById")]
-        public extern Element GetElementById(string id);
+        [Js(Name = "value")]
+        public string Value { get; set; } 
 
-        [Js(Name = "getElementsByTagName")]
-        public extern Element[] GetElementsByTagName(string tagName);
+        [Js(Name = "valueAsDate")]
+        public JsObject ValueAsDate { get; set; }
 
-        [Js(Name = "createElement")]
-        public extern Element CreateElement(string tagName);
-
-        [Js(Name = "createAttribute")]
-        public extern Attr CreateAttribute(string name);
-
-        [Js(Name = "createTextNode")]
-        public extern TextNode CreateTextNode(string data);
-
-        [Js(Name = "head")]
-        public Element Head;
-
-        [Js(Name = "body")]
-        public Element Body;
-
-        [Js(Name = "cookie")]
-        public string Cookie;
-
-        [Js(Name = "title")]
-        public string Title;
-
-        [Js(Name = "open")]
-        public extern void Open();
-
-        [Js(Name = "close")]
-        public extern void Close();
-
-        [Js(Name = "write")]
-        public extern void Write();
-
-        [Js(Name = "writeln")]
-        public extern void WriteLine();
-
-        [Js(Name = "styleSheets")]
-        public readonly StyleSheet[] StyleSheets;
+        [Js(Name = "valueAsNumber")]
+        public JsNumber ValueAsNumber { get; set; }
     }
 }

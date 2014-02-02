@@ -1,5 +1,6 @@
 ﻿using System;
-using WootzJs.JQuery;
+using System.Runtime.WootzJs;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -7,16 +8,21 @@ namespace WootzJs.Mvc.Mvc.Views
     {
         public event Action Changed;
 
-        protected override jQuery CreateNode()
+        public new InputElement Node
         {
-            var textBox = new jQuery("<input />");
-            textBox.attr("type", "text");
-            textBox.change(OnJsChanged);
+            get { return base.Node.As<InputElement>(); }
+        }
+
+        protected override Element CreateNode()
+        {
+            var textBox = Browser.Document.CreateElement("input");
+            textBox.SetAttribute("type", "text");
+            textBox.AddEventListener("onchange", OnJsChanged);
 
             return textBox;
         }
 
-        private void OnJsChanged(JqEvent evt)
+        private void OnJsChanged(Event evt)
         {
             var changed = Changed;
             if (changed != null)
@@ -28,12 +34,12 @@ namespace WootzJs.Mvc.Mvc.Views
             get
             {
                 EnsureNodeExists();
-                return Node.val().ToString();
+                return Node.Value;
             }
             set
             {
                 EnsureNodeExists();
-                Node.val(value);
+                Node.Value = value;
             }
         }
     }

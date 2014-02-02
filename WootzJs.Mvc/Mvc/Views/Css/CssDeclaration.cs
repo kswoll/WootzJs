@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WootzJs.JQuery;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views.Css
 {
     public class CssDeclaration
     {
-        protected jQuery node;
+        protected ElementStyle node;
 
         private List<Action> actions = new List<Action>();
 
-        internal virtual void Attach(jQuery node)
+        internal virtual void Attach(ElementStyle node)
         {
             this.node = node;
 
@@ -32,7 +32,7 @@ namespace WootzJs.Mvc.Mvc.Views.Css
         protected string Get(string name)
         {
             if (node != null)
-                return node.css(name);
+                return node[name];
 
             throw new InvalidOperationException("Not attached");
         }
@@ -43,12 +43,12 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             if (node == null)
                 Act(() => Set(name, value));
             else
-                node.css(name, val);
+                node[name] = val;
         }
 
         protected bool IsSet(string name)
         {
-            return node.css(name) != "";
+            return node[name] != "";
         }
 
         public override string ToString()

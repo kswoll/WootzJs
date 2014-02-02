@@ -1,4 +1,6 @@
-﻿namespace WootzJs.Mvc.Mvc.Views
+﻿using WootzJs.Web;
+
+namespace WootzJs.Mvc.Mvc.Views
 {
     public class HtmlControl : Control
     {
@@ -6,21 +8,20 @@
 //        {
 //        }
 
-        public HtmlControl(string nodeCreationText) : base(nodeCreationText)
+        public HtmlControl(Element node) : base(node)
         {
-            EnsureNodeExists();
         }
 
         public new void Add(Control child)
         {
             base.Add(child);
-            Node.append(child.Node);
+            Node.AppendChild(child.Node);
         }
 
         public new void Remove(Control child)
         {
             base.Remove(child);
-            child.Node.remove();
+            child.Node.Remove();
         }
     }
 }

@@ -68,6 +68,8 @@ function $cast(T, o) {
     return o;
 }
 function $delegate(thisExpression, delegateType, lambda) {
+    if (lambda.$delegate != null)
+        return lambda.$delegate;
     var delegateFunc = null;
     delegateFunc = function() {
         return lambda.apply(delegateFunc.get_Target(), arguments);
@@ -79,6 +81,7 @@ function $delegate(thisExpression, delegateType, lambda) {
     delegateType.$TypeInitializer(delegateFunc, delegateFunc);
     System.MulticastDelegate.prototype.$ctor.call(delegateFunc, thisExpression, $arrayinit([delegateFunc], Function));
     delegateFunc.$type = delegateType;
+    lambda.$delegate = delegateFunc;
     return delegateFunc;
 }
 function $arrayinit(array, elementType) {

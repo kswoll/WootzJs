@@ -1,5 +1,5 @@
-﻿using WootzJs.JQuery;
-using WootzJs.Mvc.Mvc.Views.Css;
+﻿using WootzJs.Mvc.Mvc.Views.Css;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -24,9 +24,9 @@ namespace WootzJs.Mvc.Mvc.Views
             Content = content;
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var div = new jQuery("<div></div>");
+            var div = Browser.Document.CreateElement("div");
             return div;
         }
 
@@ -38,15 +38,15 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (content != null)
                 {
                     Remove(content);
-                    content.Node.remove();
+                    content.Node.Remove();
                 }
                 content = value;
                 if (content != null)
                 {
                     Add(content);
-                    Node.append(content.Node);
-                    content.Node.css("width", "100%");
-                    content.Node.css("height", "100%");
+                    Node.AppendChild(content.Node);
+                    content.Node.Style.Width = "100%";
+                    content.Node.Style.Height = "100%";
                 }
             }
         }

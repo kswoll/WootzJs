@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WootzJs.JQuery;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
     public class TablePanel : Control
     {
         private TableWidth[] columnWidths;
-        private List<jQuery> rows = new List<jQuery>();
+        private List<Element> rows = new List<Element>();
         private List<Control[]> cells = new List<Control[]>();
         private TableConstraint defaultConstraint = new TableConstraint();
 
@@ -22,9 +22,9 @@ namespace WootzJs.Mvc.Mvc.Views
             get; set;
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var table = new jQuery("<table></table>");
+            var table = Browser.Document.CreateElement("table");
 
             var totalNumberOfWeights = columnWidths.Where(x => x.Style == TableWidthStyle.Weight).Sum(x => x.Value);
             var totalPercent = columnWidths.Where(x => x.Style == TableWidthStyle.Percent).Sum(x => x.Value);
@@ -36,28 +36,28 @@ namespace WootzJs.Mvc.Mvc.Views
             var extraPercent = percentAvailableToWeights - percentToEachWeight*totalNumberOfWeights;
 
             // Define columns
-            var colgroup = new jQuery("<colgroup></colgroup>");
+            var colgroup = Browser.Document.CreateElement("colgroup");
             foreach (var width in columnWidths)
             {
-                var col = new jQuery("<col></col>");
+                var col = Browser.Document.CreateElement("col");
                 switch (width.Style)
                 {
                     case TableWidthStyle.Pixels:
-                        col.css("width", width.Value + "px");
+                        col.Style.Width = width.Value + "px";
                         break;
                     case TableWidthStyle.Weight:
                         var currentWeight = percentToEachWeight * width.Value;
                         currentWeight += extraPercent;
                         extraPercent = 0;
-                        col.css("width", currentWeight + "%");
+                        col.Style.Width = currentWeight + "%";
                         break;
                     case TableWidthStyle.Percent:
-                        col.css("width", width.Value + "%");
+                        col.Style.Width = width.Value + "%";
                         break;
                 }
-                colgroup.append(col);
+                colgroup.AppendChild(col);
             }
-            table.append(colgroup);
+            table.AppendChild(colgroup);
 
             return table;
         }
@@ -94,46 +94,46 @@ namespace WootzJs.Mvc.Mvc.Views
             if (nextEmptyCell.X + constraint.ColumnSpan > columnWidths.Length)
                 throw new InvalidOperationException(string.Format("Added a cell at position ({0},{1}), but the column ({2}) exceeds teh available remaining space in the row ({3}).", nextEmptyCell.X, nextEmptyCell.Y, constraint.ColumnSpan, columnWidths.Length - nextEmptyCell.X));
 
-            var jsCell = new jQuery("<td></td>");
+            var jsCell = Browser.Document.CreateElement("td");
             if (constraint.ColumnSpan != 1)
-                jsCell.attr("colspan", constraint.ColumnSpan);                        
+                jsCell.SetAttribute("colspan", constraint.ColumnSpan.ToString());                        
             if (constraint.RowSpan != 1)
-                jsCell.attr("rowspan", constraint.RowSpan);
-            var jsCellDiv = new jQuery("<div></div>");
-            jsCell.append(jsCellDiv);
+                jsCell.SetAttribute("rowspan", constraint.RowSpan.ToString());
+            var jsCellDiv = Browser.Document.CreateElement("div");
+            jsCell.AppendChild(jsCellDiv);
             switch (constraint.HorizontalAlignment)
             {
                 case HorizontalAlignment.Left:
-                    jsCell.attr("align", "left");
+                    jsCell.SetAttribute("align", "left");
                     break;
                 case HorizontalAlignment.Center:
-                    jsCell.attr("align", "center");
+                    jsCell.SetAttribute("align", "center");
                     break;
                 case HorizontalAlignment.Right:
-                    jsCell.attr("align", "right");
+                    jsCell.SetAttribute("align", "right");
                     break;
                 case HorizontalAlignment.Fill:
-                    jsCellDiv.css("width", "100%");
-                    cell.Node.css("width", "100%");
+                    jsCellDiv.Style.Width = "100%";
+                    cell.Node.Style.Width = "100%";
                     break;
             }
             switch (constraint.VerticalAlignment)
             {
                 case VerticalAlignment.Top:
-                    jsCell.css("vertical-align", "top");
+                    jsCell.Style.VerticalAlign = "top";
                     break;
                 case VerticalAlignment.Middle:
-                    jsCell.css("vertical-align", "middle");
+                    jsCell.Style.VerticalAlign = "middle";
                     break;
                 case VerticalAlignment.Bottom:
-                    jsCell.css("vertical-align", "bottom");
+                    jsCell.Style.VerticalAlign = "bottom";
                     break;
                 case VerticalAlignment.Fill:
-                    cell.Node.css("height", "100%");
-                    jsCellDiv.css("height", "100%");
+                    cell.Node.Style.Height = "100%"; 
+                    jsCellDiv.Style.Height = "100%";
                     break;
             }
-            jsCellDiv.append(cell.Node);
+            jsCellDiv.AppendChild(cell.Node);
                         
             for (var row = nextEmptyCell.Y; row < nextEmptyCell.Y + constraint.RowSpan; row++)
             {
@@ -142,8 +142,8 @@ namespace WootzJs.Mvc.Mvc.Views
                     while (cells.Count <= row)
                     {
                         cells.Add(new Control[columnWidths.Length]);
-                        var newRow = new jQuery("<tr></tr>");
-                        Node.append(newRow);
+                        var newRow = Browser.Document.CreateElement("tr");
+                        Node.AppendChild(newRow);
                         rows.Add(newRow);
                     }
                     if (cells[row][col] != null)
@@ -153,7 +153,7 @@ namespace WootzJs.Mvc.Mvc.Views
             }
 
             var jsRow = rows[nextEmptyCell.Y];
-            jsRow.append(jsCell);
+            jsRow.AppendChild(jsCell);
         }
 
         class Point

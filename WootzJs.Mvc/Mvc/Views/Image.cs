@@ -1,5 +1,5 @@
-﻿using WootzJs.JQuery;
-using WootzJs.Mvc.Mvc.Views.Css;
+﻿using WootzJs.Mvc.Mvc.Views.Css;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -38,14 +38,14 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public string Source
         {
-            get { return Node.attr("src"); }
-            set { Node.attr("src", value); }
+            get { return Node.GetAttribute("src"); }
+            set { Node.SetAttribute("src", value); }
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var node = new jQuery("<img />");
-            node.css("display", "block");
+            var node = Browser.Document.CreateElement("img");
+            node.Style.Display = "block";
             return node;
         }
     }

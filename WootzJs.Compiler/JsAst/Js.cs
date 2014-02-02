@@ -586,7 +586,9 @@ namespace WootzJs.Compiler.JsAst
                 var invocation = (JsInvocationExpression)expression;
                 var target = invocation.Target;
                 if (target is JsMemberReferenceExpression)
+                {
                     target = target.GetLogicalTarget();
+                }
                 return target;
             }
             else if (expression is JsMemberReferenceExpression)

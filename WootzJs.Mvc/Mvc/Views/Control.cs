@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WootzJs.JQuery;
-using WootzJs.Mvc.Mvc.Views.Css;
+using WootzJs.Web;
+using Style = WootzJs.Mvc.Mvc.Views.Css.Style;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -11,9 +11,9 @@ namespace WootzJs.Mvc.Mvc.Views
         public Control Parent { get; private set; }
         public View View { get; internal set; }
 
-        protected string NodeCreationText { get; set; }
+        protected string TagName { get; set; }
 
-        private jQuery node;
+        private Element node;
         private List<Control> children = new List<Control>();
         private Style style;
         private List<Action> click;
@@ -22,13 +22,20 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public Control()
         {
-            NodeCreationText = "<div></div>";
+            TagName = "div";
         }
 
+        public Control(Element node)
+        {
+            this.node = node;
+        }
+
+/*
         public Control(string nodeCreationText)
         {
             NodeCreationText = nodeCreationText;
         }
+*/
 
         public ViewContext ViewContext
         {
@@ -54,28 +61,28 @@ namespace WootzJs.Mvc.Mvc.Views
             set
             {
                 style = value;
-                style.Attach(node);
+                style.Attach(node.Style);
             }
         }
 
-        public jQuery Node
+        public Element Node
         {
             get { return EnsureNodeExists(); }
         }
 
-        protected virtual jQuery CreateNode()
+        protected virtual Element CreateNode()
         {
-            return new jQuery(NodeCreationText);
+            return Browser.Document.CreateElement(TagName);
         }
 
-        protected jQuery EnsureNodeExists()
+        protected Element EnsureNodeExists()
         {
             if (node == null)
             {
                 node = CreateNode();
-                node.attr("data-class-name", GetType().FullName);
+                node.SetAttribute("data-class-name", GetType().FullName);
                 if (style != null)
-                    style.Attach(node);
+                    style.Attach(node.Style);
             }
             return node;
         }
@@ -123,7 +130,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (click == null)
             {
-                Node.click(OnJsClick);
+                Node.AddEventListener("onclick", OnJsClick);
                 click = new List<Action>();
             }
             click.Add(handler);
@@ -137,7 +144,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (!click.Any())
                 {
                     click = null;
-                    Node.unbind("click", OnJsClick);
+                    Node.RemoveEventListener("onclick", OnJsClick);
                 }
             }
         }
@@ -146,7 +153,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (mouseEnter == null)
             {
-                Node.mouseenter(OnJsMouseEnter);
+                Node.AddEventListener("onmouseenter", OnJsMouseEnter);
                 mouseEnter = new List<Action>();
             }
             mouseEnter.Add(handler);
@@ -160,7 +167,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (!mouseEnter.Any())
                 {
                     mouseEnter = null;
-                    Node.unbind("mouseenter", OnJsMouseEnter);
+                    Node.RemoveEventListener("onmouseenter", OnJsMouseEnter);
                 }
             }
         }
@@ -169,7 +176,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             if (mouseLeave == null)
             {
-                Node.mouseleave(OnJsMouseLeave);
+                Node.AddEventListener("onmouseleave", OnJsMouseLeave);
                 mouseLeave = new List<Action>();
             }
             mouseLeave.Add(handler);
@@ -183,22 +190,22 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (!mouseLeave.Any())
                 {
                     mouseLeave = null;
-                    Node.unbind("mouseleave", OnJsMouseLeave);
+                    Node.RemoveEventListener("onmouseleave", OnJsMouseLeave);
                 }
             }
         }
 
-        private void OnJsClick(JqEvent evt)
+        private void OnJsClick(Event evt)
         {
             OnClick();
         }
 
-        private void OnJsMouseEnter(JqEvent evt)
+        private void OnJsMouseEnter(Event evt)
         {
             OnMouseEnter();
         }
 
-        private void OnJsMouseLeave(JqEvent evt)
+        private void OnJsMouseLeave(Event evt)
         {
             OnMouseLeave();
         }

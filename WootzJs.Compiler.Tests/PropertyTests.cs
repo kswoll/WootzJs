@@ -52,6 +52,14 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(primitiveFields.ULong, 0);
         }
 
+        [Test]
+        public void TestBaseReferences()
+        {
+            var instance = new SubclassWithBasePropertyReferences();
+            instance.MyProperty = "foo";
+            QUnit.AreEqual(instance.MyProperty, "foo");
+        }
+
         public class StaticPropertyClass
         {
             public static string StringProperty { get; set; }
@@ -68,6 +76,26 @@ namespace WootzJs.Compiler.Tests
             public ushort UShort { get; set; }
             public uint UInt { get; set; }
             public ulong ULong { get; set; }
+        }
+
+        public class ClassWithBasePropertyReferences
+        {
+            public virtual string MyProperty { get; set; }
+        }
+
+        public class SubclassWithBasePropertyReferences : ClassWithBasePropertyReferences
+        {
+            public override string MyProperty
+            {
+                get
+                {
+                    return base.MyProperty;
+                }
+                set
+                {
+                    base.MyProperty = value;
+                }
+            }
         }
     }
 }

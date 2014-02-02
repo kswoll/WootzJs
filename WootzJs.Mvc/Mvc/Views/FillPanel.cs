@@ -1,4 +1,4 @@
-﻿using WootzJs.JQuery;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -19,11 +19,11 @@ namespace WootzJs.Mvc.Mvc.Views
             Content = content;
         }
 
-        protected override jQuery CreateNode()
+        protected override Element CreateNode()
         {
-            var container = new jQuery("<div></div>");
-            container.css("width", "100%");
-            container.css("height", "100%");
+            var container = Browser.Document.CreateElement("div");
+            container.Style.Width = "100%";
+            container.Style.Height = "100%";
 
             return container;
         }
@@ -36,7 +36,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (content != null)
                 {
                     Remove(content);
-                    content.Node.remove();
+                    content.Node.Remove();
                 }
 
                 content = value;
@@ -45,9 +45,9 @@ namespace WootzJs.Mvc.Mvc.Views
                 {
                     Add(content);
                     var childNode = value.Node;
-                    childNode.css("width", "100%");
-                    childNode.css("height", "100%");
-                    Node.append(childNode);
+                    childNode.Style.Width = "100%";
+                    childNode.Style.Height = "100%";
+                    Node.AppendChild(childNode);
                 }
             }
         }
