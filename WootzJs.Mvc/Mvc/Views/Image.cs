@@ -17,23 +17,23 @@ namespace WootzJs.Mvc.Mvc.Views
         public Image(string defaultSource, string highlightedSource)
         {
             Source = defaultSource;
-            MouseEnter(() => Source = highlightedSource);
-            MouseLeave(() => Source = defaultSource);
+            MouseEntered += () => Source = highlightedSource;
+            MouseExited += () => Source = defaultSource;
         }
 
         public Image(string defaultSource, string highlightedSource, CssColor highlightColor)
         {
             Source = defaultSource;
-            MouseEnter(() =>
+            MouseEntered += () =>
             {
                 Source = highlightedSource;
                 Style.BackgroundColor = highlightColor;
-            });
-            MouseLeave(() =>
+            };
+            MouseExited += () =>
             {
                 Source = defaultSource;
                 Style.BackgroundColor = CssColor.Inherit;
-            });
+            };
         }
 
         public string Source

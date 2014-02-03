@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Web;
 using Style = WootzJs.Mvc.Mvc.Views.Css.Style;
@@ -22,9 +21,9 @@ namespace WootzJs.Mvc.Mvc.Views
         private Element node;
         private List<Control> children = new List<Control>();
         private Style style;
-        private List<Action> click;
-        private List<Action> mouseEnter;
-        private List<Action> mouseLeave;
+        private Action click;
+        private Action mouseEntered;
+        private Action mouseExited;
 
         public Control()
         {
@@ -135,72 +134,51 @@ namespace WootzJs.Mvc.Mvc.Views
         {
         }
 
-        public void Click(Action handler)
+        public event Action Click
         {
-            if (click == null)
+            add
             {
-                Node.AddEventListener("click", OnJsClick);
-                click = new List<Action>();
+                if (click == null)
+                    Node.AddEventListener("click", OnJsClick);
+                click = (Action)Delegate.Combine(click, value);
             }
-            click.Add(handler);
-        }
-
-        public void UnClick(Action handler)
-        {
-            if (click != null)
+            remove
             {
-                click.Remove(handler);
-                if (!click.Any())
-                {
-                    click = null;
+                click = (Action)Delegate.Remove(click, value);
+                if (click == null)
                     Node.RemoveEventListener("click", OnJsClick);
-                }
             }
         }
 
-        public void MouseEnter(Action handler)
+        public event Action MouseEntered
         {
-            if (mouseEnter == null)
+            add
             {
-                Node.AddEventListener("mouseentered", OnJsMouseEnter);
-                mouseEnter = new List<Action>();
+                if (mouseEntered == null)
+                    Node.AddEventListener("mouseentered", OnJsMouseEnter);
+                mouseEntered = (Action)Delegate.Combine(mouseEntered, value);
             }
-            mouseEnter.Add(handler);
-        }
-
-        public void UnMouseEnter(Action handler)
-        {
-            if (mouseEnter != null)
+            remove
             {
-                mouseEnter.Remove(handler);
-                if (!mouseEnter.Any())
-                {
-                    mouseEnter = null;
+                mouseEntered = (Action)Delegate.Remove(mouseEntered, value);
+                if (mouseEntered == null)
                     Node.RemoveEventListener("mouseentered", OnJsMouseEnter);
-                }
             }
         }
 
-        public void MouseLeave(Action handler)
+        public event Action MouseExited
         {
-            if (mouseLeave == null)
+            add
             {
-                Node.AddEventListener("mouseexited", OnJsMouseLeave);
-                mouseLeave = new List<Action>();
+                if (mouseExited == null)
+                    Node.AddEventListener("mouseexited", OnJsMouseLeave);
+                mouseExited = (Action)Delegate.Combine(mouseExited, value);
             }
-            mouseLeave.Add(handler);
-        }
-
-        public void UnMouseLeave(Action handler)
-        {
-            if (mouseLeave != null)
+            remove
             {
-                mouseLeave.Remove(handler);
-                if (!mouseLeave.Any())
-                {
-                    mouseLeave = null;
+                mouseExited = (Action)Delegate.Remove(mouseExited, value);
+                if (mouseExited == null)
                     Node.RemoveEventListener("mouseexited", OnJsMouseLeave);
-                }
             }
         }
 
@@ -221,32 +199,23 @@ namespace WootzJs.Mvc.Mvc.Views
 
         protected virtual void OnClick()
         {
-            if (this.click != null)
-            {
-                var click = this.click.ToArray();
-                foreach (var handler in click)
-                    handler();
-            }
+            var click = this.click;
+            if (click != null)
+                click();
         }
 
         protected virtual void OnMouseEnter()
         {
-            if (this.mouseEnter != null)
-            {
-                var mouseEnter = this.mouseEnter.ToArray();
-                foreach (var handler in mouseEnter)
-                    handler();
-            }
+            var mouseEntered = this.mouseEntered;
+            if (mouseEntered != null)
+                mouseEntered();
         }
 
         protected virtual void OnMouseLeave()
         {
-            if (this.mouseLeave != null)
-            {
-                var mouseLeave = this.mouseLeave.ToArray();
-                foreach (var handler in mouseLeave)
-                    handler();
-            }
+            var mouseExited = this.mouseExited;
+            if (mouseExited != null)
+                mouseExited();
         }
 
         public static implicit operator Control(string text)
