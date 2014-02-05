@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Site.Api", "WootzJs.Site.Api\WootzJs.Site.Api.csproj", "{A7150760-5CD1-4037-883C-7F8179359C53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Site.Web", "WootzJs.Site.Web\WootzJs.Site.Web.csproj", "{DDEC1F4D-C119-4C1A-84A1-42FC6B61F62F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7150760-5CD1-4037-883C-7F8179359C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7150760-5CD1-4037-883C-7F8179359C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7150760-5CD1-4037-883C-7F8179359C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7150760-5CD1-4037-883C-7F8179359C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEC1F4D-C119-4C1A-84A1-42FC6B61F62F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEC1F4D-C119-4C1A-84A1-42FC6B61F62F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEC1F4D-C119-4C1A-84A1-42FC6B61F62F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEC1F4D-C119-4C1A-84A1-42FC6B61F62F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
