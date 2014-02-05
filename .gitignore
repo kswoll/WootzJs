@@ -11,3 +11,7 @@ WootzJs.Web/bin/
 WootzJs.Mvc/bin/
 WootzJs.Mvc/obj/
 *.user
+WebSite/WootzJs.Site.Web/bin/
+WebSite/WootzJs.Site.Web/obj/
+WebSite/WootzJs.Site.Api/bin/
+WebSite/WootzJs.Site.Api/obj/
