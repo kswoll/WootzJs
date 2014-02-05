@@ -6,10 +6,16 @@ namespace WootzJs.Mvc.Mvc.Views
     public class HorizontalPanel : Control
     {
         public int Spacing { get; set; }
+        public VerticalAlignment DefaultAlignment { get; set; }
 
         private Element row;
         private Element firstSpacer;
         private Element lastSpacer;
+
+        public HorizontalPanel()
+        {
+            DefaultAlignment = VerticalAlignment.Fill;
+        }
 
         /// <summary>
         /// Controls the overall alignment of the entire panel
@@ -80,7 +86,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public new void Add(Control child)
         {
-            Add(child, VerticalAlignment.Fill, Count == 0 ? 0 : Spacing);
+            Add(child, DefaultAlignment, Count == 0 ? 0 : Spacing);
         }
 
         public void Add(Control child, VerticalAlignment alignment)
@@ -90,7 +96,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public void Add(Control child, int spaceBefore)
         {
-            Add(child, VerticalAlignment.Fill, (Count == 0 ? 0: Spacing) + spaceBefore);
+            Add(child, DefaultAlignment, (Count == 0 ? 0: Spacing) + spaceBefore);
         }
 
         public void Add(Control child, VerticalAlignment alignment, int spaceBefore)

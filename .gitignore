@@ -10,3 +10,4 @@ WootzJs.JQuery/bin/
 WootzJs.Web/bin/
 WootzJs.Mvc/bin/
 WootzJs.Mvc/obj/
+*.user
