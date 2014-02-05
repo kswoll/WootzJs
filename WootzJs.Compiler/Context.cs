@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
 using System.Linq;
 using Roslyn.Compilers.CSharp;
 using Roslyn.Services;
@@ -33,6 +34,7 @@ namespace WootzJs.Compiler
 {
     public class Context
     {
+        [ThreadStatic]
         private static Context instance;
 
         public static Context Instance

@@ -62,6 +62,7 @@
     <Compile Include="StyleSheet.cs" />
     <Compile Include="TextNode.cs" />
     <Compile Include="Window.cs" />
+    <Compile Include="XmlHttpRequest.cs" />
   </ItemGroup>
   <Import Project="c:\dev\WootzJs\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

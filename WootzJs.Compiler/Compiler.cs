@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.WootzJs;
 using System.Threading;
 using Roslyn.Compilers.CSharp;
@@ -42,10 +41,23 @@ namespace WootzJs.Compiler
     {
         public static void Main(string[] args)
         {
-            new Compiler().Compile(args[0], args[1]);
+            var projectFileInfo = new FileInfo(args[0]);
+            var projectFolder = projectFileInfo.Directory.FullName;
+            IProject project;
+            var output = new Compiler().Compile(args[0], out project);
+            var projectName = project.AssemblyName;
+            var outputFolder = args[1];
+
+            File.WriteAllText(projectFolder + "\\" + outputFolder + projectName + ".js", output);
         }
 
-        public void Compile(string projectFile, string outputFolder)
+        public string Compile(string projectFile)
+        {
+            IProject project;
+            return Compile(projectFile, out project);
+        }
+
+        public string Compile(string projectFile, out IProject project)
         {
             var projectFileInfo = new FileInfo(projectFile);
             var projectFolder = projectFileInfo.Directory.FullName;
@@ -56,7 +68,7 @@ namespace WootzJs.Compiler
             if (File.Exists(projectUserFile))
                 File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
-            var project = Solution.LoadStandAloneProject(projectFile);
+            project = Solution.LoadStandAloneProject(projectFile);
             var projectName = project.AssemblyName;
             var compilation = (Compilation)project.GetCompilation();
             Context.Update(project.Solution, project, compilation);
@@ -194,7 +206,7 @@ namespace WootzJs.Compiler
             // Write out the compiled Javascript file to the target location.
             var renderer = new JsRenderer();
             jsCompilationUnit.Accept(renderer);
-            File.WriteAllText(projectFolder + "\\" + outputFolder + projectName + ".js", renderer.Output);
+            return renderer.Output;
         } 
 
         /// <summary>
