@@ -4547,6 +4547,7 @@ WootzJs.Mvc.Mvc.Views.DropDown = $define("WootzJs.Mvc.Mvc.Views.DropDown", Wootz
     };
     $p.CreateNode = function() {
         this.contentNode = WootzJs.Web.Browser().get_Document().createElement("div");
+        this.contentNode.style.height = "100%";
         this.overlayContainer = WootzJs.Web.Browser().get_Document().createElement("div");
         this.overlayContainer.style.position = "absolute";
         this.overlayContainer.style.display = "none";

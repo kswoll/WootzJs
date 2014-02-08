@@ -60,6 +60,7 @@ namespace WootzJs.Mvc.Mvc.Views
         protected override Element CreateNode()
         {
             contentNode = Browser.Document.CreateElement("div");
+            contentNode.Style.Height = "100%";
 
             overlayContainer = Browser.Document.CreateElement("div");
             overlayContainer.Style.Position = "absolute";
