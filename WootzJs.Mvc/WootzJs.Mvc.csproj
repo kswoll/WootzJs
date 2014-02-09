@@ -95,6 +95,7 @@
     <Compile Include="Mvc\Views\Css\Style.cs" />
     <Compile Include="Mvc\Views\DropDown.cs" />
     <Compile Include="Mvc\Views\FillPanel.cs" />
+    <Compile Include="Mvc\Views\FixedHeaderPanel.cs" />
     <Compile Include="Mvc\Views\FixedPanel.cs" />
     <Compile Include="Mvc\Views\FlowPanel.cs" />
     <Compile Include="Mvc\Views\HorizontalAlignment.cs" />

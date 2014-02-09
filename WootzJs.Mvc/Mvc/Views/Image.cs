@@ -36,6 +36,18 @@ namespace WootzJs.Mvc.Mvc.Views
             };
         }
 
+        public int Width
+        {
+            get { return int.Parse(Node.GetAttribute("width")); }
+            set { Node.SetAttribute("width", value.ToString()); }
+        }
+
+        public int Height
+        {
+            get { return int.Parse(Node.GetAttribute("height")); }
+            set { Node.SetAttribute("height", value.ToString()); }
+        }
+
         public string Source
         {
             get { return Node.GetAttribute("src"); }

@@ -114,5 +114,11 @@ namespace WootzJs.Web
 
         [Js(Name = "style")]
         public extern ElementStyle Style { get; }
+
+        [Js(Name = "offsetWidth")]
+        public extern int OffsetWidth { get; set; }
+
+        [Js(Name = "offsetHeight")]
+        public extern int OffsetHeight { get; set; }
     }
 }

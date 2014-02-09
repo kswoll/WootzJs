@@ -14,8 +14,8 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public new void Add(Control child)
         {
-            base.Add(child);
             Node.AppendChild(child.Node);
+            base.Add(child);
         }
 
         public new void Remove(Control child)

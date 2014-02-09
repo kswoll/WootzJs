@@ -24,6 +24,7 @@ namespace WootzJs.Mvc.Mvc.Views
             get { return content; }
             set
             {
+                EnsureNodeExists();
                 if (content != null)
                 {
                     Remove(content);
@@ -32,8 +33,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 content = value;
                 if (content != null)
                 {
-                    Add(value);
                     contentNode.AppendChild(content.Node);
+                    Add(value);
                 }
             }
         }
@@ -43,6 +44,7 @@ namespace WootzJs.Mvc.Mvc.Views
             get { return overlay; }
             set
             {
+                EnsureNodeExists();
                 if (overlay != null)
                 {
                     Remove(overlay);
@@ -51,8 +53,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 overlay = value;
                 if (overlay != null)
                 {
-                    Add(overlay);
                     overlayContainer.AppendChild(overlay.Node);
+                    Add(overlay);
                 }
             }
         }

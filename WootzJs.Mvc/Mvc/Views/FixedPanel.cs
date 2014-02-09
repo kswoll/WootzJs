@@ -43,10 +43,10 @@ namespace WootzJs.Mvc.Mvc.Views
                 content = value;
                 if (content != null)
                 {
-                    Add(content);
                     Node.AppendChild(content.Node);
                     content.Node.Style.Width = "100%";
                     content.Node.Style.Height = "100%";
+                    Add(content);
                 }
             }
         }

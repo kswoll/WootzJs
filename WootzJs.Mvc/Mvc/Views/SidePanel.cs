@@ -282,8 +282,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 top = value;
                 if (top != null)
                 {
-                    Add(top);
                     GetTopCell().AppendChild(value.Node);
+                    Add(top);
                 }
             }
         }
@@ -301,8 +301,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 bottom = value;
                 if (bottom != null)
                 {
-                    Add(bottom);
                     GetBottomCell().AppendChild(value.Node);
+                    Add(bottom);
                 }
             }
         }
@@ -320,8 +320,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 left = value;
                 if (left != null)
                 {
-                    Add(left);
                     GetLeftCell().AppendChild(value.Node);
+                    Add(left);
                 }
             }
         }
@@ -339,8 +339,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 center = value;
                 if (center != null)
                 {
-                    Add(center);
                     GetCenterCell().AppendChild(value.Node);
+                    Add(center);
                 }
             }
         }
@@ -358,8 +358,8 @@ namespace WootzJs.Mvc.Mvc.Views
                 right = value;
                 if (right != null)
                 {
-                    Add(right);
                     GetRightCell().AppendChild(value.Node);
+                    Add(right);
                 }
             }
         }

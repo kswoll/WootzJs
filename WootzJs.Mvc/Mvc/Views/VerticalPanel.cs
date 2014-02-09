@@ -4,7 +4,14 @@ namespace WootzJs.Mvc.Mvc.Views
 {
     public class VerticalPanel : Control
     {
+        public HorizontalAlignment DefaultAlignment { get; set; }
+
         private Element table;
+
+        public VerticalPanel()
+        {
+            DefaultAlignment = HorizontalAlignment.Fill;
+        }
 
         protected override Element CreateNode()
         {
@@ -19,7 +26,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public new void Add(Control child)
         {
-            Add(child, HorizontalAlignment.Fill, 0);
+            Add(child, DefaultAlignment, 0);
         }
 
         public void Add(Control child, HorizontalAlignment alignment)
@@ -29,7 +36,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public void Add(Control child, int spaceAbove)
         {
-            Add(child, HorizontalAlignment.Fill, spaceAbove);
+            Add(child, DefaultAlignment, spaceAbove);
         }
 
         public void Add(Control child, HorizontalAlignment alignment, int spaceAbove)

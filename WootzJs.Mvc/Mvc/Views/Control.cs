@@ -15,6 +15,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         public Control Parent { get; private set; }
         public View View { get; internal set; }
+        public event Action AttachedToDom;
 
         protected string TagName { get; set; }
 
@@ -24,6 +25,7 @@ namespace WootzJs.Mvc.Mvc.Views
         private Action click;
         private Action mouseEntered;
         private Action mouseExited;
+        private bool isAttachedToDom;
 
         public Control()
         {
@@ -33,6 +35,7 @@ namespace WootzJs.Mvc.Mvc.Views
         public Control(Element node)
         {
             Node = node;
+            isAttachedToDom = node.IsAttachedToDom();
         }
 
         public ViewContext ViewContext
@@ -121,6 +124,11 @@ namespace WootzJs.Mvc.Mvc.Views
             get { return children.Count; }
         }
 
+        public bool IsAttachedToDom
+        {
+            get { return isAttachedToDom; }
+        }
+
         public IEnumerable<Control> Children
         {
             get { return children; }
@@ -128,6 +136,8 @@ namespace WootzJs.Mvc.Mvc.Views
 
         protected virtual void OnAdded()
         {
+            if (Parent.isAttachedToDom)
+                OnAttachedToDom();
         }
 
         protected virtual void OnRemoved()
@@ -221,6 +231,19 @@ namespace WootzJs.Mvc.Mvc.Views
         public static implicit operator Control(string text)
         {
             return new Text(text);
+        }
+
+        protected virtual void OnAttachedToDom()
+        {
+            isAttachedToDom = true;
+            var attachedToDom = AttachedToDom;
+            if (attachedToDom != null)
+                attachedToDom();
+
+            foreach (var child in Children)
+            {
+                child.OnAttachedToDom();
+            }
         }
     }
 }

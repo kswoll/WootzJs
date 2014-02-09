@@ -11,5 +11,20 @@
         {
             return ancestor.Contains(descendent);
         }
+
+        public static void Clear(this Element parent)
+        {
+            parent.InnerHtml = "";
+        }
+
+        public static bool IsAttachedToDom(this Element element)
+        {
+            var current = element;
+            while (current.ParentElement != null)
+            {
+                current = current.ParentElement;
+            }
+            return current == Browser.Document.Body.ParentElement;
+        }
     }
 }
