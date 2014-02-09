@@ -164,6 +164,11 @@ namespace System
         [Js(Name = "indexOf")]
         public extern int IndexOf(object value);
 
+        public static int IndexOf(Array array, object value)
+        {
+            return array.IndexOf(value);
+        }
+
         void IList.Insert(int index, object value)
         {
             throw new NotImplementedException();

@@ -27,7 +27,7 @@
 
 namespace System.Collections.Generic
 {
-    public interface ICollection<T> : ICollection, IEnumerable<T>
+    public interface ICollection<T> : IEnumerable<T>
     {
         /// <summary>
         /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.

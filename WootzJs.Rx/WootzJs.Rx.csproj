@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1FA98FA2-4DFE-47DC-B96A-699E05269340}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>System.Reactive</RootNamespace>
+    <AssemblyName>WootzJs.Rx</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AnonymousSafeObserver.cs" />
+    <Compile Include="AnonyousObserver.cs" />
+    <Compile Include="Disposables\AnonymousDisposable.cs" />
+    <Compile Include="Disposables\BooleanDisposable.cs" />
+    <Compile Include="Disposables\CompositeDisposable.cs" />
+    <Compile Include="Disposables\DefaultDisposable.cs" />
+    <Compile Include="Disposables\Disposable.cs" />
+    <Compile Include="Disposables\ICancelable.cs" />
+    <Compile Include="Disposables\RefCountDisposable.cs" />
+    <Compile Include="Disposables\SingleAssignmentDisposable.cs" />
+    <Compile Include="ExceptionServices.cs" />
+    <Compile Include="ImmutableList.cs" />
+    <Compile Include="ISubject.cs" />
+    <Compile Include="Linq\IGroupedObservable.cs" />
+    <Compile Include="Linq\Observable.cs" />
+    <Compile Include="Linq\Observables\GroupBy.cs" />
+    <Compile Include="ObserverBase.cs" />
+    <Compile Include="Observers.cs" />
+    <Compile Include="PlatformServices\DefaultExceptionServices.cs" />
+    <Compile Include="PlatformServices\IExceptionServices.cs" />
+    <Compile Include="PlatformServices\PlatformEnlightenmentProvider.cs" />
+    <Compile Include="Producer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SafeObserver.cs" />
+    <Compile Include="Sink.cs" />
+    <Compile Include="Stubs.cs" />
+    <Compile Include="Subjects\Subject.cs" />
+  </ItemGroup>
+  <Import Project="..\build\WootzJs.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+if errorlevel 1 goto BuildEventFailed
+copy $(SolutionDir)build\mscorlib.js $(TargetDir)
+copy $(TargetDir)WootzJs.Rx.* $(SolutionDir)build
+if errorlevel 1 goto BuildEventFailed
+goto BuildEventOK
+:BuildEventFailed
+echo POSTBUILDSTEP for $(ProjectName) FAILED
+exit 1
+:BuildEventOK
+echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

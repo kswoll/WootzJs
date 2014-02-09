@@ -2,9 +2,10 @@
 
 namespace WootzJs.Mvc.Mvc.Views
 {
-    public class Link : InlineControl
+    public class Link : Control
     {
         private bool useTextMode;
+        private string localHref;
 
         public Link() 
         {
@@ -15,10 +16,39 @@ namespace WootzJs.Mvc.Mvc.Views
             Text = text;
         }
 
+        public string LocalHref
+        {
+            get { return localHref; }
+            set
+            {
+                EnsureNodeExists();
+                if (localHref != null)
+                {
+                    Node.SetAttribute("href", "javascript:void(0);");
+                    Click -= LocalHrefClick;
+                }
+
+                localHref = value;
+
+                if (localHref != null)
+                {
+                    Node.SetAttribute("href", value);
+                    Click += LocalHrefClick;
+                }
+            }
+        }
+
+        private void LocalHrefClick(Event evt)
+        {
+            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"));            
+            evt.PreventDefault();
+        }
+
         protected override Element CreateNode()
         {
             var a = Browser.Document.CreateElement("a");
             a.SetAttribute("href", "javascript:void(0);");
+            a.Style.Display = "block";
 
             return a;
         }
@@ -28,7 +58,7 @@ namespace WootzJs.Mvc.Mvc.Views
         /// </summary>
         public string Text
         {
-            get { return Node.InnerHtml; }
+            get { return Node.NodeValue; }
             set
             {
                 Node.InnerHtml = value;
@@ -40,18 +70,20 @@ namespace WootzJs.Mvc.Mvc.Views
         /// Using this property will remove any text added via Text.
         /// </summary>
         /// <param name="child"></param>
-        public void Add(InlineControl child)
+        public new void Add(Control child)
         {
             if (useTextMode)
                 Node.InnerHtml = "";
 
-            Add((Control)child);
+            base.Add(child);
+            Node.AppendChild(child.Node);
             useTextMode = false;
         }
 
-        public void Remove(InlineControl child)
+        public new void Remove(Control child)
         {
-            Remove((Control)child);
+            base.Remove(child);
+            Node.RemoveChild(child.Node);
         }
     }
 }

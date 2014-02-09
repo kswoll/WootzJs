@@ -13,6 +13,12 @@ namespace WootzJs.Mvc.Mvc.Views
             get { return base.Node.As<InputElement>(); }
         }
 
+        public TextBoxType Type
+        {
+            get { return TextBoxTypes.Parse(Node.GetAttribute("type")); }
+            set { Node.SetAttribute("type", value.GetInputType()); }
+        }
+
         protected override Element CreateNode()
         {
             var textBox = Browser.Document.CreateElement("input");

@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Linq;
@@ -34,17 +36,28 @@ namespace System.Collections.Generic
     {
         private JsObject storage = new JsObject();
         private List<Bucket> buckets = new List<Bucket>();
+        private IEqualityComparer<TKey> comparer;
         private int count;
         private DictionaryKeys keys;
 
-        public Dictionary()
+        public Dictionary() : this(EqualityComparer<TKey>.Default)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Collections.Generic.Dictionary`2"/> class that is empty, has the default initial capacity, and uses the specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/>.
+        /// </summary>
+        /// <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing keys, or null to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> for the type of the key.</param>
+        public Dictionary(IEqualityComparer<TKey> comparer)
         {
             keys = new DictionaryKeys(this);
+            this.comparer = comparer;
         }
+
 
         public void Add(TKey key, TValue value)
         {
-            var hashCode = key.GetStringHashCode();
+            var hashCode = comparer.GetHashCode(key).ToString();
             var bucket = storage[hashCode].As<Bucket>();
             if (bucket == null)
             {
@@ -52,7 +65,7 @@ namespace System.Collections.Generic
                 storage[hashCode] = bucket.As<JsObject>();
                 buckets.Add(bucket);
             }
-            var existingItem = bucket.Items.SingleOrDefault(x => x.Key.Equals(key));
+            var existingItem = bucket.Items.SingleOrDefault(x => comparer.Equals(x.Key, key));
             if (existingItem == null)
             {
                 bucket.Items.Add(new BucketItem(key, value));
@@ -66,11 +79,11 @@ namespace System.Collections.Generic
 
         public bool Remove(TKey key)
         {
-            var hashCode = key.GetStringHashCode();
+            var hashCode = comparer.GetHashCode(key).ToString();
             var bucket = storage[hashCode].As<Bucket>();
             if (bucket != null)
             {
-                var items = bucket.Items.Where(x => x.Key.Equals(key)).GetEnumerator();
+                var items = bucket.Items.Where(x => comparer.Equals(x.Key, key)).GetEnumerator();
                 if (items.MoveNext())
                 {
                     var item = items.Current;
@@ -89,12 +102,12 @@ namespace System.Collections.Generic
 
         public bool ContainsKey(TKey key)
         {
-            var hashCode = key.GetStringHashCode();
+            var hashCode = comparer.GetHashCode(key).ToString();
             var bucket = storage[hashCode].As<Bucket>();
             if (bucket == null)
                 return false;
 
-            return bucket.Items.Any(x => x.Key.Equals(key));
+            return bucket.Items.Any(x => comparer.Equals(x.Key, key));
         }
 
         public void Clear()
@@ -109,7 +122,7 @@ namespace System.Collections.Generic
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            var hashCode = key.GetStringHashCode();
+            var hashCode = comparer.GetHashCode(key).ToString();
             var bucket = storage[hashCode].As<Bucket>();
             if (bucket == null)
             {
@@ -136,10 +149,7 @@ namespace System.Collections.Generic
                     throw new KeyNotFoundException(key.ToString());
                 return result;
             }
-            set
-            {
-                Add(key, value);
-            }
+            set { Add(key, value); }
         }
 
         public ICollection<TKey> Keys
@@ -263,7 +273,7 @@ namespace System.Collections.Generic
             get { return Values; }
         }
 
-        class Bucket
+        private class Bucket
         {
             public string HashCode { get; set; }
             public List<BucketItem> Items = new List<BucketItem>();
@@ -274,7 +284,7 @@ namespace System.Collections.Generic
             }
         }
 
-        class BucketItem
+        private class BucketItem
         {
             public TKey Key { get; set; }
             public TValue Value { get; set; }
@@ -286,7 +296,7 @@ namespace System.Collections.Generic
             }
         }
 
-        class DictionaryKeys : ICollection<TKey>
+        private class DictionaryKeys : ICollection<TKey>
         {
             private Dictionary<TKey, TValue> dictionary;
 

@@ -87,6 +87,7 @@
     <Compile Include="Convert.cs" />
     <Compile Include="Decimal.cs" />
     <Compile Include="Delegate.cs" />
+    <Compile Include="Diagnostics\Debug.cs" />
     <Compile Include="Double.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="Environment.cs" />
@@ -110,6 +111,9 @@
     <Compile Include="Int64.cs" />
     <Compile Include="InvalidCastException.cs" />
     <Compile Include="InvalidOperationException.cs" />
+    <Compile Include="IObservable.cs" />
+    <Compile Include="IObserver.cs" />
+    <Compile Include="Lazy.cs" />
     <Compile Include="Linq\Enumerable.cs" />
     <Compile Include="Linq\Expressions\BinaryExpression.cs" />
     <Compile Include="Linq\Expressions\ConditionalExpression.cs" />
@@ -148,6 +152,7 @@
     <Compile Include="NotImplementedException.cs" />
     <Compile Include="NotSupportedException.cs" />
     <Compile Include="Nullable.cs" />
+    <Compile Include="ObjectDisposedException.cs" />
     <Compile Include="Random.cs" />
     <Compile Include="Reflection\Activator.cs" />
     <Compile Include="Reflection\Assembly.cs" />
@@ -229,6 +234,7 @@
     <Compile Include="StringComparison.cs" />
     <Compile Include="StringSplitOptions.cs" />
     <Compile Include="Text\StringBuilder.cs" />
+    <Compile Include="Threading\Interlocked.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Type.cs" />
     <Compile Include="UInt16.cs" />

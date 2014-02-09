@@ -424,19 +424,20 @@ namespace System
 
         public override int GetHashCode()
         {
-            throw new Exception();
-/*
- *      The below will work but is slow.  I could cache it, but that would be noisy.  I want to wait for a valid use-case before
- *      implementing.
-            var hash = 0;
-            for (var i = 0; i < Length; i++)
+            var result = Jsni.@this().member("$hashCode");
+            if (result == null)
             {
-                var character = this.As<JsString>().charCodeAt(i);
-                hash = ((hash << 5) - hash) + character;
-                hash = hash & hash; // Convert to 32bit integer
+                var hash = 0;
+                for (var i = 0; i < Length; i++)
+                {
+                    var character = this.As<JsString>().charCodeAt(i);
+                    hash = ((hash << 5) - hash) + character;
+                    hash = hash & hash; // Convert to 32bit integer
+                }
+                result = hash.As<JsObject>();
+                Jsni.@this().memberset("$hashCode", result);
             }
-            return hash;
-*/
+            return result.As<int>();
         }
 
         public override string ToString()

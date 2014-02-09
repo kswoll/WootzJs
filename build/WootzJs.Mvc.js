@@ -5741,77 +5741,21 @@ WootzJs.Mvc.Mvc.Views.Layout = $define("WootzJs.Mvc.Mvc.Views.Layout", WootzJs.M
     };
 }).call(null, WootzJs.Mvc.Mvc.Views.Layout, WootzJs.Mvc.Mvc.Views.Layout.prototype);
 $WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.Layout);
-WootzJs.Mvc.Mvc.Views.Link = $define("WootzJs.Mvc.Mvc.Views.Link", WootzJs.Mvc.Mvc.Views.InlineControl);
+WootzJs.Mvc.Mvc.Views.Link = $define("WootzJs.Mvc.Mvc.Views.Link", WootzJs.Mvc.Mvc.Views.Control);
 (WootzJs.Mvc.Mvc.Views.Link.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Mvc$GetAssembly;
     $p.$type = $t;
-    $t.$baseType = WootzJs.Mvc.Mvc.Views.InlineControl;
+    $t.$baseType = WootzJs.Mvc.Mvc.Views.Control;
     $p.$typeName = "WootzJs.Mvc.Mvc.Views.Link";
     $t.$typeName = $p.$typeName;
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Link", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.Link", WootzJs.Mvc.Mvc.Views.Link, WootzJs.Mvc.Mvc.Views.InlineControl, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("useTextMode", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("CreateNode", WootzJs.Mvc.Mvc.Views.Link.prototype.CreateNode, $arrayinit([], System.Reflection.ParameterInfo), Element, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Add$1", WootzJs.Mvc.Mvc.Views.Link.prototype.Add$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Mvc.Mvc.Views.InlineControl, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Remove$1", WootzJs.Mvc.Mvc.Views.Link.prototype.Remove$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Mvc.Mvc.Views.InlineControl, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Mvc.Mvc.Views.Link.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor$1", WootzJs.Mvc.Mvc.Views.Link.prototype.$ctor$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("text", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Text", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Link", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.Link", WootzJs.Mvc.Mvc.Views.Link, WootzJs.Mvc.Mvc.Views.Control, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("useTextMode", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("localHref", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_LocalHref", WootzJs.Mvc.Mvc.Views.Link.prototype.get_LocalHref, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_LocalHref", WootzJs.Mvc.Mvc.Views.Link.prototype.set_LocalHref, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocalHrefClick", WootzJs.Mvc.Mvc.Views.Link.prototype.LocalHrefClick, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("evt", Event, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateNode", WootzJs.Mvc.Mvc.Views.Link.prototype.CreateNode, $arrayinit([], System.Reflection.ParameterInfo), Element, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Add$1", WootzJs.Mvc.Mvc.Views.Link.prototype.Add$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Mvc.Mvc.Views.Control, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Remove$1", WootzJs.Mvc.Mvc.Views.Link.prototype.Remove$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Mvc.Mvc.Views.Control, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Mvc.Mvc.Views.Link.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor$1", WootzJs.Mvc.Mvc.Views.Link.prototype.$ctor$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("text", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("LocalHref", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_LocalHref", WootzJs.Mvc.Mvc.Views.Link.prototype.get_LocalHref, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_LocalHref", WootzJs.Mvc.Mvc.Views.Link.prototype.set_LocalHref, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Text", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.Link.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {
         if (WootzJs.Mvc.Mvc.Views.Link.$isStaticInitialized)
             return;
         WootzJs.Mvc.Mvc.Views.Link.$isStaticInitialized = true;
-        WootzJs.Mvc.Mvc.Views.InlineControl.$StaticInitializer();
-    };
-    $p.useTextMode = false;
-    $p.$ctor = function() {
-        WootzJs.Mvc.Mvc.Views.InlineControl.prototype.$ctor.call(this);
-    };
-    $p.$ctor.$type = $t;
-    $p.$ctor.$new = function() {
-        return new $p.$ctor.$type(this);
-    };
-    $p.$ctor$1 = function(text) {
-        WootzJs.Mvc.Mvc.Views.InlineControl.prototype.$ctor.call(this);
-        this.set_Text(text);
-    };
-    $p.$ctor$1.$type = $t;
-    $p.$ctor$1.$new = function(text) {
-        return new $p.$ctor$1.$type(this, text);
-    };
-    $p.CreateNode = function() {
-        var a = WootzJs.Web.Browser().get_Document().createElement("a");
-        a.setAttribute("href", "javascript:void(0);");
-        return a;
-    };
-    $p.get_Text = function() {
-        return this.get_Node().innerHTML;
-    };
-    $p.set_Text = function(value) {
-        this.get_Node().innerHTML = value;
-        this.useTextMode = true;
-    };
-    $p.Add$1 = function(child) {
-        if (this.useTextMode)
-            this.get_Node().innerHTML = "";
-        this.Add($cast(WootzJs.Mvc.Mvc.Views.Control, child));
-        this.useTextMode = false;
-    };
-    $p.Remove$1 = function(child) {
-        this.Remove($cast(WootzJs.Mvc.Mvc.Views.Control, child));
-    };
-}).call(null, WootzJs.Mvc.Mvc.Views.Link, WootzJs.Mvc.Mvc.Views.Link.prototype);
-$WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.Link);
-WootzJs.Mvc.Mvc.Views.LinkPanel = $define("WootzJs.Mvc.Mvc.Views.LinkPanel", WootzJs.Mvc.Mvc.Views.Control);
-(WootzJs.Mvc.Mvc.Views.LinkPanel.$TypeInitializer = function($t, $p) {
-    $t.$GetAssembly = window.$WootzJs$Mvc$GetAssembly;
-    $p.$type = $t;
-    $t.$baseType = WootzJs.Mvc.Mvc.Views.Control;
-    $p.$typeName = "WootzJs.Mvc.Mvc.Views.LinkPanel";
-    $t.$typeName = $p.$typeName;
-    $t.$GetType = function() {
-        return System.Type._GetTypeFromTypeFunc(this);
-    };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("LinkPanel", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.LinkPanel", WootzJs.Mvc.Mvc.Views.LinkPanel, WootzJs.Mvc.Mvc.Views.Control, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("useTextMode", System.Boolean, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("localHref", String, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("get_LocalHref", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.get_LocalHref, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_LocalHref", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.set_LocalHref, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("LocalHrefClick", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.LocalHrefClick, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("evt", Event, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateNode", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.CreateNode, $arrayinit([], System.Reflection.ParameterInfo), Element, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Add$1", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.Add$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Mvc.Mvc.Views.Control, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Remove$1", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.Remove$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("child", WootzJs.Mvc.Mvc.Views.Control, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor$1", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.$ctor$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("text", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("LocalHref", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_LocalHref", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.get_LocalHref, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_LocalHref", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.set_LocalHref, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Text", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.LinkPanel.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
-    $t.$StaticInitializer = function() {
-        if (WootzJs.Mvc.Mvc.Views.LinkPanel.$isStaticInitialized)
-            return;
-        WootzJs.Mvc.Mvc.Views.LinkPanel.$isStaticInitialized = true;
         WootzJs.Mvc.Mvc.Views.Control.$StaticInitializer();
     };
     $p.useTextMode = false;
@@ -5884,8 +5828,8 @@ WootzJs.Mvc.Mvc.Views.LinkPanel = $define("WootzJs.Mvc.Mvc.Views.LinkPanel", Woo
         WootzJs.Mvc.Mvc.Views.Control.prototype.Remove.call(this, child);
         this.get_Node().removeChild(child.get_Node());
     };
-}).call(null, WootzJs.Mvc.Mvc.Views.LinkPanel, WootzJs.Mvc.Mvc.Views.LinkPanel.prototype);
-$WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.LinkPanel);
+}).call(null, WootzJs.Mvc.Mvc.Views.Link, WootzJs.Mvc.Mvc.Views.Link.prototype);
+$WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.Link);
 WootzJs.Mvc.Mvc.Views.MouseTrackingEngine = $define("WootzJs.Mvc.Mvc.Views.MouseTrackingEngine", System.Object);
 (WootzJs.Mvc.Mvc.Views.MouseTrackingEngine.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Mvc$GetAssembly;
@@ -6523,7 +6467,7 @@ WootzJs.Mvc.Mvc.Views.TextBox = $define("WootzJs.Mvc.Mvc.Views.TextBox", WootzJs
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("TextBox", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.TextBox", WootzJs.Mvc.Mvc.Views.TextBox, WootzJs.Mvc.Mvc.Views.Control, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("add_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.add_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("remove_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.remove_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Node$1", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Node$1, $arrayinit([], System.Reflection.ParameterInfo), WootzJs.Web.InputElement, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateNode", WootzJs.Mvc.Mvc.Views.TextBox.prototype.CreateNode, $arrayinit([], System.Reflection.ParameterInfo), Element, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("OnJsChanged", WootzJs.Mvc.Mvc.Views.TextBox.prototype.OnJsChanged, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("evt", Event, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Mvc.Mvc.Views.TextBox.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Node", WootzJs.Web.InputElement, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Node$1", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Node$1, $arrayinit([], System.Reflection.ParameterInfo), WootzJs.Web.InputElement, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Text", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([System.Reflection.EventInfo.prototype.$ctor.$new("Changed", System.Action, System.Reflection.MethodInfo.prototype.$ctor.$new("add_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.add_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("remove_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.remove_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Attribute))], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("TextBox", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.TextBox", WootzJs.Mvc.Mvc.Views.TextBox, WootzJs.Mvc.Mvc.Views.Control, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("add_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.add_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("remove_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.remove_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Node$1", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Node$1, $arrayinit([], System.Reflection.ParameterInfo), WootzJs.Web.InputElement, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Type", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Type, $arrayinit([], System.Reflection.ParameterInfo), WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Type", WootzJs.Mvc.Mvc.Views.TextBox.prototype.set_Type, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", WootzJs.Mvc.Mvc.Views.TextBoxType, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("CreateNode", WootzJs.Mvc.Mvc.Views.TextBox.prototype.CreateNode, $arrayinit([], System.Reflection.ParameterInfo), Element, System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("OnJsChanged", WootzJs.Mvc.Mvc.Views.TextBox.prototype.OnJsChanged, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("evt", Event, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Private, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Mvc.Mvc.Views.TextBox.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.PropertyInfo.prototype.$ctor.$new("Node", WootzJs.Web.InputElement, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Node$1", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Node$1, $arrayinit([], System.Reflection.ParameterInfo), WootzJs.Web.InputElement, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), null, $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Type", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Type", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Type, $arrayinit([], System.Reflection.ParameterInfo), WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Type", WootzJs.Mvc.Mvc.Views.TextBox.prototype.set_Type, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", WootzJs.Mvc.Mvc.Views.TextBoxType, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute)), System.Reflection.PropertyInfo.prototype.$ctor.$new("Text", String, System.Reflection.MethodInfo.prototype.$ctor.$new("get_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.get_Text, $arrayinit([], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("set_Text", WootzJs.Mvc.Mvc.Views.TextBox.prototype.set_Text, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Reflection.ParameterInfo), $arrayinit([], System.Attribute))], System.Reflection.PropertyInfo), $arrayinit([System.Reflection.EventInfo.prototype.$ctor.$new("Changed", System.Action, System.Reflection.MethodInfo.prototype.$ctor.$new("add_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.add_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("remove_Changed", WootzJs.Mvc.Mvc.Views.TextBox.prototype.remove_Changed, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", System.Action, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), $arrayinit([], System.Attribute))], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {
         if (WootzJs.Mvc.Mvc.Views.TextBox.$isStaticInitialized)
             return;
@@ -6546,6 +6490,12 @@ WootzJs.Mvc.Mvc.Views.TextBox = $define("WootzJs.Mvc.Mvc.Views.TextBox", WootzJs
     };
     $p.get_Node$1 = function() {
         return WootzJs.Mvc.Mvc.Views.Control.prototype.get_Node.call(this);
+    };
+    $p.get_Type = function() {
+        return WootzJs.Mvc.Mvc.Views.TextBoxTypes.Parse(this.get_Node$1().getAttribute("type"));
+    };
+    $p.set_Type = function(value) {
+        this.get_Node$1().setAttribute("type", WootzJs.Mvc.Mvc.Views.TextBoxTypes.GetInputType(value));
     };
     $p.CreateNode = function() {
         var textBox = WootzJs.Web.Browser().get_Document().createElement("input");
@@ -6573,6 +6523,117 @@ WootzJs.Mvc.Mvc.Views.TextBox = $define("WootzJs.Mvc.Mvc.Views.TextBox", WootzJs
     };
 }).call(null, WootzJs.Mvc.Mvc.Views.TextBox, WootzJs.Mvc.Mvc.Views.TextBox.prototype);
 $WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.TextBox);
+WootzJs.Mvc.Mvc.Views.TextBoxType = $define("WootzJs.Mvc.Mvc.Views.TextBoxType", System.Enum);
+(WootzJs.Mvc.Mvc.Views.TextBoxType.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Mvc$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Enum;
+    $p.$typeName = "WootzJs.Mvc.Mvc.Views.TextBoxType";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("TextBoxType", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.TextBoxType", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Enum, $arrayinit([], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("Text", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 0, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Password", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 1, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Color", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 2, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Email", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 3, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Number", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 4, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Range", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 5, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Search", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 6, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Telephone", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 7, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("Url", WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.FieldAttributes().Public | System.Reflection.FieldAttributes().Static | System.Reflection.FieldAttributes().Literal, 8, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", WootzJs.Mvc.Mvc.Views.TextBoxType.prototype.$ctor, $arrayinit([], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), true);return this.$type;};
+    $t.$StaticInitializer = function() {
+        if (WootzJs.Mvc.Mvc.Views.TextBoxType.$isStaticInitialized)
+            return;
+        WootzJs.Mvc.Mvc.Views.TextBoxType.$isStaticInitialized = true;
+        System.Enum.$StaticInitializer();
+        $t.Text = 0;
+        $t.Text$ = $p.$ctor.$new("Text", WootzJs.Mvc.Mvc.Views.TextBoxType().Text);
+        $t.Password = WootzJs.Mvc.Mvc.Views.TextBoxType().Text + 1;
+        $t.Password$ = $p.$ctor.$new("Password", WootzJs.Mvc.Mvc.Views.TextBoxType().Password);
+        $t.Color = WootzJs.Mvc.Mvc.Views.TextBoxType().Password + 1;
+        $t.Color$ = $p.$ctor.$new("Color", WootzJs.Mvc.Mvc.Views.TextBoxType().Color);
+        $t.Email = WootzJs.Mvc.Mvc.Views.TextBoxType().Color + 1;
+        $t.Email$ = $p.$ctor.$new("Email", WootzJs.Mvc.Mvc.Views.TextBoxType().Email);
+        $t.Number = WootzJs.Mvc.Mvc.Views.TextBoxType().Email + 1;
+        $t.Number$ = $p.$ctor.$new("Number", WootzJs.Mvc.Mvc.Views.TextBoxType().Number);
+        $t.Range = WootzJs.Mvc.Mvc.Views.TextBoxType().Number + 1;
+        $t.Range$ = $p.$ctor.$new("Range", WootzJs.Mvc.Mvc.Views.TextBoxType().Range);
+        $t.Search = WootzJs.Mvc.Mvc.Views.TextBoxType().Range + 1;
+        $t.Search$ = $p.$ctor.$new("Search", WootzJs.Mvc.Mvc.Views.TextBoxType().Search);
+        $t.Telephone = WootzJs.Mvc.Mvc.Views.TextBoxType().Search + 1;
+        $t.Telephone$ = $p.$ctor.$new("Telephone", WootzJs.Mvc.Mvc.Views.TextBoxType().Telephone);
+        $t.Url = WootzJs.Mvc.Mvc.Views.TextBoxType().Telephone + 1;
+        $t.Url$ = $p.$ctor.$new("Url", WootzJs.Mvc.Mvc.Views.TextBoxType().Url);
+    };
+    $p.$ctor = function(name, value) {
+        System.Enum.prototype.$ctor.call(this, name, value);
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function(name, value) {
+        return new $p.$ctor.$type(this, name, value);
+    };
+}).call(null, WootzJs.Mvc.Mvc.Views.TextBoxType, WootzJs.Mvc.Mvc.Views.TextBoxType.prototype);
+$WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.TextBoxType);
+WootzJs.Mvc.Mvc.Views.TextBoxTypes = $define("WootzJs.Mvc.Mvc.Views.TextBoxTypes", System.Object);
+(WootzJs.Mvc.Mvc.Views.TextBoxTypes.$TypeInitializer = function($t, $p) {
+    $t.$GetAssembly = window.$WootzJs$Mvc$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "WootzJs.Mvc.Mvc.Views.TextBoxTypes";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("TextBoxTypes", $arrayinit([], System.Attribute));this.$type.Init("WootzJs.Mvc.Mvc.Views.TextBoxTypes", WootzJs.Mvc.Mvc.Views.TextBoxTypes, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GetInputType", WootzJs.Mvc.Mvc.Views.TextBoxTypes.prototype.GetInputType, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("type", WootzJs.Mvc.Mvc.Views.TextBoxType, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), String, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Parse", WootzJs.Mvc.Mvc.Views.TextBoxTypes.prototype.Parse, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("s", String, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), WootzJs.Mvc.Mvc.Views.TextBoxType, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {
+        if (WootzJs.Mvc.Mvc.Views.TextBoxTypes.$isStaticInitialized)
+            return;
+        WootzJs.Mvc.Mvc.Views.TextBoxTypes.$isStaticInitialized = true;
+        System.Object.$StaticInitializer();
+    };
+    $t.GetInputType = function(type) {
+        switch (type) {
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Color:
+                return "color";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Email:
+                return "email";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Number:
+                return "number";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Password:
+                return "password";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Range:
+                return "range";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Url:
+                return "url";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Search:
+                return "search";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Telephone:
+                return "tel";
+            case WootzJs.Mvc.Mvc.Views.TextBoxType().Text:
+                return "text";
+            default:
+                throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
+        }
+    };
+    $t.Parse = function(s) {
+        switch (s) {
+            case "color":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Color;
+            case "email":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Email;
+            case "number":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Number;
+            case "password":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Password;
+            case "range":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Range;
+            case "url":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Url;
+            case "search":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Search;
+            case "tel":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Telephone;
+            case "text":
+                return WootzJs.Mvc.Mvc.Views.TextBoxType().Text;
+            default:
+                throw System.Exception.prototype.$ctor.$new().InternalInit(new Error());
+        }
+    };
+}).call(null, WootzJs.Mvc.Mvc.Views.TextBoxTypes, WootzJs.Mvc.Mvc.Views.TextBoxTypes.prototype);
+$WootzJs$Mvc$AssemblyTypes.push(WootzJs.Mvc.Mvc.Views.TextBoxTypes);
 WootzJs.Mvc.Mvc.Views.UrlGenerator = $define("WootzJs.Mvc.Mvc.Views.UrlGenerator", System.Object);
 (WootzJs.Mvc.Mvc.Views.UrlGenerator.$TypeInitializer = function($t, $p) {
     $t.$GetAssembly = window.$WootzJs$Mvc$GetAssembly;

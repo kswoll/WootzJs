@@ -107,12 +107,12 @@
     <Compile Include="Mvc\Views\Image.cs" />
     <Compile Include="Mvc\Views\Layout.cs" />
     <Compile Include="Mvc\Views\Link.cs" />
-    <Compile Include="Mvc\Views\LinkPanel.cs" />
     <Compile Include="Mvc\Views\MouseTrackingEngine.cs" />
     <Compile Include="Mvc\Views\SidePanel.cs" />
     <Compile Include="Mvc\Views\TablePanel.cs" />
     <Compile Include="Mvc\Views\Text.cs" />
     <Compile Include="Mvc\Views\TextBox.cs" />
+    <Compile Include="Mvc\Views\TextBoxType.cs" />
     <Compile Include="Mvc\Views\UrlGenerator.cs" />
     <Compile Include="Mvc\Views\UrlHelper.cs" />
     <Compile Include="Mvc\Views\VerticalAlignment.cs" />
