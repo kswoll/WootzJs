@@ -29,6 +29,7 @@
 
 using System.Collections.Generic;
 using System.Reactive.Disposables;
+using System.Reactive.Subjects;
 
 namespace System.Reactive.Linq.Observables
 {
@@ -76,7 +77,7 @@ namespace System.Reactive.Linq.Observables
 
             public void OnNext(TSource value)
             {
-                var key = default(TKey);
+                TKey key;
                 try
                 {
                     key = _parent._keySelector(value);
@@ -88,7 +89,7 @@ namespace System.Reactive.Linq.Observables
                 }
 
                 var fireNewMapEntry = false;
-                var writer = default(ISubject<TElement>);
+                ISubject<TElement> writer;
                 try
                 {
                     if (!_map.TryGetValue(key, out writer))
@@ -110,7 +111,7 @@ namespace System.Reactive.Linq.Observables
                     _observer.OnNext(group);
                 }
 
-                var element = default(TElement);
+                TElement element;
                 try
                 {
                     element = _parent._elementSelector(value);
@@ -134,7 +135,7 @@ namespace System.Reactive.Linq.Observables
                 foreach (var w in _map.Values)
                     w.OnCompleted();
 
-                base._observer.OnCompleted();
+                _observer.OnCompleted();
                 base.Dispose();
             }
 
@@ -143,7 +144,7 @@ namespace System.Reactive.Linq.Observables
                 foreach (var w in _map.Values)
                     w.OnError(exception);
 
-                base._observer.OnError(exception);
+                _observer.OnError(exception);
                 base.Dispose();
             }
         }

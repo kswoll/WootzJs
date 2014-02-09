@@ -39,7 +39,7 @@ namespace System.Reactive.Subjects
     /// <typeparam name="T">The type of the elements processed by the subject.</typeparam>
     public sealed class Subject<T> : ISubject<T>, IDisposable
     {
-        private volatile IObserver<T> _observer;
+        private IObserver<T> _observer;
 
         /// <summary>
         /// Creates a subject.

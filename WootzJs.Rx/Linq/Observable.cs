@@ -28,34 +28,158 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Reactive.Disposables;
+using System.Reactive.Linq.Observables;
 
 namespace System.Reactive.Linq
 {
-    public class Observable
+    public static class Observable
     {
-        public virtual IObservable<IGroupedObservable<TKey, TElement>> GroupBy<TSource, TKey, TElement>(IObservable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        public static IObservable<IGroupedObservable<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IObservable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
         {
-            return GroupBy_<TSource, TKey, TElement>(source, keySelector, elementSelector, EqualityComparer<TKey>.Default);
+            return GroupBy_(source, keySelector, elementSelector, EqualityComparer<TKey>.Default);
         }
 
-        public virtual IObservable<IGroupedObservable<TKey, TSource>> GroupBy<TSource, TKey>(IObservable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        public static IObservable<IGroupedObservable<TKey, TSource>> GroupBy<TSource, TKey>(this IObservable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
-            return GroupBy_<TSource, TKey, TSource>(source, keySelector, x => x, comparer);
+            return GroupBy_(source, keySelector, x => x, comparer);
         }
 
-        public virtual IObservable<IGroupedObservable<TKey, TSource>> GroupBy<TSource, TKey>(IObservable<TSource> source, Func<TSource, TKey> keySelector)
+        public static IObservable<IGroupedObservable<TKey, TSource>> GroupBy<TSource, TKey>(this IObservable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            return GroupBy_<TSource, TKey, TSource>(source, keySelector, x => x, EqualityComparer<TKey>.Default);
+            return GroupBy_(source, keySelector, x => x, EqualityComparer<TKey>.Default);
         }
 
-        public virtual IObservable<IGroupedObservable<TKey, TElement>> GroupBy<TSource, TKey, TElement>(IObservable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
+        public static IObservable<IGroupedObservable<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IObservable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
         {
-            return GroupBy_<TSource, TKey, TElement>(source, keySelector, elementSelector, comparer);
+            return GroupBy_(source, keySelector, elementSelector, comparer);
         }
 
-        private static IObservable<IGroupedObservable<TKey, TElement>> GroupBy_<TSource, TKey, TElement>(IObservable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
+        private static IObservable<IGroupedObservable<TKey, TElement>> GroupBy_<TSource, TKey, TElement>(this IObservable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
         {
             return new GroupBy<TSource, TKey, TElement>(source, keySelector, elementSelector, comparer);
+        }
+
+        /// <summary>
+        /// Subscribes to the specified source, re-routing synchronous exceptions during invocation of the Subscribe method to the observer's OnError channel.
+        /// This method is typically used when writing query operators.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source sequence.</typeparam>
+        /// <param name="source">Observable sequence to subscribe to.</param>
+        /// <param name="observer">Observer that will be passed to the observable sequence, and that will be used for exception propagation.</param>
+        /// <returns>IDisposable object used to unsubscribe from the observable sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="observer"/> is null.</exception>
+        public static IDisposable SubscribeSafe<T>(this IObservable<T> source, IObserver<T> observer)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (observer == null)
+                throw new ArgumentNullException("observer");
+
+            //
+            // The following types are white-listed and should not exhibit exceptional behavior
+            // for regular operation circumstances.
+            //
+            if (source is ObservableBase<T>)
+                return source.Subscribe(observer);
+
+            var producer = source as Producer<T>;
+            if (producer != null)
+                return producer.SubscribeRaw(observer, false);
+
+            var d = Disposable.Empty;
+
+            try
+            {
+                d = source.Subscribe(observer);
+            }
+            catch (Exception exception)
+            {
+                //
+                // The effect of redirecting the exception to the OnError channel is automatic
+                // clean-up of query operator state for a large number of cases. For example,
+                // consider a binary and temporal query operator with the following Subscribe
+                // behavior (implemented using the Producer pattern with a Run method):
+                //
+                //   public IDisposable Run(...)
+                //   {
+                //       var tm = _scheduler.Schedule(_due, Tick);
+                //
+                //       var df = _fst.SubscribeSafe(new FstObserver(this, ...));
+                //       var ds = _snd.SubscribeSafe(new SndObserver(this, ...)); // <-- fails
+                //
+                //       return new CompositeDisposable(tm, df, ds);
+                //   }
+                //
+                // If the second subscription fails, we're not leaving the first subscription
+                // or the scheduled job hanging around. Instead, the OnError propagation to
+                // the SndObserver should take care of a Dispose call to the observer's parent
+                // object. The handshake between Producer and Sink objects will ultimately
+                // cause disposal of the CompositeDisposable that's returned from the method.
+                //
+                observer.OnError(exception);
+            }
+
+            return d;
+        }
+
+        public static IObservable<TSource> Where<TSource>(this IObservable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var where = source as Where<TSource>;
+            if (where != null)
+                return where.Ω(predicate);
+
+            return new Where<TSource>(source, predicate);
+        }
+
+        public static IObservable<TSource> Where<TSource>(this IObservable<TSource> source, Func<TSource, int, bool> predicate)
+        {
+            return new Where<TSource>(source, predicate);
+        }
+
+        public static IObservable<TOther> SelectMany<TSource, TOther>(this IObservable<TSource> source, IObservable<TOther> other)
+        {
+            return SelectMany_(source, _ => other);
+        }
+
+        public static IObservable<TResult> SelectMany<TSource, TResult>(this IObservable<TSource> source, Func<TSource, IObservable<TResult>> selector)
+        {
+            return SelectMany_(source, selector);
+        }
+
+        public static IObservable<TResult> SelectMany<TSource, TCollection, TResult>(this IObservable<TSource> source, Func<TSource, IObservable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
+        {
+            return SelectMany_(source, collectionSelector, resultSelector);
+        }
+
+        private static IObservable<TResult> SelectMany_<TSource, TResult>(this IObservable<TSource> source, Func<TSource, IObservable<TResult>> selector)
+        {
+            return new SelectMany<TSource, TResult>(source, selector);
+        }
+
+        private static IObservable<TResult> SelectMany_<TSource, TCollection, TResult>(this IObservable<TSource> source, Func<TSource, IObservable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
+        {
+            return new SelectMany<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
+        }
+
+        public static IObservable<TResult> SelectMany<TSource, TResult>(this IObservable<TSource> source, Func<TSource, IObservable<TResult>> onNext, Func<Exception, IObservable<TResult>> onError, Func<IObservable<TResult>> onCompleted)
+        {
+            return new SelectMany<TSource, TResult>(source, onNext, onError, onCompleted);
+        }
+
+        public static IObservable<TResult> SelectMany<TSource, TResult>(this IObservable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
+        {
+            return new SelectMany<TSource, TResult>(source, selector);
+        }
+
+        public static IObservable<TResult> SelectMany<TSource, TCollection, TResult>(this IObservable<TSource> source, Func<TSource, IEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
+        {
+            return SelectMany_(source, collectionSelector, resultSelector);
+        }
+
+        private static IObservable<TResult> SelectMany_<TSource, TCollection, TResult>(this IObservable<TSource> source, Func<TSource, IEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
+        {
+            return new SelectMany<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
     }
 }

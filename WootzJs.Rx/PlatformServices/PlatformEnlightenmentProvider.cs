@@ -57,7 +57,6 @@ namespace System.Reactive.PlatformServices
     /// </remarks>
     public static class PlatformEnlightenmentProvider
     {
-        private static readonly object s_gate = new object();
         private static IPlatformEnlightenmentProvider s_current;
 
         /// <summary>
@@ -72,34 +71,18 @@ namespace System.Reactive.PlatformServices
             {
                 if (s_current == null)
                 {
-                    lock (s_gate)
+                    if (s_current == null)
                     {
-                        if (s_current == null)
-                        {
-                            //
-                            // TODO: Investigate whether we can simplify this logic to just use "System.Reactive.PlatformServices.PlatformEnlightenmentProvider, System.Reactive.PlatformServices".
-                            //       It turns out this doesn't quite work on Silverlight. On the other hand, in .NET Compact Framework 3.5, we mysteriously have to use that path.
-                            //
+                        var ifType = typeof(IPlatformEnlightenmentProvider);
+                        var asm = new AssemblyName(ifType.Assembly.FullName);
+                        asm.Name = "System.Reactive.PlatformServices";
+                        var name = "System.Reactive.PlatformServices.CurrentPlatformEnlightenmentProvider, " + asm.FullName;
 
-#if NETCF35
-                            var name = "System.Reactive.PlatformServices.CurrentPlatformEnlightenmentProvider, System.Reactive.PlatformServices";
-#else
-#if CRIPPLED_REFLECTION
-                            var ifType = typeof(IPlatformEnlightenmentProvider).GetTypeInfo();
-#else
-                            var ifType = typeof(IPlatformEnlightenmentProvider);
-#endif
-                            var asm = new AssemblyName(ifType.Assembly.FullName);
-                            asm.Name = "System.Reactive.PlatformServices";
-                            var name = "System.Reactive.PlatformServices.CurrentPlatformEnlightenmentProvider, " + asm.FullName;
-#endif
-
-                            var t = Type.GetType(name);
-                            if (t != null)
-                                s_current = (IPlatformEnlightenmentProvider)Activator.CreateInstance(t);
-                            else
-                                s_current = new DefaultPlatformEnlightenmentProvider();
-                        }
+                        var t = Type.GetType(name);
+                        if (t != null)
+                            s_current = (IPlatformEnlightenmentProvider)Activator.CreateInstance(t);
+                        else
+                            s_current = new DefaultPlatformEnlightenmentProvider();
                     }
                 }
 
@@ -108,10 +91,7 @@ namespace System.Reactive.PlatformServices
 
             set
             {
-                lock (s_gate)
-                {
-                    s_current = value;
-                }
+                s_current = value;
             }
         }
     }

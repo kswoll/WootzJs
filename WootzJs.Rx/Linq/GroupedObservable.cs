@@ -27,46 +27,52 @@
 
 #endregion
 
-namespace System.Reactive.Disposables
+using System.Reactive.Disposables;
+
+namespace System.Reactive.Linq
 {
-    /// <summary>
-    /// Represents a disposable resource that can be checked for disposal status.
-    /// </summary>
-    public sealed class BooleanDisposable : ICancelable
+    class GroupedObservable<TKey, TElement> : ObservableBase<TElement>, IGroupedObservable<TKey, TElement>
     {
-        // Keep internal! This is used as sentinel in other IDisposable implementations to detect disposal and
-        // should never be exposed to user code in order to prevent users from swapping in the sentinel. Have
-        // a look at the code in e.g. SingleAssignmentDisposable for usage patterns.
-        internal static readonly BooleanDisposable True = new BooleanDisposable(true);
+        private readonly TKey _key;
+        private readonly IObservable<TElement> _subject;
+        private readonly RefCountDisposable _refCount;
 
-        private bool _isDisposed;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Reactive.Disposables.BooleanDisposable"/> class.
-        /// </summary>
-        public BooleanDisposable()
+        public GroupedObservable(TKey key, ISubject<TElement> subject, RefCountDisposable refCount)
         {
+            _key = key;
+            _subject = subject;
+            _refCount = refCount;
         }
 
-        private BooleanDisposable(bool isDisposed)
+        public GroupedObservable(TKey key, ISubject<TElement> subject)
         {
-            _isDisposed = isDisposed;
+            _key = key;
+            _subject = subject;
         }
 
-        /// <summary>
-        /// Gets a value that indicates whether the object is disposed.
-        /// </summary>
-        public bool IsDisposed
+        public TKey Key
         {
-            get { return _isDisposed; }
+            get { return _key; }
         }
 
-        /// <summary>
-        /// Sets the status to disposed, which can be observer through the <see cref="IsDisposed"/> property.
-        /// </summary>
-        public void Dispose()
+        protected override IDisposable SubscribeCore(IObserver<TElement> observer)
         {
-            _isDisposed = true;
+            if (_refCount != null)
+            {
+                //
+                // [OK] Use of unsafe Subscribe: called on a known subject implementation.
+                //
+                var release = _refCount.GetDisposable();
+                var subscription = _subject.Subscribe/*Unsafe*/(observer);
+                return new CompositeDisposable(release, subscription);
+            }
+            else
+            {
+                //
+                // [OK] Use of unsafe Subscribe: called on a known subject implementation.
+                //
+                return _subject.Subscribe/*Unsafe*/(observer);
+            }
         }
     }
 }

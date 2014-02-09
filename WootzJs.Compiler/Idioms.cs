@@ -626,8 +626,10 @@ namespace WootzJs.Compiler
                 bool isExtension = property.IsExtension();
                 if (isExtension || isBaseReference)
                     return InvokeMethodAs(property.GetMethod, target);
-                else 
+                else if (property.GetMethod != null)
                     return Js.Invoke(Js.Member(target, property.GetMethod.GetMemberName()));
+                else 
+                    return Js.Invoke(Js.Member(target, "get_" + property.GetMemberName()));
             }
         }
 

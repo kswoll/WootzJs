@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="AnonymousSafeObserver.cs" />
     <Compile Include="AnonyousObserver.cs" />
+    <Compile Include="AutoDetachObserver.cs" />
     <Compile Include="Disposables\AnonymousDisposable.cs" />
     <Compile Include="Disposables\BooleanDisposable.cs" />
     <Compile Include="Disposables\CompositeDisposable.cs" />
@@ -43,9 +44,13 @@
     <Compile Include="ExceptionServices.cs" />
     <Compile Include="ImmutableList.cs" />
     <Compile Include="ISubject.cs" />
+    <Compile Include="Linq\GroupedObservable.cs" />
     <Compile Include="Linq\IGroupedObservable.cs" />
     <Compile Include="Linq\Observable.cs" />
     <Compile Include="Linq\Observables\GroupBy.cs" />
+    <Compile Include="Linq\Observables\SelectMany.cs" />
+    <Compile Include="Linq\Observables\Where.cs" />
+    <Compile Include="ObservableBase.cs" />
     <Compile Include="ObserverBase.cs" />
     <Compile Include="Observers.cs" />
     <Compile Include="PlatformServices\DefaultExceptionServices.cs" />

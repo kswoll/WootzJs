@@ -37,12 +37,9 @@ namespace System.Reactive.Disposables
     /// </summary>
     public sealed class CompositeDisposable : ICollection<IDisposable>, ICancelable
     {
-        private readonly object _gate = new object();
-
         private bool _disposed;
         private List<IDisposable> _disposables;
         private int _count;
-        private const int SHRINK_THRESHOLD = 64;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Reactive.Disposables.CompositeDisposable"/> class with no disposables contained by it initially.
@@ -114,15 +111,12 @@ namespace System.Reactive.Disposables
             if (item == null)
                 throw new ArgumentNullException("item");
 
-            var shouldDispose = false;
-            lock (_gate)
+            bool shouldDispose;
+            shouldDispose = _disposed;
+            if (!_disposed)
             {
-                shouldDispose = _disposed;
-                if (!_disposed)
-                {
-                    _disposables.Add(item);
-                    _count++;
-                }
+                _disposables.Add(item);
+                _count++;
             }
             if (shouldDispose)
                 item.Dispose();
@@ -141,24 +135,21 @@ namespace System.Reactive.Disposables
 
             var shouldDispose = false;
 
-            lock (_gate)
+            if (!_disposed)
             {
-                if (!_disposed)
+                //
+                // List<T> doesn't shrink the size of the underlying array but does collapse the array
+                // by copying the tail one position to the left of the removal index. We don't need
+                // index-based lookup but only ordering for sequential disposal. So, instead of spending
+                // cycles on the Array.Copy imposed by Remove, we use a null sentinel value. We also
+                // do manual Swiss cheese detection to shrink the list if there's a lot of holes in it.
+                //
+                var i = _disposables.IndexOf(item);
+                if (i >= 0)
                 {
-                    //
-                    // List<T> doesn't shrink the size of the underlying array but does collapse the array
-                    // by copying the tail one position to the left of the removal index. We don't need
-                    // index-based lookup but only ordering for sequential disposal. So, instead of spending
-                    // cycles on the Array.Copy imposed by Remove, we use a null sentinel value. We also
-                    // do manual Swiss cheese detection to shrink the list if there's a lot of holes in it.
-                    //
-                    var i = _disposables.IndexOf(item);
-                    if (i >= 0)
-                    {
-                        shouldDispose = true;
-                        _disposables[i] = null;
-                        _count--;
-                    }
+                    shouldDispose = true;
+                    _disposables[i] = null;
+                    _count--;
                 }
             }
 
@@ -174,15 +165,12 @@ namespace System.Reactive.Disposables
         public void Dispose()
         {
             var currentDisposables = default(IDisposable[]);
-            lock (_gate)
+            if (!_disposed)
             {
-                if (!_disposed)
-                {
-                    _disposed = true;
-                    currentDisposables = _disposables.ToArray();
-                    _disposables.Clear();
-                    _count = 0;
-                }
+                _disposed = true;
+                currentDisposables = _disposables.ToArray();
+                _disposables.Clear();
+                _count = 0;
             }
 
             if (currentDisposables != null)
@@ -198,13 +186,9 @@ namespace System.Reactive.Disposables
         /// </summary>
         public void Clear()
         {
-            var currentDisposables = default(IDisposable[]);
-            lock (_gate)
-            {
-                currentDisposables = _disposables.ToArray();
-                _disposables.Clear();
-                _count = 0;
-            }
+            IDisposable[] currentDisposables = _disposables.ToArray();
+            _disposables.Clear();
+            _count = 0;
 
             foreach (var d in currentDisposables)
                 if (d != null)
@@ -222,10 +206,7 @@ namespace System.Reactive.Disposables
             if (item == null)
                 throw new ArgumentNullException("item");
 
-            lock (_gate)
-            {
-                return _disposables.Contains(item);
-            }
+            return _disposables.Contains(item);
         }
 
         /// <summary>
@@ -242,10 +223,7 @@ namespace System.Reactive.Disposables
             if (arrayIndex < 0 || arrayIndex >= array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
 
-            lock (_gate)
-            {
-                Array.Copy(_disposables.Where(d => d != null).ToArray(), 0, array, arrayIndex, array.Length - arrayIndex);
-            }
+            Array.Copy(_disposables.Where(d => d != null).ToArray(), 0, array, arrayIndex, array.Length - arrayIndex);
         }
 
         /// <summary>
@@ -262,13 +240,7 @@ namespace System.Reactive.Disposables
         /// <returns>An enumerator to iterate over the disposables.</returns>
         public IEnumerator<IDisposable> GetEnumerator()
         {
-            var res = default(IEnumerable<IDisposable>);
-
-            lock (_gate)
-            {
-                res = _disposables.Where(d => d != null).ToList();
-            }
-
+            IEnumerable<IDisposable> res = _disposables.Where(d => d != null).ToList();
             return res.GetEnumerator();
         }
 
@@ -276,7 +248,7 @@ namespace System.Reactive.Disposables
         /// Returns an enumerator that iterates through the CompositeDisposable.
         /// </summary>
         /// <returns>An enumerator to iterate over the disposables.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        Collections.IEnumerator Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }

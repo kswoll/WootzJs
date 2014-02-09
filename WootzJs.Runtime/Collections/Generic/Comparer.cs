@@ -36,7 +36,7 @@ namespace System.Collections.Generic
     /// <typeparam name="T">The type of objects to compare.</typeparam><filterpriority>1</filterpriority>
     public abstract class Comparer<T> : IComparer, IComparer<T>
     {
-        private static volatile Comparer<T> defaultComparer;
+        private static Comparer<T> defaultComparer;
 
         /// <summary>
         /// Returns a default sort order comparer for the type specified by the generic argument.

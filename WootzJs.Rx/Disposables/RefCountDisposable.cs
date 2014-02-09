@@ -36,7 +36,6 @@ namespace System.Reactive.Disposables
     /// </summary>
     public sealed class RefCountDisposable : ICancelable
     {
-        private readonly object _gate = new object();
         private IDisposable _disposable;
         private bool _isPrimaryDisposed;
         private int _count;
@@ -70,17 +69,14 @@ namespace System.Reactive.Disposables
         /// <returns>A dependent disposable contributing to the reference count that manages the underlying disposable's lifetime.</returns>
         public IDisposable GetDisposable()
         {
-            lock (_gate)
+            if (_disposable == null)
             {
-                if (_disposable == null)
-                {
-                    return Disposable.Empty;
-                }
-                else
-                {
-                    _count++;
-                    return new InnerDisposable(this);
-                }
+                return Disposable.Empty;
+            }
+            else
+            {
+                _count++;
+                return new InnerDisposable(this);
             }
         }
 
@@ -90,19 +86,16 @@ namespace System.Reactive.Disposables
         public void Dispose()
         {
             var disposable = default(IDisposable);
-            lock (_gate)
+            if (_disposable != null)
             {
-                if (_disposable != null)
+                if (!_isPrimaryDisposed)
                 {
-                    if (!_isPrimaryDisposed)
-                    {
-                        _isPrimaryDisposed = true;
+                    _isPrimaryDisposed = true;
 
-                        if (_count == 0)
-                        {
-                            disposable = _disposable;
-                            _disposable = null;
-                        }
+                    if (_count == 0)
+                    {
+                        disposable = _disposable;
+                        _disposable = null;
                     }
                 }
             }
@@ -114,21 +107,18 @@ namespace System.Reactive.Disposables
         private void Release()
         {
             var disposable = default(IDisposable);
-            lock (_gate)
+            if (_disposable != null)
             {
-                if (_disposable != null)
+                _count--;
+
+                Diagnostics.Debug.Assert(_count >= 0);
+
+                if (_isPrimaryDisposed)
                 {
-                    _count--;
-
-                    Diagnostics.Debug.Assert(_count >= 0);
-
-                    if (_isPrimaryDisposed)
+                    if (_count == 0)
                     {
-                        if (_count == 0)
-                        {
-                            disposable = _disposable;
-                            _disposable = null;
-                        }
+                        disposable = _disposable;
+                        _disposable = null;
                     }
                 }
             }
