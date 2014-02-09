@@ -65,7 +65,7 @@ namespace WootzJs.Compiler.JsAst
             return new JsVariableDeclarator(name, initializer);
         }
 
-        public static JsBinaryExpression Assign(JsExpression left, JsExpression right)
+        public static JsBinaryExpression Assign(this JsExpression left, JsExpression right)
         {
             return new JsBinaryExpression(JsBinaryOperator.Assign, left, right);
         }

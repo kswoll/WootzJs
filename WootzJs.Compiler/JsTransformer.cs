@@ -489,8 +489,11 @@ namespace WootzJs.Compiler
         public override JsNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
             var constructor = model.GetDeclaredSymbol(node);
+
             var classType = constructor.ContainingType;
             var block = new JsBlockStatement();
+            if (constructor.IsStatic)
+                return block;
 
             PushDeclaration(constructor);
             PushScope(constructor);

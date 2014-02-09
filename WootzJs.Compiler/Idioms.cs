@@ -141,6 +141,12 @@ namespace WootzJs.Compiler
             block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
 
             staticInitializer = new JsBlockStatement();
+            staticInitializer.If(Type(classType).Member(SpecialNames.IsStaticInitialized), Js.Return());
+            staticInitializer.Assign(Type(classType).Member(SpecialNames.IsStaticInitialized), Js.Primitive(true));
+            if (classType.BaseType != null)
+            {
+                staticInitializer.Express(Type(classType.BaseType).Member(SpecialNames.StaticInitializer).Invoke());
+            }
             var staticInitializerFunction = Js.Function().Body(staticInitializer);
             typeInitializer.Add(StoreInType(SpecialNames.StaticInitializer, staticInitializerFunction));
 

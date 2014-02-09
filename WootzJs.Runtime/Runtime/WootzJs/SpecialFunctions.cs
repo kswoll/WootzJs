@@ -48,11 +48,9 @@ namespace System.Runtime.WootzJs
             // are not called via new, they exist for initialization only.
             typeFunction = Jsni.function(constructor =>
             {
-                if (!Jsni.member(typeFunction, "$isStaticInitialized").As<bool>() && 
-                    (constructor != null || !(Jsni.instanceof(Jsni.@this(), typeFunction))))
+                if (constructor != null || !(Jsni.instanceof(Jsni.@this(), typeFunction)))
                 {
-                    Jsni.memberset(typeFunction, "$isStaticInitialized", true.As<JsObject>());
-                    Jsni.invoke(Jsni.member(typeFunction, "$StaticInitializer"));
+                    Jsni.invoke(Jsni.member(typeFunction, SpecialNames.StaticInitializer));
                 }
                 if (constructor != null) 
                     Jsni.apply(constructor, Jsni.@this(), Jsni.call(Jsni.reference("Array.prototype.slice"), Jsni.arguments(), 1.As<JsObject>()).As<JsArray>());
