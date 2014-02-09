@@ -191,6 +191,41 @@ namespace System.Linq
             return result;
         }
 
+        public static TSource Last<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).Last();
+        }
+
+        public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            return source.Where(predicate).LastOrDefault();
+        }
+
+        public static TSource Last<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.LastOrDefault(() => { throw new InvalidOperationException("Sequence contains no elements"); });
+        }
+
+        public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.LastOrDefault(() => default(TSource));
+        }
+
+        public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource> defaultValue)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            var enumerator = source.GetEnumerator();
+            if (!enumerator.MoveNext())
+                return defaultValue();
+            
+            var lastValue = enumerator.Current;
+            while (enumerator.MoveNext())
+                lastValue = enumerator.Current;
+            enumerator.Dispose();
+            return lastValue;
+        }
+
         public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             return source.Where(predicate).Single();

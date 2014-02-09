@@ -352,6 +352,14 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.IsTrue(ints1.SequenceEqual(ints2));
         }
 
+        [Test]
+        public void Last()
+        {
+            var ints = new[] { 1, 2, 3, 4 };
+            var last = ints.Last();
+            QUnit.AreEqual(last, 4);
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }
