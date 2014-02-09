@@ -100,6 +100,8 @@
     <Compile Include="Mvc\Views\FlowPanel.cs" />
     <Compile Include="Mvc\Views\HorizontalAlignment.cs" />
     <Compile Include="Mvc\Views\HorizontalPanel.cs" />
+    <Compile Include="Mvc\Views\HorizontalRule.cs" />
+    <Compile Include="Mvc\Views\Html.cs" />
     <Compile Include="Mvc\Views\HtmlControl.cs" />
     <Compile Include="Mvc\Views\InlineControl.cs" />
     <Compile Include="Mvc\Views\Image.cs" />

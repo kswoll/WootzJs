@@ -27,9 +27,9 @@ namespace WootzJs.Mvc.Mvc.Views
         private bool isAttachedToDom;
         private View view;
 
-        public Control()
+        public Control(string tagName = "div")
         {
-            TagName = "div";
+            TagName = tagName;
         }
 
         public Control(Element node)

@@ -469,7 +469,7 @@ namespace WootzJs.Compiler
 
             if (fullTypeName != "System.Object")
             {
-                constructorBlock.Express(idioms.InvokeMethodAsThis(classType.BaseType.InstanceConstructors.Single(x => x.Parameters.Count == 0)));
+                constructorBlock.Express(idioms.InvokeParameterlessBaseClassConstructor(classType.BaseType));
             }
 
             if (type is ClassDeclarationSyntax)
@@ -509,16 +509,7 @@ namespace WootzJs.Compiler
                 // No explicit initializer was specified, so infer the call to the base class parameterless constructor.
                 if (node.Initializer == null)
                 {
-                    var baseConstructor = classType.BaseType.InstanceConstructors.SingleOrDefault(x => x.Parameters.Count == 0);
-                    var arguments = new List<JsExpression>();
-                    if (baseConstructor == null)
-                    {
-                        baseConstructor = classType.BaseType.InstanceConstructors.Single(x => x.Parameters[0].HasDefaultValue);
-                        arguments.AddRange(baseConstructor.Parameters
-                            .Where(x => x.HasDefaultValue)
-                            .Select(x => Js.Literal(x.DefaultValue)));
-                    }
-                    constructorBlock.Express(idioms.InvokeMethodAsThis(baseConstructor, arguments.ToArray()));
+                    constructorBlock.Express(idioms.InvokeParameterlessBaseClassConstructor(classType.BaseType));
                 }
                 else
                 {

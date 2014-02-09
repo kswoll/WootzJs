@@ -1685,5 +1685,19 @@ namespace WootzJs.Compiler
 
             return value;
         }
+
+        public JsExpression InvokeParameterlessBaseClassConstructor(NamedTypeSymbol baseType)
+        {
+            var baseConstructor = baseType.InstanceConstructors.SingleOrDefault(x => x.Parameters.Count == 0);
+            var arguments = new List<JsExpression>();
+            if (baseConstructor == null)
+            {
+                baseConstructor = baseType.InstanceConstructors.Single(x => x.Parameters[0].HasDefaultValue);
+                arguments.AddRange(baseConstructor.Parameters
+                    .Where(x => x.HasDefaultValue)
+                    .Select(x => Js.Literal(x.DefaultValue)));
+            }
+            return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
+        }
     }
 }
