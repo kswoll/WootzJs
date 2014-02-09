@@ -3,7 +3,7 @@ using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
-    public class Image : Control, IInlineControl
+    public class Image : InlineControl
     {
         public Image()
         {

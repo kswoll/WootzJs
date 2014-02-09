@@ -101,7 +101,7 @@
     <Compile Include="Mvc\Views\HorizontalAlignment.cs" />
     <Compile Include="Mvc\Views\HorizontalPanel.cs" />
     <Compile Include="Mvc\Views\HtmlControl.cs" />
-    <Compile Include="Mvc\Views\IInlineControl.cs" />
+    <Compile Include="Mvc\Views\InlineControl.cs" />
     <Compile Include="Mvc\Views\Image.cs" />
     <Compile Include="Mvc\Views\Layout.cs" />
     <Compile Include="Mvc\Views\Link.cs" />
@@ -112,6 +112,7 @@
     <Compile Include="Mvc\Views\Text.cs" />
     <Compile Include="Mvc\Views\TextBox.cs" />
     <Compile Include="Mvc\Views\UrlGenerator.cs" />
+    <Compile Include="Mvc\Views\UrlHelper.cs" />
     <Compile Include="Mvc\Views\VerticalAlignment.cs" />
     <Compile Include="Mvc\Views\VerticalPanel.cs" />
     <Compile Include="Mvc\Views\View.cs" />

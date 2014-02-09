@@ -15,8 +15,14 @@ namespace WootzJs.Mvc.Mvc.Views
 
             var methodCallExpression = (MethodCallExpression)action.Body;
             var method = methodCallExpression.Method;
+            var controllerDefaultAttribute = (DefaultAttribute)method.DeclaringType.GetCustomAttributes(typeof(DefaultAttribute), false).SingleOrDefault();
             var routeAttribute = (RouteAttribute)method.GetCustomAttributes(typeof(RouteAttribute), false).SingleOrDefault();
-            if (routeAttribute != null && routeAttribute.Value != null)
+            var defaultAttribute = (DefaultAttribute)method.GetCustomAttributes(typeof(DefaultAttribute), false).SingleOrDefault();
+            if (controllerDefaultAttribute != null && defaultAttribute != null)
+                result.Append("/");
+            else if (defaultAttribute != null)
+                result.Append("/" + GetControllerNameFromType(method.DeclaringType));
+            else if (routeAttribute != null && routeAttribute.Value != null)
                 result.Append(GenerateUrlFromTemplate(routeAttribute.Value));
             else 
                 result.Append(GenerateUrlFromMethod(method));

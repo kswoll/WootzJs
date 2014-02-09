@@ -1,7 +1,7 @@
 ﻿
 namespace WootzJs.Mvc.Mvc.Views
 {
-    public class Text : Control, IInlineControl
+    public class Text : InlineControl
     {
         public Text()
         {

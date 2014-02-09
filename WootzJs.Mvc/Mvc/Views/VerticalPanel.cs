@@ -1,4 +1,5 @@
-﻿using WootzJs.Web;
+﻿using System;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -7,10 +8,84 @@ namespace WootzJs.Mvc.Mvc.Views
         public HorizontalAlignment DefaultAlignment { get; set; }
 
         private Element table;
+        private Element firstSpacer;
+        private Element lastSpacer;
 
         public VerticalPanel()
         {
             DefaultAlignment = HorizontalAlignment.Fill;
+        }
+
+        public VerticalAlignment VerticalAlignment
+        {
+            get
+            {
+                if (firstSpacer == null && lastSpacer == null)
+                    return VerticalAlignment.Fill;
+                else if (firstSpacer != null && lastSpacer != null)
+                    return VerticalAlignment.Middle;
+                else if (firstSpacer != null)
+                    return VerticalAlignment.Bottom;
+                else if (lastSpacer != null)
+                    return VerticalAlignment.Top;
+                else
+                    throw new InvalidOperationException();
+            }
+            set
+            {
+                EnsureNodeExists();
+                if (firstSpacer != null)
+                {
+                    firstSpacer.Remove();
+                    firstSpacer = null;
+                }
+                if (lastSpacer != null)
+                {
+                    lastSpacer.Remove();
+                    lastSpacer = null;
+                }
+                switch (value)
+                {
+                    case VerticalAlignment.Fill:
+                        break;
+                    case VerticalAlignment.Middle:
+                    {
+                        firstSpacer = Browser.Document.CreateElement("tr");
+                        var firstSpacerCell = Browser.Document.CreateElement("td");
+                        firstSpacerCell.Style.Height = "50%";
+                        firstSpacer.AppendChild(firstSpacerCell);
+                        table.Prepend(firstSpacer);
+
+                        lastSpacer = Browser.Document.CreateElement("tr");
+                        var lastSpacerCell = Browser.Document.CreateElement("td");
+                        lastSpacerCell.Style.Height = "50%";
+                        lastSpacer.AppendChild(lastSpacerCell);
+                        table.AppendChild(lastSpacer);
+
+                        break;
+                    }
+                    case VerticalAlignment.Top:
+                    {
+                        lastSpacer = Browser.Document.CreateElement("tr");
+                        var lastSpacerCell = Browser.Document.CreateElement("td");
+                        lastSpacerCell.Style.Height = "100%";
+                        lastSpacer.AppendChild(lastSpacerCell);
+                        table.AppendChild(lastSpacer);
+                        break;
+                    }
+                   case VerticalAlignment.Bottom:
+                    {
+                        firstSpacer = Browser.Document.CreateElement("tr");
+                        var firstSpacerCell = Browser.Document.CreateElement("td");
+                        firstSpacerCell.Style.Height = "100%";
+                        firstSpacer.AppendChild(firstSpacerCell);
+                        table.AppendChild(firstSpacer);
+                        break;
+                    }
+                    default:
+                        throw new InvalidOperationException();
+                }                
+            }
         }
 
         protected override Element CreateNode()

@@ -2,7 +2,7 @@
 
 namespace WootzJs.Mvc.Mvc.Views
 {
-    public class Link : Control, IInlineControl
+    public class Link : InlineControl
     {
         private bool useTextMode;
 
@@ -40,7 +40,7 @@ namespace WootzJs.Mvc.Mvc.Views
         /// Using this property will remove any text added via Text.
         /// </summary>
         /// <param name="child"></param>
-        public void Add(IInlineControl child)
+        public void Add(InlineControl child)
         {
             if (useTextMode)
                 Node.InnerHtml = "";
@@ -49,7 +49,7 @@ namespace WootzJs.Mvc.Mvc.Views
             useTextMode = false;
         }
 
-        public void Remove(IInlineControl child)
+        public void Remove(InlineControl child)
         {
             Remove((Control)child);
         }

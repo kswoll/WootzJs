@@ -96,6 +96,12 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             }
         }
 
+        public CssNumericValue BorderSpacing
+        {
+            get { return CssNumericValue.Parse(Get("border-spacing")); }
+            set { Set("border-spacing", value); }
+        }
+
         public CssColor BackgroundColor
         {
             get { return CssColor.Parse(Get("background-color")); }
@@ -161,5 +167,19 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             get { return CssPercent.Parse(Get("opacity")); }
             set { Set("opacity", value); }
         }
+/*
+
+        public CssTextAlign TextAlign
+        {
+            get { return CssTextAligns.Parse(Get("text-align")); }
+            set { Set("text-align", value.GetCssValue()); }
+        }
+
+        public CssVerticalAlign VerticalAlign
+        {
+            get { return CssVerticalAligns.Parse(Get("vertical-align")); }
+            set { Set("vertical-align", value.GetCssValue()); }
+        }
+*/
     }
 }

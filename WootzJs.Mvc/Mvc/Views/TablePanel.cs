@@ -1,30 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WootzJs.Mvc.Mvc.Views.Css;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
     public class TablePanel : Control
     {
+        public TableConstraint DefaultConstraint { get; set; }
+
+        private Element table;
         private TableWidth[] columnWidths;
         private List<Element> rows = new List<Element>();
         private List<Control[]> cells = new List<Control[]>();
-        private TableConstraint defaultConstraint = new TableConstraint();
+        private int cellSpacing;
 
         public TablePanel(params TableWidth[] columnWidths)
         {
             this.columnWidths = columnWidths;
+            DefaultConstraint = new TableConstraint();
         }
 
         public int CellSpacing
         {
-            get; set;
+            get { return cellSpacing; }
+            set
+            {
+                cellSpacing = value;
+                for (var i = 0; i < rows.Count; i++)
+                {
+                    var row = rows[i];
+                    for (var j = 0; j < row.Children.Length; j++)
+                    {
+                        var cell = row.Children[j];
+                        var isLastCellInRow = j == row.Children.Length - 1;
+                        var isLastRowInTable = i == rows.Count - 1;
+                        if (!isLastCellInRow)
+                            cell.Style.PaddingRight = cellSpacing + "px";
+                        if (!isLastRowInTable)
+                            cell.Style.PaddingBottom = cellSpacing + "px";
+                    }
+                }
+            }
         }
 
         protected override Element CreateNode()
         {
-            var table = Browser.Document.CreateElement("table");
+            table = Browser.Document.CreateElement("table");
 
             var totalNumberOfWeights = columnWidths.Where(x => x.Style == TableWidthStyle.Weight).Sum(x => x.Value);
             var totalPercent = columnWidths.Where(x => x.Style == TableWidthStyle.Percent).Sum(x => x.Value);
@@ -90,9 +113,9 @@ namespace WootzJs.Mvc.Mvc.Views
             base.Add(cell);
 
             var nextEmptyCell = GetNextEmptyCell();
-            constraint = constraint ?? defaultConstraint;
+            constraint = constraint ?? DefaultConstraint;
             if (nextEmptyCell.X + constraint.ColumnSpan > columnWidths.Length)
-                throw new InvalidOperationException(string.Format("Added a cell at position ({0},{1}), but the column ({2}) exceeds teh available remaining space in the row ({3}).", nextEmptyCell.X, nextEmptyCell.Y, constraint.ColumnSpan, columnWidths.Length - nextEmptyCell.X));
+                throw new InvalidOperationException(string.Format("Added a cell at position ({0},{1}), but the column ({2}) exceeds the available remaining space in the row ({3}).", nextEmptyCell.X, nextEmptyCell.Y, constraint.ColumnSpan, columnWidths.Length - nextEmptyCell.X));
 
             var jsCell = Browser.Document.CreateElement("td");
             if (constraint.ColumnSpan != 1)
@@ -141,9 +164,20 @@ namespace WootzJs.Mvc.Mvc.Views
                 {
                     while (cells.Count <= row)
                     {
+                        // Add cellspacing padding to previous row
+                        if (cellSpacing > 0 && rows.Any())
+                        {
+                            var lastRow = rows.Last();
+                            for (var i = 0; i < lastRow.Children.Length; i++)
+                            {
+                                var lastCell = lastRow.Children[i];
+                                lastCell.Style.PaddingBottom = cellSpacing + "px";
+                            }
+                        }
+
                         cells.Add(new Control[columnWidths.Length]);
                         var newRow = Browser.Document.CreateElement("tr");
-                        Node.AppendChild(newRow);
+                        table.AppendChild(newRow);
                         rows.Add(newRow);
                     }
                     if (cells[row][col] != null)
@@ -151,6 +185,10 @@ namespace WootzJs.Mvc.Mvc.Views
                     cells[row][col] = cell;
                 }
             }
+
+            var isLastCellInRow = nextEmptyCell.X + constraint.ColumnSpan == columnWidths.Length;
+            if (!isLastCellInRow && cellSpacing != 0)
+                jsCell.Style.PaddingRight = cellSpacing + "px";
 
             var jsRow = rows[nextEmptyCell.Y];
             jsRow.AppendChild(jsCell);

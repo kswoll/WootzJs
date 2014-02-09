@@ -2,9 +2,10 @@
 
 namespace WootzJs.Mvc.Mvc.Views
 {
-    public class LinkPanel : Control    
+    public class LinkPanel : Control
     {
         private bool useTextMode;
+        private string localHref;
 
         public LinkPanel() 
         {
@@ -13,6 +14,34 @@ namespace WootzJs.Mvc.Mvc.Views
         public LinkPanel(string text)
         {
             Text = text;
+        }
+
+        public string LocalHref
+        {
+            get { return localHref; }
+            set
+            {
+                EnsureNodeExists();
+                if (localHref != null)
+                {
+                    Node.SetAttribute("href", "javascript:void(0);");
+                    Click -= LocalHrefClick;
+                }
+
+                localHref = value;
+
+                if (localHref != null)
+                {
+                    Node.SetAttribute("href", value);
+                    Click += LocalHrefClick;
+                }
+            }
+        }
+
+        private void LocalHrefClick(Event evt)
+        {
+            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"));            
+            evt.PreventDefault();
         }
 
         protected override Element CreateNode()
@@ -41,18 +70,20 @@ namespace WootzJs.Mvc.Mvc.Views
         /// Using this property will remove any text added via Text.
         /// </summary>
         /// <param name="child"></param>
-        public void Add(IInlineControl child)
+        public new void Add(Control child)
         {
             if (useTextMode)
                 Node.InnerHtml = "";
 
-            Add((Control)child);
+            base.Add(child);
+            Node.AppendChild(child.Node);
             useTextMode = false;
         }
 
-        public void Remove(IInlineControl child)
+        public new void Remove(Control child)
         {
-            Remove((Control)child);
+            base.Remove(child);
+            Node.RemoveChild(child.Node);
         }
     }
 }

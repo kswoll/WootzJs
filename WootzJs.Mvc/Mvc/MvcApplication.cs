@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.WootzJs;
 using System.Web;
 using WootzJs.Mvc.Mvc.Routes;
 using WootzJs.Mvc.Mvc.Views;
@@ -39,7 +40,7 @@ namespace WootzJs.Mvc.Mvc
             Port = Browser.Window.Location.Port;
             Scheme = Browser.Window.Location.Protocol;
 
-            Browser.Window.AddEventListener("onpopstate", evt => OnPopState((PopStateEvent)evt));
+            Browser.Window.AddEventListener("popstate", evt => OnPopState(evt.As<PopStateEvent>()));
 
             var path = Browser.Window.Location.PathName;
             Console.WriteLine(path);

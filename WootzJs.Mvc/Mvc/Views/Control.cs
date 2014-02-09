@@ -14,7 +14,6 @@ namespace WootzJs.Mvc.Mvc.Views
         }
 
         public Control Parent { get; private set; }
-        public View View { get; internal set; }
         public event Action AttachedToDom;
 
         protected string TagName { get; set; }
@@ -22,10 +21,11 @@ namespace WootzJs.Mvc.Mvc.Views
         private Element node;
         private List<Control> children = new List<Control>();
         private Style style;
-        private Action click;
+        private Action<Event> click;
         private Action mouseEntered;
         private Action mouseExited;
         private bool isAttachedToDom;
+        private View view;
 
         public Control()
         {
@@ -36,6 +36,12 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             Node = node;
             isAttachedToDom = node.IsAttachedToDom();
+        }
+
+        public View View
+        {
+            get { return view; }
+            internal set { view = value; }
         }
 
         public ViewContext ViewContext
@@ -144,17 +150,17 @@ namespace WootzJs.Mvc.Mvc.Views
         {
         }
 
-        public event Action Click
+        public event Action<Event> Click
         {
             add
             {
                 if (click == null)
                     Node.AddEventListener("click", OnJsClick);
-                click = (Action)Delegate.Combine(click, value);
+                click = (Action<Event>)Delegate.Combine(click, value);
             }
             remove
             {
-                click = (Action)Delegate.Remove(click, value);
+                click = (Action<Event>)Delegate.Remove(click, value);
                 if (click == null)
                     Node.RemoveEventListener("click", OnJsClick);
             }
@@ -194,7 +200,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         private void OnJsClick(Event evt)
         {
-            OnClick();
+            OnClick(evt);
         }
 
         private void OnJsMouseEnter(Event evt)
@@ -207,11 +213,11 @@ namespace WootzJs.Mvc.Mvc.Views
             OnMouseLeave();
         }
 
-        protected virtual void OnClick()
+        protected virtual void OnClick(Event evt)
         {
             var click = this.click;
             if (click != null)
-                click();
+                click(evt);
         }
 
         protected virtual void OnMouseEnter()
@@ -244,6 +250,20 @@ namespace WootzJs.Mvc.Mvc.Views
             {
                 child.OnAttachedToDom();
             }
+        }
+
+        protected virtual void OnAddedToView()
+        {
+            foreach (var child in Children)
+            {
+                child.View = View;
+                child.OnAddedToView();
+            }
+        }
+
+        internal void NotifyOnAddedToView()
+        {
+            OnAddedToView();
         }
     }
 }

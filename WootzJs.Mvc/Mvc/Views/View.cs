@@ -11,10 +11,19 @@ namespace WootzJs.Mvc.Mvc.Views
         public ViewContext ViewContext { get; private set; }
 
         private Control _content;
+        private bool isInitialized;
 
         public void Initialize(ViewContext context)
         {
+            isInitialized = true;
             ViewContext = context;
+            OnInitialize();
+        }
+
+        protected virtual void OnInitialize()
+        {
+            if (Content != null)
+                Content.NotifyOnAddedToView();
         }
 
         public Control Content
@@ -24,6 +33,8 @@ namespace WootzJs.Mvc.Mvc.Views
             {
                 _content = value;
                 value.View = this;
+                if (isInitialized)
+                    value.NotifyOnAddedToView();
             }
         }
 

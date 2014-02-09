@@ -3,11 +3,11 @@ using System.Linq.Expressions;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
-    public class ActionHelper
+    public class UrlHelper
     {
         private ViewContext viewContext;
 
-        public ActionHelper(ViewContext viewContext)
+        public UrlHelper(ViewContext viewContext)
         {
             this.viewContext = viewContext;
         }
@@ -26,10 +26,10 @@ namespace WootzJs.Mvc.Mvc.Views
                 this.viewContext = viewContext;
             }
 
-            public void To<TActionResult>(Expression<Func<TController, TActionResult>> action)
+            public string To<TActionResult>(Expression<Func<TController, TActionResult>> action)
             {
-                viewContext.ControllerContext.Application.Open(UrlGenerator.GenerateUrl(action));
+                return UrlGenerator.GenerateUrl(action);
             }
-        }
+        }         
     }
 }

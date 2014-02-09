@@ -9,7 +9,7 @@ namespace WootzJs.Mvc.Mvc.Views.Css
 
     public static class CssTextAligns
     {
-        public static string GetValue(this CssTextAlign value)
+        public static string GetCssValue(this CssTextAlign value)
         {
             return value.ToString().ToLower();
         }
