@@ -771,12 +771,14 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
-            var symbolInfo = model.GetSymbolInfo(node);
+            var symbol = model.GetSymbolInfo(node).Symbol;
+/*
             if (symbolInfo.Symbol == null)
             {
                 var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
                 var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
             }
+*/
 
             JsExpression target;
             bool isBaseReference;
@@ -788,10 +790,22 @@ namespace WootzJs.Compiler
             else
             {
                 isBaseReference = false;
-                target = (JsExpression)node.Expression.Accept(this);
+                var expressionSymbol = model.GetSymbolInfo(node.Expression).Symbol;
+                if (symbol.IsStatic && expressionSymbol != null && expressionSymbol != symbol.ContainingType)
+                {
+                    // For static methods, we want to ensure that we are capturing the correct type.
+                    // Typically, C# programmers qualify static members with declaring type, but 
+                    // C# allows you to qualify with sub types.  However, in the compiled output
+                    // we need to ensure that they are accessing it via the declaring type.
+                    target = idioms.Type(symbol.ContainingType).Invoke();
+                }
+                else
+                {
+                    target = (JsExpression)node.Expression.Accept(this);
+                }
             }
 
-            var result = idioms.MemberReference(target, symbolInfo.Symbol, false, isBaseReference);
+            var result = idioms.MemberReference(target, symbol, false, isBaseReference);
             return ImplicitCheck(node, result);
         }
 

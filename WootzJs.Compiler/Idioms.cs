@@ -108,19 +108,16 @@ namespace WootzJs.Compiler
                 {
                     block.Assign(Js.Reference(Context.Instance.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
                         Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
-//                    block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
                     block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
-//                    block.Add(CreatePrototype(outerClassType, baseType));
                 }
                 else
                 {
                     block.Assign(Js.Reference("window." + classType.GetTypeName()), 
                         Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
-//                    block.Add(CreatePrototype(Js.Reference(classType.GetTypeName()), baseType));
                 }
             }
             typeInitializer = new JsBlockStatement();
@@ -181,7 +178,7 @@ namespace WootzJs.Compiler
         {
             var explicitName = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             var fullTypeName = type.GetFullName();
-            var baseType = type.BaseType != null ? Type(type.BaseType) : Js.Null();
+            var baseType = type.BaseType != null ? Type(type.BaseType, true) : Js.Null();
             var body = new JsBlockStatement();
             body.Assign(Js.This().Member(SpecialNames.TypeField), 
                 CreateObject(Context.Instance.TypeConstructor, Js.Primitive(type.Name), CreateAttributes(type)));
@@ -649,10 +646,7 @@ namespace WootzJs.Compiler
                     {
                         result = MakeArray(result, (ArrayTypeSymbol)field.Type);
                     }
-/*
-                    if (field.Type.TypeKind == TypeKind.Enum)
-                        result = GetEnumValue(result);
-*/
+
                     return result;
                 }
                 case SymbolKind.Event:

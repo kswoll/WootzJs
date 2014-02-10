@@ -114,6 +114,42 @@ namespace WootzJs.Compiler.Tests
         {
             QUnit.AreEqual(GenericClassWithStaticInitializedField<string>.Foo, "String");
         }
+
+        [Test]
+        public void SubStaticClassField()
+        {
+            QUnit.AreEqual(SubStaticClass.StaticField, "StaticField");
+        }
+
+        [Test]
+        public void SubStaticClassMethod()
+        {
+            QUnit.AreEqual(SubStaticClass.StaticMethod(), "StaticMethod");
+        }
+
+        [Test]
+        public void SubStaticClassProperty()
+        {
+            QUnit.AreEqual(SubStaticClass.StaticProperty, "StaticProperty");
+        }
+        
+        [Test]
+        public void SubGenericStaticClassField()
+        {
+            QUnit.AreEqual(SubGenericStaticClass<string>.StaticField, "StaticFieldString");
+        }
+
+        [Test]
+        public void SubGenericStaticClassMethod()
+        {
+            QUnit.AreEqual(SubGenericStaticClass<string>.StaticMethod(), "StaticMethodString");
+        }
+
+        [Test]
+        public void SubGenericStaticClassProperty()
+        {
+            QUnit.AreEqual(SubGenericStaticClass<string>.StaticProperty, "StaticPropertyString");
+        }
         
         private bool MethodTypeEqualsString<T>()
         {
@@ -168,5 +204,47 @@ namespace WootzJs.Compiler.Tests
                 return typeof(T).Name.ToUpper();
             }
         }
+    }
+
+    public class BaseStaticClass
+    {
+        public static string StaticField = "StaticField";
+        
+        public static string StaticProperty { get; set; }
+
+        public static string StaticMethod()
+        {
+            return "StaticMethod";
+        }
+
+        static BaseStaticClass()
+        {
+            StaticProperty = "StaticProperty";
+        }
+    }
+
+    public class SubStaticClass : BaseStaticClass
+    {
+    }
+
+    public class BaseGenericStaticClass<T>
+    {
+        public static string StaticField = "StaticField" + typeof(T).Name;
+        
+        public static string StaticProperty { get; set; }
+
+        public static string StaticMethod()
+        {
+            return "StaticMethod" + typeof(T).Name;
+        }
+
+        static BaseGenericStaticClass()
+        {
+            StaticProperty = "StaticProperty" + typeof(T).Name;
+        }
+    }
+
+    public class SubGenericStaticClass<T> : BaseGenericStaticClass<T>
+    {
     }
 }
