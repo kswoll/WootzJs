@@ -154,6 +154,12 @@ namespace WootzJs.Compiler
                 compilationUnit.Accept(anonymousTypeTransformer);
             }
 
+            var diagnostics = compilation.GetDiagnostics();
+            foreach (var diagnostic in diagnostics)
+            {
+                Console.WriteLine(diagnostic);
+            }
+
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type
             // declarations.
             foreach (var syntaxTree in compilation.SyntaxTrees)
@@ -250,6 +256,27 @@ namespace WootzJs.Compiler
                             }
                         }
                     }
+
+                    // Get all base types of inner classes
+                    foreach (var innerType in item.Item1.GetAllInnerTypes())
+                    {
+                        var innerBaseType = innerType.BaseType;
+                        if (innerBaseType != null)
+                        {
+                            if (innerBaseType.OriginalDefinition != innerBaseType)
+                                innerBaseType = (NamedTypeSymbol)innerBaseType.OriginalDefinition;
+                            int baseIndex;
+                            if (indices.TryGetValue(innerBaseType, out baseIndex))
+                            {
+                                var baseTypeItem = list[baseIndex];
+                                if (baseIndex > i)
+                                {
+                                    prepend.Add(baseTypeItem);
+                                }
+                            }
+                        }
+                    }
+
 /*
                     foreach (var interfaceType in item.Item1.AllInterfaces)
                     {

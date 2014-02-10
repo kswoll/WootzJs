@@ -17,3 +17,6 @@ WebSite/WootzJs.Site.Api/bin/
 WebSite/WootzJs.Site.Api/obj/
 WootzJs.Rx/bin/
 WootzJs.Rx/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+WootzJs.Rx.Tests/bin/Debug/WootzJs.Rx.Tests.js
+WootzJs.Rx.Tests/bin/
+WootzJs.Rx.Tests/obj/

@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
@@ -373,6 +374,18 @@ namespace WootzJs.Compiler
                 }
             }
             return result;
+        }
+
+        public static IEnumerable<TypeSymbol> GetAllInnerTypes(this TypeSymbol type)
+        {
+            foreach (var innerType in type.GetMembers().OfType<TypeSymbol>())
+            {
+                yield return innerType;
+                foreach (var inner in innerType.GetAllInnerTypes())
+                {
+                    yield return inner;
+                }
+            }
         }
     }
 }

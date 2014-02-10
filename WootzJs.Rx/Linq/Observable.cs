@@ -181,5 +181,120 @@ namespace System.Reactive.Linq
         {
             return new SelectMany<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
+
+        /// <summary>
+        /// Subscribes to the observable sequence without specifying any handlers.
+        /// This method can be used to evaluate the observable sequence for its side-effects only.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source sequence.</typeparam>
+        /// <param name="source">Observable sequence to subscribe to.</param>
+        /// <returns>IDisposable object used to unsubscribe from the observable sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static IDisposable Subscribe<T>(this IObservable<T> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            //
+            // [OK] Use of unsafe Subscribe: non-pretentious constructor for an observer; this overload is not to be used internally.
+            //
+            return source.Subscribe/*Unsafe*/(new AnonymousObserver<T>(Stubs<T>.Ignore, Stubs.Throw, Stubs.Nop));
+        }
+
+        /// <summary>
+        /// Subscribes an element handler to an observable sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source sequence.</typeparam>
+        /// <param name="source">Observable sequence to subscribe to.</param>
+        /// <param name="onNext">Action to invoke for each element in the observable sequence.</param>
+        /// <returns>IDisposable object used to unsubscribe from the observable sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="onNext"/> is null.</exception>
+        public static IDisposable Subscribe<T>(this IObservable<T> source, Action<T> onNext)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (onNext == null)
+                throw new ArgumentNullException("onNext");
+
+            //
+            // [OK] Use of unsafe Subscribe: non-pretentious constructor for an observer; this overload is not to be used internally.
+            //
+            return source.Subscribe/*Unsafe*/(new AnonymousObserver<T>(onNext, Stubs.Throw, Stubs.Nop));
+        }
+
+        /// <summary>
+        /// Subscribes an element handler and an exception handler to an observable sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source sequence.</typeparam>
+        /// <param name="source">Observable sequence to subscribe to.</param>
+        /// <param name="onNext">Action to invoke for each element in the observable sequence.</param>
+        /// <param name="onError">Action to invoke upon exceptional termination of the observable sequence.</param>
+        /// <returns>IDisposable object used to unsubscribe from the observable sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="onNext"/> or <paramref name="onError"/> is null.</exception>
+        public static IDisposable Subscribe<T>(this IObservable<T> source, Action<T> onNext, Action<Exception> onError)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (onNext == null)
+                throw new ArgumentNullException("onNext");
+            if (onError == null)
+                throw new ArgumentNullException("onError");
+
+            //
+            // [OK] Use of unsafe Subscribe: non-pretentious constructor for an observer; this overload is not to be used internally.
+            //
+            return source.Subscribe/*Unsafe*/(new AnonymousObserver<T>(onNext, onError, Stubs.Nop));
+        }
+
+        /// <summary>
+        /// Subscribes an element handler and a completion handler to an observable sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source sequence.</typeparam>
+        /// <param name="source">Observable sequence to subscribe to.</param>
+        /// <param name="onNext">Action to invoke for each element in the observable sequence.</param>
+        /// <param name="onCompleted">Action to invoke upon graceful termination of the observable sequence.</param>
+        /// <returns>IDisposable object used to unsubscribe from the observable sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="onNext"/> or <paramref name="onCompleted"/> is null.</exception>
+        public static IDisposable Subscribe<T>(this IObservable<T> source, Action<T> onNext, Action onCompleted)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (onNext == null)
+                throw new ArgumentNullException("onNext");
+            if (onCompleted == null)
+                throw new ArgumentNullException("onCompleted");
+
+            //
+            // [OK] Use of unsafe Subscribe: non-pretentious constructor for an observer; this overload is not to be used internally.
+            //
+            return source.Subscribe/*Unsafe*/(new AnonymousObserver<T>(onNext, Stubs.Throw, onCompleted));
+        }
+
+        /// <summary>
+        /// Subscribes an element handler, an exception handler, and a completion handler to an observable sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source sequence.</typeparam>
+        /// <param name="source">Observable sequence to subscribe to.</param>
+        /// <param name="onNext">Action to invoke for each element in the observable sequence.</param>
+        /// <param name="onError">Action to invoke upon exceptional termination of the observable sequence.</param>
+        /// <param name="onCompleted">Action to invoke upon graceful termination of the observable sequence.</param>
+        /// <returns>IDisposable object used to unsubscribe from the observable sequence.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="onNext"/> or <paramref name="onError"/> or <paramref name="onCompleted"/> is null.</exception>
+        public static IDisposable Subscribe<T>(this IObservable<T> source, Action<T> onNext, Action<Exception> onError, Action onCompleted)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (onNext == null)
+                throw new ArgumentNullException("onNext");
+            if (onError == null)
+                throw new ArgumentNullException("onError");
+            if (onCompleted == null)
+                throw new ArgumentNullException("onCompleted");
+
+            //
+            // [OK] Use of unsafe Subscribe: non-pretentious constructor for an observer; this overload is not to be used internally.
+            //
+            return source.Subscribe/*Unsafe*/(new AnonymousObserver<T>(onNext, onError, onCompleted));
+        }
     }
 }

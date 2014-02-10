@@ -265,6 +265,102 @@ System.Reactive.Producer$1 = $define("System.Reactive.Producer<TSource>", System
     $p.Run = function(observer, cancel, setSink) {};
 }).call(null, System.Reactive.Producer$1, System.Reactive.Producer$1.prototype);
 $WootzJs$Rx$AssemblyTypes.push(System.Reactive.Producer$1);
+System.Reactive.Sink$1 = $define("System.Reactive.Sink<TSource>", System.Object);
+(System.Reactive.Sink$1.$TypeInitializer = function($t, $p, TSource) {
+    $t.$GetAssembly = window.$WootzJs$Rx$GetAssembly;
+    $p.$type = $t;
+    $t.$baseType = System.Object;
+    $p.$typeName = "System.Reactive.Sink`1";
+    $t.$typeName = $p.$typeName;
+    $t.$GetType = function() {
+        return System.Type._GetTypeFromTypeFunc(this);
+    };
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Sink", $arrayinit([], System.Attribute));this.$type.Init("System.Reactive.Sink`1", System.Reactive.Sink$1, System.Object, $arrayinit([System.IDisposable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("_observer", System.IObserver$1, System.Reflection.FieldAttributes().FamORAssem, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("_cancel", System.IDisposable, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Dispose", System.Reactive.Sink$1.prototype.Dispose, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetForwarder", System.Reactive.Sink$1.prototype.GetForwarder, $arrayinit([], System.Reflection.ParameterInfo), System.IObserver$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Reactive.Sink$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("observer", System.IObserver$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("cancel", System.IDisposable, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$StaticInitializer = function() {
+        if (System.Reactive.Sink$1$(TSource).$isStaticInitialized)
+            return;
+        System.Reactive.Sink$1$(TSource).$isStaticInitialized = true;
+        System.Object.$StaticInitializer();
+    };
+    window.System.Reactive.Sink$1$ = function() {
+        return $generic.call(null, System.Reactive.Sink$1, arguments);
+    };
+    $p._observer = null;
+    $p._cancel = null;
+    $p.$ctor = function(observer, cancel) {
+        System.Object.prototype.$ctor.call(this);
+        this._observer = observer;
+        this._cancel = cancel;
+    };
+    $p.$ctor.$type = $t;
+    $p.$ctor.$new = function(observer, cancel) {
+        return new $p.$ctor.$type(this, observer, cancel);
+    };
+    $p.Dispose = function() {
+        this._observer = System.Reactive.NopObserver$1$(TSource).Instance;
+        var cancel = (function() {
+            var $anon$1 = {
+                value: this._cancel
+            };
+            var $result$ = System.Threading.Interlocked.Exchange(System.IDisposable, $anon$1, null);
+            this._cancel = $anon$1.value;
+            return $result$;
+        }).call(this);
+        if (cancel != null) {
+            cancel.System$IDisposable$Dispose();
+        }
+    };
+    $p.System$IDisposable$Dispose = $p.Dispose;
+    $p.GetForwarder = function() {
+        return System.Reactive.Sink$1$(TSource)._$().prototype.$ctor.$new(this);
+    };
+    $t._ = $define("System.Reactive.Sink<TSource>._", System.Object);
+    ($t._.$TypeInitializer = function($t, $p) {
+        $t.$GetAssembly = window.$WootzJs$Rx$GetAssembly;
+        $p.$type = $t;
+        $t.$baseType = System.Object;
+        $p.$typeName = "System.Reactive.Sink`1._";
+        $t.$typeName = $p.$typeName;
+        $t.$GetType = function() {
+            return System.Type._GetTypeFromTypeFunc(this);
+        };
+        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("_", $arrayinit([], System.Attribute));this.$type.Init("System.Reactive.Sink`1._", System.Reactive.Sink$1._, System.Object, $arrayinit([System.IObserver$1], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("_forward", System.Reactive.Sink$1, System.Reflection.FieldAttributes().Private | System.Reflection.FieldAttributes().InitOnly, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("OnNext", System.Reactive.Sink$1._.prototype.OnNext, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", TSource, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("OnError", System.Reactive.Sink$1._.prototype.OnError, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("error", System.Exception, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("OnCompleted", System.Reactive.Sink$1._.prototype.OnCompleted, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Reactive.Sink$1._.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("forward", System.Reactive.Sink$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+        $t.$StaticInitializer = function() {
+            if (System.Reactive.Sink$1$(TSource)._$().$isStaticInitialized)
+                return;
+            System.Reactive.Sink$1$(TSource)._$().$isStaticInitialized = true;
+            System.Object.$StaticInitializer();
+        };
+        this._$ = function() {
+            return $generic.call(this, this._, arguments);
+        };
+        $p._forward = null;
+        $p.$ctor = function(forward) {
+            System.Object.prototype.$ctor.call(this);
+            this._forward = forward;
+        };
+        $p.$ctor.$type = $t;
+        $p.$ctor.$new = function(forward) {
+            return new $p.$ctor.$type(this, forward);
+        };
+        $p.OnNext = function(value) {
+            this._forward._observer.System$IObserver$1$OnNext(value);
+        };
+        $p.System$IObserver$1$OnNext = $p.OnNext;
+        $p.OnError = function(error) {
+            this._forward._observer.System$IObserver$1$OnError(error);
+            this._forward.Dispose();
+        };
+        $p.System$IObserver$1$OnError = $p.OnError;
+        $p.OnCompleted = function() {
+            this._forward._observer.System$IObserver$1$OnCompleted();
+            this._forward.Dispose();
+        };
+        $p.System$IObserver$1$OnCompleted = $p.OnCompleted;
+    }).call($t, $t._, $t._.prototype);
+    $WootzJs$Rx$AssemblyTypes.push($t._);
+}).call(null, System.Reactive.Sink$1, System.Reactive.Sink$1.prototype);
+$WootzJs$Rx$AssemblyTypes.push(System.Reactive.Sink$1);
 System.Reactive.AnonymousSafeObserver$1 = $define("System.Reactive.AnonymousSafeObserver<T>", System.Object);
 (System.Reactive.AnonymousSafeObserver$1.$TypeInitializer = function($t, $p, T) {
     $t.$GetAssembly = window.$WootzJs$Rx$GetAssembly;
@@ -1304,7 +1400,7 @@ System.Reactive.Linq.Observable = $define("System.Reactive.Linq.Observable", Sys
     $t.$GetType = function() {
         return System.Type._GetTypeFromTypeFunc(this);
     };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Observable", $arrayinit([], System.Attribute));this.$type.Init("System.Reactive.Linq.Observable", System.Reactive.Linq.Observable, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy$2", System.Reactive.Linq.Observable.prototype.GroupBy$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementSelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy$1", System.Reactive.Linq.Observable.prototype.GroupBy$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparer", System.Collections.Generic.IEqualityComparer$1, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy", System.Reactive.Linq.Observable.prototype.GroupBy, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy$3", System.Reactive.Linq.Observable.prototype.GroupBy$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementSelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparer", System.Collections.Generic.IEqualityComparer$1, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy_", System.Reactive.Linq.Observable.prototype.GroupBy_, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementSelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparer", System.Collections.Generic.IEqualityComparer$1, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SubscribeSafe", System.Reactive.Linq.Observable.prototype.SubscribeSafe, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("observer", System.IObserver$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Where", System.Reactive.Linq.Observable.prototype.Where, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Where$1", System.Reactive.Linq.Observable.prototype.Where$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$2", System.Reactive.Linq.Observable.prototype.SelectMany$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("other", System.IObservable$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$1", System.Reactive.Linq.Observable.prototype.SelectMany$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$5", System.Reactive.Linq.Observable.prototype.SelectMany$5, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany_", System.Reactive.Linq.Observable.prototype.SelectMany_, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany_$2", System.Reactive.Linq.Observable.prototype.SelectMany_$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$3", System.Reactive.Linq.Observable.prototype.SelectMany$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onNext", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onError", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onCompleted", System.Func$1, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany", System.Reactive.Linq.Observable.prototype.SelectMany, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$4", System.Reactive.Linq.Observable.prototype.SelectMany$4, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany_$1", System.Reactive.Linq.Observable.prototype.SelectMany_$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
+    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Observable", $arrayinit([], System.Attribute));this.$type.Init("System.Reactive.Linq.Observable", System.Reactive.Linq.Observable, System.Object, $arrayinit([], System.Type), $arrayinit([], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy$2", System.Reactive.Linq.Observable.prototype.GroupBy$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementSelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy$1", System.Reactive.Linq.Observable.prototype.GroupBy$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparer", System.Collections.Generic.IEqualityComparer$1, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy", System.Reactive.Linq.Observable.prototype.GroupBy, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy$3", System.Reactive.Linq.Observable.prototype.GroupBy$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementSelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparer", System.Collections.Generic.IEqualityComparer$1, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GroupBy_", System.Reactive.Linq.Observable.prototype.GroupBy_, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("keySelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("elementSelector", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("comparer", System.Collections.Generic.IEqualityComparer$1, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SubscribeSafe", System.Reactive.Linq.Observable.prototype.SubscribeSafe, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("observer", System.IObserver$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Where", System.Reactive.Linq.Observable.prototype.Where, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Where$1", System.Reactive.Linq.Observable.prototype.Where$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("predicate", System.Func$3, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$2", System.Reactive.Linq.Observable.prototype.SelectMany$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("other", System.IObservable$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$1", System.Reactive.Linq.Observable.prototype.SelectMany$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$5", System.Reactive.Linq.Observable.prototype.SelectMany$5, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany_", System.Reactive.Linq.Observable.prototype.SelectMany_, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany_$2", System.Reactive.Linq.Observable.prototype.SelectMany_$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$3", System.Reactive.Linq.Observable.prototype.SelectMany$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onNext", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onError", System.Func$2, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onCompleted", System.Func$1, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany", System.Reactive.Linq.Observable.prototype.SelectMany, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("selector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany$4", System.Reactive.Linq.Observable.prototype.SelectMany$4, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("SelectMany_$1", System.Reactive.Linq.Observable.prototype.SelectMany_$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("collectionSelector", System.Func$2, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("resultSelector", System.Func$3, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IObservable$1, System.Reflection.MethodAttributes().Private | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Subscribe", System.Reactive.Linq.Observable.prototype.Subscribe, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Subscribe$1", System.Reactive.Linq.Observable.prototype.Subscribe$1, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onNext", System.Action$1, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Subscribe$3", System.Reactive.Linq.Observable.prototype.Subscribe$3, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onNext", System.Action$1, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onError", System.Action$1, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Subscribe$2", System.Reactive.Linq.Observable.prototype.Subscribe$2, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onNext", System.Action$1, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onCompleted", System.Action, 2, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("Subscribe$4", System.Reactive.Linq.Observable.prototype.Subscribe$4, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("source", System.IObservable$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onNext", System.Action$1, 1, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onError", System.Action$1, 2, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("onCompleted", System.Action, 3, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.IDisposable, System.Reflection.MethodAttributes().Public | System.Reflection.MethodAttributes().Static, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
     $t.$StaticInitializer = function() {
         if (System.Reactive.Linq.Observable.$isStaticInitialized)
             return;
@@ -1470,6 +1566,47 @@ System.Reactive.Linq.Observable = $define("System.Reactive.Linq.Observable", Sys
     };
     $t.SelectMany_$1 = function(TSource, TCollection, TResult, source, collectionSelector, resultSelector) {
         return System.Reactive.Linq.Observables.SelectMany$3$(TSource, TCollection, TResult).prototype.$ctor.$new(source, collectionSelector, resultSelector);
+    };
+    $t.Subscribe = function(T, source) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        return source.System$IObservable$1$Subscribe(System.Reactive.AnonymousObserver$1$(T).prototype.$ctor$3.$new(System.Reactive.Stubs$1$(T).Ignore, System.Reactive.Stubs().Throw, System.Reactive.Stubs().Nop));
+    };
+    $t.Subscribe$1 = function(T, source, onNext) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        if (onNext == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onNext").InternalInit(new Error());
+        return source.System$IObservable$1$Subscribe(System.Reactive.AnonymousObserver$1$(T).prototype.$ctor$3.$new(onNext, System.Reactive.Stubs().Throw, System.Reactive.Stubs().Nop));
+    };
+    $t.Subscribe$3 = function(T, source, onNext, onError) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        if (onNext == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onNext").InternalInit(new Error());
+        if (onError == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onError").InternalInit(new Error());
+        return source.System$IObservable$1$Subscribe(System.Reactive.AnonymousObserver$1$(T).prototype.$ctor$3.$new(onNext, onError, System.Reactive.Stubs().Nop));
+    };
+    $t.Subscribe$2 = function(T, source, onNext, onCompleted) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        if (onNext == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onNext").InternalInit(new Error());
+        if (onCompleted == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onCompleted").InternalInit(new Error());
+        return source.System$IObservable$1$Subscribe(System.Reactive.AnonymousObserver$1$(T).prototype.$ctor$3.$new(onNext, System.Reactive.Stubs().Throw, onCompleted));
+    };
+    $t.Subscribe$4 = function(T, source, onNext, onError, onCompleted) {
+        if (source == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("source").InternalInit(new Error());
+        if (onNext == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onNext").InternalInit(new Error());
+        if (onError == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onError").InternalInit(new Error());
+        if (onCompleted == null)
+            throw System.ArgumentNullException.prototype.$ctor.$new("onCompleted").InternalInit(new Error());
+        return source.System$IObservable$1$Subscribe(System.Reactive.AnonymousObserver$1$(T).prototype.$ctor$3.$new(onNext, onError, onCompleted));
     };
 }).call(null, System.Reactive.Linq.Observable, System.Reactive.Linq.Observable.prototype);
 $WootzJs$Rx$AssemblyTypes.push(System.Reactive.Linq.Observable);
@@ -2855,102 +2992,6 @@ System.Reactive.SafeObserver$1 = $define("System.Reactive.SafeObserver<TSource>"
     $p.System$IObserver$1$OnCompleted = $p.OnCompleted;
 }).call(null, System.Reactive.SafeObserver$1, System.Reactive.SafeObserver$1.prototype);
 $WootzJs$Rx$AssemblyTypes.push(System.Reactive.SafeObserver$1);
-System.Reactive.Sink$1 = $define("System.Reactive.Sink<TSource>", System.Object);
-(System.Reactive.Sink$1.$TypeInitializer = function($t, $p, TSource) {
-    $t.$GetAssembly = window.$WootzJs$Rx$GetAssembly;
-    $p.$type = $t;
-    $t.$baseType = System.Object;
-    $p.$typeName = "System.Reactive.Sink`1";
-    $t.$typeName = $p.$typeName;
-    $t.$GetType = function() {
-        return System.Type._GetTypeFromTypeFunc(this);
-    };
-    $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("Sink", $arrayinit([], System.Attribute));this.$type.Init("System.Reactive.Sink`1", System.Reactive.Sink$1, System.Object, $arrayinit([System.IDisposable], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("_observer", System.IObserver$1, System.Reflection.FieldAttributes().FamORAssem, null, $arrayinit([], System.Attribute)), System.Reflection.FieldInfo.prototype.$ctor.$new("_cancel", System.IDisposable, System.Reflection.FieldAttributes().Private, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("Dispose", System.Reactive.Sink$1.prototype.Dispose, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("GetForwarder", System.Reactive.Sink$1.prototype.GetForwarder, $arrayinit([], System.Reflection.ParameterInfo), System.IObserver$1, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Reactive.Sink$1.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("observer", System.IObserver$1, 0, 0, null, $arrayinit([], System.Attribute)), System.Reflection.ParameterInfo.prototype.$ctor.$new("cancel", System.IDisposable, 1, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Family, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
-    $t.$StaticInitializer = function() {
-        if (System.Reactive.Sink$1$(TSource).$isStaticInitialized)
-            return;
-        System.Reactive.Sink$1$(TSource).$isStaticInitialized = true;
-        System.Object.$StaticInitializer();
-    };
-    window.System.Reactive.Sink$1$ = function() {
-        return $generic.call(null, System.Reactive.Sink$1, arguments);
-    };
-    $p._observer = null;
-    $p._cancel = null;
-    $p.$ctor = function(observer, cancel) {
-        System.Object.prototype.$ctor.call(this);
-        this._observer = observer;
-        this._cancel = cancel;
-    };
-    $p.$ctor.$type = $t;
-    $p.$ctor.$new = function(observer, cancel) {
-        return new $p.$ctor.$type(this, observer, cancel);
-    };
-    $p.Dispose = function() {
-        this._observer = System.Reactive.NopObserver$1$(TSource).Instance;
-        var cancel = (function() {
-            var $anon$1 = {
-                value: this._cancel
-            };
-            var $result$ = System.Threading.Interlocked.Exchange(System.IDisposable, $anon$1, null);
-            this._cancel = $anon$1.value;
-            return $result$;
-        }).call(this);
-        if (cancel != null) {
-            cancel.System$IDisposable$Dispose();
-        }
-    };
-    $p.System$IDisposable$Dispose = $p.Dispose;
-    $p.GetForwarder = function() {
-        return System.Reactive.Sink$1$(TSource)._$().prototype.$ctor.$new(this);
-    };
-    $t._ = $define("System.Reactive.Sink<TSource>._", System.Object);
-    ($t._.$TypeInitializer = function($t, $p) {
-        $t.$GetAssembly = window.$WootzJs$Rx$GetAssembly;
-        $p.$type = $t;
-        $t.$baseType = System.Object;
-        $p.$typeName = "System.Reactive.Sink`1._";
-        $t.$typeName = $p.$typeName;
-        $t.$GetType = function() {
-            return System.Type._GetTypeFromTypeFunc(this);
-        };
-        $t.$CreateType = function() {this.$type = System.Type.prototype.$ctor.$new("_", $arrayinit([], System.Attribute));this.$type.Init("System.Reactive.Sink`1._", System.Reactive.Sink$1._, System.Object, $arrayinit([System.IObserver$1], System.Type), $arrayinit([System.Reflection.FieldInfo.prototype.$ctor.$new("_forward", System.Reactive.Sink$1, System.Reflection.FieldAttributes().Private | System.Reflection.FieldAttributes().InitOnly, null, $arrayinit([], System.Attribute))], System.Reflection.FieldInfo), $arrayinit([System.Reflection.MethodInfo.prototype.$ctor.$new("OnNext", System.Reactive.Sink$1._.prototype.OnNext, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("value", TSource, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("OnError", System.Reactive.Sink$1._.prototype.OnError, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("error", System.Exception, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute)), System.Reflection.MethodInfo.prototype.$ctor.$new("OnCompleted", System.Reactive.Sink$1._.prototype.OnCompleted, $arrayinit([], System.Reflection.ParameterInfo), System.Void, System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([System.Reflection.ConstructorInfo.prototype.$ctor.$new("$ctor", System.Reactive.Sink$1._.prototype.$ctor, $arrayinit([System.Reflection.ParameterInfo.prototype.$ctor.$new("forward", System.Reactive.Sink$1, 0, 0, null, $arrayinit([], System.Attribute))], System.Reflection.ParameterInfo), System.Reflection.MethodAttributes().Public, $arrayinit([], System.Attribute))], System.Reflection.MethodInfo), $arrayinit([], System.Reflection.PropertyInfo), $arrayinit([], System.Reflection.EventInfo), false);return this.$type;};
-        $t.$StaticInitializer = function() {
-            if (System.Reactive.Sink$1$(TSource)._$().$isStaticInitialized)
-                return;
-            System.Reactive.Sink$1$(TSource)._$().$isStaticInitialized = true;
-            System.Object.$StaticInitializer();
-        };
-        this._$ = function() {
-            return $generic.call(this, this._, arguments);
-        };
-        $p._forward = null;
-        $p.$ctor = function(forward) {
-            System.Object.prototype.$ctor.call(this);
-            this._forward = forward;
-        };
-        $p.$ctor.$type = $t;
-        $p.$ctor.$new = function(forward) {
-            return new $p.$ctor.$type(this, forward);
-        };
-        $p.OnNext = function(value) {
-            this._forward._observer.System$IObserver$1$OnNext(value);
-        };
-        $p.System$IObserver$1$OnNext = $p.OnNext;
-        $p.OnError = function(error) {
-            this._forward._observer.System$IObserver$1$OnError(error);
-            this._forward.Dispose();
-        };
-        $p.System$IObserver$1$OnError = $p.OnError;
-        $p.OnCompleted = function() {
-            this._forward._observer.System$IObserver$1$OnCompleted();
-            this._forward.Dispose();
-        };
-        $p.System$IObserver$1$OnCompleted = $p.OnCompleted;
-    }).call($t, $t._, $t._.prototype);
-    $WootzJs$Rx$AssemblyTypes.push($t._);
-}).call(null, System.Reactive.Sink$1, System.Reactive.Sink$1.prototype);
-$WootzJs$Rx$AssemblyTypes.push(System.Reactive.Sink$1);
 System.Reactive.Stubs$1 = $define("System.Reactive.Stubs<T>", System.Object);
 (System.Reactive.Stubs$1.$TypeInitializer = function($t, $p, T) {
     $t.$GetAssembly = window.$WootzJs$Rx$GetAssembly;
