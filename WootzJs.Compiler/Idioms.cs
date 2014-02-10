@@ -159,6 +159,7 @@ namespace WootzJs.Compiler
                     .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.This(), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
                     .Invoke()
                 );
+                typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
 
                 JsExpression target;
                 if (containingType != null) 
@@ -170,7 +171,7 @@ namespace WootzJs.Compiler
                     target = Js.Reference("window." + classType.GetTypeName() + SpecialNames.MakeGenericType);
                 }
 
-                typeInitializer.Assign(target, Js.Function().Body(makeGenericType));
+                typeInitializer.Assign(target, GetFromType("$"));
             }
 
             return block;

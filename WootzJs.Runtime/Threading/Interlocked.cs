@@ -36,7 +36,7 @@ namespace System.Threading
         public static T CompareExchange<T>(ref T location1, T value, T comparand)
         {
             var oldValue = location1;
-            if (DefaultComparer<T>.Default.Equals(location1, comparand))
+            if (EqualityComparer<T>.Default.Equals(location1, comparand))
                 location1 = value;
             return oldValue;
         }

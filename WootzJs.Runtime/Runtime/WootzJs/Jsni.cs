@@ -36,8 +36,8 @@ namespace System.Runtime.WootzJs
         public static extern JsObject @new(JsObject target, params JsObject[] arguments);
         public static extern JsObject arguments();
         public static extern JsObject @this();
-        public static extern JsObject apply(JsObject target, JsObject thisReference, JsArray arguments);
-        public static extern JsObject call(JsObject target, JsObject thisReference, params JsObject[] arguments);
+        public static extern JsObject apply(this JsObject target, JsObject thisReference, JsArray arguments);
+        public static extern JsObject call(this JsObject target, JsObject thisReference, params JsObject[] arguments);
         public static extern JsObject apply<T>(Action<T> method, JsObject thisReference, JsArray arguments);
         public static extern JsObject call<T>(Action<T> method, JsObject thisReference, params JsObject[] arguments);
         public static extern void delete(JsObject o);

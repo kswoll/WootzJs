@@ -166,9 +166,12 @@ namespace System.Runtime.WootzJs
             var result = cache[keyString];
             if (result == null)
             {
-                var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('$');
+                var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('`');
                 var newTypeName = unconstructedType.TypeName.Substring(0, lastIndexOfDollar) + "<" + keyString + ">";
-                var generic = Define(newTypeName, unconstructedType);
+                var prototype = unconstructedType.BaseType;
+                if (prototype.member("$"))
+                    prototype = prototype.member("$").apply(null, typeArgs).As<JsTypeFunction>();
+                var generic = Define(newTypeName, prototype);
 
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
                 Jsni.apply(

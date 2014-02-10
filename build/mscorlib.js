@@ -121,9 +121,12 @@ function $generic(unconstructedType, typeArgs) {
     var keyString = keyParts.join(", ");
     var result = cache[keyString];
     if (result == null) {
-        var lastIndexOfDollar = unconstructedType.$typeName.lastIndexOf("$");
+        var lastIndexOfDollar = unconstructedType.$typeName.lastIndexOf("`");
         var newTypeName = String.prototype.Substring.call(unconstructedType.$typeName, 0, lastIndexOfDollar) + "<" + keyString + ">";
-        var generic = $define(newTypeName, unconstructedType);
+        var prototype = unconstructedType.$baseType;
+        if (prototype.$)
+            prototype = prototype.$.apply(null, typeArgs);
+        var generic = $define(newTypeName, prototype);
         unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(keyArray));
         generic.$TypeInitializer = function($t, $p) {
             $p.$type = generic;
@@ -643,9 +646,10 @@ System.Collections.Generic.EqualityComparer$1 = $define("System.Collections.Gene
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.EqualityComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.EqualityComparer$1, arguments)();
     };
+    window.System.Collections.Generic.EqualityComparer$1$ = $t.$;
     $p.defaultComparer = null;
     $t.get_Default = function() {
         var equalityComparer = System.Collections.Generic.EqualityComparer$1$(T).defaultComparer;
@@ -722,9 +726,10 @@ System.YieldIterator$1 = $define("System.YieldIterator<T>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.YieldIterator$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.YieldIterator$1, arguments)();
     };
+    window.System.YieldIterator$1$ = $t.$;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
     };
@@ -1429,9 +1434,10 @@ System.Action$1 = $define("System.Action<T>", System.MulticastDelegate);
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$1, arguments)();
     };
+    window.System.Action$1$ = $t.$;
 }).call(null, System.Action$1, System.Action$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$1);
 System.Action$2 = $define("System.Action<T1, T2>", System.MulticastDelegate);
@@ -1451,9 +1457,10 @@ System.Action$2 = $define("System.Action<T1, T2>", System.MulticastDelegate);
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$2, arguments)();
     };
+    window.System.Action$2$ = $t.$;
 }).call(null, System.Action$2, System.Action$2.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$2);
 System.Action$3 = $define("System.Action<T1, T2, T3>", System.MulticastDelegate);
@@ -1473,9 +1480,10 @@ System.Action$3 = $define("System.Action<T1, T2, T3>", System.MulticastDelegate)
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$3$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$3, arguments)();
     };
+    window.System.Action$3$ = $t.$;
 }).call(null, System.Action$3, System.Action$3.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$3);
 System.Action$4 = $define("System.Action<T1, T2, T3, T4>", System.MulticastDelegate);
@@ -1495,9 +1503,10 @@ System.Action$4 = $define("System.Action<T1, T2, T3, T4>", System.MulticastDeleg
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$4$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$4, arguments)();
     };
+    window.System.Action$4$ = $t.$;
 }).call(null, System.Action$4, System.Action$4.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$4);
 System.Action$5 = $define("System.Action<T1, T2, T3, T4, T5>", System.MulticastDelegate);
@@ -1517,9 +1526,10 @@ System.Action$5 = $define("System.Action<T1, T2, T3, T4, T5>", System.MulticastD
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$5$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$5, arguments)();
     };
+    window.System.Action$5$ = $t.$;
 }).call(null, System.Action$5, System.Action$5.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$5);
 System.Action$6 = $define("System.Action<T1, T2, T3, T4, T5, T6>", System.MulticastDelegate);
@@ -1539,9 +1549,10 @@ System.Action$6 = $define("System.Action<T1, T2, T3, T4, T5, T6>", System.Multic
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$6$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$6, arguments)();
     };
+    window.System.Action$6$ = $t.$;
 }).call(null, System.Action$6, System.Action$6.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$6);
 System.Action$7 = $define("System.Action<T1, T2, T3, T4, T5, T6, T7>", System.MulticastDelegate);
@@ -1561,9 +1572,10 @@ System.Action$7 = $define("System.Action<T1, T2, T3, T4, T5, T6, T7>", System.Mu
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$7$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$7, arguments)();
     };
+    window.System.Action$7$ = $t.$;
 }).call(null, System.Action$7, System.Action$7.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$7);
 System.Action$8 = $define("System.Action<T1, T2, T3, T4, T5, T6, T7, T8>", System.MulticastDelegate);
@@ -1583,9 +1595,10 @@ System.Action$8 = $define("System.Action<T1, T2, T3, T4, T5, T6, T7, T8>", Syste
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$8$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$8, arguments)();
     };
+    window.System.Action$8$ = $t.$;
 }).call(null, System.Action$8, System.Action$8.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$8);
 System.Action$9 = $define("System.Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>", System.MulticastDelegate);
@@ -1605,9 +1618,10 @@ System.Action$9 = $define("System.Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>", S
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Action$9$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Action$9, arguments)();
     };
+    window.System.Action$9$ = $t.$;
 }).call(null, System.Action$9, System.Action$9.prototype);
 $mscorlib$AssemblyTypes.push(System.Action$9);
 System.AppDomain = $define("System.AppDomain", System.Object);
@@ -1934,9 +1948,10 @@ System.ArrayEnumerator$1 = $define("System.ArrayEnumerator<T>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.ArrayEnumerator$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.ArrayEnumerator$1, arguments)();
     };
+    window.System.ArrayEnumerator$1$ = $t.$;
     $p.array = null;
     $p.index = 0;
     $p.$ctor = function(array) {
@@ -2341,9 +2356,10 @@ System.Collections.Generic.Comparer$1 = $define("System.Collections.Generic.Comp
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.Comparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.Comparer$1, arguments)();
     };
+    window.System.Collections.Generic.Comparer$1$ = $t.$;
     $p.defaultComparer = null;
     $t.get_Default = function() {
         var comparer = System.Collections.Generic.Comparer$1$(T).defaultComparer;
@@ -2406,9 +2422,10 @@ System.Collections.Generic.ComparisonComparer$1 = $define("System.Collections.Ge
         $t.$isStaticInitialized = true;
         System.Collections.Generic.Comparer$1$(T).$StaticInitializer();
     };
-    window.System.Collections.Generic.ComparisonComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.ComparisonComparer$1, arguments)();
     };
+    window.System.Collections.Generic.ComparisonComparer$1$ = $t.$;
     $p._comparison = null;
     $p.$ctor = function(comparison) {
         System.Collections.Generic.Comparer$1$(T).prototype.$ctor.call(this);
@@ -2483,9 +2500,10 @@ System.Collections.Generic.Comparison$1 = $define("System.Collections.Generic.Co
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Collections.Generic.Comparison$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.Comparison$1, arguments)();
     };
+    window.System.Collections.Generic.Comparison$1$ = $t.$;
 }).call(null, System.Collections.Generic.Comparison$1, System.Collections.Generic.Comparison$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.Generic.Comparison$1);
 System.Collections.Generic.DefaultComparer$1 = $define("System.Collections.Generic.DefaultComparer<T>", System.Collections.Generic.EqualityComparer$1);
@@ -2505,9 +2523,10 @@ System.Collections.Generic.DefaultComparer$1 = $define("System.Collections.Gener
         $t.$isStaticInitialized = true;
         System.Collections.Generic.EqualityComparer$1$(T).$StaticInitializer();
     };
-    window.System.Collections.Generic.DefaultComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.DefaultComparer$1, arguments)();
     };
+    window.System.Collections.Generic.DefaultComparer$1$ = $t.$;
     $p.$ctor = function() {
         System.Collections.Generic.EqualityComparer$1$(T).prototype.$ctor.call(this);
     };
@@ -2548,9 +2567,10 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.Dictionary$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.Dictionary$2, arguments)();
     };
+    window.System.Collections.Generic.Dictionary$2$ = $t.$;
     $p.storage = null;
     $p.buckets = null;
     $p.comparer = null;
@@ -2787,9 +2807,10 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
             $t.$isStaticInitialized = true;
             System.Object.$StaticInitializer();
         };
-        this.Bucket$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.Bucket, arguments)();
         };
+        this.Bucket$ = $t.$;
         $p.$HashCode$k__BackingField = null;
         $p.get_HashCode = function() {return this.$HashCode$k__BackingField;};
         $p.set_HashCode = function(value) {this.$HashCode$k__BackingField = value;};
@@ -2822,9 +2843,10 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
             $t.$isStaticInitialized = true;
             System.Object.$StaticInitializer();
         };
-        this.BucketItem$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.BucketItem, arguments)();
         };
+        this.BucketItem$ = $t.$;
         $p.$Key$k__BackingField = null;
         $p.get_Key = function() {return this.$Key$k__BackingField;};
         $p.set_Key = function(value) {this.$Key$k__BackingField = value;};
@@ -2859,9 +2881,10 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
             $t.$isStaticInitialized = true;
             System.Object.$StaticInitializer();
         };
-        this.DictionaryKeys$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.DictionaryKeys, arguments)();
         };
+        this.DictionaryKeys$ = $t.$;
         $p.dictionary = null;
         $p.$ctor = function(dictionary) {
             System.Object.prototype.$ctor.call(this);
@@ -2948,9 +2971,10 @@ System.Collections.Generic.Dictionary$2 = $define("System.Collections.Generic.Di
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(System.Collections.Generic.KeyValuePair$2$(TKey, TValue)).$StaticInitializer();
         };
-        this.YieldEnumerator$GetEnumerator$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$GetEnumerator, arguments)();
         };
+        this.YieldEnumerator$GetEnumerator$ = $t.$;
         $p.$this = null;
         $p.$isStarted = false;
         $p.$state = 0;
@@ -3034,9 +3058,10 @@ System.Collections.Generic.GenericComparer$1 = $define("System.Collections.Gener
         $t.$isStaticInitialized = true;
         System.Collections.Generic.Comparer$1$(T).$StaticInitializer();
     };
-    window.System.Collections.Generic.GenericComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.GenericComparer$1, arguments)();
     };
+    window.System.Collections.Generic.GenericComparer$1$ = $t.$;
     $p.$ctor = function() {
         System.Collections.Generic.Comparer$1$(T).prototype.$ctor.call(this);
     };
@@ -3080,9 +3105,10 @@ System.Collections.Generic.HashSet$1 = $define("System.Collections.Generic.HashS
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.HashSet$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.HashSet$1, arguments)();
     };
+    window.System.Collections.Generic.HashSet$1$ = $t.$;
     $p.storage = null;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -3233,9 +3259,10 @@ System.Collections.Generic.ICollection$1 = $define("System.Collections.Generic.I
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.ICollection$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.ICollection$1, arguments)();
     };
+    window.System.Collections.Generic.ICollection$1$ = $t.$;
     $p.System$Collections$Generic$ICollection$1$get_IsReadOnly = function() {};
     $p.System$Collections$Generic$ICollection$1$Add = function(item) {};
     $p.System$Collections$Generic$ICollection$1$Clear = function() {};
@@ -3260,9 +3287,10 @@ System.Collections.Generic.IComparer$1 = $define("System.Collections.Generic.ICo
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IComparer$1, arguments)();
     };
+    window.System.Collections.Generic.IComparer$1$ = $t.$;
     $p.System$Collections$Generic$IComparer$1$Compare = function(x, y) {};
 }).call(null, System.Collections.Generic.IComparer$1, System.Collections.Generic.IComparer$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.Generic.IComparer$1);
@@ -3282,9 +3310,10 @@ System.Collections.Generic.IDictionary$2 = $define("System.Collections.Generic.I
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IDictionary$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IDictionary$2, arguments)();
     };
+    window.System.Collections.Generic.IDictionary$2$ = $t.$;
     $p.System$Collections$Generic$IDictionary$2$get_Item = function(key) {};
     $p.System$Collections$Generic$IDictionary$2$set_Item = function(key, value) {};
     $p.System$Collections$Generic$IDictionary$2$get_Keys = function() {};
@@ -3311,9 +3340,10 @@ System.Collections.Generic.IEnumerable$1 = $define("System.Collections.Generic.I
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IEnumerable$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IEnumerable$1, arguments)();
     };
+    window.System.Collections.Generic.IEnumerable$1$ = $t.$;
     $p.System$Collections$Generic$IEnumerable$1$GetEnumerator = function() {};
 }).call(null, System.Collections.Generic.IEnumerable$1, System.Collections.Generic.IEnumerable$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.Generic.IEnumerable$1);
@@ -3333,9 +3363,10 @@ System.Collections.Generic.IEnumerator$1 = $define("System.Collections.Generic.I
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IEnumerator$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IEnumerator$1, arguments)();
     };
+    window.System.Collections.Generic.IEnumerator$1$ = $t.$;
     $p.System$Collections$Generic$IEnumerator$1$get_Current = function() {};
 }).call(null, System.Collections.Generic.IEnumerator$1, System.Collections.Generic.IEnumerator$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.Generic.IEnumerator$1);
@@ -3355,9 +3386,10 @@ System.Collections.Generic.IEqualityComparer$1 = $define("System.Collections.Gen
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IEqualityComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IEqualityComparer$1, arguments)();
     };
+    window.System.Collections.Generic.IEqualityComparer$1$ = $t.$;
     $p.System$Collections$Generic$IEqualityComparer$1$Equals = function(x, y) {};
     $p.System$Collections$Generic$IEqualityComparer$1$GetHashCode = function(obj) {};
 }).call(null, System.Collections.Generic.IEqualityComparer$1, System.Collections.Generic.IEqualityComparer$1.prototype);
@@ -3378,9 +3410,10 @@ System.Collections.Generic.IReadOnlyCollection$1 = $define("System.Collections.G
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IReadOnlyCollection$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IReadOnlyCollection$1, arguments)();
     };
+    window.System.Collections.Generic.IReadOnlyCollection$1$ = $t.$;
     $p.System$Collections$Generic$IReadOnlyCollection$1$get_Count = function() {};
 }).call(null, System.Collections.Generic.IReadOnlyCollection$1, System.Collections.Generic.IReadOnlyCollection$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Collections.Generic.IReadOnlyCollection$1);
@@ -3400,9 +3433,10 @@ System.Collections.Generic.IReadOnlyDictionary$2 = $define("System.Collections.G
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IReadOnlyDictionary$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IReadOnlyDictionary$2, arguments)();
     };
+    window.System.Collections.Generic.IReadOnlyDictionary$2$ = $t.$;
     $p.System$Collections$Generic$IReadOnlyDictionary$2$get_Item = function(key) {};
     $p.System$Collections$Generic$IReadOnlyDictionary$2$get_Keys = function() {};
     $p.System$Collections$Generic$IReadOnlyDictionary$2$get_Values = function() {};
@@ -3467,9 +3501,10 @@ System.Collections.Generic.KeyValuePair$2 = $define("System.Collections.Generic.
         $t.$isStaticInitialized = true;
         System.ValueType.$StaticInitializer();
     };
-    window.System.Collections.Generic.KeyValuePair$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.KeyValuePair$2, arguments)();
     };
+    window.System.Collections.Generic.KeyValuePair$2$ = $t.$;
     $p.key = null;
     $p.value = null;
     $p.get_Key = function() {
@@ -3517,9 +3552,10 @@ System.Collections.Generic.ObjectComparer$1 = $define("System.Collections.Generi
         $t.$isStaticInitialized = true;
         System.Collections.Generic.Comparer$1$(T).$StaticInitializer();
     };
-    window.System.Collections.Generic.ObjectComparer$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.ObjectComparer$1, arguments)();
     };
+    window.System.Collections.Generic.ObjectComparer$1$ = $t.$;
     $p.$ctor = function() {
         System.Collections.Generic.Comparer$1$(T).prototype.$ctor.call(this);
     };
@@ -3556,9 +3592,10 @@ System.Collections.Generic.Queue$1 = $define("System.Collections.Generic.Queue<T
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.Queue$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.Queue$1, arguments)();
     };
+    window.System.Collections.Generic.Queue$1$ = $t.$;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
         this.storage = Array();
@@ -3625,9 +3662,10 @@ System.Collections.Generic.Queue$1 = $define("System.Collections.Generic.Queue<T
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(T).$StaticInitializer();
         };
-        this.YieldEnumerator$GetEnumerable$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$GetEnumerable, arguments)();
         };
+        this.YieldEnumerator$GetEnumerable$ = $t.$;
         $p.$this = null;
         $p.$isStarted = false;
         $p.$state = 0;
@@ -3790,9 +3828,10 @@ System.Collections.Generic.IList$1 = $define("System.Collections.Generic.IList<T
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.IList$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.IList$1, arguments)();
     };
+    window.System.Collections.Generic.IList$1$ = $t.$;
     $p.System$Collections$Generic$IList$1$IndexOf = function(item) {};
     $p.System$Collections$Generic$IList$1$Insert = function(index, item) {};
 }).call(null, System.Collections.Generic.IList$1, System.Collections.Generic.IList$1.prototype);
@@ -3813,9 +3852,10 @@ System.Collections.Generic.ISet$1 = $define("System.Collections.Generic.ISet<T>"
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.Collections.Generic.ISet$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.ISet$1, arguments)();
     };
+    window.System.Collections.Generic.ISet$1$ = $t.$;
     $p.System$Collections$Generic$ISet$1$UnionWith = function(other) {};
     $p.System$Collections$Generic$ISet$1$IntersectWith = function(other) {};
     $p.System$Collections$Generic$ISet$1$ExceptWith = function(other) {};
@@ -3845,9 +3885,10 @@ System.Collections.Generic.List$1 = $define("System.Collections.Generic.List<T>"
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.List$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.List$1, arguments)();
     };
+    window.System.Collections.Generic.List$1$ = $t.$;
     $p.storage = null;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
@@ -4000,9 +4041,10 @@ System.Collections.Generic.List$1 = $define("System.Collections.Generic.List<T>"
             $t.$isStaticInitialized = true;
             System.Object.$StaticInitializer();
         };
-        this.ListEnumerator$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.ListEnumerator, arguments)();
         };
+        this.ListEnumerator$ = $t.$;
         $p.index = 0;
         $p.list = null;
         $p.$ctor = function(list) {
@@ -4184,9 +4226,10 @@ System.Collections.Generic.Stack$1 = $define("System.Collections.Generic.Stack<T
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Collections.Generic.Stack$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Collections.Generic.Stack$1, arguments)();
     };
+    window.System.Collections.Generic.Stack$1$ = $t.$;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
         this.storage = Array();
@@ -4253,9 +4296,10 @@ System.Collections.Generic.Stack$1 = $define("System.Collections.Generic.Stack<T
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(T).$StaticInitializer();
         };
-        this.YieldEnumerator$GetEnumerable$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$GetEnumerable, arguments)();
         };
+        this.YieldEnumerator$GetEnumerable$ = $t.$;
         $p.$this = null;
         $p.$isStarted = false;
         $p.$state = 0;
@@ -4622,9 +4666,10 @@ System.Func$1 = $define("System.Func<TResult>", System.MulticastDelegate);
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$1, arguments)();
     };
+    window.System.Func$1$ = $t.$;
 }).call(null, System.Func$1, System.Func$1.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$1);
 System.Func$2 = $define("System.Func<T1, TResult>", System.MulticastDelegate);
@@ -4644,9 +4689,10 @@ System.Func$2 = $define("System.Func<T1, TResult>", System.MulticastDelegate);
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$2, arguments)();
     };
+    window.System.Func$2$ = $t.$;
 }).call(null, System.Func$2, System.Func$2.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$2);
 System.Func$3 = $define("System.Func<T1, T2, TResult>", System.MulticastDelegate);
@@ -4666,9 +4712,10 @@ System.Func$3 = $define("System.Func<T1, T2, TResult>", System.MulticastDelegate
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$3$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$3, arguments)();
     };
+    window.System.Func$3$ = $t.$;
 }).call(null, System.Func$3, System.Func$3.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$3);
 System.Func$4 = $define("System.Func<T1, T2, T3, TResult>", System.MulticastDelegate);
@@ -4688,9 +4735,10 @@ System.Func$4 = $define("System.Func<T1, T2, T3, TResult>", System.MulticastDele
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$4$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$4, arguments)();
     };
+    window.System.Func$4$ = $t.$;
 }).call(null, System.Func$4, System.Func$4.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$4);
 System.Func$5 = $define("System.Func<T1, T2, T3, T4, TResult>", System.MulticastDelegate);
@@ -4710,9 +4758,10 @@ System.Func$5 = $define("System.Func<T1, T2, T3, T4, TResult>", System.Multicast
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$5$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$5, arguments)();
     };
+    window.System.Func$5$ = $t.$;
 }).call(null, System.Func$5, System.Func$5.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$5);
 System.Func$6 = $define("System.Func<T1, T2, T3, T4, T5, TResult>", System.MulticastDelegate);
@@ -4732,9 +4781,10 @@ System.Func$6 = $define("System.Func<T1, T2, T3, T4, T5, TResult>", System.Multi
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$6$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$6, arguments)();
     };
+    window.System.Func$6$ = $t.$;
 }).call(null, System.Func$6, System.Func$6.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$6);
 System.Func$7 = $define("System.Func<T1, T2, T3, T4, T5, T6, TResult>", System.MulticastDelegate);
@@ -4754,9 +4804,10 @@ System.Func$7 = $define("System.Func<T1, T2, T3, T4, T5, T6, TResult>", System.M
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$7$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$7, arguments)();
     };
+    window.System.Func$7$ = $t.$;
 }).call(null, System.Func$7, System.Func$7.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$7);
 System.Func$8 = $define("System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>", System.MulticastDelegate);
@@ -4776,9 +4827,10 @@ System.Func$8 = $define("System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>", Syst
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$8$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$8, arguments)();
     };
+    window.System.Func$8$ = $t.$;
 }).call(null, System.Func$8, System.Func$8.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$8);
 System.Func$9 = $define("System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>", System.MulticastDelegate);
@@ -4798,9 +4850,10 @@ System.Func$9 = $define("System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>", 
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$9$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$9, arguments)();
     };
+    window.System.Func$9$ = $t.$;
 }).call(null, System.Func$9, System.Func$9.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$9);
 System.Func$10 = $define("System.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>", System.MulticastDelegate);
@@ -4820,9 +4873,10 @@ System.Func$10 = $define("System.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResul
         $t.$isStaticInitialized = true;
         System.MulticastDelegate.$StaticInitializer();
     };
-    window.System.Func$10$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Func$10, arguments)();
     };
+    window.System.Func$10$ = $t.$;
 }).call(null, System.Func$10, System.Func$10.prototype);
 $mscorlib$AssemblyTypes.push(System.Func$10);
 System.GenericArray$1 = $define("System.GenericArray<T>", System.Object);
@@ -4842,9 +4896,10 @@ System.GenericArray$1 = $define("System.GenericArray<T>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.GenericArray$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.GenericArray$1, arguments)();
     };
+    window.System.GenericArray$1$ = $t.$;
     $p.$ctor = function() {
         System.Object.prototype.$ctor.call(this);
     };
@@ -5095,9 +5150,10 @@ System.IComparable$1 = $define("System.IComparable<T>", System.Object);
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.IComparable$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.IComparable$1, arguments)();
     };
+    window.System.IComparable$1$ = $t.$;
     $p.System$IComparable$1$CompareTo = function(other) {};
 }).call(null, System.IComparable$1, System.IComparable$1.prototype);
 $mscorlib$AssemblyTypes.push(System.IComparable$1);
@@ -5155,9 +5211,10 @@ System.IEquatable$1 = $define("System.IEquatable<T>", System.Object);
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.IEquatable$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.IEquatable$1, arguments)();
     };
+    window.System.IEquatable$1$ = $t.$;
     $p.System$IEquatable$1$Equals = function(other) {};
 }).call(null, System.IEquatable$1, System.IEquatable$1.prototype);
 $mscorlib$AssemblyTypes.push(System.IEquatable$1);
@@ -5426,9 +5483,10 @@ System.IObservable$1 = $define("System.IObservable<T>", System.Object);
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.IObservable$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.IObservable$1, arguments)();
     };
+    window.System.IObservable$1$ = $t.$;
     $p.System$IObservable$1$Subscribe = function(observer) {};
 }).call(null, System.IObservable$1, System.IObservable$1.prototype);
 $mscorlib$AssemblyTypes.push(System.IObservable$1);
@@ -5448,9 +5506,10 @@ System.IObserver$1 = $define("System.IObserver<T>", System.Object);
             return;
         $t.$isStaticInitialized = true;
     };
-    window.System.IObserver$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.IObserver$1, arguments)();
     };
+    window.System.IObserver$1$ = $t.$;
     $p.System$IObserver$1$OnNext = function(value) {};
     $p.System$IObserver$1$OnError = function(error) {};
     $p.System$IObserver$1$OnCompleted = function() {};
@@ -5504,9 +5563,10 @@ System.Lazy$1 = $define("System.Lazy<T>", System.Object);
             return null;
         });
     };
-    window.System.Lazy$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Lazy$1, arguments)();
     };
+    window.System.Lazy$1$ = $t.$;
     $t.Boxed = $define("System.Lazy<T>.Boxed", System.Object);
     ($t.Boxed.$TypeInitializer = function($t, $p) {
         $t.$GetAssembly = window.$mscorlib$GetAssembly;
@@ -5524,9 +5584,10 @@ System.Lazy$1 = $define("System.Lazy<T>", System.Object);
             $t.$isStaticInitialized = true;
             System.Object.$StaticInitializer();
         };
-        this.Boxed$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.Boxed, arguments)();
         };
+        this.Boxed$ = $t.$;
         $p.$ctor = function(value) {
             System.Object.prototype.$ctor.call(this);
             this.m_value = value;
@@ -5555,9 +5616,10 @@ System.Lazy$1 = $define("System.Lazy<T>", System.Object);
             $t.$isStaticInitialized = true;
             System.Object.$StaticInitializer();
         };
-        this.LazyInternalExceptionHolder$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.LazyInternalExceptionHolder, arguments)();
         };
+        this.LazyInternalExceptionHolder$ = $t.$;
         $p.m_exception = null;
         $p.$ctor = function(ex) {
             System.Object.prototype.$ctor.call(this);
@@ -5720,9 +5782,10 @@ System.System_LazyDebugView$1 = $define("System.System_LazyDebugView<T>", System
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.System_LazyDebugView$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.System_LazyDebugView$1, arguments)();
     };
+    window.System.System_LazyDebugView$1$ = $t.$;
     $p.m_lazy = null;
     $p.$ctor = function(lazy) {
         System.Object.prototype.$ctor.call(this);
@@ -6161,9 +6224,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$Where$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Where$1, arguments)();
         };
+        this.YieldEnumerator$Where$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6240,9 +6304,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$Where$1$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Where$1$1, arguments)();
         };
+        this.YieldEnumerator$Where$1$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6329,9 +6394,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$Select$2$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Select$2, arguments)();
         };
+        this.YieldEnumerator$Select$2$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6404,9 +6470,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$Select$1$2$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Select$1$2, arguments)();
         };
+        this.YieldEnumerator$Select$1$2$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6489,9 +6556,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$SelectMany$2$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$2, arguments)();
         };
+        this.YieldEnumerator$SelectMany$2$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6575,9 +6643,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$SelectMany$1$2$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$1$2, arguments)();
         };
+        this.YieldEnumerator$SelectMany$1$2$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6671,9 +6740,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$SelectMany$3$3$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$3$3, arguments)();
         };
+        this.YieldEnumerator$SelectMany$3$3$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6776,9 +6846,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$SelectMany$2$3$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$SelectMany$2$3, arguments)();
         };
+        this.YieldEnumerator$SelectMany$2$3$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6875,9 +6946,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$Take$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Take$1, arguments)();
         };
+        this.YieldEnumerator$Take$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -6960,9 +7032,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$TakeWhile$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$TakeWhile$1, arguments)();
         };
+        this.YieldEnumerator$TakeWhile$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -7041,9 +7114,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$TakeWhile$1$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$TakeWhile$1$1, arguments)();
         };
+        this.YieldEnumerator$TakeWhile$1$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -7128,9 +7202,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$Skip$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Skip$1, arguments)();
         };
+        this.YieldEnumerator$Skip$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -7210,9 +7285,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$SkipWhile$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$SkipWhile$1, arguments)();
         };
+        this.YieldEnumerator$SkipWhile$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -7291,9 +7367,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$SkipWhile$1$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$SkipWhile$1$1, arguments)();
         };
+        this.YieldEnumerator$SkipWhile$1$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -7375,9 +7452,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$Join$4$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Join$4, arguments)();
         };
+        this.YieldEnumerator$Join$4$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.outer = null;
@@ -7541,9 +7619,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(T).$StaticInitializer();
         };
-        this.YieldEnumerator$Concat$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Concat$1, arguments)();
         };
+        this.YieldEnumerator$Concat$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -7631,9 +7710,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TSource).$StaticInitializer();
         };
-        this.YieldEnumerator$Except$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Except$1, arguments)();
         };
+        this.YieldEnumerator$Except$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.first = null;
@@ -7716,9 +7796,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$Repeat$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Repeat$1, arguments)();
         };
+        this.YieldEnumerator$Repeat$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.element = null;
@@ -7800,9 +7881,10 @@ System.Linq.Enumerable = $define("System.Linq.Enumerable", System.Object);
             $t.$isStaticInitialized = true;
             System.YieldIterator$1$(TResult).$StaticInitializer();
         };
-        this.YieldEnumerator$Cast$1$ = function() {
+        $t.$ = function() {
             return $generic.call(this, this.YieldEnumerator$Cast$1, arguments)();
         };
+        this.YieldEnumerator$Cast$1$ = $t.$;
         $p.$isStarted = false;
         $p.$state = 0;
         $p.source = null;
@@ -8201,9 +8283,10 @@ System.Linq.Expressions.Expression$1 = $define("System.Linq.Expressions.Expressi
         $t.$isStaticInitialized = true;
         System.Linq.Expressions.LambdaExpression.$StaticInitializer();
     };
-    window.System.Linq.Expressions.Expression$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Linq.Expressions.Expression$1, arguments)();
     };
+    window.System.Linq.Expressions.Expression$1$ = $t.$;
     $p.$ctor = function(body, name, tailCall, parameters) {
         System.Linq.Expressions.LambdaExpression.prototype.$ctor.call(
             this, 
@@ -9765,9 +9848,10 @@ System.Nullable$1 = $define("System.Nullable<T>", System.ValueType);
         $t.$isStaticInitialized = true;
         System.ValueType.$StaticInitializer();
     };
-    window.System.Nullable$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Nullable$1, arguments)();
     };
+    window.System.Nullable$1$ = $t.$;
     $p.get_HasValue = function() {
         return false;
     };
@@ -12905,7 +12989,7 @@ System.Threading.Interlocked = $define("System.Threading.Interlocked", System.Ob
     };
     $t.CompareExchange = function(T, location1, value, comparand) {
         var oldValue = location1.value;
-        if (System.Collections.Generic.DefaultComparer$1$(T).get_Default().Equals$1(location1.value, comparand))
+        if (System.Collections.Generic.EqualityComparer$1$(T).get_Default().Equals$1(location1.value, comparand))
             location1.value = value;
         return oldValue;
     };
@@ -13092,9 +13176,10 @@ System.Tuple$1 = $define("System.Tuple<T1>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$1$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$1, arguments)();
     };
+    window.System.Tuple$1$ = $t.$;
     $p.m_Item1 = null;
     $p.get_Item1 = function() {
         return this.m_Item1;
@@ -13188,9 +13273,10 @@ System.Tuple$2 = $define("System.Tuple<T1, T2>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$2$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$2, arguments)();
     };
+    window.System.Tuple$2$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.get_Item1 = function() {
@@ -13298,9 +13384,10 @@ System.Tuple$3 = $define("System.Tuple<T1, T2, T3>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$3$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$3, arguments)();
     };
+    window.System.Tuple$3$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.m_Item3 = null;
@@ -13423,9 +13510,10 @@ System.Tuple$4 = $define("System.Tuple<T1, T2, T3, T4>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$4$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$4, arguments)();
     };
+    window.System.Tuple$4$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.m_Item3 = null;
@@ -13574,9 +13662,10 @@ System.Tuple$5 = $define("System.Tuple<T1, T2, T3, T4, T5>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$5$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$5, arguments)();
     };
+    window.System.Tuple$5$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.m_Item3 = null;
@@ -13739,9 +13828,10 @@ System.Tuple$6 = $define("System.Tuple<T1, T2, T3, T4, T5, T6>", System.Object);
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$6$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$6, arguments)();
     };
+    window.System.Tuple$6$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.m_Item3 = null;
@@ -13918,9 +14008,10 @@ System.Tuple$7 = $define("System.Tuple<T1, T2, T3, T4, T5, T6, T7>", System.Obje
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$7$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$7, arguments)();
     };
+    window.System.Tuple$7$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.m_Item3 = null;
@@ -14111,9 +14202,10 @@ System.Tuple$8 = $define("System.Tuple<T1, T2, T3, T4, T5, T6, T7, TRest>", Syst
         $t.$isStaticInitialized = true;
         System.Object.$StaticInitializer();
     };
-    window.System.Tuple$8$ = function() {
+    $t.$ = function() {
         return $generic.call(null, System.Tuple$8, arguments)();
     };
+    window.System.Tuple$8$ = $t.$;
     $p.m_Item1 = null;
     $p.m_Item2 = null;
     $p.m_Item3 = null;
