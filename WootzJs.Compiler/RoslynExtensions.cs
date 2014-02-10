@@ -387,5 +387,17 @@ namespace WootzJs.Compiler
                 }
             }
         }
+
+        public static void ReportError(this SyntaxNode node, string message)
+        {
+            var fileName = node.SyntaxTree.FilePath;
+            var text = node.SyntaxTree.GetText();
+            var span = node.GetLocation().SourceSpan;
+            var startLine = text.GetLinePosition(span.Start);
+            var endLine = text.GetLinePosition(span.End);
+
+            Console.WriteLine(string.Format("{0} ({1},{2},{3},{4}): error: {5}",
+                fileName, startLine.Line + 1, startLine.Character + 1, endLine.Line + 1, endLine.Character + 1, message));
+        }
     }
 }

@@ -884,7 +884,8 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitCheckedExpression(CheckedExpressionSyntax node)
         {
-            throw new Exception();
+            node.ReportError("checked expressions are not supported");
+            return node.Expression.Accept(this);
         }
 
         public override JsNode VisitDefaultExpression(DefaultExpressionSyntax node)

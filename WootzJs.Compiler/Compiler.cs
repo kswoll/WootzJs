@@ -80,7 +80,7 @@ namespace WootzJs.Compiler
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var yieldGenerator = new YieldGenerator(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldGenerator);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit));
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
             foreach (var syntaxTree in compilation.SyntaxTrees)
@@ -89,7 +89,7 @@ namespace WootzJs.Compiler
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var yieldFixer = new YieldGeneratorFixer(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit));
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
 

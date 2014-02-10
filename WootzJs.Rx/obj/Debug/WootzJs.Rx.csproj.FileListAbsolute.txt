@@ -1,7 +1,0 @@
-C:\Dev\WootzJs\WootzJs.Rx\bin\Debug\WootzJs.Rx.dll
-C:\Dev\WootzJs\WootzJs.Rx\bin\Debug\WootzJs.Rx.pdb
-C:\Dev\WootzJs\WootzJs.Rx\bin\Debug\mscorlib.dll
-C:\Dev\WootzJs\WootzJs.Rx\bin\Debug\mscorlib.pdb
-C:\Dev\WootzJs\WootzJs.Rx\obj\Debug\WootzJs.Rx.dll
-C:\Dev\WootzJs\WootzJs.Rx\obj\Debug\WootzJs.Rx.pdb
-C:\Dev\WootzJs\WootzJs.Rx\obj\Debug\WootzJs.Rx.csprojResolveAssemblyReference.cache
