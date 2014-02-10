@@ -108,10 +108,21 @@ namespace WootzJs.Compiler.Tests
             QUnit.IsTrue(typeof(TopLevelGenericClass<string>) == typeof(TopLevelGenericClass<string>));
             QUnit.IsTrue(typeof(TopLevelGenericClass<string>.NestedClass) == typeof(TopLevelGenericClass<string>.NestedClass));
         }
+
+        [Test]
+        public void GenericClassWithStaticInitializedFieldIsInitialized()
+        {
+            QUnit.AreEqual(GenericClassWithStaticInitializedField<string>.Foo, "String");
+        }
         
         private bool MethodTypeEqualsString<T>()
         {
             return typeof(T) == typeof(string);
+        }
+
+        public class GenericClassWithStaticInitializedField<T>
+        {
+            public static string Foo = typeof(T).FullName;
         }
 
         public class GenericClass<T>

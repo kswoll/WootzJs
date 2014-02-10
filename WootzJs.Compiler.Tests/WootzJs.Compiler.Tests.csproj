@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CS0626</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -106,15 +107,7 @@
   <Import Project="..\build\WootzJs.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-if errorlevel 1 goto BuildEventFailed
-copy $(SolutionDir)build\mscorlib.js $(TargetDir)
-if errorlevel 1 goto BuildEventFailed
-goto BuildEventOK
-:BuildEventFailed
-echo POSTBUILDSTEP for $(ProjectName) FAILED
-exit 1
-:BuildEventOK
-echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+copy $(SolutionDir)build\mscorlib.js $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AdditionalExplicitAssemblyReferences />

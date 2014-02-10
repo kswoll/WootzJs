@@ -154,11 +154,13 @@ namespace WootzJs.Compiler
                 compilationUnit.Accept(anonymousTypeTransformer);
             }
 
+/*
             var diagnostics = compilation.GetDiagnostics();
             foreach (var diagnostic in diagnostics)
             {
-                Console.WriteLine(diagnostic);
+                Console.WriteLine("// " + diagnostic);
             }
+*/
 
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type
             // declarations.

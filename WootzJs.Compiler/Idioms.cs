@@ -141,8 +141,8 @@ namespace WootzJs.Compiler
             block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
 
             staticInitializer = new JsBlockStatement();
-            staticInitializer.If(Type(classType).Member(SpecialNames.IsStaticInitialized), Js.Return());
-            staticInitializer.Assign(Type(classType).Member(SpecialNames.IsStaticInitialized), Js.Primitive(true));
+            staticInitializer.If(GetFromType(SpecialNames.IsStaticInitialized), Js.Return());
+            staticInitializer.Add(StoreInType(SpecialNames.IsStaticInitialized, Js.Primitive(true)));
             if (classType.BaseType != null)
             {
                 staticInitializer.Express(Type(classType.BaseType).Member(SpecialNames.StaticInitializer).Invoke());
@@ -156,7 +156,9 @@ namespace WootzJs.Compiler
                 makeGenericType.Return(
                     Js.Reference(SpecialNames.MakeGenericTypeConstructor)
                     .Member("call")
-                    .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.This(), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments")));
+                    .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.This(), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
+                    .Invoke()
+                );
 
                 JsExpression target;
                 if (containingType != null) 
