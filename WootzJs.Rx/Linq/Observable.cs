@@ -137,6 +137,20 @@ namespace System.Reactive.Linq
             return new Where<TSource>(source, predicate);
         }
 
+        public static IObservable<TResult> Select<TSource, TResult>(this IObservable<TSource> source, Func<TSource, TResult> selector)
+        {
+            var select = source as Select<TSource>;
+            if (select != null)
+                return select.Ω(selector);
+
+            return new Select<TSource, TResult>(source, selector);
+        }
+
+        public static IObservable<TResult> Select<TSource, TResult>(this IObservable<TSource> source, Func<TSource, int, TResult> selector)
+        {
+            return new Select<TSource, TResult>(source, selector);
+        }
+
         public static IObservable<TOther> SelectMany<TSource, TOther>(this IObservable<TSource> source, IObservable<TOther> other)
         {
             return SelectMany_(source, _ => other);
@@ -180,6 +194,86 @@ namespace System.Reactive.Linq
         private static IObservable<TResult> SelectMany_<TSource, TCollection, TResult>(this IObservable<TSource> source, Func<TSource, IEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
         {
             return new SelectMany<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
+        }
+
+        public static IObservable<double> Sum(this IObservable<double> source)
+        {
+            return new SumDouble(source);
+        }
+
+        public static IObservable<float> Sum(IObservable<float> source)
+        {
+            return new SumSingle(source);
+        }
+
+        public static IObservable<int> Sum(IObservable<int> source)
+        {
+            return new SumInt32(source);
+        }
+
+        public static IObservable<long> Sum(IObservable<long> source)
+        {
+            return new SumInt64(source);
+        }
+
+        public static IObservable<double?> Sum(IObservable<double?> source)
+        {
+            return new SumDoubleNullable(source);
+        }
+
+        public static IObservable<float?> Sum(IObservable<float?> source)
+        {
+            return new SumSingleNullable(source);
+        }
+
+        public static IObservable<int?> Sum(IObservable<int?> source)
+        {
+            return new SumInt32Nullable(source);
+        }
+
+        public static IObservable<long?> Sum(IObservable<long?> source)
+        {
+            return new SumInt64Nullable(source);
+        }
+
+        public static IObservable<double> Sum<TSource>(IObservable<TSource> source, Func<TSource, double> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<float> Sum<TSource>(IObservable<TSource> source, Func<TSource, float> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<int> Sum<TSource>(IObservable<TSource> source, Func<TSource, int> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<long> Sum<TSource>(IObservable<TSource> source, Func<TSource, long> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<double?> Sum<TSource>(IObservable<TSource> source, Func<TSource, double?> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<float?> Sum<TSource>(IObservable<TSource> source, Func<TSource, float?> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<int?> Sum<TSource>(IObservable<TSource> source, Func<TSource, int?> selector)
+        {
+            return Sum(Select(source, selector));
+        }
+
+        public static IObservable<long?> Sum<TSource>(IObservable<TSource> source, Func<TSource, long?> selector)
+        {
+            return Sum(Select(source, selector));
         }
 
         /// <summary>

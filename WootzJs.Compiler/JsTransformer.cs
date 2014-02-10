@@ -950,12 +950,14 @@ namespace WootzJs.Compiler
             idioms.InstrumentRefAndOutParameters(method, arguments, prependers, appenders);
 
             var typeArguments = method.TypeParameters.Any() ? method.TypeArguments.Select(x => idioms.Type(x)).ToArray() : new JsExpression[0];
+            var invokedAsExtensionMethod = false;
 
             // Extension methods come in as target.ExtensionMethod(arg1, arg2...) but we want them as ExtensionMethod(target, arg1, arg2...), and that's
             // what ReducedFrom is
             if (method.ReducedFrom != null)
             {
                 method = method.ReducedFrom;
+                invokedAsExtensionMethod = true;
             }
             JsInvocationExpression invocation = null;
             if (isExtension)
@@ -971,7 +973,10 @@ namespace WootzJs.Compiler
             }
             if (invocation == null && method.IsExtensionMethod)
             {
-                invocation = idioms.InvokeStatic(method, new[] { methodTarget }.Concat(arguments).ToArray());
+                var staticArgs = arguments.ToArray();
+                if (invokedAsExtensionMethod)
+                    staticArgs = new[] { methodTarget }.Concat(staticArgs).ToArray();
+                invocation = idioms.InvokeStatic(method, staticArgs);
             }
             if (invocation == null && method.IsStatic)
             {

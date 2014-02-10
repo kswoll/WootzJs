@@ -27,6 +27,9 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -36,7 +39,7 @@ namespace WootzJs.Rx.Tests.Subjects
     public class SubjectTest
     {
         [Test]
-        public void Foo()
+        public void OnNext()
         {
             var subject = new Subject<TestEvent>();
             bool flagged = false;
@@ -45,9 +48,69 @@ namespace WootzJs.Rx.Tests.Subjects
             QUnit.IsTrue(flagged);
         }
 
+        [Test]
+        public void Where()
+        {
+            var subject = new Subject<TestEvent>();
+            int counter = 0;
+            subject
+                .Where(x => x.Key == "one")
+                .Subscribe(x => counter++);
+            subject.OnNext(new TestEvent { Key = "zero" });
+            subject.OnNext(new TestEvent { Key = "one" });
+            subject.OnNext(new TestEvent { Key = "two" });
+            QUnit.AreEqual(counter, 1);
+        }
+
+        [Test]
+        public void Select()
+        {
+            var subject = new Subject<TestEvent>();
+            int counter = 0;
+            subject
+                .Select(x => x.Key)
+                .Subscribe(x => counter += x.Length);
+            subject.OnNext(new TestEvent { Key = "zero" });
+            subject.OnNext(new TestEvent { Key = "one" });
+            subject.OnNext(new TestEvent { Key = "two" });
+            QUnit.AreEqual(counter, 10);
+        }
+
+        [Test]
+        public void SelectMany()
+        {
+            var subject = new Subject<TestEvent>();
+            int counter = 0;
+            subject
+                .SelectMany(x => x.Ints)
+                .Subscribe(x => counter += x);
+            subject.OnNext(new TestEvent { Ints = new[] { 1, 2 } });
+            subject.OnNext(new TestEvent { Ints = new[] { 3, 4 } });
+            QUnit.AreEqual(counter, 10);
+        }
+
+        [Test]
+        public void GroupBy()
+        {
+            var subject = new Subject<TestEvent>();
+            int one = 0;
+            int two = 0;
+            var group = subject.GroupBy(x => x.Key);
+
+            group.Where(x => x.Key == "one").SelectMany(x => x).Subscribe(x => one += x.Value);
+            group.Where(x => x.Key == "two").SelectMany(x => x).Subscribe(x => two += x.Value);
+            subject.OnNext(new TestEvent { Key = "one", Value = 1 });
+            subject.OnNext(new TestEvent { Key = "one", Value = 5 });
+            subject.OnNext(new TestEvent { Key = "two", Value = 8 });
+            QUnit.AreEqual(one, 6);
+            QUnit.AreEqual(two, 8);
+        }
+
         public class TestEvent
         {
-            
+            public string Key { get; set; }
+            public int Value { get; set; }
+            public int[] Ints { get; set; }
         }
     }
 }

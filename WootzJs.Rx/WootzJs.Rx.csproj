@@ -48,7 +48,9 @@
     <Compile Include="Linq\IGroupedObservable.cs" />
     <Compile Include="Linq\Observable.cs" />
     <Compile Include="Linq\Observables\GroupBy.cs" />
+    <Compile Include="Linq\Observables\Select.cs" />
     <Compile Include="Linq\Observables\SelectMany.cs" />
+    <Compile Include="Linq\Observables\Sum.cs" />
     <Compile Include="Linq\Observables\Where.cs" />
     <Compile Include="ObservableBase.cs" />
     <Compile Include="ObserverBase.cs" />
@@ -62,6 +64,9 @@
     <Compile Include="Sink.cs" />
     <Compile Include="Stubs.cs" />
     <Compile Include="Subjects\Subject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RxLicense.txt" />
   </ItemGroup>
   <Import Project="..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

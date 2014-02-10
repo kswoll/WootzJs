@@ -264,6 +264,10 @@ namespace WootzJs.Compiler.JsAst
                 return new JsPrimitiveExpression((int)value);
             if (value is uint)
                 return new JsPrimitiveExpression((uint)value);
+            if (value is long)
+                return new JsPrimitiveExpression((long)value);
+            if (value is ulong)
+                return new JsPrimitiveExpression((ulong)value);
             if (value is float)
                 return new JsPrimitiveExpression((float)value);
             if (value is double)
