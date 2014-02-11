@@ -159,16 +159,12 @@ namespace System.Runtime.WootzJs
         [Js(Name = SpecialNames.MakeGenericTypeConstructor)]
         internal static JsTypeFunction MakeGenericTypeFactory(JsTypeFunction unconstructedType, JsArray typeArgs)
         {
-//            if (typeArgs.length > 0 && typeArgs[0] == null)
-//                return unconstructedType;
-
             var cache = Jsni.member(unconstructedType, "$typecache");
             if (cache == null)
             {
                 cache = new JsObject();
                 unconstructedType.memberset("$typecache", cache);
             }
-            // Array.prototype.slice.call(typeArgs, 0))
             var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
             var keyParts = new JsArray();
             for (var i = 0; i < keyArray.length; i++)
@@ -211,7 +207,7 @@ namespace System.Runtime.WootzJs
                             generic, 
                             unconstructedType.BaseType,
                             unconstructedTypeType.interfaces, 
-                            new JsTypeFunction[0],
+                            InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>(),
                             unconstructedTypeType.fields, 
                             unconstructedTypeType.methods, 
                             unconstructedTypeType.constructors, 
