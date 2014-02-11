@@ -31,7 +31,7 @@ namespace WootzJs.Compiler
 {
     public class StringEscaper
     {
-        public static string EscapeString(string s)
+        public static string EscapeString(string s, bool isChar)
         {
             var builder = new StringBuilder();
             for (var i = 0; i < s.Length; i++)
@@ -52,10 +52,24 @@ namespace WootzJs.Compiler
                         builder.Append("\\\\");
                         break;
                     case '"':
-                        builder.Append("\\\"");
+                        if (isChar)
+                        {
+                            builder.Append("\"");
+                        }
+                        else
+                        {
+                            builder.Append("\\\"");
+                        }
                         break;
                     case '\'':
-                        builder.Append("\\'");
+                        if (isChar)
+                        {
+                            builder.Append("\\'");
+                        }
+                        else
+                        {
+                            builder.Append("'");
+                        }
                         break;
                     default:
                         builder.Append(c);

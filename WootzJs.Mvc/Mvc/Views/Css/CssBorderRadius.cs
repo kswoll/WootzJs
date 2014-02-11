@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,22 +24,55 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace System
+namespace WootzJs.Mvc.Mvc.Views.Css
 {
-    public class InvalidOperationException : Exception
+    public class CssBorderRadius : CssDeclaration
     {
-        public InvalidOperationException()
+        public CssBorderRadius()
         {
         }
 
-        public InvalidOperationException(string message) : base(message)
+        public CssBorderRadius(CssNumericValue size) 
         {
+            Size = size;
         }
 
-        public InvalidOperationException(string message, Exception innerException) : base(message, innerException)
+        public CssNumericValue Size
         {
+            get { return CssNumericValue.Parse(Get("border-radius")); }
+            set { Set("border-radius", value); }
         }
+        
+        public CssNumericValue BottomLeft
+        {
+            get { return CssNumericValue.Parse(Get("border-bottom-left-radius")); }
+            set { Set("border-bottom-left-radius", value); }
+        }
+
+        public CssNumericValue TopLeft
+        {
+            get { return CssNumericValue.Parse(Get("border-top-left-radius")); }
+            set { Set("border-top-left-radius", value); }
+        }
+
+        public CssNumericValue TopRight
+        {
+            get { return CssNumericValue.Parse(Get("border-top-right-radius")); }
+            set { Set("border-top-right-radius", value); }
+        }
+
+        public CssNumericValue BottomRight
+        {
+            get { return CssNumericValue.Parse(Get("border-bottom-right-radius")); }
+            set { Set("border-bottom-right-radius", value); }
+        }
+
+        public static implicit operator CssBorderRadius(int sizeInPixels)
+        {
+            return new CssBorderRadius(sizeInPixels);
+        }         
     }
 }

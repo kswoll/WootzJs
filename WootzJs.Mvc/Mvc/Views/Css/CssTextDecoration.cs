@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,22 +24,55 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace System
+using System;
+
+namespace WootzJs.Mvc.Mvc.Views.Css
 {
-    public class InvalidOperationException : Exception
+    public enum CssTextDecoration
     {
-        public InvalidOperationException()
+        None,
+        Underline,
+        Overline,
+        LineThrough
+    }
+
+    public static class CssTextDecorations
+    {
+        public static string GetCssValue(this CssTextDecoration value)
         {
+            switch (value)
+            {
+                case CssTextDecoration.LineThrough:
+                    return "line-through";
+                case CssTextDecoration.None:
+                    return "none";
+                case CssTextDecoration.Overline:
+                    return "overline";
+                case CssTextDecoration.Underline:
+                    return "underline";
+                default:
+                    throw new Exception();
+            }
         }
 
-        public InvalidOperationException(string message) : base(message)
+        public static CssTextDecoration Parse(string s)
         {
-        }
-
-        public InvalidOperationException(string message, Exception innerException) : base(message, innerException)
-        {
+            switch (s)
+            {
+                case "line-through":
+                    return CssTextDecoration.LineThrough;
+                case "none":
+                    return CssTextDecoration.None;
+                case "overline":
+                    return CssTextDecoration.Overline;
+                case "underline":
+                    return CssTextDecoration.Underline;
+                default:
+                    throw new Exception();
+            }
         }
     }
 }

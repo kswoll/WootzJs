@@ -791,7 +791,7 @@ namespace WootzJs.Compiler
             {
                 isBaseReference = false;
                 var expressionSymbol = model.GetSymbolInfo(node.Expression).Symbol;
-                if (symbol.IsStatic && expressionSymbol != null && expressionSymbol != symbol.ContainingType)
+                if (symbol.IsStatic && expressionSymbol != null && expressionSymbol != symbol.ContainingType && symbol.ContainingType != null)
                 {
                     // For static methods, we want to ensure that we are capturing the correct type.
                     // Typically, C# programmers qualify static members with declaring type, but 

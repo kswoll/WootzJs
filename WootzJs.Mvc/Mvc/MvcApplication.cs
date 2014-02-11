@@ -16,6 +16,7 @@ namespace WootzJs.Mvc.Mvc
         public string Scheme { get; set; }
 
         public IControllerFactory ControllerFactory { get; protected set; }
+        public IDependencyResolver DependencyResolver { get; protected set; }
 
         private RouteTree routeTree;
         private View view;
@@ -45,7 +46,8 @@ namespace WootzJs.Mvc.Mvc
             var path = Browser.Window.Location.PathName;
             Console.WriteLine(path);
 
-            ControllerFactory = new DefaultControllerFactory();
+            DependencyResolver = new ReflectionDependencyResolver();
+            ControllerFactory = new DefaultControllerFactory(DependencyResolver);
 
             var routeGenerator = new RouteGenerator();
             routeTree = routeGenerator.GenerateRoutes(assembly);

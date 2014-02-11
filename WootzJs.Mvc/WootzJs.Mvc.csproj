@@ -42,10 +42,12 @@
     <Compile Include="Mvc\HttpPostAttribute.cs" />
     <Compile Include="Mvc\IActionInvoker.cs" />
     <Compile Include="Mvc\IControllerFactory.cs" />
+    <Compile Include="Mvc\IDependencyResolver.cs" />
     <Compile Include="Mvc\MvcApplication.cs" />
     <Compile Include="Mvc\NavigationContext.cs" />
     <Compile Include="Mvc\NavigationRequest.cs" />
     <Compile Include="Mvc\NavigationResponse.cs" />
+    <Compile Include="Mvc\ReflectionDependencyResolver.cs" />
     <Compile Include="Mvc\RouteAttribute.cs" />
     <Compile Include="Mvc\Routes\DuplicateRouteException.cs" />
     <Compile Include="Mvc\Routes\IRouteNode.cs" />
@@ -71,7 +73,9 @@
     <Compile Include="Mvc\Views\Control.cs" />
     <Compile Include="Mvc\Views\Css\CssBorder.cs" />
     <Compile Include="Mvc\Views\Css\CssBorderCollapse.cs" />
+    <Compile Include="Mvc\Views\Css\CssBorderRadius.cs" />
     <Compile Include="Mvc\Views\Css\CssBorderSide.cs" />
+    <Compile Include="Mvc\Views\Css\CssBorderStyle.cs" />
     <Compile Include="Mvc\Views\Css\CssBoxShadow.cs" />
     <Compile Include="Mvc\Views\Css\CssColor.cs" />
     <Compile Include="Mvc\Views\Css\CssCursor.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="Mvc\Views\Css\CssPercent.cs" />
     <Compile Include="Mvc\Views\Css\CssString.cs" />
     <Compile Include="Mvc\Views\Css\CssTextAlign.cs" />
+    <Compile Include="Mvc\Views\Css\CssTextDecoration.cs" />
     <Compile Include="Mvc\Views\Css\CssUnit.cs" />
     <Compile Include="Mvc\Views\Css\CssValue.cs" />
     <Compile Include="Mvc\Views\Css\CssVerticalAlign.cs" />

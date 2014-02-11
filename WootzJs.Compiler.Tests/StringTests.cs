@@ -211,5 +211,12 @@ namespace WootzJs.Compiler.Tests
             var s = "foo" + o;
             QUnit.AreEqual(s, "foo");
         }
+
+        [Test]
+        public void SingleQuotesInsideStringAreNotEscaped()
+        {
+            var s = "'foo'";
+            QUnit.AreEqual(s.Length, 5);
+        }
     }
 }

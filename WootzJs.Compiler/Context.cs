@@ -62,6 +62,7 @@ namespace WootzJs.Compiler
         public ArrayTypeSymbol TypeArray { get; private set; }
         public MethodSymbol TypeConstructor { get; private set; }
         public MethodSymbol TypeInit { get; private set; }
+        public MethodSymbol CreateTypeParameter { get; private set; }
         public MethodSymbol TypeIsInstanceOfType { get; private set; }
         public MethodSymbol Type_GetTypeFromTypeFunc { get; private set; }
         public MethodSymbol GetField { get; private set; }
@@ -158,6 +159,7 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol JsObject { get; private set; }
         public NamedTypeSymbol JsString { get; private set; }
         public MethodSymbol SafeToString { get; private set; }
+        public NamedTypeSymbol Array { get; private set; }
 
         public static void Update(ISolution solution, IProject project, Compilation compilation)
         {
@@ -205,6 +207,7 @@ namespace WootzJs.Compiler
             TypeArray = compilation.CreateArrayTypeSymbol(TypeType);
             TypeConstructor = TypeType.InstanceConstructors.Single();
             TypeInit = (MethodSymbol)TypeType.GetMembers("Init").Single();
+            CreateTypeParameter = (MethodSymbol)TypeType.GetMembers("CreateTypeParameter").Single();
             TypeIsInstanceOfType = (MethodSymbol)TypeType.GetMembers("IsInstanceOfType").Single();
             Type_GetTypeFromTypeFunc = (MethodSymbol)TypeType.GetMembers("_GetTypeFromTypeFunc").Single();
             GetField = TypeType.GetMethod("GetField", String);
@@ -286,6 +289,7 @@ namespace WootzJs.Compiler
             JsObject = compilation.FindType("System.Runtime.WootzJs.JsObject");
             JsString = compilation.FindType("System.Runtime.WootzJs.JsString");
             SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<MethodSymbol>().Single();
+            Array = compilation.FindType("System.Array");
         }
     }
 }

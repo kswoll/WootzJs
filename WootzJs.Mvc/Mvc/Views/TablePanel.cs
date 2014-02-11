@@ -164,17 +164,6 @@ namespace WootzJs.Mvc.Mvc.Views
                 {
                     while (cells.Count <= row)
                     {
-                        // Add cellspacing padding to previous row
-                        if (cellSpacing > 0 && rows.Any())
-                        {
-                            var lastRow = rows.Last();
-                            for (var i = 0; i < lastRow.Children.Length; i++)
-                            {
-                                var lastCell = lastRow.Children[i];
-                                lastCell.Style.PaddingBottom = cellSpacing + "px";
-                            }
-                        }
-
                         cells.Add(new Control[columnWidths.Length]);
                         var newRow = Browser.Document.CreateElement("tr");
                         table.AppendChild(newRow);
@@ -186,9 +175,12 @@ namespace WootzJs.Mvc.Mvc.Views
                 }
             }
 
+            var isFirstRowInTable = nextEmptyCell.Y == 0;
             var isLastCellInRow = nextEmptyCell.X + constraint.ColumnSpan == columnWidths.Length;
             if (!isLastCellInRow && cellSpacing != 0)
                 jsCell.Style.PaddingRight = cellSpacing + "px";
+            if (!isFirstRowInTable)
+                jsCell.Style.PaddingTop = cellSpacing + "px";
 
             var jsRow = rows[nextEmptyCell.Y];
             jsRow.AppendChild(jsCell);

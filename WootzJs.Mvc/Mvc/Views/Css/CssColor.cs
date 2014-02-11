@@ -43,7 +43,7 @@
             return value;
         }
 
-        public static CssColor Parse(string s)
+        public new static CssColor Parse(string s)
         {
             if (s == null)
                 return null;

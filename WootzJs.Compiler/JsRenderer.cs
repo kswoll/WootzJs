@@ -301,7 +301,7 @@ namespace WootzJs.Compiler
             else if (node.Value is string)
             {
                 output.Append("\"");
-                output.Append(StringEscaper.EscapeString((string)node.Value));
+                output.Append(StringEscaper.EscapeString((string)node.Value, false));
                 output.Append("\"");
             }
             else if (node.Value is int || node.Value is short || node.Value is byte || node.Value is long || node.Value is sbyte || node.Value is ushort || 
@@ -316,7 +316,7 @@ namespace WootzJs.Compiler
             else if (node.Value is char)
             {
                 output.Append("\"");
-                output.Append(StringEscaper.EscapeString(((char)node.Value).ToString()));
+                output.Append(StringEscaper.EscapeString(((char)node.Value).ToString(), true));
                 output.Append("\"");
             }
             else

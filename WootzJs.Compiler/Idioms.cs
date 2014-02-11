@@ -134,7 +134,21 @@ namespace WootzJs.Compiler
             block.Express(Js.Assign(outerClassType.Member(SpecialNames.TypeInitializer), typeInitializerFunction)
                 .Parenthetical()
                 .Member("call")
-                .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction), outerClassType, outerClassType.Member("prototype")));
+                .Invoke(
+                    new[] 
+                    { 
+                        containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
+                        outerClassType, 
+                        outerClassType.Member("prototype")
+                    }
+                    .Concat(
+                        classType.TypeParameters.Select(x => 
+                            Js.Reference("$definetypeparameter").Invoke(
+                                Js.Primitive(x.Name), 
+                                Type(x.BaseType ?? Context.Instance.ObjectType, true)))
+                    )
+                    .ToArray()
+                ));
             block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
 
             staticInitializer = new JsBlockStatement();
@@ -182,19 +196,25 @@ namespace WootzJs.Compiler
             var body = new JsBlockStatement();
             body.Assign(Js.This().Member(SpecialNames.TypeField), 
                 CreateObject(Context.Instance.TypeConstructor, Js.Primitive(type.Name), CreateAttributes(type)));
+
             body.Express(Invoke(Js.This().Member(SpecialNames.TypeField), Context.Instance.TypeInit, 
                 Js.Primitive(explicitName ?? fullTypeName),          // Param1: fullTypeName
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),
+                Js.Null(),
                 CreateFieldInfos(type),
                 CreateMethodInfos(type, false),
                 CreateMethodInfos(type, true),
                 CreatePropertyInfos(type),
                 CreateEventInfos(type),
-                Js.Primitive(type.IsValueType)));
+                Js.Primitive(type.IsValueType),
+                Js.Primitive(type.IsAbstract),
+                Js.Primitive(type.TypeKind == TypeKind.Interface),
+                Js.Primitive(type.IsPrimitive()),
+                Js.Primitive(type.IsGenericType)));
             body.Return(Js.This().Member(SpecialNames.TypeField));
-            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body).Compact());
+            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body)/*.Compact()*/);
             return result;
         }
 

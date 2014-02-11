@@ -38,6 +38,15 @@ namespace System.Text
         private JsArray chunks = new JsArray();
         private int length;
 
+        public StringBuilder()
+        {
+        }
+
+        public StringBuilder(string initialText)
+        {
+            Append(initialText);
+        }
+
         public int Length
         {
             get { return length; }

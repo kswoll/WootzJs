@@ -53,5 +53,6 @@ namespace System.Runtime.WootzJs
         public const string ElementType = "$elementType";
         public const string SafeToString = "$safeToString";
         public const string Truncate = "$trunc";
+        public const string UnconstructedType = "$unconstructedType";
     }
 }

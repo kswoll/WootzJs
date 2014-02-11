@@ -9,13 +9,6 @@ namespace WootzJs.Mvc.Mvc.Views.Css
         private CssBorderSide right;
         private CssBorderSide bottom;
 
-        internal void ClearGlobals()
-        {
-            Set("border-size", "");
-            Set("border-style", "");
-            Set("border-color", "");
-        }
-
         internal override void Attach(ElementStyle node)
         {
             base.Attach(node);
@@ -84,6 +77,30 @@ namespace WootzJs.Mvc.Mvc.Views.Css
                     if (Get("border-style") == "")
                         Set("border-style", "solid");
                     Set("border-width", value);                                        
+                });
+            }
+        }
+
+        public CssBorderStyle Style
+        {
+            get { return CssBorderStyles.Parse(Get("border-style")); }
+            set
+            {
+                Act(() =>
+                {
+                    Set("border-style", value);
+                });
+            }
+        }
+
+        public CssColor Color
+        {
+            get { return CssColor.Parse(Get("border-color")); }
+            set
+            {
+                Act(() =>
+                {
+                    Set("border-color", value);
                 });
             }
         }

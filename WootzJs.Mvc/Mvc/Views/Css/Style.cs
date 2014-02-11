@@ -9,6 +9,7 @@ namespace WootzJs.Mvc.Mvc.Views.Css
         private CssBorder border;
         private CssBoxShadow boxShadow;
         private CssFont font;
+        private CssBorderRadius borderRadius;
 
         internal override void Attach(ElementStyle node)
         {
@@ -23,6 +24,8 @@ namespace WootzJs.Mvc.Mvc.Views.Css
                 boxShadow.Attach(node);
             if (font != null)
                 font.Attach(node);
+            if (borderRadius != null)
+                borderRadius.Attach(node);
         }
 
 /*
@@ -64,6 +67,17 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             set
             {
                 padding = value;
+                if (node != null)
+                    value.Attach(node);
+            }
+        }
+
+        public CssBorderRadius BorderRadius
+        {
+            get { return borderRadius; }
+            set
+            {
+                borderRadius = value;
                 if (node != null)
                     value.Attach(node);
             }
@@ -166,6 +180,12 @@ namespace WootzJs.Mvc.Mvc.Views.Css
         {
             get { return CssPercent.Parse(Get("opacity")); }
             set { Set("opacity", value); }
+        }
+
+        public CssTextDecoration TextDecoration
+        {
+            get { return CssTextDecorations.Parse(Get("text-decoration")); }
+            set { Set("text-decoration", value.GetCssValue()); }
         }
 /*
 

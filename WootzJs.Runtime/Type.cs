@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Linq;
@@ -40,13 +42,19 @@ namespace System
         internal JsTypeFunction thisType;
         private JsTypeFunction baseType;
         internal JsTypeFunction[] interfaces;
-        private FieldInfo[] fields;
-        private MethodInfo[] methods;
-        private ConstructorInfo[] constructors;
-        private PropertyInfo[] properties;
-        private EventInfo[] events;
+        internal JsTypeFunction[] typeArguments;
+        internal FieldInfo[] fields;
+        internal MethodInfo[] methods;
+        internal ConstructorInfo[] constructors;
+        internal PropertyInfo[] properties;
+        internal EventInfo[] events;
         private JsTypeFunction elementType;
         private bool isValueType;
+        private bool isInterface;
+        private bool isAbstract;
+        private bool isPrimitive;
+        private bool isGenericType;
+
         public Type(string name, Attribute[] attributes) : base(name, attributes)
         {
         }
@@ -56,19 +64,33 @@ namespace System
             get { return MemberTypes.TypeInfo; }
         }
 
-        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, JsTypeFunction elementType)
+        public static Type CreateTypeParameter(string fullName, JsTypeFunction baseType)
+        {
+            var type = new Type(fullName, new Attribute[0]);
+            type.Init(fullName, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0], 
+                new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
+                new EventInfo[0], false, false, false, false, false, null);
+            return type;
+        }
+
+        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, JsTypeFunction elementType)
         {
             FullName = fullName;
 
             this.thisType = thisType;
             this.baseType = baseType;
             this.interfaces = interfaces;
+            this.typeArguments = typeArguments;
             this.fields = fields;
             this.methods = methods;
             this.constructors = constructors;
             this.properties = properties;
             this.events = events;
             this.isValueType = isValueType;
+            this.isAbstract = isAbstract;
+            this.isInterface = isInterface;
+            this.isPrimitive = isPrimitive;
+            this.isGenericType = isGenericType;
             this.elementType = elementType;
 
             foreach (var field in fields)
@@ -194,16 +216,6 @@ namespace System
                     return true;
             }
 
-            return false;
-        }
-
-        public static bool IsClass(Type type)
-        {
-            return false;
-        }
-
-        public static bool IsInterface(Type type)
-        {
             return false;
         }
 
@@ -656,7 +668,7 @@ namespace System
                 }
                 return method;
             }
-            return null;           
+            return null;
         }
 
         public Array GetEnumValues()
@@ -674,6 +686,57 @@ namespace System
             if (rank > 1)
                 throw new InvalidOperationException("Rank must be 1");
             return _GetTypeFromTypeFunc(SpecialFunctions.MakeArrayType(___type));
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> is one of the primitive types.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is one of the primitive types; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsPrimitive
+        {
+            get { return isPrimitive; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> is abstract and must be overridden.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is abstract; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsAbstract
+        {
+            get { return isAbstract; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> is an interface; that is, not a class or a value type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is an interface; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsInterface
+        {
+            get { return isInterface; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current type is a generic type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the current type is a generic type; otherwise, false.
+        /// </returns>
+        public virtual bool IsGenericType
+        {
+            get { return isGenericType; }
         }
     }
 }

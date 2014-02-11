@@ -65,6 +65,19 @@ namespace System.Runtime.WootzJs
             return typeFunction;
         }
 
+        [Js(Name = "$definetypeparameter")]
+        public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)
+        {
+            var result = Define(name, prototype);
+            result.memberset(SpecialNames.CreateType, Jsni.function(() =>
+            {
+                var type = Type.CreateTypeParameter(name, prototype);
+                result.Type = type;
+                return result;
+            }));
+            return result;
+        }
+
         [Js(Name = "$cast")]
         public static T ObjectCast<T>(object o)
         {
@@ -153,7 +166,7 @@ namespace System.Runtime.WootzJs
             if (cache == null)
             {
                 cache = new JsObject();
-                Jsni.memberset(unconstructedType, "$typecache", cache);
+                unconstructedType.memberset("$typecache", cache);
             }
             // Array.prototype.slice.call(typeArgs, 0))
             var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
@@ -172,6 +185,7 @@ namespace System.Runtime.WootzJs
                 if (prototype.member("$"))
                     prototype = prototype.member("$").apply(null, typeArgs).As<JsTypeFunction>();
                 var generic = Define(newTypeName, prototype);
+                generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
 
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
                 Jsni.apply(
@@ -187,6 +201,31 @@ namespace System.Runtime.WootzJs
                     p.___type = generic;
                     t.As<JsTypeFunction>().BaseType = unconstructedType;
                     t.As<JsTypeFunction>().GetTypeFromType = Jsni.function(() => Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>());
+                    t.As<JsTypeFunction>().CreateTypeField = Jsni.function(() =>
+                    {
+                        var unconstructedTypeType = Type._GetTypeFromTypeFunc(unconstructedType);
+                        var type = new Type(newTypeName, new Attribute[0]);
+                        generic.Type = type;
+                        type.Init(
+                            newTypeName, 
+                            generic, 
+                            unconstructedType.BaseType,
+                            unconstructedTypeType.interfaces, 
+                            new JsTypeFunction[0],
+                            unconstructedTypeType.fields, 
+                            unconstructedTypeType.methods, 
+                            unconstructedTypeType.constructors, 
+                            unconstructedTypeType.properties, 
+                            unconstructedTypeType.events, 
+                            false, 
+                            unconstructedTypeType.IsAbstract,
+                            unconstructedTypeType.IsInterface,
+                            false,
+                            true,
+                            null);
+                        return type.As<JsObject>();
+                    });
+
                 }, "$t", "$p");
                 Jsni.call(generic.TypeInitializer, Jsni.@this(), generic, generic.prototype);
                 result = generic;
@@ -237,12 +276,17 @@ namespace System.Runtime.WootzJs
                             elementType, 
                             Jsni.type<Array>(), 
                             typeof(Array).interfaces.Concat(new[] { SpecialFunctions.MakeGenericTypeFactory(Jsni.type(typeof(IEnumerable<>)), Jsni.array(elementType)) }).ToArray(), 
+                            new JsTypeFunction[0],
                             new FieldInfo[0], 
                             new MethodInfo[0], 
                             new ConstructorInfo[0], 
                             new PropertyInfo[0], 
                             new EventInfo[0], 
                             false, 
+                            false,
+                            false,
+                            false,
+                            false,
                             elementType);
                         return type.As<JsObject>();
                     });

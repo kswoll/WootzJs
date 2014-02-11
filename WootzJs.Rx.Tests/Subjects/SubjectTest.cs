@@ -92,8 +92,6 @@ namespace WootzJs.Rx.Tests.Subjects
         [Test]
         public void GroupBy()
         { 
-            int i = 0;
-            i = checked (i + 5);
             var subject = new Subject<TestEvent>();
             int one = 0;
             int two = 0;
