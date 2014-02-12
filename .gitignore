@@ -20,6 +20,6 @@ WootzJs.Rx/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92
 WootzJs.Rx.Tests/bin/Debug/WootzJs.Rx.Tests.js
 WootzJs.Rx.Tests/bin/
 WootzJs.Rx.Tests/obj/
-build/
 WootzJs.Rx/obj/
 WootzJs.Injection/obj/
+build/*.*
