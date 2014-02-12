@@ -139,31 +139,17 @@ namespace System.Runtime.WootzJs
 
             arrayType.member("prototype").member("$ctor").member("call").invoke(array);
 
-/*
-            Jsni.apply(
-                Jsni.type<Object>().TypeInitializer, 
-                Jsni.@this(), 
-                Jsni.array(arrayType, array)).As<JsArray>();
-            Jsni.apply(
-                Jsni.type<Array>().TypeInitializer, 
-                Jsni.@this(), 
-                Jsni.array(arrayType, array)).As<JsArray>();
-            Jsni.apply(
-                arrayType.TypeInitializer, 
-                Jsni.@this(), 
-                Jsni.array(arrayType, array)).As<JsArray>();
-*/
             return array;
         }
 
         [Js(Name = SpecialNames.MakeGenericTypeConstructor)]
         internal static JsTypeFunction MakeGenericTypeFactory(JsTypeFunction unconstructedType, JsArray typeArgs)
         {
-            var cache = Jsni.member(unconstructedType, "$typecache");
+            var cache = Jsni.member(unconstructedType, SpecialNames.TypeCache);
             if (cache == null)
             {
                 cache = new JsObject();
-                unconstructedType.memberset("$typecache", cache);
+                unconstructedType.memberset(SpecialNames.TypeCache, cache);
             }
             var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
             var keyParts = new JsArray();
@@ -222,7 +208,7 @@ namespace System.Runtime.WootzJs
                         return type.As<JsObject>();
                     });
 
-                }, "$t", "$p");
+                }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
                 Jsni.call(generic.TypeInitializer, Jsni.@this(), generic, generic.prototype);
                 result = generic;
                 cache[keyString] = result;
@@ -231,13 +217,12 @@ namespace System.Runtime.WootzJs
             return result.As<JsTypeFunction>();
         }
 
-
         [Js(Name = SpecialNames.MakeArrayType)]
         internal static JsTypeFunction MakeArrayType(JsTypeFunction elementType)
         {
             if (elementType.ArrayType == null)
             {
-                var baseType = SpecialFunctions.MakeGenericTypeFactory(Jsni.type(typeof(GenericArray<>)), Jsni.array(elementType));
+                var baseType = MakeGenericTypeFactory(Jsni.type(typeof(GenericArray<>)), Jsni.array(elementType));
                 var arrayType = Jsni.procedure(() => {}).As<JsTypeFunction>();
                 arrayType.prototype = Jsni.@new(baseType);
                 Jsni.apply(
@@ -286,7 +271,7 @@ namespace System.Runtime.WootzJs
                             elementType);
                         return type.As<JsObject>();
                     });
-                }, "$t", "$p");
+                }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
                 Jsni.call(arrayType.TypeInitializer, Jsni.@this(), arrayType, arrayType.prototype);
                 var result = arrayType;
                 elementType.ArrayType = result;

@@ -54,5 +54,6 @@ namespace System.Runtime.WootzJs
         public const string SafeToString = "$safeToString";
         public const string Truncate = "$trunc";
         public const string UnconstructedType = "$unconstructedType";
+        public const string TypeCache = "$typecache";
     }
 }
