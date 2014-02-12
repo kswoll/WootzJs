@@ -31,16 +31,16 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class JsniTests
-    {
-        [Test]
-        public void ForIn()
-        {
-            var counter = 0;
-            var jsObject = Jsni.@object(new { One = 1, Two = 2 });
-            jsObject.forin(x => counter += x);
-            QUnit.AreEqual(counter, 3);
-        }
-    }
+//    [TestFixture]
+//    public class JsniTests
+//    {
+//        [Test]
+//        public void ForIn()
+//        {
+//            var counter = 0;
+//            var jsObject = Jsni.@object(new { One = 1, Two = 2 });
+//            jsObject.forin(x => counter += x);
+//            QUnit.AreEqual(counter, 3);
+//        }
+//    }
 }
