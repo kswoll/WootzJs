@@ -22,4 +22,6 @@ WootzJs.Rx.Tests/bin/
 WootzJs.Rx.Tests/obj/
 WootzJs.Rx/obj/
 WootzJs.Injection/obj/
-build/*.*
+build/*.dll
+build/*.pdb
+build/*.js
