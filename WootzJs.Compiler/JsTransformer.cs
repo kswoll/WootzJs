@@ -1399,6 +1399,10 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitExpressionStatement(ExpressionStatementSyntax node)
         {
+            JsStatement result;
+            if (idioms.TryUnwrapJsniStatement(node, out result))
+                return result;
+
             return Js.Express((JsExpression)node.Expression.Accept(this));
         }
 

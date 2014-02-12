@@ -1437,13 +1437,42 @@ namespace WootzJs.Compiler
                         if (originalArguments.Length > 1)
                             ((JsRegexExpression)result).Suffix = GetConstantString(originalArguments[1]);
                         return true;
-                    case "forin":
-                        var invocation = (JsInvocationExpression)arguments[1];
-                        var function = (JsFunction)invocation.Arguments[2];
-                        result = Wrap(Js.Block(Js.ForIn(function.Parameters[0].Name, arguments[0]).Body(function.Body)));
-                        return true;
                 }
             }            
+            result = null;
+            return false;
+        }
+
+        public bool TryUnwrapJsniStatement(ExpressionStatementSyntax statement, out JsStatement result)
+        {
+            var expression = statement.Expression;
+            if (expression is InvocationExpressionSyntax)
+            {
+                var jsniInvocation = (InvocationExpressionSyntax)expression;
+                var method = (MethodSymbol)Context.Instance.Compilation.GetSemanticModel(expression.SyntaxTree).GetSymbolInfo(jsniInvocation).Symbol;
+                var arguments = jsniInvocation.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(transformer)).ToArray();
+
+                if (method.ReducedFrom != null && method.ReducedFrom != method)
+                {
+                    method = method.ReducedFrom;
+                    var target = (JsExpression)jsniInvocation.Expression.Accept(transformer);
+                    var methodTarget = target is JsMemberReferenceExpression ? ((JsMemberReferenceExpression)target).Target : target;
+                    arguments = new[] { methodTarget }.Concat(arguments).ToArray();
+                }
+
+                if (method != null && method.ContainingType == Context.Instance.JsniType)
+                {
+                    switch (method.Name)
+                    {
+                        case "forin":
+                            var target = arguments[0];
+                            var invocation = (JsInvocationExpression)arguments[1];
+                            var function = (JsFunction)invocation.Arguments[2];
+                            result = Js.ForIn(function.Parameters[0].Name, target).Body(function.Body);
+                            return true;
+                    }
+                }
+            }
             result = null;
             return false;
         }
