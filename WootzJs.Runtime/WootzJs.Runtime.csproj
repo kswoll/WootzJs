@@ -248,16 +248,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-if errorlevel 1 goto BuildEventFailed
-copy $(TargetDir)*.* $(SolutionDir)build
-del /q $(TargetDir)*.*
-goto BuildEventOK
-:BuildEventFailed
-echo POSTBUILDSTEP for $(ProjectName) FAILED
-exit 1
-:BuildEventOK
-echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+copy $(TargetDir)*.* $(ProjectDir)..\build
+del /q $(TargetDir)*.*</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AdditionalExplicitAssemblyReferences />
