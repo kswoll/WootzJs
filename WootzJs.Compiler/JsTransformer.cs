@@ -1074,8 +1074,13 @@ namespace WootzJs.Compiler
             return ImplicitCheck(node, cast);
         }
 
-        private JsNode VisitLambdaExpression(TypeSymbol delegateType, ParameterSyntax[] parameterNodes, SyntaxNode bodyNode)
+        private JsNode VisitLambdaExpression(NamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, SyntaxNode bodyNode)
         {
+            if (delegateType.IsGenericType && delegateType.OriginalDefinition == Context.Instance.ExpressionGeneric)
+            {
+                delegateType = (NamedTypeSymbol)delegateType.TypeArguments[0];
+            }
+
             PushScope(null);
 
             var block = new JsBlockStatement();
@@ -1086,7 +1091,11 @@ namespace WootzJs.Compiler
             var body = bodyNode.Accept(this);
             if (body is JsStatement)
             {
-                block.Aggregate((JsBlockStatement)body);
+                block.Aggregate((JsStatement)body);
+            }
+            else if (delegateType.DelegateInvokeMethod.ReturnsVoid)
+            {
+                block.Add(Js.Express((JsExpression)body));
             }
             else
             {
@@ -1102,19 +1111,19 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
-            var delegateType = model.GetTypeInfo(node).ConvertedType;
+            var delegateType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             return ImplicitCheck(node, VisitLambdaExpression(delegateType, new[] { node.Parameter }, node.Body));
         }
 
         public override JsNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
-            var delegateType = model.GetTypeInfo(node).ConvertedType;
+            var delegateType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList.Parameters.ToArray(), node.Body));
         }
 
         public override JsNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
-            var delegateType = model.GetTypeInfo(node).ConvertedType;
+            var delegateType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block));
         }
 
