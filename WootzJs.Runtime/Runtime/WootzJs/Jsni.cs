@@ -37,7 +37,18 @@ namespace System.Runtime.WootzJs
     [Js(Export = false)]
     public static class Jsni
     {
+        /// <summary>
+        /// This allows you to create a Javascript regular expression literal.  The result of invoking 
+        /// this method will be the javascript `/pattern` (or `/pattern/suffix`).  
+        /// </summary>
         public static extern JsRegExp regex(string pattern, string suffix = null);
+
+        /// <summary>
+        /// Normally when you `new` a class in C#, it will go through several hops, assuming it to be 
+        /// a C# class with a constructor.  Using `Jsni.new` you can simply generate Javascript that 
+        /// will apply the `new` operator to any 'ol expression.  The result of 
+        /// `Jsni.new(Jsni.reference("Date"))` would be `new Date()`.
+        /// </summary>
         public static extern JsObject @new(JsObject target, params JsObject[] arguments);
 
         /// <summary>
@@ -155,7 +166,7 @@ namespace System.Runtime.WootzJs
         public static extern JsNumber parseFloat(string s, int radix = 0);
 
         /// <summary>
-        /// Standin for the isNan() global Javascript function.
+        /// Standin for the isNaN() global Javascript function.
         /// </summary>
         /// <param name="number">The number to test whether it's a number</param>
         /// <returns>True if the specified number is not a number.</returns>
@@ -206,5 +217,7 @@ namespace System.Runtime.WootzJs
 
         // todo: Move this to Window object in WootzJs.Mvc
         public static extern JsObject getComputedStyle(JsObject element);
+
+        public static extern void forin(this JsObject obj, Action<JsObject> iteration);
     }
 }

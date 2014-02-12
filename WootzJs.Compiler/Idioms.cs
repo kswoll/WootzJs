@@ -1437,6 +1437,11 @@ namespace WootzJs.Compiler
                         if (originalArguments.Length > 1)
                             ((JsRegexExpression)result).Suffix = GetConstantString(originalArguments[1]);
                         return true;
+                    case "forin":
+                        var invocation = (JsInvocationExpression)arguments[1];
+                        var function = (JsFunction)invocation.Arguments[2];
+                        result = Wrap(Js.Block(Js.ForIn(function.Parameters[0].Name, arguments[0]).Body(function.Body)));
+                        return true;
                 }
             }            
             result = null;

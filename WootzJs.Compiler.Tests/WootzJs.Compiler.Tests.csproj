@@ -54,6 +54,7 @@
     <Compile Include="GenericTests.cs" />
     <Compile Include="GotoTests.cs" />
     <Compile Include="IsExpressionTests.cs" />
+    <Compile Include="JsniTests.cs" />
     <Compile Include="Linq\EnumerableTests.cs" />
     <Compile Include="CollectionInitializerTests.cs" />
     <Compile Include="Linq\Expressions\BinaryExpressionTests.cs" />
