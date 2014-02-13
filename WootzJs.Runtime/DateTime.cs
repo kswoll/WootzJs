@@ -27,10 +27,64 @@
 
 #endregion
 
+using System.Runtime.WootzJs;
+
 namespace System
 {
     public struct DateTime : IComparable, IFormattable, IConvertible, IComparable<DateTime>, IEquatable<DateTime>
     {
-        
+        private JsDate value;
+
+        internal DateTime(JsDate value)
+        {
+            this.value = value;
+        }
+
+        /// <summary>
+        /// Gets the date component of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A new object with the same date as this instance, and the time value set to 12:00:00 midnight 
+        /// (00:00:00).
+        /// </returns>
+        public DateTime Date
+        {
+            get
+            {
+                var clone = new JsDate(value.getTime());
+                clone.setHours(0);
+                clone.setMinutes(0);
+                clone.setSeconds(0);
+                clone.setMilliseconds(0);
+                return new DateTime(clone);
+            }
+        }
+
+        /// <summary>
+        /// Gets the day of the month represented by this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The day component, expressed as a value between 1 and 31.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public int Day
+        {
+            get { return value.getDate(); }
+        }
+
+        /// <summary>
+        /// Gets the day of the week represented by this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An enumerated constant that indicates the day of the week of this <see cref="T:System.DateTime"/> value.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public DayOfWeek DayOfWeek
+        {
+            get { return (DayOfWeek)value.getDay(); }
+        }
     }
 }
