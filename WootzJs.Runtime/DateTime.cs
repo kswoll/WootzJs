@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,59 +24,13 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using System;
-using System.Runtime.WootzJs;
-
-namespace WootzJs.Compiler.Tests
+namespace System
 {
-    [TestFixture]
-    public class NumberTests
+    public struct DateTime : IComparable, IFormattable, IConvertible, IComparable<DateTime>, IEquatable<DateTime>
     {
-        [Test]
-        public void ToHex()
-        {
-            var number = 20;
-            QUnit.AreEqual(number.ToString("X4"), "0014");
-        }
-
-        [Test]
-        public void IntTryParse()
-        {
-            var s = "1";
-            int i;
-            QUnit.IsTrue(int.TryParse(s, out i));
-            QUnit.AreEqual(i, 1);
-        }
-
-        [Test]
-        public void TruncFloatViaCast()
-        {
-            var f = 1.234f;
-            var i = (int)f;
-            QUnit.AreEqual(i, 1);
-        }
-
-        [Test]
-        public void ToLocaleString()
-        {
-            var s = 1.234.As<JsNumber>().toLocaleString();
-            QUnit.AreEqual(s, "1.234");
-        }
-
-        [Test]
-        public void FormatException()
-        {
-            try
-            {
-                int.Parse("a");
-                QUnit.IsTrue(false);
-            }
-            catch (FormatException e)
-            {
-                QUnit.IsTrue(true);                
-            }
-        }
+        
     }
 }
