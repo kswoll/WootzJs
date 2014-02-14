@@ -572,15 +572,15 @@ namespace WootzJs.Compiler
             return target.Invoke(args);
         }
 
+/*
         public JsExpression[] TranslateArguments(MethodSymbol method, params JsExpression[] args)
         {
             return TranslateArguments(method, (x, i) => x is JsArrayExpression);
         }
+*/
 
-        public JsExpression[] TranslateArguments(MethodSymbol method, Func<JsExpression, int, bool> isArgumentArray, params JsExpression[] args)
+        public JsExpression[] TranslateArguments(MethodSymbol method, Func<JsExpression, int, bool> isArgumentArray, Func<JsExpression, int, string> getArgumentName, params JsExpression[] args)
         {
-            var arguments = new List<JsExpression>();
-
             var isExported = method.IsExported();
 
             // The number of arguments may differ from the number of parameters, due to default parameters and the params keyword.
@@ -588,6 +588,36 @@ namespace WootzJs.Compiler
             // consuming from the queue.
             var remainingArguments = new Queue<JsExpression>(args);
 
+            var argumentsByName = args
+                .Select((x, i) => new { Name = getArgumentName(x, i), Argument = x })
+                .Where(x => x.Name != null)
+                .ToDictionary(x => x.Name, x => x.Argument);
+            if (argumentsByName.Any())
+            {
+                var newArguments = new List<JsExpression>();
+                foreach (var parameter in method.Parameters)
+                {
+                    if (!parameter.HasDefaultValue)
+                    {
+                        newArguments.Add(remainingArguments.Dequeue());
+                    }
+                    else
+                    {
+                        if (!argumentsByName.ContainsKey(parameter.Name))
+                        {
+                            newArguments.Add(Js.Literal(parameter.DefaultValue));
+                        }
+                        else
+                        {
+                            var argument = argumentsByName[parameter.Name];
+                            newArguments.Add(argument);
+                        }
+                    }
+                }
+                remainingArguments = new Queue<JsExpression>(newArguments);
+            }
+
+            var arguments = new List<JsExpression>();
             foreach (var parameter in method.Parameters)
             {
                 // params parameters require special handling

@@ -130,10 +130,28 @@ namespace WootzJs.Compiler.Tests
             var max = ExternTest.max(8, 3, 9, 5);
             QUnit.AreEqual(max, 9);
         }
+
+        [Test]
+        public void NamedArguments()
+        {
+            var result = ClassWithStaticMethods.Add(one: 1, two: 2, three: 3, four: 4);
+            QUnit.AreEqual(result, 4321);
+
+            result = ClassWithStaticMethods.Add(two: 1, three: 2, four: 3);
+            QUnit.AreEqual(result, 3210);
+
+            result = ClassWithStaticMethods.Add(four: 1, three: 2, two: 3, one: 4);
+            QUnit.AreEqual(result, 1234);
+        }
     }
 
     public static class ClassWithStaticMethods
     {
+        public static int Add(int one = 0, int two = 0, int three = 0, int four = 0)
+        {
+            return one + two*10 + three*100+ four*1000;
+        }
+
         public static string S()
         {
             return "foo";

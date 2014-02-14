@@ -943,7 +943,12 @@ namespace WootzJs.Compiler
             if (idioms.TryEnumToString(method, target, methodTarget, targetType, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
 
-            var arguments = idioms.TranslateArguments(method, (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, actualArguments.ToArray()).ToList();
+            var arguments = idioms.TranslateArguments(
+                method, 
+                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, 
+                (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
+                actualArguments.ToArray()
+            ).ToList();
             var isExtension = method.IsExtension();
 
             var prependers = new List<JsStatement>();
@@ -1234,7 +1239,12 @@ namespace WootzJs.Compiler
             var isExported = type.IsExported();
             var isBuiltIn = type.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
             var actualArguments = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
-            var args = idioms.TranslateArguments(method, (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, actualArguments.ToArray()).ToList();
+            var args = idioms.TranslateArguments(
+                method, 
+                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, 
+                (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
+                actualArguments.ToArray()
+            ).ToList();
             if (isExported && !isBuiltIn)
             {
                 var obj = idioms.CreateObject(method, args.ToArray());
