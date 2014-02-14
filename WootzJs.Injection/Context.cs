@@ -22,7 +22,9 @@ namespace WootzJs.Injection
 
         public IBinding GetCustomBinding(Type type)
         {
-            return transientBindings.Get(type);
+            IBinding result;
+            transientBindings.TryGetValue(type, out result);
+            return result;
         }
     }
 }

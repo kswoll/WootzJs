@@ -9,7 +9,9 @@ namespace WootzJs.Injection
 
         public object Get(Type type)
         {
-            return storage.Get(type);
+            object result;
+            storage.TryGetValue(type, out result);
+            return result;
         }
 
         public void Set(Type type, object value)
