@@ -51,6 +51,16 @@ namespace WootzJs.Compiler.Tests.Reflection
             QUnit.AreEqual(result, "InstanceMethod");
         }
 
+        [Test]
+        public void NameForOverload()
+        {
+            var method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(int) });
+            QUnit.AreEqual(method.GetParameters()[0].ParameterType, typeof(int));
+
+            method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(string) });
+            QUnit.AreEqual(method.GetParameters()[0].ParameterType, typeof(string));
+        }
+
         public class MethodClass
         {
             public void VoidMethod()
@@ -80,6 +90,16 @@ namespace WootzJs.Compiler.Tests.Reflection
             protected string ProtectedMethod()
             {
                 return "ProtectedMethod";
+            }
+
+            public string Overload(int i)
+            {
+                return "int: " + i;
+            }
+
+            public string Overload(string s)
+            {
+                return "string: " + s;
             }
         }
     }

@@ -25,6 +25,11 @@ namespace WootzJs.Mvc.Mvc
         private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
 
+        public MvcApplication()
+        {
+            DependencyResolver = new ReflectionDependencyResolver();
+        }
+
         public HtmlControl Html
         {
             get { return html; }
@@ -46,7 +51,6 @@ namespace WootzJs.Mvc.Mvc
             var path = Browser.Window.Location.PathName;
             Console.WriteLine(path);
 
-            DependencyResolver = new ReflectionDependencyResolver();
             ControllerFactory = new DefaultControllerFactory(DependencyResolver);
 
             var routeGenerator = new RouteGenerator();

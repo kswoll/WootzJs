@@ -309,10 +309,10 @@ namespace System
                 throw new ArgumentNullException("types");
             for (int index = 0; index < types.Length; ++index)
             {
-                if (types[index] == (Type)null)
+                if (types[index] == null)
                     throw new ArgumentNullException("types");
             }
-            return this.GetMethodImpl(name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, (Binder)null, CallingConventions.Any, types, (ParameterModifier[])null);
+            return GetMethodImpl(name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, (Binder)null, CallingConventions.Any, types, (ParameterModifier[])null);
         }
 
         /// <summary>

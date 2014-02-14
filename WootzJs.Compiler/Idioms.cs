@@ -361,10 +361,6 @@ namespace WootzJs.Compiler
             }
 
             var returnType = method.ReturnType;
-            if (returnType.TypeKind == TypeKind.TypeParameter && method.TypeParameters.Contains((TypeParameterSymbol)returnType))
-            {
-                returnType = Context.Instance.ObjectType; // Todo:  FIX THIS SUPER HACK.  Type parameter info is lost in reflection because of this.
-            }
 
             JsExpression info = constructor ?
                 CreateObject(Context.Instance.ConstructorInfoConstructor,
@@ -374,7 +370,7 @@ namespace WootzJs.Compiler
                     methodAttributes,
                     CreateAttributes(method)) :
                 CreateObject(Context.Instance.MethodInfoConstructor,
-                    Js.Primitive(method.GetMemberName()),
+                    Js.Primitive(method.MetadataName),
                     GetMethodFunction(method, true),
                     CreateParameterInfos(method.Parameters.ToArray()),
                     Type(returnType, true),
