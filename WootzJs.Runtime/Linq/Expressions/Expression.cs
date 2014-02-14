@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections.Generic;
@@ -51,6 +53,32 @@ namespace System.Linq.Expressions
         public static Expression<TDelegate> Lambda<TDelegate>(Expression body, string name, bool tailCall, params ParameterExpression[] parameters)
         {
             return new Expression<TDelegate>(body, name, tailCall, parameters);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Expressions.LambdaExpression"/> by first constructing a delegate type. It can be used when the delegate type is not known at compile time.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object that represents a lambda expression which has the <see cref="P:System.Linq.Expressions.Expression.NodeType"/> property equal to <see cref="F:System.Linq.Expressions.ExpressionType.Lambda"/> and the <see cref="P:System.Linq.Expressions.LambdaExpression.Body"/> and <see cref="P:System.Linq.Expressions.LambdaExpression.Parameters"/> properties set to the specified values.
+        /// </returns>
+        /// <param name="delegateType">A <see cref="T:System.Type"/> that represents a delegate signature for the lambda.</param><param name="body">An <see cref="T:System.Linq.Expressions.Expression"/> to set the <see cref="P:System.Linq.Expressions.LambdaExpression.Body"/> property equal to.</param><param name="parameters">An array of <see cref="T:System.Linq.Expressions.ParameterExpression"/> objects to use to populate the <see cref="P:System.Linq.Expressions.LambdaExpression.Parameters"/> collection.</param><exception cref="T:System.ArgumentNullException"><paramref name="delegateType"/> or <paramref name="body"/> is null.-or-One or more elements in <paramref name="parameters"/> are null.</exception><exception cref="T:System.ArgumentException"><paramref name="delegateType"/> does not represent a delegate type.-or-<paramref name="body"/>.Type represents a type that is not assignable to the return type of the delegate type represented by <paramref name="delegateType"/>.-or-<paramref name="parameters"/> does not contain the same number of elements as the list of parameters for the delegate type represented by <paramref name="delegateType"/>.-or-The <see cref="P:System.Linq.Expressions.Expression.Type"/> property of an element of <paramref name="parameters"/> is not assignable from the type of the corresponding parameter type of the delegate type represented by <paramref name="delegateType"/>.</exception>
+        public static LambdaExpression Lambda(Type delegateType, Expression body, params ParameterExpression[] parameters)
+        {
+            return Lambda(delegateType, body, null, false, parameters);
+        }
+
+        /// <summary>
+        /// Creates a LambdaExpression by first constructing a delegate type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Expressions.LambdaExpression"/> that has the <see cref="P:System.Linq.Expressions.LambdaExpression.NodeType"/> property equal to Lambda and the <see cref="P:System.Linq.Expressions.LambdaExpression.Body"/> and <see cref="P:System.Linq.Expressions.LambdaExpression.Parameters"/> properties set to the specified values.
+        /// </returns>
+        /// <param name="delegateType">A <see cref="P:System.Linq.Expressions.Expression.Type"/> representing the delegate signature for the lambda.</param><param name="body">An <see cref="T:System.Linq.Expressions.Expression"/> to set the <see cref="P:System.Linq.Expressions.LambdaExpression.Body"/> property equal to. </param><param name="name">The name for the lambda. Used for emitting debug information.</param><param name="tailCall">A <see cref="T:System.Boolean"/> that indicates if tail call optimization will be applied when compiling the created expression. </param><param name="parameters">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains <see cref="T:System.Linq.Expressions.ParameterExpression"/> objects to use to populate the <see cref="P:System.Linq.Expressions.LambdaExpression.Parameters"/> collection. </param>
+        public static LambdaExpression Lambda(Type delegateType, Expression body, string name, bool tailCall, IEnumerable<ParameterExpression> parameters)
+        {
+            return null;
         }
 
         /// <summary>

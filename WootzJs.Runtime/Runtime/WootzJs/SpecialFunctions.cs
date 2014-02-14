@@ -172,7 +172,7 @@ namespace System.Runtime.WootzJs
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
                 Jsni.apply(
                     Jsni.member(unconstructedType, SpecialNames.TypeInitializer), 
-                    Jsni.@this(), 
+                    unconstructedType, 
                     Jsni.invoke(
                         Jsni.member(Jsni.array(generic, generic.prototype), "concat"), 
                         keyArray

@@ -770,7 +770,7 @@ namespace System
         /// <param name="typeArguments">An array of types to be substituted for the type parameters of the current generic type.</param><exception cref="T:System.InvalidOperationException">The current type does not represent a generic type definition. That is, <see cref="P:System.Type.IsGenericTypeDefinition"/> returns false. </exception><exception cref="T:System.ArgumentNullException"><paramref name="typeArguments"/> is null.-or- Any element of <paramref name="typeArguments"/> is null. </exception><exception cref="T:System.ArgumentException">The number of elements in <paramref name="typeArguments"/> is not the same as the number of type parameters in the current generic type definition.-or- Any element of <paramref name="typeArguments"/> does not satisfy the constraints specified for the corresponding type parameter of the current generic type. -or- <paramref name="typeArguments"/> contains an element that is a pointer type (<see cref="P:System.Type.IsPointer"/> returns true), a by-ref type (<see cref="P:System.Type.IsByRef"/> returns true), or <see cref="T:System.Void"/>.</exception><exception cref="T:System.NotSupportedException">The invoked method is not supported in the base class. Derived classes must provide an implementation.</exception>
         public virtual Type MakeGenericType(params Type[] typeArguments)
         {
-            return _GetTypeFromTypeFunc(SpecialFunctions.MakeGenericTypeFactory(GetGenericTypeDefinition().___type, typeArguments.Select(x => x.___type).ToArray().As<JsArray>()));
+            return _GetTypeFromTypeFunc(SpecialFunctions.MakeGenericTypeFactory(thisType, typeArguments.Select(x => x.thisType).ToArray().As<JsArray>()));
         }
 
         /// <summary>

@@ -610,7 +610,7 @@ namespace WootzJs.Compiler
                     // If exported, then add all the rest of the arguments as an array
                     if (isExported)
                     {
-                        arguments.Add(Js.Array(remainingArguments.ToArray()));
+                        arguments.Add(MakeArray(Js.Array(remainingArguments.ToArray()), (ArrayTypeSymbol)parameter.Type));
                     }
                     // Otherwise, add all the rest of the arguments as ordinary arguments per the comment earlier about non exported types.
                     else

@@ -157,6 +157,23 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(typeof(GenericClass<string>).GetGenericTypeDefinition(), typeof(GenericClass<>));
         }
 
+        [Test]
+        public void TypeArguments()
+        {
+            var type = typeof(GenericClass<string>);
+            var typeArgument = type.GenericTypeArguments[0];
+            QUnit.AreEqual(typeArgument, typeof(string));
+        }
+
+        [Test]
+        public void MakeGenericType()
+        {
+            var type = typeof(GenericClass<>);
+            var stringType = type.MakeGenericType(typeof(string));
+            var typeArg = stringType.GenericTypeArguments[0];
+            QUnit.AreEqual(typeArg, typeof(string));
+        }
+
         private bool MethodTypeEqualsString<T>()
         {
             return typeof(T) == typeof(string);
