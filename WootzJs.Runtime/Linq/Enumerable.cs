@@ -807,6 +807,15 @@ namespace System.Linq
             }
         }
 
+        public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)
+        {
+            foreach (var item in source)
+            {
+                if (item is TResult)
+                    yield return (TResult)item;
+            }
+        }
+
 /*
         public static IEnumerable<TResult> Cast<TResult>(IEnumerable source)
         {

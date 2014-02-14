@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
 using System.Linq;
@@ -358,6 +359,15 @@ namespace WootzJs.Compiler.Tests.Linq
             var ints = new[] { 1, 2, 3, 4 };
             var last = ints.Last();
             QUnit.AreEqual(last, 4);
+        }
+
+        [Test]
+        public void OfType()
+        {
+            var objects = new object[] { 1, "5", 5d, "8" };
+            var strings = objects.OfType<string>().ToArray();
+            QUnit.AreEqual(strings[0], "5");
+            QUnit.AreEqual(strings[1], "8");
         }
 
         public class DictionaryClass
