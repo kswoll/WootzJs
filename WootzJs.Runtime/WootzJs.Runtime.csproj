@@ -86,6 +86,7 @@
     <Compile Include="Console.cs" />
     <Compile Include="Convert.cs" />
     <Compile Include="DateTime.cs" />
+    <Compile Include="DateTimeKind.cs" />
     <Compile Include="DayOfWeek.cs" />
     <Compile Include="Decimal.cs" />
     <Compile Include="Delegate.cs" />

@@ -98,5 +98,8 @@ namespace System.Runtime.WootzJs
         public extern JsString toTimeString();
         public extern JsString toUTCString();
         public extern JsDate valueOf();
+        
+        public static extern JsNumber operator -(JsDate left, JsDate right);
+        public static extern JsNumber operator +(JsDate left, JsDate right);
     }
 }
