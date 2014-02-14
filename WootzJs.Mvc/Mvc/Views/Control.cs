@@ -24,6 +24,8 @@ namespace WootzJs.Mvc.Mvc.Views
         private Action<Event> click;
         private Action mouseEntered;
         private Action mouseExited;
+        private Action mouseDown;
+        private Action mouseUp;
         private bool isAttachedToDom;
         private View view;
 
@@ -198,6 +200,38 @@ namespace WootzJs.Mvc.Mvc.Views
             }
         }
 
+        public event Action MouseDown
+        {
+            add
+            {
+                if (mouseDown == null)
+                    Node.AddEventListener("mousedown", OnJsMouseDown);
+                mouseDown = (Action)Delegate.Combine(mouseDown, value);
+            }
+            remove
+            {
+                mouseDown = (Action)Delegate.Remove(mouseDown, value);
+                if (mouseDown == null)
+                    Node.RemoveEventListener("mousedown", OnJsMouseDown);
+            }
+        }
+
+        public event Action MouseUp
+        {
+            add
+            {
+                if (mouseUp == null)
+                    Node.AddEventListener("mouseup", OnJsMouseUp);
+                mouseUp = (Action)Delegate.Combine(mouseUp, value);
+            }
+            remove
+            {
+                mouseUp = (Action)Delegate.Remove(mouseUp, value);
+                if (mouseUp == null)
+                    Node.RemoveEventListener("mouseup", OnJsMouseUp);
+            }
+        }
+
         private void OnJsClick(Event evt)
         {
             OnClick(evt);
@@ -213,25 +247,49 @@ namespace WootzJs.Mvc.Mvc.Views
             OnMouseLeave();
         }
 
-        protected virtual void OnClick(Event evt)
+        private void OnJsMouseDown(Event evt)
+        {
+            OnMouseDown();
+        }
+
+        private void OnJsMouseUp(Event evt)
+        {
+            OnMouseUp();
+        }
+
+        protected void OnClick(Event evt)
         {
             var click = this.click;
             if (click != null)
                 click(evt);
         }
 
-        protected virtual void OnMouseEnter()
+        private void OnMouseEnter()
         {
             var mouseEntered = this.mouseEntered;
             if (mouseEntered != null)
                 mouseEntered();
         }
 
-        protected virtual void OnMouseLeave()
+        private void OnMouseLeave()
         {
             var mouseExited = this.mouseExited;
             if (mouseExited != null)
                 mouseExited();
+        }
+
+        private void OnMouseDown()
+        {
+            var mouseDown = this.mouseDown;
+            if (mouseDown != null)
+                mouseDown();
+        }
+
+        private void OnMouseUp()
+        {
+            var mouseUp = this.mouseUp;
+            if (mouseUp != null)
+                mouseUp();
         }
 
         public static implicit operator Control(string text)
