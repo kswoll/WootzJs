@@ -815,5 +815,10 @@ namespace System
         {
             get { return isGenericTypeDefinition; }
         }
+
+        public override string ToString()
+        {
+            return "System.Type: " + FullName;
+        }
     }
 }

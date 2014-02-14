@@ -94,7 +94,7 @@ namespace WootzJs.Injection
                 throw new InvalidOperationException("This resolver expects to return an instance of " + type.FullName + " but was asked to resolve a request expecting a type of " + request.Type.FullName);
 
             var args = new List<object>();
-            foreach (var arg in this.arguments)
+            foreach (var arg in arguments)
             {
                 try
                 {

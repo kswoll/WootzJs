@@ -44,6 +44,17 @@ namespace System
 			return Type._GetTypeFromInstance(this.As<JsObject>());
 		}
 
+        /// <summary>
+        /// Exists so that C# .ToString() is faithfully consumed when JS .toString() is invoked.
+        /// </summary>
+        /// <returns></returns>
+        [Js(Name = "toString")]
+// ReSharper disable once UnusedMember.Local
+        private string toString()
+        {
+            return ToString();
+        }
+
 		/// <summary>
 		/// Converts an object to its string representation.
 		/// </summary>
