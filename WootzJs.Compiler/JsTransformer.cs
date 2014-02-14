@@ -1262,8 +1262,10 @@ namespace WootzJs.Compiler
             }
             else
             {
-                if (type.GetAttributeValue(Context.Instance.JsAttributeType, "InvokeConstructorAsClass", true))
+                if (type.GetAttributeValue(Context.Instance.JsAttributeType, "InvokeConstructorAsClass", false))
                     return ImplicitCheck(node, Js.Invoke(idioms.Type(type), args.ToArray()));
+                else if (!isExported)
+                    return ImplicitCheck(node, Js.New(Js.Reference(type.GetName()), args.ToArray()));
                 else
                     return ImplicitCheck(node, Js.New(idioms.Type(type), args.ToArray()));
             }

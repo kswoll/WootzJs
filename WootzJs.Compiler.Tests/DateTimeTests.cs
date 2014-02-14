@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,39 +24,27 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using System;
 
-namespace WootzJs.Compiler
+namespace WootzJs.Compiler.Tests
 {
-    public static class WootzJsExtensions
+    [TestFixture]
+    public class DateTimeTests
     {
-        public static string GetName(this Symbol symbol)
+        [Test]
+        public void CreateDate()
         {
-            var result = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
-            return result ?? symbol.Name;
-        }
-
-        public static bool IsExported(this Symbol symbol)
-        {
-            if (symbol.IsExtern)
-                return false;
-
-            var result = symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Export", true);
-            if (!(symbol is TypeSymbol))
-                result = result && symbol.ContainingType.IsExported();
-            return result;
-        }
-
-        public static bool IsBuiltIn(this Symbol symbol)
-        {
-            return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
-        }
-
-        public static bool IsExtension(this Symbol symbol)
-        {
-            return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Extension", false);
+            var date = new DateTime(2014, 1, 2, 15, 3, 5, 30);
+            QUnit.AreEqual(date.Year, 2014);
+            QUnit.AreEqual(date.Month, 1);
+            QUnit.AreEqual(date.Day, 2);
+            QUnit.AreEqual(date.Hour, 15);
+            QUnit.AreEqual(date.Minute, 3);
+            QUnit.AreEqual(date.Second, 5);
+            QUnit.AreEqual(date.Millisecond, 30);
         }
     }
 }

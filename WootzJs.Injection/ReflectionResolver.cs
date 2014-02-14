@@ -47,13 +47,10 @@ namespace WootzJs.Injection
         private static bool IsPropertyIgnored(PropertyInfo property)
         {
             bool ignored;
-            lock (ignoredTypesLock)
+            if (!ignoredProperties.TryGetValue(property, out ignored))
             {
-                if (!ignoredProperties.TryGetValue(property, out ignored))
-                {
-                    ignored = Attribute.IsDefined(property, typeof(IgnoreAttribute), false);
-                    ignoredProperties[property] = ignored;
-                }
+                ignored = Attribute.IsDefined(property, typeof(IgnoreAttribute), false);
+                ignoredProperties[property] = ignored;
             }
             return ignored;
         }

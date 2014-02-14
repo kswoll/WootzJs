@@ -35,6 +35,7 @@ namespace System
 {
     public class Type : MemberInfo
     {
+        public static readonly Type[] EmptyTypes = new Type[0];
         public static readonly Binder DefaultBinder = new Binder();
 
         public string FullName { get; set; }
@@ -55,6 +56,7 @@ namespace System
         private bool isAbstract;
         private bool isPrimitive;
         private bool isGenericType;
+        private bool isGenericTypeDefinition;
 
         public Type(string name, Attribute[] attributes) : base(name, attributes)
         {
@@ -70,11 +72,11 @@ namespace System
             var type = new Type(fullName, new Attribute[0]);
             type.Init(fullName, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
                 new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
-                new EventInfo[0], false, false, false, false, false, null, null);
+                new EventInfo[0], false, false, false, false, false, false, null, null);
             return type;
         }
 
-        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, JsTypeFunction elementType, JsTypeFunction unconstructedType)
+        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
 
@@ -92,6 +94,7 @@ namespace System
             this.isInterface = isInterface;
             this.isPrimitive = isPrimitive;
             this.isGenericType = isGenericType;
+            this.isGenericTypeDefinition = isGenericTypeDefinition;
             this.elementType = elementType;
             this.unconstructedType = unconstructedType;
 
@@ -755,6 +758,62 @@ namespace System
                 return _GetTypeFromTypeFunc(unconstructedType);
             else
                 throw new NotSupportedException("This operation is only valid on generic types");
+        }
+
+        /// <summary>
+        /// Substitutes the elements of an array of types for the type parameters of the current generic type definition and returns a <see cref="T:System.Type"/> object representing the resulting constructed type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Type"/> representing the constructed type formed by substituting the elements of <paramref name="typeArguments"/> for the type parameters of the current generic type.
+        /// </returns>
+        /// <param name="typeArguments">An array of types to be substituted for the type parameters of the current generic type.</param><exception cref="T:System.InvalidOperationException">The current type does not represent a generic type definition. That is, <see cref="P:System.Type.IsGenericTypeDefinition"/> returns false. </exception><exception cref="T:System.ArgumentNullException"><paramref name="typeArguments"/> is null.-or- Any element of <paramref name="typeArguments"/> is null. </exception><exception cref="T:System.ArgumentException">The number of elements in <paramref name="typeArguments"/> is not the same as the number of type parameters in the current generic type definition.-or- Any element of <paramref name="typeArguments"/> does not satisfy the constraints specified for the corresponding type parameter of the current generic type. -or- <paramref name="typeArguments"/> contains an element that is a pointer type (<see cref="P:System.Type.IsPointer"/> returns true), a by-ref type (<see cref="P:System.Type.IsByRef"/> returns true), or <see cref="T:System.Void"/>.</exception><exception cref="T:System.NotSupportedException">The invoked method is not supported in the base class. Derived classes must provide an implementation.</exception>
+        public virtual Type MakeGenericType(params Type[] typeArguments)
+        {
+            return _GetTypeFromTypeFunc(SpecialFunctions.MakeGenericTypeFactory(GetGenericTypeDefinition().___type, typeArguments.Select(x => x.___type).ToArray().As<JsArray>()));
+        }
+
+        /// <summary>
+        /// Gets an array of the generic type arguments for this type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An array of the generic type arguments for this type.
+        /// </returns>
+        public virtual Type[] GenericTypeArguments
+        {
+            get
+            {
+                if (IsGenericType && !IsGenericTypeDefinition)
+                    return typeArguments.Select(x => _GetTypeFromTypeFunc(x)).ToArray();
+                else
+                    return Type.EmptyTypes;
+            }
+        }
+
+        /// <summary>
+        /// Returns an array of <see cref="T:System.Type"/> objects that represent the type arguments of a generic type or the type parameters of a generic type definition.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An array of <see cref="T:System.Type"/> objects that represent the type arguments of a generic type. Returns an empty array if the current type is not a generic type.
+        /// </returns>
+        /// <exception cref="T:System.NotSupportedException">The invoked method is not supported in the base class. Derived classes must provide an implementation.</exception><filterpriority>2</filterpriority>
+        public virtual Type[] GetGenericArguments()
+        {
+            return GenericTypeArguments;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="T:System.Type"/> represents a generic type definition, from which other generic types can be constructed.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> object represents a generic type definition; otherwise, false.
+        /// </returns>
+        public virtual bool IsGenericTypeDefinition
+        {
+            get { return isGenericTypeDefinition; }
         }
     }
 }

@@ -173,7 +173,11 @@ namespace WootzJs.Compiler
                 // Sort overloads based on a constant algorithm where overloads from base types 
                 overloads.Sort((x, y) =>
                 {
-                    if (x.ContainingType.IsSubclassOf(y.ContainingType))
+                    var xIsExported = x.DeclaredAccessibility == Accessibility.Protected || x.DeclaredAccessibility == Accessibility.ProtectedAndInternal || x.DeclaredAccessibility == Accessibility.ProtectedInternal || x.DeclaredAccessibility == Accessibility.Public;
+                    var yIsExported = y.DeclaredAccessibility == Accessibility.Protected || y.DeclaredAccessibility == Accessibility.ProtectedAndInternal || y.DeclaredAccessibility == Accessibility.ProtectedInternal || y.DeclaredAccessibility == Accessibility.Public;
+                    if (xIsExported != yIsExported)
+                        return xIsExported ? -1 : 1;
+                    else if (x.ContainingType.IsSubclassOf(y.ContainingType))
                         return 1;
                     else if (y.ContainingType.IsSubclassOf(x.ContainingType))
                         return -1;

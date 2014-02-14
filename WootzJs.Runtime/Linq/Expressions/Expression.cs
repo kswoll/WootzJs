@@ -536,5 +536,17 @@ namespace System.Linq.Expressions
         {
             return visitor.VisitLambda(this);
         }
+
+        /// <summary>
+        /// Produces a delegate that represents the lambda expression.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Delegate"/> that contains the compiled version of the lambda expression.
+        /// </returns>
+        public new TDelegate Compile()
+        {
+            throw new NotImplementedException(); // Will be implemented by passing the unexpression-tree'd function into the constructor
+        }
     }
 }

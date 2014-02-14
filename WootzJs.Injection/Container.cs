@@ -197,17 +197,7 @@ namespace WootzJs.Injection
                 return result;                                    
             };
 
-            if (lockObject != null)
-            {
-                lock (lockObject)
-                {
-                    return resolve();
-                }
-            }
-            else
-            {
-                return resolve();
-            }
+            return resolve();
         }
 
         public void Activate(Request request, object o)

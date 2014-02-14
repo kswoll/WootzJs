@@ -43,6 +43,46 @@ namespace System
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.DateTime"/> structure to the specified year, month, and day.
+        /// </summary>
+        /// <param name="year">The year (1 through 9999). </param><param name="month">The month (1 through 12). </param><param name="day">The day (1 through the number of days in <paramref name="month"/>). </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="year"/> is less than 1 or greater than 9999.-or- <paramref name="month"/> is less than 1 or greater than 12.-or- <paramref name="day"/> is less than 1 or greater than the number of days in <paramref name="month"/>. </exception>
+        public DateTime(int year, int month, int day) : this(new JsDate(year, month - 1, day))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.DateTime"/> structure to the specified year, month, day, hour, minute, and second.
+        /// </summary>
+        /// <param name="year">The year (1 through 9999). </param><param name="month">The month (1 through 12). </param><param name="day">The day (1 through the number of days in <paramref name="month"/>). </param><param name="hour">The hours (0 through 23). </param><param name="minute">The minutes (0 through 59). </param><param name="second">The seconds (0 through 59). </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="year"/> is less than 1 or greater than 9999. -or- <paramref name="month"/> is less than 1 or greater than 12. -or- <paramref name="day"/> is less than 1 or greater than the number of days in <paramref name="month"/>.-or- <paramref name="hour"/> is less than 0 or greater than 23. -or- <paramref name="minute"/> is less than 0 or greater than 59. -or- <paramref name="second"/> is less than 0 or greater than 59. </exception>
+        public DateTime(int year, int month, int day, int hour, int minute, int second) : this(new JsDate(year, month - 1, day, hour, minute, second))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.DateTime"/> structure to the specified year, month, day, hour, minute, second, and Coordinated Universal Time (UTC) or local time.
+        /// </summary>
+        /// <param name="year">The year (1 through 9999). </param><param name="month">The month (1 through 12). </param><param name="day">The day (1 through the number of days in <paramref name="month"/>). </param><param name="hour">The hours (0 through 23). </param><param name="minute">The minutes (0 through 59). </param><param name="second">The seconds (0 through 59). </param><param name="kind">One of the enumeration values that indicates whether <paramref name="year"/>, <paramref name="month"/>, <paramref name="day"/>, <paramref name="hour"/>, <paramref name="minute"/> and <paramref name="second"/> specify a local time, Coordinated Universal Time (UTC), or neither.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="year"/> is less than 1 or greater than 9999. -or- <paramref name="month"/> is less than 1 or greater than 12. -or- <paramref name="day"/> is less than 1 or greater than the number of days in <paramref name="month"/>.-or- <paramref name="hour"/> is less than 0 or greater than 23. -or- <paramref name="minute"/> is less than 0 or greater than 59. -or- <paramref name="second"/> is less than 0 or greater than 59. </exception><exception cref="T:System.ArgumentException"><paramref name="kind"/> is not one of the <see cref="T:System.DateTimeKind"/> values.</exception>
+        public DateTime(int year, int month, int day, int hour, int minute, int second, DateTimeKind kind) : this(new JsDate(year, month - 1, day, hour, minute, second), kind)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.DateTime"/> structure to the specified year, month, day, hour, minute, second, and millisecond.
+        /// </summary>
+        /// <param name="year">The year (1 through 9999). </param><param name="month">The month (1 through 12). </param><param name="day">The day (1 through the number of days in <paramref name="month"/>). </param><param name="hour">The hours (0 through 23). </param><param name="minute">The minutes (0 through 59). </param><param name="second">The seconds (0 through 59). </param><param name="millisecond">The milliseconds (0 through 999). </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="year"/> is less than 1 or greater than 9999.-or- <paramref name="month"/> is less than 1 or greater than 12.-or- <paramref name="day"/> is less than 1 or greater than the number of days in <paramref name="month"/>.-or- <paramref name="hour"/> is less than 0 or greater than 23.-or- <paramref name="minute"/> is less than 0 or greater than 59.-or- <paramref name="second"/> is less than 0 or greater than 59.-or- <paramref name="millisecond"/> is less than 0 or greater than 999. </exception>
+        public DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond) : this(new JsDate(year, month - 1, day, hour, minute, second, millisecond))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.DateTime"/> structure to the specified year, month, day, hour, minute, second, millisecond, and Coordinated Universal Time (UTC) or local time.
+        /// </summary>
+        /// <param name="year">The year (1 through 9999). </param><param name="month">The month (1 through 12). </param><param name="day">The day (1 through the number of days in <paramref name="month"/>). </param><param name="hour">The hours (0 through 23). </param><param name="minute">The minutes (0 through 59). </param><param name="second">The seconds (0 through 59). </param><param name="millisecond">The milliseconds (0 through 999). </param><param name="kind">One of the enumeration values that indicates whether <paramref name="year"/>, <paramref name="month"/>, <paramref name="day"/>, <paramref name="hour"/>, <paramref name="minute"/>, <paramref name="second"/>, and <paramref name="millisecond"/> specify a local time, Coordinated Universal Time (UTC), or neither.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="year"/> is less than 1 or greater than 9999.-or- <paramref name="month"/> is less than 1 or greater than 12.-or- <paramref name="day"/> is less than 1 or greater than the number of days in <paramref name="month"/>.-or- <paramref name="hour"/> is less than 0 or greater than 23.-or- <paramref name="minute"/> is less than 0 or greater than 59.-or- <paramref name="second"/> is less than 0 or greater than 59.-or- <paramref name="millisecond"/> is less than 0 or greater than 999. </exception><exception cref="T:System.ArgumentException"><paramref name="kind"/> is not one of the <see cref="T:System.DateTimeKind"/> values.</exception>
+        public DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTimeKind kind) : this(new JsDate(year, month - 1, day, hour, minute, second, millisecond), kind)
+        {
+        }
+
+        /// <summary>
         /// Gets the date component of this instance.
         /// </summary>
         /// 
@@ -166,7 +206,7 @@ namespace System
         /// <filterpriority>1</filterpriority>
         public int Month
         {
-            get { return value.getMonth(); }
+            get { return value.getMonth() + 1; }
         }
 
         /// <summary>
@@ -360,9 +400,9 @@ namespace System
 
         public object ToType(Type conversionType, IFormatProvider provider)
         {
-            if (conversionType == typeof(DateTime))
+            if (conversionType == typeof (DateTime))
                 return this;
-            else if (conversionType == typeof(string))
+            else if (conversionType == typeof (string))
                 return ToString();
             else
                 throw new InvalidCastException("Invalid cast from 'DateTime' to '" + conversionType.Name + "'");
