@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Runtime.WootzJs;
@@ -34,14 +36,37 @@ namespace System
     /// </summary>
     public class Console
     {
-        public static void WriteLine(string s)
+        /// <summary>
+        /// Writes the specified string value, followed by the current line terminator, to the standard output stream.
+        /// </summary>
+        /// <param name="value">The value to write. </param><exception cref="T:System.IO.IOException">An I/O error occurred. </exception><filterpriority>1</filterpriority>
+        public static void WriteLine(string value)
         {
-            Jsni.invoke(Jsni.member(Jsni.reference("console"), "log"), s.As<JsString>());
+            Jsni.invoke(Jsni.member(Jsni.reference("console"), "log"), value.As<JsString>());
         }
 
-        public static void WriteLine(object o)
+        /// <summary>
+        /// Writes the text representation of the specified object, followed by the current line terminator, to the standard output stream.
+        /// </summary>
+        /// <param name="value">The value to write. </param><exception cref="T:System.IO.IOException">An I/O error occurred. </exception><filterpriority>1</filterpriority>
+        public static void WriteLine(object value)
         {
-            WriteLine(o.ToString());
+            WriteLine(value.ToString());
+        }
+
+        /// <summary>
+        /// Writes the text representation of the specified array of objects, followed by the current line terminator, to the standard output stream using the specified format information.
+        /// </summary>
+        /// <param name="format">A composite format string (see Remarks).</param>
+        /// <param name="arg">An array of objects to write using <paramref name="format"/>. </param>
+        /// <exception cref="T:System.IO.IOException">An I/O error occurred. </exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="format"/> or <paramref name="arg"/> is null. </exception><exception cref="T:System.FormatException">The format specification in <paramref name="format"/> is invalid. </exception>
+        public static void WriteLine(string format, params object[] arg)
+        {
+            if (arg == null)
+                WriteLine(format);
+            else
+                WriteLine(string.Format(format, arg));
         }
     }
 }
