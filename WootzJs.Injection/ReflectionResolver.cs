@@ -16,22 +16,16 @@ namespace WootzJs.Injection
 
         public static void IgnoreType(Type type)
         {
-            lock (ignoredTypesLock)
-            {
-                ignoredTypes[type] = true;
-            }
+            ignoredTypes[type] = true;
         }
 
         public static void IgnoreAncestry(Type type)
         {
-            lock (ignoredTypesLock)
+            var current = type;
+            while (current != null)
             {
-                Type current = type;
-                while (current != null)
-                {
-                    ignoredTypes[type] = true;
-                    current = current.BaseType;
-                }
+                ignoredTypes[type] = true;
+                current = current.BaseType;
             }
         }
         
@@ -41,14 +35,10 @@ namespace WootzJs.Injection
                 type = type.GetGenericTypeDefinition();
 
             bool ignored;
-
-            lock (ignoredTypesLock)
+            if (!ignoredTypes.TryGetValue(type, out ignored))
             {
-                if (!ignoredTypes.TryGetValue(type, out ignored))
-                {
-                    ignored = Attribute.IsDefined(type, typeof(IgnoreAttribute), false);
-                    ignoredTypes[type] = ignored;
-                }
+                ignored = Attribute.IsDefined(type, typeof(IgnoreAttribute), false);
+                ignoredTypes[type] = ignored;
             }
 
             return ignored;

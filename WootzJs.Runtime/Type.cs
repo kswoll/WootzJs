@@ -49,6 +49,7 @@ namespace System
         internal PropertyInfo[] properties;
         internal EventInfo[] events;
         private JsTypeFunction elementType;
+        private JsTypeFunction unconstructedType;
         private bool isValueType;
         private bool isInterface;
         private bool isAbstract;
@@ -67,13 +68,13 @@ namespace System
         public static Type CreateTypeParameter(string fullName, JsTypeFunction baseType)
         {
             var type = new Type(fullName, new Attribute[0]);
-            type.Init(fullName, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0], 
+            type.Init(fullName, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
                 new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
-                new EventInfo[0], false, false, false, false, false, null);
+                new EventInfo[0], false, false, false, false, false, null, null);
             return type;
         }
 
-        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, JsTypeFunction elementType)
+        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
 
@@ -92,6 +93,7 @@ namespace System
             this.isPrimitive = isPrimitive;
             this.isGenericType = isGenericType;
             this.elementType = elementType;
+            this.unconstructedType = unconstructedType;
 
             foreach (var field in fields)
                 field.declaringType = this;
@@ -737,6 +739,22 @@ namespace System
         public virtual bool IsGenericType
         {
             get { return isGenericType; }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.Type"/> object that represents a generic type definition from which the current generic type can be constructed.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Type"/> object representing a generic type from which the current type can be constructed.
+        /// </returns>
+        /// <exception cref="T:System.InvalidOperationException">The current type is not a generic type.  That is, <see cref="P:System.Type.IsGenericType"/> returns false. </exception><exception cref="T:System.NotSupportedException">The invoked method is not supported in the base class. Derived classes must provide an implementation.</exception><filterpriority>2</filterpriority>
+        public virtual Type GetGenericTypeDefinition()
+        {
+            if (unconstructedType != null)
+                return _GetTypeFromTypeFunc(unconstructedType);
+            else
+                throw new NotSupportedException("This operation is only valid on generic types");
         }
     }
 }

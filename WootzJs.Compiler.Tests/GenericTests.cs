@@ -151,6 +151,12 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(SubGenericStaticClass<string>.StaticProperty, "StaticPropertyString");
         }
         
+        [Test]
+        public void GenericTypeDefinition()
+        {
+            QUnit.AreEqual(typeof(GenericClass<string>).GetGenericTypeDefinition(), typeof(GenericClass<>));
+        }
+
         private bool MethodTypeEqualsString<T>()
         {
             return typeof(T) == typeof(string);

@@ -10,18 +10,14 @@ namespace WootzJs.Injection
 
         public object Get(Type type)
         {
-            lock (lockObject)
-            {
-                return storage.Get(type);                
-            }
+            object result;
+            storage.TryGetValue(type, out result);
+            return result;
         }
 
         public void Set(Type type, object value)
         {
-            lock (lockObject)
-            {
-                storage[type] = value;                
-            }
+            storage[type] = value;                
         }         
     }
 }

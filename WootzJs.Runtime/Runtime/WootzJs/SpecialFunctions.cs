@@ -204,7 +204,8 @@ namespace System.Runtime.WootzJs
                             unconstructedTypeType.IsInterface,
                             false,
                             true,
-                            null);
+                            null, 
+                            unconstructedType);
                         return type.As<JsObject>();
                     });
 
@@ -268,7 +269,8 @@ namespace System.Runtime.WootzJs
                             false,
                             false,
                             false,
-                            elementType);
+                            elementType,
+                            null);
                         return type.As<JsObject>();
                     });
                 }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
