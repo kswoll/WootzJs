@@ -106,6 +106,22 @@ namespace WootzJs.Rx.Tests.Subjects
             QUnit.AreEqual(two, 8);
         }
 
+        [Test]
+        public void OfType()
+        {
+            var subject = new Subject<object>();
+            var strings = new List<string>();
+
+            subject.OfType<string>().Subscribe(x => strings.Add(x));
+            subject.OnNext(5);
+            subject.OnNext("3");
+            subject.OnNext(8d);
+            subject.OnNext("5");
+
+            QUnit.AreEqual(strings[0], "3");
+            QUnit.AreEqual(strings[1], "5");
+        }
+
         public class TestEvent
         {
             public string Key { get; set; }

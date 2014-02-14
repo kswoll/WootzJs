@@ -48,6 +48,7 @@
     <Compile Include="Linq\IGroupedObservable.cs" />
     <Compile Include="Linq\Observable.cs" />
     <Compile Include="Linq\Observables\GroupBy.cs" />
+    <Compile Include="Linq\Observables\OfType.cs" />
     <Compile Include="Linq\Observables\Select.cs" />
     <Compile Include="Linq\Observables\SelectMany.cs" />
     <Compile Include="Linq\Observables\Sum.cs" />
