@@ -36,7 +36,7 @@ namespace System.Reflection
     public abstract class MethodBase : MemberInfo
     {
         private ParameterInfo[] parameters;
-        private MethodAttributes methodAttributes;
+        protected readonly MethodAttributes methodAttributes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Reflection.MethodBase"/> class.

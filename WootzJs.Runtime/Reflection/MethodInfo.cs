@@ -25,8 +25,10 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.WootzJs;
+using System.Linq;
 
 namespace System.Reflection
 {
@@ -37,6 +39,8 @@ namespace System.Reflection
     {
         private JsFunction jsMethod;
         private JsTypeFunction returnType;
+        private Type[] typeArguments;
+        private Dictionary<string, MethodInfo> constructedMethods;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Reflection.MethodInfo"/> class.
@@ -131,7 +135,20 @@ namespace System.Reflection
         /// <param name="typeArguments">An array of types to be substituted for the type parameters of the current generic method definition.</param><exception cref="T:System.InvalidOperationException">The current <see cref="T:System.Reflection.MethodInfo"/> does not represent a generic method definition. That is, <see cref="P:System.Reflection.MethodInfo.IsGenericMethodDefinition"/> returns false.</exception><exception cref="T:System.ArgumentNullException"><paramref name="typeArguments"/> is null.-or- Any element of <paramref name="typeArguments"/> is null. </exception><exception cref="T:System.ArgumentException">The number of elements in <paramref name="typeArguments"/> is not the same as the number of type parameters of the current generic method definition.-or- An element of <paramref name="typeArguments"/> does not satisfy the constraints specified for the corresponding type parameter of the current generic method definition. </exception><exception cref="T:System.NotSupportedException">This method is not supported.</exception>
         public virtual MethodInfo MakeGenericMethod(params Type[] typeArguments)
         {
-            throw new NotImplementedException();
+            if (this.typeArguments != null)
+                throw new InvalidOperationException("Cannot call MakeGenericMethod on a constructed generic method");
+
+            if (constructedMethods == null)
+                constructedMethods = new Dictionary<string, MethodInfo>();
+            var keyString = string.Join(", ", typeArguments.Select(x => x.FullName));
+            MethodInfo result;
+            if (!constructedMethods.TryGetValue(keyString, out result))
+            {
+                result = new MethodInfo(Name, jsMethod, GetParameters(), returnType, methodAttributes, attributes);
+                result.typeArguments = typeArguments;
+                constructedMethods[keyString] = result;
+            }
+            return result;
         }
 
         /// <summary>
@@ -167,7 +184,15 @@ namespace System.Reflection
             if (!IsStatic && obj == null)
                 throw new InvalidOperationException("Instance methods must have a target");
 
-            return Jsni.apply(jsMethod, obj.As<JsObject>(), parameters.As<JsArray>());
+            var args = new JsArray();
+            if (typeArguments != null)
+            {
+                foreach (var typeArgument in typeArguments)
+                    args.push(typeArgument.thisType);
+            }
+            foreach (var argument in parameters)
+                args.push(argument.As<JsObject>());
+            return Jsni.apply(jsMethod, obj.As<JsObject>(), args);
         }
     }
 }

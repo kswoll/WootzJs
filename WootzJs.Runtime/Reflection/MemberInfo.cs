@@ -32,8 +32,9 @@ namespace System.Reflection
 {
     public abstract class MemberInfo : ICustomAttributeProvider
     {
+        protected readonly Attribute[] attributes;
+
         private string name;
-        private Attribute[] attributes;
         internal Type declaringType;
 
         protected MemberInfo(string name, Attribute[] attributes)
