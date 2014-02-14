@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Collections.Generic;
 using System.Runtime.WootzJs;
 using System.Linq;
 
@@ -59,6 +60,14 @@ namespace WootzJs.Compiler.Tests.Reflection
 
             method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(string) });
             QUnit.AreEqual(method.GetParameters()[0].ParameterType, typeof(string));
+        }
+
+        [Test]
+        public void GenericParameter()
+        {
+            var method = typeof(MethodClass).GetMethod("MethodWithDictionary");
+            var parameter = method.GetParameters()[0];
+            QUnit.AreEqual(parameter.ParameterType, typeof(IDictionary<string, int>));
         }
 
         public class MethodClass
@@ -100,6 +109,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             public string Overload(string s)
             {
                 return "string: " + s;
+            }
+
+            public static void MethodWithDictionary(IDictionary<string, int> dict)
+            {
             }
         }
     }

@@ -413,7 +413,7 @@ namespace WootzJs.Compiler
 
                 var parameterInfo = CreateObject(Context.Instance.ParameterInfoConstructor,
                     Js.Primitive(parameter.Name),
-                    Type(parameter.Type, true),
+                    Type(parameter.Type),
                     Js.Primitive(i), 
                     parameterAttributes,
                     parameter.HasDefaultValue ? Js.Literal(parameter.DefaultValue) : Js.Null(),
