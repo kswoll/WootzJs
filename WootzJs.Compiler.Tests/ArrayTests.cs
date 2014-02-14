@@ -117,6 +117,13 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(indexerOverride[3], "foo");
         }
 
+        [Test]
+        public void MakeArray()
+        {
+            var arrayType = typeof(string).MakeArrayType(1);
+            QUnit.AreEqual(arrayType.GetElementType(), typeof(string));
+        }
+
         [Js(Name = "ExportTest", Export = false)]
         class ExportTest
         {

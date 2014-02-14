@@ -690,7 +690,7 @@ namespace System
         {
             if (rank > 1)
                 throw new InvalidOperationException("Rank must be 1");
-            return _GetTypeFromTypeFunc(SpecialFunctions.MakeArrayType(___type));
+            return _GetTypeFromTypeFunc(SpecialFunctions.MakeArrayType(thisType));
         }
 
         /// <summary>
