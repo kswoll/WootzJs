@@ -39,7 +39,7 @@ namespace WootzJs.Mvc.Mvc
         protected ViewResult View()
         {
             var viewType = FindView();
-            var view = (View)Activator.CreateInstance(viewType);
+            var view = (View)ControllerContext.Application.DependencyResolver.GetService(viewType);
             return new ViewResult(view);
         }
 
