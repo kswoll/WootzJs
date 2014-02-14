@@ -1983,7 +1983,14 @@ namespace WootzJs.Compiler
             var symbol = model.GetSymbolInfo(node);
             var method = (MethodSymbol)symbol.Symbol;
 
-            return idioms.InvokeMethodAsThis(method, node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray());
+            var arguments = idioms.TranslateArguments(
+                method, 
+                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, 
+                (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
+                node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray()
+            ).ToArray();
+
+            return idioms.InvokeMethodAsThis(method, arguments);
         }
 
         public override JsNode VisitDestructorDeclaration(DestructorDeclarationSyntax node)
