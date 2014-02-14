@@ -2090,7 +2090,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitParameter(ParameterSyntax node)
         {
             var symbol = model.GetDeclaredSymbol(node);
-            var parameter = Js.Parameter(node.Identifier.ToString());
+            var parameter = Js.Parameter(symbol.Name);
             if (symbol.RefKind == RefKind.None)
                 DeclareInCurrentScope(parameter);
             else 

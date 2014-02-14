@@ -366,7 +366,7 @@ namespace WootzJs.Compiler
                 returnType = Context.Instance.ObjectType; // Todo:  FIX THIS SUPER HACK.  Type parameter info is lost in reflection because of this.
             }
 
-            var info = constructor ?
+            JsExpression info = constructor ?
                 CreateObject(Context.Instance.ConstructorInfoConstructor,
                     Js.Primitive(method.GetMemberName()),
                     GetMethodFunction(method, true),
@@ -380,6 +380,19 @@ namespace WootzJs.Compiler
                     Type(returnType, true),
                     methodAttributes,
                     CreateAttributes(method));
+
+            if (method.TypeParameters.Any())
+            {
+                var block = new JsBlockStatement();
+                foreach (var typeParameter in method.TypeParameters)
+                {
+                    block.Local(typeParameter.Name, Js.Reference("$definetypeparameter").Invoke(
+                        Js.Primitive(typeParameter.Name), Type(typeParameter.BaseType ?? Context.Instance.ObjectType, true)));
+                }
+                block.Return(info);
+                info = Wrap(block);
+            }
+
             return info;
         }
 

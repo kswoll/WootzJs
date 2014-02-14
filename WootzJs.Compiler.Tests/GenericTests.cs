@@ -174,7 +174,15 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(typeArg, typeof(string));
         }
 
-        private bool MethodTypeEqualsString<T>()
+        [Test]
+        public void TypeParameterForMethod()
+        {
+            var method = typeof(ClassWithGenericMethod).GetMethod("GenericMethod");
+            var parameter = method.GetParameters()[0];
+            QUnit.AreEqual(parameter.ParameterType.Name, "T");
+        }
+
+        public bool MethodTypeEqualsString<T>()
         {
             return typeof(T) == typeof(string);
         }
@@ -203,6 +211,13 @@ namespace WootzJs.Compiler.Tests
                     return typeof(T).Name.ToUpper();
                 }
             }
+        }
+
+        public class ClassWithGenericMethod
+        {
+            public void GenericMethod<T>(T parameter)
+            {
+            }            
         }
 
         public class SimpleClass {}
