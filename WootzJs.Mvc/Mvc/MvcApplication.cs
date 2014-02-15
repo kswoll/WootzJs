@@ -88,6 +88,7 @@ namespace WootzJs.Mvc.Mvc
 
             if (pushState)
                 Browser.Window.History.PushState(url, view.Title, url);
+            Browser.Document.Title = view.Title;
 
             if (this.view is Layout && view.LayoutType != null)
             {
