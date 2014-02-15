@@ -31,19 +31,13 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
 {
-    [Js(Name = "window", Export = false)]
-    public class Window : Element
+    [Js(Name = "JSON", Export = false)]
+    public class Json
     {
-        [Js(Name = "location")]
-        public extern Location Location { get; set; }
+        [Js(Name = "parse")]
+        public extern JsObject Parse(string s);
 
-        [Js(Name = "onpopstate")]
-        public extern PopStateEventHandler OnPopState { get; set; }
-
-        [Js(Name = "JSON")]
-        public extern Json Json { get; }
-
-        [Js(Name = "history")]
-        public extern History History { get; }
+        [Js(Name = "stringify")]
+        public extern string Stringify(JsObject o);
     }
 }

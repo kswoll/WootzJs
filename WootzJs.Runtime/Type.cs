@@ -255,7 +255,7 @@ namespace System
 
         public PropertyInfo[] GetProperties()
         {
-            return properties.ToArray();
+            return properties.Where(x => (x.GetGetMethod() != null && x.GetGetMethod().IsPublic) || (x.GetSetMethod() != null && x.GetSetMethod().IsPublic)).ToArray();
         }
 
         public EventInfo[] GetEvents()

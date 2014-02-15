@@ -27,23 +27,18 @@
 
 #endregion
 
-using System.Runtime.WootzJs;
-
-namespace WootzJs.Web
+namespace System.Runtime.WootzJs
 {
-    [Js(Name = "window", Export = false)]
-    public class Window : Element
+    public static class JsObjectConverter
     {
-        [Js(Name = "location")]
-        public extern Location Location { get; set; }
-
-        [Js(Name = "onpopstate")]
-        public extern PopStateEventHandler OnPopState { get; set; }
-
-        [Js(Name = "JSON")]
-        public extern Json Json { get; }
-
-        [Js(Name = "history")]
-        public extern History History { get; }
+        public static JsObject ToJsonObject(this object o)
+        {
+            var result = new JsObject();
+            foreach (var property in o.GetType().GetProperties())
+            {
+                result[property.Name] = property.GetValue(o, null).As<JsObject>();
+            }
+            return result;
+        }
     }
 }

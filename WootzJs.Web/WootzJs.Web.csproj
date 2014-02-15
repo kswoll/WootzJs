@@ -49,6 +49,7 @@
     <Compile Include="IChildNode.cs" />
     <Compile Include="InputElement.cs" />
     <Compile Include="IParentNode.cs" />
+    <Compile Include="Json.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeExtensions.cs" />

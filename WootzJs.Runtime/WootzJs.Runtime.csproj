@@ -229,6 +229,7 @@
     <Compile Include="Runtime\WootzJs\Jsni.cs" />
     <Compile Include="Runtime\WootzJs\JsNumber.cs" />
     <Compile Include="Runtime\WootzJs\JsObject.cs" />
+    <Compile Include="Runtime\WootzJs\JsObjectConverter.cs" />
     <Compile Include="Runtime\WootzJs\JsRegExp.cs" />
     <Compile Include="Runtime\WootzJs\JsString.cs" />
     <Compile Include="Runtime\WootzJs\SpecialFunctions.cs" />
