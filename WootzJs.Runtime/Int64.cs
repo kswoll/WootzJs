@@ -32,6 +32,7 @@ namespace System
 	[StructLayout(LayoutKind.Auto)]
 	public struct Int64
 	{
+        public static long MinValue = -9007199254740992;
         public static long MaxValue = 9007199254740992;         // This is the maximum integer value that can be stored exactly in Javascript.
 
 		public string Format(string format)

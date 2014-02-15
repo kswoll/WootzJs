@@ -407,5 +407,10 @@ namespace System
             else
                 throw new InvalidCastException("Invalid cast from 'DateTime' to '" + conversionType.Name + "'");
         }
+
+        public static TimeSpan operator -(DateTime left, DateTime right)
+        {
+            return TimeSpan.FromMilliseconds(left.value - right.value);
+        }
     }
 }
