@@ -26,33 +26,70 @@
 #endregion
 
 using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
 	[StructLayout(LayoutKind.Auto)]
 	public struct Int16
 	{
-		public string Format(string format)
+        [Js(Name = "GetType")]
+        public new Type GetType()
+        {
+            return base.GetType();
+        }
+
+        public static short Parse(string s)
 		{
-			return null;
+			var result = Jsni.parseInt(s);
+            if (Jsni.isNaN(result))
+                throw new FormatException("String not convertible to int: " + s);
+            return result.As<short>();
 		}
-		public string LocaleFormat(string format)
+
+        public static short Parse(string s, int radix)
 		{
-			return null;
+			var result = Jsni.parseInt(s, radix);
+            if (Jsni.isNaN(result))
+                throw new FormatException("String not convertible to int: " + s);
+            return result.As<short>();
 		}
-		/// <summary>
-		/// Converts the value to its string representation.
-		/// </summary>
-		/// <param name="radix">The radix used in the conversion (eg. 10 for decimal, 16 for hexadecimal)</param>
-		/// <returns>The string representation of the value.</returns>
-		public string ToString(int radix)
-		{
-			return null;
-		}
-		/// <internalonly />
-		public static implicit operator Number(short i)
-		{
-			return null;
-		}
+
+        public string ToString(string format)
+        {
+            return this.As<Number>().ToString(format);
+        }
+
+        /// <summary>
+        /// Converts the value to its string representation.
+        /// </summary>
+        /// <param name="radix">The radix used in the conversion (eg. 10 for decimal, 16 for hexadecimal)</param>
+        /// <returns>The string representation of the value.</returns>
+        public string ToString(int radix)
+        {
+            return this.As<Number>().ToString(radix);
+        }
+
+	    public int CompareTo(object obj)
+	    {
+	        return CompareTo((short)obj);
+	    }
+
+	    public int CompareTo(short other)
+	    {
+	        return this - other;
+	    }
+
+        public static bool TryParse(string s, out short result)
+        {
+            var returnValue = Jsni.parseInt(s);
+            if (Jsni.isNaN(returnValue))
+            {
+                result = 0;
+                return false;
+            }
+            result = returnValue.As<short>();
+            return true;
+        }
 	}
 }

@@ -4,16 +4,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace WootzJs.Mvc.ExpressionTrees
+namespace System.Runtime.WootzJs
 {
     public class Evaluator : ExpressionVisitor
     {
         private Expression expression;
         private Stack<object> stack = new Stack<object>();
+        private Dictionary<ParameterExpression, object> arguments = new Dictionary<ParameterExpression, object>();
 
         public Evaluator(Expression expression)
         {
             this.expression = expression;
+        }
+
+        public void AddArgument(ParameterExpression parameter, object value)
+        {
+            arguments[parameter] = value;
         }
 
         public object Evaluate()
@@ -22,7 +28,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return stack.Peek();
         }
 
-        protected override Expression VisitConstant(ConstantExpression node)
+        protected internal override Expression VisitConstant(ConstantExpression node)
         {
             base.VisitConstant(node);
             
@@ -31,7 +37,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitBinary(BinaryExpression node)
+        protected internal override Expression VisitBinary(BinaryExpression node)
         {
             base.VisitBinary(node);
 
@@ -66,7 +72,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitConditional(ConditionalExpression node)
+        protected internal override Expression VisitConditional(ConditionalExpression node)
         {
             base.VisitConditional(node);
 
@@ -105,7 +111,7 @@ namespace WootzJs.Mvc.ExpressionTrees
         }
 */
 
-        protected override Expression VisitMember(MemberExpression node)
+        protected internal override Expression VisitMember(MemberExpression node)
         {
             base.VisitMember(node);
 
@@ -127,7 +133,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitMethodCall(MethodCallExpression node)
+        protected internal override Expression VisitMethodCall(MethodCallExpression node)
         {
             base.VisitMethodCall(node);
 
@@ -138,7 +144,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitNew(NewExpression node)
+        protected internal override Expression VisitNew(NewExpression node)
         {
             base.VisitNew(node);
 
@@ -148,7 +154,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitMemberInit(MemberInitExpression node)
+        protected internal override Expression VisitMemberInit(MemberInitExpression node)
         {
             base.VisitMemberInit(node);
 
@@ -177,7 +183,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitListInit(ListInitExpression node)
+        protected internal override Expression VisitListInit(ListInitExpression node)
         {
             base.VisitListInit(node);
 
@@ -195,7 +201,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitUnary(UnaryExpression node)
+        protected internal override Expression VisitUnary(UnaryExpression node)
         {
             base.VisitUnary(node);
 
@@ -216,7 +222,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitInvocation(InvocationExpression node)
+        protected internal override Expression VisitInvocation(InvocationExpression node)
         {
             base.VisitInvocation(node);
 
@@ -227,7 +233,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitTypeBinary(TypeBinaryExpression node)
+        protected internal override Expression VisitTypeBinary(TypeBinaryExpression node)
         {
             base.VisitTypeBinary(node);
 
@@ -237,7 +243,7 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitNewArray(NewArrayExpression node)
+        protected internal override Expression VisitNewArray(NewArrayExpression node)
         {
             base.VisitNewArray(node);
 
@@ -251,7 +257,15 @@ namespace WootzJs.Mvc.ExpressionTrees
             return node;
         }
 
-        protected override Expression VisitLambda<T>(Expression<T> node)
+        protected internal override Expression VisitParameter(ParameterExpression node)
+        {
+            var value = arguments[node];
+            stack.Push(value);
+
+            return node;
+        }
+
+        protected internal override Expression VisitLambda<T>(Expression<T> node)
         {
             stack.Push(node.Compile());
 

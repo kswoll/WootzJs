@@ -54,16 +54,6 @@ namespace System
             return base.GetType();
         }
 
-		public string Format(string format)
-		{
-			return null;
-		}
-
-		public string LocaleFormat(string format)
-		{
-			return null;
-		}
-
         public static int Parse(string s)
 		{
 			var result = Jsni.parseInt(s);
@@ -80,25 +70,19 @@ namespace System
             return result.As<int>();
 		}
 
-		/// <summary>
-		/// Converts the value to its string representation.
-		/// </summary>
-		/// <param name="radix">The radix used in the conversion (eg. 10 for decimal, 16 for hexadecimal)</param>
-		/// <returns>The string representation of the value.</returns>
-		public string ToString(int radix)
-		{
-			return null;
-		}
-
-		/// <internalonly />
-		public static implicit operator Number(int i)
-		{
-			return null;
-		}
-
         public string ToString(string format)
         {
             return this.As<Number>().ToString(format);
+        }
+
+        /// <summary>
+        /// Converts the value to its string representation.
+        /// </summary>
+        /// <param name="radix">The radix used in the conversion (eg. 10 for decimal, 16 for hexadecimal)</param>
+        /// <returns>The string representation of the value.</returns>
+        public string ToString(int radix)
+        {
+            return this.As<Number>().ToString(radix);
         }
 
 	    public int CompareTo(object obj)

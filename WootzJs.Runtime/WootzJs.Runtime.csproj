@@ -220,6 +220,9 @@
     <Compile Include="Runtime\Versioning\TargetFrameworkAttribute.cs" />
     <Compile Include="Runtime\WootzJs\AsExtension.cs" />
     <Compile Include="Runtime\WootzJs\DependsOnAttribute.cs" />
+    <Compile Include="Runtime\WootzJs\Evaluator.cs" />
+    <Compile Include="Runtime\WootzJs\EvaluatorExtensions.cs" />
+    <Compile Include="Runtime\WootzJs\GenericMath.cs" />
     <Compile Include="Runtime\WootzJs\JsArray.cs" />
     <Compile Include="Runtime\WootzJs\JsAttribute.cs" />
     <Compile Include="Runtime\WootzJs\JsDate.cs" />

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace WootzJs.Mvc.ExpressionTrees
+namespace System.Runtime.WootzJs
 {
     public static class EvaluatorExtensions
     {

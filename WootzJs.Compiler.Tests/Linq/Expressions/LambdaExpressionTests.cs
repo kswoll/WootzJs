@@ -42,5 +42,29 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             QUnit.AreEqual(expression.Parameters.Count, 1);
             QUnit.AreEqual(expression.Body, expression.Parameters[0]);
         }
+
+        [Test]
+        public void CompileConstant()
+        {
+            Expression<Func<int>> return5 = () => 5;
+            var func = return5.Compile();
+            QUnit.AreEqual(func(), 5);
+        }
+
+        [Test]
+        public void CompileReturnParameter()
+        {
+            Expression<Func<int, int>> returnParameter = x => x;
+            var func = returnParameter.Compile();
+            QUnit.AreEqual(func(5), 5);
+        }
+
+        [Test]
+        public void CompileAdder()
+        {
+            Expression<Func<int, int>> added = x => x + 1;
+            var func = added.Compile();
+            QUnit.AreEqual(func(5), 6);
+        }
     }
 }

@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ExpressionTrees\Evaluator.cs" />
-    <Compile Include="ExpressionTrees\EvaluatorExtensions.cs" />
-    <Compile Include="ExpressionTrees\GenericMath.cs" />
     <Compile Include="Mvc\ActionResult.cs" />
     <Compile Include="Mvc\Controller.cs" />
     <Compile Include="Mvc\ControllerActionInvoker.cs" />
@@ -129,6 +126,9 @@
     <Reference Include="WootzJs.Web">
       <HintPath>..\WootzJs.Web\bin\Debug\WootzJs.Web.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ExpressionTrees\" />
   </ItemGroup>
   <Import Project="..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

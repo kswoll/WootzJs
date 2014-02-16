@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WootzJs.Mvc.ExpressionTrees
+namespace System.Runtime.WootzJs
 {
     public class GenericMath
     {

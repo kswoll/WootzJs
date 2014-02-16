@@ -574,7 +574,20 @@ namespace System.Linq.Expressions
         /// </returns>
         public new TDelegate Compile()
         {
-            throw new NotImplementedException(); // Will be implemented by passing the unexpression-tree'd function into the constructor
+            var lambdaExpression = this;
+            var lambda = Jsni.function(() =>
+            {
+                var evaluator = new Evaluator(lambdaExpression.Body);
+                var index = 0;
+                foreach (var parameter in lambdaExpression.Parameters)
+                {
+                    var value = Jsni.arguments().As<JsArray>()[index];
+                    evaluator.AddArgument(parameter, value);
+                    index++;
+                }
+                return evaluator.Evaluate().As<JsObject>();
+            });
+            return SpecialFunctions.CreateDelegate(null, typeof(TDelegate).thisType, lambda).As<TDelegate>();
         }
     }
 }

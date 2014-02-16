@@ -1874,6 +1874,29 @@ namespace WootzJs.Compiler
             JsBlockStatement typeInitializer;
             JsBlockStatement staticInitializer;
             jsBlock.Aggregate(idioms.CreateTypeFunction(classType, out typeInitializer, out staticInitializer));
+
+            var method = classType.DelegateInvokeMethod;
+
+            PushDeclaration(method);
+            PushScope(method);
+            var parameters = new List<JsParameter>();
+            parameters.AddRange(method.Parameters.Select(x =>
+            {
+                var parameter = Js.Parameter(x.Name);
+                DeclareInCurrentScope(parameter);
+                return parameter;
+            }));
+
+            var body = new JsBlockStatement();
+            body.Return(Js.Invoke(Js.This(), parameters.Select(x => x.GetReference()).ToArray()));
+            var methodFunction = Js.Function(parameters.ToArray()).Body(body);
+
+            var memberName = method.GetMemberName();
+            typeInitializer.Add(idioms.StoreInPrototype(memberName, methodFunction));
+
+            PopScope();
+            PopDeclaration();
+
             PopDeclaration();
             return jsBlock;
         }
