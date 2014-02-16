@@ -158,7 +158,7 @@
     <Compile Include="Nullable.cs" />
     <Compile Include="ObjectDisposedException.cs" />
     <Compile Include="Random.cs" />
-    <Compile Include="Reflection\Activator.cs" />
+    <Compile Include="Activator.cs" />
     <Compile Include="Reflection\Assembly.cs" />
     <Compile Include="Reflection\AssemblyCompanyAttribute.cs" />
     <Compile Include="Reflection\AssemblyConfigurationAttribute.cs" />

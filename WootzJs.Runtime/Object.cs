@@ -44,6 +44,18 @@ namespace System
 			return Type._GetTypeFromInstance(this.As<JsObject>());
 		}
 
+		/// <summary>
+		/// Converts an object to its string representation.
+		/// </summary>
+		/// <returns>The string representation of the object.</returns>
+		public virtual string ToString()
+		{
+// ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (this == null)
+                return "";
+            return "{" + GetType().FullName + "}";
+		}
+
         /// <summary>
         /// Exists so that C# .ToString() is faithfully consumed when JS .toString() is invoked.
         /// </summary>
@@ -54,18 +66,6 @@ namespace System
         {
             return ToString();
         }
-
-		/// <summary>
-		/// Converts an object to its string representation.
-		/// </summary>
-		/// <returns>The string representation of the object.</returns>
-		public virtual string ToString()
-		{
-// ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (this == null)
-                return "";
-			return this.As<JsObject>().toString();
-		}
 
         public virtual bool Equals(object obj)
         {

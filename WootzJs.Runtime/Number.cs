@@ -216,7 +216,7 @@ namespace System
 
         public override string ToString()
         {
-            return base.ToString();
+            return this.As<JsObject>().toString();
         }
 	}
 }

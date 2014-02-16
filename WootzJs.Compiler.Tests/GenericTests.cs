@@ -182,9 +182,21 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(parameter.ParameterType.Name, "T");
         }
 
+        [Test]
+        public void NewConstraint()
+        {
+            var simpleClass = CreateT<SimpleClass>();
+            QUnit.AreEqual(simpleClass.GetType().Name, "SimpleClass");
+        }
+
         public bool MethodTypeEqualsString<T>()
         {
             return typeof(T) == typeof(string);
+        }
+
+        public T CreateT<T>() where T : new()
+        {
+            return new T();
         }
 
         public class GenericClassWithStaticInitializedField<T>

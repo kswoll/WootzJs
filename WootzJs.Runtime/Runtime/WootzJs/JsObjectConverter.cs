@@ -40,5 +40,13 @@ namespace System.Runtime.WootzJs
             }
             return result;
         }
+
+/*
+        public static T FromJsonObject<T>(this JsObject o) where T : new()
+        {
+            var result = new T();
+            return result;
+        }
+*/
     }
 }

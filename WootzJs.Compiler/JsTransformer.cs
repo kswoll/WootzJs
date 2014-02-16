@@ -1227,6 +1227,12 @@ namespace WootzJs.Compiler
         public override JsNode VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
         {
             var symbol = model.GetSymbolInfo(node.Type);
+            if (symbol.Symbol is TypeParameterSymbol)
+            {
+                var typeParameter = (TypeParameterSymbol)symbol.Symbol;
+                return Js.Reference(typeParameter.Name).Member("prototype").Member("$ctor").Member("$new").Invoke();
+            }
+
             var method = (MethodSymbol)symbol.Symbol;
             var type = method.ContainingType;
 

@@ -27,8 +27,9 @@
 
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
-namespace System.Reflection
+namespace System
 {
     /// <summary>
     /// Contains methods to create types of objects locally or remotely, or obtain references to existing remote objects. This class cannot be inherited.
