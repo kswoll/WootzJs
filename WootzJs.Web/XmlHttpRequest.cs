@@ -29,7 +29,7 @@ namespace WootzJs.Web
             string password = "");
 
         [Js(Name = "send")]
-        public extern void Send();
+        public extern void Send(JsObject payload = null);
 
         [Js(Name = "onload")]
         public extern Action OnLoad { get; set; }

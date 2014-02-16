@@ -190,8 +190,11 @@ namespace System.Reflection
                 foreach (var typeArgument in typeArguments)
                     args.push(typeArgument.thisType);
             }
-            foreach (var argument in parameters)
-                args.push(argument.As<JsObject>());
+            if (parameters != null)
+            {
+                foreach (var argument in parameters)
+                    args.push(argument.As<JsObject>());
+            }
             return Jsni.apply(jsMethod, obj.As<JsObject>(), args);
         }
     }

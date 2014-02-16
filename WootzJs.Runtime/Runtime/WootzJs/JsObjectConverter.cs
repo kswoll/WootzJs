@@ -27,6 +27,9 @@
 
 #endregion
 
+using System.Reflection;
+using System.Linq;
+
 namespace System.Runtime.WootzJs
 {
     public static class JsObjectConverter
@@ -41,12 +44,20 @@ namespace System.Runtime.WootzJs
             return result;
         }
 
-/*
         public static T FromJsonObject<T>(this JsObject o) where T : new()
         {
             var result = new T();
+            var properties = typeof(T).GetProperties().ToDictionary(x => x.Name.ToUpper());
+            foreach (var propertyName in o)
+            {
+                var value = o[propertyName];
+                PropertyInfo property;
+                if (properties.TryGetValue(propertyName.ToUpper(), out property))
+                {
+                    property.SetValue(result, value, null);
+                }
+            }
             return result;
         }
-*/
     }
 }
