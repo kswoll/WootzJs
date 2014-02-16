@@ -105,6 +105,15 @@ namespace WootzJs.Mvc.Mvc
                 body.Add(rootView.Content);
                 this.view = rootView;
             }
+
+            if (this.view is Layout)
+            {
+                var layout = (Layout)this.view;
+                foreach (var section in view.Sections)
+                {
+                    layout.LoadSection(section.Key, section.Value);
+                }
+            }
         }
 
         private NavigationContext CreateNavigationContext(string path, string queryString)

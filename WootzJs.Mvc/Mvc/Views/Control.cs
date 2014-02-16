@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Web;
 using Style = WootzJs.Mvc.Mvc.Views.Css.Style;
@@ -125,6 +126,14 @@ namespace WootzJs.Mvc.Mvc.Views
             child.Parent = null;
 
             child.OnRemoved();
+        }
+
+        protected virtual void Clear()
+        {
+            foreach (var child in Children.ToArray())
+            {
+                Remove(child);
+            }
         }
 
         public int Count

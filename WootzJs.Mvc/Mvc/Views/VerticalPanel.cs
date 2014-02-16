@@ -149,5 +149,10 @@ namespace WootzJs.Mvc.Mvc.Views
             row.AppendChild(cell);
             table.AppendChild(row);
         }
+
+        public new void Clear()
+        {
+            base.Clear();
+        }
     }
 }

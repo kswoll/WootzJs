@@ -13,5 +13,9 @@ namespace WootzJs.Mvc.Mvc.Views
             else
                 return null;
         }
+
+        public virtual void LoadSection(string sectionName, Control section)
+        {
+        }
     }
 }

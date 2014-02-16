@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace WootzJs.Mvc.Mvc.Views
@@ -9,12 +10,14 @@ namespace WootzJs.Mvc.Mvc.Views
         public Type LayoutType { get; set; }
         public string Title { get; set; }
         public ViewContext ViewContext { get; private set; }
+        public IDictionary<string, Control> Sections { get; private set; }
 
         private Control _content;
         private bool isInitialized;
 
         public void Initialize(ViewContext context)
         {
+            Sections = new Dictionary<string, Control>();
             isInitialized = true;
             ViewContext = context;
             OnInitialize();
