@@ -48,7 +48,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             var a = Browser.Document.CreateElement("a");
             a.SetAttribute("href", "javascript:void(0);");
-            a.Style.Display = "block";
+            a.Style.Display = "inline-block";
 
             return a;
         }
