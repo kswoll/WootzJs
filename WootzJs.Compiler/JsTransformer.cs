@@ -362,10 +362,9 @@ namespace WootzJs.Compiler
 
                 lastEnum = enumSymbol;                    
 
-                staticInitializer.Add(idioms.StoreInType(enumValue.Identifier.ToString(), value));
-                staticInitializer.Add(idioms.StoreInType(enumValue.Identifier + "$", 
+                staticInitializer.Add(idioms.StoreInType(enumValue.Identifier.ToString(), 
                     idioms.GetFromPrototype("$ctor").Member("$new").Invoke(
-                        Js.Primitive(enumValue.Identifier.ToString()), idioms.GetEnumValue(lastEnum))));
+                        Js.Primitive(enumValue.Identifier.ToString()), value)));
             }
 
             PopDeclaration();
@@ -830,6 +829,8 @@ namespace WootzJs.Compiler
                 return result;
             if (idioms.TryStringConcatenation(node.Kind, leftType, rightType, left, right, out result))
                 return result;
+            if (idioms.TryEnumBitwise(node.Kind, leftType.Type, rightType.Type, left, right, out result))
+                return result;
 
             if (symbol != null)
             {
@@ -1044,7 +1045,6 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitCastExpression(CastExpressionSyntax node)
         {
-            var typeInfo = model.GetTypeInfo(node).ConvertedType;
             var symbol = model.GetSymbolInfo(node).Symbol;
             if (symbol != null)
             {
@@ -1058,23 +1058,36 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, target);
             }
 
-            var originalTypeInfo = model.GetTypeInfo(node.Expression);
-            var originalType = originalTypeInfo.ConvertedType;
+            var typeInfo = model.GetTypeInfo(node.Expression);
+            var originalType = typeInfo.Type;
+            var convertedType = typeInfo.ConvertedType;
+            var destinationType = model.GetTypeInfo(node.Type).Type;
 
-            if (typeInfo == Context.Instance.Int32 && originalType == Context.Instance.Char)
+            Func<TypeSymbol, bool> isInteger = x => x == Context.Instance.Byte || x == Context.Instance.SByte ||
+                x == Context.Instance.Int16 || x == Context.Instance.UInt16 ||
+                x == Context.Instance.Int32 || x == Context.Instance.UInt32 ||
+                x == Context.Instance.Int64 || x == Context.Instance.UInt64;
+            Func<TypeSymbol, bool> isDecimal = x => x == Context.Instance.Single || 
+                x == Context.Instance.Double || x == Context.Instance.Decimal;
+
+            if (originalType.TypeKind == TypeKind.Enum)
+            {
+                return idioms.Invoke(target, Context.Instance.EnumGetValue);
+            }
+            if (destinationType.TypeKind == TypeKind.Enum && isInteger(convertedType))
+            {
+                return idioms.InvokeStatic(Context.Instance.EnumInternalToObject, idioms.Type(destinationType).Invoke(), target);
+            }
+            if (convertedType == Context.Instance.Int32 && convertedType == Context.Instance.Char)
             {
                 return target.Member("charCodeAt").Invoke();
             }
-            if ((typeInfo == Context.Instance.Byte || typeInfo == Context.Instance.SByte ||
-                typeInfo == Context.Instance.Int16 || typeInfo == Context.Instance.UInt16 ||
-                typeInfo == Context.Instance.Int32 || typeInfo == Context.Instance.UInt32 ||
-                typeInfo == Context.Instance.Int64 || typeInfo == Context.Instance.UInt64) &&
-                (originalType == Context.Instance.Single || originalType == Context.Instance.Double || originalType == Context.Instance.Decimal))
+            if (isDecimal(convertedType) && isInteger(destinationType))
             {
-                return Js.Reference(SpecialNames.Truncate).Invoke((JsExpression)target);
+                return Js.Reference(SpecialNames.Truncate).Invoke(target);
             }
 
-            var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(typeInfo), target);
+            var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(convertedType), target);
             return ImplicitCheck(node, cast);
         }
 

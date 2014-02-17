@@ -215,7 +215,7 @@ namespace WootzJs.Compiler
                 Js.Primitive(type.IsGenericType),
                 Js.Primitive(type.TypeParameters.Any())));
             body.Return(Js.This().Member(SpecialNames.TypeField));
-            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body).Compact());
+            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body)/*.Compact()*/);
             return result;
         }
 
@@ -294,15 +294,18 @@ namespace WootzJs.Compiler
                 }
                 if (field.IsStatic)
                 {
-                    fieldAttributes = fieldAttributes.BitwiseOr(GetEnumValue(Context.Instance.FieldAttributesStatic));
+                    fieldAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.FieldAttributes, 
+                        fieldAttributes, GetEnumValue(Context.Instance.FieldAttributesStatic));
                 }
                 if (field.IsReadOnly)
                 {
-                    fieldAttributes = fieldAttributes.BitwiseOr(GetEnumValue(Context.Instance.FieldAttributesInitOnly));
+                    fieldAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.FieldAttributes, 
+                        fieldAttributes, GetEnumValue(Context.Instance.FieldAttributesInitOnly));
                 }
                 if (field.IsConst)
                 {
-                    fieldAttributes = fieldAttributes.BitwiseOr(GetEnumValue(Context.Instance.FieldAttributesLiteral));
+                    fieldAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.FieldAttributes, 
+                        fieldAttributes, GetEnumValue(Context.Instance.FieldAttributesLiteral));
                 }
 
                 var fieldInfo = CreateObject(Context.Instance.FieldInfoConstructor, 
@@ -357,7 +360,8 @@ namespace WootzJs.Compiler
             }
             if (method.IsStatic)
             {
-                methodAttributes = methodAttributes.BitwiseOr(GetEnumValue(Context.Instance.MethodAttributesStatic));
+                methodAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.MethodAttributes, 
+                    methodAttributes, GetEnumValue(Context.Instance.MethodAttributesStatic));
             }
 
             var returnType = method.ReturnType;
@@ -1051,6 +1055,30 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        public JsExpression EnumBitwise(SyntaxKind type, TypeSymbol enumType, JsExpression left, JsExpression right)
+        {
+            JsExpression result;
+            if (TryEnumBitwise(type, enumType, enumType, left, right, out result))
+                return result;
+            else
+                throw new Exception();
+        }
+
+        public bool TryEnumBitwise(SyntaxKind type, TypeSymbol leftSymbol, TypeSymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        {
+            if ((type == SyntaxKind.BitwiseOrExpression || type == SyntaxKind.BitwiseAndExpression) && 
+                (leftSymbol.TypeKind == TypeKind.Enum && rightSymbol.TypeKind == TypeKind.Enum))
+            {
+                left = Invoke(left, Context.Instance.EnumGetValue);
+                right = Invoke(right, Context.Instance.EnumGetValue);
+
+                result = InvokeStatic(Context.Instance.EnumInternalToObject, Type(leftSymbol), Js.Binary(ToBinaryOperator(type).Value, left, right));
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
         public JsBinaryOperator? ToBinaryOperator(SyntaxKind kind)
         {
             JsBinaryOperator op;
@@ -1228,13 +1256,13 @@ namespace WootzJs.Compiler
 
         public bool TryEnumToString(MethodSymbol method, JsExpression target, JsExpression methodTarget, TypeSymbol targetType, JsExpression[] arguments, out JsExpression result)
         {
-            // Special compiler handler for ReferenceEquals (since there is no native operator overloading, == comparisons
-            // are always reference comparisons.
+/*
             if (method.Name == "ToString" && targetType != null && targetType.TypeKind == TypeKind.Enum)
             {
                 result = Type(Context.Instance.EnumType).Member("InternalToObject").Invoke(Type(targetType), methodTarget).Member("ToString").Invoke();
                 return true;
             }            
+*/
             result = null;
             return false;
         }
@@ -1623,8 +1651,9 @@ namespace WootzJs.Compiler
                 }
                 else 
                 {
-                    var result = type.GetFullName().Replace('`', '$');
-                    return Js.Reference(result);
+                    var name = type.GetFullName().Replace('`', '$');
+                    JsExpression result = Js.Reference(name);
+                    return result;
                 }
             }
             var typeName = JsNames.GetTypeName(type);

@@ -72,6 +72,8 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol AsExtensionType { get; private set; }
         public NamedTypeSymbol JsniType { get; private set; }
         public NamedTypeSymbol EnumType { get; private set; }
+        public MethodSymbol EnumGetValue { get; private set; }
+        public MethodSymbol EnumInternalToObject { get; private set; }
         public NamedTypeSymbol Enumerable { get; private set; }
         public NamedTypeSymbol EnumerableGeneric { get; private set; }
         public NamedTypeSymbol Enumerator { get; private set; }
@@ -217,6 +219,8 @@ namespace WootzJs.Compiler
             AsExtensionType = compilation.FindType("System.Runtime.WootzJs.AsExtension");
             JsniType = compilation.FindType("System.Runtime.WootzJs.Jsni");
             EnumType = compilation.FindType("System.Enum");
+            EnumGetValue = EnumType.GetMethod("GetValue");
+            EnumInternalToObject = EnumType.GetMethod("InternalToObject");
             Enumerable = compilation.FindType("System.Collections.IEnumerable");
             EnumerableGeneric = compilation.FindType("System.Collections.Generic.IEnumerable`1");
             Enumerator = compilation.FindType("System.Collections.IEnumerator");

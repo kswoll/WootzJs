@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Reflection;
@@ -30,31 +32,30 @@ using System.Runtime.WootzJs;
 
 namespace System
 {
-	public class Object
-	{
-        [Js(Name = SpecialNames.TypeField, Export = false)]
-        internal JsTypeFunction ___type;
+    public class Object
+    {
+        [Js(Name = SpecialNames.TypeField, Export = false)] internal JsTypeFunction ___type;
 
-	    /// <summary>
-		/// Retrieves the type associated with an object instance.
-		/// </summary>
-		/// <returns>The type of the object.</returns>
-		public Type GetType()
-		{
-			return Type._GetTypeFromInstance(this.As<JsObject>());
-		}
+        /// <summary>
+        /// Retrieves the type associated with an object instance.
+        /// </summary>
+        /// <returns>The type of the object.</returns>
+        public Type GetType()
+        {
+            return Type._GetTypeFromInstance(this.As<JsObject>());
+        }
 
-		/// <summary>
-		/// Converts an object to its string representation.
-		/// </summary>
-		/// <returns>The string representation of the object.</returns>
-		public virtual string ToString()
-		{
+        /// <summary>
+        /// Converts an object to its string representation.
+        /// </summary>
+        /// <returns>The string representation of the object.</returns>
+        public virtual string ToString()
+        {
 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (this == null)
                 return "";
             return "{" + GetType().FullName + "}";
-		}
+        }
 
         /// <summary>
         /// Exists so that C# .ToString() is faithfully consumed when JS .toString() is invoked.
@@ -70,6 +71,24 @@ namespace System
         public virtual bool Equals(object obj)
         {
             return this == obj;
+        }
+
+        /// <summary>
+        /// Determines whether the specified object instances are considered equal.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the objects are considered equal; otherwise, false. If both <paramref name="objA"/> and <paramref name="objB"/> are null, the method returns true.
+        /// </returns>
+        /// <param name="objA">The first object to compare. </param><param name="objB">The second object to compare. </param><filterpriority>2</filterpriority>
+        public static bool Equals(object objA, object objB)
+        {
+            if (objA == objB)
+                return true;
+            if (objA == null || objB == null)
+                return false;
+            else
+                return objA.Equals(objB);
         }
 
         public virtual int GetHashCode()
@@ -99,5 +118,5 @@ namespace System
         {
             return true;
         }
-	}
+    }
 }

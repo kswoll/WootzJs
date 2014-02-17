@@ -57,6 +57,9 @@ namespace System.Collections.Generic
 
         public void Add(TKey key, TValue value)
         {
+            if (key == null)
+                throw new ArgumentNullException("key");
+
             var hashCode = comparer.GetHashCode(key).ToString();
             var bucket = storage[hashCode].As<Bucket>();
             if (bucket == null)

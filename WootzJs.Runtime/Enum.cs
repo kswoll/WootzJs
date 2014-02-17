@@ -28,19 +28,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.WootzJs;
 
 namespace System
 {
     public abstract class Enum : ValueType
     {
-        private string name;
-        private object value;
+        private readonly string name;
+        private readonly object value;
 
         private static Dictionary<string, Dictionary<string, Enum>> enumsByTypeAndName = new Dictionary<string, Dictionary<string, Enum>>();
         private static Dictionary<string, Dictionary<object, Enum>> enumsByTypeAndValue = new Dictionary<string, Dictionary<object, Enum>>();
 
         public Enum(string name, object value)
         {
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (value == null)
+                throw new ArgumentNullException("value");
+
             this.name = name;
             this.value = value;
 
@@ -104,7 +110,50 @@ namespace System
 
         public static object InternalToObject(JsTypeFunction enumType, object value)
         {
-            return enumsByTypeAndValue[enumType.TypeName][value];
+            var enumsByValue = enumsByTypeAndValue[enumType.TypeName];
+            Enum result;
+            if (enumsByValue.TryGetValue(value, out result))
+            {
+                return result;
+            }
+            else
+            {
+                // Otherwise it's an enum value that isn't represented by a declared member.  In 
+                // this case, we need to box the value and then force it to be recognized as the 
+                // enum type.
+                result = Jsni.@new(Jsni.reference("Number"), value.As<JsObject>()).As<Enum>();
+
+                foreach (var property in enumType.member("prototype"))
+                {
+                    result.As<JsObject>()[property] = enumType.member("prototype")[property];
+                }
+                foreach (var property in Jsni.type<Enum>().member("prototype"))
+                {
+                    result.As<JsObject>()[property] = Jsni.type<Enum>().member("prototype")[property];
+                }
+
+                result.___type = enumType;
+                result.As<JsObject>().memberset("value", value.As<JsObject>());
+                return result;
+            }
+        }
+
+        protected bool Equals(Enum other)
+        {
+            return Equals(value, other.value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Enum)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (value != null ? value.GetHashCode() : 0);
         }
     }
 }

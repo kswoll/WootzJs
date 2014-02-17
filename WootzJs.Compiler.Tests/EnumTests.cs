@@ -47,7 +47,6 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual((int)TestEnum.Two, 1);
             QUnit.AreEqual((int)TestEnum.Three, 2);
         }
-         
 
         [Test]
         public void Flags()
@@ -64,9 +63,33 @@ namespace WootzJs.Compiler.Tests
             QUnit.IsTrue((oneAndTwo & FlagsEnum.One) == FlagsEnum.One);
         }
 
+        [Test]
+        public void EnumType()
+        {
+            var value = TestEnum.One;
+            var type = value.GetType();
+            QUnit.AreEqual(type, typeof(TestEnum));
+        }
+
+        [Test]
+        public void NumberToEnumCast()
+        {
+            var two = (TestEnum)1;
+            QUnit.AreEqual(two, TestEnum.Two);
+        }
+
+        [Test]
+        public void InvalidEnum()
+        {
+            var testEnum = (TestEnum)323432;
+            QUnit.AreEqual(testEnum, 323432);
+        }
+
         public enum TestEnum
         {
-            One, Two, Three
+            One = 0, 
+            Two = 1, 
+            Three = 2
         }
 
         [Flags]
