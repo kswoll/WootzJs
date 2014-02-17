@@ -10,14 +10,13 @@ namespace WootzJs.Mvc.Mvc.Views
         public Type LayoutType { get; set; }
         public string Title { get; set; }
         public ViewContext ViewContext { get; private set; }
-        public IDictionary<string, Control> Sections { get; private set; }
 
         private Control _content;
         private bool isInitialized;
+        private IDictionary<string, Control> sections;
 
         public void Initialize(ViewContext context)
         {
-            Sections = new Dictionary<string, Control>();
             isInitialized = true;
             ViewContext = context;
             OnInitialize();
@@ -39,6 +38,11 @@ namespace WootzJs.Mvc.Mvc.Views
                 if (isInitialized)
                     value.NotifyOnAddedToView();
             }
+        }
+
+        public IDictionary<string, Control> Sections
+        {
+            get { return sections ?? (sections = new Dictionary<string, Control>()); }
         }
 
         protected void VerifyLayouts()
@@ -64,7 +68,7 @@ namespace WootzJs.Mvc.Mvc.Views
 
         protected virtual Layout CreateLayout()
         {
-            return (Layout)Activator.CreateInstance(LayoutType);
+            return (Layout)ViewContext.ControllerContext.Application.DependencyResolver.GetService(LayoutType);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WootzJs.Mvc.Mvc.Views
 {
@@ -14,7 +15,7 @@ namespace WootzJs.Mvc.Mvc.Views
                 return null;
         }
 
-        public virtual void LoadSection(string sectionName, Control section)
+        public virtual void LoadSections(IDictionary<string, Control> sections)
         {
         }
     }
