@@ -922,7 +922,6 @@ namespace WootzJs.Compiler
             {
                 var diagnostics = model.GetDiagnostics();
                 var diagnostics2 = model.GetDeclarationDiagnostics();
-                Console.WriteLine("shit");
             }
 */
             var target = (JsExpression)node.Expression.Accept(this);

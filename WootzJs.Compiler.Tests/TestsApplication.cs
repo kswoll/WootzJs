@@ -34,7 +34,6 @@ namespace WootzJs.Compiler.Tests
     {
         public static void Main()
         {
-            Console.WriteLine("Entry points be working!");
             var assembly = typeof(TestsApplication).Assembly;
             Console.WriteLine(assembly.FullName);
 

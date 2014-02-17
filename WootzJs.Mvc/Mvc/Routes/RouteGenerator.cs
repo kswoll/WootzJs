@@ -19,7 +19,6 @@ namespace WootzJs.Mvc.Mvc.Routes
             var pathTree = new RouteTree();
             foreach (var type in controllerTypes)
             {
-                Console.WriteLine(type.FullName);
                 GenerateRoutesForController(pathTree, type);
             }
             return pathTree;

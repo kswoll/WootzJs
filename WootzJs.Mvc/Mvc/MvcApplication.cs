@@ -109,10 +109,8 @@ namespace WootzJs.Mvc.Mvc
             if (this.view is Layout)
             {
                 var layout = (Layout)this.view;
-                foreach (var section in view.Sections)
-                {
-                    layout.LoadSection(section.Key, section.Value);
-                }
+                var sections = view.Sections;
+                layout.LoadSections(sections);
             }
         }
 
