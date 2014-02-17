@@ -128,14 +128,6 @@ namespace WootzJs.Mvc.Mvc.Views
             child.OnRemoved();
         }
 
-        protected virtual void Clear()
-        {
-            foreach (var child in Children.ToArray())
-            {
-                Remove(child);
-            }
-        }
-
         public int Count
         {
             get { return children.Count; }

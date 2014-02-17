@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Mvc.Views
@@ -150,9 +151,24 @@ namespace WootzJs.Mvc.Mvc.Views
             table.AppendChild(row);
         }
 
-        public new void Clear()
+        public new void Remove(Control child)
         {
-            base.Clear();
+            base.Remove(child);
+
+            var div = child.Node.ParentElement;
+            var cell = div.ParentElement;
+            var row = cell.ParentElement;
+
+            div.RemoveChild(child.Node);
+            table.RemoveChild(row);
+        }
+
+        public void Clear()
+        {
+            foreach (var child in Children.ToArray())
+            {
+                Remove(child);
+            }
         }
     }
 }
