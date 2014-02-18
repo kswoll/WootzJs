@@ -9,9 +9,13 @@ namespace WootzJs.Mvc.Mvc.Views
         {
         }
 
-        public Image(string source)
+        public Image(string source, int? width = null, int? height = null)
         {
             Source = source;
+            if (width != null)
+                Width = width.Value;
+            if (height != null)
+                Height = height.Value;
         }
 
         public Image(string defaultSource, string highlightedSource)
