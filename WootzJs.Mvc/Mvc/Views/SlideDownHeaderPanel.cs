@@ -49,6 +49,7 @@ namespace WootzJs.Mvc.Mvc.Views
         {
             headerDiv = Browser.Document.CreateElement("div");
             headerDiv.Style.Position = "absolute";
+            headerDiv.Style.Width = "100%";
 
             headerContainerDiv = Browser.Document.CreateElement("div");
             headerContainerDiv.Style.Position = "relative";
