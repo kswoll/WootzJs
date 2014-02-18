@@ -27,6 +27,7 @@
 
 #endregion
 
+using System;
 using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
@@ -45,5 +46,8 @@ namespace WootzJs.Web
 
         [Js(Name = "history")]
         public extern History History { get; }
+
+        [Js(Name = "requestAnimationFrame")]
+        public extern int RequestAnimationFrame(Action<int> step);
     }
 }

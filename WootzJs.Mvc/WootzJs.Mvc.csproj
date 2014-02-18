@@ -111,6 +111,7 @@
     <Compile Include="Mvc\Views\Link.cs" />
     <Compile Include="Mvc\Views\MouseTrackingEngine.cs" />
     <Compile Include="Mvc\Views\SidePanel.cs" />
+    <Compile Include="Mvc\Views\SlideDownHeaderPanel.cs" />
     <Compile Include="Mvc\Views\TablePanel.cs" />
     <Compile Include="Mvc\Views\Text.cs" />
     <Compile Include="Mvc\Views\TextBox.cs" />
