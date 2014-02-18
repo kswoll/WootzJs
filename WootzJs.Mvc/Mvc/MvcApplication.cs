@@ -112,6 +112,12 @@ namespace WootzJs.Mvc.Mvc
                 var sections = view.Sections;
                 layout.LoadSections(sections);
             }
+
+            OnOpen(url);
+        }
+
+        protected virtual void OnOpen(string url)
+        {
         }
 
         private NavigationContext CreateNavigationContext(string path, string queryString)

@@ -77,6 +77,7 @@
     <Compile Include="Mvc\Views\Css\CssColor.cs" />
     <Compile Include="Mvc\Views\Css\CssCursor.cs" />
     <Compile Include="Mvc\Views\Css\CssDeclaration.cs" />
+    <Compile Include="Mvc\Views\Css\CssDisplay.cs" />
     <Compile Include="Mvc\Views\Css\CssFont.cs" />
     <Compile Include="Mvc\Views\Css\CssFontStyle.cs" />
     <Compile Include="Mvc\Views\Css\CssFontWeight.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Mvc\Views\Css\CssUnit.cs" />
     <Compile Include="Mvc\Views\Css\CssValue.cs" />
     <Compile Include="Mvc\Views\Css\CssVerticalAlign.cs" />
+    <Compile Include="Mvc\Views\Css\CssWhiteSpace.cs" />
     <Compile Include="Mvc\Views\Css\Style.cs" />
     <Compile Include="Mvc\Views\DropDown.cs" />
     <Compile Include="Mvc\Views\FillPanel.cs" />

@@ -187,6 +187,19 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             get { return CssTextDecorations.Parse(Get("text-decoration")); }
             set { Set("text-decoration", value.GetCssValue()); }
         }
+
+        public CssDisplay Display
+        {
+            get { return CssDisplays.Parse(Get("display")); }
+            set { Set("display", value.GetCssValue()); }
+        }
+
+        public CssWhiteSpace WhiteSpace
+        {
+            get { return CssWhiteSpaces.Parse(Get("white-space")); }
+            set { Set("white-space", value.GetCssValue()); }
+        }
+
 /*
 
         public CssTextAlign TextAlign

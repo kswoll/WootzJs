@@ -107,9 +107,9 @@ namespace WootzJs.Mvc.Mvc.Views
 
         private const double duration = 300; // milliseconds
 
-        private void SlideUp()
+        public void SlideUp()
         {
-            
+            headerContainerDiv.Style.Height = "0px";
         }
 
         public void SlideDown()
