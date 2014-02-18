@@ -33,7 +33,36 @@ namespace WootzJs.Mvc.Mvc.Views.Css
 {
     public enum CssWhiteSpace
     {
-        Inherit, NoWrap
+        Inherit, 
+
+        /// <summary>
+        /// Collapses whitespace as for normal, but suppresses line breaks (text wrapping) within text.
+        /// </summary>
+        NoWrap, 
+
+        /// <summary>
+        /// Sequences of whitespace are collapsed. Newline characters in the source are handled as other 
+        /// whitespace. Breaks lines as necessary to fill line boxes.
+        /// </summary>
+        Normal, 
+
+        /// <summary>
+        /// Sequences of whitespace are preserved, lines are only broken at newline characters in the 
+        /// source and at &lt;br&gt; elements.
+        /// </summary>
+        Pre, 
+
+        /// <summary>
+        /// Sequences of whitespace are preserved. Lines are broken at newline characters, at 
+        /// &lt;br&gt;, and as necessary to fill line boxes.
+        /// </summary>
+        PreWrap, 
+
+        /// <summary>
+        /// Sequences of whitespace are collapsed. Lines are broken at newline characters, at 
+        /// &lt;br&gt;, and as necessary to fill line boxes.
+        /// </summary>
+        PreLine
     }
 
     public static class CssWhiteSpaces
@@ -43,9 +72,19 @@ namespace WootzJs.Mvc.Mvc.Views.Css
             switch (s)
             {
                 case "inherit":
+                case "":
+                case null:
                     return CssWhiteSpace.Inherit;
                 case "nowrap":
                     return CssWhiteSpace.NoWrap;
+                case "normal":
+                    return CssWhiteSpace.Normal;
+                case "pre":
+                    return CssWhiteSpace.Pre;
+                case "pre-line":
+                    return CssWhiteSpace.PreLine;
+                case "pre-wrap":
+                    return CssWhiteSpace.PreWrap;
                 default: 
                     throw new Exception();
             }
@@ -59,6 +98,14 @@ namespace WootzJs.Mvc.Mvc.Views.Css
                     return "inherit";
                 case CssWhiteSpace.NoWrap:
                     return "nowrap";
+                case CssWhiteSpace.Normal:
+                    return "normal";
+                case CssWhiteSpace.Pre:
+                    return "pre";
+                case CssWhiteSpace.PreLine:
+                    return "pre-line";
+                case CssWhiteSpace.PreWrap:
+                    return "pre-wrap";
                 default:
                     throw new Exception();
             }
