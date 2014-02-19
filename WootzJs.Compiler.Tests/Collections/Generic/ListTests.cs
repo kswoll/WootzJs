@@ -97,5 +97,20 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list[0] = "two";
             QUnit.AreEqual(list[0], "two");
         }
+
+        [Test]
+        public void IntegerSort()
+        {
+            var list = new List<string> { 8, 53, 1, 888, 444, 234, 3 };
+            list.Sort();
+
+            QUnit.AreEqual(list[0], 1);
+            QUnit.AreEqual(list[1], 3);
+            QUnit.AreEqual(list[2], 8);
+            QUnit.AreEqual(list[3], 53);
+            QUnit.AreEqual(list[4], 234);
+            QUnit.AreEqual(list[5], 444);
+            QUnit.AreEqual(list[6], 888);
+        }
     }
 }

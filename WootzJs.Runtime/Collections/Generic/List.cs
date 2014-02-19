@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Runtime.WootzJs;
@@ -175,7 +177,25 @@ namespace System.Collections.Generic
             storage.splice(index, 0, item.As<JsObject>());
         }
 
-        class ListEnumerator : IEnumerator<T>
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="T:System.Collections.Generic.List`1"/> using the default comparer.
+        /// </summary>
+        /// <exception cref="T:System.InvalidOperationException">The default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> cannot find an implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/> interface for type <paramref name="T"/>.</exception>
+        public void Sort()
+        {
+            Sort(Comparer<T>.Default);
+        }
+
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="T:System.Collections.Generic.List`1"/> using the specified comparer.
+        /// </summary>
+        /// <param name="comparer">The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements, or null to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.</param><exception cref="T:System.InvalidOperationException"><paramref name="comparer"/> is null, and the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> cannot find implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/> interface for type <paramref name="T"/>.</exception><exception cref="T:System.ArgumentException">The implementation of <paramref name="comparer"/> caused an error during the sort. For example, <paramref name="comparer"/> might not return 0 when comparing an item with itself.</exception>
+        public void Sort(IComparer<T> comparer)
+        {
+            storage.sort(Jsni.function((x, y) => comparer.Compare(x.As<T>(), y.As<T>()).As<JsNumber>()));
+        }
+
+        private class ListEnumerator : IEnumerator<T>
         {
             private int index = -1;
             private List<T> list;

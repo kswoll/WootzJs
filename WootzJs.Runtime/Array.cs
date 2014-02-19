@@ -35,8 +35,7 @@ namespace System
     [Js(Name = "Array", BuiltIn = true)]
     public abstract class Array : IList
     {
-        [Js(Export = false, Name = "length")]
-// ReSharper disable once UnassignedReadonlyField
+        [Js(Export = false, Name = "length")] // ReSharper disable once UnassignedReadonlyField
         public readonly int Length;
 
         public IEnumerator GetEnumerator()
