@@ -192,7 +192,22 @@ namespace System.Collections.Generic
         /// <param name="comparer">The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements, or null to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.</param><exception cref="T:System.InvalidOperationException"><paramref name="comparer"/> is null, and the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> cannot find implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/> interface for type <paramref name="T"/>.</exception><exception cref="T:System.ArgumentException">The implementation of <paramref name="comparer"/> caused an error during the sort. For example, <paramref name="comparer"/> might not return 0 when comparing an item with itself.</exception>
         public void Sort(IComparer<T> comparer)
         {
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
+            if (Count <= 0)
+                return;
             storage.sort(Jsni.function((x, y) => comparer.Compare(x.As<T>(), y.As<T>()).As<JsNumber>()));
+        }
+
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="T:System.Collections.Generic.List`1"/> using the specified <see cref="T:System.Comparison`1"/>.
+        /// </summary>
+        /// <param name="comparison">The <see cref="T:System.Comparison`1"/> to use when comparing elements.</param><exception cref="T:System.ArgumentNullException"><paramref name="comparison"/> is null.</exception><exception cref="T:System.ArgumentException">The implementation of <paramref name="comparison"/> caused an error during the sort. For example, <paramref name="comparison"/> might not return 0 when comparing an item with itself.</exception>
+        public void Sort(Comparison<T> comparison)
+        {
+            if (comparison == null)
+                throw new ArgumentNullException("comparison");
+            Sort(new ComparisonComparer<T>(comparison));
         }
 
         private class ListEnumerator : IEnumerator<T>

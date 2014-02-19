@@ -370,6 +370,20 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(strings[1], "8");
         }
 
+        [Test]
+        public void OrderBy()
+        {
+            var list = new[] { 8, 53, 1, 888, 444, 234, 3 }.OrderBy(x => x).ToArray();
+
+            QUnit.AreEqual(list[0], 1);
+            QUnit.AreEqual(list[1], 3);
+            QUnit.AreEqual(list[2], 8);
+            QUnit.AreEqual(list[3], 53);
+            QUnit.AreEqual(list[4], 234);
+            QUnit.AreEqual(list[5], 444);
+            QUnit.AreEqual(list[6], 888);            
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }

@@ -885,7 +885,9 @@ namespace System.Linq
         public static IEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, 
             Func<TSource, TKey> keySelector)
         {
-            return null;
+            var list = new List<TSource>(source);
+            list.Sort((x, y) => Comparer.Default.Compare(x, y));
+            return list;
         }
 
         public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)

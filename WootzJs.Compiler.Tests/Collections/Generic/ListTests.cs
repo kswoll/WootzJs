@@ -101,7 +101,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         [Test]
         public void IntegerSort()
         {
-            var list = new List<string> { 8, 53, 1, 888, 444, 234, 3 };
+            var list = new List<int> { 8, 53, 1, 888, 444, 234, 3 };
             list.Sort();
 
             QUnit.AreEqual(list[0], 1);
@@ -111,6 +111,21 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             QUnit.AreEqual(list[4], 234);
             QUnit.AreEqual(list[5], 444);
             QUnit.AreEqual(list[6], 888);
+        }
+
+        [Test]
+        public void CustomComparerInt()
+        {
+            var list = new List<int> { 8, 53, 1, 888, 444, 234, 3 };
+            list.Sort((x, y) => y - x);
+
+            QUnit.AreEqual(list[0], 888);            
+            QUnit.AreEqual(list[1], 444);
+            QUnit.AreEqual(list[2], 234);
+            QUnit.AreEqual(list[3], 53);
+            QUnit.AreEqual(list[4], 8);
+            QUnit.AreEqual(list[5], 3);
+            QUnit.AreEqual(list[6], 1);
         }
     }
 }
