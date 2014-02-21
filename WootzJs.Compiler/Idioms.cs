@@ -474,7 +474,7 @@ namespace WootzJs.Compiler
             return target.Member(property.GetMethod.GetMemberName()).Invoke(arguments);
         }
 
-        public JsBlockStatement InitializeInstanceFields(TypeDeclarationSyntax classDeclaration)
+        public JsBlockStatement InitializeStaticFields(TypeDeclarationSyntax classDeclaration)
         {
             var result = new JsBlockStatement();
 
@@ -484,8 +484,62 @@ namespace WootzJs.Compiler
                 foreach (var variable in field.Declaration.Variables)
                 {
                     var fieldSymbol = (FieldSymbol)transformer.model.GetDeclaredSymbol(variable);
+                    if (fieldSymbol.IsStatic)
+                        result.Add(StoreInType(fieldSymbol.GetMemberName(), (JsExpression)variable.Initializer.Accept(transformer)));
+                }
+            }
+            var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
+            foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            {
+                var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.GetKeyword);
+                var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.SetKeyword);
+                if (getter == null && setter == null)
+                {
+                    var property = model.GetDeclaredSymbol(node);
+                    if (property.IsStatic)
+                    {
+                        var backingField = property.GetBackingFieldName();
+                        result.Add(StoreInType(backingField, DefaultValue(property.Type)));
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        public JsBlockStatement InitializeInstanceFields(TypeDeclarationSyntax classDeclaration)
+        {
+            var result = new JsBlockStatement();
+
+            // Add field initializers
+            foreach (var field in classDeclaration.Members.OfType<FieldDeclarationSyntax>())
+            {
+                foreach (var variable in field.Declaration.Variables)
+                {
+                    var fieldSymbol = (FieldSymbol)transformer.model.GetDeclaredSymbol(variable);
+                    if (!fieldSymbol.IsExported())
+                        continue;
+
+                    var initializer = variable.Initializer != null ? 
+                        (JsExpression)variable.Initializer.Accept(transformer) :
+                        DefaultValue(fieldSymbol.Type);
                     if (!fieldSymbol.IsStatic)
-                        result.Assign(Js.This().Member(fieldSymbol.GetMemberName()), (JsExpression)variable.Initializer.Accept(transformer));
+                        result.Assign(Js.This().Member(fieldSymbol.GetMemberName()), initializer);
+                }
+            }
+            var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
+            foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            {
+                var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.GetKeyword);
+                var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.SetKeyword);
+                if (getter != null && setter != null && getter.Body == null && setter.Body == null)
+                {
+                    var property = model.GetDeclaredSymbol(node);
+                    if (!property.IsStatic)
+                    {
+                        var backingField = property.GetBackingFieldName();
+                        result.Assign(Js.This().Member(backingField), DefaultValue(property.Type));
+                    }
                 }
             }
             
@@ -1800,6 +1854,8 @@ namespace WootzJs.Compiler
                 default:
                     if (type.BaseType == Context.Instance.EnumType)
                         value = Js.Primitive(0);
+                    else if (type is TypeParameterSymbol)
+                        value = InvokeStatic(Context.Instance.DefaultOf, Js.Reference(type.Name));
                     else
                         value = Js.Null();
                     break;

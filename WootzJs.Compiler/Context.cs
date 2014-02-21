@@ -49,6 +49,7 @@ namespace WootzJs.Compiler
 
         public NamedTypeSymbol Exception { get; private set; }
         public NamedTypeSymbol SpecialFunctions { get; private set; }
+        public MethodSymbol DefaultOf { get; private set; }
         public MethodSymbol InternalInit { get; private set; }
         public NamedTypeSymbol Assembly { get; private set; }
         public MethodSymbol AssemblyConstructor { get; private set; }
@@ -183,6 +184,7 @@ namespace WootzJs.Compiler
             ObjectToString = compilation.ObjectType.GetMembers("ToString").OfType<MethodSymbol>().Single();
             String = compilation.FindType("System.String");
             SpecialFunctions = compilation.FindType("System.Runtime.WootzJs.SpecialFunctions");
+            DefaultOf = SpecialFunctions.GetMethod("DefaultOf");
             Char = compilation.FindType("System.Char");
             Byte = compilation.FindType("System.Byte");
             Int16 = compilation.FindType("System.Int16");

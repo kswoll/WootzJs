@@ -54,6 +54,13 @@ namespace System.Collections.Generic
             this.comparer = comparer;
         }
 
+        /// <summary>
+        /// This constructor exists to make the compiler happy, as it invokes this constructor when 
+        /// generating certain switch statements.
+        /// </summary>
+        public Dictionary(int capacity) : this()
+        {
+        }
 
         public void Add(TKey key, TValue value)
         {

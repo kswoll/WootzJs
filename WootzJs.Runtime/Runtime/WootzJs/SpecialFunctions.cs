@@ -294,5 +294,30 @@ namespace System.Runtime.WootzJs
         {
             return number < 0 ? JsMath.ceil(number) : JsMath.floor(number);
         }
+
+        [Js(Name = SpecialNames.DefaultOf)]
+        public static JsObject DefaultOf(JsTypeFunction type)
+        {
+            var typeName = type.TypeName;
+            switch (typeName)
+            {
+                case "System.Boolean":
+                    return false;
+                case "System.Byte":
+                case "System.SByte":
+                case "System.Int16":
+                case "System.Int32":
+                case "System.Int64":
+                case "System.UInt16":
+                case "System.UInt32":
+                case "System.UInt64":
+                case "System.Single":
+                case "System.Double":
+                case "System.Decimal":
+                    return 0.As<JsNumber>();
+                default:
+                    return null;
+            }
+        }
     }
 }

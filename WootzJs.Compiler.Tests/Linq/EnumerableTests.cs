@@ -26,9 +26,6 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.WootzJs;
 using System.Linq;
 
 namespace WootzJs.Compiler.Tests.Linq
@@ -39,7 +36,7 @@ namespace WootzJs.Compiler.Tests.Linq
         [Test]
         public void Aggregate()
         {
-            var array = new[] { 1, 2, 3, };
+            var array = new[] { 1, 2, 3 };
             var result = array.Aggregate((x, y) => x + y);
             QUnit.AreEqual(result, 6);
         }
@@ -47,7 +44,7 @@ namespace WootzJs.Compiler.Tests.Linq
         [Test]
         public void AggregateWithSeed()
         {
-            var array = new[] { 1, 2, 3, };
+            var array = new[] { 1, 2, 3 };
             var result = array.Aggregate(10, (x, y) => x + y);
             QUnit.AreEqual(result, 16);
         }
@@ -55,7 +52,7 @@ namespace WootzJs.Compiler.Tests.Linq
         [Test]
         public void AggregateWithSeedAndResult()
         {
-            var array = new[] { 1, 2, 3, };
+            var array = new[] { 1, 2, 3 };
             var result = array.Aggregate(10, (x, y) => x + y, x => x.ToString());
             QUnit.AreEqual(result, "16");
         }
@@ -63,7 +60,7 @@ namespace WootzJs.Compiler.Tests.Linq
         [Test]
         public void All()
         {
-            var array = new[] { 1, 2, 3, };
+            var array = new[] { 1, 2, 3 };
             QUnit.AreEqual(array.All(x => x > 0), true);
             QUnit.AreEqual(array.All(x => x > 1), false);
         }
@@ -432,7 +429,7 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "b", Value = 1 },
                 new KeyValueClass { Key = "c", Value = 3 },
                 new KeyValueClass { Key = "c", Value = 4 },
-                new KeyValueClass { Key = "c", Value = 1 },
+                new KeyValueClass { Key = "c", Value = 1 }
             
             }.OrderBy(x => x.Key).ThenByDescending(x => x.Value).ToArray();
 
@@ -448,6 +445,33 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(list[4].Value, 3);
             QUnit.AreEqual(list[5].Key, "c");
             QUnit.AreEqual(list[5].Value, 1);
+        }
+
+        [Test]
+        public void Empty()
+        {
+            var enumerator = Enumerable.Empty<string>().GetEnumerator();
+            QUnit.IsTrue(!enumerator.MoveNext());
+        }
+
+        [Test]
+        public void DefaultIfEmpty()
+        {
+            var s = new string[0].DefaultIfEmpty().Single();
+            QUnit.AreEqual(s, null);
+
+            var i = new int[0].DefaultIfEmpty().Single();
+            QUnit.AreEqual(i, 0);
+        }
+
+        [Test]
+        public void DefaultIfEmptyExplicitDefault()
+        {
+            var s = new string[0].DefaultIfEmpty("default").Single();
+            QUnit.AreEqual(s, "default");
+
+            var i = new int[0].DefaultIfEmpty(5).Single();
+            QUnit.AreEqual(i, 5);
         }
 
         public class DictionaryClass

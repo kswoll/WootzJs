@@ -40,8 +40,8 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public void DefaultChar()
         {
-            var value = default(int);
-            QUnit.AreEqual(value, "");
+            var value = default(char);
+            QUnit.AreEqual(value, '\0');
         }
 
         [Test]
@@ -56,6 +56,18 @@ namespace WootzJs.Compiler.Tests
         {
             var value = default(object);
             QUnit.AreEqual(value, null);
+        }
+
+        [Test]
+        public void DefaultT()
+        {
+            QUnit.AreEqual(DefaultOf<string>(), null);
+            QUnit.AreEqual(DefaultOf<int>(), 0);
+        }
+
+        private T DefaultOf<T>()
+        {
+            return default(T);
         }
     }
 }

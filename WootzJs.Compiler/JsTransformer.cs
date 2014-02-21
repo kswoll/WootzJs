@@ -263,17 +263,18 @@ namespace WootzJs.Compiler
             }
 
             // Initialize all the static fields
-            foreach (var field in node.Members.OfType<FieldDeclarationSyntax>())
-            {
-                foreach (var variable in field.Declaration.Variables)
-                {
-                    var fieldSymbol = (FieldSymbol)model.GetDeclaredSymbol(variable);
-                    if (fieldSymbol.IsStatic && variable.Initializer != null)
-                    {
-                        staticInitializer.Assign(idioms.Type(fieldSymbol.ContainingType).Member(fieldSymbol.GetMemberName()), (JsExpression)variable.Initializer.Accept(this));
-                    }
-                }
-            }
+            staticInitializer.Aggregate(idioms.InitializeStaticFields(node));
+//            foreach (var field in node.Members.OfType<FieldDeclarationSyntax>())
+//            {
+//                foreach (var variable in field.Declaration.Variables)
+//                {
+//                    var fieldSymbol = (FieldSymbol)model.GetDeclaredSymbol(variable);
+//                    if (fieldSymbol.IsStatic && variable.Initializer != null)
+//                    {
+//                        staticInitializer.Assign(idioms.Type(fieldSymbol.ContainingType).Member(fieldSymbol.GetMemberName()), (JsExpression)variable.Initializer.Accept(this));
+//                    }
+//                }
+//            }
 
             // Call all static initializers in sequence
             foreach (var constructor in node.Members.OfType<ConstructorDeclarationSyntax>())
@@ -375,6 +376,7 @@ namespace WootzJs.Compiler
         {
             var block = new JsBlockStatement();
 
+/*
             foreach (var variable in node.Declaration.Variables)
             {
                 var field = (FieldSymbol)model.GetDeclaredSymbol(variable);
@@ -385,6 +387,7 @@ namespace WootzJs.Compiler
                 block.Add(idioms.StoreInPrototype(field.GetMemberName(), idioms.DefaultValue(field.Type)));
                 PopDeclaration();
             }
+*/
 
             return block;
         }
@@ -409,7 +412,6 @@ namespace WootzJs.Compiler
                 var backingField = property.GetBackingFieldName();
                 var valueParameter = Js.Parameter("value");
 
-                block.Add(storeIn(backingField, idioms.DefaultValue(property.Type)));
                 block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(Js.Return(Js.This().Member(backingField))).Compact()));
                 block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(
                     Js.Assign(Js.This().Member(backingField), valueParameter.GetReference())).Compact()));
@@ -503,6 +505,8 @@ namespace WootzJs.Compiler
             var fullTypeName = classType.GetFullName();
             var constructorBlock = new JsBlockStatement();
 
+            constructorBlock.Aggregate(idioms.InitializeInstanceFields((TypeDeclarationSyntax)node.Parent));
+
             if (fullTypeName != "System.Object")
             {
                 // No explicit initializer was specified, so infer the call to the base class parameterless constructor.
@@ -515,8 +519,6 @@ namespace WootzJs.Compiler
                     constructorBlock.Express((JsExpression)node.Initializer.Accept(this));
                 }
             }
-            
-            constructorBlock.Aggregate(idioms.InitializeInstanceFields((TypeDeclarationSyntax)node.Parent));
 
             var body = (JsBlockStatement)node.Body.Accept(this);
             constructorBlock.Aggregate(body);
