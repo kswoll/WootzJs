@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace System.Collections
@@ -101,6 +102,21 @@ namespace System.Collections
                 return -comparable2.CompareTo(a);
             else
                 throw new ArgumentException("Argument_ImplementIComparable");
+        }
+    }
+
+    internal class ComparisonComparer : IComparer
+    {
+        private readonly Comparison<object> _comparison;
+
+        public ComparisonComparer(Comparison<object> comparison)
+        {
+            _comparison = comparison;
+        }
+
+        public int Compare(object x, object y)
+        {
+            return _comparison(x, y);
         }
     }
 }

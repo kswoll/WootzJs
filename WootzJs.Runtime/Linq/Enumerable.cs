@@ -882,12 +882,113 @@ namespace System.Linq
         /// <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="source"/> or 
         /// <paramref name="keySelector"/> is null.</exception>
-        public static IEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, 
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector)
         {
-            var list = new List<TSource>(source);
-            list.Sort((x, y) => Comparer.Default.Compare(x, y));
-            return list;
+            return OrderedEnumerable<TSource>.Create(source, keySelector, Comparer<TKey>.Default, false);
+        }
+
+        /// <summary>
+        /// Sorts the elements of a sequence in ascending order by using a specified comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted according to a key.
+        /// </returns>
+        /// <param name="source">A sequence of values to order.</param><param name="keySelector">A function to extract a key from an element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            return OrderedEnumerable<TSource>.Create(source, keySelector, comparer, false);
+        }
+
+        /// <summary>
+        /// Sorts the elements of a sequence in descending order according to a key.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted in descending order according to a key.
+        /// </returns>
+        /// <param name="source">A sequence of values to order.</param><param name="keySelector">A function to extract a key from an element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return OrderedEnumerable<TSource>.Create(source, keySelector, Comparer<TKey>.Default, true);
+        }
+
+        /// <summary>
+        /// Sorts the elements of a sequence in descending order by using a specified comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted in descending order according to a key.
+        /// </returns>
+        /// <param name="source">A sequence of values to order.</param><param name="keySelector">A function to extract a key from an element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            return OrderedEnumerable<TSource>.Create(source, keySelector, comparer, true);
+        }
+
+        /// <summary>
+        /// Performs a subsequent ordering of the elements in a sequence in ascending order according to a key.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted according to a key.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1"/> that contains elements to sort.</param><param name="keySelector">A function to extract a key from each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            else
+                return source.CreateOrderedEnumerable(keySelector, Comparer<TKey>.Default, false);
+        }
+
+        /// <summary>
+        /// Performs a subsequent ordering of the elements in a sequence in ascending order by using a specified comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted according to a key.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1"/> that contains elements to sort.</param><param name="keySelector">A function to extract a key from each element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            else
+                return source.CreateOrderedEnumerable(keySelector, comparer, false);
+        }
+
+        /// <summary>
+        /// Performs a subsequent ordering of the elements in a sequence in descending order, according to a key.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted in descending order according to a key.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1"/> that contains elements to sort.</param><param name="keySelector">A function to extract a key from each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> ThenByDescending<TSource, TKey>(this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            else
+                return source.CreateOrderedEnumerable(keySelector, Comparer<TKey>.Default, true);
+        }
+
+        /// <summary>
+        /// Performs a subsequent ordering of the elements in a sequence in descending order by using a specified comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Linq.IOrderedEnumerable`1"/> whose elements are sorted in descending order according to a key.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1"/> that contains elements to sort.</param><param name="keySelector">A function to extract a key from each element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static IOrderedEnumerable<TSource> ThenByDescending<TSource, TKey>(this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            else
+                return source.CreateOrderedEnumerable(keySelector, comparer, true);
         }
 
         public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)

@@ -384,10 +384,82 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(list[6], 888);            
         }
 
+        [Test]
+        public void OrderByDescending()
+        {
+            var list = new[] { 8, 53, 1 }.OrderByDescending(x => x).ToArray();
+
+            QUnit.AreEqual(list[0], 53);
+            QUnit.AreEqual(list[1], 8);
+            QUnit.AreEqual(list[2], 1);
+        }
+
+        [Test]
+        public void ThenBy()
+        {
+            var list = new[]
+            {
+                new KeyValueClass { Key = "a", Value = 2 },
+                new KeyValueClass { Key = "a", Value = 1 },
+                new KeyValueClass { Key = "b", Value = 1 },
+                new KeyValueClass { Key = "c", Value = 3 },
+                new KeyValueClass { Key = "c", Value = 4 },
+                new KeyValueClass { Key = "c", Value = 1 },
+            
+            }.OrderBy(x => x.Key).ThenBy(x => x.Value).ToArray();
+
+            QUnit.AreEqual(list[0].Key, "a");
+            QUnit.AreEqual(list[0].Value, 1);
+            QUnit.AreEqual(list[1].Key, "a");
+            QUnit.AreEqual(list[1].Value, 2);
+            QUnit.AreEqual(list[2].Key, "b");
+            QUnit.AreEqual(list[2].Value, 1);
+            QUnit.AreEqual(list[3].Key, "c");
+            QUnit.AreEqual(list[3].Value, 1);
+            QUnit.AreEqual(list[4].Key, "c");
+            QUnit.AreEqual(list[4].Value, 3);
+            QUnit.AreEqual(list[5].Key, "c");
+            QUnit.AreEqual(list[5].Value, 4);
+        }
+
+        [Test]
+        public void ThenByDescending()
+        {
+            var list = new[]
+            {
+                new KeyValueClass { Key = "a", Value = 2 },
+                new KeyValueClass { Key = "a", Value = 1 },
+                new KeyValueClass { Key = "b", Value = 1 },
+                new KeyValueClass { Key = "c", Value = 3 },
+                new KeyValueClass { Key = "c", Value = 4 },
+                new KeyValueClass { Key = "c", Value = 1 },
+            
+            }.OrderBy(x => x.Key).ThenByDescending(x => x.Value).ToArray();
+
+            QUnit.AreEqual(list[0].Key, "a");
+            QUnit.AreEqual(list[0].Value, 2);
+            QUnit.AreEqual(list[1].Key, "a");
+            QUnit.AreEqual(list[1].Value, 1);
+            QUnit.AreEqual(list[2].Key, "b");
+            QUnit.AreEqual(list[2].Value, 1);
+            QUnit.AreEqual(list[3].Key, "c");
+            QUnit.AreEqual(list[3].Value, 4);
+            QUnit.AreEqual(list[4].Key, "c");
+            QUnit.AreEqual(list[4].Value, 3);
+            QUnit.AreEqual(list[5].Key, "c");
+            QUnit.AreEqual(list[5].Value, 1);
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }
             public string Value { get; set; }
+        }
+
+        public class KeyValueClass
+        {
+            public string Key { get; set; }
+            public int Value { get; set; }
         }
     }
 }

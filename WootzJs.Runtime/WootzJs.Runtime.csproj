@@ -147,6 +147,8 @@
     <Compile Include="Linq\Expressions\PropertyExpression.cs" />
     <Compile Include="Linq\Expressions\TypeBinaryExpression.cs" />
     <Compile Include="Linq\Expressions\UnaryExpression.cs" />
+    <Compile Include="Linq\IOrderedEnumerable.cs" />
+    <Compile Include="Linq\OrderedEnumerable.cs" />
     <Compile Include="MarshalByRefObject.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Microsoft\CSharp\RuntimeBinder\Binder.cs" />
