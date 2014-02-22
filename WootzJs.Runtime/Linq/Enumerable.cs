@@ -718,29 +718,6 @@ namespace System.Linq
         }
 
         /// <summary>
-        /// Produces the set difference of two sequences by using the default equality comparer to compare values.
-        /// </summary>
-        /// 
-        /// <returns>
-        /// A sequence that contains the set difference of the elements of two sequences.
-        /// </returns>
-        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not also in <paramref name="second"/> will be returned.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
-        public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
-        {
-            if (first == null)
-                throw new ArgumentNullException("first");
-            if (second == null)
-                throw new ArgumentNullException("second");
-
-            var set = new HashSet<TSource>(second);
-            foreach (var item in first)
-            {
-                if (!set.Contains(item))
-                    yield return item;
-            }
-        }
-
-        /// <summary>
         /// Computes the sum of a sequence of <see cref="T:System.Int32"/> values.
         /// </summary>
         /// 
@@ -1748,6 +1725,47 @@ namespace System.Linq
                     return true;
             }
             return false;
+        }
+
+         /// <summary>
+        /// Produces the set difference of two sequences by using the default equality comparer to compare values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A sequence that contains the set difference of the elements of two sequences.
+        /// </returns>
+        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not also in <paramref name="second"/> will be returned.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+
+            return first.Except(second, EqualityComparer<TSource>.Default);
+        }
+
+       /// <summary>
+        /// Produces the set difference of two sequences by using the specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A sequence that contains the set difference of the elements of two sequences.
+        /// </returns>
+        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not also in <paramref name="second"/> will be returned.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            var set = new HashSet<TSource>(second, comparer);
+
+            foreach (var item in first)
+            {
+                if (!set.Contains(item))
+                    yield return item;
+            }
         }
     }
 }

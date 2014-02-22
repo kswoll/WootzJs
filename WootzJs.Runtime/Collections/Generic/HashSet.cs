@@ -55,6 +55,20 @@ namespace System.Collections.Generic
             storage = new Dictionary<T, T>(comparer);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Collections.Generic.HashSet`1"/> class that uses the specified equality comparer for the set type, contains elements copied from the specified collection, and has sufficient capacity to accommodate the number of elements copied.
+        /// </summary>
+        /// <param name="collection">The collection whose elements are copied to the new set.</param><param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing values in the set, or null to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> implementation for the set type.</param><exception cref="T:System.ArgumentNullException"><paramref name="collection"/> is null.</exception>
+        public HashSet(IEnumerable<T> collection, IEqualityComparer<T> comparer) : this(comparer)
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            foreach (var item in collection)
+                Add(item);
+        }
+
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
