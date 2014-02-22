@@ -588,6 +588,20 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(intersection[1], 2);
         }
 
+        [Test]
+        public void AverageDouble()
+        {
+            QUnit.AreEqual(new double[] { 1, 2, 3, 4, 5, 6, 7 }.Average(), 4);
+            QUnit.AreEqual(new double[] { 1, 2, 3, 4, 5, 6 }.Average(), 3.5);
+        }
+
+        [Test]
+        public void AverageInt()
+        {
+            QUnit.AreEqual(new[] { 1, 2, 3, 4, 5, 6, 7 }.Average(), 4);
+            QUnit.AreEqual(new[] { 1, 2, 3, 4, 5, 6 }.Average(), 3.5);
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }

@@ -1495,5 +1495,126 @@ namespace System.Linq
                     yield return item;
             }
         }
+
+        /// <summary>
+        /// Computes the average of a sequence of nullable <see cref="T:System.Decimal"/> values that are obtained by invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values, or null if the source sequence is empty or contains only values that are null.
+        /// </returns>
+        /// <param name="source">A sequence of values to calculate the average of.</param><param name="selector">A transform function to apply to each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null.</exception><exception cref="T:System.OverflowException">The sum of the elements in the sequence is larger than <see cref="F:System.Decimal.MaxValue"/>.</exception>
+        public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+        {
+            return Average(Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of nullable <see cref="T:System.Decimal"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values, or null if the source sequence is empty or contains only values that are null.
+        /// </returns>
+        /// <param name="source">A sequence of nullable <see cref="T:System.Decimal"/> values to calculate the average of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The sum of the elements in the sequence is larger than <see cref="F:System.Decimal.MaxValue"/>.</exception>
+        public static double? Average(this IEnumerable<double?> source)
+        {
+            return source.Average(() => null);
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of <see cref="T:System.Decimal"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values.
+        /// </returns>
+        /// <param name="source">A sequence of <see cref="T:System.Decimal"/> values to calculate the average of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.InvalidOperationException"><paramref name="source"/> contains no elements.</exception>
+        public static double Average(this IEnumerable<double> source)
+        {
+            return source.Cast<double?>().Average(() => { throw new InvalidOperationException("No Elements to Average"); }).Value;
+        }
+
+        private static double? Average(this IEnumerable<double?> source, Func<double?> onEmpty)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            double? num1 = 0;
+            long num2 = 0L;
+            foreach (var item in source)
+            {
+                num1 += item;
+                ++num2;
+            }
+            if (num2 > 0L)
+                return (double)num1/num2;
+            else
+                return onEmpty();
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of nullable <see cref="T:System.Decimal"/> values that are obtained by invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values, or null if the source sequence is empty or contains only values that are null.
+        /// </returns>
+        /// <param name="source">A sequence of values to calculate the average of.</param><param name="selector">A transform function to apply to each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null.</exception><exception cref="T:System.OverflowException">The sum of the elements in the sequence is larger than <see cref="F:System.Decimal.MaxValue"/>.</exception>
+        public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, long> selector)
+        {
+            return Average(Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of nullable <see cref="T:System.Decimal"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values, or null if the source sequence is empty or contains only values that are null.
+        /// </returns>
+        /// <param name="source">A sequence of nullable <see cref="T:System.Decimal"/> values to calculate the average of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The sum of the elements in the sequence is larger than <see cref="F:System.Decimal.MaxValue"/>.</exception>
+        public static double? Average(this IEnumerable<long?> source)
+        {
+            return source.Cast<double?>().Average(() => null);
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of <see cref="T:System.Decimal"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values.
+        /// </returns>
+        /// <param name="source">A sequence of <see cref="T:System.Decimal"/> values to calculate the average of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.InvalidOperationException"><paramref name="source"/> contains no elements.</exception>
+        public static double Average(this IEnumerable<long> source)
+        {
+            return (double)source.Cast<double?>().Average(() => { throw new InvalidOperationException("No Elements to Average"); }).Value;
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of nullable <see cref="T:System.Decimal"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values, or null if the source sequence is empty or contains only values that are null.
+        /// </returns>
+        /// <param name="source">A sequence of nullable <see cref="T:System.Decimal"/> values to calculate the average of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The sum of the elements in the sequence is larger than <see cref="F:System.Decimal.MaxValue"/>.</exception>
+        public static double? Average(this IEnumerable<int?> source)
+        {
+            return source.Cast<double?>().Average(() => null);
+        }
+
+        /// <summary>
+        /// Computes the average of a sequence of <see cref="T:System.Decimal"/> values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The average of the sequence of values.
+        /// </returns>
+        /// <param name="source">A sequence of <see cref="T:System.Decimal"/> values to calculate the average of.</param><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.InvalidOperationException"><paramref name="source"/> contains no elements.</exception>
+        public static double Average(this IEnumerable<int> source)
+        {
+            return (double)source.Cast<double?>().Average(() => { throw new InvalidOperationException("No Elements to Average"); }).Value;
+        }
     }
 }

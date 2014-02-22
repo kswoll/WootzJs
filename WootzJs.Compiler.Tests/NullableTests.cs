@@ -54,5 +54,12 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(i.GetValueOrDefault(), 5);
             QUnit.AreEqual(j.GetValueOrDefault(), null);
         }
+
+        [Test]
+        public void CastToNullableDouble()
+        {
+            var i = (double?)5.5;
+            QUnit.AreEqual(i, 5.5);
+        }
     }
 }

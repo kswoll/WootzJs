@@ -1065,12 +1065,16 @@ namespace WootzJs.Compiler
             var convertedType = typeInfo.ConvertedType;
             var destinationType = model.GetTypeInfo(node.Type).Type;
 
-            Func<TypeSymbol, bool> isInteger = x => x == Context.Instance.Byte || x == Context.Instance.SByte ||
+            Func<TypeSymbol, bool> isInteger = null;
+            isInteger = x => x == Context.Instance.Byte || x == Context.Instance.SByte ||
                 x == Context.Instance.Int16 || x == Context.Instance.UInt16 ||
                 x == Context.Instance.Int32 || x == Context.Instance.UInt32 ||
-                x == Context.Instance.Int64 || x == Context.Instance.UInt64;
-            Func<TypeSymbol, bool> isDecimal = x => x == Context.Instance.Single || 
-                x == Context.Instance.Double || x == Context.Instance.Decimal;
+                x == Context.Instance.Int64 || x == Context.Instance.UInt64 ||
+                (x.OriginalDefinition == Context.Instance.NullableType && isInteger(((NamedTypeSymbol)x).TypeArguments[0]));
+            Func<TypeSymbol, bool> isDecimal = null;
+            isDecimal = x => x == Context.Instance.Single || 
+                x == Context.Instance.Double || x == Context.Instance.Decimal ||
+                (x.OriginalDefinition == Context.Instance.NullableType && isDecimal(((NamedTypeSymbol)x).TypeArguments[0]));
 
             if (originalType.TypeKind == TypeKind.Enum)
             {
@@ -1087,6 +1091,14 @@ namespace WootzJs.Compiler
             if (isDecimal(convertedType) && isInteger(destinationType))
             {
                 return Js.Reference(SpecialNames.Truncate).Invoke(target);
+            }
+            if (isDecimal(convertedType) && isDecimal(destinationType))
+            {
+                return target;
+            }
+            if (isInteger(convertedType) && isInteger(destinationType))
+            {
+                return target;
             }
 
             var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(convertedType), target);
