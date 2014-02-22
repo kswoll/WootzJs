@@ -11,6 +11,7 @@ namespace WootzJs.Mvc.Views
         private Element table;
         private Element firstSpacer;
         private Element lastSpacer;
+        private int spacing;
 
         public VerticalPanel()
         {
@@ -89,6 +90,26 @@ namespace WootzJs.Mvc.Views
             }
         }
 
+        public int Spacing
+        {
+            get { return spacing; }
+            set
+            {
+                var difference = value - spacing;
+                spacing = value;
+
+                for (var i = 0; i < Node.Children.Length; i++)
+                {
+                    var row = Node.Children[i];
+                    var div = row.Children[0];
+                    var existingMargin = div.Style.MarginTop;
+                    var existingSpacing = existingMargin == "" ? 0 : int.Parse(existingMargin.Substring(0, existingMargin.Length - 2));
+                    var newSpacing = existingSpacing + difference;
+                    div.Style.MarginTop = newSpacing + "px";
+                }
+            }
+        }
+
         protected override Element CreateNode()
         {
             table = Browser.Document.CreateElement("table");
@@ -117,6 +138,9 @@ namespace WootzJs.Mvc.Views
 
         public void Add(Control child, HorizontalAlignment alignment, int spaceAbove)
         {
+            if (Count > 0)
+                spaceAbove += spacing;
+
             base.Add(child);
 
             var row = Browser.Document.CreateElement("tr");
