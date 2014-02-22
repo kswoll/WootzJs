@@ -837,6 +837,11 @@ namespace System.Linq
 
         public static bool SequenceEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> other)
         {
+            return source.SequenceEqual(other, EqualityComparer<TSource>.Default);
+        }
+
+        public static bool SequenceEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> other, IEqualityComparer<TSource> comparer)
+        {
             var sourceEnumerator = source.GetEnumerator();
             var otherEnumerator = other.GetEnumerator();
 
@@ -844,7 +849,7 @@ namespace System.Linq
             {
                 var sourceItem = sourceEnumerator.Current;
                 var otherItem = otherEnumerator.Current;
-                if (!EqualityComparer<TSource>.Default.Equals(sourceItem, otherItem))
+                if (!comparer.Equals(sourceItem, otherItem))
                     return false;
             }
             return true;
@@ -1258,10 +1263,154 @@ namespace System.Linq
         /// A <see cref="T:System.Linq.Lookup`2"/> that contains values of type <paramref name="TElement"/> selected from the input sequence.
         /// </returns>
         /// <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to create a <see cref="T:System.Linq.Lookup`2"/> from.</param><param name="keySelector">A function to extract a key from each element.</param><param name="elementSelector">A transform function to produce a result element value from each element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the value returned by <paramref name="elementSelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> or <paramref name="elementSelector"/> is null.</exception>
-        public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this IEnumerable<TSource> source, 
+        public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
         {
             return new Lookup<TKey, TElement>(source.GroupBy(keySelector, elementSelector, comparer));
+        }
+
+        /// <summary>
+        /// Returns distinct elements from a sequence by using the default equality comparer to compare values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains distinct elements from the source sequence.
+        /// </returns>
+        /// <param name="source">The sequence to remove duplicate elements from.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            return source.Distinct(EqualityComparer<TSource>.Default);
+        }
+
+        /// <summary>
+        /// Returns distinct elements from a sequence by using a specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains distinct elements from the source sequence.
+        /// </returns>
+        /// <param name="source">The sequence to remove duplicate elements from.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            var set = new HashSet<TSource>(comparer);
+            foreach (var item in source)
+            {
+                if (set.Add(item))
+                    yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Returns the element at a specified index in a sequence.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The element at the specified position in the source sequence.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return an element from.</param><param name="index">The zero-based index of the element to retrieve.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than or equal to the number of elements in <paramref name="source"/>.</exception>
+        public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, int index)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            var list = source as IList<TSource>;
+            if (list != null)
+                return list[index];
+            if (index < 0)
+                throw new ArgumentOutOfRangeException("index");
+            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    if (index == 0)
+                        return enumerator.Current;
+                    --index;
+                }
+                throw new ArgumentOutOfRangeException("index");
+            }
+        }
+
+        /// <summary>
+        /// Returns the element at a specified index in a sequence or a default value if the index is out of range.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// default(<paramref name="TSource"/>) if the index is outside the bounds of the source sequence; otherwise, the element at the specified position in the source sequence.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return an element from.</param><param name="index">The zero-based index of the element to retrieve.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static TSource ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, int index)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (index >= 0)
+            {
+                var list = source as IList<TSource>;
+                if (list != null)
+                {
+                    if (index < list.Count)
+                        return list[index];
+                }
+                else
+                {
+                    foreach (TSource source1 in source)
+                    {
+                        if (index == 0)
+                            return source1;
+                        --index;
+                    }
+                }
+            }
+            return default (TSource);
+        }
+
+        /// <summary>
+        /// Generates a sequence of integral numbers within a specified range.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An IEnumerable&lt;Int32&gt; in C# or IEnumerable(Of Int32) in Visual Basic that contains a range of sequential integral numbers.
+        /// </returns>
+        /// <param name="start">The value of the first integer in the sequence.</param><param name="count">The number of sequential integers to generate.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="count"/> is less than 0.-or-<paramref name="start"/> + <paramref name="count"/> -1 is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+        public static IEnumerable<int> Range(int start, int count)
+        {
+            long num = (long)start + count - 1L;
+            if (count < 0 || num > (long)int.MaxValue)
+                throw new ArgumentOutOfRangeException("count");
+
+
+            for (int value = start, index = 0; index < count; value++, index++)
+            {
+                yield return value;
+            }
+        }
+
+        /// <summary>
+        /// Merges two sequences by using the specified predicate function.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains merged elements of two input sequences.
+        /// </returns>
+        /// <param name="first">The first sequence to merge.</param><param name="second">The second sequence to merge.</param><param name="resultSelector">A function that specifies how to merge the elements from the two sequences.</param><typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam><typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam><typeparam name="TResult">The type of the elements of the result sequence.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            if (resultSelector == null)
+                throw new ArgumentNullException("resultSelector");
+
+            var firstEnumerator = first.GetEnumerator();
+            var secondEnumerator = second.GetEnumerator();
+            while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
+            {
+                yield return resultSelector(firstEnumerator.Current, secondEnumerator.Current);
+            }
         }
     }
 }

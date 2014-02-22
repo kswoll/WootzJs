@@ -524,6 +524,51 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(c[2], 1);
         }
 
+        [Test]
+        public void Distinct()
+        {
+            var items = new[] { 1, 3, 6, 3, 4, 1 };
+            var distinct = items.Distinct().ToArray();
+            QUnit.AreEqual(distinct.Length, 4);
+            QUnit.AreEqual(distinct[0], 1);
+            QUnit.AreEqual(distinct[1], 3);
+            QUnit.AreEqual(distinct[2], 6);
+            QUnit.AreEqual(distinct[3], 4);
+        }
+
+        [Test]
+        public void ElementAt()
+        {
+            var items = new[] { 0, 1, 2 };
+            QUnit.AreEqual(items.ElementAt(0), 0);
+            QUnit.AreEqual(items.ElementAt(1), 1);
+            QUnit.AreEqual(items.ElementAt(2), 2);
+        }
+
+        [Test]
+        public void ElementAtOrDefault()
+        {
+            var items = new[] { 0, 1, 2 };
+            QUnit.AreEqual(items.ElementAtOrDefault(0), 0);
+            QUnit.AreEqual(items.ElementAtOrDefault(1), 1);
+            QUnit.AreEqual(items.ElementAtOrDefault(2), 2);
+            QUnit.AreEqual(items.ElementAtOrDefault(3), 0);
+        }
+
+        [Test]
+        public void Zip()
+        {
+            var ints1 = new[] { 1, 2, 3 };
+            var ints2 = new[] { 4, 5, 6 };
+            var zipped = ints1.Zip(ints2, (x, y) => new { x, y }).ToArray();
+            QUnit.AreEqual(zipped[0].x, 1);
+            QUnit.AreEqual(zipped[0].y, 4);
+            QUnit.AreEqual(zipped[1].x, 2);
+            QUnit.AreEqual(zipped[1].y, 5);
+            QUnit.AreEqual(zipped[2].x, 3);
+            QUnit.AreEqual(zipped[2].y, 6);
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }

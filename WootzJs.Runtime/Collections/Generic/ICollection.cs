@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,12 +24,22 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 namespace System.Collections.Generic
 {
     public interface ICollection<T> : IEnumerable<T>
     {
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+        /// </returns>
+        int Count { get; }
+
         /// <summary>
         /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
         /// </summary>

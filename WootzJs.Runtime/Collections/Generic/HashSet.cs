@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,22 +24,35 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 namespace System.Collections.Generic
 {
     public class HashSet<T> : ISet<T>
     {
-        private Dictionary<T, T> storage = new Dictionary<T, T>();
+        private Dictionary<T, T> storage;
 
         public HashSet()
         {
+            storage = new Dictionary<T, T>();
         }
 
-        public HashSet(IEnumerable<T> source)
+        public HashSet(IEnumerable<T> source) : this()
         {
             foreach (var item in source)
                 Add(item);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Collections.Generic.HashSet`1"/> class that is empty and uses the specified equality comparer for the set type.
+        /// </summary>
+        /// <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing values in the set, or null to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> implementation for the set type.</param>
+        public HashSet(IEqualityComparer<T> comparer)
+        {
+            if (comparer == null)
+                comparer = EqualityComparer<T>.Default;
+            storage = new Dictionary<T, T>(comparer);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
