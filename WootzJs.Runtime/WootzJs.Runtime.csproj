@@ -106,6 +106,7 @@
     <Compile Include="IComparable.cs" />
     <Compile Include="IConvertible.cs" />
     <Compile Include="ICustomFormatter.cs" />
+    <Compile Include="IdentityFunction.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IEquatable.cs" />
     <Compile Include="IFormatProvider.cs" />
@@ -147,6 +148,8 @@
     <Compile Include="Linq\Expressions\PropertyExpression.cs" />
     <Compile Include="Linq\Expressions\TypeBinaryExpression.cs" />
     <Compile Include="Linq\Expressions\UnaryExpression.cs" />
+    <Compile Include="Linq\Grouping.cs" />
+    <Compile Include="Linq\IGrouping.cs" />
     <Compile Include="Linq\IOrderedEnumerable.cs" />
     <Compile Include="Linq\OrderedEnumerable.cs" />
     <Compile Include="MarshalByRefObject.cs" />

@@ -474,6 +474,31 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(i, 5);
         }
 
+        [Test]
+        public void GroupBy()
+        {
+            var items = new[]
+            {
+                new KeyValueClass { Key = "a", Value = 2 },
+                new KeyValueClass { Key = "a", Value = 1 },
+                new KeyValueClass { Key = "b", Value = 1 },
+                new KeyValueClass { Key = "c", Value = 3 },
+                new KeyValueClass { Key = "c", Value = 4 },
+                new KeyValueClass { Key = "c", Value = 1 },                
+            };
+
+            var groups = items.GroupBy(x => x.Key).ToDictionary(x => x.Key, x => x.Select(y => y.Value).ToArray());
+            var a = groups["a"];
+            var b = groups["b"];
+            var c = groups["c"];
+            QUnit.AreEqual(a[0], 2);
+            QUnit.AreEqual(a[1], 1);
+            QUnit.AreEqual(b[0], 1);
+            QUnit.AreEqual(c[0], 3);
+            QUnit.AreEqual(c[1], 4);
+            QUnit.AreEqual(c[2], 1);
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }

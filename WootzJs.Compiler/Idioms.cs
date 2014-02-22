@@ -215,7 +215,7 @@ namespace WootzJs.Compiler
                 Js.Primitive(type.IsGenericType),
                 Js.Primitive(type.TypeParameters.Any())));
             body.Return(Js.This().Member(SpecialNames.TypeField));
-            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body)/*.Compact()*/);
+            var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body).Compact());
             return result;
         }
 
