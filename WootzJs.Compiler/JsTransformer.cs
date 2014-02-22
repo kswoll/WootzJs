@@ -2123,6 +2123,15 @@ namespace WootzJs.Compiler
                 PopDeclaration();
             }                
 
+            // Also store all interface implementations
+            foreach (PropertySymbol interfaceImplementation in property.GetRootOverride().FindImplementedInterfaceMembers(Context.Instance.Solution))
+            {
+                if (interfaceImplementation.GetMethod != null)
+                    block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
+                if (interfaceImplementation.SetMethod != null)
+                    block.Add(idioms.StoreInPrototype(interfaceImplementation.SetMethod.GetMemberName(), idioms.GetFromPrototype(property.SetMethod.GetMemberName())));
+            }
+
             PopOutput();
             return block;
         }
