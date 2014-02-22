@@ -1065,7 +1065,7 @@ namespace System.Linq
         public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
             this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            return source.GroupBy(keySelector, IdentityFunction<TSource>.Default, 
+            return source.GroupBy(keySelector, IdentityFunction<TSource>.Default,
                 GroupingCreator<TKey, TSource>.Create, EqualityComparer<TKey>.Default);
         }
 
@@ -1078,10 +1078,10 @@ namespace System.Linq
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
         public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
-            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, 
+            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector,
             IEqualityComparer<TKey> comparer)
         {
-            return source.GroupBy(keySelector, IdentityFunction<TSource>.Default, 
+            return source.GroupBy(keySelector, IdentityFunction<TSource>.Default,
                 GroupingCreator<TKey, TSource>.Create, comparer);
         }
 
@@ -1094,14 +1094,14 @@ namespace System.Linq
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="elementSelector">A function to map each source element to an element in the <see cref="T:System.Linq.IGrouping`2"/>.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the elements in the <see cref="T:System.Linq.IGrouping`2"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> or <paramref name="elementSelector"/> is null.</exception>
         public static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(
-            this IEnumerable<TSource> source, 
-            Func<TSource, TKey> keySelector, 
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
         {
             return source.GroupBy(
-                keySelector, 
-                elementSelector, 
-                GroupingCreator<TKey, TElement>.Create, 
+                keySelector,
+                elementSelector,
+                GroupingCreator<TKey, TElement>.Create,
                 EqualityComparer<TKey>.Default);
         }
 
@@ -1114,11 +1114,11 @@ namespace System.Linq
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="elementSelector">A function to map each source element to an element in an <see cref="T:System.Linq.IGrouping`2"/>.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the elements in the <see cref="T:System.Linq.IGrouping`2"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> or <paramref name="elementSelector"/> is null.</exception>
         public static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(
-            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, 
+            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
         {
-            return source.GroupBy(keySelector, elementSelector, 
-                GroupingCreator<TKey, TElement>.Create, 
+            return source.GroupBy(keySelector, elementSelector,
+                GroupingCreator<TKey, TElement>.Create,
                 EqualityComparer<TKey>.Default);
         }
 
@@ -1138,7 +1138,7 @@ namespace System.Linq
         /// A collection of elements of type <paramref name="TResult"/> where each element represents a projection over a group and its key.
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="resultSelector">A function to create a result value from each group.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TResult">The type of the result value returned by <paramref name="resultSelector"/>.</typeparam>
-        public static IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IEnumerable<TSource> source, 
+        public static IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector, Func<TKey, IEnumerable<TSource>, TResult> resultSelector)
         {
             return source.GroupBy(keySelector, IdentityFunction<TSource>.Default, resultSelector, EqualityComparer<TKey>.Default);
@@ -1153,9 +1153,9 @@ namespace System.Linq
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="elementSelector">A function to map each source element to an element in an <see cref="T:System.Linq.IGrouping`2"/>.</param><param name="resultSelector">A function to create a result value from each group.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the elements in each <see cref="T:System.Linq.IGrouping`2"/>.</typeparam><typeparam name="TResult">The type of the result value returned by <paramref name="resultSelector"/>.</typeparam>
         public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
-            this IEnumerable<TSource> source, 
-            Func<TSource, TKey> keySelector, 
-            Func<TSource, TElement> elementSelector, 
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector,
             Func<TKey, IEnumerable<TElement>, TResult> resultSelector)
         {
             return source.GroupBy(keySelector, elementSelector, resultSelector, EqualityComparer<TKey>.Default);
@@ -1169,8 +1169,8 @@ namespace System.Linq
         /// A collection of elements of type <paramref name="TResult"/> where each element represents a projection over a group and its key.
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="resultSelector">A function to create a result value from each group.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys with.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TResult">The type of the result value returned by <paramref name="resultSelector"/>.</typeparam>
-        public static IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IEnumerable<TSource> source, 
-            Func<TSource, TKey> keySelector, Func<TKey, IEnumerable<TSource>, TResult> resultSelector, 
+        public static IEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector, Func<TKey, IEnumerable<TSource>, TResult> resultSelector,
             IEqualityComparer<TKey> comparer)
         {
             return source.GroupBy(keySelector, IdentityFunction<TSource>.Default, resultSelector,
@@ -1186,10 +1186,10 @@ namespace System.Linq
         /// </returns>
         /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to group.</param><param name="keySelector">A function to extract the key for each element.</param><param name="elementSelector">A function to map each source element to an element in an <see cref="T:System.Linq.IGrouping`2"/>.</param><param name="resultSelector">A function to create a result value from each group.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys with.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the elements in each <see cref="T:System.Linq.IGrouping`2"/>.</typeparam><typeparam name="TResult">The type of the result value returned by <paramref name="resultSelector"/>.</typeparam>
         public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
-            this IEnumerable<TSource> source, 
-            Func<TSource, TKey> keySelector, 
-            Func<TSource, TElement> elementSelector, 
-            Func<TKey, IEnumerable<TElement>, TResult> resultSelector, 
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector,
+            Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
             IEqualityComparer<TKey> comparer)
         {
             var dictionary = new Dictionary<TKey, List<TElement>>(comparer);
@@ -1209,6 +1209,59 @@ namespace System.Linq
                 var result = resultSelector(item.Key, item.Value);
                 yield return result;
             }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Lookup`2"/> from an <see cref="T:System.Collections.Generic.IEnumerable`1"/> according to a specified key selector function.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Lookup`2"/> that contains keys and values.
+        /// </returns>
+        /// <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to create a <see cref="T:System.Linq.Lookup`2"/> from.</param><param name="keySelector">A function to extract a key from each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static ILookup<TKey, TSource> ToLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return new Lookup<TKey, TSource>(source.GroupBy(keySelector));
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Lookup`2"/> from an <see cref="T:System.Collections.Generic.IEnumerable`1"/> according to a specified key selector function and key comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Lookup`2"/> that contains keys and values.
+        /// </returns>
+        /// <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to create a <see cref="T:System.Linq.Lookup`2"/> from.</param><param name="keySelector">A function to extract a key from each element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> is null.</exception>
+        public static ILookup<TKey, TSource> ToLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        {
+            return new Lookup<TKey, TSource>(source.GroupBy(keySelector, GroupingCreator<TKey, TSource>.Create, comparer));
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Lookup`2"/> from an <see cref="T:System.Collections.Generic.IEnumerable`1"/> according to specified key selector and element selector functions.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Lookup`2"/> that contains values of type <paramref name="TElement"/> selected from the input sequence.
+        /// </returns>
+        /// <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to create a <see cref="T:System.Linq.Lookup`2"/> from.</param><param name="keySelector">A function to extract a key from each element.</param><param name="elementSelector">A transform function to produce a result element value from each element.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the value returned by <paramref name="elementSelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> or <paramref name="elementSelector"/> is null.</exception>
+        public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            return new Lookup<TKey, TElement>(source.GroupBy(keySelector, elementSelector));
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Lookup`2"/> from an <see cref="T:System.Collections.Generic.IEnumerable`1"/> according to a specified key selector function, a comparer and an element selector function.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Lookup`2"/> that contains values of type <paramref name="TElement"/> selected from the input sequence.
+        /// </returns>
+        /// <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to create a <see cref="T:System.Linq.Lookup`2"/> from.</param><param name="keySelector">A function to extract a key from each element.</param><param name="elementSelector">A transform function to produce a result element value from each element.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare keys.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam><typeparam name="TElement">The type of the value returned by <paramref name="elementSelector"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> or <paramref name="elementSelector"/> is null.</exception>
+        public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(this IEnumerable<TSource> source, 
+            Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
+        {
+            return new Lookup<TKey, TElement>(source.GroupBy(keySelector, elementSelector, comparer));
         }
     }
 }

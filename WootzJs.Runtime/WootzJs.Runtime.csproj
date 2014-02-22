@@ -150,7 +150,9 @@
     <Compile Include="Linq\Expressions\UnaryExpression.cs" />
     <Compile Include="Linq\Grouping.cs" />
     <Compile Include="Linq\IGrouping.cs" />
+    <Compile Include="Linq\ILookup.cs" />
     <Compile Include="Linq\IOrderedEnumerable.cs" />
+    <Compile Include="Linq\Lookup.cs" />
     <Compile Include="Linq\OrderedEnumerable.cs" />
     <Compile Include="MarshalByRefObject.cs" />
     <Compile Include="Math.cs" />

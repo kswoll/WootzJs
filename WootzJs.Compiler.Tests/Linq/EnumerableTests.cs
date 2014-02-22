@@ -499,6 +499,31 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(c[2], 1);
         }
 
+        [Test]
+        public void ToLookup()
+        {
+            var items = new[]
+            {
+                new KeyValueClass { Key = "a", Value = 2 },
+                new KeyValueClass { Key = "a", Value = 1 },
+                new KeyValueClass { Key = "b", Value = 1 },
+                new KeyValueClass { Key = "c", Value = 3 },
+                new KeyValueClass { Key = "c", Value = 4 },
+                new KeyValueClass { Key = "c", Value = 1 },                
+            };
+
+            var groups = items.ToLookup(x => x.Key);
+            var a = groups["a"].Select(x => x.Value).ToArray();
+            var b = groups["b"].Select(x => x.Value).ToArray();
+            var c = groups["c"].Select(x => x.Value).ToArray();
+            QUnit.AreEqual(a[0], 2);
+            QUnit.AreEqual(a[1], 1);
+            QUnit.AreEqual(b[0], 1);
+            QUnit.AreEqual(c[0], 3);
+            QUnit.AreEqual(c[1], 4);
+            QUnit.AreEqual(c[2], 1);
+        }
+
         public class DictionaryClass
         {
             public string Name { get; set; }
