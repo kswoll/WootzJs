@@ -37,12 +37,25 @@ namespace WootzJs.Mvc.Views
         private Element contentDiv;
         private Control content;
 
+        public TitledPanel() 
+        {
+        }
+
+        public TitledPanel(string title) 
+        {
+            Title = title;
+        }
+
         protected override Element CreateNode()
         {
             legend = Browser.Document.CreateElement("legend");
             contentDiv = Browser.Document.CreateElement("div");
 
             var fieldset = Browser.Document.CreateElement("fieldset");
+            fieldset.Style.BorderColor = "threedface";
+            fieldset.Style.BorderWidth = "2px";
+            fieldset.Style.BorderStyle = "groove";
+            fieldset.Style.Padding = "10px";
             fieldset.AppendChild(legend);
             fieldset.AppendChild(contentDiv);
             return fieldset;
