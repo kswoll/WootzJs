@@ -9,6 +9,8 @@ WootzJs also includes a web framework, `WootzJs.Mvc` for creating single-page ap
     A series of guides starting with writing a "Hello World" app.
 * [Interacting with the Browser](https://github.com/kswoll/WootzJs/wiki/Interacting-With-the-Browser)
     The next in the series, showing how create HTML content in the browser.
+* [Limitations](https://github.com/kswoll/WootzJs/wiki/Limitations)
+    A list of C# language features that are not supported.
 * [Comparisons with other C# to Javascript cross-compilers](https://github.com/kswoll/WootzJs/wiki/Comparisons-with-other-C%23-to-JS-Cross-compilers)
     There are several other options available to those who want to convert C# to Javascript.  How do the available options compare with WootzJs?
 * [Technical Overview](https://github.com/kswoll/WootzJs/wiki/Technical-Design)
