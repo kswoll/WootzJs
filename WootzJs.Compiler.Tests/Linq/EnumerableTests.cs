@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System;
@@ -150,7 +152,7 @@ namespace WootzJs.Compiler.Tests.Linq
                 new[] { "4", "5", "6" }
             };
 
-            var elements = arrays.SelectMany((x, i) => x.Select(y => y + i), (row, item) => row.Length * int.Parse(item)).ToArray();
+            var elements = arrays.SelectMany((x, i) => x.Select(y => y + i), (row, item) => row.Length*int.Parse(item)).ToArray();
             QUnit.AreEqual(elements.Length, 6);
             QUnit.AreEqual(elements[0], 30);
             QUnit.AreEqual(elements[1], 60);
@@ -169,7 +171,7 @@ namespace WootzJs.Compiler.Tests.Linq
                 new[] { "4", "5", "6" }
             };
 
-            var elements = arrays.SelectMany(x => x, (row, item) => row.Length * int.Parse(item)).ToArray();
+            var elements = arrays.SelectMany(x => x, (row, item) => row.Length*int.Parse(item)).ToArray();
             QUnit.AreEqual(elements.Length, 6);
             QUnit.AreEqual(elements[0], 3);
             QUnit.AreEqual(elements[1], 6);
@@ -378,7 +380,7 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(list[3], 53);
             QUnit.AreEqual(list[4], 234);
             QUnit.AreEqual(list[5], 444);
-            QUnit.AreEqual(list[6], 888);            
+            QUnit.AreEqual(list[6], 888);
         }
 
         [Test]
@@ -402,7 +404,6 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "c", Value = 3 },
                 new KeyValueClass { Key = "c", Value = 4 },
                 new KeyValueClass { Key = "c", Value = 1 },
-            
             }.OrderBy(x => x.Key).ThenBy(x => x.Value).ToArray();
 
             QUnit.AreEqual(list[0].Key, "a");
@@ -430,7 +431,6 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "c", Value = 3 },
                 new KeyValueClass { Key = "c", Value = 4 },
                 new KeyValueClass { Key = "c", Value = 1 }
-            
             }.OrderBy(x => x.Key).ThenByDescending(x => x.Value).ToArray();
 
             QUnit.AreEqual(list[0].Key, "a");
@@ -484,7 +484,7 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "b", Value = 1 },
                 new KeyValueClass { Key = "c", Value = 3 },
                 new KeyValueClass { Key = "c", Value = 4 },
-                new KeyValueClass { Key = "c", Value = 1 },                
+                new KeyValueClass { Key = "c", Value = 1 },
             };
 
             var groups = items.GroupBy(x => x.Key).ToDictionary(x => x.Key, x => x.Select(y => y.Value).ToArray());
@@ -509,7 +509,7 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "b", Value = 1 },
                 new KeyValueClass { Key = "c", Value = 3 },
                 new KeyValueClass { Key = "c", Value = 4 },
-                new KeyValueClass { Key = "c", Value = 1 },                
+                new KeyValueClass { Key = "c", Value = 1 },
             };
 
             var groups = items.ToLookup(x => x.Key);
@@ -567,6 +567,25 @@ namespace WootzJs.Compiler.Tests.Linq
             QUnit.AreEqual(zipped[1].y, 5);
             QUnit.AreEqual(zipped[2].x, 3);
             QUnit.AreEqual(zipped[2].y, 6);
+        }
+
+        [Test]
+        public void Union()
+        {
+            var union = new[] { 1, 1, 2 }.Union(new[] { 1, 2, 2, 3 }).ToArray();
+            QUnit.AreEqual(union.Length, 3);
+            QUnit.AreEqual(union[0], 1);
+            QUnit.AreEqual(union[1], 2);
+            QUnit.AreEqual(union[2], 3);
+        }
+
+        [Test]
+        public void Intersect()
+        {
+            var intersection = new[] { 1, 1, 2 }.Intersect(new[] { 1, 2, 2, 3 }).ToArray();
+            QUnit.AreEqual(intersection.Length, 2);
+            QUnit.AreEqual(intersection[0], 1);
+            QUnit.AreEqual(intersection[1], 2);
         }
 
         public class DictionaryClass

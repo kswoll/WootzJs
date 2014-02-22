@@ -1412,5 +1412,88 @@ namespace System.Linq
                 yield return resultSelector(firstEnumerator.Current, secondEnumerator.Current);
             }
         }
+
+        /// <summary>
+        /// Produces the set union of two sequences by using the default equality comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements from both input sequences, excluding duplicates.
+        /// </returns>
+        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements form the first set for the union.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements form the second set for the union.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TSource> Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+
+            return first.Union(second, EqualityComparer<TSource>.Default);
+        }
+
+        /// <summary>
+        /// Produces the set union of two sequences by using a specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/>.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements from both input sequences, excluding duplicates.
+        /// </returns>
+        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements form the first set for the union.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements form the second set for the union.</param><param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TSource> Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+
+            var set = new HashSet<TSource>(comparer);
+            foreach (var item in first.Concat(second))
+            {
+                if (set.Add(item))
+                    yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Produces the set intersection of two sequences by using the default equality comparer to compare values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A sequence that contains the elements that form the set intersection of two sequences.
+        /// </returns>
+        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements that also appear in <paramref name="second"/> will be returned.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements that also appear in the first sequence will be returned.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+
+            return first.Intersect(second, EqualityComparer<TSource>.Default);
+        }
+
+        /// <summary>
+        /// Produces the set intersection of two sequences by using the specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A sequence that contains the elements that form the set intersection of two sequences.
+        /// </returns>
+        /// <param name="first">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements that also appear in <paramref name="second"/> will be returned.</param><param name="second">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose distinct elements that also appear in the first sequence will be returned.</param><param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.</param><typeparam name="TSource">The type of the elements of the input sequences.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="first"/> or <paramref name="second"/> is null.</exception>
+        public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+
+            var firstSet = new HashSet<TSource>(first);
+            var set = new HashSet<TSource>();
+            foreach (var item in second)
+            {
+                if (set.Add(item) && firstSet.Contains(item))
+                    yield return item;
+            }
+        }
     }
 }
