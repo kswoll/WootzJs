@@ -412,9 +412,13 @@ namespace WootzJs.Compiler
                 var backingField = property.GetBackingFieldName();
                 var valueParameter = Js.Parameter("value");
 
-                block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(Js.Return(Js.This().Member(backingField))).Compact()));
-                block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(
-                    Js.Assign(Js.This().Member(backingField), valueParameter.GetReference())).Compact()));
+                block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(
+                    Js.Return(Js.This().Member(backingField))
+                ).Compact()));
+                block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(Js.Block(
+                    Js.Express(Js.Assign(Js.This().Member(backingField), valueParameter.GetReference())),
+                    Js.Return(valueParameter.GetReference())       // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
+                ).Compact())));
             }
             else
             {
@@ -441,6 +445,7 @@ namespace WootzJs.Compiler
                     DeclareInCurrentScope(valueParameter);
                     if (setter.Body != null)
                         setterBody.Aggregate((JsStatement)setter.Body.Accept(this));
+                    setterBody.Add(Js.Return(valueParameter.GetReference()));   // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
                     block.Add(storeIn("set_" + propertyName, Js.Function(valueParameter).Body(setterBody)));
                     PopOutput();
                     PopScope();
