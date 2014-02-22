@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WootzJs.Compiler.Tests.Linq
@@ -600,6 +601,22 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             QUnit.AreEqual(new[] { 1, 2, 3, 4, 5, 6, 7 }.Average(), 4);
             QUnit.AreEqual(new[] { 1, 2, 3, 4, 5, 6 }.Average(), 3.5);
+        }
+
+        [Test]
+        public void Count()
+        {
+            var values = new[] { 1, 2, 3, 4, 5 };
+            QUnit.AreEqual(values.Count(), 5);
+        }
+        
+        [Test]
+        public void Contains()
+        {
+            IEnumerable<string> values = new[] { "one", "two", "three" };
+            QUnit.IsTrue(values.Contains("one"));
+            QUnit.IsTrue(values.Contains("two"));
+            QUnit.IsTrue(values.Contains("three"));
         }
 
         public class DictionaryClass

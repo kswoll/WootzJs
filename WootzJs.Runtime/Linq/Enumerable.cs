@@ -1616,5 +1616,138 @@ namespace System.Linq
         {
             return (double)source.Cast<double?>().Average(() => { throw new InvalidOperationException("No Elements to Average"); }).Value;
         }
+
+        /// <summary>
+        /// Returns the number of elements in a sequence.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The number of elements in the input sequence.
+        /// </returns>
+        /// <param name="source">A sequence that contains elements to be counted.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The number of elements in <paramref name="source"/> is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+        public static int Count<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            var collection1 = source as ICollection<TSource>;
+            if (collection1 != null)
+                return collection1.Count;
+            var collection2 = source as ICollection;
+            if (collection2 != null)
+                return collection2.Count;
+            int num = 0;
+            using (var enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                    ++num;
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Returns a number that represents how many elements in the specified sequence satisfy a condition.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A number that represents how many elements in the sequence satisfy the condition in the predicate function.
+        /// </returns>
+        /// <param name="source">A sequence that contains elements to be tested and counted.</param><param name="predicate">A function to test each element for a condition.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is null.</exception><exception cref="T:System.OverflowException">The number of elements in <paramref name="source"/> is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+        public static int Count<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+            int num = 0;
+            foreach (TSource source1 in source)
+            {
+                if (predicate(source1))
+                    ++num;
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Returns an <see cref="T:System.Int64"/> that represents the total number of elements in a sequence.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The number of elements in the source sequence.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements to be counted.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception><exception cref="T:System.OverflowException">The number of elements exceeds <see cref="F:System.Int64.MaxValue"/>.</exception>
+        public static long LongCount<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            long num = 0L;
+            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                    ++num;
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Returns an <see cref="T:System.Int64"/> that represents how many elements in a sequence satisfy a condition.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A number that represents how many elements in the sequence satisfy the condition in the predicate function.
+        /// </returns>
+        /// <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements to be counted.</param><param name="predicate">A function to test each element for a condition.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is null.</exception><exception cref="T:System.OverflowException">The number of matching elements exceeds <see cref="F:System.Int64.MaxValue"/>.</exception>
+        public static long LongCount<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+            long num = 0L;
+            foreach (TSource source1 in source)
+            {
+                if (predicate(source1))
+                    ++num;
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Determines whether a sequence contains a specified element by using the default equality comparer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the source sequence contains an element that has the specified value; otherwise, false.
+        /// </returns>
+        /// <param name="source">A sequence in which to locate a value.</param><param name="value">The value to locate in the sequence.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value)
+        {
+            var collection = source as ICollection<TSource>;
+            if (collection != null)
+                return collection.Contains(value);
+            else
+                return source.Contains(value, null);
+        }
+
+        /// <summary>
+        /// Determines whether a sequence contains a specified element by using a specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/>.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the source sequence contains an element that has the specified value; otherwise, false.
+        /// </returns>
+        /// <param name="source">A sequence in which to locate a value.</param><param name="value">The value to locate in the sequence.</param><param name="comparer">An equality comparer to compare values.</param><typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer)
+        {
+            if (comparer == null)
+                comparer = EqualityComparer<TSource>.Default;
+            if (source == null)
+                throw new ArgumentNullException("source");
+            foreach (TSource x in source)
+            {
+                if (comparer.Equals(x, value))
+                    return true;
+            }
+            return false;
+        }
     }
 }
