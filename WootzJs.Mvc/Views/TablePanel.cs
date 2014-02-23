@@ -102,12 +102,12 @@ namespace WootzJs.Mvc.Views
             return new Point(x, y);
         }
 
-        public new void Add(Control cell)
+        public new Element Add(Control cell)
         {
-            Add(cell, null);
+            return Add(cell, null);
         }
 
-        public void Add(Control cell, TableConstraint constraint)
+        public Element Add(Control cell, TableConstraint constraint)
         {
             base.Add(cell);
 
@@ -183,6 +183,8 @@ namespace WootzJs.Mvc.Views
 
             var jsRow = rows[nextEmptyCell.Y];
             jsRow.AppendChild(jsCell);
+
+            return jsCellDiv;
         }
 
         class Point
