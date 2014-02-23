@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WootzJs.Compiler.JsAst;
 
@@ -34,9 +35,13 @@ namespace WootzJs.Compiler
     public class JsRenderer : JsVisitor
     {
         private IndentStringBuilder output = new IndentStringBuilder();
+        private Dictionary<JsNode, JsPosition> positions = new Dictionary<JsNode, JsPosition>();
 
         protected override void DefaultVisit<T>(T node, Action<T> action)
         {
+            var startLine = output.CurrentLineNumber;
+            var startLinePosition = output.CurrentLinePosition;
+
             if (!node.IsCompacted)
             {
                 base.DefaultVisit(node, action);
@@ -48,6 +53,10 @@ namespace WootzJs.Compiler
                 base.DefaultVisit(node, action);
                 output.IsCompacting = isCompacting;
             }
+
+            var endLine = output.CurrentLineNumber;
+            var endLinePosition = output.CurrentLinePosition;
+            positions[node] = new JsPosition(startLine, endLine, startLinePosition, endLinePosition);
         }
 
         public IndentStringBuilder Builder
