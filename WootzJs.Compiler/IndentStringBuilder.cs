@@ -39,6 +39,7 @@ namespace WootzJs.Compiler
         private int currentIndentLevel;
         private StringBuilder builder = new StringBuilder();
         private StringBuilder currentLine = new StringBuilder();
+        private int currentLineNumber;
         private bool isCompacting;
 
         public IndentStringBuilder(int indentSize = 4)
@@ -49,6 +50,16 @@ namespace WootzJs.Compiler
         public string CurrentIndent
         {
             get { return currentIndent; }
+        }
+
+        public int CurrentLineNumber
+        {
+            get { return currentLineNumber; }
+        }
+
+        public int CurrentLinePosition
+        {
+            get { return currentLine.Length; }
         }
 
         public bool IsCompacting
@@ -133,6 +144,7 @@ namespace WootzJs.Compiler
             if (!IsCompacting)
                 builder.AppendLine();
             currentLine.Length = 0;
+            currentLineNumber++;
         }
 
         public override string ToString()
