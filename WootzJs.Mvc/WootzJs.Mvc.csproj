@@ -112,6 +112,7 @@
     <Compile Include="Views\Layout.cs" />
     <Compile Include="Views\Link.cs" />
     <Compile Include="Views\MouseTrackingEngine.cs" />
+    <Compile Include="Views\NameValuePanel.cs" />
     <Compile Include="Views\SidePanel.cs" />
     <Compile Include="Views\SlideDownHeaderPanel.cs" />
     <Compile Include="Views\TablePanel.cs" />
