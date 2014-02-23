@@ -152,6 +152,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoslynExtensions.cs" />
     <Compile Include="Scope.cs" />
+    <Compile Include="SourceMapping\Line.cs" />
+    <Compile Include="SourceMapping\Segment.cs" />
+    <Compile Include="SourceMapping\SourceMap.cs" />
     <Compile Include="WootzJsExtensions.cs" />
     <Compile Include="SpecialNames.cs" />
     <Compile Include="BreakStatementStripper.cs" />
