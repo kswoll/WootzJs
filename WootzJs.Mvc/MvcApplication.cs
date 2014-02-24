@@ -5,6 +5,7 @@ using System.Runtime.WootzJs;
 using System.Web;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
+using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc
@@ -24,6 +25,7 @@ namespace WootzJs.Mvc
         private HtmlControl body = new HtmlControl(Browser.Document.GetElementByTagName("body"));
         private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
+        private GlobalStyle globalStyle;
 
         public MvcApplication()
         {
@@ -173,6 +175,22 @@ namespace WootzJs.Mvc
 
         protected virtual void OnValidate(ValidateEvent evt)
         {
+        }
+
+        public GlobalStyle GlobalStyle
+        {
+            get
+            {
+                if (globalStyle == null)
+                {
+                    var style = Browser.Document.CreateElement("style");
+                    style.AppendChild(Browser.Document.CreateTextNode(""));  // Webkit hack
+                    Browser.Document.Head.AppendChild(style);
+                    var styleSheet = style.As<JsObject>()["sheet"].As<StyleSheet>();
+                    globalStyle = new GlobalStyle(styleSheet);
+                }
+                return globalStyle;
+            }
         }
     }
 }

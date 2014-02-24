@@ -27,71 +27,27 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views.Css
 {
-    public class CssDeclaration
+    public class GlobalStyle
     {
-        protected ElementStyle node;
+        private StyleSheet styleSheet;
 
-        private List<Action> actions = new List<Action>();
-
-        internal virtual void Attach(ElementStyle node)
+        public GlobalStyle(StyleSheet styleSheet)
         {
-            this.node = node;
-
-            foreach (var action in actions)
-            {
-                action();
-            }
+            this.styleSheet = styleSheet;
         }
 
-        protected void Act(Action action)
+        public Style AddRule(string selector)
         {
-            if (node == null)
-                actions.Add(action);
-            else
-                action();
+            styleSheet.InsertRule(selector + "{}", 0);
+            var elementStyle = styleSheet.CssRules[0].Style;
+            var style = new Style();
+            style.Attach(elementStyle);
+            return style;
         }
-
-        protected string Get(string name)
-        {
-            if (node != null)
-                return node[name];
-
-            throw new InvalidOperationException("Not attached");
-        }
-
-        protected void Set(string name, object value)
-        {
-            var val = value.ToString();
-            if (node == null)
-                Act(() => Set(name, value));
-            else
-                node[name] = val;
-        }
-
-        protected bool IsSet(string name)
-        {
-            return node[name] != "";
-        }
-
-        public override string ToString()
-        {
-            var builder = new StringBuilder();
-            foreach (var property in GetType().GetProperties())
-            {
-                var value = property.GetValue(this, null);
-                if (value != null)
-                {
-                    builder.Append(property.Name + ":" + value + ";");
-                }
-            }
-            return builder.ToString();
-        } 
     }
 }

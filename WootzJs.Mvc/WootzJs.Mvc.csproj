@@ -96,6 +96,7 @@
     <Compile Include="Views\Css\CssValue.cs" />
     <Compile Include="Views\Css\CssVerticalAlign.cs" />
     <Compile Include="Views\Css\CssWhiteSpace.cs" />
+    <Compile Include="Views\Css\GlobalStyle.cs" />
     <Compile Include="Views\Css\Style.cs" />
     <Compile Include="Views\DropDown.cs" />
     <Compile Include="Views\FillPanel.cs" />

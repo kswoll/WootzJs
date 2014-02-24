@@ -63,7 +63,12 @@ namespace WootzJs.Mvc.Views.Css
 
         public CssPadding Padding
         {
-            get { return padding; }
+            get
+            {
+                if (padding == null)
+                    padding = new CssPadding();
+                return padding;
+            }
             set
             {
                 padding = value;
@@ -74,7 +79,12 @@ namespace WootzJs.Mvc.Views.Css
 
         public CssBorderRadius BorderRadius
         {
-            get { return borderRadius; }
+            get
+            {
+                if (borderRadius == null)
+                    borderRadius = new CssBorderRadius();
+                return borderRadius;
+            }
             set
             {
                 borderRadius = value;
@@ -85,7 +95,12 @@ namespace WootzJs.Mvc.Views.Css
 
         public CssBoxShadow BoxShadow
         {
-            get { return boxShadow; }
+            get
+            {
+                if (boxShadow == null)
+                    boxShadow = new CssBoxShadow();
+                return boxShadow;
+            }
             set
             {
                 boxShadow = value;

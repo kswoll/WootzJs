@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Include="Attr.cs" />
     <Compile Include="Browser.cs" />
+    <Compile Include="CssRule.cs" />
+    <Compile Include="CssRuleList.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="DocumentExtensions.cs" />
     <Compile Include="DomTokenList.cs" />

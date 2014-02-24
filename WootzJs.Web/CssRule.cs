@@ -31,16 +31,22 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
 {
-    [Js(Name = "StyleSheet", Export = false)]
-    public class StyleSheet
+    [Js(Name = "CSSRule", Export = false)]
+    public class CssRule
     {
-        [Js(Name = "insertRule")]
-        public extern void InsertRule(string rule, int index);
+        [Js(Name = "selectorText")]
+        public extern string SelectorText { get; set; }
 
-        [Js(Name = "deleteRule")]
-        public extern void DeleteRule(int index);
+        [Js(Name = "parentRule")]
+        public extern CssRule ParentRule { get; set; }
 
-        [Js(Name = "cssRules")]
-        public extern CssRuleList CssRules { get; }
+        [Js(Name = "parentStyleSheet")]
+        public extern StyleSheet ParentStyleSheet { get; set; }
+
+        [Js(Name = "cssText")]
+        public extern string CssText { get; set; }
+
+        [Js(Name = "style")]
+        public ElementStyle Style { get; set; }
     }
 }
