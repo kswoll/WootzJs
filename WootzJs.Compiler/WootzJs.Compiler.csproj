@@ -140,6 +140,7 @@
     <Compile Include="JsAst\JsWhileStatement.cs" />
     <Compile Include="JsMinifier.cs" />
     <Compile Include="JsNames.cs" />
+    <Compile Include="JsPosition.cs" />
     <Compile Include="JsRenderer.cs" />
     <Compile Include="JsRewriter.cs" />
     <Compile Include="JsTransformer.cs" />

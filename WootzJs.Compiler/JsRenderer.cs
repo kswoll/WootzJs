@@ -56,7 +56,7 @@ namespace WootzJs.Compiler
 
             var endLine = output.CurrentLineNumber;
             var endLinePosition = output.CurrentLinePosition;
-            positions[node] = new JsPosition(startLine, endLine, startLinePosition, endLinePosition);
+            positions[node] = new JsPosition(startLine, endLine, startLinePosition, endLinePosition, node.OriginalNode);
         }
 
         public IndentStringBuilder Builder
