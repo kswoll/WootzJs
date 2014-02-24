@@ -91,6 +91,7 @@ namespace WootzJs.Compiler
         public virtual void VisitLabeledStatement(JsLabeledStatement node) {}
         public virtual void VisitDoWhileStatement(JsDoWhileStatement node) {}
         public virtual void VisitInstanceOfExpression(JsInstanceOfExpression node) {}
+        public virtual void VisitInExpression(JsInExpression node) {}
 
         public void Visit(JsCompilationUnit node)
         {
@@ -412,6 +413,12 @@ namespace WootzJs.Compiler
             BeforeVisit(node);
             DefaultVisit(node, VisitInstanceOfExpression);
             AfterVisit(node);
+        }
+
+        public void Visit(JsInExpression node)
+        {
+            BeforeVisit(node);
+            DefaultVisit(node, VisitInExpression);
         }
     }
 }

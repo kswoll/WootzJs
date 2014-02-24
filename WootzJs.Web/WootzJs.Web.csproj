@@ -63,8 +63,10 @@
     <Compile Include="Location.cs" />
     <Compile Include="ElementStyle.cs" />
     <Compile Include="StyleSheet.cs" />
+    <Compile Include="StyleSheetExtensions.cs" />
     <Compile Include="TextNode.cs" />
     <Compile Include="Window.cs" />
+    <Compile Include="WindowExtensions.cs" />
     <Compile Include="XmlHttpRequest.cs" />
   </ItemGroup>
   <Import Project="..\build\WootzJs.targets" />

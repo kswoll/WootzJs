@@ -689,5 +689,10 @@ namespace WootzJs.Compiler.JsAst
             node.IsCompacted = true;
             return node;
         }
+
+        public static JsInExpression In(this JsExpression property, JsExpression obj)
+        {
+            return new JsInExpression(property, obj);
+        }
     }
 }

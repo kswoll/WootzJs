@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,29 +24,18 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
-namespace System
+namespace WootzJs.Web
 {
-	[StructLayout(LayoutKind.Auto)]
-	public struct Boolean
-	{
-		/// <summary>
-		/// Enables you to parse a string representation of a boolean value.
-		/// </summary>
-		/// <param name="s">The string to be parsed.</param>
-		/// <returns>The resulting boolean value.</returns>
-		public static bool Parse(string s)
-		{
-			return false;
-		}
-
-// ReSharper disable once RedundantOverridenMember
-        public override string ToString()
+    public static class WindowExtensions
+    {
+        public static bool IsTouchDevice(this Window window)
         {
-            return base.ToString();
+            return "ontouchstart".@in(window) || "onmsgesturechange".@in(window);
         }
-	}
+    }
 }

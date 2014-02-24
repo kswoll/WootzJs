@@ -1559,6 +1559,9 @@ namespace WootzJs.Compiler
                         if (originalArguments.Length > 1)
                             ((JsRegexExpression)result).Suffix = GetConstantString(originalArguments[1]);
                         return true;
+                    case "in":
+                        result = Js.In(arguments[0], arguments[1]);
+                        return true;
                 }
             }            
             result = null;

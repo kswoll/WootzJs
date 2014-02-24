@@ -75,5 +75,6 @@ namespace WootzJs.Compiler.JsAst
         void Visit(JsLabeledStatement node);
         void Visit(JsDoWhileStatement node);
         void Visit(JsInstanceOfExpression node);
+        void Visit(JsInExpression node);
     }
 }

@@ -661,5 +661,12 @@ namespace WootzJs.Compiler
             output.Append(" instanceof ");
             node.Type.Accept(this);
         }
+
+        public override void VisitInExpression(JsInExpression node)
+        {
+            output.Append(node.Property);
+            output.Append(" in ");
+            node.Object.Accept(this);
+        }
     }
 }

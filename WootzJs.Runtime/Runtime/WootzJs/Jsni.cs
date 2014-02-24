@@ -219,5 +219,7 @@ namespace System.Runtime.WootzJs
         public static extern JsObject getComputedStyle(JsObject element);
 
         public static extern void forin(this JsObject obj, Action<JsObject> iteration);
+
+        public static extern bool @in(this string property, object obj);
     }
 }

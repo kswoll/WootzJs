@@ -50,5 +50,6 @@ namespace WootzJs.Compiler
         T Visit(JsLabeledStatement node);
         T Visit(JsDoWhileStatement node);
         T Visit(JsInstanceOfExpression node);         
+        T Visit(JsInExpression node);
     }
 }

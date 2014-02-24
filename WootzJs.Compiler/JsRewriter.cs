@@ -483,5 +483,14 @@ namespace WootzJs.Compiler
                 return x;
             });
         }
+
+        public JsNode Visit(JsInExpression node)
+        {
+            return DefaultVisit(node, x =>
+            {
+                x.Object = (JsExpression)x.Object.Accept(this);
+                return x;
+            });
+        }
     }
 }

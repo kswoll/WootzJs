@@ -99,6 +99,7 @@
     <Compile Include="JsAst\JsDoWhileStatement.cs" />
     <Compile Include="JsAst\JsEmptyStatement.cs" />
     <Compile Include="JsAst\JsForInStatement.cs" />
+    <Compile Include="JsAst\JsInExpression.cs" />
     <Compile Include="JsAst\JsInstanceOfExpression.cs" />
     <Compile Include="JsAst\JsLabeledStatement.cs" />
     <Compile Include="JsAst\JsSwitchLabel.cs" />

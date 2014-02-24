@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,29 +24,34 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using System.Runtime.InteropServices;
-
-namespace System
+namespace WootzJs.Compiler.JsAst
 {
-	[StructLayout(LayoutKind.Auto)]
-	public struct Boolean
-	{
-		/// <summary>
-		/// Enables you to parse a string representation of a boolean value.
-		/// </summary>
-		/// <param name="s">The string to be parsed.</param>
-		/// <returns>The resulting boolean value.</returns>
-		public static bool Parse(string s)
-		{
-			return false;
-		}
+    public class JsInExpression : JsExpression
+    {
+        public JsExpression Property { get; set; }
+        public JsExpression Object { get; set; }
 
-// ReSharper disable once RedundantOverridenMember
-        public override string ToString()
+        public JsInExpression()
         {
-            return base.ToString();
         }
-	}
+
+        public JsInExpression(JsExpression property, JsExpression o)
+        {
+            Property = property;
+            Object = o;
+        }
+
+        public override void Accept(IJsVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public override T Accept<T>(IJsVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
 }

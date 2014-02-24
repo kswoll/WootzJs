@@ -363,5 +363,11 @@ namespace WootzJs.Compiler.JsAst
             node.Expression.Accept(this);
             node.Type.Accept(this);
         }
+
+        public void Visit(JsInExpression node)
+        {
+            DefaultVisit(node);
+            node.Object.Accept(this);
+        }
     }
 }

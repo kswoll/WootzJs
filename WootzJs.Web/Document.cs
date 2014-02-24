@@ -33,13 +33,10 @@ using System.Runtime.WootzJs;
 namespace WootzJs.Web
 {
     [Js(Name = "document", Export = false)]
-    public class Document
+    public class Document : Element
     {
         [Js(Name = "getElementById")]
         public extern Element GetElementById(string id);
-
-        [Js(Name = "getElementsByTagName")]
-        public extern HtmlCollection GetElementsByTagName(string tagName);
 
         [Js(Name = "createElement")]
         public extern Element CreateElement(string tagName);
