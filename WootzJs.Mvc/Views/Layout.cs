@@ -5,7 +5,24 @@ namespace WootzJs.Mvc.Views
 {
     public abstract class Layout : View
     {
-        public abstract void AddView(View view);
+        private List<View> subviews = new List<View>();
+
+        public void AddView(View view)
+        {
+            OnAddView(view);
+            subviews.Add(view);
+            view.NotifyViewAdded();
+        }
+
+        public void RemoveView(View view)
+        {
+            subviews.Remove(view);
+            view.NotifyViewRemoved();
+        }
+
+        protected virtual void OnAddView(View view)
+        {
+        }
 
         public virtual Layout FindLayout(Type layoutType)
         {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
 {
-    public class Control
+    public class Control : IDisposable
     {
         static Control()
         {
@@ -30,6 +31,7 @@ namespace WootzJs.Mvc.Views
         private Action mouseUp;
         private bool isAttachedToDom;
         private View view;
+        private bool isDisposed;
 
         public Control(string tagName = "div")
         {
@@ -326,11 +328,12 @@ namespace WootzJs.Mvc.Views
             OnAddedToView();
         }
 
-        public void ValidateControl()
+        public bool ValidateControl()
         {
             var evt = new ValidateEvent();
             ValidateControlTree(evt);
             ViewContext.ControllerContext.Application.NotifyOnValidate(evt);
+            return evt.Validations.All(x => x.IsValid);
         }
 
         private void ValidateControlTree(ValidateEvent evt)
@@ -347,6 +350,23 @@ namespace WootzJs.Mvc.Views
             {
                 validate(evt);
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(isDisposed);
+            if (isDisposed)
+            {
+                foreach (var child in Children)
+                {
+                    child.Dispose();
+                }
+            }
+            isDisposed = true;
+        }
+
+        protected virtual void Dispose(bool isDisposed)
+        {
         }
     }
 }

@@ -69,5 +69,23 @@ namespace WootzJs.Mvc.Views
         {
             return (Layout)ViewContext.ControllerContext.Application.DependencyResolver.GetService(LayoutType);
         }
+
+        internal void NotifyViewAdded()
+        {
+            OnViewAdded();
+        }
+
+        internal void NotifyViewRemoved()
+        {
+            OnViewRemoved();
+        }
+
+        protected virtual void OnViewAdded()
+        {
+        }
+
+        protected virtual void OnViewRemoved()
+        {
+        }
     }
 }
