@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,45 +24,39 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using System.ComponentModel;
+using System.Runtime.WootzJs;
 
-namespace WootzJs.Compiler
+namespace WootzJs.Compiler.Tests.ComponentModel
 {
-    public static class WootzJsExtensions
+    [TestFixture]
+    public class AutoPropertyChangedNotification
     {
-        public static string GetName(this Symbol symbol)
+        [Test]
+        public void OneProperty()
         {
-            var result = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
-            return result ?? symbol.Name;
+            var obj = new OnePropertyClass();
+            string propertyName = null;
+            obj.PropertyChanged += (sender, evt) => propertyName = evt.PropertyName;
+            obj.StringProperty = "foo";
+            QUnit.AreEqual(propertyName, "StringProperty");
         }
 
-        public static bool IsExported(this Symbol symbol)
+        public class OnePropertyClass : IAutoNotifyPropertyChanged
         {
-            if (symbol.IsExtern)
-                return false;
+            public event PropertyChangedEventHandler PropertyChanged;
 
-            var result = symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Export", true);
-            if (!(symbol is TypeSymbol))
-                result = result && symbol.ContainingType.IsExported();
-            return result;
-        }
+            public string StringProperty { get; set; }
 
-        public static bool IsBuiltIn(this Symbol symbol)
-        {
-            return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
-        }
-
-        public static bool IsExtension(this Symbol symbol)
-        {
-            return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Extension", false);
-        }
-
-        public static bool IsAutoNotifyPropertyChange(this Symbol symbol)
-        {
-            var classType = symbol is TypeSymbol ? (TypeSymbol)symbol : symbol.ContainingType;
-            return classType.Interfaces.Any(x => Context.Instance.IAutoNotifyPropertyChanged.IsAssignableFrom(x));
+            public void NotifyPropertyChanged(string propertyName)
+            {
+                var propertyChanged = PropertyChanged;
+                if (propertyChanged != null)
+                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

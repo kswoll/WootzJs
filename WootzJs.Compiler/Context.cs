@@ -163,6 +163,8 @@ namespace WootzJs.Compiler
         public NamedTypeSymbol JsString { get; private set; }
         public MethodSymbol SafeToString { get; private set; }
         public NamedTypeSymbol Array { get; private set; }
+        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
+        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
         public static void Update(ISolution solution, IProject project, Compilation compilation)
         {
@@ -296,6 +298,8 @@ namespace WootzJs.Compiler
             JsString = compilation.FindType("System.Runtime.WootzJs.JsString");
             SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<MethodSymbol>().Single();
             Array = compilation.FindType("System.Array");
+            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
+            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }
     }
 }

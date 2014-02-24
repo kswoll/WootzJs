@@ -78,6 +78,23 @@ namespace WootzJs.Compiler
             }
         }
 
+        public static bool IsAssignableFrom(this TypeSymbol baseType, TypeSymbol type)
+        {
+            var current = type;
+            while (current != null)
+            {
+                if (current == baseType)
+                    return true;
+                current = current.BaseType;
+            }
+            foreach (var intf in type.AllInterfaces)
+            {
+                if (intf == baseType)
+                    return true;
+            }
+            return false;
+        }
+
         public static bool IsSubclassOf(this TypeSymbol @class, TypeSymbol baseClass) 
         {
             var current = @class.BaseType;

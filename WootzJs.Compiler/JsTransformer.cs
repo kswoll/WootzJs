@@ -27,7 +27,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.WootzJs;
 using Roslyn.Compilers;
@@ -128,7 +127,7 @@ namespace WootzJs.Compiler
             internal ReferenceTracker(JsTransformer transformer)
             {
                 this.transformer = transformer; 
-                this.scope = transformer.scopes.Last();
+                scope = transformer.scopes.Last();
                 ReferencedDeclarations = new List<IJsDeclaration>();
             }
 
@@ -340,7 +339,7 @@ namespace WootzJs.Compiler
             var constructorNameParameter = Js.Parameter("name");
             var constructorValueParameter = Js.Parameter("value");
             var constructorBlock = new JsBlockStatement();
-            constructorBlock.Express(idioms.InvokeMethodAsThis((MethodSymbol)Context.Instance.EnumType.GetConstructors().Where(x => !x.IsStatic).First(), 
+            constructorBlock.Express(idioms.InvokeMethodAsThis((MethodSymbol)Context.Instance.EnumType.GetConstructors().First(x => !x.IsStatic), 
                 constructorNameParameter.GetReference(), constructorValueParameter.GetReference()));
             typeInitializer.Add(idioms.StoreInPrototype("$ctor", Js.Function(constructorNameParameter, constructorValueParameter).Body(constructorBlock)));
             typeInitializer.Aggregate(idioms.InitializeConstructor(enumType, "$ctor", new[] { "name", "value" }));
@@ -415,10 +414,16 @@ namespace WootzJs.Compiler
                 block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(
                     Js.Return(Js.This().Member(backingField))
                 ).Compact()));
-                block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(Js.Block(
-                    Js.Express(Js.Assign(Js.This().Member(backingField), valueParameter.GetReference())),
-                    Js.Return(valueParameter.GetReference())       // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
-                ).Compact())));
+
+                var setterBlock = Js.Block();
+                setterBlock.Assign(Js.This().Member(backingField), valueParameter.GetReference());
+                if (property.IsAutoNotifyPropertyChange())
+                {
+                    setterBlock.Express(idioms.Invoke(Js.This(), Context.Instance.NotifyPropertyChanged, Js.Primitive(property.Name)));
+                }
+                setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
+
+                block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));
             }
             else
             {
@@ -445,6 +450,10 @@ namespace WootzJs.Compiler
                     DeclareInCurrentScope(valueParameter);
                     if (setter.Body != null)
                         setterBody.Aggregate((JsStatement)setter.Body.Accept(this));
+                    if (property.IsAutoNotifyPropertyChange())
+                    {
+                        setterBody.Express(idioms.Invoke(Js.This(), Context.Instance.NotifyPropertyChanged, Js.Primitive(property.Name)));
+                    }
                     setterBody.Add(Js.Return(valueParameter.GetReference()));   // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
                     block.Add(storeIn("set_" + propertyName, Js.Function(valueParameter).Body(setterBody)));
                     PopOutput();
@@ -647,10 +656,6 @@ namespace WootzJs.Compiler
         public override JsNode VisitIdentifierName(IdentifierNameSyntax node)
         {
             var symbol = model.GetSymbolInfo(node).Symbol;
-            if (symbol == null)
-            {
-                var diagnostics = model.GetDiagnostics();
-            }
             var @this = (JsExpression)Js.This();
             if (symbol.IsStatic && symbol.ContainingType != null)
             {
@@ -1965,9 +1970,6 @@ namespace WootzJs.Compiler
         public override JsNode VisitEventFieldDeclaration(EventFieldDeclarationSyntax node)
         {
             var block = new JsBlockStatement();
-
-            var type = (ClassDeclarationSyntax)node.Parent;
-            var classType = model.GetDeclaredSymbol(type);
 
             foreach (var variable in node.Declaration.Variables)
             {
