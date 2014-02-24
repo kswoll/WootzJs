@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
@@ -14,7 +15,9 @@ namespace WootzJs.Mvc.Views
         }
 
         public Control Parent { get; private set; }
+        public Control Label { get; set; }
         public event Action AttachedToDom;
+        public event Action<ValidateEvent> Validate;
 
         protected string TagName { get; set; }
 
@@ -322,6 +325,29 @@ namespace WootzJs.Mvc.Views
         internal void NotifyOnAddedToView()
         {
             OnAddedToView();
+        }
+
+        public void ValidateControl()
+        {
+            var evt = new ValidateEvent();
+            ValidateControlTree(evt);
+            ViewContext.ControllerContext.Application.NotifyOnValidate(evt);
+        }
+
+        private void ValidateControlTree(ValidateEvent evt)
+        {
+            OnValidate(evt);
+            foreach (var child in Children)
+                child.ValidateControlTree(evt);
+        }
+
+        protected virtual void OnValidate(ValidateEvent evt)
+        {
+            var validate = Validate;
+            if (validate != null)
+            {
+                validate(evt);
+            }
         }
     }
 }

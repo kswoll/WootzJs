@@ -119,9 +119,12 @@
     <Compile Include="Views\Text.cs" />
     <Compile Include="Views\TextBox.cs" />
     <Compile Include="Views\TextBoxType.cs" />
+    <Compile Include="Views\TextBoxValidators.cs" />
     <Compile Include="Views\TitledPanel.cs" />
     <Compile Include="Views\UrlGenerator.cs" />
     <Compile Include="Views\UrlHelper.cs" />
+    <Compile Include="Views\ValidateEvent.cs" />
+    <Compile Include="Views\Validation.cs" />
     <Compile Include="Views\VerticalAlignment.cs" />
     <Compile Include="Views\VerticalPanel.cs" />
     <Compile Include="Views\View.cs" />

@@ -27,6 +27,7 @@
 
 #endregion
 
+using System.Linq;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
@@ -67,12 +68,15 @@ namespace WootzJs.Mvc.Views
         public new void Add(Control control)
         {
             var isNameControl = Count % 2 == 0;
+            var lastControl = Children.LastOrDefault();
             base.Add(control);
             var cell = table.Add(control, isNameControl ?
                 TableConstraint.Alignment(HorizontalAlignment.Right) :
                 TableConstraint.Alignment(HorizontalAlignment.Left));
             if (isNameControl)
                 cell.Style.WhiteSpace = "nowrap";
+            else
+                control.Label = lastControl;
         }
     }
 }

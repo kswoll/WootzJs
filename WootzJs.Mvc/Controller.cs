@@ -26,7 +26,7 @@ namespace WootzJs.Mvc
             Initialize(application, context);
             var action = RouteData.Action;
             var view = ((ViewResult)ActionInvoker.InvokeAction(ControllerContext, action)).View;
-            view.Initialize(new ViewContext { ControllerContext = ControllerContext });
+            view.Initialize(application.CreateViewContext(this));
             context.Response.View = view;
         }
 

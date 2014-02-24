@@ -160,5 +160,19 @@ namespace WootzJs.Mvc
             controller.Execute(this, context);
             return context.Response.View;
         }
+
+        public virtual ViewContext CreateViewContext(Controller controller)
+        {
+            return new ViewContext { ControllerContext = controller.ControllerContext };
+        }
+
+        internal void NotifyOnValidate(ValidateEvent evt)
+        {
+            OnValidate(evt);
+        }
+
+        protected virtual void OnValidate(ValidateEvent evt)
+        {
+        }
     }
 }
