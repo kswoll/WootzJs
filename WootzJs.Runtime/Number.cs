@@ -197,11 +197,13 @@ namespace System
 	    }
 
 // ReSharper disable once RedundantOverridenMember
+/*
         public override string GetStringHashCode()
         {
             // We need to override it to make sure this method gets added to the String prototype.
             return base.GetStringHashCode();
         }
+*/
 
 // ReSharper disable once RedundantOverridenMember
         public override bool Equals(object obj)
@@ -211,7 +213,7 @@ namespace System
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return this.As<int>();
         }
 
         public override string ToString()

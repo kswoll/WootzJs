@@ -35,6 +35,7 @@ namespace System
     public class Object
     {
         [Js(Name = SpecialNames.TypeField, Export = false)] internal JsTypeFunction ___type;
+        private int? __hashCode;
 
         /// <summary>
         /// Retrieves the type associated with an object instance.
@@ -93,9 +94,12 @@ namespace System
 
         public virtual int GetHashCode()
         {
-            return GetStringHashCode().GetHashCode();
+            if (__hashCode == null)
+                __hashCode = JsMath.random();
+            return __hashCode.Value;
         }
 
+/*
         /// <summary>
         /// This is the more important hash function in Javascript, since we use Javascript objects with strings as keys as the base for 
         /// dictionary data structures.
@@ -105,6 +109,7 @@ namespace System
         {
             return this.As<JsObject>().toString();
         }
+*/
 
         /// <summary>
         /// All == comparisons are reference comparisons in Javascript, so this method is implemented just that way.  The compiler will unwrap

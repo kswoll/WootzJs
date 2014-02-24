@@ -416,11 +416,13 @@ namespace System
         }
 
 // ReSharper disable once RedundantOverridenMember
+/*
         public override string GetStringHashCode()
         {
             // We need to override it to make sure this method gets added to the String prototype.
             return this;
         }
+*/
 
         public override int GetHashCode()
         {

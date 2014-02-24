@@ -118,5 +118,25 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary.TryGetValue("two", out i);
             QUnit.AreEqual(i, 2);
         }
+
+        [Test]
+        public void ArbitraryClass()
+        {
+            var one = new MyClass();
+            var two = new MyClass();
+            var three = new MyClass();
+            var dictionary = new Dictionary<MyClass, int>();
+            dictionary[one] = 1;
+            dictionary[two] = 2;
+            dictionary[three] = 3;
+
+            QUnit.AreEqual(dictionary[one], 1);
+            QUnit.AreEqual(dictionary[two], 2);
+            QUnit.AreEqual(dictionary[three], 3);
+        }
+
+        public class MyClass
+        {
+        }
     }
 }
