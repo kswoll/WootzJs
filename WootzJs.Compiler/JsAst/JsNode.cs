@@ -25,11 +25,14 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using Roslyn.Compilers.CSharp;
+
 namespace WootzJs.Compiler.JsAst
 {
     public abstract class JsNode
     {
         public bool IsCompacted { get; set; }
+        public SyntaxNode OriginalNode { get; set; }
 
         public abstract void Accept(IJsVisitor visitor);
         public abstract T Accept<T>(IJsVisitor<T> visitor);
