@@ -109,6 +109,7 @@ namespace WootzJs.Mvc.Views
 
         public void SlideUp()
         {
+            headerDiv.Style.Position = "absolute";
             headerContainerDiv.Style.Height = "0px";
         }
 
@@ -116,6 +117,7 @@ namespace WootzJs.Mvc.Views
         {
             var height = headerDiv.OffsetHeight;
             headerDiv.Style.Top = -height + "px";
+            headerDiv.Style.Position = "absolute";
 
             int? start = null;
             Action<int> step = null;
@@ -128,6 +130,14 @@ namespace WootzJs.Mvc.Views
                 if (progress < height)
                 {
                     Browser.Window.RequestAnimationFrame(step);
+                }
+                else
+                {
+                    // Reset the style so that it fits into the normal HTML flow.  This ensure that,
+                    // after animating, the slid-down content will resize, refit its contents, etc. 
+                    // if the window resizes.
+                    headerDiv.Style.Position = "relative";
+                    headerContainerDiv.Style.Height = "inherit";
                 }
             };
             Browser.Window.RequestAnimationFrame(step);
