@@ -123,7 +123,6 @@ namespace WootzJs.Mvc.Views
             {
                 start = start ?? timestamp;
                 var progress = Math.Min((timestamp - start.Value) / duration * height, height);
-                Console.WriteLine(progress);
                 headerDiv.Style.Top = (-height + progress) + "px";
                 headerContainerDiv.Style.Height = progress + "px";
                 if (progress < height)
