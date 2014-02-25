@@ -230,6 +230,7 @@
     <Compile Include="MidpointRounding.cs" />
     <Compile Include="Runtime\Versioning\TargetFrameworkAttribute.cs" />
     <Compile Include="Runtime\WootzJs\AsExtension.cs" />
+    <Compile Include="Runtime\WootzJs\Class.cs" />
     <Compile Include="Runtime\WootzJs\DependsOnAttribute.cs" />
     <Compile Include="Runtime\WootzJs\Evaluator.cs" />
     <Compile Include="Runtime\WootzJs\EvaluatorExtensions.cs" />
