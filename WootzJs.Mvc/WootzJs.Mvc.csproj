@@ -40,6 +40,8 @@
     <Compile Include="IActionInvoker.cs" />
     <Compile Include="IControllerFactory.cs" />
     <Compile Include="IDependencyResolver.cs" />
+    <Compile Include="IModelContainer.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="MvcApplication.cs" />
     <Compile Include="NavigationContext.cs" />
     <Compile Include="NavigationRequest.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="ViewResult.cs" />
     <Compile Include="Views\ActionHelper.cs" />
     <Compile Include="Views\AlignmentPanel.cs" />
+    <Compile Include="Views\Binders\Bindings.cs" />
+    <Compile Include="Views\Binders\TextBoxBinders.cs" />
     <Compile Include="Views\CenteredPanel.cs" />
     <Compile Include="Views\CheckBox.cs" />
     <Compile Include="Views\Control.cs" />

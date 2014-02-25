@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WootzJs.Mvc.Views.Binders;
 
 namespace WootzJs.Mvc.Views
 {
@@ -86,6 +87,18 @@ namespace WootzJs.Mvc.Views
 
         protected virtual void OnViewRemoved()
         {
+        }
+    }
+
+    public class View<TModel> : View, IModelContainer<TModel> 
+    {
+        public TModel Model { get; private set; }
+        public Bindings<TModel> Bindings { get; private set; }
+
+        public View(TModel model)
+        {
+            Model = model;
+            Bindings = new Bindings<TModel>(model);
         }
     }
 }
