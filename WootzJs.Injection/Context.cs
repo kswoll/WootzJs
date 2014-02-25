@@ -25,9 +25,14 @@ namespace WootzJs.Injection
             if (transientBindings == null)
                 return null;
 
-            IBinding result;
-            transientBindings.TryGetValue(type, out result);
-            return result;
+            while (type != null)
+            {
+                IBinding result;
+                if (transientBindings.TryGetValue(type, out result)) 
+                    return result;
+                type = type.BaseType;
+            }
+            return null;
         }
     }
 }
