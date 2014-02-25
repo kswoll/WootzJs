@@ -46,6 +46,7 @@
     <Compile Include="IResolver.cs" />
     <Compile Include="IScope.cs" />
     <Compile Include="MethodResolver.cs" />
+    <Compile Include="OverrideBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionResolver.cs" />
     <Compile Include="Request.cs" />
