@@ -93,12 +93,12 @@ namespace WootzJs.Mvc.Views
     public class View<TModel> : View, IModelContainer<TModel> 
     {
         public TModel Model { get; private set; }
-        public Bindings<TModel> Bindings { get; private set; }
+        public Bindings<TModel> Binders { get; private set; }
 
         public View(TModel model)
         {
             Model = model;
-            Bindings = new Bindings<TModel>(model);
+            Binders = new Bindings<TModel>(model);
         }
     }
 }

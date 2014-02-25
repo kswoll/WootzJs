@@ -207,5 +207,15 @@ namespace WootzJs.Mvc
         protected virtual void OnValidate(ValidateEvent evt)
         {
         }
+
+        internal void NotifyBindModel(Controller controller, Model model)
+        {
+            OnBindModel(controller, model);
+        }
+
+        protected virtual void OnBindModel(Controller controller, Model model)
+        {
+            model.ControllerContext = controller.ControllerContext;
+        }
     }
 }

@@ -36,44 +36,28 @@ namespace WootzJs.Mvc.Views.Binders
 {
     public static class TextBoxBinders
     {
-        public static ModelSpecificBinders<T> On<T>(this TextBox textBox, T model)
+        public static void BindTextBox<TModel, TValue>(this Bindings<TModel> bindings, TextBox textBox, Expression<Func<TModel, TValue>> property)
         {
-            return new ModelSpecificBinders<T>(textBox, model);
-        }
+            var propertyName = property.GetPropertyName();
+            var getter = property.Compile();
+            var setter = property.GetPropertyInfo();
+            var model = bindings.Model;
 
-        public class ModelSpecificBinders<T>
-        {
-            private TextBox textBox;
-            private T model;
+            Action updateText = () => textBox.Text = (string)Convert.ChangeType(getter(model), typeof(string));
+            updateText();
 
-            public ModelSpecificBinders(TextBox textBox, T model)
+            textBox.Changed += () => setter.SetValue(model, null);
+
+            if (model is INotifyPropertyChanged)
             {
-                this.textBox = textBox;
-                this.model = model;
-            }
-
-            public void Bind<TValue>(Expression<Func<T, TValue>> property)
-            {
-                var propertyName = property.GetPropertyName();
-                var getter = property.Compile();
-                var setter = property.GetPropertyInfo();
-
-                Action updateText = () => textBox.Text = (string)Convert.ChangeType(getter(model), typeof(string));
-                updateText();
-
-                textBox.Changed += () => setter.SetValue(model, null);
-
-                if (model is INotifyPropertyChanged)
+                var notifyModel = (INotifyPropertyChanged)model;
+                notifyModel.PropertyChanged += (sender, args) =>
                 {
-                    var notifyModel = (INotifyPropertyChanged)model;
-                    notifyModel.PropertyChanged += (sender, args) =>
+                    if (args.PropertyName == propertyName)
                     {
-                        if (args.PropertyName == propertyName)
-                        {
-                            updateText();
-                        }
-                    };
-                }
+                        updateText();
+                    }
+                };
             }
         }
     }

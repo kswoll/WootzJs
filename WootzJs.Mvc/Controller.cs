@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
 
@@ -42,10 +43,13 @@ namespace WootzJs.Mvc
             return new ViewResult(view);
         }
 
-        protected ViewResult View(object model)
+        protected ViewResult View(Model model)
         {
+            ControllerContext.Application.NotifyBindModel(this, model);
+
             var viewType = FindView();
-            var view = (View)ControllerContext.Application.DependencyResolver.GetService(viewType);
+            var view = (View)ControllerContext.Application.DependencyResolver.GetService(viewType, 
+                new Dictionary<Type, object> { { typeof(Model), model } });
             return new ViewResult(view);
         }
 
