@@ -183,7 +183,6 @@ namespace WootzJs.Injection
         public object Resolve(Request request) 
         {
             var cache = request.Binding.Scope.GetCache(request);
-            var lockObject = request.Binding.Scope.GetLock(request);
 
             Func<object> resolve = () =>
             {

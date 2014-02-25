@@ -9,11 +9,6 @@
             get { return instance; }
         }
 
-        public object GetLock(Request request)
-        {
-            return null;
-        }
-
         public Context GetContext(Context current)
         {
             return current;
