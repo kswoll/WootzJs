@@ -31,7 +31,7 @@ using System.Runtime.WootzJs;
 
 namespace System.Collections.Generic
 {
-    public class List<T> : IList<T>, IList
+    public class List<T> : IList<T>, IReadOnlyList<T>, IList
     {
         private JsArray storage = new JsArray();
 

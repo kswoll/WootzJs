@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.WootzJs;
 
 namespace WootzJs.Compiler.Tests
@@ -122,6 +123,15 @@ namespace WootzJs.Compiler.Tests
         {
             var arrayType = typeof(string).MakeArrayType(1);
             QUnit.AreEqual(arrayType.GetElementType(), typeof(string));
+        }
+
+        [Test]
+        public void AsReadOnlyList()
+        {
+            IReadOnlyList<string> strings = new[] { "one", "two", "three" };
+            QUnit.AreEqual(strings[0], "one");
+            QUnit.AreEqual(strings[1], "two");
+            QUnit.AreEqual(strings[2], "three");
         }
 
         [Js(Name = "ExportTest", Export = false)]

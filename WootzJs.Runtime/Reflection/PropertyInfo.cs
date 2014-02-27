@@ -36,12 +36,12 @@ namespace System.Reflection
     /// </summary>
     public class PropertyInfo : MemberInfo
     {
-        private Type propertyType;
+        private JsTypeFunction propertyType;
         private MethodInfo getMethod;
         private MethodInfo setMethod;
         private ParameterInfo[] indexParameters;
 
-        protected PropertyInfo(string name, Type propertyType, MethodInfo getMethod, MethodInfo setMethod, ParameterInfo[] indexParameters, Attribute[] attributes) : base(name, attributes)
+        protected PropertyInfo(string name, JsTypeFunction propertyType, MethodInfo getMethod, MethodInfo setMethod, ParameterInfo[] indexParameters, Attribute[] attributes) : base(name, attributes)
         {
             this.propertyType = propertyType;
             this.getMethod = getMethod;
@@ -70,7 +70,7 @@ namespace System.Reflection
         /// </returns>
         public Type PropertyType
         {
-            get { return propertyType; }
+            get { return Type._GetTypeFromTypeFunc(propertyType); }
         }
 
         /// <summary>

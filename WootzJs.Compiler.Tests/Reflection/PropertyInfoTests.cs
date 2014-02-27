@@ -43,6 +43,13 @@ namespace WootzJs.Compiler.Tests.Reflection
             QUnit.AreEqual(stringProperty.Name, "StringProperty");
         }
 
+        [Test]
+        public void PropertyType()
+        {
+            var property = typeof(PropertyClass).GetProperty("StaticProperty");
+            QUnit.AreEqual(property.PropertyType.Name, "String");
+        }
+
         public class PropertyClass
         {
             public static string StaticProperty { get; set; }

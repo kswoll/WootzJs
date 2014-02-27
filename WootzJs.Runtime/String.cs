@@ -753,5 +753,18 @@ namespace System
                     return this == value;
             }
         }
+
+        /// <summary>
+        /// Removes all leading and trailing white-space characters from the current <see cref="T:System.String"/> object.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The string that remains after all white-space characters are removed from the start and end of the current string.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public string Trim()
+        {
+            return this.As<JsString>().trim();
+        }
     }
 }

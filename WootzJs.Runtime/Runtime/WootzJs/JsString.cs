@@ -62,6 +62,9 @@ namespace System.Runtime.WootzJs
         [Js(Name = "replace")]
         public extern JsString replace(JsString substring, JsFunction replaceWith);
 
+        [Js(Name = "trim")]
+        public extern JsString trim();
+
         public static extern bool operator <(JsString left, JsString right);
         public static extern bool operator >(JsString left, JsString right);
         public static extern bool operator <=(JsString left, JsString right);

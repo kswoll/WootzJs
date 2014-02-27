@@ -155,7 +155,7 @@ namespace System.Runtime.WootzJs
             var keyParts = new JsArray();
             for (var i = 0; i < keyArray.length; i++)
             {
-                keyParts[i] = Jsni.member(Jsni.member(keyArray[i], "prototype"), SpecialNames.TypeName);
+                keyParts[i] = keyArray[i].member(SpecialNames.TypeName);
             }
             var keyString = keyParts.join(", ");
             var result = cache[keyString];

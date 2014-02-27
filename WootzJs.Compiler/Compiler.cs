@@ -100,6 +100,8 @@ namespace WootzJs.Compiler
             {
                 var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
                 jsCompilationUnit.Body.Local(assemblies);
+
+                jsCompilationUnit.Body.Assign(Js.Reference("Function").Member(SpecialNames.TypeName), Js.Primitive("Function"));
             }
 
             // Declare assembly variable
