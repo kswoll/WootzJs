@@ -27,26 +27,27 @@
 
 #endregion
 
-using System.ComponentModel;
-using System.Runtime.WootzJs;
+using System.Collections.Generic;
 
-namespace WootzJs.Mvc
+namespace WootzJs.Mvc.Models
 {
-    public class Model : IAutoNotifyPropertyChanged
+    public class Validation
     {
-        public ControllerContext ControllerContext { get; set; }
+        public bool IsValid { get; set; }
+        public string Message { get; set; } 
+        public IReadOnlyList<Property> Properties { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propertyName)
+        public Validation(bool isValid, Property[] properties)
         {
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-                OnPropertyChanged(propertyName);
+            IsValid = isValid;
+            Properties = properties;
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        public Validation(bool isValid, string message, Property[] properties)
         {
+            IsValid = isValid;
+            Message = message;
+            Properties = properties;
         }
     }
 }

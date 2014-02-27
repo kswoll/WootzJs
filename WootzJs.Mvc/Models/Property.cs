@@ -27,25 +27,53 @@
 
 #endregion
 
-namespace WootzJs.Mvc.Views
-{
-    public class Validation
-    {
-        public bool IsValid { get; set; }
-        public string Message { get; set; } 
-        public Control Control { get; set; }
+using System.Reflection;
 
-        public Validation(bool isValid, Control control)
+namespace WootzJs.Mvc.Models
+{
+    public class Property
+    {
+        private Model model;
+        private PropertyInfo propertyInfo;
+
+        public Property(Model model, PropertyInfo propertyInfo)
         {
-            IsValid = isValid;
-            Control = control;
+            this.model = model;
+            this.propertyInfo = propertyInfo;
         }
 
-        public Validation(bool isValid, string message, Control control)
+        public Model Model
         {
-            IsValid = isValid;
-            Message = message;
-            Control = control;
+            get { return model; }
+        }
+
+        public string Name
+        {
+            get { return propertyInfo.Name; }
+        }
+
+        public PropertyInfo PropertyInfo
+        {
+            get { return propertyInfo; }
+        }
+
+        public object Value
+        {
+            get { return propertyInfo.GetValue(model, null); }
+            set { propertyInfo.SetValue(model, value, null); }
+        }
+    }
+
+    public class Property<TModel, TValue> : Property where TModel : Model<TModel>
+    {
+        public Property(TModel model, PropertyInfo propertyInfo) : base(model, propertyInfo)
+        {
+        }
+
+        public new TValue Value
+        {
+            get { return (TValue)base.Value; }
+            set { base.Value = value; }
         }
     }
 }

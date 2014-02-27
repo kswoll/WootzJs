@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.WootzJs;
 using System.Web;
+using WootzJs.Mvc.Models;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
 using WootzJs.Mvc.Views.Css;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.WootzJs;
+using WootzJs.Mvc.Models;
 using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
 

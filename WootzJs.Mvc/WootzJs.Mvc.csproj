@@ -41,7 +41,8 @@
     <Compile Include="IControllerFactory.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="IModelContainer.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Property.cs" />
     <Compile Include="MvcApplication.cs" />
     <Compile Include="NavigationContext.cs" />
     <Compile Include="NavigationRequest.cs" />
@@ -128,8 +129,8 @@
     <Compile Include="Views\TitledPanel.cs" />
     <Compile Include="Views\UrlGenerator.cs" />
     <Compile Include="Views\UrlHelper.cs" />
-    <Compile Include="Views\ValidateEvent.cs" />
-    <Compile Include="Views\Validation.cs" />
+    <Compile Include="Models\ValidateEvent.cs" />
+    <Compile Include="Models\Validation.cs" />
     <Compile Include="Views\VerticalAlignment.cs" />
     <Compile Include="Views\VerticalPanel.cs" />
     <Compile Include="Views\View.cs" />

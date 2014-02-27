@@ -29,7 +29,7 @@
 
 using System.Collections.Generic;
 
-namespace WootzJs.Mvc.Views
+namespace WootzJs.Mvc.Models
 {
     public class ValidateEvent 
     {
@@ -44,9 +44,9 @@ namespace WootzJs.Mvc.Views
             get { return validations; }
         }
 
-        public void AddValidation(bool isValid, string message = null, Control target = null)
+        public void AddValidation(bool isValid, string message = null, params Property[] properties)
         {
-            validations.Add(new Validation(isValid, message, target));
+            validations.Add(new Validation(isValid, message, properties));
         }
     }
 }

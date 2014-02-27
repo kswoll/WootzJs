@@ -33,10 +33,12 @@ namespace WootzJs.Mvc.Views
     {
         public static void Require(this TextBox textBox, string message = null)
         {
+/*
             textBox.Validate += evt =>
             {
                 evt.AddValidation(!string.IsNullOrEmpty(textBox.Text), message ?? "This is a required field", textBox);
             };
+*/
         }
     }
 }
