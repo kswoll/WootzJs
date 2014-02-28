@@ -33,7 +33,7 @@ namespace System.ComponentModel.DataAnnotations
     /// Specifies that a data field value is required.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-    public class RequiredAttribute : Attribute //ValidationAttribute
+    public class RequiredAttribute : ValidationAttribute
     {
         /// <summary>
         /// Gets or sets a value that indicates whether an empty string is allowed.
