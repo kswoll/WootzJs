@@ -843,6 +843,8 @@ namespace WootzJs.Compiler
                 return result;
             if (idioms.TryEnumBitwise(node.Kind, leftType.Type, rightType.Type, left, right, out result))
                 return result;
+            if (idioms.TryEnumEquality(node.Kind, leftType.Type, rightType.Type, left, right, out result))
+                return result;
 
             if (symbol != null)
             {

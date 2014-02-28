@@ -1193,6 +1193,26 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        public bool TryEnumEquality(SyntaxKind type, TypeSymbol leftSymbol, TypeSymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        {
+            var leftIsEnum = (leftSymbol != null && leftSymbol.TypeKind == TypeKind.Enum);
+            var rightIsEnum = (rightSymbol != null && rightSymbol.TypeKind == TypeKind.Enum);
+            var isEqualityExpression = (type == SyntaxKind.EqualsExpression || type == SyntaxKind.NotEqualsExpression);
+
+            if (isEqualityExpression && (leftIsEnum || rightIsEnum))
+            {
+                if (leftSymbol.TypeKind == TypeKind.Enum)
+                    left = Invoke(left, Context.Instance.EnumGetValue);
+                if (rightSymbol.TypeKind == TypeKind.Enum)
+                    right = Invoke(right, Context.Instance.EnumGetValue);
+
+                result = Js.Binary(ToBinaryOperator(type).Value, left, right);
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
         public JsBinaryOperator? ToBinaryOperator(SyntaxKind kind)
         {
             JsBinaryOperator op;

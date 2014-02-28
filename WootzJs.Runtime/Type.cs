@@ -720,7 +720,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsAbstract
         {
-            get { return isAbstract; }
+            get { return (typeAttributes & TypeAttributes.Abstract) != TypeAttributes.NotPublic; }
         }
 
         /// <summary>
@@ -733,7 +733,20 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsInterface
         {
-            get { return isInterface; }
+            get { return (typeAttributes & TypeAttributes.ClassSemanticsMask) == TypeAttributes.ClassSemanticsMask; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> is declared sealed.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is declared sealed; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsSealed
+        {
+            get { return (typeAttributes & TypeAttributes.Sealed) != TypeAttributes.NotPublic; }
         }
 
         /// <summary>
