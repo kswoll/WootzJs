@@ -197,8 +197,48 @@ namespace WootzJs.Compiler
             body.Assign(Js.This().Member(SpecialNames.TypeField), 
                 CreateObject(Context.Instance.TypeConstructor, Js.Primitive(type.Name), CreateAttributes(type)));
 
+            JsExpression typeAttributes;
+            if (type.ContainingType == null)
+            {
+                switch (type.DeclaredAccessibility)
+                {
+                    case Accessibility.Public:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesPublic);
+                        break;
+                    case Accessibility.Internal:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNotPublic);
+                        break;
+                    default:
+                        throw new Exception();
+                }                
+            }
+            else
+            {
+                switch (type.DeclaredAccessibility)
+                {
+                    case Accessibility.Public:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedPublic);
+                        break;
+                    case Accessibility.Internal:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedAssembly);
+                        break;
+                    case Accessibility.Private:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedPrivate);
+                        break;
+                    case Accessibility.Protected:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamily);
+                        break;
+                    case Accessibility.ProtectedInternal:
+                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamORAssem);
+                        break;
+                    default:
+                        throw new Exception();
+                }
+            }
+
             body.Express(Invoke(Js.This().Member(SpecialNames.TypeField), Context.Instance.TypeInit, 
                 Js.Primitive(explicitName ?? fullTypeName),          // Param1: fullTypeName
+//                typeAttributes,
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),
