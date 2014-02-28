@@ -101,6 +101,10 @@ namespace WootzJs.Compiler
                 var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
                 jsCompilationUnit.Body.Local(assemblies);
 
+                // This ensures that Function.$typeName returns `Function` -- this is important when using
+                // a type function as a generic argument, since otherwise when we try to assembly a 
+                // unique key for the permuatation of type args including a type function, we would get
+                // an empty string for that arg, which would break the cache.
                 jsCompilationUnit.Body.Assign(Js.Reference("Function").Member(SpecialNames.TypeName), Js.Primitive("Function"));
             }
 

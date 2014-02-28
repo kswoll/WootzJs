@@ -138,9 +138,10 @@ namespace WootzJs.Injection
 
         public object Get(Type type, IDictionary<Type, IBinding> customBindings = null)
         {
-            return genericGet.MakeGenericMethod(type).Invoke(this, new[] { customBindings });
+            var makeGenericMethod = genericGet.MakeGenericMethod(type);
+            return makeGenericMethod.Invoke(this, new[] { customBindings });
         }
-        
+
         public T Get<T>(IDictionary<Type, IBinding> customBindings = null) where T : class
         {
             T result;
