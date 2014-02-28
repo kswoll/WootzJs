@@ -49,6 +49,7 @@ namespace System
         internal ConstructorInfo[] constructors;
         internal PropertyInfo[] properties;
         internal EventInfo[] events;
+        internal TypeAttributes typeAttributes;
         private JsTypeFunction elementType;
         private JsTypeFunction unconstructedType;
         private bool isValueType;
@@ -57,6 +58,7 @@ namespace System
         private bool isPrimitive;
         private bool isGenericType;
         private bool isGenericTypeDefinition;
+        private bool isGenericParameter;
 
         public Type(string name, Attribute[] attributes) : base(name, attributes)
         {
@@ -70,16 +72,21 @@ namespace System
         public static Type CreateTypeParameter(string fullName, JsTypeFunction baseType)
         {
             var type = new Type(fullName, new Attribute[0]);
-            type.Init(fullName, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
+            type.Init(fullName, /*TypeAttributes.Public, */null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
                 new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
                 new EventInfo[0], false, false, false, false, false, false, null, null);
+            type.isGenericParameter = true;
             return type;
         }
 
-        public void Init(string fullName, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, JsTypeFunction elementType, JsTypeFunction unconstructedType)
+        public void Init(string fullName, /*TypeAttributes typeAttributes, */JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
 
+            if (baseType != null)
+                Console.WriteLine(baseType.TypeName);
+
+            this.typeAttributes = typeAttributes;
             this.thisType = thisType;
             this.baseType = baseType;
             this.interfaces = interfaces;
@@ -819,6 +826,106 @@ namespace System
         public override string ToString()
         {
             return "System.Type: " + FullName;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="T:System.Type"/> represents a type parameter in the definition of a generic type or method.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> object represents a type parameter of a generic type definition or generic method definition; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public virtual bool IsGenericParameter
+        {
+            get { return isGenericParameter; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="T:System.Type"/> encompasses or refers to another type; that is, whether the current <see cref="T:System.Type"/> is an array, a pointer, or is passed by reference.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is an array, a pointer, or is passed by reference; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool HasElementType
+        {
+            get { return elementType != null; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="T:System.Type"/> object represents a type whose definition is nested inside the definition of another type.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is nested inside another type; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsNested
+        {
+            get { return this.DeclaringType != (Type)null; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether a class is nested and declared public.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the class is nested and declared public; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsNestedPublic
+        {
+            get { return IsNested && IsPublic; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> can be accessed by code outside the assembly.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the current <see cref="T:System.Type"/> is a public type or a public nested type such that all the enclosing types are public; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsVisible
+        {
+            get
+            {
+                if (this.IsGenericParameter)
+                    return true;
+                if (this.HasElementType)
+                    return this.GetElementType().IsVisible;
+                Type type2;
+                for (type2 = this; type2.IsNested; type2 = type2.DeclaringType)
+                {
+                    if (!type2.IsNestedPublic)
+                        return false;
+                }
+                if (!type2.IsPublic)
+                    return false;
+                if (this.IsGenericType && !this.IsGenericTypeDefinition)
+                {
+                    foreach (Type type3 in this.GetGenericArguments())
+                    {
+                        if (!type3.IsVisible)
+                            return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> is declared public.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is declared public and is not a nested type; otherwise, false.
+        /// </returns>
+        public bool IsPublic
+        {
+            get { return (typeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.Public; }
         }
     }
 }
