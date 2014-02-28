@@ -106,6 +106,19 @@ namespace WootzJs.Compiler
         public MethodSymbol ConstructorInfoConstructor { get; private set; }
         public MethodSymbol PropertyInfoConstructor { get; private set; }
         public MethodSymbol EventInfoConstructor { get; private set; }
+        public NamedTypeSymbol TypeAttributes { get; private set; }
+        public FieldSymbol TypeAttributesPublic { get; private set; }
+        public FieldSymbol TypeAttributesNotPublic { get; private set; }
+        public FieldSymbol TypeAttributesNestedPublic { get; private set; }
+        public FieldSymbol TypeAttributesNestedPrivate { get; private set; }
+        public FieldSymbol TypeAttributesNestedFamily { get; private set; }
+        public FieldSymbol TypeAttributesNestedAssembly { get; private set; }
+        public FieldSymbol TypeAttributesNestedFamANDAssem { get; private set; }
+        public FieldSymbol TypeAttributesNestedFamORAssem { get; private set; }
+        public FieldSymbol TypeAttributesNestedClass { get; private set; }
+        public FieldSymbol TypeAttributesNestedInterface { get; private set; }
+        public FieldSymbol TypeAttributesNestedAbstract { get; private set; }
+        public FieldSymbol TypeAttributesNestedSealed { get; private set; }
         public NamedTypeSymbol FieldAttributes { get; private set; }
         public FieldSymbol FieldAttributesPublic { get; private set; }
         public FieldSymbol FieldAttributesPrivate { get; private set; }
@@ -141,7 +154,6 @@ namespace WootzJs.Compiler
         public ArrayTypeSymbol MemberBindingArray { get; private set; }
         public NamedTypeSymbol ElementInit { get; private set; }
         public ArrayTypeSymbol ElementInitArray { get; private set; }
-        public ArrayTypeSymbol ArrayIndex { get; private set; }
         public NamedTypeSymbol String { get; private set; }
         public MethodSymbol ObjectToString { get; private set; }
         public NamedTypeSymbol Char { get; private set; }
@@ -256,6 +268,19 @@ namespace WootzJs.Compiler
             PropertyInfoConstructor = PropertyInfo.InstanceConstructors.Single();
             EventInfoConstructor = EventInfo.InstanceConstructors.Single();
             ConstructorInfoConstructor = ConstructorInfo.InstanceConstructors.Single();
+            TypeAttributes = compilation.FindType("System.Reflection.TypeAttributes");
+            TypeAttributesPublic = (FieldSymbol)TypeAttributes.GetMembers("Public").Single();
+            TypeAttributesNotPublic = (FieldSymbol)TypeAttributes.GetMembers("NotPublic").Single();
+            TypeAttributesNestedPublic = (FieldSymbol)TypeAttributes.GetMembers("NestedPublic").Single();
+            TypeAttributesNestedPrivate = (FieldSymbol)TypeAttributes.GetMembers("NestedPrivate").Single();
+            TypeAttributesNestedFamily = (FieldSymbol)TypeAttributes.GetMembers("NestedFamily").Single();
+            TypeAttributesNestedAssembly = (FieldSymbol)TypeAttributes.GetMembers("NestedAssembly").Single();
+            TypeAttributesNestedFamANDAssem = (FieldSymbol)TypeAttributes.GetMembers("NestedFamANDAssem").Single();
+            TypeAttributesNestedFamORAssem = (FieldSymbol)TypeAttributes.GetMembers("NestedFamORAssem").Single();
+            TypeAttributesNestedClass = (FieldSymbol)TypeAttributes.GetMembers("Class").Single();
+            TypeAttributesNestedInterface = (FieldSymbol)TypeAttributes.GetMembers("Interface").Single();
+            TypeAttributesNestedAbstract = (FieldSymbol)TypeAttributes.GetMembers("Abstract").Single();
+            TypeAttributesNestedSealed = (FieldSymbol)TypeAttributes.GetMembers("Sealed").Single();
             FieldAttributes = compilation.FindType("System.Reflection.FieldAttributes");
             FieldAttributesPublic = (FieldSymbol)FieldAttributes.GetMembers("Public").Single();
             FieldAttributesPrivate = (FieldSymbol)FieldAttributes.GetMembers("Private").Single();
