@@ -115,10 +115,10 @@ namespace WootzJs.Compiler
         public FieldSymbol TypeAttributesNestedAssembly { get; private set; }
         public FieldSymbol TypeAttributesNestedFamANDAssem { get; private set; }
         public FieldSymbol TypeAttributesNestedFamORAssem { get; private set; }
-        public FieldSymbol TypeAttributesNestedClass { get; private set; }
-        public FieldSymbol TypeAttributesNestedInterface { get; private set; }
-        public FieldSymbol TypeAttributesNestedAbstract { get; private set; }
-        public FieldSymbol TypeAttributesNestedSealed { get; private set; }
+        public FieldSymbol TypeAttributesAbstract { get; private set; }
+        public FieldSymbol TypeAttributesSealed { get; private set; }
+        public FieldSymbol TypeAttributesClass { get; private set; }
+        public FieldSymbol TypeAttributesInterface { get; private set; }
         public NamedTypeSymbol FieldAttributes { get; private set; }
         public FieldSymbol FieldAttributesPublic { get; private set; }
         public FieldSymbol FieldAttributesPrivate { get; private set; }
@@ -277,10 +277,10 @@ namespace WootzJs.Compiler
             TypeAttributesNestedAssembly = (FieldSymbol)TypeAttributes.GetMembers("NestedAssembly").Single();
             TypeAttributesNestedFamANDAssem = (FieldSymbol)TypeAttributes.GetMembers("NestedFamANDAssem").Single();
             TypeAttributesNestedFamORAssem = (FieldSymbol)TypeAttributes.GetMembers("NestedFamORAssem").Single();
-            TypeAttributesNestedClass = (FieldSymbol)TypeAttributes.GetMembers("Class").Single();
-            TypeAttributesNestedInterface = (FieldSymbol)TypeAttributes.GetMembers("Interface").Single();
-            TypeAttributesNestedAbstract = (FieldSymbol)TypeAttributes.GetMembers("Abstract").Single();
-            TypeAttributesNestedSealed = (FieldSymbol)TypeAttributes.GetMembers("Sealed").Single();
+            TypeAttributesAbstract = (FieldSymbol)TypeAttributes.GetMembers("Abstract").Single();
+            TypeAttributesSealed = (FieldSymbol)TypeAttributes.GetMembers("Sealed").Single();
+            TypeAttributesClass = (FieldSymbol)TypeAttributes.GetMembers("Class").Single();
+            TypeAttributesInterface = (FieldSymbol)TypeAttributes.GetMembers("Interface").Single();
             FieldAttributes = compilation.FindType("System.Reflection.FieldAttributes");
             FieldAttributesPublic = (FieldSymbol)FieldAttributes.GetMembers("Public").Single();
             FieldAttributesPrivate = (FieldSymbol)FieldAttributes.GetMembers("Private").Single();

@@ -235,6 +235,26 @@ namespace WootzJs.Compiler
                         throw new Exception();
                 }
             }
+            if (type.TypeKind == TypeKind.Interface)
+            {
+                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
+                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesInterface));
+            }
+            else if (type.TypeKind == TypeKind.Class)
+            {
+                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
+                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesClass));                
+            }
+            if (type.IsAbstract)
+            {
+                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
+                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesAbstract));                
+            }
+            else if (type.IsSealed)
+            {
+                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
+                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesSealed));                
+            }
 
             body.Express(Invoke(Js.This().Member(SpecialNames.TypeField), Context.Instance.TypeInit, 
                 Js.Primitive(explicitName ?? fullTypeName),          // Param1: fullTypeName
