@@ -72,19 +72,16 @@ namespace System
         public static Type CreateTypeParameter(string fullName, JsTypeFunction baseType)
         {
             var type = new Type(fullName, new Attribute[0]);
-            type.Init(fullName, /*TypeAttributes.Public, */null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
+            type.Init(fullName, TypeAttributes.Public, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
                 new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
                 new EventInfo[0], false, false, false, false, false, false, null, null);
             type.isGenericParameter = true;
             return type;
         }
 
-        public void Init(string fullName, /*TypeAttributes typeAttributes, */JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, JsTypeFunction elementType, JsTypeFunction unconstructedType)
+        public void Init(string fullName, TypeAttributes typeAttributes, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
-
-            if (baseType != null)
-                Console.WriteLine(baseType.TypeName);
 
             this.typeAttributes = typeAttributes;
             this.thisType = thisType;

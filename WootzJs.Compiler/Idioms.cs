@@ -238,7 +238,7 @@ namespace WootzJs.Compiler
 
             body.Express(Invoke(Js.This().Member(SpecialNames.TypeField), Context.Instance.TypeInit, 
                 Js.Primitive(explicitName ?? fullTypeName),          // Param1: fullTypeName
-//                typeAttributes,
+                typeAttributes,
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),

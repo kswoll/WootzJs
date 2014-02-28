@@ -190,7 +190,7 @@ namespace System.Runtime.WootzJs
                         generic.Type = type;
                         type.Init(
                             newTypeName, 
-//                            unconstructedTypeType.typeAttributes,
+                            unconstructedTypeType.typeAttributes,
                             generic, 
                             unconstructedType.BaseType,
                             unconstructedTypeType.interfaces, 
@@ -257,7 +257,7 @@ namespace System.Runtime.WootzJs
                         arrayType.Type = type;
                         type.Init(
                             elementType.TypeName + "[]", 
-//                            TypeAttributes.Public,
+                            TypeAttributes.Public,
                             elementType, 
                             Jsni.type<Array>(), 
                             typeof(Array).interfaces.Concat(new[] { SpecialFunctions.MakeGenericTypeFactory(Jsni.type(typeof(IEnumerable<>)), Jsni.array(elementType)) }).ToArray(), 
