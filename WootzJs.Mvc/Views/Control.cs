@@ -329,6 +329,7 @@ namespace WootzJs.Mvc.Views
             OnAddedToView();
         }
 
+/*
         public bool ValidateControl()
         {
             var evt = new ValidateEvent();
@@ -336,13 +337,16 @@ namespace WootzJs.Mvc.Views
             ViewContext.ControllerContext.Application.NotifyOnValidate(evt);
             return evt.Validations.All(x => x.IsValid);
         }
+*/
 
+/*
         private void ValidateControlTree(ValidateEvent evt)
         {
             OnValidate(evt);
             foreach (var child in Children)
                 child.ValidateControlTree(evt);
         }
+*/
 
         protected virtual void OnValidate(ValidateEvent evt)
         {

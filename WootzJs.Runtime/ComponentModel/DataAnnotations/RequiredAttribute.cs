@@ -59,17 +59,15 @@ namespace System.ComponentModel.DataAnnotations
         /// true if validation is successful; otherwise, false.
         /// </returns>
         /// <param name="value">The data field value to validate.</param><exception cref="T:System.ComponentModel.DataAnnotations.ValidationException">The data field value was null.</exception>
-/*
         public override bool IsValid(object value)
         {
             if (value == null)
                 return false;
-            string str = value as string;
-            if (str != null && !this.AllowEmptyStrings)
+            var str = value as string;
+            if (str != null && !AllowEmptyStrings)
                 return str.Trim().Length != 0;
             else
                 return true;
         }
-*/
     }
 }

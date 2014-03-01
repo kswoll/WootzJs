@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.WootzJs;
@@ -44,23 +45,72 @@ namespace WootzJs.Mvc.Models
     public abstract class Model : IAutoNotifyPropertyChanged, IModel
     {
         public ControllerContext ControllerContext { get; set; }
-        public IReadOnlyList<Property> Properties { get; protected set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private IReadOnlyList<Property> properties;
+        private Dictionary<string, Property> propertiesByName;
+
+        public IReadOnlyList<Property> Properties
+        {
+            get { return properties; }
+            set
+            {
+                properties = value;
+                propertiesByName = properties.ToDictionary(x => x.Name);
+            }
+        }
+
         public void NotifyPropertyChanged(string propertyName)
         {
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-                OnPropertyChanged(propertyName);
+            if (propertyName == "Properties" || propertyName == "ControllerContext")
+                return;
+
+            var property = GetProperty(propertyName);
+            property.NotifyChanged();
+
+            OnPropertyChanged(propertyName);
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
+            var propertyChanged = PropertyChanged;
+            if (propertyChanged != null)
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Validate(ValidateEvent e)
         {
+            foreach (var property in Properties)
+            {
+                var propertyValidations = new List<Validation>();
+
+                foreach (var validationAttribute in property.PropertyInfo.GetCustomAttributes(typeof(ValidationAttribute), false).Cast<ValidationAttribute>())
+                {
+                    var validationContext = new ValidationContext(this) { MemberName = property.Name };
+                    var result = validationAttribute.GetValidationResult(property.Value, validationContext);
+                    Validation validation;
+                    if (result != ValidationResult.Success)
+                    {
+                        validation = new Validation(false, result.ErrorMessage, property);
+                    }
+                    else
+                    {
+                        validation = new Validation(true);
+                    }
+                    e.AddValidation(validation);
+                    propertyValidations.Add(validation);
+                }
+                if (propertyValidations.Any())
+                {
+                    property.NotifyValidated(propertyValidations.ToArray());
+                }
+            }
+        }
+
+        public Property GetProperty(string name)
+        {
+            return propertiesByName[name];
         }
     }
 

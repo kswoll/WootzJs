@@ -43,7 +43,7 @@ namespace WootzJs.Mvc.Models
             Properties = properties;
         }
 
-        public Validation(bool isValid, string message, Property[] properties)
+        public Validation(bool isValid, string message = null, params Property[] properties)
         {
             IsValid = isValid;
             Message = message;

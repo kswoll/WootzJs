@@ -47,7 +47,7 @@ namespace System.Globalization
 
         public object GetFormat(Type formatType)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
 /*

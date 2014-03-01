@@ -27,12 +27,16 @@
 
 #endregion
 
+using System;
 using System.Reflection;
 
 namespace WootzJs.Mvc.Models
 {
     public class Property
     {
+        public event Action Changed;
+        public event Action<Validation[]> Validated;
+
         private Model model;
         private PropertyInfo propertyInfo;
 
@@ -61,6 +65,30 @@ namespace WootzJs.Mvc.Models
         {
             get { return propertyInfo.GetValue(model, null); }
             set { propertyInfo.SetValue(model, value, null); }
+        }
+
+        internal void NotifyValidated(Validation[] validations)
+        {
+            OnValidated(validations);
+        }
+
+        protected virtual void OnValidated(Validation[] validations)
+        {
+            var validated = Validated;
+            if (validated != null)
+                validated(validations);
+        }
+
+        internal void NotifyChanged()
+        {
+            OnChanged();
+        }
+
+        protected virtual void OnChanged()
+        {
+            var changed = Changed;
+            if (changed != null)
+                changed();
         }
     }
 

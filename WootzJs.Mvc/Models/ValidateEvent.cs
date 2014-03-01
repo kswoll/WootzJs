@@ -44,6 +44,11 @@ namespace WootzJs.Mvc.Models
             get { return validations; }
         }
 
+        public void AddValidation(Validation validation)
+        {
+            validations.Add(validation);
+        }
+
         public void AddValidation(bool isValid, string message = null, params Property[] properties)
         {
             validations.Add(new Validation(isValid, message, properties));

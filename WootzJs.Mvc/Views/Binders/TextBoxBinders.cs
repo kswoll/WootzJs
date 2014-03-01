@@ -29,16 +29,17 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.WootzJs;
+using WootzJs.Mvc.Models;
 
 namespace WootzJs.Mvc.Views.Binders
 {
     public static class TextBoxBinders
     {
-        public static void BindTextBox<TModel, TValue>(this Bindings<TModel> bindings, TextBox textBox, Expression<Func<TModel, TValue>> property)
+        public static void BindTextBox<TModel, TValue>(this Bindings<TModel> bindings, TextBox textBox, Expression<Func<TModel, TValue>> property) where TModel : Model<TModel>
         {
-            var propertyName = property.GetPropertyName();
             var getter = property.Compile();
             var setter = property.GetPropertyInfo();
             var model = bindings.Model;
@@ -48,17 +49,13 @@ namespace WootzJs.Mvc.Views.Binders
 
             textBox.Changed += () => setter.SetValue(model, null);
 
-            if (model is INotifyPropertyChanged)
+            var prop = model.GetProperty(property);
+            prop.Changed += updateText;
+            prop.Validated += validations => 
             {
-                var notifyModel = (INotifyPropertyChanged)model;
-                notifyModel.PropertyChanged += (sender, args) =>
-                {
-                    if (args.PropertyName == propertyName)
-                    {
-                        updateText();
-                    }
-                };
-            }
+                var application = textBox.ViewContext.ControllerContext.Application;
+                application.NotifyOnValidatedControl(textBox, validations);
+            };
         }
     }
 }

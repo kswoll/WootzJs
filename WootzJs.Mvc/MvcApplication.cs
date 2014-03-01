@@ -200,12 +200,12 @@ namespace WootzJs.Mvc
             return new ViewContext { ControllerContext = controller.ControllerContext };
         }
 
-        internal void NotifyOnValidate(ValidateEvent evt)
+        internal void NotifyOnValidatedControl(Control control, Validation[] validations)
         {
-            OnValidate(evt);
+            OnValidatedControl(control, validations);
         }
 
-        protected virtual void OnValidate(ValidateEvent evt)
+        protected virtual void OnValidatedControl(Control control, Validation[] validations)
         {
         }
 

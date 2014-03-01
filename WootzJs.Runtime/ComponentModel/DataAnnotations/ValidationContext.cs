@@ -72,9 +72,10 @@ namespace System.ComponentModel.DataAnnotations
         /// property bag of <paramref name="items"/>.
         /// </summary>
         /// <param name="instance">The object instance being validated.  It cannot be null.</param>
-        /// <param name="items">Optional set of key/value pairs to make available to consumers via <see cref="Items"/>.
-        /// If null, an empty dictionary will be created.  If not null, the set of key/value pairs will be copied into a
-        /// new dictionary, preventing consumers from modifying the original dictionary.
+        /// <param name="items">Optional set of key/value pairs to make available to consumers 
+        /// via <see cref="Items"/>. If null, an empty dictionary will be created.  If not null, the 
+        /// set of key/value pairs will be copied into a new dictionary, preventing consumers from 
+        /// modifying the original dictionary.
         /// </param>
         /// <exception cref="ArgumentNullException">When <paramref name="instance"/> is <c>null</c></exception>
         public ValidationContext(object instance, IDictionary<object, object> items)

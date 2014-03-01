@@ -43,7 +43,7 @@ namespace System.ComponentModel.DataAnnotations
         private Func<string> _errorMessageResourceAccessor;
         private string _errorMessageResourceName;
         private Type _errorMessageResourceType;
-        private bool _isCallingOverload;
+        private bool isCallingOverload;
 
         /// <summary>
         /// Gets the localized validation error message.
@@ -178,16 +178,16 @@ namespace System.ComponentModel.DataAnnotations
         /// <param name="value">The value of the object to validate. </param>
         public virtual bool IsValid(object value)
         {
-            if (_isCallingOverload)
+            if (isCallingOverload)
                 throw new NotImplementedException("Not Implemented");
-            _isCallingOverload = true;
+            isCallingOverload = true;
             try
             {
                 return IsValid(value, null) == null;
             }
             finally
             {
-                _isCallingOverload = false;
+                isCallingOverload = false;
             }
         }
 
@@ -201,30 +201,26 @@ namespace System.ComponentModel.DataAnnotations
         /// <param name="value">The value to validate.</param><param name="validationContext">The context information about the validation operation.</param>
         protected virtual ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (_isCallingOverload)
+            if (isCallingOverload)
                 throw new NotImplementedException();
-            _isCallingOverload = true;
+            isCallingOverload = true;
             try
             {
-                var local_0 = ValidationResult.Success;
+                var result = ValidationResult.Success;
                 if (!IsValid(value))
                 {
-                    string[] temp_26;
+                    string[] memberNames;
                     if (validationContext.MemberName == null)
-                        temp_26 = null;
+                        memberNames = null;
                     else
-                        temp_26 = new string[1]
-                        {
-                            validationContext.MemberName
-                        };
-                    string[] local_1 = temp_26;
-                    local_0 = new ValidationResult(FormatErrorMessage(validationContext.DisplayName), local_1);
+                        memberNames = new string[] { validationContext.MemberName };
+                    result = new ValidationResult(FormatErrorMessage(validationContext.DisplayName), memberNames);
                 }
-                return local_0;
+                return result;
             }
             finally
             {
-                _isCallingOverload = false;
+                isCallingOverload = false;
             }
         }
 
@@ -249,7 +245,10 @@ namespace System.ComponentModel.DataAnnotations
         /// <summary>
         /// Validates the specified object.
         /// </summary>
-        /// <param name="value">The value of the object to validate.</param><param name="name">The name to include in the error message.</param><exception cref="T:System.ComponentModel.DataAnnotations.ValidationException"><paramref name="value"/> is not valid.</exception>
+        /// <param name="value">The value of the object to validate.</param>
+        /// <param name="name">The name to include in the error message.</param>
+        /// <exception cref="T:System.ComponentModel.DataAnnotations.ValidationException"><paramref name="value"/> 
+        /// is not valid.</exception>
         public void Validate(object value, string name)
         {
             if (!IsValid(value))
