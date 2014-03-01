@@ -40,16 +40,14 @@ namespace WootzJs.Mvc.Views.Binders
     {
         public static void BindTextBox<TModel, TValue>(this Bindings<TModel> bindings, TextBox textBox, Expression<Func<TModel, TValue>> property) where TModel : Model<TModel>
         {
-            var getter = property.Compile();
-            var setter = property.GetPropertyInfo();
             var model = bindings.Model;
+            var prop = model.GetProperty(property);
 
-            Action updateText = () => textBox.Text = (string)Convert.ChangeType(getter(model), typeof(string));
+            Action updateText = () => textBox.Text = (string)Convert.ChangeType(prop.Value, typeof(string));
             updateText();
 
-            textBox.Changed += () => setter.SetValue(model, null);
+            textBox.Changed += () => prop.Value = Convert.ChangeType(textBox.Text, prop.PropertyInfo.PropertyType);
 
-            var prop = model.GetProperty(property);
             prop.Changed += updateText;
             prop.Validated += validations => 
             {
