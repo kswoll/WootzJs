@@ -54,6 +54,7 @@ namespace WootzJs.Mvc.Views
             headerContainerDiv = Browser.Document.CreateElement("div");
             headerContainerDiv.Style.Position = "relative";
             headerContainerDiv.Style.Overflow = "hidden";
+            headerContainerDiv.Style.ZIndex = "-1";
             headerContainerDiv.AppendChild(headerDiv);
 
             contentDiv = Browser.Document.CreateElement("div");
