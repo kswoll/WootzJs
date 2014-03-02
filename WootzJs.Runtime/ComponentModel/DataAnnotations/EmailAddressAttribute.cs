@@ -66,7 +66,7 @@ namespace System.ComponentModel.DataAnnotations
                 return true;
             var input = value as string;
             if (input != null)
-                return _regex.match(input) != null;
+                return _regex.exec(input) != null;
             else
                 return false;
         }
