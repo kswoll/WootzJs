@@ -1743,7 +1743,10 @@ namespace WootzJs.Compiler
 
         public JsExpression TypeOf(TypeSymbol type)
         {
-            return Type(type).Member(SpecialNames.GetTypeFromType).Invoke();
+            var typeExpression = Type(type);
+//            if (type.IsExported() && !type.IsBuiltIn() && !(type is TypeParameterSymbol))
+//                typeExpression = typeExpression.Invoke();
+            return typeExpression.Member(SpecialNames.GetTypeFromType).Invoke();
         }
 
         public JsExpression Type(TypeSymbol type, bool forceUnconstructedScope = false)

@@ -85,6 +85,15 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(testEnum, 323432);
         }
 
+        [Test]
+        public void EnumNames()
+        {
+            var names = Enum.GetNames(typeof(EnumNamesClass));
+            QUnit.AreEqual(names[0], "One");
+            QUnit.AreEqual(names[1], "Two");
+            QUnit.AreEqual(names[2], "Three");
+        }
+
         public enum TestEnum
         {
             One = 0, 
@@ -99,6 +108,11 @@ namespace WootzJs.Compiler.Tests
             One = 1 << 0,
             Two = 1 << 1,
             Three = 1 << 2
+        }
+
+        public enum EnumNamesClass
+        {
+            One, Two, Three
         }
     }
 }

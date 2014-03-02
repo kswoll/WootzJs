@@ -84,7 +84,11 @@
     <Compile Include="Collections\IStructuralComparable.cs" />
     <Compile Include="Collections\IStructuralEquatable.cs" />
     <Compile Include="Collections\Generic\Stack.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\DataType.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\DataTypeAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DisplayAttribute.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\DisplayFormatAttribute.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\EmailAddressAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\LocalizableString.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ValidationAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ValidationAttributeStore.cs" />

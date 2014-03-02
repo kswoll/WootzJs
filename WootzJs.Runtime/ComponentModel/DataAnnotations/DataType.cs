@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,18 +24,32 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace System.Runtime.WootzJs
+namespace System.ComponentModel.DataAnnotations
 {
-    [Js(Export = false, Name = "RegExp")]
-    public class JsRegExp
+    /// <summary>
+    /// Represents an enumeration of the data types associated with data fields and parameters.
+    /// </summary>
+    public enum DataType
     {
-        public JsRegExp(string s)
-        {
-        }
-
-        public extern bool test(JsString value);
-        public extern string[] match(JsString value);
+        Custom,
+        DateTime,
+        Date,
+        Time,
+        Duration,
+        PhoneNumber,
+        Currency,
+        Text,
+        Html,
+        MultilineText,
+        EmailAddress,
+        Password,
+        Url,
+        ImageUrl,
+        CreditCard,
+        PostalCode,
+        Upload,
     }
 }

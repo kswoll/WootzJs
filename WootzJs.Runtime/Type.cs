@@ -685,6 +685,11 @@ namespace System
             return Enum.GetEnumValues(this);
         }
 
+        public string[] GetEnumNames()
+        {
+            return Enum.GetNames(this);
+        }
+
         public Type MakeArrayType()
         {
             return MakeArrayType(1);

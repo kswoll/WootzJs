@@ -1,4 +1,5 @@
 #region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,6 +24,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
 using System.Collections.Generic;
@@ -39,6 +41,7 @@ namespace System
 
         private static Dictionary<string, Dictionary<string, Enum>> enumsByTypeAndName = new Dictionary<string, Dictionary<string, Enum>>();
         private static Dictionary<string, Dictionary<object, Enum>> enumsByTypeAndValue = new Dictionary<string, Dictionary<object, Enum>>();
+        private static Dictionary<string, List<Enum>> enumsByType = new Dictionary<string, List<Enum>>();
 
         public Enum(string name, object value)
         {
@@ -65,11 +68,19 @@ namespace System
                 enumsByTypeAndValue[___type.TypeName] = enumsByValue;
             }
             enumsByValue[value] = this;
+
+            List<Enum> enums;
+            if (!enumsByType.TryGetValue(___type.TypeName, out enums))
+            {
+                enums = new List<Enum>();
+                enumsByType[___type.TypeName] = enums;
+            }
+            enums.Add(this);
         }
 
         public static Array GetEnumValues(Type type)
         {
-            return enumsByTypeAndValue[type.___type.TypeName].Values.ToArray();
+            return enumsByType[type.___type.TypeName].ToArray();
         }
 
         public object GetValue()
@@ -154,6 +165,22 @@ namespace System
         public override int GetHashCode()
         {
             return (value != null ? value.GetHashCode() : 0);
+        }
+
+        /// <summary>
+        /// Retrieves an array of the names of the constants in a specified enumeration.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string array of the names of the constants in <paramref name="enumType"/>.
+        /// </returns>
+        /// <param name="enumType">An enumeration type. </param><exception cref="T:System.ArgumentNullException"><paramref name="enumType"/> is null. </exception><exception cref="T:System.ArgumentException"><paramref name="enumType"/> parameter is not an <see cref="T:System.Enum"/>. </exception><filterpriority>1</filterpriority>
+        public static string[] GetNames(Type enumType)
+        {
+            if (enumType == null)
+                throw new ArgumentNullException("enumType");
+            enumType.thisType.invoke();
+            return enumsByType[enumType.thisType.TypeName].Select(x => x.name).ToArray();
         }
     }
 }
