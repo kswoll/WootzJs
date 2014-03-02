@@ -28,11 +28,8 @@
 #endregion
 
 using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.WootzJs;
-using WootzJs.Mvc.Models;
+using WootzJs.Models;
 
 namespace WootzJs.Mvc.Views.Binders
 {

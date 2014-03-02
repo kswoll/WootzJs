@@ -30,7 +30,7 @@
 using System;
 using System.Reflection;
 
-namespace WootzJs.Mvc.Models
+namespace WootzJs.Models
 {
     public class Property
     {

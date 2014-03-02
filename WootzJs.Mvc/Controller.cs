@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using WootzJs.Mvc.Models;
+using WootzJs.Models;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
 

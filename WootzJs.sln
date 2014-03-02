@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Rx.Tests", "WootzJs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Injection", "WootzJs.Injection\WootzJs.Injection.csproj", "{DC552591-49BA-463D-8461-EFBCC1061A51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Models", "WootzJs.Models\WootzJs.Models.csproj", "{1B95BFDE-4A05-4CF7-A38D-B1B25FC131F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{DC552591-49BA-463D-8461-EFBCC1061A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC552591-49BA-463D-8461-EFBCC1061A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC552591-49BA-463D-8461-EFBCC1061A51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B95BFDE-4A05-4CF7-A38D-B1B25FC131F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B95BFDE-4A05-4CF7-A38D-B1B25FC131F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B95BFDE-4A05-4CF7-A38D-B1B25FC131F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B95BFDE-4A05-4CF7-A38D-B1B25FC131F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.WootzJs;
 using System.Web;
-using WootzJs.Mvc.Models;
+using WootzJs.Models;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
 using WootzJs.Mvc.Views.Css;
@@ -216,7 +216,7 @@ namespace WootzJs.Mvc
 
         protected virtual void OnBindModel(Controller controller, Model model)
         {
-            model.ControllerContext = controller.ControllerContext;
+//            model.ControllerContext = controller.ControllerContext;
         }
     }
 }

@@ -29,29 +29,25 @@
 
 using System.Collections.Generic;
 
-namespace WootzJs.Mvc.Models
+namespace WootzJs.Models
 {
-    public class ValidateEvent 
+    public class Validation
     {
-        private List<Validation> validations = new List<Validation>();
+        public bool IsValid { get; set; }
+        public string Message { get; set; } 
+        public IReadOnlyList<Property> Properties { get; set; }
 
-        public ValidateEvent()
+        public Validation(bool isValid, Property[] properties)
         {
+            IsValid = isValid;
+            Properties = properties;
         }
 
-        public IEnumerable<Validation> Validations
+        public Validation(bool isValid, string message = null, params Property[] properties)
         {
-            get { return validations; }
-        }
-
-        public void AddValidation(Validation validation)
-        {
-            validations.Add(validation);
-        }
-
-        public void AddValidation(bool isValid, string message = null, params Property[] properties)
-        {
-            validations.Add(new Validation(isValid, message, properties));
+            IsValid = isValid;
+            Message = message;
+            Properties = properties;
         }
     }
 }

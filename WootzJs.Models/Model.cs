@@ -35,17 +35,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.WootzJs;
 
-namespace WootzJs.Mvc.Models
+namespace WootzJs.Models
 {
-    public interface IModel
+    public abstract class Model : IAutoNotifyPropertyChanged
     {
-        ControllerContext ControllerContext { get; }
-    }
-
-    public abstract class Model : IAutoNotifyPropertyChanged, IModel
-    {
-        public ControllerContext ControllerContext { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private IReadOnlyList<Property> properties;
