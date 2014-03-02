@@ -35,6 +35,6 @@ namespace System.Runtime.WootzJs
         }
 
         public extern bool test(JsString value);
-        public extern string[] match(JsString value);
+        public extern string[] exec(JsString value);
     }
 }
