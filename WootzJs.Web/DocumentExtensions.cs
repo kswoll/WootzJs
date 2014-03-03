@@ -6,6 +6,29 @@ namespace WootzJs.Web
 {
     public static class DocumentExtensions
     {
+        private static int mouseX;
+        private static int mouseY;
+
+        static DocumentExtensions()
+        {
+            Browser.Document.AddEventListener("mousemove", evt =>
+            {
+                var mouseEvent = (MouseEvent)evt;
+                mouseX = mouseEvent.ScreenX;
+                mouseY = mouseEvent.ScreenY;
+            });
+        }
+
+        public static int GetMouseX(this Document document)
+        {
+            return mouseX;
+        }
+
+        public static int GetMouseY(this Document document)
+        {
+            return mouseY;
+        }
+
         public static Element GetElementByTagName(this Document document, string tagName)
         {
             var result = document.GetElementsByTagName(tagName);

@@ -303,9 +303,20 @@ namespace WootzJs.Compiler
 
         public static MethodSymbol GetMethod(this NamedTypeSymbol type, string name, params TypeSymbol[] parameterTypes)
         {
+            MethodSymbol method;
+            if (!TryGetMethod(type, name, out method, parameterTypes))
+                throw new Exception();
+            return method;
+        }
+
+        public static bool TryGetMethod(this NamedTypeSymbol type, string name, out MethodSymbol method, params TypeSymbol[] parameterTypes)
+        {
             var candidates = type.GetMembers(name).OfType<MethodSymbol>().ToArray();
             if (candidates.Length == 1)
-                return candidates[0];
+            {
+                method = candidates[0];
+                return true;
+            }
             foreach (var candidate in candidates)
             {
                 if (candidate.Parameters.Count != parameterTypes.Length)
@@ -320,9 +331,13 @@ namespace WootzJs.Compiler
                     }
                 }
                 if (valid)
-                    return candidate;
+                {
+                    method = candidate;
+                    return true;                    
+                }
             }
-            throw new Exception();
+            method = null;
+            return false;
         }
 
         public static TypeSyntax ToTypeSyntax(this TypeSymbol symbol)

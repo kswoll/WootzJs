@@ -26,5 +26,16 @@
             }
             return current == Browser.Document.Body.ParentElement;
         }
+
+        public static bool IsMouseInElement(this Element element)
+        {
+            var mousedNodes = Browser.Document.QuerySelectorAll(":hover");
+            for (var i = 0; i < mousedNodes.Length; i++)
+            {
+                if (mousedNodes[i] == element) 
+                    return true;
+            }
+            return false;
+        }
     }
 }

@@ -136,6 +136,12 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System">
+      <HintPath>..\build\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>..\build\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
     <Reference Include="WootzJs.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\build\WootzJs.Models.dll</HintPath>

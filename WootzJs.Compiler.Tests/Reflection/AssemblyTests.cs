@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.WootzJs;
 
@@ -46,16 +47,20 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var mscorlib = assemblies[0];
-            var tests = assemblies[1];
+            var system = assemblies[1];
+            var systemComponentModelDataAnnotations = assemblies[2];
+            var tests = assemblies[3];
 
             QUnit.AreEqual(mscorlib.FullName, "mscorlib");
+            QUnit.AreEqual(system.FullName, "System");
+            QUnit.AreEqual(systemComponentModelDataAnnotations.FullName, "System.ComponentModel.DataAnnotations");
             QUnit.AreEqual(tests.FullName, "WootzJs.Compiler.Tests");
         }
 
         [Test]
         public void TypeByName()
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies()[1];
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             var type = assembly.GetType("WootzJs.Compiler.Tests.Reflection.AssemblyTests.TestClass");
             QUnit.IsTrue(type != null);
         }
@@ -63,7 +68,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         [Test]
         public void TypeByNameThrowsOnNotFound()
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies()[1];
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             try
             {
                 var type = assembly.GetType("WootzJs.Compiler.Tests.Reflection.AssemblyTests.InvalidClass", true);
@@ -78,7 +83,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         [Test]
         public void TypeByNameIgnoreCase()
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies()[1];
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             var type = assembly.GetType("WOOTZJS.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
             QUnit.IsTrue(type != null);
         }
@@ -86,7 +91,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         [Test]
         public void AssemblyTitle()
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies()[1];
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             var assemblyTitleAttribute = (AssemblyTitleAttribute)assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0];
             QUnit.AreEqual(assemblyTitleAttribute.Title, "WootzJs.Compiler.Tests");
         }

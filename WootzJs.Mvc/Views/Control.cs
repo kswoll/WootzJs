@@ -261,11 +261,19 @@ namespace WootzJs.Mvc.Views
             OnMouseUp();
         }
 
-        protected void OnClick(Event evt)
+        /// <summary>
+        /// Warning:  This method will not be invoked if there are no click events attached to it.
+        /// </summary>
+        protected virtual void OnClick(Event evt)
         {
             var click = this.click;
             if (click != null)
                 click(evt);
+        }
+
+        public bool IsMouseInControl()
+        {
+            return Node.IsMouseInElement();
         }
 
         private void OnMouseEnter()

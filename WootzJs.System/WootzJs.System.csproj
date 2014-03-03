@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B95BFDE-4A05-4CF7-A38D-B1B25FC131F9}</ProjectGuid>
+    <ProjectGuid>{976AA4B0-D441-4F50-802B-6D56BE3E9DBE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WootzJs.Models</RootNamespace>
-    <AssemblyName>WootzJs.Models</AssemblyName>
+    <RootNamespace>System</RootNamespace>
+    <AssemblyName>System</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,28 +29,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <HintPath>..\build\System.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <HintPath>..\build\System.ComponentModel.DataAnnotations.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Class.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="ComponentModel\INotifyPropertyChanged.cs" />
+    <Compile Include="ComponentModel\PropertyChangedEventArgs.cs" />
+    <Compile Include="ComponentModel\PropertyChangedEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Property.cs" />
-    <Compile Include="ValidateEvent.cs" />
-    <Compile Include="Validation.cs" />
   </ItemGroup>
   <Import Project="..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
 copy $(SolutionDir)build\mscorlib.js $(TargetDir)
-copy $(TargetDir)WootzJs.Models.* $(SolutionDir)build</PostBuildEvent>
+copy $(TargetDir)System.* $(SolutionDir)build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

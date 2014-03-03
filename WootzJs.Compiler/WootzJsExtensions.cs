@@ -58,10 +58,14 @@ namespace WootzJs.Compiler
             return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Extension", false);
         }
 
-        public static bool IsAutoNotifyPropertyChange(this Symbol symbol)
+        public static bool IsAutoNotifyPropertyChange(this Symbol symbol, out MethodSymbol method)
         {
-            var classType = symbol is TypeSymbol ? (TypeSymbol)symbol : symbol.ContainingType;
-            return classType.Interfaces.Any(x => Context.Instance.IAutoNotifyPropertyChanged.IsAssignableFrom(x));
+            var classType = symbol is NamedTypeSymbol ? (NamedTypeSymbol)symbol : symbol.ContainingType;
+
+            // If the type is INotifyPropertyChanged and it duck types to NotifyPropertyChanged
+            var isNotifyPropertyChanged = classType.Interfaces.Any(x => Context.Instance.INotifyPropertyChanged.IsAssignableFrom(x));
+            var isDuckTypedToNotifyPropertyChanged = classType.TryGetMethod("NotifyPropertyChanged", out method, Context.Instance.String);
+            return isNotifyPropertyChanged && isDuckTypedToNotifyPropertyChanged;
         }
     }
 }

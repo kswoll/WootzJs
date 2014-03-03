@@ -34,6 +34,16 @@ namespace WootzJs.Web
     [Js(Export = false)]
     public class MouseEvent : Event
     {
-         
+        [Js(Name = "clientX")]
+        public extern int ClientX { get; }
+
+        [Js(Name = "clientY")]
+        public extern int ClientY { get; }
+
+        [Js(Name = "screenX")]
+        public extern int ScreenX { get; }
+
+        [Js(Name = "screenY")]
+        public extern int ScreenY { get; }
     }
 }

@@ -45,7 +45,7 @@ namespace WootzJs.Compiler.Tests.ComponentModel
             QUnit.AreEqual(propertyName, "StringProperty");
         }
 
-        public class OnePropertyClass : IAutoNotifyPropertyChanged
+        public class OnePropertyClass : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
 

@@ -27,12 +27,13 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace System.Runtime.WootzJs
+namespace WootzJs.Models
 {
     public static class Class<T>
     {

@@ -33,25 +33,19 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.WootzJs;
 
 namespace WootzJs.Models
 {
-    public abstract class Model : IAutoNotifyPropertyChanged
+    public abstract class Model : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IReadOnlyList<Property> properties;
-        private Dictionary<string, Property> propertiesByName;
+        protected IReadOnlyList<Property> properties;
+        protected Dictionary<string, Property> propertiesByName;
 
-        public IReadOnlyList<Property> Properties
+        public IReadOnlyList<Property> GetProperties()
         {
-            get { return properties; }
-            set
-            {
-                properties = value;
-                propertiesByName = properties.ToDictionary(x => x.Name);
-            }
+            return properties;
         }
 
         public void NotifyPropertyChanged(string propertyName)
@@ -74,7 +68,7 @@ namespace WootzJs.Models
 
         public void Validate(ValidateEvent e)
         {
-            foreach (var property in Properties)
+            foreach (var property in properties)
             {
                 var propertyValidations = new List<Validation>();
 
@@ -94,6 +88,14 @@ namespace WootzJs.Models
                     e.AddValidation(validation);
                     propertyValidations.Add(validation);
                 }
+
+                if (typeof(Model).IsAssignableFrom(property.PropertyInfo.PropertyType))
+                {
+                    var submodel = (Model)property.Value;
+                    if (submodel != null)
+                        submodel.Validate(e);
+                }
+
                 if (propertyValidations.Any())
                 {
                     property.NotifyValidated(propertyValidations.ToArray());
@@ -112,21 +114,36 @@ namespace WootzJs.Models
         public Model()
         {
             var properties = new List<Property>();
-            foreach (var prop in GetType().GetProperties())
+            foreach (var prop in GetType().GetProperties().Where(x => x.GetGetMethod() != null && !x.GetGetMethod().IsStatic))
             {
                 var unconstructedType = typeof(Property<,>);
                 var constructedType = unconstructedType.MakeGenericType(typeof(T), prop.PropertyType);
                 var constructor = constructedType.GetConstructors()[0];
-                var property = constructor.Invoke(null, new object[] { this, prop });
+                var property = (Property)constructor.Invoke(new object[] { this, prop });
                 properties.Add(property);
             }
-            Properties = properties;
+            base.properties = properties;
+            base.propertiesByName = properties.ToDictionary(x => x.Name);
         }
 
         public Property GetProperty<TValue>(Expression<Func<T, TValue>> expression)
         {
-            var propertyName = expression.GetPropertyName();
-            return Properties.Single(x => x.Name == propertyName);
+            var propertyPath = expression.GetPropertyPath().ToArray();
+            Model current = this;
+            for (var i = 0; i < propertyPath.Length; i++)
+            {
+                var part = propertyPath[i];
+                var next = current.GetProperty(part.Name);
+                if (i < propertyPath.Length - 1)
+                {
+                    current = (Model)next.Value;
+                    if (current == null)
+                        throw new Exception("Cannot resolve property with path: " + string.Join(", ", propertyPath.Select(x => x.Name)) + ", " + part.Name + " is null");
+                }
+                else
+                    return next;
+            }
+            throw new Exception();
         }
     }
 }
