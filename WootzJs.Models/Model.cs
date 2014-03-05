@@ -96,10 +96,7 @@ namespace WootzJs.Models
                         submodel.Validate(e);
                 }
 
-                if (propertyValidations.Any())
-                {
-                    property.NotifyValidated(propertyValidations.ToArray());
-                }
+                property.NotifyValidated(propertyValidations.ToArray());
             }
         }
 
@@ -138,7 +135,7 @@ namespace WootzJs.Models
                 {
                     current = (Model)next.Value;
                     if (current == null)
-                        throw new Exception("Cannot resolve property with path: " + string.Join(", ", propertyPath.Select(x => x.Name)) + ", " + part.Name + " is null");
+                        throw new Exception("Cannot resolve property with path: " + string.Join(".", propertyPath.Select(x => x.Name)) + ", " + part.Name + " is null");
                 }
                 else
                     return next;
