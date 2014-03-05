@@ -37,7 +37,7 @@ namespace WootzJs.Models
         public string Message { get; set; } 
         public IReadOnlyList<Property> Properties { get; set; }
 
-        public Validation(bool isValid, Property[] properties)
+        public Validation(bool isValid, params Property[] properties)
         {
             IsValid = isValid;
             Properties = properties;
