@@ -56,6 +56,11 @@ namespace WootzJs.Models
             get { return propertyInfo.Name; }
         }
 
+        public string FullName
+        {
+            get { return propertyInfo.DeclaringType.FullName + "." + Name; }
+        }
+
         public PropertyInfo PropertyInfo
         {
             get { return propertyInfo; }
@@ -67,7 +72,7 @@ namespace WootzJs.Models
             set { propertyInfo.SetValue(model, value, null); }
         }
 
-        internal void NotifyValidated(Validation[] validations)
+        public void NotifyValidated(Validation[] validations)
         {
             OnValidated(validations);
         }

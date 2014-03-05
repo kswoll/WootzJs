@@ -6,9 +6,10 @@ namespace WootzJs.Web
 {
     public static class DocumentExtensions
     {
-        private static int mouseX;
-        private static int mouseY;
+//        private static int mouseX;
+//        private static int mouseY;
 
+/*
         static DocumentExtensions()
         {
             Browser.Document.AddEventListener("mousemove", evt =>
@@ -28,6 +29,7 @@ namespace WootzJs.Web
         {
             return mouseY;
         }
+*/
 
         public static Element GetElementByTagName(this Document document, string tagName)
         {
@@ -47,6 +49,38 @@ namespace WootzJs.Web
                 evt.As<JsObject>().member("initCustomEvent").invoke(eventType, false, true, args.As<JsObject>());
                 return evt;
             }
+        }
+
+        public static string GetCookie(this Document document, string name)
+        {
+            var allCookies = document.Cookie;
+            var tokens = allCookies
+                .Split(';')
+                .Select(x => x.Split('='))
+                .Select(x => new { Name = x[0], Value = x[1] })
+                .ToArray();
+            var token = tokens.SingleOrDefault(x => x.Name == name);
+            if (token == null)
+                return null;
+
+            return token.Value;
+        }
+
+        public static void SetCookie(this Document document, string name, Cookie value)
+        {
+            var newValue = value.Encode();
+            document.Cookie = name + "=" + newValue;
+        }
+
+        public static void DeleteCookie(this Document document, string name)
+        {
+            var cookie = new Cookie
+            {
+                Value = "", 
+                MaxAge = TimeSpan.FromSeconds(0)
+            };
+            var newValue = cookie.Encode();
+            document.Cookie = name + "=" + newValue;
         }
     }
 }
