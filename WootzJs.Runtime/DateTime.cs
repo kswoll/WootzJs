@@ -36,10 +36,15 @@ namespace System
         private JsDate value;
         private DateTimeKind kind;
 
-        internal DateTime(JsDate value, DateTimeKind kind = DateTimeKind.Unspecified)
+        public DateTime(JsDate value, DateTimeKind kind = DateTimeKind.Unspecified)
         {
             this.value = value;
             this.kind = kind;
+        }
+
+        public JsDate JsDate
+        {
+            get { return value; }
         }
 
         /// <summary>
