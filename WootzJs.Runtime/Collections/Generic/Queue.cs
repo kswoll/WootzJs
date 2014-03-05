@@ -5,7 +5,23 @@ namespace System.Collections.Generic
     public class Queue<T> : IEnumerable<T>, ICollection
     {
         private JsArray storage = new JsArray();
- 
+
+        public Queue()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Collections.Generic.Queue`1"/> class that contains elements copied from the specified collection and has sufficient capacity to accommodate the number of elements copied.
+        /// </summary>
+        /// <param name="collection">The collection whose elements are copied to the new <see cref="T:System.Collections.Generic.Queue`1"/>.</param><exception cref="T:System.ArgumentNullException"><paramref name="collection"/> is null.</exception>
+        public Queue(IEnumerable<T> collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+            foreach (T obj in collection)
+                Enqueue(obj);
+        }
+
         public void Enqueue(T item)
         {
             storage.push(item.As<JsObject>());
