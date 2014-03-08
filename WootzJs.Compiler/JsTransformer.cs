@@ -314,6 +314,21 @@ namespace WootzJs.Compiler
                 var block = (JsBlockStatement)member.Accept(this);
                 typeInitializer.Aggregate(block);
             }
+
+            // Initialize all the static fields
+            staticInitializer.Aggregate(idioms.InitializeStaticFields(node));
+
+            // Call all static initializers in sequence
+            foreach (var constructor in node.Members.OfType<ConstructorDeclarationSyntax>())
+            {
+                var constructorSymbol = model.GetDeclaredSymbol(constructor);
+                if (constructorSymbol.IsStatic)
+                {
+                    var body = (JsBlockStatement)constructor.Body.Accept(this);
+                    staticInitializer.Aggregate(body);
+                }
+            }
+
             PopDeclaration();
 
             return jsBlock;

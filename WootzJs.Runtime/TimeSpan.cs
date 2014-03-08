@@ -55,7 +55,7 @@ namespace System
         private const long SecondsPerMinute = 60;
         private const long MillisecondsPerSecond = 1000;
 
-        private readonly long ticks;
+        internal readonly long ticks;
 
         public TimeSpan(long ticks) : this()
         {

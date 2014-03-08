@@ -74,9 +74,21 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(primitiveFields.Enum, 0);
         }
 
+        [Test]
+        public void ConstField()
+        {
+            var value = ConstFieldClass.MyString;
+            QUnit.AreEqual(value, "foo");
+        }
+
         public class StaticFieldClass
         {
             public static string MyField;
+        }
+
+        public class ConstFieldClass
+        {
+            public const string MyString = "foo";
         }
 
         public class BaseClass : Object

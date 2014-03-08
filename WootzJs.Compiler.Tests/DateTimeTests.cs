@@ -46,5 +46,74 @@ namespace WootzJs.Compiler.Tests
             QUnit.AreEqual(date.Second, 5);
             QUnit.AreEqual(date.Millisecond, 30);
         }
+
+        [Test]
+        public void AddMilliseconds()
+        {
+            var originalDate = new DateTime(2012, 1, 1, 0, 0, 0, 995);
+            var newDate = originalDate.AddMilliseconds(10);
+            
+            QUnit.AreEqual(newDate.Second, 1);
+            QUnit.AreEqual(newDate.Millisecond, 5);
+        }
+
+        [Test]
+        public void AddSeconds()
+        {
+            var originalDate = new DateTime(2012, 1, 1, 0, 0, 55, 0);
+            var newDate = originalDate.AddSeconds(10);
+            
+            QUnit.AreEqual(newDate.Minute, 1);
+            QUnit.AreEqual(newDate.Second, 5);            
+        }
+
+        [Test]
+        public void AddMinutes()
+        {
+            var originalDate = new DateTime(2012, 1, 1, 0, 55, 0, 0);
+            var newDate = originalDate.AddMinutes(10);
+            
+            QUnit.AreEqual(newDate.Hour, 1);
+            QUnit.AreEqual(newDate.Minute, 5);            
+        }
+
+        [Test]
+        public void AddHours()
+        {
+            var originalDate = new DateTime(2012, 1, 1, 23, 0, 0, 0);
+            var newDate = originalDate.AddHours(2);
+            
+            QUnit.AreEqual(newDate.Hour, 1);
+            QUnit.AreEqual(newDate.Day, 2);            
+        }
+
+        [Test]
+        public void AddDays()
+        {
+            var originalDate = new DateTime(2012, 1, 31, 0, 0, 0, 0);
+            var newDate = originalDate.AddDays(1);
+            
+            QUnit.AreEqual(newDate.Day, 1);
+            QUnit.AreEqual(newDate.Month, 2);            
+        }
+
+        [Test]
+        public void AddMonths()
+        {
+            var originalDate = new DateTime(2012, 12, 1, 0, 0, 0, 0);
+            var newDate = originalDate.AddMonths(1);
+            
+            QUnit.AreEqual(newDate.Month, 1);
+            QUnit.AreEqual(newDate.Year, 2013);                        
+        }
+
+        [Test]
+        public void AddYears()
+        {
+            var originalDate = new DateTime(2012, 1, 1, 0, 0, 0, 0);
+            var newDate = originalDate.AddYears(1);
+            
+            QUnit.AreEqual(newDate.Year, 2013);
+        }
     }
 }

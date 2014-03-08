@@ -417,5 +417,134 @@ namespace System
         {
             return TimeSpan.FromMilliseconds(left.value - right.value);
         }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the value of the specified <see cref="T:System.TimeSpan"/> to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the time interval represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A positive or negative time interval. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime Add(TimeSpan value)
+        {
+            return this.AddTicks(value.ticks);
+        }
+
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of ticks to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the time represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of 100-nanosecond ticks. The <paramref name="value"/> parameter can be positive or negative. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddTicks(long value)
+        {
+            var milliseconds = value / TimeSpan.TicksPerMillisecond;
+            var newDate = new JsDate(this.value.getTime());
+            newDate.setMilliseconds(newDate.getMilliseconds() + (int)(milliseconds));
+            return new DateTime(newDate);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of years to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the number of years represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of years. The <paramref name="value"/> parameter can be negative or positive. </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="value"/> or the resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddYears(int value)
+        {
+            return this.AddMonths(value*12);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of months to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and <paramref name="months"/>.
+        /// </returns>
+        /// <param name="months">A number of months. The <paramref name="months"/> parameter can be negative or positive. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>.-or- <paramref name="months"/> is less than -120,000 or greater than 120,000. </exception><filterpriority>2</filterpriority>
+        public DateTime AddMonths(int months)
+        {
+            var newDate = new JsDate(value.getTime());
+            newDate.setMonth(newDate.getMonth() + months);
+            return new DateTime(newDate);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of days to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the number of days represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of whole and fractional days. The <paramref name="value"/> parameter can be negative or positive. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddDays(double value)
+        {
+            return Add(value, 86400000);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of hours to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the number of hours represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of whole and fractional hours. The <paramref name="value"/> parameter can be negative or positive. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddHours(double value)
+        {
+            return Add(value, 3600000);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of milliseconds to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the number of milliseconds represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of whole and fractional milliseconds. The <paramref name="value"/> parameter can be negative or positive. Note that this value is rounded to the nearest integer.</param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddMilliseconds(double value)
+        {
+            return Add(value, 1);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of minutes to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the number of minutes represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of whole and fractional minutes. The <paramref name="value"/> parameter can be negative or positive. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddMinutes(double value)
+        {
+            return Add(value, 60000);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.DateTime"/> that adds the specified number of seconds to the value of this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An object whose value is the sum of the date and time represented by this instance and the number of seconds represented by <paramref name="value"/>.
+        /// </returns>
+        /// <param name="value">A number of whole and fractional seconds. The <paramref name="value"/> parameter can be negative or positive. </param><exception cref="T:System.ArgumentOutOfRangeException">The resulting <see cref="T:System.DateTime"/> is less than <see cref="F:System.DateTime.MinValue"/> or greater than <see cref="F:System.DateTime.MaxValue"/>. </exception><filterpriority>2</filterpriority>
+        public DateTime AddSeconds(double value)
+        {
+            return Add(value, 1000);
+        }
+
+        private DateTime Add(double value, int scale)
+        {
+            var num = (long)(value*scale + (value >= 0.0 ? 0.5 : -0.5));
+            return AddTicks(num*10000L);
+        }
     }
 }
