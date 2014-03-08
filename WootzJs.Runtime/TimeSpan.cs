@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.WootzJs;
+using System.Text;
 
 namespace System
 {
@@ -513,7 +514,7 @@ namespace System
         /// <param name="t1">The first time interval to compare. </param><param name="t2">The second time interval to compare. </param><filterpriority>3</filterpriority>
         public static bool operator ==(TimeSpan t1, TimeSpan t2)
         {
-            return t1.ticks == t2.ticks;
+            return t2.As<object>() != null && t1.ticks == t2.ticks;
         }
 
         /// <summary>
@@ -526,7 +527,7 @@ namespace System
         /// <param name="t1">The first time interval to compare.</param><param name="t2">The second time interval to compare.</param><filterpriority>3</filterpriority>
         public static bool operator !=(TimeSpan t1, TimeSpan t2)
         {
-            return t1.ticks != t2.ticks;
+            return t2.As<object>() != null && t1.ticks != t2.ticks;
         }
 
         /// <summary>
