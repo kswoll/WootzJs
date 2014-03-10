@@ -45,13 +45,6 @@ namespace WootzJs.Mvc
 
         public void Start(Assembly assembly)
         {
-/*
-            Browser.Document.AddEventListener("DOMContentLoaded", evt => Ready(assembly));
-        }
-
-        private void Ready(Assembly assembly)
-        {
-*/
             Host = Browser.Window.Location.Host;
             Port = Browser.Window.Location.Port;
             Scheme = Browser.Window.Location.Protocol;
@@ -66,9 +59,19 @@ namespace WootzJs.Mvc
             var routeGenerator = new RouteGenerator();
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
-            Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + Browser.Window.Location.Search : ""), false);
+            OnStarting(() =>
+            {
+                Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + Browser.Window.Location.Search : ""), false);
+                OnStarted();
+            });
+        }
 
-            OnStarted();
+        /// <summary>
+        /// This occurs immediately before opening the initial page.
+        /// </summary>
+        protected virtual void OnStarting(Action continuation)
+        {
+            continuation();
         }
 
         protected virtual void OnStarted()
@@ -102,8 +105,8 @@ namespace WootzJs.Mvc
         private void OnPopState(PopStateEvent evt)
         {
             // If state is null then it means it's firing on first load, which we never care about
-            var path = (string)evt.State ?? initialPath;
-            if (path != currentPath)
+            var path = (string)evt.State;
+            if (path != null && path != currentPath)
                 Open(path, false);
         }
 

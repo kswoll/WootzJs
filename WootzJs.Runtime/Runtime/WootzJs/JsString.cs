@@ -65,6 +65,12 @@ namespace System.Runtime.WootzJs
         [Js(Name = "trim")]
         public extern JsString trim();
 
+        [Js(Name = "match")]
+        public extern JsArray match(JsRegExp regularExpression);
+
+        [Js(Name = "match")]
+        public extern JsArray match(JsObject o);
+
         public static extern bool operator <(JsString left, JsString right);
         public static extern bool operator >(JsString left, JsString right);
         public static extern bool operator <=(JsString left, JsString right);

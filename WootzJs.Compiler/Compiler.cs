@@ -112,6 +112,10 @@ namespace WootzJs.Compiler
             var assemblyVariable = Js.Variable("$" + projectName.MaskSpecialCharacters() + "$Assembly", Js.Null());
             jsCompilationUnit.Body.Local(assemblyVariable);
 
+            // Declare array to store all anonymous types
+            var anonymousTypes = Js.Variable(compilation.Assembly.GetAssemblyAnonymousTypesArray(), Js.Array());
+            jsCompilationUnit.Body.Local(anonymousTypes);
+
             // Declare array to store all the type functions in the assembly
             var assemblyTypes = Js.Variable(compilation.Assembly.GetAssemblyTypesArray(), Js.Array());
             jsCompilationUnit.Body.Local(assemblyTypes);

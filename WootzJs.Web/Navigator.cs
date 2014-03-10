@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,22 +24,23 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace System.Runtime.WootzJs
+using System.Runtime.WootzJs;
+
+namespace WootzJs.Web
 {
-    [Js(Export = false, Name = "RegExp")]
-    public class JsRegExp
+    [Js(Export = false)]
+    public class Navigator
     {
-        public JsRegExp(string pattern)
-        {
-        }
+        [Js(Name = "userAgent")]
+        public extern JsString UserAgent { get; }
 
-        public JsRegExp(string pattern, string options)
-        {
-        }
+        [Js(Name = "appName")]
+        public extern JsString AppName { get; }
 
-        public extern bool test(JsString value);
-        public extern string[] exec(JsString value);
+        [Js(Name = "appVersion")]
+        public extern JsString AppVersion { get; }
     }
 }

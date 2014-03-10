@@ -275,7 +275,7 @@ namespace System
             for (var i = 0; i < separator.Length; i++)
                 stringSeparator[i] = separator[i];
             var array = s.split(new JsRegExp(Join("|", stringSeparator.Select(x => EscapeRegex(x)))));
-            return array.As<string[]>();
+            return SpecialFunctions.InitializeArray(array, typeof(string).thisType).As<string[]>();
         }
 
         /// <summary>

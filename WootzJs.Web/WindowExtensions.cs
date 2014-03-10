@@ -33,9 +33,52 @@ namespace WootzJs.Web
 {
     public static class WindowExtensions
     {
+        private static string browserProduct;
+        private static string browserVersion;
+
         public static bool IsTouchDevice(this Window window)
         {
             return "ontouchstart".@in(window) || "onmsgesturechange".@in(window);
+        }
+
+        public static string GetBrowserProduct(this Window window)
+        {
+            window.GetBrowserInfo();
+            return browserProduct;
+        }
+
+        public static string GetBrowserVersion(this Window window)
+        {
+            window.GetBrowserInfo();
+            return browserVersion;
+        }
+
+        private static void GetBrowserInfo(this Window window)
+        {
+            if (browserProduct != null)
+                return;
+
+            var userAgent = window.Navigator.UserAgent;
+            var match = userAgent.match(Jsni.regex(@"(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)", "i")) ?? Jsni.array();
+            if (Jsni.regex("trident", "i").test(match[1].As<JsString>()))
+            {
+                browserProduct = "MSIE";
+                browserVersion = (Jsni.regex(@"\brv[ :]+(\d+(\.\d+)?)", "g").exec(userAgent) ?? new string[0])[1] ?? "";
+                return;
+            }
+            if (match[2])
+            {
+                browserProduct = match[1].As<JsString>();
+                browserVersion = match[2].As<JsString>();
+            }
+            else
+            {
+                browserProduct = window.Navigator.AppName;
+                browserVersion = window.Navigator.AppVersion;
+            }
+            var tailVersion = userAgent.match(Jsni.regex(@"version\/([\.\d]+)", "i"));
+            if (tailVersion != null)
+                browserVersion = tailVersion[1].As<JsString>();
         }
     }
 }

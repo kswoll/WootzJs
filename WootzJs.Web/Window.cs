@@ -49,5 +49,8 @@ namespace WootzJs.Web
 
         [Js(Name = "requestAnimationFrame")]
         public extern int RequestAnimationFrame(Action<int> step);
+
+        [Js(Name = "navigator")]
+        public extern Navigator Navigator { get; }
     }
 }

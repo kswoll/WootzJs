@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.WootzJs;
+using System.Web;
 
 namespace WootzJs.Web
 {
@@ -63,7 +64,7 @@ namespace WootzJs.Web
             if (token == null)
                 return null;
 
-            return token.Value;
+            return HttpUtility.UrlDecode(token.Value);
         }
 
         public static void SetCookie(this Document document, string name, Cookie value)

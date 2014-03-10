@@ -93,7 +93,8 @@ namespace WootzJs.Compiler
                 string name;
                 if (!anonymousTypeNames.TryGetValue(type, out name))
                 {
-                    name = "$AnonymousType$" + anonymousTypeNameCounter++;
+                    var index = anonymousTypeNameCounter++;
+                    name = type.ContainingAssembly.GetAssemblyAnonymousTypesArray() + "[" + index + "]";
                     anonymousTypeNames[type] = name;
                 }
                 return name;
@@ -362,6 +363,11 @@ namespace WootzJs.Compiler
         public static string GetAssemblyTypesArray(this AssemblySymbol assembly)
         {
             return "$" + assembly.Name.MaskSpecialCharacters() + "$AssemblyTypes";
+        }
+
+        public static string GetAssemblyAnonymousTypesArray(this AssemblySymbol assembly)
+        {
+            return "$" + assembly.Name.MaskSpecialCharacters() + "$AnonymousTypes";
         }
     }
 }

@@ -116,7 +116,7 @@ namespace WootzJs.Compiler
                 }
                 else
                 {
-                    block.Assign(Js.Reference("window." + classType.GetTypeName()), 
+                    block.Assign(Js.Reference(classType.GetTypeName()), 
                         Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
                 }
             }
