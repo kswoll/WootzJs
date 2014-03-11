@@ -2,12 +2,15 @@
 
 namespace WootzJs.Mvc.Views
 {
+    public enum DropDownAlignment { Left, Right }
+
     public class DropDown : Control
     {
         private Control content;
         private Control overlay;
         private Element contentNode;
         private Element overlayContainer;
+        private DropDownAlignment alignment;
 
         public DropDown()
         {
@@ -17,6 +20,25 @@ namespace WootzJs.Mvc.Views
         {
             Content = content;
             Overlay = overlay;
+        }
+
+        public DropDownAlignment Alignment
+        {
+            get { return alignment; }
+            set
+            {
+                EnsureNodeExists();
+                alignment = value;
+                switch (alignment)
+                {
+                    case DropDownAlignment.Left:
+                        overlayContainer.Style.Right = "inherit";
+                        break;
+                    case DropDownAlignment.Right:
+                        overlayContainer.Style.Right = "0px";
+                        break;
+                }
+            }
         }
 
         public Control Content
