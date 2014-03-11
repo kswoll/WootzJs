@@ -125,6 +125,13 @@ namespace WootzJs.Mvc
 
             if (pushState)
                 Browser.Window.History.PushState(url, view.Title, url);
+
+            Open(view);
+            OnOpen(url);
+        }
+
+        public void Open(View view)
+        {
             Browser.Document.Title = view.Title;
 
             if (this.view is Layout && view.LayoutType != null)
@@ -148,9 +155,7 @@ namespace WootzJs.Mvc
                 var layout = (Layout)this.view;
                 var sections = view.Sections;
                 layout.LoadSections(sections);
-            }
-
-            OnOpen(url);
+            }            
         }
 
         protected virtual void OnOpen(string url)
