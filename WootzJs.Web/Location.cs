@@ -24,5 +24,10 @@ namespace WootzJs.Web
         [Js(Name = "search")]
 // ReSharper disable once UnassignedReadonlyField
         public readonly string Search;
+
+        /// <summary>
+        /// This is necessary to support `Browser.Window.Location = "foo";`
+        /// </summary>
+        public static extern implicit operator Location(string location);
     }
 }
