@@ -47,6 +47,7 @@
     <Compile Include="AnonymousTypeTests.cs" />
     <Compile Include="ArrayTests.cs" />
     <Compile Include="AsExpressionTests.cs" />
+    <Compile Include="AsyncTests.cs" />
     <Compile Include="Collections\Generic\DictionaryTests.cs" />
     <Compile Include="Collections\Generic\ListTests.cs" />
     <Compile Include="Collections\Generic\QueueTests.cs" />

@@ -255,6 +255,7 @@
     <Compile Include="StringSplitOptions.cs" />
     <Compile Include="Text\StringBuilder.cs" />
     <Compile Include="Threading\Interlocked.cs" />
+    <Compile Include="Threading\Task.cs" />
     <Compile Include="TimeSpan.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Type.cs" />
