@@ -41,8 +41,9 @@ namespace System.Threading
         /// <param name="continuationAction">An action to run when the <see cref="T:System.Threading.Tasks.Task"/> completes. When run, the delegate will be passed the completed task as an argument.</param><exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.CancellationTokenSource"/> that created <paramref name="cancellationToken"/> has already been disposed.</exception><exception cref="T:System.ArgumentNullException">The <paramref name="continuationAction"/> argument is null.</exception>
         public Task ContinueWith(Action<Task> continuationAction)
         {
-            StackCrawlMark stackMark = StackCrawlMark.LookForMyCaller;
-            return this.ContinueWith(continuationAction, TaskScheduler.Current, new CancellationToken(), TaskContinuationOptions.None, ref stackMark);
+            return null;
+//            StackCrawlMark stackMark = StackCrawlMark.LookForMyCaller;
+//            return this.ContinueWith(continuationAction, TaskScheduler.Current, new CancellationToken(), TaskContinuationOptions.None, ref stackMark);
         }
     }
 }

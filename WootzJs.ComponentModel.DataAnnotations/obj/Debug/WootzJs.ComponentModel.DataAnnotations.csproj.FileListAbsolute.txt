@@ -1,9 +1,0 @@
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\bin\Debug\System.ComponentModel.DataAnnotations.dll
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\bin\Debug\System.ComponentModel.DataAnnotations.pdb
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\bin\Debug\mscorlib.dll
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\bin\Debug\System.dll
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\bin\Debug\System.pdb
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\bin\Debug\mscorlib.pdb
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\obj\Debug\WootzJs.ComponentModel.DataAnnotations.csprojResolveAssemblyReference.cache
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\obj\Debug\System.ComponentModel.DataAnnotations.dll
-C:\Dev\WootzJs\WootzJs.ComponentModel.DataAnnotations\obj\Debug\System.ComponentModel.DataAnnotations.pdb

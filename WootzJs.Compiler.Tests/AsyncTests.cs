@@ -35,7 +35,7 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public void BasicTest()
         {
-            var task = Task.
+//            var task = Task.
         }
     }
 }
