@@ -31,3 +31,6 @@ WootzJs.Models/obj/
 WootzJs.System/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 WootzJs.System/obj/
 WootzJs.System/bin/
+WootzJs.ComponentModel.DataAnnotations/bin/
+WootzJs.ComponentModel.DataAnnotations/obj/Debug/System.ComponentModel.DataAnnotations.pdb
+WootzJs.ComponentModel.DataAnnotations/obj/
