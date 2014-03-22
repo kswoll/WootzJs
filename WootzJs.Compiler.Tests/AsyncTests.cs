@@ -29,6 +29,7 @@
 
 namespace WootzJs.Compiler.Tests
 {
+/*
     [TestFixture]
     public class AsyncTests
     {
@@ -38,4 +39,5 @@ namespace WootzJs.Compiler.Tests
 //            var task = Task.
         }
     }
+*/
 }

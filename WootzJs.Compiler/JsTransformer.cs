@@ -601,6 +601,23 @@ namespace WootzJs.Compiler
                 arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
                 body = Js.Return(idioms.CreateObject(generatorTypeExpression, constructor, arguments.ToArray()));
             }
+            else if (node.IsAsync())
+            {
+                // Get generated enumerator
+                var asyncType = (NamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "Async$" + method.GetMemberName());
+                var constructor = asyncType.InstanceConstructors.Single();
+                var asyncTypeExpression = idioms.Type(asyncType);
+                if (method.TypeParameters.Any())
+                {
+                    asyncTypeExpression = idioms.MakeGenericType(asyncType, method.TypeArguments.Select(x => idioms.Type(x)).ToArray());
+                }
+
+                var arguments = new List<JsExpression>();
+                if (!method.IsStatic)
+                    arguments.Add(Js.This());
+                arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
+                body = Js.Return(idioms.CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
+            }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);
 

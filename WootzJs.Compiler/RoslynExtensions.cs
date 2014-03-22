@@ -456,5 +456,10 @@ namespace WootzJs.Compiler
                     return false;
             }
         }
+
+        public static bool IsAsync(this MethodDeclarationSyntax method)
+        {
+            return method.Modifiers.Any(x => x.Kind == SyntaxKind.AsyncKeyword);
+        }
     }
 }

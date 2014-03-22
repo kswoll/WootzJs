@@ -1,38 +1,11 @@
-#region License
-//-----------------------------------------------------------------------
-// <copyright>
-// The MIT License (MIT)
-// 
-// Copyright (c) 2014 Kirk S Woll
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// </copyright>
-//-----------------------------------------------------------------------
-#endregion
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
 {
-    public class YieldClassGenerator 
+    public class AsyncClassGenerator
     {
         private Compilation compilation;
         private ClassDeclarationSyntax classDeclarationSyntax;
@@ -41,8 +14,9 @@ namespace WootzJs.Compiler
         
         public const string isStarted = "$isStarted";
         public const string isStartedLocal = "$isStartedLocal";
+        public const string state = "$state";
 
-        public YieldClassGenerator(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax, MethodDeclarationSyntax node)
+        public AsyncClassGenerator(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax, MethodDeclarationSyntax node)
         {
             this.compilation = compilation;
             this.classDeclarationSyntax = classDeclarationSyntax;
@@ -51,7 +25,7 @@ namespace WootzJs.Compiler
             method = compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
         }
 
-        public ClassDeclarationSyntax CreateEnumerator()
+        public ClassDeclarationSyntax CreateStateMachine()
         {
             var members = new List<MemberDeclarationSyntax>();
             FieldDeclarationSyntax thisField = null;
@@ -61,7 +35,7 @@ namespace WootzJs.Compiler
                 members.Add(thisField);                
             }
 
-            var stateGenerator = new YieldStateGenerator(compilation, node);
+            var stateGenerator = new AsyncStateGenerator(compilation, node);
             stateGenerator.GenerateStates();
             var states = stateGenerator.States;
 
@@ -82,7 +56,7 @@ namespace WootzJs.Compiler
                 members.Add(variableField);
             }
 
-            var className = "YieldEnumerator$" + method.GetMemberName();
+            var className = "Async$" + method.GetMemberName();
 
             var constructorParameters = new List<ParameterSyntax>();
             if (!method.IsStatic)
@@ -166,8 +140,8 @@ namespace WootzJs.Compiler
                 .WithBody(Syntax.Block(cloneBody));
             members.Add(clone);
 
-            var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
-            var result = Syntax.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
+//            var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
+            var result = Syntax.ClassDeclaration(className)./*WithBaseList(baseTypes).*/WithMembers(members.ToArray());
 
             if (method.TypeParameters.Any())
             {
@@ -176,5 +150,6 @@ namespace WootzJs.Compiler
 
             return result;
         }
+         
     }
 }

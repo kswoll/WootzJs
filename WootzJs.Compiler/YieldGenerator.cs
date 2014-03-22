@@ -64,11 +64,5 @@ namespace WootzJs.Compiler
                 return base.VisitClassDeclaration(node);
             }
         }
-
-        public JsNode ReturnNewGenerator()
-        {
-            return null;
-//            return Js.Return(transformer.idioms.)
-        }
     }
 }

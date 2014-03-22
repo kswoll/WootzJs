@@ -67,6 +67,9 @@
     <Compile Include="AssembliesSorter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AsyncClassGenerator.cs" />
+    <Compile Include="AsyncGenerator.cs" />
+    <Compile Include="AsyncStateGenerator.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Cs.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="SourceMapping\Line.cs" />
     <Compile Include="SourceMapping\Segment.cs" />
     <Compile Include="SourceMapping\SourceMap.cs" />
+    <Compile Include="StateGenerator.cs" />
     <Compile Include="WootzJsExtensions.cs" />
     <Compile Include="SpecialNames.cs" />
     <Compile Include="BreakStatementStripper.cs" />
@@ -165,7 +169,7 @@
     <Compile Include="YieldGenerator.cs" />
     <Compile Include="YieldClassGenerator.cs" />
     <Compile Include="YieldGeneratorFixer.cs" />
-    <Compile Include="YieldState.cs" />
+    <Compile Include="State.cs" />
     <Compile Include="YieldStateGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

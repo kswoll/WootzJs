@@ -26,156 +26,15 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
 {
-    public class YieldStateGenerator : SyntaxWalker
+    public class YieldStateGenerator : StateGenerator
     {
-        private Compilation compilation;
-        private MethodDeclarationSyntax node;
-        internal List<YieldState> states = new List<YieldState>();
-        private YieldState currentState;
-        private Dictionary<string, TypeSyntax> hoistedVariables = new Dictionary<string, TypeSyntax>();
-        private int exceptionNameCounter = 1;
-        private Dictionary<object, YieldState> labelStates = new Dictionary<object, YieldState>();
-
-        const string state = YieldClassGenerator.state;
-        
-        public YieldStateGenerator(Compilation compilation, MethodDeclarationSyntax node)
+        public YieldStateGenerator(Compilation compilation, MethodDeclarationSyntax node) : base(compilation, node)
         {
-            this.compilation = compilation;
-            this.node = node;
-        }
-
-        private string GenerateNewName(SyntaxToken identifier)
-        {
-            var counter = 2;
-            do
-            {
-                var currentName = identifier.ToString() + counter;
-                if (!hoistedVariables.ContainsKey(currentName))
-                {
-                    return currentName;
-                }
-            }
-            while (true);
-        }
-
-        private SyntaxNode HoistVariable(SyntaxNode node, SyntaxToken identifier, TypeSyntax type)
-        {
-            if (hoistedVariables.ContainsKey(identifier.ToString()))
-            {
-                var newName = GenerateNewName(identifier);
-                var newIdentifier = Syntax.Identifier(newName);
-                node = IdentifierRenamer.RenameIdentifier(node, identifier, newIdentifier);
-                identifier = newIdentifier;
-            }
-            hoistedVariables[identifier.ToString()] = type;
-            return node;
-        }
-
-        public void GenerateStates()
-        {
-            var lastState = new YieldState(this);
-            lastState.Statements.Add(Cs.Return(Cs.False()));
-
-            currentState = new YieldState(this) { NextState = lastState };
-            node.Accept(this);
-
-            // Post-process goto statements
-            if (labelStates.Any())
-            {
-                var gotoSubstituter = new GotoSubstituter(compilation, labelStates);
-                foreach (var state in states)
-                {
-                    state.Statements = state.Statements.Select(x => (StatementSyntax)x.Accept(gotoSubstituter)).ToList();
-                }
-            }
-        }
-
-        public YieldState[] States
-        {
-            get { return states.ToArray(); }
-        }
-
-        public Tuple<SyntaxToken, TypeSyntax>[] HoistedVariables
-        {
-            get { return hoistedVariables.Select(x => Tuple.Create(Syntax.Identifier(x.Key), x.Value)).ToArray(); }
-        }
-
-        private YieldState GetNextState(StatementSyntax node)
-        {
-            var nextState = currentState.NextState;
-            var next = node.GetNextStatement();
-            if (next != null && !(next is EmptyStatementSyntax))
-            {
-                nextState = new YieldState(this) { NextState = currentState.NextState, Germ = currentState.Germ };
-            }
-            return nextState;
-        }
-
-        private void SetClosed(YieldState yieldState)
-        {
-            yieldState.IsClosed = true;
-            if (yieldState.Germ != null)
-                yieldState.Germ(yieldState);
-        }
-
-        public void Close(YieldState yieldState)
-        {
-            CloseTo(yieldState, yieldState.NextState);
-        }
-
-        public void CloseTo(YieldState fromState, YieldState toState)
-        {
-            if (fromState.IsClosed)
-                return;
-            if (toState == null)
-                throw new ArgumentNullException("toState");
-
-            fromState.Add(ChangeState(toState));
-            fromState.Add(GotoTop());                        
-            SetClosed(fromState);
-        }
-
-        public static StatementSyntax ChangeState(YieldState newState)
-        {
-            return Cs.Express(Cs.Assign(Cs.This().Member(state), Cs.Integer(newState.Index)));
-        }
-
-        private StatementSyntax GotoTop()
-        {
-            return Syntax.GotoStatement(SyntaxKind.GotoStatement, Syntax.IdentifierName("$top"));
-        }
-
-        private void MaybeCreateNewState()
-        {
-            if (currentState.Statements.Any())
-            {
-                var thisState = new YieldState(this);
-                var oldNextState = currentState.NextState;
-                thisState.NextState = oldNextState;
-                currentState.NextState = thisState;
-                Close(currentState);
-                currentState = thisState;
-            }
-        }
-
-        private StatementSyntax[] CaptureState(SyntaxNode node, YieldState nextState, YieldState breakState)
-        {
-            var catchBatch = new YieldState(this, true) { NextState = nextState };
-            var oldState = currentState;
-            currentState = catchBatch;
-            node.Accept(this);
-            // If after walking the node, it might leave the current state in an unclosed state.  We want to make sure it's closed.
-            if (currentState != breakState && currentState != catchBatch && currentState != nextState && currentState != oldState)
-            {
-                Close(currentState);
-            }
-            return catchBatch.Statements.ToArray();
         }
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
@@ -187,7 +46,7 @@ namespace WootzJs.Compiler
             {
                 if (variable.Initializer != null)
                 {
-                    var assignment = Cs.Assign(Syntax.IdentifierName(variable.Identifier.ToString()), variable.Initializer.Value);
+                    var assignment = Syntax.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
                     currentState.Add(Cs.Express(assignment));
                 }
 
@@ -209,7 +68,7 @@ namespace WootzJs.Compiler
             else
             {
                 currentState.Add(ChangeState(nextState));
-                currentState.Add(Cs.Express(Cs.Assign(Cs.This().Member("Current"), node.Expression)));
+                currentState.Add(Cs.Express(Cs.This().Member("Current").Assign(node.Expression)));
                 currentState.Add(Cs.Return(Cs.True()));
             }
             SetClosed(currentState);
@@ -236,7 +95,7 @@ namespace WootzJs.Compiler
                 tryState.NextState = nextState;
 
                 var exceptionName = Syntax.Identifier("$ex" + exceptionNameCounter++);
-                var finallyState = new YieldState(this) { NextState = nextState, BreakState = nextState };
+                var finallyState = new State(this) { NextState = nextState, BreakState = nextState };
                 foreach (var finallyStatement in node.Finally.Block.Statements)
                     finallyState.Add(finallyStatement);
                 finallyState.Add(Cs.If(Cs.This().Member(exceptionName).NotEqualTo(Cs.Null()), Cs.Throw(Cs.This().Member(exceptionName))));
@@ -248,7 +107,7 @@ namespace WootzJs.Compiler
                 tryState.Germ = yieldState =>
                 {
                     var gotoFinally = Syntax.Block(
-                        Cs.Express(Cs.Assign(Cs.This().Member(exceptionName), Syntax.IdentifierName(exceptionName))),
+                        Cs.Express(Cs.This().Member(exceptionName).Assign(Syntax.IdentifierName(exceptionName))),
                         ChangeState(finallyState), 
                         GotoTop()
                     );
@@ -282,7 +141,7 @@ namespace WootzJs.Compiler
 
                 var nextState = GetNextState(node);
 
-                var conditionState = new YieldState(this) { BreakState = nextState };
+                var conditionState = new State(this) { BreakState = nextState };
 
                 var iterationState = currentState;
 
@@ -340,7 +199,7 @@ namespace WootzJs.Compiler
                 {
                     foreach (var variable in node.Declaration.Variables.Where(x => x.Initializer != null))
                     {
-                        var assignment = Cs.Assign(Syntax.IdentifierName(variable.Identifier.ToString()), variable.Initializer.Value);
+                        var assignment = Syntax.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
                         currentState.Add(Cs.Express(assignment));
 
                         var symbol = (LocalSymbol)semanticModel.GetDeclaredSymbol(variable);
@@ -362,10 +221,10 @@ namespace WootzJs.Compiler
                 // postState determines where the flow goes after each iteration.  If there are incrementors, it goes
                 // to a state that handles the incrementing, then goes back to the iteration state.  Otherwise, the 
                 // iteration state just points back to itself like the while loop.
-                YieldState postState;
+                State postState;
                 if (node.Incrementors.Any())
                 {
-                    postState = new YieldState(this);
+                    postState = new State(this);
                     postState.NextState = iterationState;
 
                     foreach (var incrementor in node.Incrementors)
@@ -414,9 +273,7 @@ namespace WootzJs.Compiler
                     Syntax.ParseTypeName("System.Collections.IEnumerator") :
                     Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
                 node = (ForEachStatementSyntax)HoistVariable(node, enumerator, enumeratorType);
-                currentState.Add(Cs.Express(Cs.Assign(
-                    Syntax.IdentifierName(enumerator), 
-                    Syntax.InvocationExpression(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, node.Expression, Syntax.IdentifierName("GetEnumerator"))))));
+                currentState.Add(Cs.Express(Syntax.IdentifierName(enumerator).Assign(Syntax.InvocationExpression(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, node.Expression, Syntax.IdentifierName("GetEnumerator"))))));
 
                 // Mostly the same as while loop from here (key word, "mostly"; hence the lack of factoring here)
                 MaybeCreateNewState();
@@ -427,11 +284,10 @@ namespace WootzJs.Compiler
                 iterationState.NextState = iterationState;
                 iterationState.BreakState = nextState;
 
-                var bodyBatch = new YieldState(this, true) { NextState = iterationState.NextState };
+                var bodyBatch = new State(this, true) { NextState = iterationState.NextState };
 
                 // Assign current item
-                bodyBatch.Add(Cs.Express(Cs.Assign(Syntax.IdentifierName(node.Identifier), 
-                    Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, 
+                bodyBatch.Add(Cs.Express(Syntax.IdentifierName(node.Identifier).Assign(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, 
                     Syntax.IdentifierName(enumerator), Syntax.IdentifierName("Current")))));
 
                 currentState = bodyBatch;
@@ -465,7 +321,7 @@ namespace WootzJs.Compiler
 
                 var switchStatement = Cs.Switch(node.Expression);
 
-                foreach (var section in node.Sections.Select(x => x.WithStatements(Syntax.List(x.Statements.Select(y => BreakStatementStripper.StripStatements(y))))))
+                foreach (var section in node.Sections.Select(x => x.WithStatements(Syntax.List(x.Statements.Select(BreakStatementStripper.StripStatements)))))
                 {
                     switchStatement = switchStatement.AddSections(Cs.Section(section.Labels, CaptureState(section, switchState.NextState, nextState)));
                 }

@@ -33,9 +33,10 @@ namespace WootzJs.Compiler
     public class GotoSubstituter : SyntaxRewriter
     {
         private Compilation compilation;
-        private Dictionary<object, YieldState> labelStates;
+        private Dictionary<object, State> labelStates;
+        private State currentState;
 
-        public GotoSubstituter(Compilation compilation, Dictionary<object, YieldState> labelStates) 
+        public GotoSubstituter(Compilation compilation, Dictionary<object, State> labelStates) 
         {
             this.compilation = compilation;
             this.labelStates = labelStates;
@@ -47,7 +48,27 @@ namespace WootzJs.Compiler
             if (label.StartsWith("$"))
                 return node;
 
-            return YieldStateGenerator.ChangeState(labelStates[label]);
+            return AsyncStateGenerator.ChangeState(labelStates[label]);
         }
+
+        public void GenerateStates()
+        {
+            var lastState = new State(this);
+            lastState.Statements.Add(Cs.Return(Cs.False()));
+
+            currentState = new State(this) { NextState = lastState };
+            node.Accept(this);
+
+            // Post-process goto statements
+            if (labelStates.Any())
+            {
+                var gotoSubstituter = new GotoSubstituter(compilation, labelStates);
+                foreach (var state in states)
+                {
+                    state.Statements = state.Statements.Select(x => (StatementSyntax)x.Accept(gotoSubstituter)).ToList();
+                }
+            }
+        }
+
     }
 }

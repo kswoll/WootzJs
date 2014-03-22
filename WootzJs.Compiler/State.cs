@@ -31,16 +31,16 @@ using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
 {
-    public class YieldState
+    public class State
     {
         public int Index { get; private set; }
         public List<StatementSyntax> Statements { get; set; }
-        public YieldState NextState { get; set; }
-        public YieldState BreakState { get; set; }
+        public State NextState { get; set; }
+        public State BreakState { get; set; }
         public bool IsClosed { get; set; }
-        public Action<YieldState> Germ { get; set; }
+        public Action<State> Germ { get; set; }
             
-        public YieldState(YieldStateGenerator generator, bool isFakeState = false)
+        public State(StateGenerator generator, bool isFakeState = false)
         {
             Statements = new List<StatementSyntax>();
             if (!isFakeState)

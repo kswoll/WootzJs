@@ -83,6 +83,9 @@ namespace WootzJs.Compiler
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
+
+            // After the basic transformation happens, we need to fix up some references afterward
+/*
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = syntaxTree.GetRoot();
@@ -92,10 +95,23 @@ namespace WootzJs.Compiler
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
+*/
+
+            // Check for async
+            foreach (var syntaxTree in compilation.SyntaxTrees)
+            {
+                var compilationUnit = syntaxTree.GetRoot();
+                var semanticModel = compilation.GetSemanticModel(syntaxTree);
+                var asyncGenerator = new AsyncGenerator(compilation, syntaxTree, semanticModel);
+                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(asyncGenerator);
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
+            }
+            Context.Update(project.Solution, project, compilation);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
-            // If the runtime prjoect, declare the array to hold all the GetAssembly functions
+            // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
+            // will be loaded first, and we only want to bother creating the array once.
             if (projectName == "mscorlib")
             {
                 var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
