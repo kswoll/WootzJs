@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="AggregateException.cs" />
     <Compile Include="AppDomain.cs" />
     <Compile Include="ArgumentException.cs" />
     <Compile Include="ArgumentNullException.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Reflection\TypeAttributes.cs" />
     <Compile Include="RuntimeMethodHandle.cs" />
     <Compile Include="Runtime\CompilerServices\AsyncMethodBuilderCore.cs" />
+    <Compile Include="Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="Runtime\CompilerServices\AsyncVoidMethodBuilder.cs" />
     <Compile Include="Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="Runtime\CompilerServices\CallSiteBinder.cs" />
@@ -261,8 +263,15 @@
     <Compile Include="StringComparison.cs" />
     <Compile Include="StringSplitOptions.cs" />
     <Compile Include="Text\StringBuilder.cs" />
+    <Compile Include="Threading\CancellationToken.cs" />
+    <Compile Include="Threading\CancellationTokenRegistration.cs" />
+    <Compile Include="Threading\CancellationTokenSource.cs" />
     <Compile Include="Threading\Interlocked.cs" />
-    <Compile Include="Threading\Task.cs" />
+    <Compile Include="Threading\OperationCanceledException.cs" />
+    <Compile Include="Threading\Tasks\Task.cs" />
+    <Compile Include="Threading\Tasks\TaskContinuation.cs" />
+    <Compile Include="Threading\Tasks\TaskCreationOptions.cs" />
+    <Compile Include="Threading\Tasks\TaskStatus.cs" />
     <Compile Include="TimeSpan.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Type.cs" />

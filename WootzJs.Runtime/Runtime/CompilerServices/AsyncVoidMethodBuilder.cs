@@ -3,14 +3,9 @@
     /// <summary>
     ///     Represents a builder for asynchronous methods that do not return a value.
     /// </summary>
-    public class AsyncVoidMethodBuilder : IAsyncMethodBuilder
+    public struct AsyncVoidMethodBuilder : IAsyncMethodBuilder
     {
         private AsyncMethodBuilderCore m_coreState;
-
-        private AsyncVoidMethodBuilder()
-        {
-            m_coreState = new AsyncMethodBuilderCore();
-        }
 
         void IAsyncMethodBuilder.PreBoxInitialization()
         {
@@ -24,7 +19,9 @@
         /// </returns>
         public static AsyncVoidMethodBuilder Create()
         {
-            return new AsyncVoidMethodBuilder();
+            var result = new AsyncVoidMethodBuilder();
+            result.m_coreState = new AsyncMethodBuilderCore();
+            return result;
         }
 
         /// <summary>

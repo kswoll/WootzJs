@@ -101,5 +101,21 @@ namespace System
             builder.AppendLine(StackTrace);
             return builder.ToString();
         }
+
+        // Retrieves the lowest exception (inner most) for the given Exception.
+        // This will traverse exceptions using the innerException property.
+        //
+        public virtual Exception GetBaseException() 
+        {
+            Exception inner = InnerException; 
+            Exception back = this; 
+
+            while (inner != null) { 
+                back = inner;
+                inner = inner.InnerException;
+            }
+ 
+            return back;
+        } 
 	}
 }

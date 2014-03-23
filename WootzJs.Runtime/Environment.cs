@@ -33,5 +33,7 @@ namespace System
         {
             get { return 1; }
         } 
+
+        public static readonly string NewLine = "\n";
     }
 }
