@@ -98,6 +98,7 @@ namespace WootzJs.Compiler
 */
 
             // Check for async
+/*
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = syntaxTree.GetRoot();
@@ -107,6 +108,7 @@ namespace WootzJs.Compiler
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
+*/
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 

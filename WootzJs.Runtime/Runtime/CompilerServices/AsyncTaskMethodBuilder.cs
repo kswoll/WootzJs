@@ -115,7 +115,7 @@ namespace System.Runtime.CompilerServices
             }
             catch (Exception ex)
             {
-                AsyncMethodBuilderCore.ThrowAsync(ex, null);
+                AsyncMethodBuilderCore.ThrowAsync(ex);
             }
         }
 
@@ -126,21 +126,23 @@ namespace System.Runtime.CompilerServices
         /// <exception cref="T:System.InvalidOperationException">The task has already completed.</exception>
         public void SetResult(TResult result)
         {
+/*
             Task<TResult> task = m_task;
             if (task == null)
                 m_task = GetTaskForResult(result);
             else if (!task.TrySetResult(result))
                 throw new InvalidOperationException(
                     "TaskT_TransitionToFinal_AlreadyCompleted");
+*/
         }
 
-        internal void SetResult(Task<TResult> completedTask)
-        {
-            if (m_task == null)
-                m_task = completedTask;
-            else
-                SetResult(default (TResult));
-        }
+//        internal void SetResult(Task<TResult> completedTask)
+//        {
+//            if (m_task == null)
+//                m_task = completedTask;
+//            else
+//                SetResult(default (TResult));
+//        }
 
         /// <summary>
         ///     Marks the task as failed and binds the specified exception to the task.
@@ -153,6 +155,7 @@ namespace System.Runtime.CompilerServices
             if (exception == null)
                 throw new ArgumentNullException("exception");
             Task<TResult> task = Task;
+/*
             var canceledException = exception as OperationCanceledException;
             if (
                 !(canceledException != null
@@ -160,12 +163,13 @@ namespace System.Runtime.CompilerServices
                     : task.TrySetException((object) exception)))
                 throw new InvalidOperationException(
                     "TaskT_TransitionToFinal_AlreadyCompleted");
+*/
         }
 
-        internal void SetNotificationForWaitCompletion(bool enabled)
-        {
-            Task.SetNotificationForWaitCompletion(enabled);
-        }
+//        internal void SetNotificationForWaitCompletion(bool enabled)
+//        {
+//            Task.SetNotificationForWaitCompletion(enabled);
+//        }
 
 /*
         private Task<TResult> GetTaskForResult(TResult result)

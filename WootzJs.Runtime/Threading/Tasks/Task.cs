@@ -123,6 +123,7 @@ namespace System.Threading.Tasks
         /// <param name="exceptionObject">An object representing either an Exception or a collection of Exceptions.</param> 
         internal void AddException(object exceptionObject)
         { 
+/*
             //
             // WARNING: A great deal of care went into insuring that
             // AddException() and GetExceptions() are never called
@@ -130,7 +131,7 @@ namespace System.Threading.Tasks
             //
  
             // Lazily initialize the list, ensuring only one thread wins. 
-            LazyInitializer.EnsureInitialized<ContingentProperties>(ref m_contingentProperties, s_contingentPropertyCreator);
+            m_contingentProperties = m_contingentProperties ?? new ContingentProperties();
             if (m_contingentProperties.m_exceptionsHolder == null) 
             {
                 TaskExceptionHolder holder = new TaskExceptionHolder(this);
@@ -144,6 +145,7 @@ namespace System.Threading.Tasks
 
             // Figure this out before your enter the lock.
             m_contingentProperties.m_exceptionsHolder.Add(exceptionObject);
+*/
         }
 
         /// <summary>
@@ -285,6 +287,7 @@ namespace System.Threading.Tasks
         ///     This function is only separated out from FinishStageTwo because these two operations are also needed to be called
         ///     from CancellationCleanupLogic()
         /// </summary>
+/*
         private void FinishStageThree()
         {
             // Notify parent if this was an attached task
@@ -301,6 +304,7 @@ namespace System.Threading.Tasks
             m_action = null;
         }
 
+*/
         // Atomically mark a Task as started while making sure that it is not canceled.
         internal bool MarkStarted()
         {
@@ -322,11 +326,6 @@ namespace System.Threading.Tasks
                 : m_contingentProperties.m_continuations;
             if (continuations != null)
             {
-                lock (m_contingentProperties)
-                {
-                    // Ensure that all concurrent adds have completed. 
-                }
-
                 // skip synchronous execution of continuations if this tasks thread was aborted 
                 bool bCanInlineContinuations = true;
 
@@ -361,6 +360,7 @@ namespace System.Threading.Tasks
             }
         }
 
+/*
         /// <summary>
         ///     FinishStageTwo is to be executed as soon as we known there are no more children to complete.
         ///     It can happen i) either on the thread that originally executed this task (if no children were spawned, or they all
@@ -407,6 +407,7 @@ namespace System.Threading.Tasks
             // ready to run continuations and notify parent.
             FinishStageThree();
         }
+*/
 
         /// <summary>
         ///     Checks if we registered a CT callback during construction, and deregisters it.
@@ -448,6 +449,7 @@ namespace System.Threading.Tasks
 */
         }
 
+/*
         /// <summary>
         ///     This is called by children of this task when they are completed.
         /// </summary>
@@ -469,10 +471,7 @@ namespace System.Threading.Tasks
                 List<Task> tmp = m_contingentProperties.m_exceptionalChildren;
                 if (tmp != null)
                 {
-                    lock (tmp)
-                    {
-                        tmp.Add(childTask);
-                    }
+                    tmp.Add(childTask);
                 }
             }
 
@@ -484,6 +483,7 @@ namespace System.Threading.Tasks
                 FinishStageTwo();
             }
         }
+*/
 
         internal class ContingentProperties
         {
@@ -522,49 +522,6 @@ namespace System.Threading.Tasks
     public class Task<TResult> : Task
     {
         internal TResult m_result;
-
-        internal bool TrySetResult(TResult result)
-        {
-            if (this.IsCompleted || !this.AtomicStateUpdate(67108864, 90177536))
-                return false;
-            m_result = result;
-            Interlocked.Exchange(ref this.m_stateFlags, this.m_stateFlags | 16777216);
-            Task.ContingentProperties contingentProperties = this.m_contingentProperties;
-            if (contingentProperties != null)
-                contingentProperties.SetCompleted();
-            this.FinishStageThree();
-            return true;
-        }
-
-        internal bool TrySetException(object exceptionObject)
-        {
-            bool flag = false;
-            this.EnsureContingentPropertiesInitialized(true);
-            if (this.AtomicStateUpdate(67108864, 90177536))
-            {
-                this.AddException(exceptionObject);
-                this.Finish(false);
-                flag = true;
-            }
-            return flag;
-        }
-
-        internal bool TrySetCanceled(CancellationToken tokenToRecord)
-        {
-            return TrySetCanceled(tokenToRecord, null);
-        }
-
-        internal bool TrySetCanceled(CancellationToken tokenToRecord, object cancellationException)
-        {
-            bool flag = false;
-            if (this.AtomicStateUpdate(67108864, 90177536))
-            {
-                this.RecordInternalCancellationRequest(tokenToRecord, cancellationException);
-                this.CancellationCleanupLogic();
-                flag = true;
-            }
-            return flag;
-        }
     }
 
     internal class Shared<T>

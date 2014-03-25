@@ -17,7 +17,7 @@ namespace WootzJs.Compiler
         private Dictionary<string, TypeSyntax> hoistedVariables = new Dictionary<string, TypeSyntax>();
         protected Dictionary<object, State> labelStates = new Dictionary<object, State>();
 
-        const string state = stateFieldName;
+        public const string state = stateFieldName;
         
         public StateGenerator(Compilation compilation, MethodDeclarationSyntax node)
         {

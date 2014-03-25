@@ -343,7 +343,7 @@
 
         private void ThrowOperationCanceledException()
         {
-            throw new OperationCanceledException("OperationCanceled");
+            throw new OperationCanceledException(this, "OperationCanceled");
         }
 
         private static void ActionToActionObjShunt(object obj)

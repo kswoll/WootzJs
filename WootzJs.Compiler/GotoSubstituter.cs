@@ -26,6 +26,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
@@ -50,25 +51,5 @@ namespace WootzJs.Compiler
 
             return AsyncStateGenerator.ChangeState(labelStates[label]);
         }
-
-        public void GenerateStates()
-        {
-            var lastState = new State(this);
-            lastState.Statements.Add(Cs.Return(Cs.False()));
-
-            currentState = new State(this) { NextState = lastState };
-            node.Accept(this);
-
-            // Post-process goto statements
-            if (labelStates.Any())
-            {
-                var gotoSubstituter = new GotoSubstituter(compilation, labelStates);
-                foreach (var state in states)
-                {
-                    state.Statements = state.Statements.Select(x => (StatementSyntax)x.Accept(gotoSubstituter)).ToList();
-                }
-            }
-        }
-
     }
 }

@@ -68,7 +68,7 @@ namespace WootzJs.Compiler
             var isStartedField = Cs.Field(Cs.Bool(), isStarted);
             members.Add(isStartedField);
 
-            var stateField = Cs.Field(Cs.Int(), state);
+            var stateField = Cs.Field(Cs.Int(), StateGenerator.state);
             members.Add(stateField);
 
             foreach (var parameter in node.ParameterList.Parameters)
@@ -100,7 +100,7 @@ namespace WootzJs.Compiler
                         constructorParameters.Select(x => Cs.Express(Cs.Assign(Cs.This().Member(x.Identifier), Syntax.IdentifierName(x.Identifier))))
                     )
                     .AddStatements(
-                        Cs.Express(Cs.Assign(Cs.This().Member(state), Cs.Integer(1)))
+                        Cs.Express(Cs.Assign(Cs.This().Member(StateGenerator.state), Cs.Integer(1)))
                     )
                 );
             members.Add(constructor);
@@ -138,7 +138,7 @@ namespace WootzJs.Compiler
             //     }
             // }
             var moveNextBody = Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
-                Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
+                Cs.Switch(Cs.This().Member(StateGenerator.state), states.Select((x, i) => 
                     Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
             var moveNext = Syntax.MethodDeclaration(Cs.Bool(), "MoveNext")
                 .AddModifiers(Cs.Public(), Cs.Override())
