@@ -13,6 +13,7 @@
         ///     The <paramref name="continuation" /> argument is null (Nothing in
         ///     Visual Basic).
         /// </exception>
+        /// [__DynamicallyInvokable]
         void OnCompleted(Action continuation);
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace System.Runtime.CompilerServices
 {
-    public interface IAsyncMethodBuilder
+    internal interface IAsyncMethodBuilder
     {
-        void PreBoxInitialization();         
     }
 }

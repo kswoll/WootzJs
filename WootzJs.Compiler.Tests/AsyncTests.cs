@@ -27,17 +27,21 @@
 
 #endregion
 
+using System.Threading.Tasks;
+
 namespace WootzJs.Compiler.Tests
 {
-/*
     [TestFixture]
     public class AsyncTests
     {
         [Test]
-        public void BasicTest()
+        public async void BasicTest()
         {
-//            var task = Task.
+            await BasicTestAsync();
+        }
+
+        async Task BasicTestAsync()
+        {
         }
     }
-*/
 }

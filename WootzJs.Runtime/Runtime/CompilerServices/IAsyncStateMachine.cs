@@ -1,8 +1,5 @@
 ﻿namespace System.Runtime.CompilerServices
 {
-    /// <summary>
-    ///     Represents state machines that are generated for asynchronous methods. This type is intended for compiler use only.
-    /// </summary>
     public interface IAsyncStateMachine
     {
         /// <summary>

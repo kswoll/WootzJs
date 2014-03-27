@@ -22,7 +22,7 @@ namespace WootzJs.Compiler
             var asyncClasses = new List<ClassDeclarationSyntax>();
             foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => x.IsAsync()))
             {
-                var asyncGenerator = new AsyncClassGenerator(compilation, node, method);
+                var asyncGenerator = new AsyncClassGenerator(compilation, method);
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
             }

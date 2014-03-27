@@ -2,11 +2,12 @@
 
 namespace System.Runtime.CompilerServices
 {
-    internal class AsyncMethodBuilderCore
+    internal struct AsyncMethodBuilderCore
     {
+        internal Action m_defaultContextAction;
         internal IAsyncStateMachine m_stateMachine;
 
-        internal void Start<TStateMachine>(ref TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
+        internal void Start<TStateMachine>(TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
         {
             if (stateMachine == null)
                 throw new ArgumentNullException("stateMachine");
@@ -26,15 +27,12 @@ namespace System.Runtime.CompilerServices
             TStateMachine stateMachine) where TMethodBuilder : IAsyncMethodBuilder
             where TStateMachine : IAsyncStateMachine
         {
-            var moveNextRunner = new MoveNextRunner();
-            Action action = moveNextRunner.Run;
             if (m_stateMachine == null)
             {
-                builder.PreBoxInitialization();
                 m_stateMachine = stateMachine;
                 m_stateMachine.SetStateMachine(m_stateMachine);
             }
-            moveNextRunner.m_stateMachine = m_stateMachine;
+            Action action = m_stateMachine.MoveNext;
             return action;
         }
 
@@ -42,16 +40,6 @@ namespace System.Runtime.CompilerServices
         {
             ExceptionDispatchInfo exceptionDispatchInfo = ExceptionDispatchInfo.Capture(exception);
             exceptionDispatchInfo.Throw();
-        }
-
-        private sealed class MoveNextRunner
-        {
-            internal IAsyncStateMachine m_stateMachine;
-
-            internal void Run()
-            {
-                m_stateMachine.MoveNext();
-            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
@@ -8,18 +7,15 @@ namespace WootzJs.Compiler
     public class AsyncClassGenerator
     {
         private Compilation compilation;
-        private ClassDeclarationSyntax classDeclarationSyntax;
         private MethodDeclarationSyntax node;
         private MethodSymbol method;
         
-        public const string isStarted = "$isStarted";
-        public const string isStartedLocal = "$isStartedLocal";
         public const string state = "$state";
+        public const string builder = "$builder";
 
-        public AsyncClassGenerator(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax, MethodDeclarationSyntax node)
+        public AsyncClassGenerator(Compilation compilation, MethodDeclarationSyntax node)
         {
             this.compilation = compilation;
-            this.classDeclarationSyntax = classDeclarationSyntax;
             this.node = node;
 
             method = compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
@@ -39,11 +35,11 @@ namespace WootzJs.Compiler
             stateGenerator.GenerateStates();
             var states = stateGenerator.States;
 
-            var isStartedField = Cs.Field(Cs.Bool(), isStarted);
-            members.Add(isStartedField);
-
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
+
+            var builderField = Cs.Field(Context.Instance.AsyncVoidMethodBuilder.ToTypeSyntax(), builder);
+            members.Add(builderField);
 
             foreach (var parameter in node.ParameterList.Parameters)
             {
@@ -71,35 +67,15 @@ namespace WootzJs.Compiler
                 .WithBody(
                     Syntax.Block(
                         // Assign fields
-                        constructorParameters.Select(x => Cs.Express(Cs.Assign(Cs.This().Member(x.Identifier), Syntax.IdentifierName(x.Identifier))))
+                        constructorParameters.Select(x => Cs.Express(Cs.This().Member(x.Identifier).Assign(Syntax.IdentifierName(x.Identifier))))
                     )
                     .AddStatements(
-                        Cs.Express(Cs.Assign(Cs.This().Member(state), Cs.Integer(1)))
+                        Cs.Express(Cs.This().Member(state).Assign(Cs.Integer(-1))),
+                        Cs.Express(Cs.This().Member(builder).Assign(builderField.Declaration.Type.New())),
+                        Cs.Express(Cs.This().Member(builder).Member("Start").Invoke(Cs.This()))
                     )
                 );
             members.Add(constructor);
-
-            var elementType = ((NamedTypeSymbol)method.ReturnType).TypeArguments[0];
-            var ienumerable = Syntax.ParseTypeName("System.Collections.Generic.IEnumerable<" + elementType.ToDisplayString() + ">");
-            var ienumerator = Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
-
-            // Generate the GetEnumerator method, which looks something like:
-            // var $isStartedLocal = $isStarted;
-            // $isStarted = true;
-            // if ($isStartedLocal) 
-            //     return this.Clone().GetEnumerator();
-            // else
-            //     return this;
-            var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
-                .AddModifiers(Cs.Public(), Cs.Override())
-                .WithBody(Cs.Block(
-                    Cs.Local(isStartedLocal, Syntax.IdentifierName(isStarted)),
-                    Cs.Express(Syntax.IdentifierName(isStarted).Assign(Cs.True())),
-                    Cs.If(
-                        Syntax.IdentifierName(isStartedLocal), 
-                        Cs.Return(Cs.This().Member("Clone").Invoke().Member("GetEnumerator").Invoke()), 
-                        Cs.Return(Cs.This()))));
-            members.Add(getEnumerator);
 
             // Generate the MoveNext method, which looks something like:
             // $top:
@@ -119,29 +95,9 @@ namespace WootzJs.Compiler
                 .WithBody(Syntax.Block(moveNextBody));
             members.Add(moveNext);
 
-            TypeSyntax classNameWithTypeArguments = Syntax.IdentifierName(className);
-            if (method.TypeParameters.Any())
-            {
-                classNameWithTypeArguments = Syntax.GenericName(
-                    Syntax.Identifier(className), 
-                    Syntax.TypeArgumentList(Syntax.SeparatedList(
-                        method.TypeParameters.Select(x => Syntax.ParseTypeName(x.Name)),
-                        method.TypeParameters.Select(x => x).Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))
-                    ));
-            }
-
-            var cloneBody = Cs.Block(
-                Cs.Return(classNameWithTypeArguments.New(
-                    constructorParameters.Select(x => Syntax.IdentifierName(x.Identifier)).ToArray()
-                ))
-            );
-            var clone = Syntax.MethodDeclaration(ienumerable, "Clone")
-                .AddModifiers(Cs.Public())
-                .WithBody(Syntax.Block(cloneBody));
-            members.Add(clone);
-
-//            var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
-            var result = Syntax.ClassDeclaration(className)./*WithBaseList(baseTypes).*/WithMembers(members.ToArray());
+            var asyncStateMachine = Syntax.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
+            var baseTypes = new[] { asyncStateMachine };
+            var result = Syntax.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
 
             if (method.TypeParameters.Any())
             {

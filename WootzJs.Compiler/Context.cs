@@ -176,6 +176,10 @@ namespace WootzJs.Compiler
         public MethodSymbol SafeToString { get; private set; }
         public NamedTypeSymbol Array { get; private set; }
         public NamedTypeSymbol INotifyPropertyChanged { get; private set; }
+
+        public NamedTypeSymbol AsyncVoidMethodBuilder { get; private set; }
+        public NamedTypeSymbol AsyncTaskMethodBuilder { get; private set; }
+        public NamedTypeSymbol AsyncTaskTMethodBuilder { get; private set; }
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
@@ -325,6 +329,7 @@ namespace WootzJs.Compiler
             SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<MethodSymbol>().Single();
             Array = compilation.FindType("System.Array");
             INotifyPropertyChanged = compilation.FindType("System.ComponentModel.INotifyPropertyChanged");
+            AsyncVoidMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncVoidMethodBuilder");
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }

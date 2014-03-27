@@ -1,15 +1,8 @@
 ﻿namespace System.Runtime.CompilerServices
 {
-    /// <summary>
-    ///     Represents a builder for asynchronous methods that do not return a value.
-    /// </summary>
     public struct AsyncVoidMethodBuilder : IAsyncMethodBuilder
     {
         private AsyncMethodBuilderCore m_coreState;
-
-        void IAsyncMethodBuilder.PreBoxInitialization()
-        {
-        }
 
         /// <summary>
         ///     Creates an instance of the <see cref="T:System.Runtime.CompilerServices.AsyncVoidMethodBuilder" /> class.
@@ -32,7 +25,7 @@
         /// <exception cref="T:System.ArgumentNullException"><paramref name="stateMachine" /> is null.</exception>
         public void Start<TStateMachine>(ref TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
         {
-            m_coreState.Start(ref stateMachine);
+            m_coreState.Start(stateMachine);
         }
 
         /// <summary>
@@ -53,13 +46,11 @@
         /// <param name="stateMachine">The state machine.</param>
         /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
-        public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)
-            where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
+        public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
         {
             try
             {
-                Action completionAction =
-                    m_coreState.GetCompletionAction(this, stateMachine);
+                Action completionAction = m_coreState.GetCompletionAction(this, stateMachine);
                 awaiter.OnCompleted(completionAction);
             }
             catch (Exception ex)
@@ -76,13 +67,11 @@
         /// <param name="stateMachine">The state machine.</param>
         /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
-        public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)
-            where TAwaiter : ICriticalNotifyCompletion where TStateMachine : IAsyncStateMachine
+        public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : ICriticalNotifyCompletion where TStateMachine : IAsyncStateMachine
         {
             try
             {
-                Action completionAction =
-                    m_coreState.GetCompletionAction(this, stateMachine);
+                Action completionAction = m_coreState.GetCompletionAction(this, stateMachine);
                 awaiter.UnsafeOnCompleted(completionAction);
             }
             catch (Exception ex)
@@ -91,24 +80,12 @@
             }
         }
 
-        /// <summary>
-        ///     Marks the method builder as successfully completed.
-        /// </summary>
-        /// <exception cref="T:System.InvalidOperationException">The builder is not initialized.</exception>
         public void SetResult()
         {
         }
 
-        /// <summary>
-        ///     Binds an exception to the method builder.
-        /// </summary>
-        /// <param name="exception">The exception to bind.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="exception" /> is null.</exception>
-        /// <exception cref="T:System.InvalidOperationException">The builder is not initialized.</exception>
         public void SetException(Exception exception)
         {
-            if (exception == null)
-                throw new ArgumentNullException("exception");
             AsyncMethodBuilderCore.ThrowAsync(exception);
         }
     }
