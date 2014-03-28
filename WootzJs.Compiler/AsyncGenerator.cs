@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers.CSharp;
 
@@ -29,7 +30,9 @@ namespace WootzJs.Compiler
 
             if (asyncClasses.Any())
             {
-                return node.AddMembers(asyncClasses.ToArray());
+                var result = node.AddMembers(asyncClasses.ToArray());
+                Console.WriteLine(result.NormalizeWhitespace());
+                return result;
             }
             else
             {

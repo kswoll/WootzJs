@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Roslyn.Compilers.CSharp;
 
@@ -91,7 +92,7 @@ namespace WootzJs.Compiler
                 Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
                     Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
             var moveNext = Syntax.MethodDeclaration(Cs.Bool(), "MoveNext")
-                .AddModifiers(Cs.Public(), Cs.Override())
+                .AddModifiers(Cs.Public())
                 .WithBody(Syntax.Block(moveNextBody));
             members.Add(moveNext);
 

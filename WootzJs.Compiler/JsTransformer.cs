@@ -616,7 +616,13 @@ namespace WootzJs.Compiler
                 if (!method.IsStatic)
                     arguments.Add(Js.This());
                 arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
-                body = Js.Return(idioms.CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
+
+                var asyncBlock = Js.Block();
+                var stateMachine = asyncBlock.Local("$stateMachine", idioms.CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
+                if (!method.ReturnsVoid)
+                    asyncBlock.Return(stateMachine.GetReference().Member("$builder").Member("get_Task").Invoke());
+
+                body = asyncBlock;
             }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);

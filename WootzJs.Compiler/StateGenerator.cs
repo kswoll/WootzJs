@@ -69,6 +69,9 @@ namespace WootzJs.Compiler
                     state.Statements = state.Statements.Select(x => (StatementSyntax)x.Accept(gotoSubstituter)).ToList();
                 }
             }
+
+            if (!states.Last().Statements.Any())
+                states.Last().Statements.Add(Cs.Break());
         }
 
         public State[] States
