@@ -43,6 +43,7 @@ namespace WootzJs.Mvc.Views.Binders
             Action updateText = () => textBox.Text = (string)Convert.ChangeType(prop.Value, typeof(string));
             updateText();
 
+            textBox.Name = prop.Name;
             textBox.Changed += () => prop.Value = Convert.ChangeType(textBox.Text, prop.PropertyInfo.PropertyType);
 
             prop.Changed += updateText;

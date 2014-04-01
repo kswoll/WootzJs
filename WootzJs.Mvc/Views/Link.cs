@@ -16,6 +16,11 @@ namespace WootzJs.Mvc.Views
             Text = text;
         }
 
+        public void FireClick()
+        {
+            OnClick(new Event("click"));
+        }
+
         public string LocalHref
         {
             get { return localHref; }

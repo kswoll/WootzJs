@@ -47,6 +47,7 @@
     <Compile Include="DomTokenList.cs" />
     <Compile Include="ElementExtensions.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="FormElement.cs" />
     <Compile Include="History.cs" />
     <Compile Include="HtmlCollection.cs" />
     <Compile Include="IChildNode.cs" />

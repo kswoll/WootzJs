@@ -7,6 +7,11 @@ namespace WootzJs.Web
 {
     public static class DocumentExtensions
     {
+        public static T CreateElement<T>(this Document document, string tagName)
+        {
+            return document.CreateElement(tagName).As<T>();
+        }
+
 //        private static int mouseX;
 //        private static int mouseY;
 

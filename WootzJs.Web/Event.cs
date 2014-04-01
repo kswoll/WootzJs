@@ -34,6 +34,14 @@ namespace WootzJs.Web
     [Js(Name = "Event", Export = false)]
     public class Event
     {
+        public Event()
+        {
+        }
+
+        public Event(string name)
+        {
+        }
+
         [Js(Name = "bubbles")]
         public extern bool Bubbles { get; set; }
 

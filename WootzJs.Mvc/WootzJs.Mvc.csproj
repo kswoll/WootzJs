@@ -106,6 +106,7 @@
     <Compile Include="Views\FixedHeaderPanel.cs" />
     <Compile Include="Views\FixedPanel.cs" />
     <Compile Include="Views\FlowPanel.cs" />
+    <Compile Include="Views\Form.cs" />
     <Compile Include="Views\HorizontalAlignment.cs" />
     <Compile Include="Views\HorizontalPanel.cs" />
     <Compile Include="Views\HorizontalRule.cs" />
