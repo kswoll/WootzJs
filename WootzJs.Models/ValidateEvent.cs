@@ -35,10 +35,6 @@ namespace WootzJs.Models
     {
         private List<Validation> validations = new List<Validation>();
 
-        public ValidateEvent()
-        {
-        }
-
         public IEnumerable<Validation> Validations
         {
             get { return validations; }
@@ -49,9 +45,9 @@ namespace WootzJs.Models
             validations.Add(validation);
         }
 
-        public void AddValidation(bool isValid, string message = null, params Property[] properties)
+        public void AddValidation(string message = null, params Property[] properties)
         {
-            validations.Add(new Validation(isValid, message, properties));
+            validations.Add(new Validation(message, properties));
         }
     }
 }

@@ -28,26 +28,23 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WootzJs.Models
 {
     public class Validation
     {
-        public bool IsValid { get; set; }
         public string Message { get; set; } 
-        public IReadOnlyList<Property> Properties { get; set; }
+        public IReadOnlyList<string> Properties { get; set; }
 
-        public Validation(bool isValid, params Property[] properties)
+        public Validation(string message, params string[] properties)
         {
-            IsValid = isValid;
+            Message = message;
             Properties = properties;
         }
 
-        public Validation(bool isValid, string message = null, params Property[] properties)
+        public Validation(string message, params Property[] properties) : this(message, properties.Select(x => x.Name).ToArray())
         {
-            IsValid = isValid;
-            Message = message;
-            Properties = properties;
         }
     }
 }

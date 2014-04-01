@@ -76,17 +76,12 @@ namespace WootzJs.Models
                 {
                     var validationContext = new ValidationContext(this) { MemberName = property.Name };
                     var result = validationAttribute.GetValidationResult(property.Value, validationContext);
-                    Validation validation;
                     if (result != ValidationResult.Success)
                     {
-                        validation = new Validation(false, result.ErrorMessage, property);
+                        var validation = new Validation(result.ErrorMessage, property);
+                        e.AddValidation(validation);
+                        propertyValidations.Add(validation);
                     }
-                    else
-                    {
-                        validation = new Validation(true);
-                    }
-                    e.AddValidation(validation);
-                    propertyValidations.Add(validation);
                 }
 
                 if (typeof(Model).IsAssignableFrom(property.PropertyInfo.PropertyType))
@@ -120,7 +115,7 @@ namespace WootzJs.Models
                 properties.Add(property);
             }
             base.properties = properties;
-            base.propertiesByName = properties.ToDictionary(x => x.Name);
+            propertiesByName = properties.ToDictionary(x => x.Name);
         }
 
         public Property GetProperty<TValue>(Expression<Func<T, TValue>> expression)

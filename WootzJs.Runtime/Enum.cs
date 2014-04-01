@@ -182,5 +182,21 @@ namespace System
             enumType.thisType.invoke();
             return enumsByType[enumType.thisType.TypeName].Select(x => x.name).ToArray();
         }
+
+        /// <summary>
+        /// Retrieves an array of the values of the constants in a specified enumeration.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// An array that contains the values of the constants in <paramref name="enumType"/>.
+        /// </returns>
+        /// <param name="enumType">An enumeration type. </param><exception cref="T:System.ArgumentNullException"><paramref name="enumType"/> is null. </exception><exception cref="T:System.ArgumentException"><paramref name="enumType"/> is not an <see cref="T:System.Enum"/>. </exception><exception cref="T:System.InvalidOperationException">The method is invoked by reflection in a reflection-only context, -or-<paramref name="enumType"/> is a type from an assembly loaded in a reflection-only context.</exception><filterpriority>1</filterpriority>
+        public static Array GetValues(Type enumType)
+        {
+            if (enumType == null)
+                throw new ArgumentNullException("enumType");
+            else
+                return enumType.GetEnumValues();
+        }
     }
 }
