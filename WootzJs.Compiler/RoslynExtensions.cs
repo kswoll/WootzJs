@@ -28,10 +28,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Services;
-using WootzJs.Compiler.JsAst;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
@@ -42,7 +41,7 @@ namespace WootzJs.Compiler
             return typeInfo.ConvertedType.GetFullName();
         }
 
-        public static string GetFullName(this NamespaceSymbol namespaceSymbol)
+        public static string GetFullName(this INamespaceSymbol namespaceSymbol)
         {
             string result = namespaceSymbol.MetadataName;
             if (!namespaceSymbol.IsGlobalNamespace && !namespaceSymbol.ContainingNamespace.IsGlobalNamespace)
@@ -50,19 +49,19 @@ namespace WootzJs.Compiler
             return result;
         }
 
-        public static string GetFullName(this TypeSymbol type)
+        public static string GetFullName(this ITypeSymbol type)
         {
             if (type.IsAnonymousType)
             {
                 return type.GetTypeName();
             }
-            if (type is ArrayTypeSymbol)
+            if (type is IArrayTypeSymbol)
             {
-                var arrayType = (ArrayTypeSymbol)type;
+                var arrayType = (IArrayTypeSymbol)type;
                 return arrayType.ElementType.GetFullName() + "[]";
             }
 
-            var typeParameter = type as TypeParameterSymbol;
+            var typeParameter = type as ITypeParameterSymbol;
             if (typeParameter != null)
             {
                 return typeParameter.Name;
@@ -78,52 +77,52 @@ namespace WootzJs.Compiler
             }
         }
 
-        public static bool IsAssignableFrom(this TypeSymbol baseType, TypeSymbol type)
+        public static bool IsAssignableFrom(this ITypeSymbol baseType, ITypeSymbol type)
         {
             var current = type;
             while (current != null)
             {
-                if (current == baseType)
+                if (Equals(current, baseType))
                     return true;
                 current = current.BaseType;
             }
             foreach (var intf in type.AllInterfaces)
             {
-                if (intf == baseType)
+                if (Equals(intf, baseType))
                     return true;
             }
             return false;
         }
 
-        public static bool IsSubclassOf(this TypeSymbol @class, TypeSymbol baseClass) 
+        public static bool IsSubclassOf(this ITypeSymbol @class, ITypeSymbol baseClass) 
         {
             var current = @class.BaseType;
             while (current != null)
             {
-                if (current == baseClass)
+                if (Equals(current, baseClass))
                     return true;
                 current = current.BaseType;
             }
             return false;
         }
 
-        public static TypeSymbol GetGenericArgument(this TypeSymbol type, TypeSymbol unconstructedType, int argumentIndex)
+        public static ITypeSymbol GetGenericArgument(this ITypeSymbol type, ITypeSymbol unconstructedType, int argumentIndex)
         {
             var current = type;
             while (current != null)
             {
-                if (current.OriginalDefinition == unconstructedType)
+                if (Equals(current.OriginalDefinition, unconstructedType))
                 {
-                    return ((NamedTypeSymbol)current).TypeArguments[argumentIndex];
+                    return ((INamedTypeSymbol)current).TypeArguments[argumentIndex];
                 }
                 current = current.BaseType;
             }
-            if (type is NamedTypeSymbol)
+            if (type is INamedTypeSymbol)
             {
-                var namedTypeSymbol = (NamedTypeSymbol)type;
+                var namedTypeSymbol = (INamedTypeSymbol)type;
                 foreach (var intf in namedTypeSymbol.AllInterfaces)
                 {
-                    if (intf.OriginalDefinition == unconstructedType)
+                    if (Equals(intf.OriginalDefinition, unconstructedType))
                     {
                         return intf.TypeArguments[argumentIndex];
                     }
@@ -132,9 +131,9 @@ namespace WootzJs.Compiler
             return null;
         }
 
-        public static T GetAttributeValue<T>(this Symbol type, NamedTypeSymbol attributeType, string propertyName, T defaultValue = default(T))
+        public static T GetAttributeValue<T>(this ISymbol type, INamedTypeSymbol attributeType, string propertyName, T defaultValue = default(T))
         {
-            var jsAttribute = type.GetAttributes(attributeType).SingleOrDefault();
+            var jsAttribute = type.GetAttributes().SingleOrDefault(x => Equals(x.AttributeClass, attributeType));
             if (jsAttribute != null)
             {
                 // If the type is inlined, all the methods of the class will be written
@@ -149,7 +148,7 @@ namespace WootzJs.Compiler
             return defaultValue;
         }
 
-        public static Symbol[] GetAllMembers(this NamedTypeSymbol type, string name)
+        public static ISymbol[] GetAllMembers(this INamedTypeSymbol type, string name)
         {
             if (type.BaseType != null)
                 return type.BaseType.GetAllMembers(name).Concat(type.GetMembers(name).ToArray()).ToArray();
@@ -157,7 +156,7 @@ namespace WootzJs.Compiler
                 return type.GetMembers(name).ToArray();
         }
 
-        public static Symbol[] GetAllMembers(this NamedTypeSymbol type)
+        public static ISymbol[] GetAllMembers(this INamedTypeSymbol type)
         {
             if (type.BaseType != null)
                 return type.BaseType.GetAllMembers().Concat(type.GetMembers().ToArray()).ToArray();
@@ -165,7 +164,7 @@ namespace WootzJs.Compiler
                 return type.GetMembers().ToArray();
         }
 
-        public static TypeSymbol GetContainingType(this SyntaxNode node)
+        public static ITypeSymbol GetContainingType(this SyntaxNode node)
         {
             var classDeclaration = node.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => true);
             if (classDeclaration == null)
@@ -173,7 +172,7 @@ namespace WootzJs.Compiler
             return Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }
 
-        public static MethodSymbol GetContainingMethod(this SyntaxNode node)
+        public static IMethodSymbol GetContainingMethod(this SyntaxNode node)
         {
             var method = node.FirstAncestorOrSelf<SyntaxNode>(x => x is ConstructorDeclarationSyntax || x is MethodDeclarationSyntax);
             if (method == null)
@@ -184,7 +183,7 @@ namespace WootzJs.Compiler
                 return Context.Instance.Compilation.GetSemanticModel(method.SyntaxTree).GetDeclaredSymbol((MethodDeclarationSyntax)method);
         }
 
-        public static MethodSymbol GetRootOverride(this MethodSymbol method)
+        public static IMethodSymbol GetRootOverride(this IMethodSymbol method)
         {
             if (method.OverriddenMethod == null)
                 return method;
@@ -192,7 +191,7 @@ namespace WootzJs.Compiler
                 return method.OverriddenMethod.GetRootOverride();
         }
 
-        public static PropertySymbol GetRootOverride(this PropertySymbol property)
+        public static IPropertySymbol GetRootOverride(this IPropertySymbol property)
         {
             if (property.OverriddenProperty == null)
                 return property;
@@ -200,9 +199,9 @@ namespace WootzJs.Compiler
                 return property.OverriddenProperty.GetRootOverride();
         }
 
-        public static bool HasOrIsEnclosedInGenericParameters(this NamedTypeSymbol type)
+        public static bool HasOrIsEnclosedInGenericParameters(this INamedTypeSymbol type)
         {
-            return type.TypeParameters.Count > 0 || (type.ContainingType != null && type.ContainingType.HasOrIsEnclosedInGenericParameters());
+            return type.TypeParameters.Any() || (type.ContainingType != null && type.ContainingType.HasOrIsEnclosedInGenericParameters());
         }
 
 /*
@@ -212,13 +211,13 @@ namespace WootzJs.Compiler
         }
 */
 
-        public static bool IsUnconstructedType(this TypeSymbol type) 
+        public static bool IsUnconstructedType(this ITypeSymbol type) 
         {
-            var namedTypeSymbol = type as NamedTypeSymbol;
-            if (type is TypeParameterSymbol)
+            var namedTypeSymbol = type as INamedTypeSymbol;
+            if (type is ITypeParameterSymbol)
                 return true;
             if (namedTypeSymbol != null)
-                return (namedTypeSymbol.TypeParameters.Count > 0 && namedTypeSymbol.TypeArguments.Any(x => IsUnconstructedType(x))) || 
+                return (namedTypeSymbol.TypeParameters.Any() && namedTypeSymbol.TypeArguments.Any(x => IsUnconstructedType(x))) || 
                        (type.ContainingType != null && type.ContainingType.IsUnconstructedType());
             else
                 return false;
@@ -235,7 +234,7 @@ namespace WootzJs.Compiler
                 throw new Exception();
         }
 
-        public static SyntaxNode GetBody(this ExpressionSyntax lambda)
+        public static CSharpSyntaxNode GetBody(this ExpressionSyntax lambda)
         {
             if (lambda is SimpleLambdaExpressionSyntax)
                 return ((SimpleLambdaExpressionSyntax)lambda).Body;
@@ -245,6 +244,7 @@ namespace WootzJs.Compiler
                 throw new Exception();
         }
 
+/*
         public static bool IsAssignment(this SyntaxKind type)
         {
             switch (type)
@@ -265,6 +265,7 @@ namespace WootzJs.Compiler
                     return false;
             }
         }
+*/
 
         public static StatementSyntax GetNextStatement(this StatementSyntax statement)
         {
@@ -296,22 +297,22 @@ namespace WootzJs.Compiler
             }
         }
 
-        public static MethodSymbol GetMethodByName(this NamedTypeSymbol type, string name)
+        public static IMethodSymbol GetMethodByName(this INamedTypeSymbol type, string name)
         {
-            return type.GetMembers(name).OfType<MethodSymbol>().Single();
+            return type.GetMembers(name).OfType<IMethodSymbol>().Single();
         }
 
-        public static MethodSymbol GetMethod(this NamedTypeSymbol type, string name, params TypeSymbol[] parameterTypes)
+        public static IMethodSymbol GetMethod(this INamedTypeSymbol type, string name, params ITypeSymbol[] parameterTypes)
         {
-            MethodSymbol method;
+            IMethodSymbol method;
             if (!TryGetMethod(type, name, out method, parameterTypes))
                 throw new Exception();
             return method;
         }
 
-        public static bool TryGetMethod(this NamedTypeSymbol type, string name, out MethodSymbol method, params TypeSymbol[] parameterTypes)
+        public static bool TryGetMethod(this INamedTypeSymbol type, string name, out IMethodSymbol method, params ITypeSymbol[] parameterTypes)
         {
-            var candidates = type.GetMembers(name).OfType<MethodSymbol>().ToArray();
+            var candidates = type.GetMembers(name).OfType<IMethodSymbol>().ToArray();
             if (candidates.Length == 1)
             {
                 method = candidates[0];
@@ -319,12 +320,12 @@ namespace WootzJs.Compiler
             }
             foreach (var candidate in candidates)
             {
-                if (candidate.Parameters.Count != parameterTypes.Length)
+                if (candidate.Parameters.Count() != parameterTypes.Length)
                     continue;
                 bool valid = true;
                 foreach (var item in parameterTypes.Zip(candidate.Parameters.Select(x => x.Type), (x, y) => new { ParameterType = x, Candidate = y }))
                 {
-                    if (item.Candidate != item.ParameterType)
+                    if (!Equals(item.Candidate, item.ParameterType))
                     {
                         valid = false;
                         break;
@@ -340,40 +341,42 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public static TypeSyntax ToTypeSyntax(this TypeSymbol symbol)
+        public static TypeSyntax ToTypeSyntax(this ITypeSymbol symbol)
         {
-            return Syntax.ParseTypeName(symbol.ToDisplayString());
+            return SyntaxFactory.ParseTypeName(symbol.ToDisplayString());
         }
 
         public static InvocationExpressionSyntax Wrap(this BlockSyntax block)
         {
             var jsni = new CsJsni(Context.Instance);
-            return Syntax.InvocationExpression(Syntax.ParenthesizedExpression(Syntax.CastExpression(
+            return SyntaxFactory.InvocationExpression(SyntaxFactory.ParenthesizedExpression(SyntaxFactory.CastExpression(
                 Context.Instance.Func.Construct(Context.Instance.JsObject).ToTypeSyntax(), 
                 jsni.Function(block))));
         }
 
-        public static InvocationExpressionSyntax Invoke(this MethodSymbol method, params ExpressionSyntax[] arguments)
+        public static InvocationExpressionSyntax Invoke(this IMethodSymbol method, params ExpressionSyntax[] arguments)
         {
-            var methodTarget = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, 
+            var methodTarget = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
                 method.ContainingType.ToTypeSyntax(), 
-                Syntax.IdentifierName(method.Name));
+                SyntaxFactory.IdentifierName(method.Name));
             return arguments.Any() ? 
-                Syntax.InvocationExpression(methodTarget, Syntax.ArgumentList(Syntax.SeparatedList(arguments.Select(x => Syntax.Argument(x)), arguments.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken))))) :
-                Syntax.InvocationExpression(methodTarget);
+                SyntaxFactory.InvocationExpression(methodTarget, SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments.Select(x => SyntaxFactory.Argument(x)), arguments.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken))))) :
+                SyntaxFactory.InvocationExpression(methodTarget);
         }
 
         public static bool IsTrue(this ExpressionSyntax expression)
         {
             var literal = (LiteralExpressionSyntax)expression;
-            return literal.Token.Kind == SyntaxKind.TrueKeyword;
+            return literal.Token.IsKind(SyntaxKind.TrueKeyword);
         }
 
         public static Compilation Recompile(this Compilation compilation, CompilationUnitSyntax compilationUnit)
         {
             var document = Context.Instance.Project.GetDocument(compilationUnit.SyntaxTree);
-            document = document.UpdateSyntaxRoot(compilationUnit);
-            compilation = (Compilation)compilation.ReplaceSyntaxTree(compilationUnit.SyntaxTree, document.GetSyntaxTree());            
+            document = document.WithSyntaxRoot(compilationUnit);
+            SyntaxTree syntaxTree;
+            document.TryGetSyntaxTree(out syntaxTree);
+            compilation = compilation.ReplaceSyntaxTree(compilationUnit.SyntaxTree, syntaxTree);
             return compilation;
         }
 
@@ -393,12 +396,12 @@ namespace WootzJs.Compiler
             return compilation.Recompile((CompilationUnitSyntax)newNode);
         }
 
-        public static NamedTypeSymbol FindType(this Compilation compilation, string fullName)
+        public static INamedTypeSymbol FindType(this Compilation compilation, string fullName)
         {
             var result = compilation.GetTypeByMetadataName(fullName);
             if (result == null)
             {
-                foreach (var assembly in Context.Instance.Project.MetadataReferences.Select(x => compilation.GetReferencedAssemblySymbol(x)))
+                foreach (IAssemblySymbol assembly in Context.Instance.Project.MetadataReferences.Select(x => compilation.GetAssemblyOrModuleSymbol(x)))
                 {
                     result = assembly.GetTypeByMetadataName(fullName);
                     if (result != null)
@@ -408,9 +411,9 @@ namespace WootzJs.Compiler
             return result;
         }
 
-        public static IEnumerable<TypeSymbol> GetAllInnerTypes(this TypeSymbol type)
+        public static IEnumerable<ITypeSymbol> GetAllInnerTypes(this ITypeSymbol type)
         {
-            foreach (var innerType in type.GetMembers().OfType<TypeSymbol>())
+            foreach (var innerType in type.GetMembers().OfType<ITypeSymbol>())
             {
                 yield return innerType;
                 foreach (var inner in innerType.GetAllInnerTypes())
@@ -425,14 +428,13 @@ namespace WootzJs.Compiler
             var fileName = node.SyntaxTree.FilePath;
             var text = node.SyntaxTree.GetText();
             var span = node.GetLocation().SourceSpan;
-            var startLine = text.GetLinePosition(span.Start);
-            var endLine = text.GetLinePosition(span.End);
+            var startLine = text.Lines.GetLinePosition(span.Start);
+            var endLine = text.Lines.GetLinePosition(span.End);
 
-            Console.WriteLine(string.Format("{0} ({1},{2},{3},{4}): error: {5}",
-                fileName, startLine.Line + 1, startLine.Character + 1, endLine.Line + 1, endLine.Character + 1, message));
+            Console.WriteLine("{0} ({1},{2},{3},{4}): error: {5}", fileName, startLine.Line + 1, startLine.Character + 1, endLine.Line + 1, endLine.Character + 1, message);
         }
 
-        public static bool IsPrimitive(this TypeSymbol type)
+        public static bool IsPrimitive(this ITypeSymbol type)
         {
             switch (type.SpecialType)
             {
@@ -459,7 +461,7 @@ namespace WootzJs.Compiler
 
         public static bool IsAsync(this MethodDeclarationSyntax method)
         {
-            return method.Modifiers.Any(x => x.Kind == SyntaxKind.AsyncKeyword);
+            return method.Modifiers.Any(x => x.IsKind(SyntaxKind.AsyncKeyword));
         }
     }
 }

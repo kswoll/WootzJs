@@ -27,12 +27,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
-using WootzJs.Compiler.JsAst;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class YieldGenerator : SyntaxRewriter
+    public class YieldGenerator : CSharpSyntaxRewriter
     {
         private Compilation compilation;
         private SyntaxTree syntaxTree;

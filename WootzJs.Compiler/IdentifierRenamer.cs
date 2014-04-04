@@ -25,11 +25,13 @@
 //-----------------------------------------------------------------------
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class IdentifierRenamer : SyntaxRewriter
+    public class IdentifierRenamer : CSharpSyntaxRewriter
     {
         private SyntaxToken renameFrom;
         private SyntaxToken renameTo;
@@ -40,15 +42,15 @@ namespace WootzJs.Compiler
             this.renameTo = renameTo;
         }
 
-        public static SyntaxNode RenameIdentifier(SyntaxNode node, SyntaxToken renameFrom, SyntaxToken renameTo)
+        public static CSharpSyntaxNode RenameIdentifier(CSharpSyntaxNode node, SyntaxToken renameFrom, SyntaxToken renameTo)
         {
-            return node.Accept(new IdentifierRenamer(renameFrom, renameTo));
+            return (CSharpSyntaxNode)node.Accept(new IdentifierRenamer(renameFrom, renameTo));
         }
 
         public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
         {
             if (node.Identifier.ToString() == renameFrom.ToString())
-                return Syntax.IdentifierName(renameTo);
+                return SyntaxFactory.IdentifierName(renameTo);
 
             return base.VisitIdentifierName(node);
         }

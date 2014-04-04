@@ -27,11 +27,12 @@
 
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class LambdaChecker : SyntaxWalker
+    public class LambdaChecker : CSharpSyntaxWalker
     {
         public static bool HasLambdasWithClosedVariables(StatementSyntax statement)
         {

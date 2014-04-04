@@ -25,42 +25,43 @@
 //-----------------------------------------------------------------------
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using System.Linq;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
     public static class WootzJsExtensions
     {
-        public static string GetName(this Symbol symbol)
+        public static string GetName(this ISymbol symbol)
         {
             var result = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             return result ?? symbol.Name;
         }
 
-        public static bool IsExported(this Symbol symbol)
+        public static bool IsExported(this ISymbol symbol)
         {
             if (symbol.IsExtern)
                 return false;
 
             var result = symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Export", true);
-            if (!(symbol is TypeSymbol))
+            if (!(symbol is ITypeSymbol))
                 result = result && symbol.ContainingType.IsExported();
             return result;
         }
 
-        public static bool IsBuiltIn(this Symbol symbol)
+        public static bool IsBuiltIn(this ISymbol symbol)
         {
             return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
         }
 
-        public static bool IsExtension(this Symbol symbol)
+        public static bool IsExtension(this ISymbol symbol)
         {
             return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Extension", false);
         }
 
-        public static bool IsAutoNotifyPropertyChange(this Symbol symbol, out MethodSymbol method)
+        public static bool IsAutoNotifyPropertyChange(this ISymbol symbol, out IMethodSymbol method)
         {
-            var classType = symbol is NamedTypeSymbol ? (NamedTypeSymbol)symbol : symbol.ContainingType;
+            var classType = symbol is INamedTypeSymbol ? (INamedTypeSymbol)symbol : symbol.ContainingType;
 
             // If the type is INotifyPropertyChanged and it duck types to NotifyPropertyChanged
             var isNotifyPropertyChanged = classType.Interfaces.Any(x => Context.Instance.INotifyPropertyChanged.IsAssignableFrom(x));

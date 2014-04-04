@@ -29,12 +29,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class ExpressionTreeTransformer : SyntaxVisitor<JsExpression>
+    public class ExpressionTreeTransformer : CSharpSyntaxVisitor<JsExpression>
     {
         private Idioms idioms;
         private SemanticModel model;
@@ -52,7 +54,7 @@ namespace WootzJs.Compiler
             throw new Exception();
         }
 
-        private MethodSymbol GetExpressionMethod(string methodName, params TypeSymbol[] parameterTypes)
+        private IMethodSymbol GetExpressionMethod(string methodName, params ITypeSymbol[] parameterTypes)
         {
             return Context.Instance.Expression.GetMethod(methodName, parameterTypes);
         }
@@ -75,21 +77,21 @@ namespace WootzJs.Compiler
  	         return VisitLambdaExpression(node, node.ParameterList.Parameters.ToArray(), node.Body);
         }
 
-        private JsExpression VisitLambdaExpression(ExpressionSyntax node, ParameterSyntax[] parameters, SyntaxNode body)
+        private JsExpression VisitLambdaExpression(ExpressionSyntax node, ParameterSyntax[] parameters, CSharpSyntaxNode body)
         {
-            var expressionType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            NamedTypeSymbol delegateType;
-            if (expressionType.OriginalDefinition == Context.Instance.ExpressionGeneric)
-                delegateType = (NamedTypeSymbol)expressionType.TypeArguments[0];
+            var expressionType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+            INamedTypeSymbol delegateType;
+            if (Equals(expressionType.OriginalDefinition, Context.Instance.ExpressionGeneric))
+                delegateType = (INamedTypeSymbol)expressionType.TypeArguments[0];
             else
                 delegateType = expressionType;
             var lambdaParameters = parameters.ToArray();
-            var delegateMethod = (MethodSymbol)delegateType.GetMembers("Invoke")[0]; 
+            var delegateMethod = (IMethodSymbol)delegateType.GetMembers("Invoke")[0]; 
 //            Compiler.CsCompilation.FindType()
-            var lambdaMethods = Context.Instance.Expression.GetMembers("Lambda").OfType<MethodSymbol>().ToArray();
-            var lambdaMethods2 = lambdaMethods.Where(x => x.TypeParameters.Count == 1 && x.Parameters.Count == 2 && x.Parameters[0].Type == Context.Instance.Expression && x.Parameters[1].Type == Context.Instance.ParameterExpressionArray).ToArray();
+            var lambdaMethods = Context.Instance.Expression.GetMembers("Lambda").OfType<IMethodSymbol>().ToArray();
+            var lambdaMethods2 = lambdaMethods.Where(x => x.TypeParameters.Count() == 1 && x.Parameters.Count() == 2 && Equals(x.Parameters[0].Type, Context.Instance.Expression) && Equals(x.Parameters[1].Type, Context.Instance.ParameterExpressionArray)).ToArray();
             var lambdaMethod = lambdaMethods2.Single();
-            var parameterMethod = Context.Instance.Expression.GetMembers("Parameter").OfType<MethodSymbol>().Single(x => x.Parameters.Count == 2 && x.Parameters[0].Type == Context.Instance.TypeType && x.Parameters[1].Type == Context.Instance.String);
+            var parameterMethod = Context.Instance.Expression.GetMembers("Parameter").OfType<IMethodSymbol>().Single(x => x.Parameters.Count() == 2 && Equals(x.Parameters[0].Type, Context.Instance.TypeType) && Equals(x.Parameters[1].Type, Context.Instance.String));
             lambdaMethod = lambdaMethod.Construct(delegateType);
 
             var jsLambda = idioms.InvokeStatic(lambdaMethod);
@@ -97,7 +99,7 @@ namespace WootzJs.Compiler
             // Convert parameters
             var workspace = new JsBlockStatement();
             var jsParameters = Js.Array();
-            for (var i = 0; i < delegateMethod.Parameters.Count; i++)
+            for (var i = 0; i < delegateMethod.Parameters.Count(); i++)
             {
                 var delegateParameter = delegateMethod.Parameters[i];
                 var lambdaParameter = lambdaParameters[i];
@@ -146,26 +148,26 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitBinaryExpression(BinaryExpressionSyntax node)
         {
-            switch (node.Kind)
+            switch (node.CSharpKind())
             {
                 case SyntaxKind.IsExpression:
                 {
                     var operand = node.Left.Accept(this);
-                    var type = (NamedTypeSymbol)model.GetSymbolInfo(node.Right).Symbol;
+                    var type = (INamedTypeSymbol)model.GetSymbolInfo(node.Right).Symbol;
                     var typeIs = GetExpressionMethod("TypeIs", Context.Instance.Expression, Context.Instance.TypeType);
                     return idioms.InvokeStatic(typeIs, operand, idioms.TypeOf(type));
                 }
                 case SyntaxKind.AsExpression:
                 {
                     var operand = node.Left.Accept(this);
-                    var type = (NamedTypeSymbol)model.GetSymbolInfo(node.Right).Symbol;
+                    var type = (INamedTypeSymbol)model.GetSymbolInfo(node.Right).Symbol;
                     var typeAs = GetExpressionMethod("TypeAs", Context.Instance.Expression, Context.Instance.TypeType);
                     return idioms.InvokeStatic(typeAs, operand, idioms.TypeOf(type));
                 }
             }
 
             ExpressionType op;
-            switch (node.Kind)
+            switch (node.CSharpKind())
             {
                 case SyntaxKind.AddExpression:
                     op = ExpressionType.Add;
@@ -222,14 +224,14 @@ namespace WootzJs.Compiler
                     op = ExpressionType.OrElse;
                     break;
                 default:
-                    throw new Exception("Unknown operation: " + node.Kind);
+                    throw new Exception("Unknown operation: " + node.CSharpKind());
             }
 
             var left = node.Left.Accept(this);
             var right = node.Right.Accept(this);
             
             var jsMethodInfo = GetExpressionMethod("MakeBinary", Context.Instance.ExpressionType, Context.Instance.Expression, Context.Instance.Expression);
-            var opExpression = idioms.GetEnumValue(Context.Instance.ExpressionType.GetMembers(op.ToString()).OfType<FieldSymbol>().Single());
+            var opExpression = idioms.GetEnumValue(Context.Instance.ExpressionType.GetMembers(op.ToString()).OfType<IFieldSymbol>().Single());
 
             var jsMethod = idioms.InvokeStatic(jsMethodInfo, opExpression, left, right);
 
@@ -242,9 +244,9 @@ namespace WootzJs.Compiler
             var target = node.Expression.Accept(this);
             var arguments = node.ArgumentList.Arguments[0].Accept(this);
 
-            if (symbol.Symbol is PropertySymbol)
+            if (symbol.Symbol is IPropertySymbol)
             {
-                var property = (PropertySymbol)symbol.Symbol;
+                var property = (IPropertySymbol)symbol.Symbol;
                 var propertyInfo = idioms.MemberOf(property);
                 var jsMethodInfo = GetExpressionMethod("MakeIndex", Context.Instance.Expression, Context.Instance.PropertyInfo, Context.Instance.EnumerableGeneric.Construct(Context.Instance.Expression));
                 return idioms.InvokeStatic(jsMethodInfo, target, propertyInfo, Js.Array(node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToArray()));
@@ -290,7 +292,7 @@ namespace WootzJs.Compiler
         public override JsExpression VisitInvocationExpression(InvocationExpressionSyntax node)
         {
             var symbol = model.GetSymbolInfo(node).Symbol;
-            var method = (MethodSymbol)symbol;
+            var method = (IMethodSymbol)symbol;
             if (method.IsStatic)
             {
                 var jsMethodInfo = GetExpressionMethod("Call", Context.Instance.MethodInfo, Context.Instance.ExpressionArray);
@@ -326,7 +328,7 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
         {
-            var constructor = (MethodSymbol)model.GetSymbolInfo(node).Symbol;
+            var constructor = (IMethodSymbol)model.GetSymbolInfo(node).Symbol;
             var jsConstructor = idioms.MemberOf(constructor);
             var args = node.ArgumentList == null ? new JsExpression[0] : node.ArgumentList.Arguments.Select(x => x.Accept(this)).ToArray();
             var jsMethodInfo = GetExpressionMethod("New", Context.Instance.ConstructorInfo, Context.Instance.ExpressionArray);
@@ -334,7 +336,7 @@ namespace WootzJs.Compiler
             
             if (node.Initializer != null && node.Initializer.Expressions.Count > 0)
             {
-                if (node.Initializer.Kind == SyntaxKind.ObjectInitializerExpression)
+                if (node.Initializer.CSharpKind() == SyntaxKind.ObjectInitializerExpression)
                 {
                     var memberInit = GetExpressionMethod("MemberInit", Context.Instance.NewExpression, Context.Instance.MemberBindingArray);
                     var jsMemberInit = idioms.InvokeStatic(
@@ -358,7 +360,7 @@ namespace WootzJs.Compiler
                     {
                         items.AddRange(node.Initializer.Expressions.Select(x => new List<ExpressionSyntax> { x }));
                     }
-                    var addMethodInfo = constructor.ContainingType.GetMembers("Add").OfType<MethodSymbol>().First(x => x.Parameters.Count == subitemCount);
+                    var addMethodInfo = constructor.ContainingType.GetMembers("Add").OfType<IMethodSymbol>().First(x => x.Parameters.Count() == subitemCount);
                     var addMethod = idioms.MemberOf(addMethodInfo);
                     var elementInitMethodInfo = GetExpressionMethod("ElementInit", Context.Instance.MethodInfo, Context.Instance.ExpressionArray);
                     var jsMemberInitMethodInfo = GetExpressionMethod("ListInit", Context.Instance.NewExpression, Context.Instance.ElementInitArray);
@@ -393,7 +395,7 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitImplicitArrayCreationExpression(ImplicitArrayCreationExpressionSyntax node)
         {
-            var type = (ArrayTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+            var type = (IArrayTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             var elementType = type.ElementType;
             var newArrayInit = GetExpressionMethod("NewArrayInit", Context.Instance.TypeType, Context.Instance.ExpressionArray);
             var jsMethod = idioms.InvokeStatic(
@@ -405,7 +407,7 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
         {
-            var type = (ArrayTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+            var type = (IArrayTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             var elementType = type.ElementType;
             if (node.Initializer != null)
             {
@@ -440,23 +442,23 @@ namespace WootzJs.Compiler
         public JsExpression VisitUnaryExpression(ExpressionSyntax node, ExpressionSyntax expression)
         {
             ExpressionType op;
-            switch (node.Kind)
+            switch (node.CSharpKind())
             {
                 case SyntaxKind.LogicalNotExpression:
                     op = ExpressionType.Not;
                     break;
-                case SyntaxKind.NegateExpression:
+                case SyntaxKind.UnaryMinusExpression:
                     op = ExpressionType.Negate;
                     break;
                 case SyntaxKind.PostDecrementExpression:
                 case SyntaxKind.PostIncrementExpression:
                     throw new Exception("Expression trees cannot contain assignment operators.");
                 default:
-                    throw new Exception("Unknown operation: " + node.Kind);
+                    throw new Exception("Unknown operation: " + node.CSharpKind());
             }
 
             var makeUnary = GetExpressionMethod("MakeUnary", Context.Instance.ExpressionType, Context.Instance.Expression, Context.Instance.TypeType);
-            var opExpression = idioms.GetEnumValue(Context.Instance.ExpressionType.GetMembers(op.ToString()).OfType<FieldSymbol>().Single());
+            var opExpression = idioms.GetEnumValue(Context.Instance.ExpressionType.GetMembers(op.ToString()).OfType<IFieldSymbol>().Single());
             var operand = expression.Accept(this);
             var type = model.GetTypeInfo(node).ConvertedType;
             return idioms.InvokeStatic(

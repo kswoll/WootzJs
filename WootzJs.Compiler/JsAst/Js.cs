@@ -27,7 +27,8 @@
 
 using System;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler.JsAst
 {
@@ -276,8 +277,8 @@ namespace WootzJs.Compiler.JsAst
                 return new JsPrimitiveExpression((char)value);
             if (value is TypedConstant)
                 return Literal(((TypedConstant)value).Value);
-            if (value is TypeSymbol)
-                return Reference(((TypeSymbol)value).GetFullName());
+            if (value is ITypeSymbol)
+                return Reference(((ITypeSymbol)value).GetFullName());
             else
                 throw new Exception("Unexpected primitive type: " + value);
         }

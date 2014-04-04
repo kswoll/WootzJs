@@ -29,15 +29,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.WootzJs;
-using Roslyn.Compilers;
-using Roslyn.Compilers.Common;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Services;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
 using WootzJs.Compiler.JsAst;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace WootzJs.Compiler
 {
-    public class JsTransformer : SyntaxVisitor<JsNode>
+    public class JsTransformer : CSharpSyntaxVisitor<JsNode>
     {
         internal SyntaxTree syntaxTree;
         internal SemanticModel model;
@@ -45,7 +45,7 @@ namespace WootzJs.Compiler
         internal Idioms idioms;
         internal List<JsBlockStatement> outputBlockStack = new List<JsBlockStatement>();
         private Stack<IJsDeclaration> initializableObjectsStack = new Stack<IJsDeclaration>();
-        private Stack<Symbol> declarationStack = new Stack<Symbol>();
+        private Stack<ISymbol> declarationStack = new Stack<ISymbol>();
         private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
 
         public JsTransformer(SyntaxTree syntaxTree, SemanticModel model)
@@ -65,12 +65,12 @@ namespace WootzJs.Compiler
             throw new Exception();
         }
 
-        public Scope PushScope(Symbol symbol)
+        public Scope PushScope(ISymbol symbol)
         {
             return PushScope(scopes.Any() ? scopes.Last() : null, symbol);
         }
 
-        public Scope PushScope(Scope parent, Symbol symbol)
+        public Scope PushScope(Scope parent, ISymbol symbol)
         {
             var scope = new Scope(symbol);
             scopes.Add(scope);
@@ -93,7 +93,7 @@ namespace WootzJs.Compiler
             scopes.Last().AddDeclarations(declarations);
         }
 
-        private Dictionary<Symbol, int> currentAnonymousNames = new Dictionary<Symbol, int>();
+        private Dictionary<ISymbol, int> currentAnonymousNames = new Dictionary<ISymbol, int>();
 
         public string GenerateUniqueNameInScope()
         {
@@ -187,7 +187,7 @@ namespace WootzJs.Compiler
             return outputBlockStack.Last();
         }
 
-        public void PushDeclaration(Symbol symbol)
+        public void PushDeclaration(ISymbol symbol)
         {
             declarationStack.Push(symbol);
         }
@@ -197,7 +197,7 @@ namespace WootzJs.Compiler
             declarationStack.Pop();
         }
 
-        public Symbol CurrentDeclaration
+        public ISymbol CurrentDeclaration
         {
             get { return declarationStack.Peek(); }
         }
@@ -354,14 +354,14 @@ namespace WootzJs.Compiler
             var constructorNameParameter = Js.Parameter("name");
             var constructorValueParameter = Js.Parameter("value");
             var constructorBlock = new JsBlockStatement();
-            constructorBlock.Express(idioms.InvokeMethodAsThis((MethodSymbol)Context.Instance.EnumType.GetConstructors().First(x => !x.IsStatic), 
+            constructorBlock.Express(idioms.InvokeMethodAsThis((IMethodSymbol)Context.Instance.EnumType.Constructors.First(x => !x.IsStatic), 
                 constructorNameParameter.GetReference(), constructorValueParameter.GetReference()));
             typeInitializer.Add(idioms.StoreInPrototype("$ctor", Js.Function(constructorNameParameter, constructorValueParameter).Body(constructorBlock)));
             typeInitializer.Aggregate(idioms.InitializeConstructor(enumType, "$ctor", new[] { "name", "value" }));
             PopScope();
 
             // Instantiate all the enum members
-            FieldSymbol lastEnum = null;
+            IFieldSymbol lastEnum = null;
             for (var i = 0; i < node.Members.Count; i++)
             {
                 var enumValue = node.Members[i];
@@ -415,8 +415,8 @@ namespace WootzJs.Compiler
             if (!isExported)
                 return block;
 
-            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.GetKeyword);
-            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.SetKeyword);
+            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
+            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
             var propertyName = property.GetMemberName();
 
             Func<string, JsExpression, JsExpressionStatement> storeIn = (member, value) => !property.IsStatic ? idioms.StoreInPrototype(member, value) : idioms.StoreInType(member, value);
@@ -432,7 +432,7 @@ namespace WootzJs.Compiler
 
                 var setterBlock = Js.Block();
                 setterBlock.Assign(Js.This().Member(backingField), valueParameter.GetReference());
-                MethodSymbol notifyPropertyChanged;
+                IMethodSymbol notifyPropertyChanged;
                 if (property.IsAutoNotifyPropertyChange(out notifyPropertyChanged))
                 {
                     setterBlock.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
@@ -466,7 +466,7 @@ namespace WootzJs.Compiler
                     DeclareInCurrentScope(valueParameter);
                     if (setter.Body != null)
                         setterBody.Aggregate((JsStatement)setter.Body.Accept(this));
-                    MethodSymbol notifyPropertyChanged;
+                    IMethodSymbol notifyPropertyChanged;
                     if (property.IsAutoNotifyPropertyChange(out notifyPropertyChanged))
                     {
                         setterBody.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
@@ -480,7 +480,8 @@ namespace WootzJs.Compiler
             }
 
             // Also store all interface implementations
-            foreach (PropertySymbol interfaceImplementation in property.GetRootOverride().FindImplementedInterfaceMembers(Context.Instance.Solution))
+            var implementedInterfaceMembers = SymbolFinder.FindImplementedInterfaceMembersAsync(property.GetRootOverride(), Context.Instance.Solution).Result;
+            foreach (IPropertySymbol interfaceImplementation in implementedInterfaceMembers)
             {
                 if (interfaceImplementation.GetMethod != null)
                     block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
@@ -512,7 +513,7 @@ namespace WootzJs.Compiler
             var assignConstructorToPrototype = idioms.StoreInPrototype(classType.GetDefaultConstructorName(), Js.Function().Body(constructorBlock));
             var block = new JsBlockStatement();
             block.Add(assignConstructorToPrototype);
-            block.Aggregate(idioms.InitializeConstructor(classType, classType.GetDefaultConstructorName(), new ParameterSymbol[0]));
+            block.Aggregate(idioms.InitializeConstructor(classType, classType.GetDefaultConstructorName(), new IParameterSymbol[0]));
             PopScope();
 
             return block;            
@@ -587,7 +588,7 @@ namespace WootzJs.Compiler
             else if (YieldChecker.HasYield(node))
             {
                 // Get generated enumerator
-                var generatorType = (NamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "YieldEnumerator$" + method.GetMemberName());
+                var generatorType = (INamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "YieldEnumerator$" + method.GetMemberName());
                 var constructor = generatorType.InstanceConstructors.Single();
                 var generatorTypeExpression = idioms.Type(generatorType);
                 if (method.TypeParameters.Any())
@@ -604,7 +605,7 @@ namespace WootzJs.Compiler
             else if (node.IsAsync())
             {
                 // Get generated enumerator
-                var asyncType = (NamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "Async$" + method.GetMemberName());
+                var asyncType = (INamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "Async$" + method.GetMemberName());
                 var constructor = asyncType.InstanceConstructors.Single();
                 var asyncTypeExpression = idioms.Type(asyncType);
                 if (method.TypeParameters.Any())
@@ -639,7 +640,8 @@ namespace WootzJs.Compiler
                 block.Add(idioms.StoreInPrototype(memberName, methodFunction));
 
                 // Also store all interface implementations
-                foreach (MethodSymbol interfaceImplementation in method.GetRootOverride().FindImplementedInterfaceMembers(Context.Instance.Solution))
+                var implementedInterfaceMembers = SymbolFinder.FindImplementedInterfaceMembersAsync(method.GetRootOverride(), Context.Instance.Solution).Result;
+                foreach (IMethodSymbol interfaceImplementation in implementedInterfaceMembers)
                 {
                     block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMemberName(), idioms.GetFromPrototype(memberName)));
                 }
@@ -703,7 +705,7 @@ namespace WootzJs.Compiler
                 if (!(@this is JsInvocationExpression))
                     @this = @this.Invoke();
             }
-            var result = idioms.MemberReference(@this, symbol, node.Parent is BinaryExpressionSyntax && node.Parent.Kind == SyntaxKind.AssignExpression && ((BinaryExpressionSyntax)node.Parent).Left == node);
+            var result = idioms.MemberReference(@this, symbol, node.Parent is BinaryExpressionSyntax && node.Parent.IsKind(SyntaxKind.SimpleAssignmentExpression) && ((BinaryExpressionSyntax)node.Parent).Left == node);
             return ImplicitCheck(node, result);
         }
 
@@ -770,13 +772,13 @@ namespace WootzJs.Compiler
             var operand = (JsExpression)node.Operand.Accept(this);
             var operandType = model.GetTypeInfo(node.Operand);
             JsExpression result;
-            if (idioms.TryCharUnaryExpression(node.Kind, operandType, operand, out result))
+            if (idioms.TryCharUnaryExpression(node.CSharpKind(), operandType, operand, out result))
                 return result;
             JsUnaryOperator op;
 
-            switch (node.Kind)
+            switch (node.CSharpKind())
             {
-                case SyntaxKind.NegateExpression:
+                case SyntaxKind.UnaryMinusExpression:
                     op = JsUnaryOperator.Negate;
                     break;
                 case SyntaxKind.LogicalNotExpression:
@@ -800,12 +802,12 @@ namespace WootzJs.Compiler
             var operand = (JsExpression)node.Operand.Accept(this);
             var operandType = model.GetTypeInfo(node.Operand);
             JsExpression result;
-            if (idioms.TryCharUnaryExpression(node.Kind, operandType, operand, out result))
+            if (idioms.TryCharUnaryExpression(node.CSharpKind(), operandType, operand, out result))
                 return result;
 
             JsUnaryOperator op;
 
-            switch (node.Kind)
+            switch (node.CSharpKind())
             {
                 case SyntaxKind.PostIncrementExpression:
                     op = JsUnaryOperator.PostIncrement;
@@ -842,7 +844,7 @@ namespace WootzJs.Compiler
             {
                 isBaseReference = false;
                 var expressionSymbol = model.GetSymbolInfo(node.Expression).Symbol;
-                if (symbol != null && symbol.IsStatic && expressionSymbol != null && expressionSymbol != symbol.ContainingType && symbol.ContainingType != null)
+                if (symbol != null && symbol.IsStatic && expressionSymbol != null && !Equals(expressionSymbol, symbol.ContainingType) && symbol.ContainingType != null)
                 {
                     // For static methods, we want to ensure that we are capturing the correct type.
                     // Typically, C# programmers qualify static members with declaring type, but 
@@ -871,28 +873,28 @@ namespace WootzJs.Compiler
             var symbol = model.GetSymbolInfo(node).Symbol;
 
             JsExpression result;
-            if (idioms.TryAccessorAssignment(node.Kind, leftSymbol, rightSymbol, left, right, out result))
+            if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
                 return ImplicitCheck(node, result);
-            if (idioms.TryIsExpression(node.Kind, leftSymbol, rightSymbol, left, right, out result))
+            if (idioms.TryIsExpression(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
                 return ImplicitCheck(node, result);
-            if (idioms.TryAsExpression(node.Kind, leftSymbol, rightSymbol, left, right, out result))
+            if (idioms.TryAsExpression(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
                 return result;
-            if (idioms.TryCharBinaryExpression(node.Kind, leftType, rightType, left, right, out result))
+            if (idioms.TryCharBinaryExpression(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
-            if (idioms.TryStringConcatenation(node.Kind, leftType, rightType, left, right, out result))
+            if (idioms.TryStringConcatenation(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
-            if (idioms.TryEnumBitwise(node.Kind, leftType.Type, rightType.Type, left, right, out result))
+            if (idioms.TryEnumBitwise(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
-            if (idioms.TryEnumEquality(node.Kind, leftType.Type, rightType.Type, left, right, out result))
+            if (idioms.TryEnumEquality(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
 
             if (symbol != null)
             {
-                var method = (MethodSymbol)symbol;
-                if (method.IsExported())
+                var method = (IMethodSymbol)symbol;
+                if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
                     return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
             }
-            var op = idioms.ToBinaryOperator(node.Kind);
+            var op = idioms.ToBinaryOperator(node.CSharpKind());
             if (op == null)
                 throw new Exception();
 
@@ -952,7 +954,7 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitTypeOfExpression(TypeOfExpressionSyntax node)
         {
-            var type = (TypeSymbol)model.GetSymbolInfo(node.Type).Symbol;
+            var type = (ITypeSymbol)model.GetSymbolInfo(node.Type).Symbol;
             var result = idioms.TypeOf(type);
             return ImplicitCheck(node, result);
         }
@@ -965,7 +967,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitInvocationExpression(InvocationExpressionSyntax node)
         {
             var symbol = model.GetSymbolInfo(node).Symbol;
-            var method = (MethodSymbol)symbol;
+            var method = (IMethodSymbol)symbol;
             var actualArguments = node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
 
             JsExpression specialResult;
@@ -999,7 +1001,7 @@ namespace WootzJs.Compiler
 
             var arguments = idioms.TranslateArguments(
                 method, 
-                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, 
+                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is IArrayTypeSymbol, 
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
                 actualArguments.ToArray()
             ).ToList();
@@ -1059,9 +1061,9 @@ namespace WootzJs.Compiler
             var target = (JsExpression)node.Expression.Accept(this);
             var arguments = (JsExpression)node.ArgumentList.Arguments[0].Accept(this);
 
-            if (symbol.Symbol is PropertySymbol)
+            if (symbol.Symbol is IPropertySymbol)
             {
-                var property = (PropertySymbol)symbol.Symbol;
+                var property = (IPropertySymbol)symbol.Symbol;
                 var isExported = property.IsExported();
                 var nameOverride = property.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
                 if (isExported)
@@ -1102,12 +1104,12 @@ namespace WootzJs.Compiler
             var symbol = model.GetSymbolInfo(node).Symbol;
             if (symbol != null)
             {
-                var method = (MethodSymbol)symbol;
+                var method = (IMethodSymbol)symbol;
                 return ImplicitCheck(node, idioms.InvokeStatic(method, (JsExpression)node.Expression.Accept(this)));
             }
 
             var target = (JsExpression)node.Expression.Accept(this);
-            if (node.Expression is LiteralExpressionSyntax && node.Expression.Kind == SyntaxKind.NullLiteralExpression)
+            if (node.Expression is LiteralExpressionSyntax && node.Expression.CSharpKind() == SyntaxKind.NullLiteralExpression)
             {
                 return ImplicitCheck(node, target);
             }
@@ -1117,16 +1119,16 @@ namespace WootzJs.Compiler
             var convertedType = typeInfo.ConvertedType;
             var destinationType = model.GetTypeInfo(node.Type).Type;
 
-            Func<TypeSymbol, bool> isInteger = null;
-            isInteger = x => x == Context.Instance.Byte || x == Context.Instance.SByte ||
-                x == Context.Instance.Int16 || x == Context.Instance.UInt16 ||
-                x == Context.Instance.Int32 || x == Context.Instance.UInt32 ||
-                x == Context.Instance.Int64 || x == Context.Instance.UInt64 ||
-                (x.OriginalDefinition == Context.Instance.NullableType && isInteger(((NamedTypeSymbol)x).TypeArguments[0]));
-            Func<TypeSymbol, bool> isDecimal = null;
-            isDecimal = x => x == Context.Instance.Single || 
-                x == Context.Instance.Double || x == Context.Instance.Decimal ||
-                (x.OriginalDefinition == Context.Instance.NullableType && isDecimal(((NamedTypeSymbol)x).TypeArguments[0]));
+            Func<ITypeSymbol, bool> isInteger = null;
+            isInteger = x => Equals(x, Context.Instance.Byte) || Equals(x, Context.Instance.SByte) ||
+                             Equals(x, Context.Instance.Int16) || Equals(x, Context.Instance.UInt16) ||
+                             Equals(x, Context.Instance.Int32) || Equals(x, Context.Instance.UInt32) ||
+                             Equals(x, Context.Instance.Int64) || Equals(x, Context.Instance.UInt64) ||
+                (Equals(x.OriginalDefinition, Context.Instance.NullableType) && isInteger(((INamedTypeSymbol)x).TypeArguments[0]));
+            Func<ITypeSymbol, bool> isDecimal = null;
+            isDecimal = x => Equals(x, Context.Instance.Single) ||
+                             Equals(x, Context.Instance.Double) || Equals(x, Context.Instance.Decimal) ||
+                (Equals(x.OriginalDefinition, Context.Instance.NullableType) && isDecimal(((INamedTypeSymbol)x).TypeArguments[0]));
 
             if (originalType.TypeKind == TypeKind.Enum)
             {
@@ -1136,7 +1138,7 @@ namespace WootzJs.Compiler
             {
                 return idioms.InvokeStatic(Context.Instance.EnumInternalToObject, idioms.Type(destinationType).Invoke(), target);
             }
-            if (convertedType == Context.Instance.Int32 && convertedType == Context.Instance.Char)
+            if (Equals(convertedType, Context.Instance.Int32) && Equals(convertedType, Context.Instance.Char))
             {
                 return target.Member("charCodeAt").Invoke();
             }
@@ -1157,11 +1159,11 @@ namespace WootzJs.Compiler
             return ImplicitCheck(node, cast);
         }
 
-        private JsNode VisitLambdaExpression(NamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, SyntaxNode bodyNode)
+        private JsNode VisitLambdaExpression(INamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, CSharpSyntaxNode bodyNode)
         {
-            if (delegateType.IsGenericType && delegateType.OriginalDefinition == Context.Instance.ExpressionGeneric)
+            if (delegateType.IsGenericType && Equals(delegateType.OriginalDefinition, Context.Instance.ExpressionGeneric))
             {
-                delegateType = (NamedTypeSymbol)delegateType.TypeArguments[0];
+                delegateType = (INamedTypeSymbol)delegateType.TypeArguments[0];
             }
 
             PushScope(null);
@@ -1194,19 +1196,19 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
-            var delegateType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+            var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             return ImplicitCheck(node, VisitLambdaExpression(delegateType, new[] { node.Parameter }, node.Body));
         }
 
         public override JsNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
-            var delegateType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+            var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList.Parameters.ToArray(), node.Body));
         }
 
         public override JsNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
-            var delegateType = (NamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+            var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
             return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block));
         }
 
@@ -1218,7 +1220,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitAnonymousObjectCreationExpression(AnonymousObjectCreationExpressionSyntax node)
         {
             var symbol = model.GetSymbolInfo(node);
-            var method = (MethodSymbol)symbol.Symbol;
+            var method = (IMethodSymbol)symbol.Symbol;
             var obj = idioms.CreateObject(method);
 
             // Wrap initialization in an anonymous function
@@ -1247,7 +1249,7 @@ namespace WootzJs.Compiler
             foreach (var statement in node.Expressions)
             {
                 var newTarget = initializableObjectsStack.Peek().GetReference();
-                switch (node.Kind)
+                switch (node.CSharpKind())
                 {
                     case SyntaxKind.ObjectInitializerExpression:
                     {
@@ -1272,17 +1274,17 @@ namespace WootzJs.Compiler
                         var arguments = new List<JsExpression>();
                         var objectCreateExpression = (ObjectCreationExpressionSyntax)node.Parent;
                         var constructor = model.GetSymbolInfo(objectCreateExpression).Symbol;
-                        MethodSymbol addMethod;
+                        IMethodSymbol addMethod;
                         if (statement is InitializerExpressionSyntax)
                         {
                             var initializer = (InitializerExpressionSyntax)statement;
-                            addMethod = constructor.ContainingType.GetMembers("Add").OfType<MethodSymbol>().First(x => x.Parameters.Count == 2);
+                            addMethod = constructor.ContainingType.GetMembers("Add").OfType<IMethodSymbol>().First(x => x.Parameters.Count() == 2);
                             arguments.AddRange(initializer.Expressions.Select(x => (JsExpression)x.Accept(this)));
                         }
                         else
                         {
                             var expression = (JsExpression)statement.Accept(this);
-                            addMethod = constructor.ContainingType.GetMembers("Add").OfType<MethodSymbol>().First(x => x.Parameters.Count == 1);
+                            addMethod = constructor.ContainingType.GetMembers("Add").OfType<IMethodSymbol>().First(x => x.Parameters.Count() == 1);
                             arguments.Add(expression);
                         }
                         block.Express(idioms.Invoke(newTarget, addMethod, arguments.ToArray()));
@@ -1304,17 +1306,15 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
         {
-            var symbol = model.GetSymbolInfo(node.Type);
-            if (symbol.Symbol is TypeParameterSymbol)
+            var type = (ITypeSymbol)model.GetSymbolInfo(node.Type).Symbol;
+            if (type is ITypeParameterSymbol)
             {
-                var typeParameter = (TypeParameterSymbol)symbol.Symbol;
+                var typeParameter = (ITypeParameterSymbol)type;
                 return Js.Reference(typeParameter.Name).Member("prototype").Member("$ctor").Member("$new").Invoke();
             }
 
-            var method = (MethodSymbol)symbol.Symbol;
-            var type = method.ContainingType;
-
-            if (type == Context.Instance.MulticastDelegateType)
+            var method = (IMethodSymbol)model.GetSymbolInfo(node).Symbol;
+            if (Equals(type, Context.Instance.MulticastDelegateType))
             {
                 return ImplicitCheck(node, idioms.CreateMulticastDelegate((JsExpression)node.ArgumentList.Arguments[0].Accept(this), 
                     (JsExpression)node.ArgumentList.Arguments[1].Accept(this)));
@@ -1325,7 +1325,7 @@ namespace WootzJs.Compiler
             var actualArguments = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
             var args = idioms.TranslateArguments(
                 method, 
-                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, 
+                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is IArrayTypeSymbol, 
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
                 actualArguments.ToArray()
             ).ToList();
@@ -1368,7 +1368,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
         {
             var arrayType = node.Type;
-            var arraySymbol = (ArrayTypeSymbol)model.GetTypeInfo(node).Type;
+            var arraySymbol = (IArrayTypeSymbol)model.GetTypeInfo(node).Type;
             if (node.Initializer == null)
             {
                 if (arrayType.RankSpecifiers.Count > 1 || arrayType.RankSpecifiers[0].Sizes.Count > 1)
@@ -1389,7 +1389,7 @@ namespace WootzJs.Compiler
 
         private JsNode VisitArrayCreationExpression(ExpressionSyntax node, InitializerExpressionSyntax initializer)
         {
-            var arraySymbol = (ArrayTypeSymbol)model.GetTypeInfo(node).Type;
+            var arraySymbol = (IArrayTypeSymbol)model.GetTypeInfo(node).Type;
             var result = idioms.MakeArray(
                 Js.Array(initializer.Expressions.Select(x => (JsExpression)x.Accept(this)).ToArray()),
                 arraySymbol);
@@ -1801,7 +1801,7 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitSwitchLabel(SwitchLabelSyntax node)
         {
-            if (node.Kind == SyntaxKind.DefaultSwitchLabel)
+            if (node.CSharpKind() == SyntaxKind.DefaultSwitchLabel)
                 return Js.DefaultLabel();
             else
                 return Js.CaseLabel((JsExpression)node.Value.Accept(this));
@@ -1867,7 +1867,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitCatchDeclaration(CatchDeclarationSyntax node)
         {
             var identifier = node.Identifier.ToString();
-            if (node.Identifier.Kind == SyntaxKind.None)
+            if (node.Identifier.CSharpKind() == SyntaxKind.None)
             {
                 identifier = GenerateUniqueNameInScope();
             }
@@ -2015,7 +2015,7 @@ namespace WootzJs.Compiler
 
             foreach (var variable in node.Declaration.Variables)
             {
-                var field = (EventSymbol)model.GetDeclaredSymbol(variable);
+                var field = (IEventSymbol)model.GetDeclaredSymbol(variable);
                 var propertyName = field.GetMemberName();
 
                 var isExported = field.IsExported();
@@ -2085,11 +2085,11 @@ namespace WootzJs.Compiler
         public override JsNode VisitConstructorInitializer(ConstructorInitializerSyntax node)
         {
             var symbol = model.GetSymbolInfo(node);
-            var method = (MethodSymbol)symbol.Symbol;
+            var method = (IMethodSymbol)symbol.Symbol;
 
             var arguments = idioms.TranslateArguments(
                 method, 
-                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is ArrayTypeSymbol, 
+                (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is IArrayTypeSymbol, 
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
                 node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray()
             ).ToArray();
@@ -2107,8 +2107,8 @@ namespace WootzJs.Compiler
             var block = new JsBlockStatement();
 
             var property = model.GetDeclaredSymbol(node);
-            var adder = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.AddKeyword);
-            var remover = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.RemoveKeyword);
+            var adder = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.AddKeyword);
+            var remover = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.RemoveKeyword);
             var propertyName = property.GetMemberName();
 
             var adderBody = new JsBlockStatement();
@@ -2148,8 +2148,8 @@ namespace WootzJs.Compiler
             if (!isExported)
                 return block;
 
-            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.GetKeyword);
-            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.SetKeyword);
+            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.GetKeyword);
+            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.SetKeyword);
 
             if (getter != null)
             {
@@ -2185,7 +2185,8 @@ namespace WootzJs.Compiler
             }                
 
             // Also store all interface implementations
-            foreach (PropertySymbol interfaceImplementation in property.GetRootOverride().FindImplementedInterfaceMembers(Context.Instance.Solution))
+            var implementedInterfaceMembers = SymbolFinder.FindImplementedInterfaceMembersAsync(property.GetRootOverride(), Context.Instance.Solution).Result;
+            foreach (IPropertySymbol interfaceImplementation in implementedInterfaceMembers)
             {
                 if (interfaceImplementation.GetMethod != null)
                     block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
@@ -2269,11 +2270,6 @@ namespace WootzJs.Compiler
         }
 
         public override JsNode VisitXmlPrefix(XmlPrefixSyntax node)
-        {
-            throw new Exception();
-        }
-
-        public override JsNode VisitXmlAttribute(XmlAttributeSyntax node)
         {
             throw new Exception();
         }
@@ -2381,21 +2377,25 @@ namespace WootzJs.Compiler
         private JsNode ImplicitCheck(ExpressionSyntax node, JsNode result)
         {
             var typeInfo = model.GetTypeInfo(node);
-            var namedTypeSymbol = typeInfo.ConvertedType as NamedTypeSymbol;
-            if (typeInfo.Type != typeInfo.ConvertedType && namedTypeSymbol != null && namedTypeSymbol.OriginalDefinition != namedTypeSymbol && namedTypeSymbol.OriginalDefinition == Context.Instance.ExpressionLambda)
+            if (typeInfo.ConvertedType == null)
+                return result;
+
+            var conversion = model.ClassifyConversion(node, typeInfo.ConvertedType);
+            var namedTypeSymbol = typeInfo.ConvertedType as INamedTypeSymbol;
+            if (!Equals(typeInfo.Type, typeInfo.ConvertedType) && namedTypeSymbol != null && !Equals(namedTypeSymbol.OriginalDefinition, namedTypeSymbol) && Equals(namedTypeSymbol.OriginalDefinition, Context.Instance.ExpressionLambda))
             {
                 var expressionTreeTransformer = new ExpressionTreeTransformer(model, idioms);
                 return node.Accept(expressionTreeTransformer);
             }
-            if (typeInfo.Type != typeInfo.ConvertedType && typeInfo.ImplicitConversion.IsMethodGroup && namedTypeSymbol.DelegateInvokeMethod != null)
+            if (!Equals(typeInfo.Type, typeInfo.ConvertedType) && conversion.IsMethodGroup && namedTypeSymbol.DelegateInvokeMethod != null)
             {
                 var thisReference = node is MemberAccessExpressionSyntax ? (JsExpression)((MemberAccessExpressionSyntax)node).Expression.Accept(this) : Js.This();
                 var symbol = model.GetSymbolInfo(node).Symbol;
                 result = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, thisReference, idioms.Type(typeInfo.ConvertedType), (JsExpression)result, Js.Primitive(symbol.GetMemberName() + "$delegate"));
             }
-            if (typeInfo.ImplicitConversion.IsUserDefined && typeInfo.ImplicitConversion.Method.IsExported())
+            if (conversion.IsUserDefined && conversion.MethodSymbol.IsExported())
             {
-                result = idioms.InvokeStatic(typeInfo.ImplicitConversion.Method, (JsExpression)result);
+                result = idioms.InvokeStatic(conversion.MethodSymbol, (JsExpression)result);
             }
 //            if (typeInfo.ConvertedType == context.String && typeInfo.Type != null && typeInfo.Type != context.String && typeInfo.Type != context.JsString && !typeInfo.Type.IsValueType)
 //            {

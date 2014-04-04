@@ -27,19 +27,22 @@
 
 using System;
 using System.Collections.Generic;
-using Roslyn.Compilers.CSharp;
+using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class AnonymousTypeTransformer : SyntaxWalker
+    public class AnonymousTypeTransformer : CSharpSyntaxWalker
     {
         private JsBlockStatement body;
-        private List<Tuple<NamedTypeSymbol, Action>> actions;
-        private HashSet<NamedTypeSymbol> processedTypes = new HashSet<NamedTypeSymbol>();
+        private List<Tuple<INamedTypeSymbol, Action>> actions;
+        private HashSet<INamedTypeSymbol> processedTypes = new HashSet<INamedTypeSymbol>();
         private Idioms idioms;
 
-        public AnonymousTypeTransformer(JsBlockStatement body, List<Tuple<NamedTypeSymbol, Action>> actions) 
+        public AnonymousTypeTransformer(JsBlockStatement body, List<Tuple<INamedTypeSymbol, Action>> actions) 
         {
             this.body = body;
             this.actions = actions;
@@ -51,7 +54,7 @@ namespace WootzJs.Compiler
             var jsBlock = new JsBlockStatement();
 
             var model = Context.Instance.Compilation.GetSemanticModel(node.SyntaxTree);
-            var classType = model.GetDeclaredSymbol(node);
+            var classType = (INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(model, node);
             if (processedTypes.Contains(classType))
                 return;
             processedTypes.Add(classType);
@@ -62,12 +65,12 @@ namespace WootzJs.Compiler
             
             // Create default constructor
             var constructorBlock = new JsBlockStatement();
-            constructorBlock.Express(idioms.InvokeMethodAsThis(classType.BaseType.InstanceConstructors.Single(x => x.Parameters.Count == 0)));
+            constructorBlock.Express(idioms.InvokeMethodAsThis(classType.BaseType.InstanceConstructors.Single(x => x.Parameters.Count() == 0)));
             var constructor = classType.InstanceConstructors.Single();
             typeInitializer.Add(idioms.StoreInPrototype(constructor.GetMemberName(), Js.Function().Body(constructorBlock)));
-            typeInitializer.Aggregate(idioms.InitializeConstructor(classType, constructor.GetMemberName(), new ParameterSymbol[0]));
+            typeInitializer.Aggregate(idioms.InitializeConstructor(classType, constructor.GetMemberName(), new IParameterSymbol[0]));
             
-            foreach (var property in classType.GetMembers().OfType<PropertySymbol>())
+            foreach (var property in classType.GetMembers().OfType<IPropertySymbol>())
             {
                 typeInitializer.Aggregate(CreateProperty(property));
             }
@@ -79,7 +82,7 @@ namespace WootzJs.Compiler
             actions.Add(Tuple.Create(classType, action));
         }
 
-        private JsBlockStatement CreateProperty(PropertySymbol property)
+        private JsBlockStatement CreateProperty(IPropertySymbol property)
         {
             var block = new JsBlockStatement();
             var propertyName = property.GetMemberName();

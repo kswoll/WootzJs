@@ -26,9 +26,9 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Services;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
@@ -42,165 +42,165 @@ namespace WootzJs.Compiler
             get { return instance; }
         }
 
-        public ISolution Solution { get; private set; } 
-        public IProject Project { get; private set; }
+        public Solution Solution { get; private set; } 
+        public Project Project { get; private set; }
         public Compilation Compilation { get; private set; }
         public SymbolNameMap SymbolNames { get; private set; }
 
-        public NamedTypeSymbol Exception { get; private set; }
-        public NamedTypeSymbol SpecialFunctions { get; private set; }
-        public MethodSymbol DefaultOf { get; private set; }
-        public MethodSymbol InternalInit { get; private set; }
-        public NamedTypeSymbol Assembly { get; private set; }
-        public MethodSymbol AssemblyConstructor { get; private set; }
-        public NamedTypeSymbol JsAttributeType { get; private set; }
-        public NamedTypeSymbol PrecedesAttribute { get; private set; }
-        public NamedTypeSymbol ObjectType { get; private set; }
-        public MethodSymbol ObjectReferenceEquals { get; private set; }
-        public MethodSymbol ObjectCast { get; private set; }
-        public MethodSymbol ObjectCreateDelegate { get; private set; }
-        public NamedTypeSymbol TypeType { get; private set; }
-        public ArrayTypeSymbol TypeArray { get; private set; }
-        public MethodSymbol TypeConstructor { get; private set; }
-        public MethodSymbol TypeInit { get; private set; }
-        public MethodSymbol CreateTypeParameter { get; private set; }
-        public MethodSymbol TypeIsInstanceOfType { get; private set; }
-        public MethodSymbol Type_GetTypeFromTypeFunc { get; private set; }
-        public MethodSymbol GetField { get; private set; }
-        public MethodSymbol GetProperty { get; private set; }
-        public MethodSymbol GetMethod { get; private set; }
-        public MethodSymbol GetConstructor { get; private set; }
-        public NamedTypeSymbol AsExtensionType { get; private set; }
-        public NamedTypeSymbol JsniType { get; private set; }
-        public NamedTypeSymbol EnumType { get; private set; }
-        public MethodSymbol EnumGetValue { get; private set; }
-        public MethodSymbol EnumInternalToObject { get; private set; }
-        public NamedTypeSymbol Enumerable { get; private set; }
-        public NamedTypeSymbol EnumerableGeneric { get; private set; }
-        public NamedTypeSymbol Enumerator { get; private set; }
-        public MethodSymbol EnumerableGetEnumerator { get; private set; }
-        public PropertySymbol EnumeratorCurrent { get; private set; }
-        public MethodSymbol EnumeratorMoveNext { get; private set; }
-        public NamedTypeSymbol DelegateType { get; private set; }
-        public MethodSymbol DelegateTypeConstructor { get; private set; }
-        public PropertySymbol DelegateTarget { get; private set; }
-        public MethodSymbol DelegateCombine { get; private set; }
-        public MethodSymbol DelegateRemove { get; private set; }
-        public NamedTypeSymbol MulticastDelegateType { get; private set; }
-        public MethodSymbol MulticastDelegateConstructor { get; private set; }
-        public NamedTypeSymbol NullableType { get; private set; }
-        public PropertySymbol NullableHasValue { get; private set; }
-        public PropertySymbol NullableValue { get; private set; }
-        public MethodSymbol NullableGetValueOrDefault { get; private set; }
-        public NamedTypeSymbol FieldInfo { get; private set; }
-        public NamedTypeSymbol MethodInfo { get; private set; }
-        public NamedTypeSymbol MemberInfo { get; private set; }
-        public NamedTypeSymbol ParameterInfo { get; private set; }
-        public NamedTypeSymbol ConstructorInfo { get; private set; }
-        public NamedTypeSymbol PropertyInfo { get; private set; }
-        public NamedTypeSymbol EventInfo { get; private set; }
-        public NamedTypeSymbol Attribute { get; private set; }
-        public MethodSymbol FieldInfoConstructor { get; private set; }
-        public MethodSymbol MethodInfoConstructor { get; private set; }
-        public MethodSymbol ParameterInfoConstructor { get; private set; }
-        public MethodSymbol ConstructorInfoConstructor { get; private set; }
-        public MethodSymbol PropertyInfoConstructor { get; private set; }
-        public MethodSymbol EventInfoConstructor { get; private set; }
-        public NamedTypeSymbol TypeAttributes { get; private set; }
-        public FieldSymbol TypeAttributesPublic { get; private set; }
-        public FieldSymbol TypeAttributesNotPublic { get; private set; }
-        public FieldSymbol TypeAttributesNestedPublic { get; private set; }
-        public FieldSymbol TypeAttributesNestedPrivate { get; private set; }
-        public FieldSymbol TypeAttributesNestedFamily { get; private set; }
-        public FieldSymbol TypeAttributesNestedAssembly { get; private set; }
-        public FieldSymbol TypeAttributesNestedFamANDAssem { get; private set; }
-        public FieldSymbol TypeAttributesNestedFamORAssem { get; private set; }
-        public FieldSymbol TypeAttributesAbstract { get; private set; }
-        public FieldSymbol TypeAttributesSealed { get; private set; }
-        public FieldSymbol TypeAttributesClass { get; private set; }
-        public FieldSymbol TypeAttributesInterface { get; private set; }
-        public NamedTypeSymbol FieldAttributes { get; private set; }
-        public FieldSymbol FieldAttributesPublic { get; private set; }
-        public FieldSymbol FieldAttributesPrivate { get; private set; }
-        public FieldSymbol FieldAttributesFamily { get; private set; }
-        public FieldSymbol FieldAttributesAssembly { get; private set; }
-        public FieldSymbol FieldAttributesFamORAssem { get; private set; }
-        public FieldSymbol FieldAttributesStatic { get; private set; }
-        public FieldSymbol FieldAttributesInitOnly { get; private set; }
-        public FieldSymbol FieldAttributesLiteral { get; private set; }
-        public NamedTypeSymbol MethodAttributes { get; private set; }
-        public FieldSymbol MethodAttributesPublic { get; private set; }
-        public FieldSymbol MethodAttributesPrivate { get; private set; }
-        public FieldSymbol MethodAttributesFamily { get; private set; }
-        public FieldSymbol MethodAttributesAssembly { get; private set; }
-        public FieldSymbol MethodAttributesFamORAssem { get; private set; }
-        public FieldSymbol MethodAttributesStatic { get; private set; }
-        public NamedTypeSymbol ParameterAttributes { get; private set; }
-        public FieldSymbol ParameterAttributesOut { get; private set; }
-        public FieldSymbol ParameterAttributesHasDefault { get; private set; }
-        public FieldSymbol ParameterAttributesNone { get; private set; }
-        public NamedTypeSymbol JsFunction { get; private set; }
-        public NamedTypeSymbol IDisposable { get; private set; }
-        public MethodSymbol IDisposableDispose { get; private set; }
-        public NamedTypeSymbol Expression { get; private set; }
-        public NamedTypeSymbol ExpressionGeneric { get; private set; }
-        public ArrayTypeSymbol ExpressionArray { get; private set; }
-        public NamedTypeSymbol ExpressionType { get; private set; }
-        public NamedTypeSymbol ExpressionLambda { get; private set; }
-        public NamedTypeSymbol ParameterExpression { get; private set; }
-        public ArrayTypeSymbol ParameterExpressionArray { get; private set; }
-        public NamedTypeSymbol NewExpression { get; private set; }
-        public NamedTypeSymbol MemberBinding { get; private set; }
-        public ArrayTypeSymbol MemberBindingArray { get; private set; }
-        public NamedTypeSymbol ElementInit { get; private set; }
-        public ArrayTypeSymbol ElementInitArray { get; private set; }
-        public NamedTypeSymbol String { get; private set; }
-        public MethodSymbol ObjectToString { get; private set; }
-        public NamedTypeSymbol Char { get; private set; }
-        public NamedTypeSymbol Int64 { get; private set; }
-        public NamedTypeSymbol Int32 { get; private set; }
-        public NamedTypeSymbol Int16 { get; private set; }
-        public NamedTypeSymbol UInt64 { get; private set; }
-        public NamedTypeSymbol UInt32 { get; private set; }
-        public NamedTypeSymbol UInt16 { get; private set; }
-        public NamedTypeSymbol Byte { get; private set; }
-        public NamedTypeSymbol SByte { get; private set; }
-        public NamedTypeSymbol Single { get; private set; }
-        public NamedTypeSymbol Double { get; private set; }
-        public NamedTypeSymbol Decimal { get; private set; }
-        public NamedTypeSymbol Constant { get; private set; }
-        public NamedTypeSymbol Action { get; private set; }
-        public NamedTypeSymbol Func { get; private set; }
-        public NamedTypeSymbol JsObject { get; private set; }
-        public NamedTypeSymbol JsString { get; private set; }
-        public MethodSymbol SafeToString { get; private set; }
-        public NamedTypeSymbol Array { get; private set; }
-        public NamedTypeSymbol INotifyPropertyChanged { get; private set; }
+        public INamedTypeSymbol Exception { get; private set; }
+        public INamedTypeSymbol SpecialFunctions { get; private set; }
+        public IMethodSymbol DefaultOf { get; private set; }
+        public IMethodSymbol InternalInit { get; private set; }
+        public INamedTypeSymbol Assembly { get; private set; }
+        public IMethodSymbol AssemblyConstructor { get; private set; }
+        public INamedTypeSymbol JsAttributeType { get; private set; }
+        public INamedTypeSymbol PrecedesAttribute { get; private set; }
+        public INamedTypeSymbol ObjectType { get; private set; }
+        public IMethodSymbol ObjectReferenceEquals { get; private set; }
+        public IMethodSymbol ObjectCast { get; private set; }
+        public IMethodSymbol ObjectCreateDelegate { get; private set; }
+        public INamedTypeSymbol TypeType { get; private set; }
+        public IArrayTypeSymbol TypeArray { get; private set; }
+        public IMethodSymbol TypeConstructor { get; private set; }
+        public IMethodSymbol TypeInit { get; private set; }
+        public IMethodSymbol CreateTypeParameter { get; private set; }
+        public IMethodSymbol TypeIsInstanceOfType { get; private set; }
+        public IMethodSymbol Type_GetTypeFromTypeFunc { get; private set; }
+        public IMethodSymbol GetField { get; private set; }
+        public IMethodSymbol GetProperty { get; private set; }
+        public IMethodSymbol GetMethod { get; private set; }
+        public IMethodSymbol GetConstructor { get; private set; }
+        public INamedTypeSymbol AsExtensionType { get; private set; }
+        public INamedTypeSymbol JsniType { get; private set; }
+        public INamedTypeSymbol EnumType { get; private set; }
+        public IMethodSymbol EnumGetValue { get; private set; }
+        public IMethodSymbol EnumInternalToObject { get; private set; }
+        public INamedTypeSymbol Enumerable { get; private set; }
+        public INamedTypeSymbol EnumerableGeneric { get; private set; }
+        public INamedTypeSymbol Enumerator { get; private set; }
+        public IMethodSymbol EnumerableGetEnumerator { get; private set; }
+        public IPropertySymbol EnumeratorCurrent { get; private set; }
+        public IMethodSymbol EnumeratorMoveNext { get; private set; }
+        public INamedTypeSymbol DelegateType { get; private set; }
+        public IMethodSymbol DelegateTypeConstructor { get; private set; }
+        public IPropertySymbol DelegateTarget { get; private set; }
+        public IMethodSymbol DelegateCombine { get; private set; }
+        public IMethodSymbol DelegateRemove { get; private set; }
+        public INamedTypeSymbol MulticastDelegateType { get; private set; }
+        public IMethodSymbol MulticastDelegateConstructor { get; private set; }
+        public INamedTypeSymbol NullableType { get; private set; }
+        public IPropertySymbol NullableHasValue { get; private set; }
+        public IPropertySymbol NullableValue { get; private set; }
+        public IMethodSymbol NullableGetValueOrDefault { get; private set; }
+        public INamedTypeSymbol FieldInfo { get; private set; }
+        public INamedTypeSymbol MethodInfo { get; private set; }
+        public INamedTypeSymbol MemberInfo { get; private set; }
+        public INamedTypeSymbol ParameterInfo { get; private set; }
+        public INamedTypeSymbol ConstructorInfo { get; private set; }
+        public INamedTypeSymbol PropertyInfo { get; private set; }
+        public INamedTypeSymbol EventInfo { get; private set; }
+        public INamedTypeSymbol Attribute { get; private set; }
+        public IMethodSymbol FieldInfoConstructor { get; private set; }
+        public IMethodSymbol MethodInfoConstructor { get; private set; }
+        public IMethodSymbol ParameterInfoConstructor { get; private set; }
+        public IMethodSymbol ConstructorInfoConstructor { get; private set; }
+        public IMethodSymbol PropertyInfoConstructor { get; private set; }
+        public IMethodSymbol EventInfoConstructor { get; private set; }
+        public INamedTypeSymbol TypeAttributes { get; private set; }
+        public IFieldSymbol TypeAttributesPublic { get; private set; }
+        public IFieldSymbol TypeAttributesNotPublic { get; private set; }
+        public IFieldSymbol TypeAttributesNestedPublic { get; private set; }
+        public IFieldSymbol TypeAttributesNestedPrivate { get; private set; }
+        public IFieldSymbol TypeAttributesNestedFamily { get; private set; }
+        public IFieldSymbol TypeAttributesNestedAssembly { get; private set; }
+        public IFieldSymbol TypeAttributesNestedFamANDAssem { get; private set; }
+        public IFieldSymbol TypeAttributesNestedFamORAssem { get; private set; }
+        public IFieldSymbol TypeAttributesAbstract { get; private set; }
+        public IFieldSymbol TypeAttributesSealed { get; private set; }
+        public IFieldSymbol TypeAttributesClass { get; private set; }
+        public IFieldSymbol TypeAttributesInterface { get; private set; }
+        public INamedTypeSymbol FieldAttributes { get; private set; }
+        public IFieldSymbol FieldAttributesPublic { get; private set; }
+        public IFieldSymbol FieldAttributesPrivate { get; private set; }
+        public IFieldSymbol FieldAttributesFamily { get; private set; }
+        public IFieldSymbol FieldAttributesAssembly { get; private set; }
+        public IFieldSymbol FieldAttributesFamORAssem { get; private set; }
+        public IFieldSymbol FieldAttributesStatic { get; private set; }
+        public IFieldSymbol FieldAttributesInitOnly { get; private set; }
+        public IFieldSymbol FieldAttributesLiteral { get; private set; }
+        public INamedTypeSymbol MethodAttributes { get; private set; }
+        public IFieldSymbol MethodAttributesPublic { get; private set; }
+        public IFieldSymbol MethodAttributesPrivate { get; private set; }
+        public IFieldSymbol MethodAttributesFamily { get; private set; }
+        public IFieldSymbol MethodAttributesAssembly { get; private set; }
+        public IFieldSymbol MethodAttributesFamORAssem { get; private set; }
+        public IFieldSymbol MethodAttributesStatic { get; private set; }
+        public INamedTypeSymbol ParameterAttributes { get; private set; }
+        public IFieldSymbol ParameterAttributesOut { get; private set; }
+        public IFieldSymbol ParameterAttributesHasDefault { get; private set; }
+        public IFieldSymbol ParameterAttributesNone { get; private set; }
+        public INamedTypeSymbol JsFunction { get; private set; }
+        public INamedTypeSymbol IDisposable { get; private set; }
+        public IMethodSymbol IDisposableDispose { get; private set; }
+        public INamedTypeSymbol Expression { get; private set; }
+        public INamedTypeSymbol ExpressionGeneric { get; private set; }
+        public IArrayTypeSymbol ExpressionArray { get; private set; }
+        public INamedTypeSymbol ExpressionType { get; private set; }
+        public INamedTypeSymbol ExpressionLambda { get; private set; }
+        public INamedTypeSymbol ParameterExpression { get; private set; }
+        public IArrayTypeSymbol ParameterExpressionArray { get; private set; }
+        public INamedTypeSymbol NewExpression { get; private set; }
+        public INamedTypeSymbol MemberBinding { get; private set; }
+        public IArrayTypeSymbol MemberBindingArray { get; private set; }
+        public INamedTypeSymbol ElementInit { get; private set; }
+        public IArrayTypeSymbol ElementInitArray { get; private set; }
+        public INamedTypeSymbol String { get; private set; }
+        public IMethodSymbol ObjectToString { get; private set; }
+        public INamedTypeSymbol Char { get; private set; }
+        public INamedTypeSymbol Int64 { get; private set; }
+        public INamedTypeSymbol Int32 { get; private set; }
+        public INamedTypeSymbol Int16 { get; private set; }
+        public INamedTypeSymbol UInt64 { get; private set; }
+        public INamedTypeSymbol UInt32 { get; private set; }
+        public INamedTypeSymbol UInt16 { get; private set; }
+        public INamedTypeSymbol Byte { get; private set; }
+        public INamedTypeSymbol SByte { get; private set; }
+        public INamedTypeSymbol Single { get; private set; }
+        public INamedTypeSymbol Double { get; private set; }
+        public INamedTypeSymbol Decimal { get; private set; }
+        public INamedTypeSymbol Constant { get; private set; }
+        public INamedTypeSymbol Action { get; private set; }
+        public INamedTypeSymbol Func { get; private set; }
+        public INamedTypeSymbol JsObject { get; private set; }
+        public INamedTypeSymbol JsString { get; private set; }
+        public IMethodSymbol SafeToString { get; private set; }
+        public INamedTypeSymbol Array { get; private set; }
+        public INamedTypeSymbol INotifyPropertyChanged { get; private set; }
 
-        public NamedTypeSymbol AsyncVoidMethodBuilder { get; private set; }
-        public NamedTypeSymbol AsyncTaskMethodBuilder { get; private set; }
-        public NamedTypeSymbol AsyncTaskTMethodBuilder { get; private set; }
+        public INamedTypeSymbol AsyncVoidMethodBuilder { get; private set; }
+        public INamedTypeSymbol AsyncTaskMethodBuilder { get; private set; }
+        public INamedTypeSymbol AsyncTaskTMethodBuilder { get; private set; }
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
-        public static void Update(ISolution solution, IProject project, Compilation compilation)
+        public static void Update(Solution solution, Project project, Compilation compilation)
         {
             instance = new Context();
             instance.UpdateContext(solution, project, compilation);
         }
 
-        private void UpdateContext(ISolution solution, IProject project, Compilation compilation)
+        private void UpdateContext(Solution solution, Project project, Compilation compilation)
         {
             Solution = solution;
             Project = project;
             Compilation = compilation;
-            SymbolNames = SymbolNameCompiler.CompileSymbolNames(project, compilation);
+            SymbolNames = new SymbolNameMap(new Dictionary<ISymbol, string>());//SymbolNameCompiler.CompileSymbolNames(project, compilation);
 
 //            var diagnostics = compilation.GetDiagnostics();
 //            var mscorlib = compilation.GetReferencedAssemblySymbol(project.MetadataReferences.First());
 //            var typeNames = mscorlib.TypeNames.OrderBy(x => x).ToArray();
 
-            ObjectToString = compilation.ObjectType.GetMembers("ToString").OfType<MethodSymbol>().Single();
+            ObjectToString = compilation.ObjectType.GetMembers("ToString").OfType<IMethodSymbol>().Single();
             String = compilation.FindType("System.String");
             SpecialFunctions = compilation.FindType("System.Runtime.WootzJs.SpecialFunctions");
             DefaultOf = SpecialFunctions.GetMethod("DefaultOf");
@@ -223,16 +223,16 @@ namespace WootzJs.Compiler
             JsAttributeType = compilation.FindType("System.Runtime.WootzJs.JsAttribute");
             PrecedesAttribute = compilation.FindType("System.Runtime.WootzJs.DependsOnAttribute");
             ObjectType = compilation.FindType("System.Object");
-            ObjectReferenceEquals = (MethodSymbol)ObjectType.GetMembers("ReferenceEquals").Single();
-            ObjectCast = (MethodSymbol)SpecialFunctions.GetMembers("ObjectCast").Single();
-            ObjectCreateDelegate = (MethodSymbol)SpecialFunctions.GetMembers("CreateDelegate").Single();
+            ObjectReferenceEquals = (IMethodSymbol)ObjectType.GetMembers("ReferenceEquals").Single();
+            ObjectCast = (IMethodSymbol)SpecialFunctions.GetMembers("ObjectCast").Single();
+            ObjectCreateDelegate = (IMethodSymbol)SpecialFunctions.GetMembers("CreateDelegate").Single();
             TypeType = compilation.FindType("System.Type");
             TypeArray = compilation.CreateArrayTypeSymbol(TypeType);
             TypeConstructor = TypeType.InstanceConstructors.Single();
-            TypeInit = (MethodSymbol)TypeType.GetMembers("Init").Single();
-            CreateTypeParameter = (MethodSymbol)TypeType.GetMembers("CreateTypeParameter").Single();
-            TypeIsInstanceOfType = (MethodSymbol)TypeType.GetMembers("IsInstanceOfType").Single();
-            Type_GetTypeFromTypeFunc = (MethodSymbol)TypeType.GetMembers("_GetTypeFromTypeFunc").Single();
+            TypeInit = (IMethodSymbol)TypeType.GetMembers("Init").Single();
+            CreateTypeParameter = (IMethodSymbol)TypeType.GetMembers("CreateTypeParameter").Single();
+            TypeIsInstanceOfType = (IMethodSymbol)TypeType.GetMembers("IsInstanceOfType").Single();
+            Type_GetTypeFromTypeFunc = (IMethodSymbol)TypeType.GetMembers("_GetTypeFromTypeFunc").Single();
             GetField = TypeType.GetMethod("GetField", String);
             GetProperty = TypeType.GetMethod("GetProperty", String);
             GetMethod = TypeType.GetMethod("GetMethod", String, TypeArray);
@@ -245,20 +245,20 @@ namespace WootzJs.Compiler
             Enumerable = compilation.FindType("System.Collections.IEnumerable");
             EnumerableGeneric = compilation.FindType("System.Collections.Generic.IEnumerable`1");
             Enumerator = compilation.FindType("System.Collections.IEnumerator");
-            EnumerableGetEnumerator = (MethodSymbol)Enumerable.GetMembers("GetEnumerator").Single();
-            EnumeratorCurrent = (PropertySymbol)Enumerator.GetMembers("Current").Single();
-            EnumeratorMoveNext = (MethodSymbol)Enumerator.GetMembers("MoveNext").Single();
+            EnumerableGetEnumerator = (IMethodSymbol)Enumerable.GetMembers("GetEnumerator").Single();
+            EnumeratorCurrent = (IPropertySymbol)Enumerator.GetMembers("Current").Single();
+            EnumeratorMoveNext = (IMethodSymbol)Enumerator.GetMembers("MoveNext").Single();
             DelegateType = compilation.FindType("System.Delegate");
             DelegateTypeConstructor = DelegateType.InstanceConstructors.Single();
-            DelegateTarget = (PropertySymbol)DelegateType.GetMembers("Target").Single();
-            DelegateCombine = DelegateType.GetMembers("Combine").OfType<MethodSymbol>().Single(x => x.Parameters.Count == 2 && x.Parameters.All(y => y.Type == DelegateType));
-            DelegateRemove = DelegateType.GetMembers("Remove").OfType<MethodSymbol>().Single(x => x.Parameters.Count == 2 && x.Parameters.All(y => y.Type == DelegateType));
+            DelegateTarget = (IPropertySymbol)DelegateType.GetMembers("Target").Single();
+            DelegateCombine = DelegateType.GetMembers("Combine").OfType<IMethodSymbol>().Single(x => x.Parameters.Count() == 2 && x.Parameters.All(y => Equals(y.Type, DelegateType)));
+            DelegateRemove = DelegateType.GetMembers("Remove").OfType<IMethodSymbol>().Single(x => x.Parameters.Count() == 2 && x.Parameters.All(y => Equals(y.Type, DelegateType)));
             MulticastDelegateType = compilation.FindType("System.MulticastDelegate");
             MulticastDelegateConstructor = MulticastDelegateType.InstanceConstructors.Single();
             NullableType = compilation.FindType("System.Nullable`1");
-            NullableHasValue = (PropertySymbol)NullableType.GetMembers("HasValue").Single();
-            NullableValue = (PropertySymbol)NullableType.GetMembers("Value").Single();
-            NullableGetValueOrDefault = (MethodSymbol)NullableType.GetMembers("GetValueOrDefault").Single();
+            NullableHasValue = (IPropertySymbol)NullableType.GetMembers("HasValue").Single();
+            NullableValue = (IPropertySymbol)NullableType.GetMembers("Value").Single();
+            NullableGetValueOrDefault = (IMethodSymbol)NullableType.GetMembers("GetValueOrDefault").Single();
             FieldInfo = compilation.FindType("System.Reflection.FieldInfo");
             MethodInfo = compilation.FindType("System.Reflection.MethodInfo");
             MemberInfo = compilation.FindType("System.Reflection.MemberInfo");
@@ -274,41 +274,41 @@ namespace WootzJs.Compiler
             EventInfoConstructor = EventInfo.InstanceConstructors.Single();
             ConstructorInfoConstructor = ConstructorInfo.InstanceConstructors.Single();
             TypeAttributes = compilation.FindType("System.Reflection.TypeAttributes");
-            TypeAttributesPublic = (FieldSymbol)TypeAttributes.GetMembers("Public").Single();
-            TypeAttributesNotPublic = (FieldSymbol)TypeAttributes.GetMembers("NotPublic").Single();
-            TypeAttributesNestedPublic = (FieldSymbol)TypeAttributes.GetMembers("NestedPublic").Single();
-            TypeAttributesNestedPrivate = (FieldSymbol)TypeAttributes.GetMembers("NestedPrivate").Single();
-            TypeAttributesNestedFamily = (FieldSymbol)TypeAttributes.GetMembers("NestedFamily").Single();
-            TypeAttributesNestedAssembly = (FieldSymbol)TypeAttributes.GetMembers("NestedAssembly").Single();
-            TypeAttributesNestedFamANDAssem = (FieldSymbol)TypeAttributes.GetMembers("NestedFamANDAssem").Single();
-            TypeAttributesNestedFamORAssem = (FieldSymbol)TypeAttributes.GetMembers("NestedFamORAssem").Single();
-            TypeAttributesAbstract = (FieldSymbol)TypeAttributes.GetMembers("Abstract").Single();
-            TypeAttributesSealed = (FieldSymbol)TypeAttributes.GetMembers("Sealed").Single();
-            TypeAttributesClass = (FieldSymbol)TypeAttributes.GetMembers("Class").Single();
-            TypeAttributesInterface = (FieldSymbol)TypeAttributes.GetMembers("Interface").Single();
+            TypeAttributesPublic = (IFieldSymbol)TypeAttributes.GetMembers("Public").Single();
+            TypeAttributesNotPublic = (IFieldSymbol)TypeAttributes.GetMembers("NotPublic").Single();
+            TypeAttributesNestedPublic = (IFieldSymbol)TypeAttributes.GetMembers("NestedPublic").Single();
+            TypeAttributesNestedPrivate = (IFieldSymbol)TypeAttributes.GetMembers("NestedPrivate").Single();
+            TypeAttributesNestedFamily = (IFieldSymbol)TypeAttributes.GetMembers("NestedFamily").Single();
+            TypeAttributesNestedAssembly = (IFieldSymbol)TypeAttributes.GetMembers("NestedAssembly").Single();
+            TypeAttributesNestedFamANDAssem = (IFieldSymbol)TypeAttributes.GetMembers("NestedFamANDAssem").Single();
+            TypeAttributesNestedFamORAssem = (IFieldSymbol)TypeAttributes.GetMembers("NestedFamORAssem").Single();
+            TypeAttributesAbstract = (IFieldSymbol)TypeAttributes.GetMembers("Abstract").Single();
+            TypeAttributesSealed = (IFieldSymbol)TypeAttributes.GetMembers("Sealed").Single();
+            TypeAttributesClass = (IFieldSymbol)TypeAttributes.GetMembers("Class").Single();
+            TypeAttributesInterface = (IFieldSymbol)TypeAttributes.GetMembers("Interface").Single();
             FieldAttributes = compilation.FindType("System.Reflection.FieldAttributes");
-            FieldAttributesPublic = (FieldSymbol)FieldAttributes.GetMembers("Public").Single();
-            FieldAttributesPrivate = (FieldSymbol)FieldAttributes.GetMembers("Private").Single();
-            FieldAttributesFamily = (FieldSymbol)FieldAttributes.GetMembers("Family").Single();
-            FieldAttributesAssembly = (FieldSymbol)FieldAttributes.GetMembers("Assembly").Single();
-            FieldAttributesFamORAssem = (FieldSymbol)FieldAttributes.GetMembers("FamORAssem").Single();
-            FieldAttributesStatic = (FieldSymbol)FieldAttributes.GetMembers("Static").Single();
-            FieldAttributesInitOnly = (FieldSymbol)FieldAttributes.GetMembers("InitOnly").Single();
-            FieldAttributesLiteral = (FieldSymbol)FieldAttributes.GetMembers("Literal").Single();
+            FieldAttributesPublic = (IFieldSymbol)FieldAttributes.GetMembers("Public").Single();
+            FieldAttributesPrivate = (IFieldSymbol)FieldAttributes.GetMembers("Private").Single();
+            FieldAttributesFamily = (IFieldSymbol)FieldAttributes.GetMembers("Family").Single();
+            FieldAttributesAssembly = (IFieldSymbol)FieldAttributes.GetMembers("Assembly").Single();
+            FieldAttributesFamORAssem = (IFieldSymbol)FieldAttributes.GetMembers("FamORAssem").Single();
+            FieldAttributesStatic = (IFieldSymbol)FieldAttributes.GetMembers("Static").Single();
+            FieldAttributesInitOnly = (IFieldSymbol)FieldAttributes.GetMembers("InitOnly").Single();
+            FieldAttributesLiteral = (IFieldSymbol)FieldAttributes.GetMembers("Literal").Single();
             MethodAttributes = compilation.FindType("System.Reflection.MethodAttributes");
-            MethodAttributesPublic = (FieldSymbol)MethodAttributes.GetMembers("Public").Single();
-            MethodAttributesPrivate = (FieldSymbol)MethodAttributes.GetMembers("Private").Single();
-            MethodAttributesFamily = (FieldSymbol)MethodAttributes.GetMembers("Family").Single();
-            MethodAttributesAssembly = (FieldSymbol)MethodAttributes.GetMembers("Assembly").Single();
-            MethodAttributesFamORAssem = (FieldSymbol)MethodAttributes.GetMembers("FamORAssem").Single();
-            MethodAttributesStatic = (FieldSymbol)MethodAttributes.GetMembers("Static").Single();
+            MethodAttributesPublic = (IFieldSymbol)MethodAttributes.GetMembers("Public").Single();
+            MethodAttributesPrivate = (IFieldSymbol)MethodAttributes.GetMembers("Private").Single();
+            MethodAttributesFamily = (IFieldSymbol)MethodAttributes.GetMembers("Family").Single();
+            MethodAttributesAssembly = (IFieldSymbol)MethodAttributes.GetMembers("Assembly").Single();
+            MethodAttributesFamORAssem = (IFieldSymbol)MethodAttributes.GetMembers("FamORAssem").Single();
+            MethodAttributesStatic = (IFieldSymbol)MethodAttributes.GetMembers("Static").Single();
             ParameterAttributes = compilation.FindType("System.Reflection.ParameterAttributes");
-            ParameterAttributesOut = (FieldSymbol)ParameterAttributes.GetMembers("Out").Single();
-            ParameterAttributesHasDefault = (FieldSymbol)ParameterAttributes.GetMembers("HasDefault").Single();
-            ParameterAttributesNone = (FieldSymbol)ParameterAttributes.GetMembers("None").Single();
+            ParameterAttributesOut = (IFieldSymbol)ParameterAttributes.GetMembers("Out").Single();
+            ParameterAttributesHasDefault = (IFieldSymbol)ParameterAttributes.GetMembers("HasDefault").Single();
+            ParameterAttributesNone = (IFieldSymbol)ParameterAttributes.GetMembers("None").Single();
             JsFunction = compilation.FindType("System.Runtime.WootzJs.JsFunction");
             IDisposable = compilation.FindType("System.IDisposable");
-            IDisposableDispose = (MethodSymbol)IDisposable.GetMembers("Dispose").Single();
+            IDisposableDispose = (IMethodSymbol)IDisposable.GetMembers("Dispose").Single();
             Expression = compilation.FindType("System.Linq.Expressions.Expression");
             ExpressionGeneric = compilation.FindType("System.Linq.Expressions.Expression`1");
             ExpressionArray = compilation.CreateArrayTypeSymbol(Expression);
@@ -326,7 +326,7 @@ namespace WootzJs.Compiler
             Func = compilation.FindType("System.Func`1");
             JsObject = compilation.FindType("System.Runtime.WootzJs.JsObject");
             JsString = compilation.FindType("System.Runtime.WootzJs.JsString");
-            SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<MethodSymbol>().Single();
+            SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<IMethodSymbol>().Single();
             Array = compilation.FindType("System.Array");
             INotifyPropertyChanged = compilation.FindType("System.ComponentModel.INotifyPropertyChanged");
             AsyncVoidMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncVoidMethodBuilder");

@@ -26,20 +26,22 @@
 #endregion
 
 using System;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class BreakStatementStripper : SyntaxRewriter
+    public class BreakStatementStripper : CSharpSyntaxRewriter
     {
-        public static SyntaxNode StripStatements(SyntaxNode root)
+        public static SyntaxNode StripStatements(CSharpSyntaxNode root)
         {
             return root.Accept(new BreakStatementStripper());
         }
 
         public override SyntaxNode VisitBreakStatement(BreakStatementSyntax node)
         {
-            return Syntax.EmptyStatement();
+            return SyntaxFactory.EmptyStatement();
         }
 
         public override SyntaxNode VisitForEachStatement(ForEachStatementSyntax node)

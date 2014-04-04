@@ -27,19 +27,19 @@
 
 using System;
 using System.Collections.Generic;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
     public class Scope
     {
-        private Symbol symbol;
+        private ISymbol symbol;
         private List<IJsDeclaration> declarations = new List<IJsDeclaration>();
         private Dictionary<string, IJsDeclaration> declarationsByName = new Dictionary<string, IJsDeclaration>();
         private int currentAnonymousNameIndex = 1;
 
-        public Scope(Symbol symbol)
+        public Scope(ISymbol symbol)
         {
             this.symbol = symbol;
         }

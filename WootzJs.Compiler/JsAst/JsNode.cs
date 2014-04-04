@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler.JsAst
 {

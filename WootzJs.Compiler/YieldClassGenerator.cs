@@ -27,8 +27,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
@@ -37,7 +38,7 @@ namespace WootzJs.Compiler
         private Compilation compilation;
         private ClassDeclarationSyntax classDeclarationSyntax;
         private MethodDeclarationSyntax node;
-        private MethodSymbol method;
+        private IMethodSymbol method;
         
         public const string isStarted = "$isStarted";
         public const string isStartedLocal = "$isStartedLocal";
@@ -48,7 +49,7 @@ namespace WootzJs.Compiler
             this.classDeclarationSyntax = classDeclarationSyntax;
             this.node = node;
 
-            method = compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
+            method = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(compilation.GetSemanticModel(node.SyntaxTree), node);
         }
 
         public ClassDeclarationSyntax CreateEnumerator()
@@ -87,17 +88,17 @@ namespace WootzJs.Compiler
             var constructorParameters = new List<ParameterSyntax>();
             if (!method.IsStatic)
             {
-                constructorParameters.Add(Syntax.Parameter(Syntax.Identifier("$this")).WithType(thisField.Declaration.Type));
+                constructorParameters.Add(SyntaxFactory.Parameter(SyntaxFactory.Identifier("$this")).WithType(thisField.Declaration.Type));
             }
-            constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => Syntax.Parameter(x.Identifier).WithType(x.Type)));                
+            constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
 
-            var constructor = Syntax.ConstructorDeclaration(className)
+            var constructor = SyntaxFactory.ConstructorDeclaration(className)
                 .AddModifiers(Cs.Public())
                 .WithParameterList(constructorParameters.ToArray())
                 .WithBody(
-                    Syntax.Block(
+                    SyntaxFactory.Block(
                         // Assign fields
-                        constructorParameters.Select(x => Cs.Express(Cs.Assign(Cs.This().Member(x.Identifier), Syntax.IdentifierName(x.Identifier))))
+                        constructorParameters.Select(x => Cs.Express(Cs.Assign(Cs.This().Member(x.Identifier), SyntaxFactory.IdentifierName(x.Identifier))))
                     )
                     .AddStatements(
                         Cs.Express(Cs.Assign(Cs.This().Member(StateGenerator.state), Cs.Integer(1)))
@@ -105,9 +106,9 @@ namespace WootzJs.Compiler
                 );
             members.Add(constructor);
 
-            var elementType = ((NamedTypeSymbol)method.ReturnType).TypeArguments[0];
-            var ienumerable = Syntax.ParseTypeName("System.Collections.Generic.IEnumerable<" + elementType.ToDisplayString() + ">");
-            var ienumerator = Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
+            var elementType = ((INamedTypeSymbol)method.ReturnType).TypeArguments[0];
+            var ienumerable = SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerable<" + elementType.ToDisplayString() + ">");
+            var ienumerator = SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
 
             // Generate the GetEnumerator method, which looks something like:
             // var $isStartedLocal = $isStarted;
@@ -116,13 +117,13 @@ namespace WootzJs.Compiler
             //     return this.Clone().GetEnumerator();
             // else
             //     return this;
-            var getEnumerator = Syntax.MethodDeclaration(ienumerator, "GetEnumerator")
+            var getEnumerator = SyntaxFactory.MethodDeclaration(ienumerator, "GetEnumerator")
                 .AddModifiers(Cs.Public(), Cs.Override())
                 .WithBody(Cs.Block(
-                    Cs.Local(isStartedLocal, Syntax.IdentifierName(isStarted)),
-                    Cs.Express(Syntax.IdentifierName(isStarted).Assign(Cs.True())),
+                    Cs.Local(isStartedLocal, SyntaxFactory.IdentifierName(isStarted)),
+                    Cs.Express(SyntaxFactory.IdentifierName(isStarted).Assign(Cs.True())),
                     Cs.If(
-                        Syntax.IdentifierName(isStartedLocal), 
+                        SyntaxFactory.IdentifierName(isStartedLocal), 
                         Cs.Return(Cs.This().Member("Clone").Invoke().Member("GetEnumerator").Invoke()), 
                         Cs.Return(Cs.This()))));
             members.Add(getEnumerator);
@@ -137,37 +138,37 @@ namespace WootzJs.Compiler
             //         case 1: ...
             //     }
             // }
-            var moveNextBody = Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
+            var moveNextBody = SyntaxFactory.LabeledStatement("$top", Cs.While(Cs.True(), 
                 Cs.Switch(Cs.This().Member(StateGenerator.state), states.Select((x, i) => 
                     Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
-            var moveNext = Syntax.MethodDeclaration(Cs.Bool(), "MoveNext")
+            var moveNext = SyntaxFactory.MethodDeclaration(Cs.Bool(), "MoveNext")
                 .AddModifiers(Cs.Public(), Cs.Override())
-                .WithBody(Syntax.Block(moveNextBody));
+                .WithBody(SyntaxFactory.Block(moveNextBody));
             members.Add(moveNext);
 
-            TypeSyntax classNameWithTypeArguments = Syntax.IdentifierName(className);
+            TypeSyntax classNameWithTypeArguments = SyntaxFactory.IdentifierName(className);
             if (method.TypeParameters.Any())
             {
-                classNameWithTypeArguments = Syntax.GenericName(
-                    Syntax.Identifier(className), 
-                    Syntax.TypeArgumentList(Syntax.SeparatedList(
-                        method.TypeParameters.Select(x => Syntax.ParseTypeName(x.Name)),
-                        method.TypeParameters.Select(x => x).Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))
+                classNameWithTypeArguments = SyntaxFactory.GenericName(
+                    SyntaxFactory.Identifier(className), 
+                    SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(
+                        method.TypeParameters.Select(x => SyntaxFactory.ParseTypeName(x.Name)),
+                        method.TypeParameters.Select(x => x).Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))
                     ));
             }
 
             var cloneBody = Cs.Block(
                 Cs.Return(classNameWithTypeArguments.New(
-                    constructorParameters.Select(x => Syntax.IdentifierName(x.Identifier)).ToArray()
+                    constructorParameters.Select(x => SyntaxFactory.IdentifierName(x.Identifier)).ToArray()
                 ))
             );
-            var clone = Syntax.MethodDeclaration(ienumerable, "Clone")
+            var clone = SyntaxFactory.MethodDeclaration(ienumerable, "Clone")
                 .AddModifiers(Cs.Public())
-                .WithBody(Syntax.Block(cloneBody));
+                .WithBody(SyntaxFactory.Block(cloneBody));
             members.Add(clone);
 
-            var baseTypes = new[] { Syntax.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
-            var result = Syntax.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
+            var baseTypes = new[] { SyntaxFactory.ParseTypeName("System.YieldIterator<" + elementType.ToDisplayString() + ">") };
+            var result = SyntaxFactory.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
 
             if (method.TypeParameters.Any())
             {

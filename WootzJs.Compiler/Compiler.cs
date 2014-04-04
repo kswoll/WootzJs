@@ -31,8 +31,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.WootzJs;
 using System.Threading;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Services;
+using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.MSBuild;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
@@ -43,21 +46,16 @@ namespace WootzJs.Compiler
         {
             var projectFileInfo = new FileInfo(args[0]);
             var projectFolder = projectFileInfo.Directory.FullName;
-            IProject project;
-            var output = new Compiler().Compile(args[0], out project);
+            var result = new Compiler().Compile(args[0]).Result;
+            var output = result.Item1;
+            var project = result.Item2;
             var projectName = project.AssemblyName;
             var outputFolder = args[1];
 
             File.WriteAllText(projectFolder + "\\" + outputFolder + projectName + ".js", output);
         }
 
-        public string Compile(string projectFile)
-        {
-            IProject project;
-            return Compile(projectFile, out project);
-        }
-
-        public string Compile(string projectFile, out IProject project)
+        public async Task<Tuple<string, Project>> Compile(string projectFile)
         {
             var projectFileInfo = new FileInfo(projectFile);
             var projectFolder = projectFileInfo.Directory.FullName;
@@ -68,41 +66,41 @@ namespace WootzJs.Compiler
             if (File.Exists(projectUserFile))
                 File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
-            project = Solution.LoadStandAloneProject(projectFile);
+            var project = await MSBuildWorkspace.Create().OpenProjectAsync(projectFile);
             var projectName = project.AssemblyName;
-            var compilation = (Compilation)project.GetCompilation();
+            Compilation compilation = await project.GetCompilationAsync();
             Context.Update(project.Solution, project, compilation);
 
             // Check for yield
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
-                var compilationUnit = syntaxTree.GetRoot();
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var yieldGenerator = new YieldGenerator(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldGenerator);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
 
             // After the basic transformation happens, we need to fix up some references afterward
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
-                var compilationUnit = syntaxTree.GetRoot();
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var yieldFixer = new YieldGeneratorFixer(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
 
             // Check for async
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
-                var compilationUnit = syntaxTree.GetRoot();
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var asyncGenerator = new AsyncGenerator(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(asyncGenerator);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxTree.Create(compilationUnit, syntaxTree.FilePath));
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);
 
@@ -139,10 +137,7 @@ namespace WootzJs.Compiler
             var getAssembly = Js.Function();
             getAssembly.Body.If(
                 assemblyVariable.GetReference().EqualTo(Js.Null()), 
-                Js.Assign(
-                    assemblyVariable.GetReference(), 
-                    globalIdioms.CreateAssembly(compilation.Assembly, assemblyTypes.GetReference())
-                )
+                assemblyVariable.GetReference().Assign(globalIdioms.CreateAssembly(compilation.Assembly, assemblyTypes.GetReference()))
             );
             getAssembly.Body.Return(assemblyVariable.GetReference());
             jsCompilationUnit.Body.Assign(
@@ -163,18 +158,18 @@ namespace WootzJs.Compiler
             var namespaceTransformer = new NamespaceTransformer(jsCompilationUnit.Body);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
-                var compilationUnit = syntaxTree.GetRoot();
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 compilationUnit.Accept(namespaceTransformer);
             }
 
-            var actions = new List<Tuple<NamedTypeSymbol, Action>>();
+            var actions = new List<Tuple<INamedTypeSymbol, Action>>();
 
             // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
             // declarations with a series of auto implemented properties.
             var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
-                var compilationUnit = syntaxTree.GetRoot();
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 compilationUnit.Accept(anonymousTypeTransformer);
             }
 
@@ -189,7 +184,7 @@ namespace WootzJs.Compiler
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var compilationUnit = syntaxTree.GetRoot();
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 var transformer = new JsTransformer(syntaxTree, semanticModel);
 
                 var typeDeclarations = GetTypeDeclarations(compilationUnit);
@@ -200,7 +195,7 @@ namespace WootzJs.Compiler
                         var statements = (JsBlockStatement)type.Accept(transformer);
                         jsCompilationUnit.Body.Aggregate(statements);
                     };
-                    actions.Add(Tuple.Create(semanticModel.GetDeclaredSymbol(type), action));
+                    actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));
                 }
                 var delegateDeclarations = GetDelegates(compilationUnit);
                 foreach (var type in delegateDeclarations)
@@ -210,7 +205,7 @@ namespace WootzJs.Compiler
                         var statements = (JsBlockStatement)type.Accept(transformer);
                         jsCompilationUnit.Body.Aggregate(statements);
                     };
-                    actions.Add(Tuple.Create(semanticModel.GetDeclaredSymbol(type), action));
+                    actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));
                 }
             }
 
@@ -234,15 +229,15 @@ namespace WootzJs.Compiler
             // Write out the compiled Javascript file to the target location.
             var renderer = new JsRenderer();
             jsCompilationUnit.Accept(renderer);
-            return renderer.Output;
+            return Tuple.Create(renderer.Output, project);
         } 
 
         /// <summary>
         /// Long story short, this method ensures base types always come before subtypes.
         /// </summary>
-        private void SweepSort(List<Tuple<NamedTypeSymbol, Action>> list)
+        private void SweepSort(List<Tuple<INamedTypeSymbol, Action>> list)
         {
-            var prepend = new HashSet<Tuple<NamedTypeSymbol, Action>>();
+            var prepend = new HashSet<Tuple<INamedTypeSymbol, Action>>();
             do 
             {
                 prepend.Clear();
@@ -250,7 +245,7 @@ namespace WootzJs.Compiler
                 for (var i = 0; i < list.Count; i++)
                 {
                     var item = list[i];
-                    if (item.Item1 == Context.Instance.SpecialFunctions)
+                    if (Equals(item.Item1, Context.Instance.SpecialFunctions))
                     {
                         if (i != 0)
                         {
@@ -266,8 +261,8 @@ namespace WootzJs.Compiler
                     var baseType = item.Item1.BaseType;
                     if (baseType != null)
                     {
-                        if (baseType.OriginalDefinition != baseType)
-                            baseType = (NamedTypeSymbol)baseType.OriginalDefinition;
+                        if (!Equals(baseType.OriginalDefinition, baseType))
+                            baseType = baseType.OriginalDefinition;
                         int baseIndex;
                         if (indices.TryGetValue(baseType, out baseIndex))
                         {
@@ -285,8 +280,8 @@ namespace WootzJs.Compiler
                         var innerBaseType = innerType.BaseType;
                         if (innerBaseType != null)
                         {
-                            if (innerBaseType.OriginalDefinition != innerBaseType)
-                                innerBaseType = (NamedTypeSymbol)innerBaseType.OriginalDefinition;
+                            if (!Equals(innerBaseType.OriginalDefinition, innerBaseType))
+                                innerBaseType = innerBaseType.OriginalDefinition;
                             int baseIndex;
                             if (indices.TryGetValue(innerBaseType, out baseIndex))
                             {
@@ -313,11 +308,11 @@ namespace WootzJs.Compiler
                         }                        
                     }
 */
-                    var precedes = item.Item1.GetAttributeValue<TypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
+                    var precedes = item.Item1.GetAttributeValue<ITypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
                     if (precedes != null)
                     {
                         int precedesIndex;
-                        if (indices.TryGetValue((NamedTypeSymbol)precedes.OriginalDefinition, out precedesIndex))
+                        if (indices.TryGetValue((INamedTypeSymbol)precedes.OriginalDefinition, out precedesIndex))
                         {
                             var precedesItem = list[precedesIndex];
                             if (precedesIndex > i)

@@ -27,11 +27,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class GotoSubstituter : SyntaxRewriter
+    public class GotoSubstituter : CSharpSyntaxRewriter
     {
         private Compilation compilation;
         private Dictionary<object, State> labelStates;
@@ -49,7 +51,7 @@ namespace WootzJs.Compiler
             if (label.StartsWith("$"))
                 return node;
 
-            return AsyncStateGenerator.ChangeState(labelStates[label]);
+            return StateGenerator.ChangeState(labelStates[label]);
         }
     }
 }

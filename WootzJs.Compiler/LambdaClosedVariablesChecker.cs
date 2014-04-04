@@ -1,10 +1,13 @@
-﻿using Roslyn.Compilers.CSharp;
+﻿
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class LambdaClosedVariablesChecker : SyntaxWalker
+    public class LambdaClosedVariablesChecker : CSharpSyntaxWalker
     {
-        public static bool HasClosedVariables(SyntaxNode node)
+        public static bool HasClosedVariables(CSharpSyntaxNode node)
         {
             var checker = new LambdaClosedVariablesChecker(node);
             node.Accept(checker);
@@ -12,7 +15,7 @@ namespace WootzJs.Compiler
         }
 
         private SemanticModel model;
-        private Symbol outerScope;
+        private ISymbol outerScope;
         private bool hasClosedVariables;
 
         public LambdaClosedVariablesChecker(SyntaxNode node)
@@ -21,12 +24,12 @@ namespace WootzJs.Compiler
             outerScope = node.GetContainingMethod();
         }
 
-        private bool IsContainedInOuterScope(Symbol symbol)
+        private bool IsContainedInOuterScope(ISymbol symbol)
         {
             var container = symbol.ContainingSymbol;
             while (container != null)
             {
-                if (container == outerScope)
+                if (Equals(container, outerScope))
                     return true;
                 container = container.ContainingSymbol;
             }

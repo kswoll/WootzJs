@@ -25,12 +25,13 @@
 //-----------------------------------------------------------------------
 #endregion
 
-using Roslyn.Compilers.Common;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class YieldChecker : SyntaxWalker
+    public class YieldChecker : CSharpSyntaxWalker
     {
         private bool yieldOnly;
         private bool isSpecial;

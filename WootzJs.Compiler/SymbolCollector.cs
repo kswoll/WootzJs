@@ -26,21 +26,21 @@
 #endregion
 
 using System.Collections.Generic;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
     public class SymbolCollector : SymbolWalker
     {
-        private List<Symbol> symbols = new List<Symbol>();
+        private List<ISymbol> symbols = new List<ISymbol>();
 
-        public override void DefaultVisit(Symbol node)
+        public override void DefaultVisit(ISymbol node)
         {
             base.DefaultVisit(node);
             symbols.Add(node);
         }
 
-        public Symbol[] Symbols
+        public ISymbol[] Symbols
         {
             get { return symbols.ToArray(); }
         }

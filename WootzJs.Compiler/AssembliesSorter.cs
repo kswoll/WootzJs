@@ -29,26 +29,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
     public class AssembliesSorter
     {
-        public static AssemblySymbol[] GetReferencedAssemblies(AssemblySymbol assembly)
+/*
+        public static IAssemblySymbol[] GetReferencedAssemblies(IAssemblySymbol assembly)
         {
-            var result = (ReadOnlyArray<AssemblySymbol>)assembly.GetType().GetMethod("GetLinkedReferencedAssemblies", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(assembly, new object[0]);
+            var result = assembly.GetType().GetMethod("GetLinkedReferencedAssemblies", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(assembly, new object[0]);
             if (result == null)
-                return new AssemblySymbol[0];
+                return new IAssemblySymbol[0];
             return result.ToArray();
         }
+*/
 
-        public static AssemblySymbol[] Sort(Tuple<AssemblySymbol, AssemblySymbol[]>[] assemblies)
+        public static IAssemblySymbol[] Sort(Tuple<IAssemblySymbol, IAssemblySymbol[]>[] assemblies)
         {
             var currentList = assemblies.ToList();
 
-            var prepend = new HashSet<Tuple<AssemblySymbol, AssemblySymbol[]>>();
+            var prepend = new HashSet<Tuple<IAssemblySymbol, IAssemblySymbol[]>>();
             do 
             {
                 prepend.Clear();

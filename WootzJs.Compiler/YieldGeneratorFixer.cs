@@ -29,11 +29,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class YieldGeneratorFixer : SyntaxRewriter
+    public class YieldGeneratorFixer : CSharpSyntaxRewriter
     {
         private Compilation compilation;
         private SyntaxTree syntaxTree;
@@ -62,7 +64,7 @@ namespace WootzJs.Compiler
                 var symbol = semanticModel.GetSymbolInfo(node).Symbol;
                 if (symbol == null)
                 {
-                    return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName("$this"), node);
+                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
                 }
             }
             return base.VisitIdentifierName(node);

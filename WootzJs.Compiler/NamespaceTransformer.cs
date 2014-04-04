@@ -26,13 +26,13 @@
 #endregion
 
 using System.Collections.Generic;
-using Roslyn.Compilers.Common;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class NamespaceTransformer : SyntaxWalker
+    public class NamespaceTransformer : CSharpSyntaxWalker
     {
         private JsBlockStatement body;
         private HashSet<string> processedNamespaces = new HashSet<string>();

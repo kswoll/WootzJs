@@ -26,20 +26,20 @@
 #endregion
 
 using System.Collections.Generic;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
     public class SymbolNameMap
     {
-        private Dictionary<Symbol, string> names;
+        private Dictionary<ISymbol, string> names;
 
-        public SymbolNameMap(Dictionary<Symbol, string> names)
+        public SymbolNameMap(Dictionary<ISymbol, string> names)
         {
             this.names = names;
         }
 
-        public string this[Symbol symbol, string fallbackName]
+        public string this[ISymbol symbol, string fallbackName]
         {
             get
             {
@@ -47,7 +47,7 @@ namespace WootzJs.Compiler
                 if (!names.TryGetValue(symbol, out result))
                     return fallbackName;
 
-                if (symbol is NamespaceSymbol && !symbol.ContainingNamespace.IsGlobalNamespace)
+                if (symbol is INamespaceSymbol && !symbol.ContainingNamespace.IsGlobalNamespace)
                     result = this[symbol.ContainingNamespace, symbol.ContainingNamespace.GetFullName()] + "." + result;
                     
                 return result;

@@ -25,64 +25,64 @@
 //-----------------------------------------------------------------------
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
     public class SymbolWalker : SymbolVisitor
     {
-        public override void VisitAlias(AliasSymbol symbol)
+        public override void VisitAlias(IAliasSymbol symbol)
         {
             base.VisitAlias(symbol);
         }
 
-        public override void VisitArrayType(ArrayTypeSymbol symbol)
+        public override void VisitArrayType(IArrayTypeSymbol symbol)
         {
             base.VisitArrayType(symbol);
         }
 
-        public override void VisitAssembly(AssemblySymbol symbol)
+        public override void VisitAssembly(IAssemblySymbol symbol)
         {
             base.VisitAssembly(symbol);
             symbol.GlobalNamespace.Accept(this);
         }
 
-        public override void VisitDynamicType(DynamicTypeSymbol symbol)
+        public override void VisitDynamicType(IDynamicTypeSymbol symbol)
         {
             base.VisitDynamicType(symbol);
         }
 
-        public override void VisitEvent(EventSymbol symbol)
+        public override void VisitEvent(IEventSymbol symbol)
         {
             base.VisitEvent(symbol);
         }
 
-        public override void VisitField(FieldSymbol symbol)
+        public override void VisitField(IFieldSymbol symbol)
         {
             base.VisitField(symbol);
         }
 
-        public override void VisitLabel(LabelSymbol symbol)
+        public override void VisitLabel(ILabelSymbol symbol)
         {
             base.VisitLabel(symbol);
         }
 
-        public override void VisitLocal(LocalSymbol symbol)
+        public override void VisitLocal(ILocalSymbol symbol)
         {
             base.VisitLocal(symbol);
         }
 
-        public override void VisitMethod(MethodSymbol symbol)
+        public override void VisitMethod(IMethodSymbol symbol)
         {
             base.VisitMethod(symbol);
         }
 
-        public override void VisitModule(ModuleSymbol symbol)
+        public override void VisitModule(IModuleSymbol symbol)
         {
             base.VisitModule(symbol);
         }
 
-        public override void VisitNamedType(NamedTypeSymbol symbol)
+        public override void VisitNamedType(INamedTypeSymbol symbol)
         {
             base.VisitNamedType(symbol);
             foreach (var item in symbol.GetMembers())
@@ -95,7 +95,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        public override void VisitNamespace(NamespaceSymbol symbol)
+        public override void VisitNamespace(INamespaceSymbol symbol)
         {
             base.VisitNamespace(symbol);
             foreach (var item in symbol.GetTypeMembers())
@@ -108,27 +108,27 @@ namespace WootzJs.Compiler
             }
         }
 
-        public override void VisitParameter(ParameterSymbol symbol)
+        public override void VisitParameter(IParameterSymbol symbol)
         {
             base.VisitParameter(symbol);
         }
 
-        public override void VisitPointerType(PointerTypeSymbol symbol)
+        public override void VisitPointerType(IPointerTypeSymbol symbol)
         {
             base.VisitPointerType(symbol);
         }
 
-        public override void VisitProperty(PropertySymbol symbol)
+        public override void VisitProperty(IPropertySymbol symbol)
         {
             base.VisitProperty(symbol);
         }
 
-        public override void VisitRangeVariable(RangeVariableSymbol symbol)
+        public override void VisitRangeVariable(IRangeVariableSymbol symbol)
         {
             base.VisitRangeVariable(symbol);
         }
 
-        public override void VisitTypeParameter(TypeParameterSymbol symbol)
+        public override void VisitTypeParameter(ITypeParameterSymbol symbol)
         {
             base.VisitTypeParameter(symbol);
         }

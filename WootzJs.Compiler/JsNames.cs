@@ -28,28 +28,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Services;
+using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
 {
     public static class JsNames
     {
-        public static string GetMemberName(this Symbol symbol)
+        public static string GetMemberName(this ISymbol symbol)
         {
-            if (symbol is MethodSymbol)
-                return ((MethodSymbol)symbol).GetMemberName();
-            else if (symbol is FieldSymbol)
-                return ((FieldSymbol)symbol).GetMemberName();
-            else if (symbol is PropertySymbol)
-                return ((PropertySymbol)symbol).GetMemberName();
-            else if (symbol is EventSymbol)
-                return ((EventSymbol)symbol).GetMemberName();
+            if (symbol is IMethodSymbol)
+                return ((IMethodSymbol)symbol).GetMemberName();
+            else if (symbol is IFieldSymbol)
+                return ((IFieldSymbol)symbol).GetMemberName();
+            else if (symbol is IPropertySymbol)
+                return ((IPropertySymbol)symbol).GetMemberName();
+            else if (symbol is IEventSymbol)
+                return ((IEventSymbol)symbol).GetMemberName();
             else
                 throw new Exception();
         }
 
-        public static string GetShortTypeName(this TypeSymbol type)
+        public static string GetShortTypeName(this ITypeSymbol type)
         {
             var nameOverride = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
@@ -59,18 +58,18 @@ namespace WootzJs.Compiler
                 return type.GetTypeName();
 
             // @todo refactor so the two typename methods share most of the code
-            if (type is NamedTypeSymbol)
+            if (type is INamedTypeSymbol)
             {
                 return type.MetadataName.Replace('`', '$');
             }
-            else if (type is ArrayTypeSymbol)
+            else if (type is IArrayTypeSymbol)
             {
-                var arrayType = (ArrayTypeSymbol)type;
+                var arrayType = (IArrayTypeSymbol)type;
                 return arrayType.ElementType.Name + "$1";
             }
-            else if (type is TypeParameterSymbol)
+            else if (type is ITypeParameterSymbol)
             {
-                var typeParameter = (TypeParameterSymbol)type;
+                var typeParameter = (ITypeParameterSymbol)type;
                 return typeParameter.Name;
             }
             else
@@ -80,9 +79,9 @@ namespace WootzJs.Compiler
         }
 
         private static int anonymousTypeNameCounter = 1;
-        private static Dictionary<TypeSymbol, string> anonymousTypeNames = new Dictionary<TypeSymbol, string>();
+        private static Dictionary<ITypeSymbol, string> anonymousTypeNames = new Dictionary<ITypeSymbol, string>();
 
-        public static string GetTypeName(this TypeSymbol type)
+        public static string GetTypeName(this ITypeSymbol type)
         {
             var nameOverride = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
@@ -100,20 +99,20 @@ namespace WootzJs.Compiler
                 return name;
             }
 
-            var namedTypeSymbol = type as NamedTypeSymbol;
+            var namedTypeSymbol = type as INamedTypeSymbol;
             if (namedTypeSymbol != null)
             {
                 var result = GetTypeName(type.GetFullName()).Replace('`', '$');
                 return result;
             }
-            else if (type is ArrayTypeSymbol)
+            else if (type is IArrayTypeSymbol)
             {
-                var arrayType = (ArrayTypeSymbol)type;
+                var arrayType = (IArrayTypeSymbol)type;
                 return GetTypeName(arrayType.ElementType) + "$1";
             }
-            else if (type is TypeParameterSymbol)
+            else if (type is ITypeParameterSymbol)
             {
-                var typeParameter = (TypeParameterSymbol)type;
+                var typeParameter = (ITypeParameterSymbol)type;
                 return typeParameter.Name;
             }
             else
@@ -127,9 +126,9 @@ namespace WootzJs.Compiler
             return typeName;//typeName.Replace(".", "$");
         }
 
-        public static string GetDefaultConstructorName(this NamedTypeSymbol type)
+        public static string GetDefaultConstructorName(this INamedTypeSymbol type)
         {
-            return type.InstanceConstructors.Single(x => x.Parameters.Count == 0).GetMemberName();
+            return type.InstanceConstructors.Single(x => x.Parameters.Count() == 0).GetMemberName();
         }
 
         public static string MaskSpecialCharacters(this string s)
@@ -137,7 +136,7 @@ namespace WootzJs.Compiler
             return s.Replace('.', '$').Replace('<', '$').Replace('>', '$').Replace(',', '$');
         }
 
-        public static string GetMemberName(this MethodSymbol method)
+        public static string GetMemberName(this IMethodSymbol method)
         {
             var nameOverride = method.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
@@ -145,7 +144,7 @@ namespace WootzJs.Compiler
 
             if (method.ReducedFrom != null)
                 method = method.ReducedFrom;
-            if (method.ConstructedFrom != method)
+            if (!Equals(method.ConstructedFrom, method))
                 method = method.ConstructedFrom;
 
             var baseMethodName = method.MethodKind == MethodKind.Constructor ? "$ctor" : method.Name.Replace('.', '$');
@@ -161,11 +160,11 @@ namespace WootzJs.Compiler
                 method.ContainingType.InstanceConstructors.ToList() :
                 method.ContainingType
                     .GetAllMembers(method.Name)
-                    .OfType<MethodSymbol>()
+                    .OfType<IMethodSymbol>()
                     // De-dup overrides from overloads, since we only want one name for a given override chain.
                     .Where(x => x.OverriddenMethod == null).ToList();
 
-            if (overloads.Count == 1 || (method.MethodKind == MethodKind.Constructor && method.Parameters.Count == 0))
+            if (overloads.Count == 1 || (method.MethodKind == MethodKind.Constructor && !method.Parameters.Any()))
             {
                 return baseMethodName;
             }
@@ -174,8 +173,8 @@ namespace WootzJs.Compiler
                 // Sort overloads based on a constant algorithm where overloads from base types 
                 overloads.Sort((x, y) =>
                 {
-                    var xIsExported = x.DeclaredAccessibility == Accessibility.Protected || x.DeclaredAccessibility == Accessibility.ProtectedAndInternal || x.DeclaredAccessibility == Accessibility.ProtectedInternal || x.DeclaredAccessibility == Accessibility.Public;
-                    var yIsExported = y.DeclaredAccessibility == Accessibility.Protected || y.DeclaredAccessibility == Accessibility.ProtectedAndInternal || y.DeclaredAccessibility == Accessibility.ProtectedInternal || y.DeclaredAccessibility == Accessibility.Public;
+                    var xIsExported = x.DeclaredAccessibility == Accessibility.Protected || x.DeclaredAccessibility == Accessibility.ProtectedAndInternal || x.DeclaredAccessibility == Accessibility.ProtectedOrInternal || x.DeclaredAccessibility == Accessibility.Public;
+                    var yIsExported = y.DeclaredAccessibility == Accessibility.Protected || y.DeclaredAccessibility == Accessibility.ProtectedAndInternal || y.DeclaredAccessibility == Accessibility.ProtectedOrInternal || y.DeclaredAccessibility == Accessibility.Public;
                     if (xIsExported != yIsExported)
                         return xIsExported ? -1 : 1;
                     else if (x.ContainingType.IsSubclassOf(y.ContainingType))
@@ -186,25 +185,25 @@ namespace WootzJs.Compiler
                     {
                         var xMethod = x;
                         var yMethod = y;
-                        if (xMethod.TypeParameters.Count > yMethod.TypeParameters.Count)
+                        if (xMethod.TypeParameters.Count() > yMethod.TypeParameters.Count())
                             return 1;
-                        else if (xMethod.TypeParameters.Count < yMethod.TypeParameters.Count)
+                        else if (xMethod.TypeParameters.Count() < yMethod.TypeParameters.Count())
                             return -1;
                         else
                         {
-                            if (xMethod.Parameters.Count > yMethod.Parameters.Count)
+                            if (xMethod.Parameters.Count() > yMethod.Parameters.Count())
                                 return 1;
-                            else if (xMethod.Parameters.Count < yMethod.Parameters.Count)
+                            else if (xMethod.Parameters.Count() < yMethod.Parameters.Count())
                                 return -1;
                             else
                             {
-                                if (xMethod.ExplicitInterfaceImplementations.Count > yMethod.ExplicitInterfaceImplementations.Count) 
+                                if (xMethod.ExplicitInterfaceImplementations.Count() > yMethod.ExplicitInterfaceImplementations.Count()) 
                                     return 1;
-                                else if (xMethod.ExplicitInterfaceImplementations.Count < yMethod.ExplicitInterfaceImplementations.Count)
+                                else if (xMethod.ExplicitInterfaceImplementations.Count() < yMethod.ExplicitInterfaceImplementations.Count())
                                     return -1;
                                 else
                                 {
-                                    for (var i = 0; i < xMethod.Parameters.Count; i++)
+                                    for (var i = 0; i < xMethod.Parameters.Count(); i++)
                                     {
                                         var xParameter = xMethod.Parameters[i];
                                         var yParameter = yMethod.Parameters[i];
@@ -228,7 +227,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        public static string GetMemberName(this PropertySymbol symbol)
+        public static string GetMemberName(this IPropertySymbol symbol)
         {
             var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
@@ -302,7 +301,7 @@ namespace WootzJs.Compiler
 */
         }
 
-        public static string GetMemberName(this FieldSymbol symbol)
+        public static string GetMemberName(this IFieldSymbol symbol)
         {
             var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
@@ -310,7 +309,7 @@ namespace WootzJs.Compiler
             return GetDefaultMemberName(symbol);
         }
 
-        public static string GetMemberName(this EventSymbol symbol)
+        public static string GetMemberName(this IEventSymbol symbol)
         {
             var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
@@ -318,7 +317,7 @@ namespace WootzJs.Compiler
             return GetDefaultMemberName(symbol);
         }
 
-        private static string GetDefaultMemberName(Symbol symbol)
+        private static string GetDefaultMemberName(ISymbol symbol)
         {
             var overloads = symbol.ContainingType.GetAllMembers(symbol.Name).ToList();
             if (overloads.Count == 1)
@@ -345,27 +344,27 @@ namespace WootzJs.Compiler
             }            
         }
 
-        public static string GetBackingFieldName(this EventSymbol eventSymbol)
+        public static string GetBackingFieldName(this IEventSymbol eventSymbol)
         {
             return "$" + eventSymbol.GetMemberName() + "$k__BackingField";
         }
 
-        public static string GetBackingFieldName(this PropertySymbol eventSymbol)
+        public static string GetBackingFieldName(this IPropertySymbol eventSymbol)
         {
             return "$" + eventSymbol.GetMemberName() + "$k__BackingField";
         }
 
-        public static string GetAssemblyMethodName(this AssemblySymbol assembly)
+        public static string GetAssemblyMethodName(this IAssemblySymbol assembly)
         {
             return "window.$" + assembly.Name.MaskSpecialCharacters() + "$GetAssembly";
         }
 
-        public static string GetAssemblyTypesArray(this AssemblySymbol assembly)
+        public static string GetAssemblyTypesArray(this IAssemblySymbol assembly)
         {
             return "$" + assembly.Name.MaskSpecialCharacters() + "$AssemblyTypes";
         }
 
-        public static string GetAssemblyAnonymousTypesArray(this AssemblySymbol assembly)
+        public static string GetAssemblyAnonymousTypesArray(this IAssemblySymbol assembly)
         {
             return "$" + assembly.Name.MaskSpecialCharacters() + "$AnonymousTypes";
         }

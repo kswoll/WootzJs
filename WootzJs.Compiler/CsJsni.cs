@@ -1,5 +1,7 @@
 ﻿using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
@@ -12,16 +14,16 @@ namespace WootzJs.Compiler
             this.context = context;
         }
 
-        public InvocationExpressionSyntax Function(SyntaxNode body)
+        public InvocationExpressionSyntax Function(CSharpSyntaxNode body)
         {
-            var method = context.JsniType.GetMembers("function").OfType<MethodSymbol>().Single(x => x.Parameters.Count == 0);
-            var lambda = Syntax.ParenthesizedLambdaExpression(body);
+            var method = context.JsniType.GetMembers("function").OfType<IMethodSymbol>().Single(x => !x.Parameters.Any());
+            var lambda = SyntaxFactory.ParenthesizedLambdaExpression(body);
             return method.Invoke(lambda);
         }
 
         public InvocationExpressionSyntax Object(AnonymousObjectCreationExpressionSyntax obj, bool compact = false)
         {
-            var method = context.JsniType.GetMembers("object").OfType<MethodSymbol>().Single();
+            var method = context.JsniType.GetMembers("object").OfType<IMethodSymbol>().Single();
             return method.Invoke(obj, compact ? Cs.True() : Cs.False());
         }
     }

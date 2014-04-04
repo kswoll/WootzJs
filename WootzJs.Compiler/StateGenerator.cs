@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class StateGenerator : SyntaxWalker
+    public class StateGenerator : CSharpSyntaxWalker
     {
         public const string stateFieldName = "$state";
 
@@ -39,12 +41,12 @@ namespace WootzJs.Compiler
             while (true);
         }
 
-        protected SyntaxNode HoistVariable(SyntaxNode node, SyntaxToken identifier, TypeSyntax type)
+        protected SyntaxNode HoistVariable(CSharpSyntaxNode node, SyntaxToken identifier, TypeSyntax type)
         {
             if (hoistedVariables.ContainsKey(identifier.ToString()))
             {
                 var newName = GenerateNewName(identifier);
-                var newIdentifier = Syntax.Identifier(newName);
+                var newIdentifier = SyntaxFactory.Identifier(newName);
                 node = IdentifierRenamer.RenameIdentifier(node, identifier, newIdentifier);
                 identifier = newIdentifier;
             }
@@ -81,7 +83,7 @@ namespace WootzJs.Compiler
 
         public Tuple<SyntaxToken, TypeSyntax>[] HoistedVariables
         {
-            get { return hoistedVariables.Select(x => Tuple.Create(Syntax.Identifier(x.Key), x.Value)).ToArray(); }
+            get { return hoistedVariables.Select(x => Tuple.Create(SyntaxFactory.Identifier(x.Key), x.Value)).ToArray(); }
         }
 
         protected State GetNextState(StatementSyntax node)
@@ -126,7 +128,7 @@ namespace WootzJs.Compiler
 
         protected StatementSyntax GotoTop()
         {
-            return Syntax.GotoStatement(SyntaxKind.GotoStatement, Syntax.IdentifierName("$top"));
+            return SyntaxFactory.GotoStatement(SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName("$top"));
         }
 
         protected void MaybeCreateNewState()
@@ -142,7 +144,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        protected StatementSyntax[] CaptureState(SyntaxNode node, State nextState, State breakState)
+        protected StatementSyntax[] CaptureState(CSharpSyntaxNode node, State nextState, State breakState)
         {
             var catchBatch = new State(this, true) { NextState = nextState };
             var oldState = currentState;

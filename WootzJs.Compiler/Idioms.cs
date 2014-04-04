@@ -29,10 +29,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.WootzJs;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WootzJs.Compiler.JsAst;
-using TypeInfo = Roslyn.Compilers.CSharp.TypeInfo;
 
 namespace WootzJs.Compiler
 {
@@ -45,12 +45,12 @@ namespace WootzJs.Compiler
             this.transformer = transformer;
         }
 
-        public JsInvocationExpression MakeGenericType(NamedTypeSymbol unconstructedType)
+        public JsInvocationExpression MakeGenericType(INamedTypeSymbol unconstructedType)
         {
             return MakeGenericType(unconstructedType, unconstructedType.TypeArguments.Select(x => Type(x)).ToArray());
         }
 
-        public JsInvocationExpression MakeGenericType(NamedTypeSymbol unconstructedType, params JsExpression[] typeArguments)
+        public JsInvocationExpression MakeGenericType(INamedTypeSymbol unconstructedType, params JsExpression[] typeArguments)
         {
             var containingType = unconstructedType.ContainingType;
             JsExpression target;
@@ -67,7 +67,7 @@ namespace WootzJs.Compiler
             return result;
         }
 
-        public JsExpression CreateObject(JsExpression containingType, MethodSymbol constructor, params JsExpression[] arguments)
+        public JsExpression CreateObject(JsExpression containingType, IMethodSymbol constructor, params JsExpression[] arguments)
         {
             var constructorReference = containingType.Member("prototype").Member(constructor.GetMemberName());
 
@@ -85,18 +85,18 @@ namespace WootzJs.Compiler
             }
         }
 
-        public JsExpression CreateObject(MethodSymbol constructor, params JsExpression[] arguments)
+        public JsExpression CreateObject(IMethodSymbol constructor, params JsExpression[] arguments)
         {
             return CreateObject(Type(constructor.ContainingType), constructor, arguments);
         }
 
-        public JsBlockStatement CreateTypeFunction(NamedTypeSymbol classType, out JsBlockStatement typeInitializer, out JsBlockStatement staticInitializer)
+        public JsBlockStatement CreateTypeFunction(INamedTypeSymbol classType, out JsBlockStatement typeInitializer, out JsBlockStatement staticInitializer)
         {
             var isBuiltIn = classType.IsBuiltIn();
-            var explicitBaseType = classType.GetAttributeValue<TypeSymbol>(Context.Instance.JsAttributeType, "BaseType");
+            var explicitBaseType = classType.GetAttributeValue<ITypeSymbol>(Context.Instance.JsAttributeType, "BaseType");
             var baseType = 
-                explicitBaseType != null ? Type(explicitBaseType) : 
-                classType == Context.Instance.ObjectType ? Js.Reference("Object") : 
+                explicitBaseType != null ? Type(explicitBaseType) :
+                Equals(classType, Context.Instance.ObjectType) ? Js.Reference("Object") : 
                 classType.BaseType == null ? Type(Context.Instance.ObjectType) : 
                 Js.Reference(classType.BaseType.GetTypeName());
 
@@ -188,7 +188,7 @@ namespace WootzJs.Compiler
             return block;
         }
 
-        public JsExpressionStatement StoreClassCreateType(NamedTypeSymbol type)
+        public JsExpressionStatement StoreClassCreateType(INamedTypeSymbol type)
         {
             var explicitName = type.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             var fullTypeName = type.GetFullName();
@@ -228,7 +228,7 @@ namespace WootzJs.Compiler
                     case Accessibility.Protected:
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamily);
                         break;
-                    case Accessibility.ProtectedInternal:
+                    case Accessibility.ProtectedOrInternal:
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamORAssem);
                         break;
                     default:
@@ -277,15 +277,15 @@ namespace WootzJs.Compiler
             return result;
         }
 
-        private JsExpression CreateInterfaceReferences(NamedTypeSymbol type)
+        private JsExpression CreateInterfaceReferences(INamedTypeSymbol type)
         {
             return MakeArray(Js.Array(type.AllInterfaces.Select(x => Js.Reference(x.GetTypeName())).ToArray()), Context.Instance.TypeArray);
         }
 
-        private JsExpression CreatePropertyInfos(NamedTypeSymbol type)
+        private JsExpression CreatePropertyInfos(INamedTypeSymbol type)
         {
             var result = Js.Array();
-            foreach (var property in type.GetMembers().OfType<PropertySymbol>())
+            foreach (var property in type.GetMembers().OfType<IPropertySymbol>())
             {
                 if (!property.IsExported())
                     continue;
@@ -302,10 +302,10 @@ namespace WootzJs.Compiler
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.PropertyInfo));
         }
 
-        private JsExpression CreateEventInfos(NamedTypeSymbol type)
+        private JsExpression CreateEventInfos(INamedTypeSymbol type)
         {
             var result = Js.Array();
-            foreach (var property in type.GetMembers().OfType<EventSymbol>())
+            foreach (var property in type.GetMembers().OfType<IEventSymbol>())
             {
                 if (!property.IsExported())
                     continue;
@@ -321,10 +321,10 @@ namespace WootzJs.Compiler
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.EventInfo));
         }
 
-        private JsExpression CreateFieldInfos(NamedTypeSymbol type)
+        private JsExpression CreateFieldInfos(INamedTypeSymbol type)
         {
             var result = Js.Array();
-            foreach (var field in type.GetMembers().OfType<FieldSymbol>())
+            foreach (var field in type.GetMembers().OfType<IFieldSymbol>())
             {
                 if (!field.IsExported() || !field.Type.IsExported())
                     continue;
@@ -344,7 +344,7 @@ namespace WootzJs.Compiler
                     case Accessibility.Protected:
                         fieldAttributes = GetEnumValue(Context.Instance.FieldAttributesFamily);
                         break;
-                    case Accessibility.ProtectedInternal:
+                    case Accessibility.ProtectedOrInternal:
                         fieldAttributes = GetEnumValue(Context.Instance.FieldAttributesFamORAssem);
                         break;
                     default:
@@ -377,10 +377,10 @@ namespace WootzJs.Compiler
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.FieldInfo));
         }
 
-        private JsExpression CreateMethodInfos(NamedTypeSymbol type, bool constructors)
+        private JsExpression CreateMethodInfos(INamedTypeSymbol type, bool constructors)
         {
             var result = Js.Array();
-            foreach (var method in type.GetMembers().OfType<MethodSymbol>())
+            foreach (var method in type.GetMembers().OfType<IMethodSymbol>())
             {
                 if (!method.IsExported())
                     continue;
@@ -393,7 +393,7 @@ namespace WootzJs.Compiler
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.MethodInfo));
         }
 
-        private JsExpression CreateMethodInfo(MethodSymbol method, bool constructor = false)
+        private JsExpression CreateMethodInfo(IMethodSymbol method, bool constructor = false)
         {
             JsExpression methodAttributes;
             switch (method.DeclaredAccessibility)
@@ -410,7 +410,7 @@ namespace WootzJs.Compiler
                 case Accessibility.Protected:
                     methodAttributes = GetEnumValue(Context.Instance.MethodAttributesFamily);
                     break;
-                case Accessibility.ProtectedInternal:
+                case Accessibility.ProtectedOrInternal:
                     methodAttributes = GetEnumValue(Context.Instance.MethodAttributesFamORAssem);
                     break;
                 default:
@@ -454,14 +454,14 @@ namespace WootzJs.Compiler
             return info;
         }
 
-        private JsExpression CreateParameterInfos(ParameterSymbol[] parameters)
+        private JsExpression CreateParameterInfos(IParameterSymbol[] parameters)
         {
             var result = Js.Array();
             for (var i = 0; i < parameters.Length; i++)
             {
                 var parameter = parameters[i];
                 JsExpression parameterAttributes = null;
-                if (parameter.HasDefaultValue)
+                if (parameter.HasExplicitDefaultValue)
                     parameterAttributes = GetEnumValue(Context.Instance.ParameterAttributesHasDefault);
                 if (parameter.RefKind == RefKind.Out)
                 {
@@ -478,14 +478,14 @@ namespace WootzJs.Compiler
                     Type(parameter.Type),
                     Js.Primitive(i), 
                     parameterAttributes,
-                    parameter.HasDefaultValue ? Js.Literal(parameter.DefaultValue) : Js.Null(),
+                    parameter.HasExplicitDefaultValue ? Js.Literal(parameter.ExplicitDefaultValue) : Js.Null(),
                     CreateAttributes(parameter));
                 result.Elements.Add(parameterInfo);
             }
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.ParameterInfo));
         }
 
-        private JsExpression CreateAttributes(Symbol symbol)
+        private JsExpression CreateAttributes(ISymbol symbol)
         {
             var result = Js.Array();
             foreach (var attribute in symbol.GetAttributes().Where(x => x.AttributeClass.IsExported()))
@@ -518,7 +518,7 @@ namespace WootzJs.Compiler
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.Attribute));
         }
 
-        public JsExpression CreateAssembly(AssemblySymbol assembly, JsExpression assemblyTypes)
+        public JsExpression CreateAssembly(IAssemblySymbol assembly, JsExpression assemblyTypes)
         {
             return CreateObject(
                 Context.Instance.AssemblyConstructor,
@@ -527,7 +527,7 @@ namespace WootzJs.Compiler
                 CreateAttributes(assembly));
         }
 
-        public JsInvocationExpression Get(JsExpression target, PropertySymbol property, params JsExpression[] arguments)
+        public JsInvocationExpression Get(JsExpression target, IPropertySymbol property, params JsExpression[] arguments)
         {
             return target.Member(property.GetMethod.GetMemberName()).Invoke(arguments);
         }
@@ -541,7 +541,7 @@ namespace WootzJs.Compiler
             {
                 foreach (var variable in field.Declaration.Variables)
                 {
-                    var fieldSymbol = (FieldSymbol)transformer.model.GetDeclaredSymbol(variable);
+                    var fieldSymbol = (IFieldSymbol)ModelExtensions.GetDeclaredSymbol(transformer.model, variable);
                     if (fieldSymbol.IsStatic)
                         result.Add(StoreInType(fieldSymbol.GetMemberName(), (JsExpression)variable.Initializer.Accept(transformer)));
                 }
@@ -549,11 +549,11 @@ namespace WootzJs.Compiler
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
             foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
             {
-                var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.GetKeyword);
-                var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.SetKeyword);
+                var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
+                var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
                 if (getter == null && setter == null)
                 {
-                    var property = model.GetDeclaredSymbol(node);
+                    var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
                     if (property.IsStatic)
                     {
                         var backingField = property.GetBackingFieldName();
@@ -574,7 +574,7 @@ namespace WootzJs.Compiler
             {
                 foreach (var variable in field.Declaration.Variables)
                 {
-                    var fieldSymbol = (FieldSymbol)transformer.model.GetDeclaredSymbol(variable);
+                    var fieldSymbol = (IFieldSymbol)ModelExtensions.GetDeclaredSymbol(transformer.model, variable);
                     if (!fieldSymbol.IsExported())
                         continue;
 
@@ -588,11 +588,11 @@ namespace WootzJs.Compiler
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
             foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
             {
-                var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.GetKeyword);
-                var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind == SyntaxKind.SetKeyword);
+                var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
+                var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
                 if (getter != null && setter != null && getter.Body == null && setter.Body == null)
                 {
-                    var property = model.GetDeclaredSymbol(node);
+                    var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
                     if (!property.IsStatic)
                     {
                         var backingField = property.GetBackingFieldName();
@@ -604,12 +604,12 @@ namespace WootzJs.Compiler
             return result;
         }
 
-        public JsExpressionStatement CreatePrototype(NamedTypeSymbol type, NamedTypeSymbol baseType)
+        public JsExpressionStatement CreatePrototype(INamedTypeSymbol type, INamedTypeSymbol baseType)
         {
             return CreatePrototype(Type(type), Type(baseType));
         }
 
-        public JsExpressionStatement CreatePrototype(NamedTypeSymbol type, JsExpression baseType)
+        public JsExpressionStatement CreatePrototype(INamedTypeSymbol type, JsExpression baseType)
         {
             return CreatePrototype(Type(type), baseType);
         }
@@ -645,12 +645,12 @@ namespace WootzJs.Compiler
             return Js.Express(Js.Assign(Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(typeMember), value));
         }
 
-        public JsInvocationExpression InvokeMethodAsThis(MethodSymbol method, params JsExpression[] arguments)
+        public JsInvocationExpression InvokeMethodAsThis(IMethodSymbol method, params JsExpression[] arguments)
         {
             return InvokeMethodAs(method, Js.This(), arguments);
         }
 
-        public JsInvocationExpression InvokeMethodAs(MethodSymbol method, JsExpression @this, params JsExpression[] arguments)
+        public JsInvocationExpression InvokeMethodAs(IMethodSymbol method, JsExpression @this, params JsExpression[] arguments)
         {
             var containingMember = Type(method.ContainingType);
             if (!method.IsStatic)
@@ -659,24 +659,24 @@ namespace WootzJs.Compiler
                 .Invoke(new[] { @this }.Concat(arguments).ToArray());
         }
 
-        public JsInvocationExpression Invoke(JsExpression target, MethodSymbol method, params JsExpression[] arguments)
+        public JsInvocationExpression Invoke(JsExpression target, IMethodSymbol method, params JsExpression[] arguments)
         {
             return target.Member(method.GetMemberName()).Invoke(arguments);
         }
 
-        public JsExpression GetMethodFunction(MethodSymbol method, bool forceUnconstructedScope = false)
+        public JsExpression GetMethodFunction(IMethodSymbol method, bool forceUnconstructedScope = false)
         {
             // Handle type arguments in the containing type
             JsExpression typeReference = Type(method.ContainingType, forceUnconstructedScope);
             return typeReference.Member("prototype").Member(method.GetMemberName());            
         }
 
-        public JsInvocationExpression InvokeStatic(MethodSymbol method, params JsExpression[] args)
+        public JsInvocationExpression InvokeStatic(IMethodSymbol method, params JsExpression[] args)
         {
             args = method.TypeArguments.Select(x => Type(x)).Concat(args).ToArray();
 
             JsExpression target;
-            if (method.ContainingType == Context.Instance.SpecialFunctions)
+            if (Equals(method.ContainingType, Context.Instance.SpecialFunctions))
                 target = Js.Reference(method.GetMemberName());
             else
                 target = Type(method.ContainingType).Member(method.GetMemberName());
@@ -691,7 +691,7 @@ namespace WootzJs.Compiler
         }
 */
 
-        public JsExpression[] TranslateArguments(MethodSymbol method, Func<JsExpression, int, bool> isArgumentArray, Func<JsExpression, int, string> getArgumentName, params JsExpression[] args)
+        public JsExpression[] TranslateArguments(IMethodSymbol method, Func<JsExpression, int, bool> isArgumentArray, Func<JsExpression, int, string> getArgumentName, params JsExpression[] args)
         {
             var isExported = method.IsExported();
 
@@ -709,7 +709,7 @@ namespace WootzJs.Compiler
                 var newArguments = new List<JsExpression>();
                 foreach (var parameter in method.Parameters)
                 {
-                    if (!parameter.HasDefaultValue)
+                    if (!parameter.HasExplicitDefaultValue)
                     {
                         newArguments.Add(remainingArguments.Dequeue());
                     }
@@ -717,7 +717,7 @@ namespace WootzJs.Compiler
                     {
                         if (!argumentsByName.ContainsKey(parameter.Name))
                         {
-                            newArguments.Add(Js.Literal(parameter.DefaultValue));
+                            newArguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
                         }
                         else
                         {
@@ -765,7 +765,7 @@ namespace WootzJs.Compiler
                     // If exported, then add all the rest of the arguments as an array
                     if (isExported)
                     {
-                        arguments.Add(MakeArray(Js.Array(remainingArguments.ToArray()), (ArrayTypeSymbol)parameter.Type));
+                        arguments.Add(MakeArray(Js.Array(remainingArguments.ToArray()), (IArrayTypeSymbol)parameter.Type));
                     }
                     // Otherwise, add all the rest of the arguments as ordinary arguments per the comment earlier about non exported types.
                     else
@@ -779,7 +779,7 @@ namespace WootzJs.Compiler
                     // If not exported, then it's a C# to Javascript transfer, and in Javascript land, default arguments are 
                     // always undefined. Thus we don't want to add default arguments for non-exported methods.
                     if (isExported)
-                        arguments.Add(Js.Literal(parameter.DefaultValue));
+                        arguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
                 }
                 else
                 {
@@ -789,7 +789,7 @@ namespace WootzJs.Compiler
             return arguments.ToArray();
         }
 
-        public JsExpression GetPropertyValue(JsExpression target, PropertySymbol property, bool isBaseReference = false)
+        public JsExpression GetPropertyValue(JsExpression target, IPropertySymbol property, bool isBaseReference = false)
         {
             bool isExported = property.IsExported();
             var propertyName = property.GetMemberName();
@@ -809,38 +809,38 @@ namespace WootzJs.Compiler
             }
         }
 
-        public JsExpression MemberReference(JsExpression @this, Symbol symbol, bool isSetter = false, bool isBaseReference = false)
+        public JsExpression MemberReference(JsExpression @this, ISymbol symbol, bool isSetter = false, bool isBaseReference = false)
         {
             switch (symbol.Kind)
             {
                 case SymbolKind.Field:
                 {
-                    var field = (FieldSymbol)symbol;
+                    var field = (IFieldSymbol)symbol;
                     var result = (JsExpression)@this.Member(field.GetMemberName());
 
-                    if (field.Type is ArrayTypeSymbol && !field.IsExported())
+                    if (field.Type is IArrayTypeSymbol && !field.IsExported())
                     {
-                        result = MakeArray(result, (ArrayTypeSymbol)field.Type);
+                        result = MakeArray(result, (IArrayTypeSymbol)field.Type);
                     }
 
                     return result;
                 }
                 case SymbolKind.Event:
                 {
-                    var field = (EventSymbol)symbol;
+                    var field = (IEventSymbol)symbol;
                     return @this.Member(field.GetBackingFieldName());
                 }
                 case SymbolKind.Property:
                 {
-                    var property = (PropertySymbol)symbol;
-                    if (property.ContainingType.IsGenericType && property.ContainingType.ConstructedFrom == Context.Instance.NullableType)
+                    var property = (IPropertySymbol)symbol;
+                    if (property.ContainingType.IsGenericType && Equals(property.ContainingType.ConstructedFrom, Context.Instance.NullableType))
                     {
-                        property = (PropertySymbol)property.OriginalDefinition;
-                        if (property == Context.Instance.NullableHasValue)
+                        property = (IPropertySymbol)property.OriginalDefinition;
+                        if (Equals(property, Context.Instance.NullableHasValue))
                         {
                             return @this.NotEqualTo(Js.Null()).Parenthetical();
                         }
-                        else if (property == Context.Instance.NullableValue)
+                        else if (Equals(property, Context.Instance.NullableValue))
                         {
                             return @this;
                         }
@@ -851,7 +851,7 @@ namespace WootzJs.Compiler
                 case SymbolKind.Parameter:
                     return transformer.ReferenceDeclarationInScope(symbol.Name).GetReference();
                 case SymbolKind.NamedType:
-                    var namedTypeSymbol = (NamedTypeSymbol)symbol;
+                    var namedTypeSymbol = (INamedTypeSymbol)symbol;
                     var type = Type(namedTypeSymbol);
                     if (!(type is JsInvocationExpression) && namedTypeSymbol.IsExported())
                         type = type.Invoke();
@@ -861,11 +861,11 @@ namespace WootzJs.Compiler
                     return !isSetter ? declaration.GetReference() : declaration.SetReference();
                 case SymbolKind.Method:
                 {
-                    var method = (MethodSymbol)symbol;
+                    var method = (IMethodSymbol)symbol;
                     var containingSymbol = symbol.ContainingType;
                     var name = method.GetMemberName();
                     var target = method.IsStatic ? Type(containingSymbol) : @this;
-                    if (method.ContainingType == containingSymbol)
+                    if (Equals(method.ContainingType, containingSymbol))
                     {
                         return target.Member(name);
                     }
@@ -981,18 +981,18 @@ namespace WootzJs.Compiler
             return Wrap(wrapper);
         }
 
-        public bool TryAccessorAssignment(SyntaxKind type, Symbol leftSymbol, Symbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryAccessorAssignment(SyntaxKind type, ISymbol leftSymbol, ISymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             // Special handling for property and event assignments, since those have to be translated to a set/add/remove_PropertyName invocation.
-            if (type == SyntaxKind.AssignExpression || type == SyntaxKind.AddAssignExpression || type == SyntaxKind.SubtractAssignExpression)
+            if (type == SyntaxKind.SimpleAssignmentExpression || type == SyntaxKind.AddAssignmentExpression || type == SyntaxKind.SubtractAssignmentExpression)
             {
-                if (leftSymbol is PropertySymbol || leftSymbol is EventSymbol)
+                if (leftSymbol is IPropertySymbol || leftSymbol is IEventSymbol)
                 {
                     var isExported = leftSymbol.IsExported();
                     var nameOverride = leftSymbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
                     var target = left.GetLogicalTarget();
                     var arguments = new List<JsExpression>();
-                    var property = leftSymbol as PropertySymbol;
+                    var property = leftSymbol as IPropertySymbol;
                     var isCall = false;
                     if (left is JsInvocationExpression)
                     {
@@ -1012,15 +1012,15 @@ namespace WootzJs.Compiler
                     arguments.Add(right);
                     if (isExported)
                     {
-                        MethodSymbol methodSymbol;
-                        if (leftSymbol is PropertySymbol)
-                            methodSymbol = ((PropertySymbol)leftSymbol).SetMethod;
+                        IMethodSymbol methodSymbol;
+                        if (leftSymbol is IPropertySymbol)
+                            methodSymbol = ((IPropertySymbol)leftSymbol).SetMethod;
                         else
                         {
-                            var @event = (EventSymbol)leftSymbol;
+                            var @event = (IEventSymbol)leftSymbol;
                             switch (type)
                             {
-                                case SyntaxKind.AddAssignExpression:
+                                case SyntaxKind.AddAssignmentExpression:
                                     methodSymbol = @event.AddMethod;
                                     break;
                                 default:
@@ -1034,7 +1034,7 @@ namespace WootzJs.Compiler
                         result = target.Invoke(arguments.ToArray());
                         return true;
                     }
-                    else if (nameOverride != null && property != null && property.SetMethod.Parameters.Count > 1)
+                    else if (nameOverride != null && property != null && property.SetMethod.Parameters.Count() > 1)
                     {
                         result = target.Member(nameOverride).Invoke(arguments.ToArray());
                         return true;
@@ -1045,11 +1045,11 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryIsExpression(SyntaxKind type, Symbol leftSymbol, Symbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryIsExpression(SyntaxKind type, ISymbol leftSymbol, ISymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if (type == SyntaxKind.IsExpression)
             {
-                var operand = (TypeSymbol)rightSymbol;
+                var operand = (ITypeSymbol)rightSymbol;
                 result = Invoke(Type(operand).Member(SpecialNames.GetTypeFromType).Invoke(), Context.Instance.TypeIsInstanceOfType, left);
                 return true;
             }
@@ -1059,7 +1059,7 @@ namespace WootzJs.Compiler
 
         public bool TryCharUnaryExpression(SyntaxKind type, TypeInfo operandType, JsExpression operand, out JsExpression result)
         {
-            if (operandType.Type == Context.Instance.Char)
+            if (Equals(operandType.Type, Context.Instance.Char))
             {
                 switch (type)
                 {
@@ -1104,7 +1104,7 @@ namespace WootzJs.Compiler
 
         public bool TryCharBinaryExpression(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
-            if (leftSymbol.Type == Context.Instance.Char || rightSymbol.Type == Context.Instance.Char)
+            if (Equals(leftSymbol.Type, Context.Instance.Char) || Equals(rightSymbol.Type, Context.Instance.Char))
             {
                 switch (type)
                 {
@@ -1122,23 +1122,23 @@ namespace WootzJs.Compiler
                     case SyntaxKind.LeftShiftExpression:
                     case SyntaxKind.RightShiftExpression:
                     case SyntaxKind.ExclusiveOrExpression:
-                    case SyntaxKind.AddAssignExpression:
-                    case SyntaxKind.SubtractAssignExpression:
-                    case SyntaxKind.MultiplyAssignExpression:
-                    case SyntaxKind.DivideAssignExpression:
-                    case SyntaxKind.ModuloAssignExpression:
+                    case SyntaxKind.AddAssignmentExpression:
+                    case SyntaxKind.SubtractAssignmentExpression:
+                    case SyntaxKind.MultiplyAssignmentExpression:
+                    case SyntaxKind.DivideAssignmentExpression:
+                    case SyntaxKind.ModuloAssignmentExpression:
                         result = Js.Binary(
-                            ToBinaryOperator(type).Value, 
-                            leftSymbol.Type != Context.Instance.Char ? left : left.Member("charCodeAt").Invoke(Js.Primitive(0)),
-                            rightSymbol.Type != Context.Instance.Char ? right : right.Member("charCodeAt").Invoke(Js.Primitive(0))
+                            ToBinaryOperator(type).Value,
+                            !Equals(leftSymbol.Type, Context.Instance.Char) ? left : left.Member("charCodeAt").Invoke(Js.Primitive(0)),
+                            !Equals(rightSymbol.Type, Context.Instance.Char) ? right : right.Member("charCodeAt").Invoke(Js.Primitive(0))
                         );
                         switch (type)
                         {
-                            case SyntaxKind.AddAssignExpression:
-                            case SyntaxKind.SubtractAssignExpression:
-                            case SyntaxKind.MultiplyAssignExpression:
-                            case SyntaxKind.DivideAssignExpression:
-                            case SyntaxKind.ModuloAssignExpression:
+                            case SyntaxKind.AddAssignmentExpression:
+                            case SyntaxKind.SubtractAssignmentExpression:
+                            case SyntaxKind.MultiplyAssignmentExpression:
+                            case SyntaxKind.DivideAssignmentExpression:
+                            case SyntaxKind.ModuloAssignmentExpression:
                                 result = Js.Assign(left, Js.Reference("String").Member("fromCharCode").Invoke(result));
                                 break;
                         }
@@ -1152,12 +1152,12 @@ namespace WootzJs.Compiler
         public bool TryStringConcatenation(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if (type == SyntaxKind.AddExpression && 
-                (leftSymbol.ConvertedType == Context.Instance.String || rightSymbol.ConvertedType == Context.Instance.String) &&
-                (leftSymbol.ConvertedType != Context.Instance.String || rightSymbol.ConvertedType != Context.Instance.String))
+                (Equals(leftSymbol.ConvertedType, Context.Instance.String) || Equals(rightSymbol.ConvertedType, Context.Instance.String)) &&
+                (!Equals(leftSymbol.ConvertedType, Context.Instance.String) || !Equals(rightSymbol.ConvertedType, Context.Instance.String)))
             {
-                if (leftSymbol.ConvertedType != Context.Instance.String)
+                if (!Equals(leftSymbol.ConvertedType, Context.Instance.String))
                     left = InvokeStatic(Context.Instance.SafeToString, left);
-                if (rightSymbol.ConvertedType != Context.Instance.String)
+                if (!Equals(rightSymbol.ConvertedType, Context.Instance.String))
                     right = InvokeStatic(Context.Instance.SafeToString, right);
 
                 result = Js.Binary(JsBinaryOperator.Add, left, right);
@@ -1167,7 +1167,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public JsExpression EnumBitwise(SyntaxKind type, TypeSymbol enumType, JsExpression left, JsExpression right)
+        public JsExpression EnumBitwise(SyntaxKind type, ITypeSymbol enumType, JsExpression left, JsExpression right)
         {
             JsExpression result;
             if (TryEnumBitwise(type, enumType, enumType, left, right, out result))
@@ -1176,7 +1176,7 @@ namespace WootzJs.Compiler
                 throw new Exception();
         }
 
-        public bool TryEnumBitwise(SyntaxKind type, TypeSymbol leftSymbol, TypeSymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryEnumBitwise(SyntaxKind type, ITypeSymbol leftSymbol, ITypeSymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if ((type == SyntaxKind.BitwiseOrExpression || type == SyntaxKind.BitwiseAndExpression) && 
                 (leftSymbol.TypeKind == TypeKind.Enum && rightSymbol.TypeKind == TypeKind.Enum))
@@ -1191,7 +1191,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryEnumEquality(SyntaxKind type, TypeSymbol leftSymbol, TypeSymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryEnumEquality(SyntaxKind type, ITypeSymbol leftSymbol, ITypeSymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             var leftIsEnum = (leftSymbol != null && leftSymbol.TypeKind == TypeKind.Enum);
             var rightIsEnum = (rightSymbol != null && rightSymbol.TypeKind == TypeKind.Enum);
@@ -1216,7 +1216,7 @@ namespace WootzJs.Compiler
             JsBinaryOperator op;
             switch (kind)
             {
-                case SyntaxKind.AssignExpression:
+                case SyntaxKind.SimpleAssignmentExpression:
                     op = JsBinaryOperator.Assign;
                     break;
                 case SyntaxKind.EqualsExpression:
@@ -1270,19 +1270,19 @@ namespace WootzJs.Compiler
                 case SyntaxKind.RightShiftExpression:
                     op = JsBinaryOperator.ShiftRight;
                     break;
-                case SyntaxKind.AddAssignExpression:
+                case SyntaxKind.AddAssignmentExpression:
                     op = JsBinaryOperator.AddAssign;
                     break;
-                case SyntaxKind.SubtractAssignExpression:
+                case SyntaxKind.SubtractAssignmentExpression:
                     op = JsBinaryOperator.SubtractAssign;
                     break;
-                case SyntaxKind.MultiplyAssignExpression:
+                case SyntaxKind.MultiplyAssignmentExpression:
                     op = JsBinaryOperator.MultiplyAssign;
                     break;
-                case SyntaxKind.DivideAssignExpression:
+                case SyntaxKind.DivideAssignmentExpression:
                     op = JsBinaryOperator.DivideAssign;
                     break;
-                case SyntaxKind.ModuloAssignExpression:
+                case SyntaxKind.ModuloAssignmentExpression:
                     op = JsBinaryOperator.ModulusAssign;
                     break;
                 case SyntaxKind.CoalesceExpression:
@@ -1297,11 +1297,11 @@ namespace WootzJs.Compiler
             return op;
         }
 
-        public bool TryAsExpression(SyntaxKind type, Symbol leftSymbol, Symbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryAsExpression(SyntaxKind type, ISymbol leftSymbol, ISymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if (type == SyntaxKind.AsExpression)
             {
-                var operand = (TypeSymbol)rightSymbol;
+                var operand = (ITypeSymbol)rightSymbol;
                 var asBody = new JsBlockStatement();
                 var asVariable = Js.Variable("$as$", left);
                 asBody.Local(asVariable);
@@ -1319,7 +1319,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryBaseMethodInvocation(InvocationExpressionSyntax node, MethodSymbol method, JsExpression[] arguments, out JsExpression result)
+        public bool TryBaseMethodInvocation(InvocationExpressionSyntax node, IMethodSymbol method, JsExpression[] arguments, out JsExpression result)
         {
             if (node.Expression is MemberAccessExpressionSyntax)
             {
@@ -1336,10 +1336,10 @@ namespace WootzJs.Compiler
         }
 
         // Special compiler handler of AsExtension -- we just inline the call since it's just sugar for substituting types.
-        public bool TryUnwrapAsExpression(MethodSymbol method, JsExpression target, JsExpression[] arguments, out JsExpression result)
+        public bool TryUnwrapAsExpression(IMethodSymbol method, JsExpression target, JsExpression[] arguments, out JsExpression result)
         {
             var methodClass = method.ContainingType;
-            if (methodClass == Context.Instance.AsExtensionType)
+            if (Equals(methodClass, Context.Instance.AsExtensionType))
             {
                 if (arguments.Length == 1)
                 {
@@ -1357,13 +1357,13 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryNullableGetValueOrDefault(MethodSymbol method, JsExpression target, out JsExpression result)
+        public bool TryNullableGetValueOrDefault(IMethodSymbol method, JsExpression target, out JsExpression result)
         {
             // Special compiler handler for Nullable.GetValueOrDefault
-            if (method.ContainingType.IsGenericType && method.ContainingType.ConstructedFrom == Context.Instance.NullableType) 
+            if (method.ContainingType.IsGenericType && Equals(method.ContainingType.ConstructedFrom, Context.Instance.NullableType)) 
             {
                 var constructedMethod = method.OriginalDefinition;
-                if (constructedMethod == Context.Instance.NullableGetValueOrDefault)
+                if (Equals(constructedMethod, Context.Instance.NullableGetValueOrDefault))
                 {
                     result = ((JsMemberReferenceExpression)target).Target;
                     return true;
@@ -1373,7 +1373,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryReferenceEquals(MethodSymbol method, JsExpression[] arguments, out JsExpression result)
+        public bool TryReferenceEquals(IMethodSymbol method, JsExpression[] arguments, out JsExpression result)
         {
             // Special compiler handler for ReferenceEquals (since there is no native operator overloading, == comparisons
             // are always reference comparisons.
@@ -1386,7 +1386,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryEnumToString(MethodSymbol method, JsExpression target, JsExpression methodTarget, TypeSymbol targetType, JsExpression[] arguments, out JsExpression result)
+        public bool TryEnumToString(IMethodSymbol method, JsExpression target, JsExpression methodTarget, ITypeSymbol targetType, JsExpression[] arguments, out JsExpression result)
         {
 /*
             if (method.Name == "ToString" && targetType != null && targetType.TypeKind == TypeKind.Enum)
@@ -1408,15 +1408,15 @@ namespace WootzJs.Compiler
             }
             else
             {
-                var memberArgSymbol = transformer.model.GetSymbolInfo(expression).Symbol;
-                s = (string)((FieldSymbol)memberArgSymbol).ConstantValue;
+                var memberArgSymbol = ModelExtensions.GetSymbolInfo(transformer.model, expression).Symbol;
+                s = (string)((IFieldSymbol)memberArgSymbol).ConstantValue;
             }
             return s;
         }
 
-        public bool TryUnwrapJsFunctionInvoke(MethodSymbol method, InvocationExpressionSyntax invocation, JsExpression methodTarget, JsExpression[] arguments, out JsExpression result)
+        public bool TryUnwrapJsFunctionInvoke(IMethodSymbol method, InvocationExpressionSyntax invocation, JsExpression methodTarget, JsExpression[] arguments, out JsExpression result)
         {
-            if (method.ContainingType == Context.Instance.JsFunction && method.Name == "invoke")
+            if (Equals(method.ContainingType, Context.Instance.JsFunction) && method.Name == "invoke")
             {
                 result = methodTarget.Invoke(arguments);
                 return true;
@@ -1428,12 +1428,12 @@ namespace WootzJs.Compiler
         public bool TryUnwrapSpecialFunctions(ClassDeclarationSyntax classDeclaration, JsBlockStatement block)
         {
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-            var type = model.GetDeclaredSymbol(classDeclaration);
-            if (type == Context.Instance.SpecialFunctions)
+            var type = ModelExtensions.GetDeclaredSymbol(model, classDeclaration);
+            if (Equals(type, Context.Instance.SpecialFunctions))
             {
                 foreach (var method in classDeclaration.Members.OfType<MethodDeclarationSyntax>())
                 {
-                    var methodSymbol = model.GetDeclaredSymbol(method);
+                    var methodSymbol = ModelExtensions.GetDeclaredSymbol(model, method);
                     transformer.PushDeclaration(methodSymbol);
                     transformer.PushScope(methodSymbol);
                     transformer.PushOutput(block);
@@ -1454,10 +1454,10 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryUnwrapJsniExpression(MethodSymbol method, ExpressionSyntax originalTarget, ExpressionSyntax[] originalArguments, JsExpression target, JsExpression[] arguments, out JsExpression result)
+        public bool TryUnwrapJsniExpression(IMethodSymbol method, ExpressionSyntax originalTarget, ExpressionSyntax[] originalArguments, JsExpression target, JsExpression[] arguments, out JsExpression result)
         {
             // Special compiler handler of Jsni -- these are special methods that translate into otherwise inexpressible javascript
-            if (method.ContainingType == Context.Instance.JsniType)
+            if (Equals(method.ContainingType, Context.Instance.JsniType))
             {
                 if (method.ReducedFrom != null && method.ReducedFrom != method)
                 {
@@ -1475,7 +1475,7 @@ namespace WootzJs.Compiler
                             // First argument is an Action -- we want to deconstruct it to extract the target and method name.
                             var body = originalArguments[0].GetBody();
                             var lambdaInvocation = (InvocationExpressionSyntax)body;
-                            var lambdaMethod = (MethodSymbol)transformer.model.GetSymbolInfo(lambdaInvocation).Symbol;
+                            var lambdaMethod = (IMethodSymbol)ModelExtensions.GetSymbolInfo(transformer.model, lambdaInvocation).Symbol;
                             result = Type(lambdaMethod.ContainingType).Member("prototype").Member(lambdaMethod.GetMemberName()).Member("apply").Invoke(arguments[1], arguments[2]);
                             return true;
                         }
@@ -1492,7 +1492,7 @@ namespace WootzJs.Compiler
                             // First argument is an Action -- we want to deconstruct it to extract the target and method name.
                             var body = originalArguments[0].GetBody();
                             var lambdaInvocation = (InvocationExpressionSyntax)body;
-                            var lambdaMethod = (MethodSymbol)transformer.model.GetSymbolInfo(lambdaInvocation).Symbol;
+                            var lambdaMethod = (IMethodSymbol)ModelExtensions.GetSymbolInfo(transformer.model, lambdaInvocation).Symbol;
                             result = Type(lambdaMethod.ContainingType).Member("prototype").Member(lambdaMethod.GetMemberName()).Member("call").Invoke(arguments.Skip(1).ToArray());
                             return true;
                         }
@@ -1652,7 +1652,7 @@ namespace WootzJs.Compiler
             if (expression is InvocationExpressionSyntax)
             {
                 var jsniInvocation = (InvocationExpressionSyntax)expression;
-                var method = (MethodSymbol)Context.Instance.Compilation.GetSemanticModel(expression.SyntaxTree).GetSymbolInfo(jsniInvocation).Symbol;
+                var method = (IMethodSymbol)ModelExtensions.GetSymbolInfo(Context.Instance.Compilation.GetSemanticModel(expression.SyntaxTree), jsniInvocation).Symbol;
                 var arguments = jsniInvocation.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(transformer)).ToArray();
 
                 if (method.ReducedFrom != null && method.ReducedFrom != method)
@@ -1663,7 +1663,7 @@ namespace WootzJs.Compiler
                     arguments = new[] { methodTarget }.Concat(arguments).ToArray();
                 }
 
-                if (method != null && method.ContainingType == Context.Instance.JsniType)
+                if (method != null && Equals(method.ContainingType, Context.Instance.JsniType))
                 {
                     switch (method.Name)
                     {
@@ -1680,12 +1680,12 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public void InstrumentRefAndOutParameters(MethodSymbol method, List<JsExpression> arguments, List<JsStatement> prependers, List<JsStatement> appenders)
+        public void InstrumentRefAndOutParameters(IMethodSymbol method, List<JsExpression> arguments, List<JsStatement> prependers, List<JsStatement> appenders)
         {
             // It's a ref or out parameter, we need somewhere to store the value and instrument the arguments
             if (method.Parameters.Any(x => x.RefKind != RefKind.None))
             {
-                for (var i = 0; i < method.Parameters.Count; i++)
+                for (var i = 0; i < method.Parameters.Count(); i++)
                 {
                     var parameter = method.Parameters[i];
                     if (parameter.RefKind != RefKind.None)
@@ -1702,7 +1702,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        public bool TryApplyRefAndOutParametersAfterInvocation(MethodSymbol method, JsInvocationExpression invocation, out JsExpression result, List<JsStatement> prependers, List<JsStatement> appenders)
+        public bool TryApplyRefAndOutParametersAfterInvocation(IMethodSymbol method, JsInvocationExpression invocation, out JsExpression result, List<JsStatement> prependers, List<JsStatement> appenders)
         {
             // Finishing special handling of ref/out parameters -- doing the actual function wrapping here now that we
             // have the invocation.
@@ -1724,7 +1724,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public JsExpression SpecialTypeOnlyForEnclosingTypes(TypeSymbol type)
+        public JsExpression SpecialTypeOnlyForEnclosingTypes(ITypeSymbol type)
         {
             if (type.ContainingType != null)
             {
@@ -1736,12 +1736,12 @@ namespace WootzJs.Compiler
             }
         }
 
-        public JsExpression MakeArrayType(TypeSymbol elementType)
+        public JsExpression MakeArrayType(ITypeSymbol elementType)
         {
             return Js.Reference(SpecialNames.MakeArrayType).Invoke(Type(elementType));
         }
 
-        public JsExpression TypeOf(TypeSymbol type)
+        public JsExpression TypeOf(ITypeSymbol type)
         {
             var typeExpression = Type(type);
 //            if (type.IsExported() && !type.IsBuiltIn() && !(type is TypeParameterSymbol))
@@ -1749,11 +1749,11 @@ namespace WootzJs.Compiler
             return typeExpression.Member(SpecialNames.GetTypeFromType).Invoke();
         }
 
-        public JsExpression Type(TypeSymbol type, bool forceUnconstructedScope = false)
+        public JsExpression Type(ITypeSymbol type, bool forceUnconstructedScope = false)
         {
-            if (type is ArrayTypeSymbol)
+            if (type is IArrayTypeSymbol)
             {
-                var arrayType = (ArrayTypeSymbol)type;
+                var arrayType = (IArrayTypeSymbol)type;
                 var elementType = arrayType.ElementType;
 /*
                 if (elementType is TypeParameterSymbol && forceUnconstructedScope)
@@ -1769,13 +1769,13 @@ namespace WootzJs.Compiler
             if (explicitName != null)
                 return Js.Reference(explicitName);
 
-            var typeParameter = type as TypeParameterSymbol;
+            var typeParameter = type as ITypeParameterSymbol;
             if (typeParameter != null && typeParameter.DeclaringType != null)
             {
                 return Js.Reference(type.Name);
 //                return Js.This().Member(SpecialNames.TypeArgs).Index(Js.Primitive(type.Name));
             }
-            var namedTypeSymbol = type as NamedTypeSymbol;
+            var namedTypeSymbol = type as INamedTypeSymbol;
             if (namedTypeSymbol != null)
             {
                 if ((namedTypeSymbol.HasOrIsEnclosedInGenericParameters()) && !forceUnconstructedScope && !namedTypeSymbol.IsUnboundGenericType)
@@ -1823,17 +1823,17 @@ namespace WootzJs.Compiler
             }
         }
 
-        public JsBlockStatement InitializeConstructor(NamedTypeSymbol type, string constructorName, string[] parameterNames)
+        public JsBlockStatement InitializeConstructor(INamedTypeSymbol type, string constructorName, string[] parameterNames)
         {
-            return InitializeConstructor(type, constructorName, parameterNames.Select(x => Tuple.Create(x, (ParameterSymbol)null)).ToArray());
+            return InitializeConstructor(type, constructorName, parameterNames.Select(x => Tuple.Create(x, (IParameterSymbol)null)).ToArray());
         }
 
-        public JsBlockStatement InitializeConstructor(NamedTypeSymbol type, string constructorName, ParameterSymbol[] parameters)
+        public JsBlockStatement InitializeConstructor(INamedTypeSymbol type, string constructorName, IParameterSymbol[] parameters)
         {
             return InitializeConstructor(type, constructorName, parameters.Select(x => Tuple.Create(x.Name, x)).ToArray());
         }
 
-        private JsBlockStatement InitializeConstructor(NamedTypeSymbol type, string constructorName, Tuple<string, ParameterSymbol>[] parameters)
+        private JsBlockStatement InitializeConstructor(INamedTypeSymbol type, string constructorName, Tuple<string, IParameterSymbol>[] parameters)
         {
             var parameterNames = parameters.Select(x => x.Item1);
             JsExpression[] arguments;
@@ -1854,7 +1854,7 @@ namespace WootzJs.Compiler
             return block;
         }
 
-        public JsExpression GetEnumValue(params FieldSymbol[] enumFields)
+        public JsExpression GetEnumValue(params IFieldSymbol[] enumFields)
         {
             JsExpression current = null;
             foreach (var enumField in enumFields)
@@ -1869,21 +1869,21 @@ namespace WootzJs.Compiler
             return current;
         }
 
-        public JsExpression MemberOf(Symbol symbol)
+        public JsExpression MemberOf(ISymbol symbol)
         {
-            if (symbol is FieldSymbol)
+            if (symbol is IFieldSymbol)
             {
-                var field = (FieldSymbol)symbol;
+                var field = (IFieldSymbol)symbol;
                 return Invoke(TypeOf(field.ContainingType), Context.Instance.GetField, Js.Primitive(field.Name));
             }
-            else if (symbol is PropertySymbol)
+            else if (symbol is IPropertySymbol)
             {
-                var property = (PropertySymbol)symbol;
+                var property = (IPropertySymbol)symbol;
                 return Invoke(TypeOf(property.ContainingType), Context.Instance.GetProperty, Js.Primitive(property.Name));
             }
-            else if (symbol is MethodSymbol)
+            else if (symbol is IMethodSymbol)
             {
-                var method = (MethodSymbol)symbol;
+                var method = (IMethodSymbol)symbol;
                 if (method.MethodKind == MethodKind.Constructor)
                 {
                     return Invoke(TypeOf(method.ContainingType), Context.Instance.GetConstructor, Js.Array(method.Parameters.Select(x => TypeOf(x.Type)).ToArray()));
@@ -1899,19 +1899,19 @@ namespace WootzJs.Compiler
             }
         }
 
-        public JsInvocationExpression Array(ArrayTypeSymbol arrayType, params JsExpression[] elements)
+        public JsInvocationExpression Array(IArrayTypeSymbol arrayType, params JsExpression[] elements)
         {
             return MakeArray(Js.Array(elements), arrayType);
         }
 
-        public JsInvocationExpression MakeArray(JsExpression array, ArrayTypeSymbol arrayType)
+        public JsInvocationExpression MakeArray(JsExpression array, IArrayTypeSymbol arrayType)
         {
             return Js.Reference(SpecialNames.InitializeArray).Invoke(
                 array,
                 Type(arrayType.ElementType));
         }
 
-        public JsExpression DefaultValue(TypeSymbol type)
+        public JsExpression DefaultValue(ITypeSymbol type)
         {
             JsExpression value;
             switch (type.SpecialType)
@@ -1936,9 +1936,9 @@ namespace WootzJs.Compiler
                     value = Js.Primitive("\0");
                     break;
                 default:
-                    if (type.BaseType == Context.Instance.EnumType)
+                    if (Equals(type.BaseType, Context.Instance.EnumType))
                         value = Js.Primitive(0);
-                    else if (type is TypeParameterSymbol)
+                    else if (type is ITypeParameterSymbol)
                         value = InvokeStatic(Context.Instance.DefaultOf, Js.Reference(type.Name));
                     else
                         value = Js.Null();
@@ -1948,16 +1948,16 @@ namespace WootzJs.Compiler
             return value;
         }
 
-        public JsExpression InvokeParameterlessBaseClassConstructor(NamedTypeSymbol baseType)
+        public JsExpression InvokeParameterlessBaseClassConstructor(INamedTypeSymbol baseType)
         {
-            var baseConstructor = baseType.InstanceConstructors.SingleOrDefault(x => x.Parameters.Count == 0);
+            var baseConstructor = baseType.InstanceConstructors.SingleOrDefault(x => x.Parameters.Count() == 0);
             var arguments = new List<JsExpression>();
             if (baseConstructor == null)
             {
-                baseConstructor = baseType.InstanceConstructors.Single(x => x.Parameters[0].HasDefaultValue);
+                baseConstructor = baseType.InstanceConstructors.Single(x => x.Parameters[0].HasExplicitDefaultValue);
                 arguments.AddRange(baseConstructor.Parameters
-                    .Where(x => x.HasDefaultValue)
-                    .Select(x => Js.Literal(x.DefaultValue)));
+                    .Where(x => x.HasExplicitDefaultValue)
+                    .Select(x => Js.Literal(x.ExplicitDefaultValue)));
             }
             return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
         }

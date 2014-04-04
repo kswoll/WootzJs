@@ -27,7 +27,9 @@
 
 using System;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
@@ -46,12 +48,12 @@ namespace WootzJs.Compiler
             {
                 if (variable.Initializer != null)
                 {
-                    var assignment = Syntax.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
+                    var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
                     currentState.Add(Cs.Express(assignment));
                 }
 
                 // Hoist the variable into a field
-                var symbol = (LocalSymbol)semanticModel.GetDeclaredSymbol(variable);
+                var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, variable);
                 node = (LocalDeclarationStatementSyntax)HoistVariable(node, variable.Identifier, symbol.Type.ToTypeSyntax());
             }
         }
@@ -60,7 +62,7 @@ namespace WootzJs.Compiler
         {
             var nextState = GetNextState(node);
 
-            if (node.ReturnOrBreakKeyword.Kind == SyntaxKind.BreakKeyword)
+            if (node.ReturnOrBreakKeyword.IsKind(SyntaxKind.BreakKeyword))
             {
                 currentState.Add(ChangeState(nextState));
                 currentState.Add(Cs.Return(Cs.False()));
@@ -94,28 +96,28 @@ namespace WootzJs.Compiler
                 var tryState = currentState;
                 tryState.NextState = nextState;
 
-                var exceptionName = Syntax.Identifier("$ex" + exceptionNameCounter++);
+                var exceptionName = SyntaxFactory.Identifier("$ex" + exceptionNameCounter++);
                 var finallyState = new State(this) { NextState = nextState, BreakState = nextState };
                 foreach (var finallyStatement in node.Finally.Block.Statements)
                     finallyState.Add(finallyStatement);
                 finallyState.Add(Cs.If(Cs.This().Member(exceptionName).NotEqualTo(Cs.Null()), Cs.Throw(Cs.This().Member(exceptionName))));
                 Close(finallyState);
 
-                node = (TryStatementSyntax)HoistVariable(node, exceptionName, Syntax.ParseTypeName("System.Exception"));
+                node = (TryStatementSyntax)HoistVariable(node, exceptionName, SyntaxFactory.ParseTypeName("System.Exception"));
 
                 tryState.NextState = finallyState;
                 tryState.Germ = yieldState =>
                 {
-                    var gotoFinally = Syntax.Block(
-                        Cs.Express(Cs.This().Member(exceptionName).Assign(Syntax.IdentifierName(exceptionName))),
+                    var gotoFinally = SyntaxFactory.Block(
+                        Cs.Express(Cs.This().Member(exceptionName).Assign(SyntaxFactory.IdentifierName(exceptionName))),
                         ChangeState(finallyState), 
                         GotoTop()
                     );
 
                     var statements = yieldState.Statements.ToArray();
                     yieldState.Statements.Clear();
-                    yieldState.Statements.Add(Cs.Try().WithBlock(Cs.Block(statements)).WithCatches(
-                        Syntax.CatchClause(Syntax.CatchDeclaration(Syntax.ParseTypeName("System.Exception"), exceptionName), gotoFinally)));
+                    yieldState.Statements.Add(Cs.Try().WithBlock(Cs.Block(statements)).WithCatches(SyntaxFactory.List(new[] {
+                        SyntaxFactory.CatchClause(SyntaxFactory.CatchDeclaration(SyntaxFactory.ParseTypeName("System.Exception"), exceptionName), null, gotoFinally) })));
                 };
 
                 node.Block.Accept(this);
@@ -175,7 +177,7 @@ namespace WootzJs.Compiler
                 iterationState.NextState = nextState;
                 iterationState.BreakState = nextState;
 
-                node = node.WithStatement(Syntax.Block(CaptureState(node.Statement, iterationState, nextState)));
+                node = node.WithStatement(SyntaxFactory.Block(CaptureState(node.Statement, iterationState, nextState)));
                 iterationState.Statements.Add(node);
 
                 Close(iterationState);
@@ -199,13 +201,13 @@ namespace WootzJs.Compiler
                 {
                     foreach (var variable in node.Declaration.Variables.Where(x => x.Initializer != null))
                     {
-                        var assignment = Syntax.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
+                        var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
                         currentState.Add(Cs.Express(assignment));
 
-                        var symbol = (LocalSymbol)semanticModel.GetDeclaredSymbol(variable);
+                        var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, variable);
 
                         // Hoist the variable into a field
-                        node = (ForStatementSyntax)HoistVariable(node, variable.Identifier, Syntax.ParseTypeName(symbol.Type.GetFullName()));
+                        node = (ForStatementSyntax)HoistVariable(node, variable.Identifier, SyntaxFactory.ParseTypeName(symbol.Type.GetFullName()));
                     }
                 }
                 foreach (var initializer in node.Initializers)
@@ -240,7 +242,7 @@ namespace WootzJs.Compiler
                 iterationState.NextState = nextState;
                 iterationState.BreakState = nextState;
 
-                var forStatement = Syntax.WhileStatement(node.Condition ?? Cs.True(), Syntax.Block(CaptureState(node.Statement, postState, nextState)));
+                var forStatement = SyntaxFactory.WhileStatement(node.Condition ?? Cs.True(), SyntaxFactory.Block(CaptureState(node.Statement, postState, nextState)));
                 iterationState.Statements.Add(forStatement);
 
                 Close(iterationState);
@@ -259,21 +261,21 @@ namespace WootzJs.Compiler
             {
                 // Convert the variable declaration in the for loop
                 var semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
-                var symbol = semanticModel.GetDeclaredSymbol(node);
-                var targetType = semanticModel.GetTypeInfo(node.Expression);
+                var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, node);
+                var targetType = ModelExtensions.GetTypeInfo(semanticModel, node.Expression);
 
                 // Hoist the variable into a field
                 node = (ForEachStatementSyntax)HoistVariable(node, node.Identifier, symbol.Type.ToTypeSyntax());
 
                 // Hoist the enumerator into a field
-                var enumerator = Syntax.Identifier(node.Identifier + "$enumerator");
+                var enumerator = SyntaxFactory.Identifier(node.Identifier + "$enumerator");
                 var genericEnumeratorType = compilation.FindType("System.Collections.Generic.IEnumerable`1");
                 var elementType = targetType.ConvertedType.GetGenericArgument(genericEnumeratorType, 0);
                 var enumeratorType = elementType == null ?
-                    Syntax.ParseTypeName("System.Collections.IEnumerator") :
-                    Syntax.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
+                    SyntaxFactory.ParseTypeName("System.Collections.IEnumerator") :
+                    SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
                 node = (ForEachStatementSyntax)HoistVariable(node, enumerator, enumeratorType);
-                currentState.Add(Cs.Express(Syntax.IdentifierName(enumerator).Assign(Syntax.InvocationExpression(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, node.Expression, Syntax.IdentifierName("GetEnumerator"))))));
+                currentState.Add(Cs.Express(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, node.Expression, SyntaxFactory.IdentifierName("GetEnumerator"))))));
 
                 // Mostly the same as while loop from here (key word, "mostly"; hence the lack of factoring here)
                 MaybeCreateNewState();
@@ -287,14 +289,14 @@ namespace WootzJs.Compiler
                 var bodyBatch = new State(this, true) { NextState = iterationState.NextState };
 
                 // Assign current item
-                bodyBatch.Add(Cs.Express(Syntax.IdentifierName(node.Identifier).Assign(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, 
-                    Syntax.IdentifierName(enumerator), Syntax.IdentifierName("Current")))));
+                bodyBatch.Add(Cs.Express(SyntaxFactory.IdentifierName(node.Identifier).Assign(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
+                    SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("Current")))));
 
                 currentState = bodyBatch;
                 node.Statement.Accept(this);
 
-                var moveNext = Syntax.InvocationExpression(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(enumerator), Syntax.IdentifierName("MoveNext")));
-                var forStatement = Syntax.WhileStatement(moveNext, Syntax.Block(bodyBatch.Statements));
+                var moveNext = SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("MoveNext")));
+                var forStatement = SyntaxFactory.WhileStatement(moveNext, SyntaxFactory.Block(bodyBatch.Statements));
                 iterationState.Statements.Add(forStatement);
 
                 CloseTo(iterationState, nextState);
@@ -321,7 +323,7 @@ namespace WootzJs.Compiler
 
                 var switchStatement = Cs.Switch(node.Expression);
 
-                foreach (var section in node.Sections.Select(x => x.WithStatements(Syntax.List(x.Statements.Select(BreakStatementStripper.StripStatements)))))
+                foreach (var section in node.Sections.Select(x => x.WithStatements(SyntaxFactory.List(x.Statements.Select(BreakStatementStripper.StripStatements)))))
                 {
                     switchStatement = switchStatement.AddSections(Cs.Section(section.Labels, CaptureState(section, switchState.NextState, nextState)));
                 }
@@ -347,11 +349,11 @@ namespace WootzJs.Compiler
                 ifState.NextState = nextState;
 
                 var ifStatement = node;
-                ifStatement = ifStatement.WithStatement(Syntax.Block(CaptureState(node.Statement, ifState.NextState, nextState)));
+                ifStatement = ifStatement.WithStatement(SyntaxFactory.Block(CaptureState(node.Statement, ifState.NextState, nextState)));
 
                 if (node.Else != null)
                 {
-                    ifStatement = ifStatement.WithElse(Syntax.ElseClause(Syntax.Block(CaptureState(node.Else, ifState.NextState, nextState))));
+                    ifStatement = ifStatement.WithElse(SyntaxFactory.ElseClause(SyntaxFactory.Block(CaptureState(node.Else, ifState.NextState, nextState))));
                 }
 
                 ifState.Statements.Add(ifStatement);

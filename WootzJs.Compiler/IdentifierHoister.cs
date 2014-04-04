@@ -27,11 +27,13 @@
 
 #endregion
 
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class IdentifierHoister : SyntaxRewriter
+    public class IdentifierHoister : CSharpSyntaxRewriter
     {
         private Compilation compilation;
         private SemanticModel model;
@@ -46,7 +48,7 @@ namespace WootzJs.Compiler
 
         public static T HoistIdentifiers<T>(T syntax, 
             Compilation compilation, SyntaxToken thisIdentifier)
-            where T : SyntaxNode
+            where T : CSharpSyntaxNode
         {
             return (T)syntax.Accept(new IdentifierHoister(compilation, 
                 compilation.GetSemanticModel(syntax.SyntaxTree), thisIdentifier));
@@ -57,9 +59,9 @@ namespace WootzJs.Compiler
             if (!(node.Parent is MemberAccessExpressionSyntax))
             {
                 var symbol = model.GetSymbolInfo(node).Symbol;
-                if (symbol is FieldSymbol || symbol is MethodSymbol || symbol is EventSymbol || symbol is PropertySymbol)
+                if (symbol is IFieldSymbol || symbol is IMethodSymbol || symbol is IEventSymbol || symbol is IPropertySymbol)
                 {
-                    return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(identifier), node);
+                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(identifier), node);
                 }
             }
 

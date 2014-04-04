@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class AsyncGenerator : SyntaxRewriter
+    public class AsyncGenerator : CSharpSyntaxRewriter
     {
         private Compilation compilation;
         private SyntaxTree syntaxTree;

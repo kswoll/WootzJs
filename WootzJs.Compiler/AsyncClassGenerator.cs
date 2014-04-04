@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
@@ -9,7 +11,7 @@ namespace WootzJs.Compiler
     {
         private Compilation compilation;
         private MethodDeclarationSyntax node;
-        private MethodSymbol method;
+        private IMethodSymbol method;
         
         public const string state = "$state";
         public const string builder = "$builder";
@@ -19,7 +21,7 @@ namespace WootzJs.Compiler
             this.compilation = compilation;
             this.node = node;
 
-            method = compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
+            method = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(compilation.GetSemanticModel(node.SyntaxTree), node);
         }
 
         public ClassDeclarationSyntax CreateStateMachine()
@@ -58,17 +60,17 @@ namespace WootzJs.Compiler
             var constructorParameters = new List<ParameterSyntax>();
             if (!method.IsStatic)
             {
-                constructorParameters.Add(Syntax.Parameter(Syntax.Identifier("$this")).WithType(thisField.Declaration.Type));
+                constructorParameters.Add(SyntaxFactory.Parameter(SyntaxFactory.Identifier("$this")).WithType(thisField.Declaration.Type));
             }
-            constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => Syntax.Parameter(x.Identifier).WithType(x.Type)));                
+            constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
 
-            var constructor = Syntax.ConstructorDeclaration(className)
+            var constructor = SyntaxFactory.ConstructorDeclaration(className)
                 .AddModifiers(Cs.Public())
                 .WithParameterList(constructorParameters.ToArray())
                 .WithBody(
-                    Syntax.Block(
+                    SyntaxFactory.Block(
                         // Assign fields
-                        constructorParameters.Select(x => Cs.Express(Cs.This().Member(x.Identifier).Assign(Syntax.IdentifierName(x.Identifier))))
+                        constructorParameters.Select(x => Cs.Express(Cs.This().Member(x.Identifier).Assign(SyntaxFactory.IdentifierName(x.Identifier))))
                     )
                     .AddStatements(
                         Cs.Express(Cs.This().Member(state).Assign(Cs.Integer(-1))),
@@ -88,17 +90,17 @@ namespace WootzJs.Compiler
             //         case 1: ...
             //     }
             // }
-            var moveNextBody = Syntax.LabeledStatement("$top", Cs.While(Cs.True(), 
+            var moveNextBody = SyntaxFactory.LabeledStatement("$top", Cs.While(Cs.True(), 
                 Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
                     Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
-            var moveNext = Syntax.MethodDeclaration(Cs.Bool(), "MoveNext")
+            var moveNext = SyntaxFactory.MethodDeclaration(Cs.Bool(), "MoveNext")
                 .AddModifiers(Cs.Public())
-                .WithBody(Syntax.Block(moveNextBody));
+                .WithBody(SyntaxFactory.Block(moveNextBody));
             members.Add(moveNext);
 
-            var asyncStateMachine = Syntax.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
+            var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
             var baseTypes = new[] { asyncStateMachine };
-            var result = Syntax.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
+            var result = SyntaxFactory.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
 
             if (method.TypeParameters.Any())
             {

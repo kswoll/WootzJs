@@ -28,8 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
 
 namespace WootzJs.Compiler
 {

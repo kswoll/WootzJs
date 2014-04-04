@@ -28,7 +28,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
@@ -36,168 +38,168 @@ namespace WootzJs.Compiler
     {
         public static LiteralExpressionSyntax True()
         {
-            return Syntax.LiteralExpression(SyntaxKind.TrueLiteralExpression);
+            return SyntaxFactory.LiteralExpression(SyntaxKind.TrueLiteralExpression);
         }
 
         public static LiteralExpressionSyntax False()
         {
-            return Syntax.LiteralExpression(SyntaxKind.FalseLiteralExpression);
+            return SyntaxFactory.LiteralExpression(SyntaxKind.FalseLiteralExpression);
         }
 
         public static PredefinedTypeSyntax Bool()
         {
-            return Syntax.PredefinedType(Syntax.Token(SyntaxKind.BoolKeyword));
+            return SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.BoolKeyword));
         }
 
         public static PredefinedTypeSyntax Int()
         {
-            return Syntax.PredefinedType(Syntax.Token(SyntaxKind.IntKeyword));
+            return SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.IntKeyword));
         }
 
         public static LiteralExpressionSyntax Integer(int value)
         {
-            return Syntax.LiteralExpression(SyntaxKind.NumericLiteralExpression, Syntax.Literal(value));
+            return SyntaxFactory.LiteralExpression(SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(value));
         }
 
         public static BinaryExpressionSyntax Assign(this ExpressionSyntax left, ExpressionSyntax right)
         {
-            return Syntax.BinaryExpression(SyntaxKind.AssignExpression, left, right);
+            return SyntaxFactory.BinaryExpression(SyntaxKind.SimpleAssignmentExpression, left, right);
         }
 
         public static ThisExpressionSyntax This()
         {
-            return Syntax.ThisExpression();
+            return SyntaxFactory.ThisExpression();
         }
 
         public static MemberAccessExpressionSyntax Member(this ExpressionSyntax target, string member)
         {
-            return target.Member(Syntax.IdentifierName(member));
+            return target.Member(SyntaxFactory.IdentifierName(member));
         }
 
         public static MemberAccessExpressionSyntax Member(this ExpressionSyntax target, SyntaxToken member)
         {
-            return target.Member(Syntax.IdentifierName(member));
+            return target.Member(SyntaxFactory.IdentifierName(member));
         }
 
         public static MemberAccessExpressionSyntax Member(this ExpressionSyntax target, SimpleNameSyntax member)
         {
-            return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, target, member);
+            return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, target, member);
         }
 
         public static ExpressionStatementSyntax Express(ExpressionSyntax expression)
         {
-            return Syntax.ExpressionStatement(expression);
+            return SyntaxFactory.ExpressionStatement(expression);
         }
 
         public static ReturnStatementSyntax Return(ExpressionSyntax expression)
         {
-            return Syntax.ReturnStatement(expression);
+            return SyntaxFactory.ReturnStatement(expression);
         }
 
         public static WhileStatementSyntax While(ExpressionSyntax condition, StatementSyntax statement)
         {
-            return Syntax.WhileStatement(condition, statement);
+            return SyntaxFactory.WhileStatement(condition, statement);
         }
 
         public static SwitchStatementSyntax Switch(ExpressionSyntax target, params SwitchSectionSyntax[] sections)
         {
-            return Syntax.SwitchStatement(target, Syntax.List(sections));
+            return SyntaxFactory.SwitchStatement(target, SyntaxFactory.List(sections));
         }
 
         public static SwitchSectionSyntax Section(ExpressionSyntax label, params StatementSyntax[] statements)
         {
-            return Section(Syntax.SwitchLabel(SyntaxKind.CaseSwitchLabel, label), statements);
+            return Section(SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, label), statements);
         }
 
         public static SyntaxToken Public()
         {
-            return Syntax.Token(SyntaxKind.PublicKeyword);
+            return SyntaxFactory.Token(SyntaxKind.PublicKeyword);
         }
 
         public static SyntaxToken Override()
         {
-            return Syntax.Token(SyntaxKind.OverrideKeyword);
+            return SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
         }
 
         public static ClassDeclarationSyntax WithBaseList(this ClassDeclarationSyntax declaration, params TypeSyntax[] baseTypes)
         {
-            return declaration.WithBaseList(Syntax.BaseList(Syntax.SeparatedList(baseTypes, baseTypes.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
+            return declaration.WithBaseList(SyntaxFactory.BaseList(SyntaxFactory.SeparatedList(baseTypes, baseTypes.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
         }
 
         public static ClassDeclarationSyntax WithMembers(this ClassDeclarationSyntax declaration, params MemberDeclarationSyntax[] members)
         {
-            return declaration.WithMembers(Syntax.List(members));
+            return declaration.WithMembers(SyntaxFactory.List(members));
         }
 
         public static ConstructorDeclarationSyntax WithParameterList(this ConstructorDeclarationSyntax constructor, params ParameterSyntax[] parameters)
         {
-            return constructor.WithParameterList(Syntax.ParameterList(Syntax.SeparatedList(parameters, parameters.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
+            return constructor.WithParameterList(SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(parameters, parameters.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
         }
 
         public static FieldDeclarationSyntax Field(TypeSyntax type, string name)
         {
-            return Syntax.FieldDeclaration(Syntax.VariableDeclaration(type, Syntax.SeparatedList(Syntax.VariableDeclarator(name))));
+            return SyntaxFactory.FieldDeclaration(SyntaxFactory.VariableDeclaration(type, SyntaxFactory.SeparatedList(new[] { SyntaxFactory.VariableDeclarator(name) })));
         }
 
         public static FieldDeclarationSyntax Field(TypeSyntax type, SyntaxToken name)
         {
-            return Syntax.FieldDeclaration(Syntax.VariableDeclaration(type, Syntax.SeparatedList(Syntax.VariableDeclarator(name))));
+            return SyntaxFactory.FieldDeclaration(SyntaxFactory.VariableDeclaration(type, SyntaxFactory.SeparatedList(new[] { SyntaxFactory.VariableDeclarator(name) })));
         }
 
         public static BlockSyntax WithStatements(this BlockSyntax block, IEnumerable<StatementSyntax> statements)
         {
-            return block.WithStatements(Syntax.List(statements));
+            return block.WithStatements(SyntaxFactory.List(statements));
         }
 
         public static BreakStatementSyntax Break()
         {
-            return Syntax.BreakStatement();
+            return SyntaxFactory.BreakStatement();
         }
 
         public static ClassDeclarationSyntax WithTypeParameters(this ClassDeclarationSyntax classDeclaration, params TypeParameterSyntax[] typeParameters)
         {
             return classDeclaration
-                .WithTypeParameterList(Syntax.TypeParameterList(Syntax.SeparatedList(typeParameters, typeParameters.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
+                .WithTypeParameterList(SyntaxFactory.TypeParameterList(SyntaxFactory.SeparatedList(typeParameters, typeParameters.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
         }
 
         public static IfStatementSyntax If(ExpressionSyntax condition, StatementSyntax statement)
         {
-            return Syntax.IfStatement(condition, statement);
+            return SyntaxFactory.IfStatement(condition, statement);
         }
 
         public static IfStatementSyntax If(ExpressionSyntax condition, StatementSyntax statement, StatementSyntax @else)
         {
-            return Syntax.IfStatement(condition, statement, Syntax.ElseClause(@else));
+            return SyntaxFactory.IfStatement(condition, statement, SyntaxFactory.ElseClause(@else));
         }
 
         public static BlockSyntax Block(params StatementSyntax[] statements)
         {
-            return Syntax.Block(statements);
+            return SyntaxFactory.Block(statements);
         }
 
         public static SwitchStatementSyntax Switch(ExpressionSyntax expression)
         {
-            return Syntax.SwitchStatement(expression);
+            return SyntaxFactory.SwitchStatement(expression);
         }
 
         public static SwitchSectionSyntax Section(SwitchLabelSyntax label, params StatementSyntax[] statements)
         {
-            return Syntax.SwitchSection(Syntax.List(label), Syntax.List(statements));
+            return SyntaxFactory.SwitchSection(SyntaxFactory.List(new[] { label }), SyntaxFactory.List(statements));
         }
 
         public static SwitchSectionSyntax Section(SyntaxList<SwitchLabelSyntax> labels, params StatementSyntax[] statements)
         {
-            return Syntax.SwitchSection(labels, Syntax.List(statements));
+            return SyntaxFactory.SwitchSection(labels, SyntaxFactory.List(statements));
         }
 
         public static TryStatementSyntax Try()
         {
-            return Syntax.TryStatement();
+            return SyntaxFactory.TryStatement();
         }
 
         public static FinallyClauseSyntax Finally(params StatementSyntax[] statements)
         {
-            return Syntax.FinallyClause(Block(statements));
+            return SyntaxFactory.FinallyClause(Block(statements));
         }
 
         public static TryStatementSyntax WithFinally(this TryStatementSyntax tryStatement, params StatementSyntax[] statements)
@@ -207,36 +209,36 @@ namespace WootzJs.Compiler
 
         public static BinaryExpressionSyntax NotEqualTo(this ExpressionSyntax left, ExpressionSyntax right)
         {
-            return Syntax.BinaryExpression(SyntaxKind.NotEqualsExpression, left, right);
+            return SyntaxFactory.BinaryExpression(SyntaxKind.NotEqualsExpression, left, right);
         }
 
         public static BinaryExpressionSyntax EqualTo(this ExpressionSyntax left, ExpressionSyntax right)
         {
-            return Syntax.BinaryExpression(SyntaxKind.EqualsExpression, left, right);
+            return SyntaxFactory.BinaryExpression(SyntaxKind.EqualsExpression, left, right);
         }
 
         public static LiteralExpressionSyntax Null()
         {
-            return Syntax.LiteralExpression(SyntaxKind.NullLiteralExpression);
+            return SyntaxFactory.LiteralExpression(SyntaxKind.NullLiteralExpression);
         }
 
         public static ThrowStatementSyntax Rethrow()
         {
-            return Syntax.ThrowStatement();
+            return SyntaxFactory.ThrowStatement();
         }
 
         public static ThrowStatementSyntax Throw(ExpressionSyntax expression)
         {
-            return Syntax.ThrowStatement(expression);
+            return SyntaxFactory.ThrowStatement(expression);
         }
 
         public static AnonymousObjectCreationExpressionSyntax Anonymous(params Tuple<string, ExpressionSyntax>[] initializers)
         {
-            return Syntax.AnonymousObjectCreationExpression(Syntax.SeparatedList(
+            return SyntaxFactory.AnonymousObjectCreationExpression(SyntaxFactory.SeparatedList(
                 initializers.Select(x =>
-                    Syntax.AnonymousObjectMemberDeclarator(Syntax.NameEquals(x.Item1), x.Item2)
+                    SyntaxFactory.AnonymousObjectMemberDeclarator(SyntaxFactory.NameEquals(x.Item1), x.Item2)
                 ), 
-                initializers.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken))));
+                initializers.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken))));
         }
 
         public static BlockSyntax Local(this BlockSyntax block, string name, ExpressionSyntax initializer, out VariableDeclaratorSyntax variable)
@@ -248,9 +250,9 @@ namespace WootzJs.Compiler
 
         public static LocalDeclarationStatementSyntax Local(string name, ExpressionSyntax initializer, out VariableDeclaratorSyntax variable)
         {
-            variable = Syntax.VariableDeclarator(name).WithInitializer(Syntax.EqualsValueClause(initializer));           
-            var declaration = Syntax.LocalDeclarationStatement(Syntax.VariableDeclaration(Syntax.ParseTypeName("var"),
-                Syntax.SeparatedList(variable)));
+            variable = SyntaxFactory.VariableDeclarator(name).WithInitializer(SyntaxFactory.EqualsValueClause(initializer));           
+            var declaration = SyntaxFactory.LocalDeclarationStatement(SyntaxFactory.VariableDeclaration(SyntaxFactory.ParseTypeName("var"),
+                SyntaxFactory.SeparatedList(new[] { variable })));
             return declaration; 
         }
 
@@ -262,26 +264,26 @@ namespace WootzJs.Compiler
 
         public static BlockSyntax If(this BlockSyntax block, ExpressionSyntax condition, StatementSyntax ifTrue, StatementSyntax ifFalse = null)
         {
-            var result = Syntax.IfStatement(condition, ifTrue);
+            var result = SyntaxFactory.IfStatement(condition, ifTrue);
             if (ifFalse != null)
-                result = result.WithElse(Syntax.ElseClause(ifFalse));
+                result = result.WithElse(SyntaxFactory.ElseClause(ifFalse));
             return block.AddStatements(result);
         }
 
         public static ExpressionSyntax Reference(this VariableDeclaratorSyntax variable)
         {
-            return Syntax.IdentifierName(variable.Identifier);
+            return SyntaxFactory.IdentifierName(variable.Identifier);
         }
 
         public static InvocationExpressionSyntax Invoke(this ExpressionSyntax target, params ExpressionSyntax[] arguments)
         {
-            return Syntax.InvocationExpression(target, Syntax.ArgumentList(Syntax.SeparatedList(arguments.Select(x => Syntax.Argument(x)), arguments.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
+            return SyntaxFactory.InvocationExpression(target, SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments.Select(x => SyntaxFactory.Argument(x)), arguments.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
         }
 
         public static ObjectCreationExpressionSyntax New(this TypeSyntax type, params ExpressionSyntax[] arguments)
         {
-            return Syntax.ObjectCreationExpression(type)
-                .WithArgumentList(Syntax.ArgumentList(Syntax.SeparatedList(arguments.Select(x => Syntax.Argument(x)), arguments.Skip(1).Select(_ => Syntax.Token(SyntaxKind.CommaToken)))));
+            return SyntaxFactory.ObjectCreationExpression(type)
+                .WithArgumentList(SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments.Select(x => SyntaxFactory.Argument(x)), arguments.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
         }
     }
 }
