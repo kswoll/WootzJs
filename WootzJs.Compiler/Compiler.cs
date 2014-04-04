@@ -80,6 +80,7 @@ namespace WootzJs.Compiler
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldGenerator);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
+            compilation = compilation.Clone();
             Context.Update(project.Solution, project, compilation);
 
             // After the basic transformation happens, we need to fix up some references afterward
