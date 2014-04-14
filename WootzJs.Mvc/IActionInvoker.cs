@@ -1,9 +1,10 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace WootzJs.Mvc
 {
     public interface IActionInvoker
     {
-        ActionResult InvokeAction(ControllerContext context, MethodInfo action);
+        void InvokeAction(ControllerContext context, MethodInfo action, Action<ActionResult> continuation);
     }
 }

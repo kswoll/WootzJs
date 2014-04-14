@@ -122,10 +122,10 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\build\WootzJs.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-copy $(SolutionDir)build\mscorlib.js $(TargetDir)
-copy $(SolutionDir)build\System.js $(TargetDir)
-copy $(SolutionDir)build\System.ComponentModel.DataAnnotations.js $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
+copy $(ProjectDir)..\build\System.js $(TargetDir)
+copy $(ProjectDir)..\build\System.ComponentModel.DataAnnotations.js $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AdditionalExplicitAssemblyReferences />

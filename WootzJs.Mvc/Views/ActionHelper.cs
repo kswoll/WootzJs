@@ -26,9 +26,9 @@ namespace WootzJs.Mvc.Views
                 this.viewContext = viewContext;
             }
 
-            public void To<TActionResult>(Expression<Func<TController, TActionResult>> action)
+            public void To<TActionResult>(Expression<Func<TController, TActionResult>> action, Action continuation)
             {
-                viewContext.ControllerContext.Application.Open(UrlGenerator.GenerateUrl(action));
+                viewContext.ControllerContext.Application.Open(UrlGenerator.GenerateUrl(action), continuation);
             }
         }
     }

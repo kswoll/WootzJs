@@ -1,12 +1,29 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 
 namespace WootzJs.Mvc
 {
     public class ControllerActionInvoker : IActionInvoker
     {
-        public ActionResult InvokeAction(ControllerContext context, MethodInfo action)
+        public void InvokeAction(ControllerContext context, MethodInfo action, Action<ActionResult> continuation)
         {
-            return (ActionResult)action.Invoke(context.Controller, new object[0]);
+            var parameters = action.GetParameters();
+            var args = new object[parameters.Length];
+            var lastParameter = parameters.LastOrDefault();
+
+            // If async
+            if (lastParameter != null && lastParameter.ParameterType == typeof(Action<ActionResult>))
+            {
+                args[args.Length - 1] = continuation;
+                action.Invoke(context.Controller, args);
+            }
+            // If synchronous
+            else
+            {
+                var actionResult = (ActionResult)action.Invoke(context.Controller, args);
+                continuation(actionResult);
+            }
         }
     }
 }
