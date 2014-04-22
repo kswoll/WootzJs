@@ -108,6 +108,7 @@
     <Compile Include="StringTests.cs" />
     <Compile Include="TestsApplication.cs" />
     <Compile Include="Text\StringBuilderTests.cs" />
+    <Compile Include="Threading\Tasks\TaskContinuationTests.cs" />
     <Compile Include="TryTests.cs" />
     <Compile Include="TypeOfExpressionTests.cs" />
     <Compile Include="TypeTests.cs" />
