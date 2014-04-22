@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace WootzJs.Mvc
 {
     public interface IActionInvoker
     {
-        void InvokeAction(ControllerContext context, MethodInfo action, Action<ActionResult> continuation);
+        Task<ActionResult> InvokeAction(ControllerContext context, MethodInfo action);
     }
 }

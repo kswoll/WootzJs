@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WootzJs.Models;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
@@ -26,16 +27,17 @@ namespace WootzJs.Mvc
         /// <param name="context">A context which stores the request and response contexts.</param>
         /// <param name="continuation">This method is asynchronous -- to take some action after the execution
         /// completes, you must pass the continuation argument.</param>
-        public void Execute(MvcApplication application, NavigationContext context, Action continuation)
+        public Task Execute(MvcApplication application, NavigationContext context)
         {
             Initialize(application, context);
             var action = RouteData.Action;
-            ActionInvoker.InvokeAction(ControllerContext, action, actionResult =>
+            var task = ActionInvoker.InvokeAction(ControllerContext, action);
+            return task.ContinueWith(x =>
             {
+                var actionResult = x.Result;
                 var view = ((ViewResult)actionResult).View;
                 view.Initialize(application.CreateViewContext(this));
                 context.Response.View = view;
-                continuation();
             });
         }
 

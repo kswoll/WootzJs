@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.WootzJs;
+using System.Threading.Tasks;
 using System.Web;
 using WootzJs.Models;
 using WootzJs.Mvc.Routes;
@@ -120,8 +121,10 @@ namespace WootzJs.Mvc
             var path = parts[0];
             var queryString = url.Length > 1 ? parts[1] : null;
             currentPath = path;
-            Execute(path, queryString, view =>
+            var execute = Execute(path, queryString);
+            execute.ContinueWith(task =>
             {
+                var view = task.Result;
                 if (pushState)
                     Browser.Window.History.PushState(url, view.Title, url);
 
@@ -197,11 +200,12 @@ namespace WootzJs.Mvc
             return navigationContext;
         }
 
-        protected void Execute(string path, string queryString, Action<View> continuation)
+        protected Task<View> Execute(string path, string queryString)
         {
             var context = CreateNavigationContext(path, queryString);
             var controller = ControllerFactory.CreateController(context);
-            controller.Execute(this, context, () => continuation(context.Response.View));
+            var task = controller.Execute(this, context);
+            return task.ContinueWith(x => context.Response.View);
         }
 
         public virtual ViewContext CreateViewContext(Controller controller)

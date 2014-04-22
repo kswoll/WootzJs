@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace WootzJs.Mvc
 {
     public class ControllerActionInvoker : IActionInvoker
     {
-        public void InvokeAction(ControllerContext context, MethodInfo action, Action<ActionResult> continuation)
+        public Task<ActionResult> InvokeAction(ControllerContext context, MethodInfo action)
         {
             var parameters = action.GetParameters();
             var args = new object[parameters.Length];
@@ -15,14 +16,13 @@ namespace WootzJs.Mvc
             // If async
             if (lastParameter != null && lastParameter.ParameterType == typeof(Action<ActionResult>))
             {
-                args[args.Length - 1] = continuation;
-                action.Invoke(context.Controller, args);
+                return (Task<ActionResult>)action.Invoke(context.Controller, args);
             }
             // If synchronous
             else
             {
                 var actionResult = (ActionResult)action.Invoke(context.Controller, args);
-                continuation(actionResult);
+                return Task.FromResult(actionResult);
             }
         }
     }
