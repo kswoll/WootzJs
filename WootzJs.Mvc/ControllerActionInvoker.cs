@@ -11,10 +11,9 @@ namespace WootzJs.Mvc
         {
             var parameters = action.GetParameters();
             var args = new object[parameters.Length];
-            var lastParameter = parameters.LastOrDefault();
 
             // If async
-            if (lastParameter != null && lastParameter.ParameterType == typeof(Action<ActionResult>))
+            if (action.ReturnType == typeof(Task<ActionResult>))
             {
                 return (Task<ActionResult>)action.Invoke(context.Controller, args);
             }
