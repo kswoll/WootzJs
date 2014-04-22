@@ -205,16 +205,16 @@ namespace System.Threading.Tasks
         {
             var task = new Task<TNewResult>();
             if (IsCompleted)
-                task.m_result = continuationFunction(this);
+                task.TrySetResult(continuationFunction(this));
             else if (m_continuationObject == null)
-                m_continuationObject = () => task.m_result = continuationFunction(this);
+                m_continuationObject = () => task.TrySetResult(continuationFunction(this));
             else
             {
                 var oldContinuation = m_continuationObject;
                 m_continuationObject = () =>
                 {
                     oldContinuation();
-                    task.m_result = continuationFunction(this);
+                    task.TrySetResult(continuationFunction(this));
                 };
             }
             return task;
