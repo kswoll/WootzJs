@@ -435,7 +435,7 @@ namespace WootzJs.Compiler
                     Js.Primitive(method.MetadataName),
                     GetMethodFunction(method, true),
                     CreateParameterInfos(method.Parameters.ToArray()),
-                    Type(returnType, true),
+                    Type(returnType),
                     methodAttributes,
                     CreateAttributes(method));
 

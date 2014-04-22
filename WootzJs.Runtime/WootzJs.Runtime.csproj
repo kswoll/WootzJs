@@ -270,6 +270,7 @@
     <Compile Include="Threading\CancellationToken.cs" />
     <Compile Include="Threading\Interlocked.cs" />
     <Compile Include="Threading\Tasks\Task.cs" />
+    <Compile Include="Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="TimeSpan.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Type.cs" />

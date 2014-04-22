@@ -45,7 +45,7 @@ namespace WootzJs.Mvc.Views
 
         private void LocalHrefClick(Event evt)
         {
-            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"));            
+            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"), null);
             evt.PreventDefault();
         }
 

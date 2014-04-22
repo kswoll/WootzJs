@@ -70,6 +70,14 @@ namespace WootzJs.Compiler.Tests.Reflection
             QUnit.AreEqual(parameter.ParameterType, typeof(IDictionary<string, int>));
         }
 
+        [Test]
+        public void GenericReturnType()
+        {
+            var method = typeof(MethodClass).GetMethod("GenericReturnType");
+            var returnType = method.ReturnType;
+            QUnit.AreEqual(returnType, typeof(List<string>));            
+        }
+
         public class MethodClass
         {
             public void VoidMethod()
@@ -113,6 +121,11 @@ namespace WootzJs.Compiler.Tests.Reflection
 
             public static void MethodWithDictionary(IDictionary<string, int> dict)
             {
+            }
+
+            public static List<string> GenericReturnType()
+            {
+                return null;
             }
         }
     }

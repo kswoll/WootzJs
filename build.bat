@@ -1,3 +1,11 @@
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Compiler\WootzJs.Compiler.csproj
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Runtime\WootzJs.Runtime.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.System\WootzJs.System.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Compiler.Tests\WootzJs.Compiler.Tests.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Models\WootzJs.Models.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Web\WootzJs.Web.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Mvc\WootzJs.Mvc.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Rx\WootzJs.Rx.csproj
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Rx.Tests\WootzJs.Rx.Tests.csproj
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.sln

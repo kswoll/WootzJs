@@ -34,12 +34,17 @@ namespace System.Threading.Tasks
 {
     public class Task
     {
-        private bool isCompleted;
-        private Action m_continuationObject;
+        protected bool isCompleted;
+        protected Action m_continuationObject;
 
         public bool IsCompleted
         {
             get { return isCompleted; }
+        }
+
+        public static Task<TResult> FromResult<TResult>(TResult result)
+        {
+            return new Task<TResult>(result);
         }
 
         /// <summary>
@@ -69,6 +74,47 @@ namespace System.Threading.Tasks
             if (m_continuationObject != null)
                 m_continuationObject();
         }
+
+        public Task<TResult> ContinueWith<TResult>(Func<Task, TResult> continuationFunction) 
+        { 
+            if (isCompleted)
+                return FromResult(continuationFunction(this));
+            else if (m_continuationObject == null)
+            {
+                var result = new Task<TResult>();
+                m_continuationObject = () => result.TrySetResult(continuationFunction(this));
+                return result;
+            }
+            else
+            {
+                var result = new Task<TResult>();
+                var oldContinuation = m_continuationObject;
+                m_continuationObject = () =>
+                {
+                    oldContinuation();
+                    result.TrySetResult(continuationFunction(this));
+                };
+                return result;
+            }
+        }
+
+        public Task ContinueWith(Action<Task> continuationAction) 
+        {
+            if (isCompleted)
+                continuationAction(this);
+            else if (m_continuationObject == null)
+                m_continuationObject = () => continuationAction(this);
+            else
+            {
+                var oldContinuation = m_continuationObject;
+                m_continuationObject = () =>
+                {
+                    oldContinuation();
+                    continuationAction(this);
+                };
+            }
+            return this;
+        }
     }
 
     public class Task<TResult> : Task
@@ -83,6 +129,7 @@ namespace System.Threading.Tasks
         public Task(TResult mResult)
         {
             m_result = mResult;
+            isCompleted = true;
         }
 
         internal bool TrySetException(object exceptionObject)
@@ -131,6 +178,51 @@ namespace System.Threading.Tasks
         public new TaskAwaiter<TResult> GetAwaiter()
         {
             return new TaskAwaiter<TResult>(this);
+        }
+
+        /// <summary>
+        /// Creates a continuation that executes asynchronously when the target <see cref="T:System.Threading.Tasks.Task`1"/> completes.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A new continuation <see cref="T:System.Threading.Tasks.Task"/>.
+        /// </returns>
+        /// <param name="continuationAction">An action to run when the <see cref="T:System.Threading.Tasks.Task`1"/> completes. When run, the delegate will be passed the completed task as an argument.</param><exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.Tasks.Task`1"/> has been disposed.</exception><exception cref="T:System.ArgumentNullException">The <paramref name="continuationAction"/> argument is null.</exception>
+        public Task ContinueWith(Action<Task<TResult>> continuationAction)
+        {
+            return base.ContinueWith(task => continuationAction(this));
+        }
+
+        /// <summary>
+        /// Creates a continuation that executes asynchronously when the target <see cref="T:System.Threading.Tasks.Task`1"/> completes.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A new continuation <see cref="T:System.Threading.Tasks.Task`1"/>.
+        /// </returns>
+        /// <param name="continuationFunction">A function to run when the <see cref="T:System.Threading.Tasks.Task`1"/> completes. When run, the delegate will be passed the completed task as an argument.</param><typeparam name="TNewResult">The type of the result produced by the continuation.</typeparam><exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.Tasks.Task`1"/> has been disposed.</exception><exception cref="T:System.ArgumentNullException">The <paramref name="continuationFunction"/> argument is null.</exception>
+        public Task<TNewResult> ContinueWith<TNewResult>(Func<Task<TResult>, TNewResult> continuationFunction)
+        {
+            var task = new Task<TNewResult>();
+            if (IsCompleted)
+                task.TrySetResult(continuationFunction(this));
+            else if (m_continuationObject == null)
+                m_continuationObject = () => task.TrySetResult(continuationFunction(this));
+            else
+            {
+                var oldContinuation = m_continuationObject;
+                m_continuationObject = () =>
+                {
+                    oldContinuation();
+                    task.TrySetResult(continuationFunction(this));
+                };
+            }
+            return task;
+        }
+
+        public TResult Result
+        {
+            get { return m_result; }
         }
     }
 

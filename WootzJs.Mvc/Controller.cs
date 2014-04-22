@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WootzJs.Models;
 using WootzJs.Mvc.Routes;
 using WootzJs.Mvc.Views;
@@ -22,14 +23,22 @@ namespace WootzJs.Mvc
         /// <summary>
         /// The job of this method is invoke an action and ultimately populate the 
         /// </summary>
-        /// <param name="context"></param>
-        public void Execute(MvcApplication application, NavigationContext context)
+        /// <param name="application">The current application</param>
+        /// <param name="context">A context which stores the request and response contexts.</param>
+        /// <param name="continuation">This method is asynchronous -- to take some action after the execution
+        /// completes, you must pass the continuation argument.</param>
+        public Task Execute(MvcApplication application, NavigationContext context)
         {
             Initialize(application, context);
             var action = RouteData.Action;
-            var view = ((ViewResult)ActionInvoker.InvokeAction(ControllerContext, action)).View;
-            view.Initialize(application.CreateViewContext(this));
-            context.Response.View = view;
+            var task = ActionInvoker.InvokeAction(ControllerContext, action);
+            return task.ContinueWith(x =>
+            {
+                var actionResult = x.Result;
+                var view = ((ViewResult)actionResult).View;
+                view.Initialize(application.CreateViewContext(this));
+                context.Response.View = view;
+            });
         }
 
         public RouteData RouteData

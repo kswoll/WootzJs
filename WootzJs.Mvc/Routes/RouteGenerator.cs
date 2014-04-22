@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WootzJs.Mvc.Routes
 {
@@ -69,7 +70,7 @@ namespace WootzJs.Mvc.Routes
             } 
             while (routePath.Current != null);
 
-            foreach (var method in controllerType.GetMethods().Where(x => x.IsPublic && !x.IsStatic && typeof(ActionResult).IsAssignableFrom(x.ReturnType)))
+            foreach (var method in controllerType.GetMethods().Where(x => x.IsPublic && !x.IsStatic && (typeof(ActionResult).IsAssignableFrom(x.ReturnType) || typeof(Task<ActionResult>).IsAssignableFrom(x.ReturnType))))
             {
                 GenerateRoutesForAction(routeTree, controllerType, leafNodes, method);
             }
