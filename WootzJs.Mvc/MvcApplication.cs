@@ -160,6 +160,10 @@ namespace WootzJs.Mvc
                 var layout = (Layout)this.view;
                 var sections = view.Sections;
                 layout.LoadSections(sections);
+                foreach (var section in sections.Values)
+                {
+                    section.NotifyOnAddedToView();
+                }
             }            
         }
 
