@@ -199,7 +199,19 @@ namespace System.Collections.Generic
 
         public ICollection<TValue> Values
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var result = new List<TValue>();
+                foreach (var bucket in buckets)
+                {
+                    foreach (var item in bucket.Items)
+                    {
+                        var value = item.Value;
+                        result.Add(value);
+                    }
+                }
+                return result;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
