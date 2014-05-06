@@ -88,6 +88,11 @@ namespace WootzJs.Mvc.Views
             }
         }
 
+        public MvcApplication Application
+        {
+            get { return MvcApplication.Instance; }
+        }
+
         public static Control GetControlForElement(Element element)
         {
             return element.As<JsObject>().member("$control").As<Control>();

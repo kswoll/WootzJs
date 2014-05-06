@@ -28,10 +28,19 @@ namespace WootzJs.Mvc
         private HtmlControl body = new HtmlControl(Browser.Document.GetElementByTagName("body"));
         private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
+        private UrlHelper url = new UrlHelper();
+
+        private static MvcApplication instance;
 
         public MvcApplication()
         {
+            instance = this;
             DependencyResolver = new ReflectionDependencyResolver();
+        }
+
+        public static MvcApplication Instance
+        {
+            get { return instance; }
         }
 
         public HtmlControl Html
@@ -39,9 +48,19 @@ namespace WootzJs.Mvc
             get { return html; }
         }
 
+        public string CurrentPath
+        {
+            get { return currentPath; }
+        }
+
         public HtmlControl Body
         {
             get { return body; }
+        }
+
+        public UrlHelper Url
+        {
+            get { return url; }
         }
 
         public void Start(Assembly assembly)

@@ -10,8 +10,8 @@ namespace WootzJs.Mvc
         
         public ViewContext()
         {
-            Action = new ActionHelper(this);
-            Url = new UrlHelper(this);
+            Action = new ActionHelper();
+            Url = new UrlHelper();
         }
     }
 }
