@@ -33,7 +33,7 @@ namespace WootzJs.Mvc.Views.Css
 {
     public enum CssDisplay
     {
-        Inherit, None
+        Inherit, None, Block, InlineBlock
     }
 
     public static class CssDisplays
@@ -46,6 +46,10 @@ namespace WootzJs.Mvc.Views.Css
                     return CssDisplay.Inherit;
                 case "none":
                     return CssDisplay.None;
+                case "block":
+                    return CssDisplay.Block;
+                case "inline-block":
+                    return CssDisplay.InlineBlock;
                 default:
                     throw new Exception();
             }
@@ -59,6 +63,10 @@ namespace WootzJs.Mvc.Views.Css
                     return "inherit";
                 case CssDisplay.None:
                     return "none";
+                case CssDisplay.Block:
+                    return "block";
+                case CssDisplay.InlineBlock:
+                    return "inline-block";
                 default:
                     throw new Exception();
             }
