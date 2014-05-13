@@ -172,10 +172,10 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "1234";
             var chars = s.ToArray();
-            QUnit.AreEqual(s[0], '1');
-            QUnit.AreEqual(s[1], '2');
-            QUnit.AreEqual(s[2], '3');
-            QUnit.AreEqual(s[3], '4');
+            QUnit.AreEqual(chars[0], '1');
+            QUnit.AreEqual(chars[1], '2');
+            QUnit.AreEqual(chars[2], '3');
+            QUnit.AreEqual(chars[3], '4');
         }
 
         [Test]

@@ -65,5 +65,10 @@ namespace WootzJs.Compiler
 
             return base.VisitIdentifierName(node);
         }
+
+        public override SyntaxNode VisitThisExpression(ThisExpressionSyntax node)
+        {
+            return base.VisitThisExpression(node);
+        }
     }
 }

@@ -67,5 +67,22 @@ namespace WootzJs.Compiler
             }
             return base.VisitIdentifierName(node);
         }
+
+/*
+        public override SyntaxNode VisitThisExpression(ThisExpressionSyntax node)
+        {
+            var containingType = node.GetContainingType();
+            if (containingType == null || !containingType.Name.StartsWith("YieldEnumerator$"))
+                return node;
+
+            var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+            if (symbol == null)
+            {
+                return Syntax.IdentifierName("$this");
+            }
+
+            return base.VisitThisExpression(node);
+        }
+*/
     }
 }
