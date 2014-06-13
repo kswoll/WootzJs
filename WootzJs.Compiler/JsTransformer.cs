@@ -822,14 +822,13 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
-            var symbol = model.GetSymbolInfo(node).Symbol;
-/*
+            var symbolInfo = model.GetSymbolInfo(node);
+            var symbol = symbolInfo.Symbol;
             if (symbolInfo.Symbol == null)
             {
                 var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
                 var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
             }
-*/
 
             JsExpression target;
             bool isBaseReference;

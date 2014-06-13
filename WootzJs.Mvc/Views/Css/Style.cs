@@ -1,4 +1,6 @@
-﻿using WootzJs.Web;
+﻿using System;
+using System.Linq;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views.Css
 {
@@ -213,6 +215,42 @@ namespace WootzJs.Mvc.Views.Css
         {
             get { return CssWhiteSpaces.Parse(Get("white-space")); }
             set { Set("white-space", value.GetCssValue()); }
+        }
+
+        public Style Clone()
+        {
+            if (node == null)
+            {
+                var result = new Style();
+                result.actions = actions.ToList();
+                return result;
+            }
+            else
+            {
+                throw new Exception("Cannot clone a style that has already been attached. (Cloning of styles is intended to support \"template\" styles for which attaching is not intended.");
+            }
+        }
+
+        public void ApplyTo(Style other)
+        {
+            if (node == null)
+            {
+                if (other.node == null)
+                {
+                    other.actions = actions.ToList();
+                }
+                else
+                {
+                    foreach (var action in actions)
+                    {
+                        action.Act(other);
+                    }                    
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot apply a style that has already been attached.");
+            }
         }
 
 /*

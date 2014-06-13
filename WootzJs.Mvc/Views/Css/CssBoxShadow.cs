@@ -35,48 +35,45 @@ namespace WootzJs.Mvc.Views.Css
             if (value == null && index < 2)
                 throw new Exception("HShadow and VShadow are required");
 
-            Act(() =>
+            var hshadow = HShadow;
+            var vshadow = VShadow;
+            if (hshadow == null)
+                hshadow = 1;
+            if (vshadow == null)
+                vshadow = 1;
+            var blur = Blur;
+            if (blur == null && index > 2)
+                blur = 1;
+            var spread = Spread;
+            if (spread == null && index > 3)
+                spread = 1;
+            var color = Color;
+            if (color == null && index > 4)
+                color = CssColor.Black;
+            var inset = Inset;
+
+            if (value == null)
             {
-                var hshadow = HShadow;
-                var vshadow = VShadow;
-                if (hshadow == null)
-                    hshadow = 1;
-                if (vshadow == null)
-                    vshadow = 1;
-                var blur = Blur;
-                if (blur == null && index > 2)
-                    blur = 1;
-                var spread = Spread;
-                if (spread == null && index > 3)
-                    spread = 1;
-                var color = Color;
-                if (color == null && index > 4)
-                    color = CssColor.Black;
-                var inset = Inset;
+                if (index < 5)
+                    inset = null;
+                if (index < 4)
+                    color = null;
+                if (index < 3)
+                    spread = null;
+            }
 
-                if (value == null)
-                {
-                    if (index < 5)
-                        inset = null;
-                    if (index < 4)
-                        color = null;
-                    if (index < 3)
-                        spread = null;
-                }
-
-                var args = new CssValue[] { hshadow, vshadow, blur, spread, color, inset };
-                args[index] = value;
-                args = args.Where(x => x != null).ToArray();
+            var args = new CssValue[] { hshadow, vshadow, blur, spread, color, inset };
+            args[index] = value;
+            args = args.Where(x => x != null).ToArray();
             
-                var builder = new StringBuilder();
-                foreach (var argument in args)
-                {
-                    if (builder.Length > 0)
-                        builder.Append(" ");
-                    builder.Append(argument);
-                }
-                Set("box-shadow", builder.ToString());
-            });
+            var builder = new StringBuilder();
+            foreach (var argument in args)
+            {
+                if (builder.Length > 0)
+                    builder.Append(" ");
+                builder.Append(argument);
+            }
+            Set("box-shadow", builder.ToString());
         }
 
         public CssNumericValue HShadow

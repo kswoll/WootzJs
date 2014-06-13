@@ -66,6 +66,7 @@
     <Compile Include="ViewResult.cs" />
     <Compile Include="Views\ActionHelper.cs" />
     <Compile Include="Views\AlignmentPanel.cs" />
+    <Compile Include="Views\AutocompleteTextBox.cs" />
     <Compile Include="Views\Binders\Bindings.cs" />
     <Compile Include="Views\Binders\TextBoxBinders.cs" />
     <Compile Include="Views\CenteredPanel.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Views\Css\CssNumericValue.cs" />
     <Compile Include="Views\Css\CssPadding.cs" />
     <Compile Include="Views\Css\CssPercent.cs" />
+    <Compile Include="Views\Css\CssSetAction.cs" />
     <Compile Include="Views\Css\CssString.cs" />
     <Compile Include="Views\Css\CssTextAlign.cs" />
     <Compile Include="Views\Css\CssTextDecoration.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Views\Css\CssVerticalAlign.cs" />
     <Compile Include="Views\Css\CssWhiteSpace.cs" />
     <Compile Include="Views\Css\GlobalStyle.cs" />
+    <Compile Include="Views\Css\ICssDeclarationAction.cs" />
     <Compile Include="Views\Css\Style.cs" />
     <Compile Include="Views\DropDown.cs" />
     <Compile Include="Views\FillPanel.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Views\Image.cs" />
     <Compile Include="Views\Layout.cs" />
     <Compile Include="Views\Link.cs" />
+    <Compile Include="Views\ItemList.cs" />
     <Compile Include="Views\MouseTrackingEngine.cs" />
     <Compile Include="Views\NameValuePanel.cs" />
     <Compile Include="Views\SidePanel.cs" />

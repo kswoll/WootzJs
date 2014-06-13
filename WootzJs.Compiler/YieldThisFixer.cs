@@ -18,5 +18,25 @@ namespace WootzJs.Compiler
         {
             return Syntax.IdentifierName("$this");
         }
+
+/*
+        public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+        {
+            if (node.Parent is TypeArgumentListSyntax)
+                return node;
+            if (node.Parent is ForEachStatementSyntax && ((ForEachStatementSyntax)node.Parent).Type == node)
+                return node;
+            if (node.Parent is MemberAccessExpressionSyntax && ((MemberAccessExpressionSyntax)node.Parent).Name == node)
+                return node;
+            if (node.Parent is VariableDeclarationSyntax && ((VariableDeclarationSyntax)node.Parent).Type == node)
+                return node;
+            if (node.Parent is ObjectCreationExpressionSyntax && ((ObjectCreationExpressionSyntax)node.Parent).Type == node)
+                return node;
+            if (node.Parent is CastExpressionSyntax && ((CastExpressionSyntax)node.Parent).Type == node)
+                return node;
+
+            return Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName("$this"), node);
+        }
+*/
     }
 }

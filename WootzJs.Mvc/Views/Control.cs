@@ -33,6 +33,10 @@ namespace WootzJs.Mvc.Views
         private View view;
         private bool isDisposed;
 
+        public Control() : this("div")
+        {
+        }
+
         public Control(string tagName = "div")
         {
             TagName = tagName;
