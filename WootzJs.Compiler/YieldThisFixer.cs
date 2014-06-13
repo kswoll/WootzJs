@@ -1,10 +1,12 @@
-﻿using Roslyn.Compilers.CSharp;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class YieldThisFixer : SyntaxRewriter
+    public class YieldThisFixer : CSharpSyntaxRewriter
     {
-        public static T Fix<T>(T method) where T : SyntaxNode
+        public static T Fix<T>(T method) where T : CSharpSyntaxNode
         {
             // This idea isn't going to work because it leaves the syntax tree in a bad state.  
             // We need to fix the this references after we've done all the semanatic analysis.
@@ -16,7 +18,7 @@ namespace WootzJs.Compiler
 
         public override SyntaxNode VisitThisExpression(ThisExpressionSyntax node)
         {
-            return Syntax.IdentifierName("$this");
+            return SyntaxFactory.IdentifierName("$this");
         }
 
 /*
