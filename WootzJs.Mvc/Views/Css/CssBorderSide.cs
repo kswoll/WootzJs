@@ -18,39 +18,19 @@ namespace WootzJs.Mvc.Views.Css
         public CssNumericValue Width
         {
             get { return CssNumericValue.Parse(Get("border-" + side + "-width")); }
-            set
-            {
-                Act(() =>
-                {
-                    if (Style == CssBorderStyle.None)
-                        Style = CssBorderStyle.Solid;
-                    Set("border-" + side + "-width", value);                                        
-                });
-            }
+            set { Set("border-" + side + "-width", value); }
         }
 
         public CssBorderStyle Style
         {
             get { return CssBorderStyles.Parse(Get("border-" + side + "-style")); }
-            set
-            {
-                Act(() =>
-                {
-                    Set("border-" + side + "-style", value);
-                });
-            }
+            set { Set("border-" + side + "-style", value); }
         }
 
         public CssColor Color
         {
             get { return CssColor.Parse(Get("border-" + side + "-color")); }
-            set
-            {
-                Act(() =>
-                {
-                    Set("border-" + side + "-color", value);
-                });
-            }
+            set { Set("border-" + side + "-color", value); }
         }
     }
 }

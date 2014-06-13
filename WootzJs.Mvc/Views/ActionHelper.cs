@@ -5,30 +5,20 @@ namespace WootzJs.Mvc.Views
 {
     public class ActionHelper
     {
-        private ViewContext viewContext;
-
-        public ActionHelper(ViewContext viewContext)
+        public ActionHelper()
         {
-            this.viewContext = viewContext;
         }
 
         public ActionControllerHelper<TController> On<TController>() where TController : Controller
         {
-            return new ActionControllerHelper<TController>(viewContext);
+            return new ActionControllerHelper<TController>();
         }
 
         public class ActionControllerHelper<TController> where TController : Controller
         {
-            private ViewContext viewContext;
-
-            public ActionControllerHelper(ViewContext viewContext)
-            {
-                this.viewContext = viewContext;
-            }
-
             public void To<TActionResult>(Expression<Func<TController, TActionResult>> action, Action continuation)
             {
-                viewContext.ControllerContext.Application.Open(UrlGenerator.GenerateUrl(action), continuation);
+                MvcApplication.Instance.Open(UrlGenerator.GenerateUrl(action), continuation);
             }
         }
     }

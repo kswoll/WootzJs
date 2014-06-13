@@ -67,6 +67,7 @@
     <Compile Include="ElementStyle.cs" />
     <Compile Include="StyleSheet.cs" />
     <Compile Include="StyleSheetExtensions.cs" />
+    <Compile Include="TextAreaElement.cs" />
     <Compile Include="TextNode.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowExtensions.cs" />

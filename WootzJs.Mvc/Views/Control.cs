@@ -33,6 +33,10 @@ namespace WootzJs.Mvc.Views
         private View view;
         private bool isDisposed;
 
+        public Control() : this("div")
+        {
+        }
+
         public Control(string tagName = "div")
         {
             TagName = tagName;
@@ -86,6 +90,11 @@ namespace WootzJs.Mvc.Views
                 node = value;
                 node.As<JsObject>().memberset("$control", this.As<JsObject>());
             }
+        }
+
+        public MvcApplication Application
+        {
+            get { return MvcApplication.Instance; }
         }
 
         public static Control GetControlForElement(Element element)

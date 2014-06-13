@@ -37,8 +37,7 @@ namespace WootzJs.Mvc.Views.Css
     public class CssDeclaration
     {
         protected ElementStyle node;
-
-        private List<Action> actions = new List<Action>();
+        protected List<ICssDeclarationAction> actions = new List<ICssDeclarationAction>();
 
         internal virtual void Attach(ElementStyle node)
         {
@@ -46,16 +45,21 @@ namespace WootzJs.Mvc.Views.Css
 
             foreach (var action in actions)
             {
-                action();
+                action.Act(this);
             }
         }
 
-        protected void Act(Action action)
+        protected void Act(string name, string value)
+        {
+            Act(new CssSetAction(name, value));
+        }
+
+        protected void Act(ICssDeclarationAction action)
         {
             if (node == null)
                 actions.Add(action);
             else
-                action();
+                action.Act(this);
         }
 
         protected string Get(string name)
@@ -66,16 +70,13 @@ namespace WootzJs.Mvc.Views.Css
             throw new InvalidOperationException("Not attached");
         }
 
-        protected void Set(string name, object value)
+        protected internal void Set(string name, object value)
         {
             var val = value.ToString();
-            if (node == null)
-                Act(() => Set(name, value));
-            else
-                node[name] = val;
+            Act(name, val);
         }
 
-        protected bool IsSet(string name)
+        protected internal bool IsSet(string name)
         {
             return node[name] != "";
         }

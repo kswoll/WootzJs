@@ -47,5 +47,25 @@ namespace System
         {
             return Jsni.regex("^\\d+$").test(c.As<JsString>());
         }
+
+        public static char ToUpper(char c)
+        {
+            return c.ToString().ToUpper()[0];
+        }
+
+        public static char ToLower(char c)
+        {
+            return c.ToString().ToLower()[0];
+        }
+
+        public static bool IsUpper(char c)
+        {
+            return char.ToUpper(c) == c && char.ToLower(c) != c;
+        }
+
+        public static bool IsLower(char c)
+        {
+            return char.ToLower(c) == c && char.ToUpper(c) != c;
+        }
 	}
 }
