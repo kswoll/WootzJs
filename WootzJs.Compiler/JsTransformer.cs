@@ -1017,7 +1017,7 @@ namespace WootzJs.Compiler
             // what ReducedFrom is
             if (method.ReducedFrom != null)
             {
-                method = method.ReducedFrom;
+//                method = method.ReducedFrom;
                 invokedAsExtensionMethod = true;
             }
             JsInvocationExpression invocation = null;
