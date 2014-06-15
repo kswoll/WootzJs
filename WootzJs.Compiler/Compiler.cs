@@ -88,7 +88,7 @@ namespace WootzJs.Compiler
             {
                 var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var yieldFixer = new YieldGeneratorFixer(compilation, syntaxTree, semanticModel);
+                var yieldFixer = new StatMachineGeneratorFixer(compilation, syntaxTree, semanticModel, "YieldEnumerator$");
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
@@ -101,6 +101,17 @@ namespace WootzJs.Compiler
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var asyncGenerator = new AsyncGenerator(compilation, syntaxTree, semanticModel);
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(asyncGenerator);
+                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
+            }
+            Context.Update(project.Solution, project, compilation);
+
+            // After the basic transformation happens, we need to fix up some references afterward
+            foreach (var syntaxTree in compilation.SyntaxTrees)
+            {
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                var semanticModel = compilation.GetSemanticModel(syntaxTree);
+                var yieldFixer = new StatMachineGeneratorFixer(compilation, syntaxTree, semanticModel, "Async$");
+                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);

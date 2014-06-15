@@ -31,23 +31,21 @@ using System.Threading.Tasks;
 
 namespace WootzJs.Compiler.Tests
 {
-/*
     [TestFixture]
     public class AsyncTests
     {
         private bool basicTestAsync;
 
         [Test]
-        public async void BasicTest()
+        public void BasicTest()
         {
-            await BasicTestAsync();
+            BasicTestAsync();
             QUnit.IsTrue(basicTestAsync);
         }
 
-        async Task BasicTestAsync()
+        async void BasicTestAsync()
         {
             basicTestAsync = true;
         }
     }
-*/
 }

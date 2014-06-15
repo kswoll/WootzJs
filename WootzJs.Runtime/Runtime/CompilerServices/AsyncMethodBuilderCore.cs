@@ -7,7 +7,7 @@ namespace System.Runtime.CompilerServices
         internal Action m_defaultContextAction;
         internal IAsyncStateMachine m_stateMachine;
 
-        internal void Start<TStateMachine>(TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
+        internal void Start(IAsyncStateMachine stateMachine) 
         {
             if (stateMachine == null)
                 throw new ArgumentNullException("stateMachine");

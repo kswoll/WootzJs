@@ -711,7 +711,8 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitQualifiedName(QualifiedNameSyntax node)
         {
-            throw new Exception();
+            return node.Right.Accept(this);
+//            throw new Exception();
 //            return ((JsMemberReferenceExpression)idioms.MemberReference(Js.This(), model.GetSymbolInfo(node).Symbol, false)).Target;
         }
 

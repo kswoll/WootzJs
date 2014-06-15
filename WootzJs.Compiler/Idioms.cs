@@ -1640,6 +1640,9 @@ namespace WootzJs.Compiler
                     case "in":
                         result = Js.In(arguments[0], arguments[1]);
                         return true;
+                    case "setTimeout":
+                        result = Js.Reference("setTimeout").Invoke(arguments[0], arguments[1]);
+                        return true;
                 }
             }            
             result = null;
@@ -1652,8 +1655,15 @@ namespace WootzJs.Compiler
             if (expression is InvocationExpressionSyntax)
             {
                 var jsniInvocation = (InvocationExpressionSyntax)expression;
-                var method = (IMethodSymbol)ModelExtensions.GetSymbolInfo(Context.Instance.Compilation.GetSemanticModel(expression.SyntaxTree), jsniInvocation).Symbol;
+                var symbolInfo = Context.Instance.Compilation.GetSemanticModel(expression.SyntaxTree).GetSymbolInfo(jsniInvocation);
+                var method = (IMethodSymbol)symbolInfo.Symbol;
                 var arguments = jsniInvocation.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(transformer)).ToArray();
+
+                if (symbolInfo.Symbol == null)
+                {
+                    var classText = statement.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+                    var diagnostics = transformer.model.GetDiagnostics().Select(x => x.ToString()).ToArray();
+                }
 
                 if (method.ReducedFrom != null && method.ReducedFrom != method)
                 {

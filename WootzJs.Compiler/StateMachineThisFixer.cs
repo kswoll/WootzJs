@@ -4,14 +4,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class YieldThisFixer : CSharpSyntaxRewriter
+    public class StateMachineThisFixer : CSharpSyntaxRewriter
     {
         public static T Fix<T>(T method) where T : CSharpSyntaxNode
         {
             // This idea isn't going to work because it leaves the syntax tree in a bad state.  
             // We need to fix the this references after we've done all the semanatic analysis.
             // Not sure the best timing for that yet.
-            var fixer = new YieldThisFixer();
+            var fixer = new StateMachineThisFixer();
             method = (T)method.Accept(fixer);
             return method;
         }

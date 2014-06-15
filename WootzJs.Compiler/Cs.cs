@@ -36,6 +36,11 @@ namespace WootzJs.Compiler
 {
     public static class Cs
     {
+        public static IdentifierNameSyntax IdentifierName(string name)
+        {
+            return SyntaxFactory.IdentifierName(name);
+        }
+
         public static LiteralExpressionSyntax True()
         {
             return SyntaxFactory.LiteralExpression(SyntaxKind.TrueLiteralExpression);
@@ -48,12 +53,32 @@ namespace WootzJs.Compiler
 
         public static PredefinedTypeSyntax Bool()
         {
-            return SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.BoolKeyword));
+            return SyntaxFactory.PredefinedType(Token(SyntaxKind.BoolKeyword));
+        }
+
+        public static PredefinedTypeSyntax Void()
+        {
+            return SyntaxFactory.PredefinedType(Token(SyntaxKind.VoidKeyword));
         }
 
         public static PredefinedTypeSyntax Int()
         {
-            return SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.IntKeyword));
+            return SyntaxFactory.PredefinedType(Token(SyntaxKind.IntKeyword));
+        }
+
+        public static SyntaxToken Ref()
+        {
+            return Token(SyntaxKind.RefKeyword);
+        }
+
+        public static SyntaxToken Out()
+        {
+            return Token(SyntaxKind.OutKeyword);
+        }
+
+        public static SyntaxToken Token(SyntaxKind kind)
+        {
+            return SyntaxFactory.Token(kind);
         }
 
         public static LiteralExpressionSyntax Integer(int value)
@@ -69,6 +94,12 @@ namespace WootzJs.Compiler
         public static ThisExpressionSyntax This()
         {
             return SyntaxFactory.ThisExpression();
+        }
+
+        public static TypeSyntax Var()
+        {
+            return SyntaxFactory.ParseTypeName("var");
+//            return SyntaxFactory.PredefinedType(Token(SyntaxKind.TypeVarKeyword));
         }
 
         public static MemberAccessExpressionSyntax Member(this ExpressionSyntax target, string member)
@@ -89,6 +120,11 @@ namespace WootzJs.Compiler
         public static ExpressionStatementSyntax Express(ExpressionSyntax expression)
         {
             return SyntaxFactory.ExpressionStatement(expression);
+        }
+
+        public static ReturnStatementSyntax Return()
+        {
+            return SyntaxFactory.ReturnStatement();
         }
 
         public static ReturnStatementSyntax Return(ExpressionSyntax expression)
@@ -134,6 +170,34 @@ namespace WootzJs.Compiler
         public static ConstructorDeclarationSyntax WithParameterList(this ConstructorDeclarationSyntax constructor, params ParameterSyntax[] parameters)
         {
             return constructor.WithParameterList(SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(parameters, parameters.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
+        }
+
+        public static MethodDeclarationSyntax WithParameterList(this MethodDeclarationSyntax method, params ParameterSyntax[] parameters)
+        {
+            return method.WithParameterList(SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(parameters, parameters.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
+        }
+
+        public static VariableDeclaratorSyntax Declarator(string name, ExpressionSyntax initializer = null)
+        {
+            var result = SyntaxFactory.VariableDeclarator(name);
+            if (initializer != null)
+                result = result.WithInitializer(SyntaxFactory.EqualsValueClause(initializer));
+            return result;
+        }
+
+        public static VariableDeclarationSyntax Variable(TypeSyntax type, string name, ExpressionSyntax initializer = null)
+        {
+            return SyntaxFactory.VariableDeclaration(type, SyntaxFactory.SeparatedList(new[] { Declarator(name, initializer) }));
+        }
+
+        public static LocalDeclarationStatementSyntax Local(TypeSyntax type, string name, ExpressionSyntax initializer = null)
+        {
+            return Local(Variable(type, name, initializer));
+        }
+
+        public static LocalDeclarationStatementSyntax Local(VariableDeclarationSyntax variable)
+        {
+            return SyntaxFactory.LocalDeclarationStatement(variable);
         }
 
         public static FieldDeclarationSyntax Field(TypeSyntax type, string name)
@@ -207,6 +271,12 @@ namespace WootzJs.Compiler
             return tryStatement.WithFinally(Finally(statements));
         }
 
+        public static TryStatementSyntax WithCatch(this TryStatementSyntax tryStatement, TypeSyntax exceptionType, string exceptionIdentifier, params StatementSyntax[] statements)
+        {
+            return tryStatement
+                .WithCatches(SyntaxFactory.List(new[] { SyntaxFactory.CatchClause().WithDeclaration(SyntaxFactory.CatchDeclaration(exceptionType, SyntaxFactory.Identifier(exceptionIdentifier))) }));
+        }
+
         public static BinaryExpressionSyntax NotEqualTo(this ExpressionSyntax left, ExpressionSyntax right)
         {
             return SyntaxFactory.BinaryExpression(SyntaxKind.NotEqualsExpression, left, right);
@@ -277,7 +347,19 @@ namespace WootzJs.Compiler
 
         public static InvocationExpressionSyntax Invoke(this ExpressionSyntax target, params ExpressionSyntax[] arguments)
         {
-            return SyntaxFactory.InvocationExpression(target, SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments.Select(x => SyntaxFactory.Argument(x)), arguments.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
+            return target.Invoke(arguments.Select(x => SyntaxFactory.Argument(x)).ToArray()); 
+        }
+
+        public static InvocationExpressionSyntax Invoke(this ExpressionSyntax target)
+        {
+            return target.Invoke(new ArgumentSyntax[0]);
+        }
+
+        public static InvocationExpressionSyntax Invoke(this ExpressionSyntax target, params ArgumentSyntax[] arguments)
+        {
+            return SyntaxFactory.InvocationExpression(target, SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(
+                arguments, 
+                arguments.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
         }
 
         public static ObjectCreationExpressionSyntax New(this TypeSyntax type, params ExpressionSyntax[] arguments)

@@ -221,5 +221,7 @@ namespace System.Runtime.WootzJs
         public static extern void forin(this JsObject obj, Action<JsObject> iteration);
 
         public static extern bool @in(this string property, object obj);
+
+        public static extern void setTimeout(Action callback, int timeout);
     }
 }

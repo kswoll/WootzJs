@@ -64,6 +64,7 @@ namespace WootzJs.Compiler
             }
             constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
 
+            var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
             var constructor = SyntaxFactory.ConstructorDeclaration(className)
                 .AddModifiers(Cs.Public())
                 .WithParameterList(constructorParameters.ToArray())
@@ -73,9 +74,10 @@ namespace WootzJs.Compiler
                         constructorParameters.Select(x => Cs.Express(Cs.This().Member(x.Identifier).Assign(SyntaxFactory.IdentifierName(x.Identifier))))
                     )
                     .AddStatements(
-                        Cs.Express(Cs.This().Member(state).Assign(Cs.Integer(-1))),
-                        Cs.Express(Cs.This().Member(builder).Assign(builderField.Declaration.Type.New())),
-                        Cs.Express(Cs.This().Member(builder).Member("Start").Invoke(Cs.This()))
+                        Cs.Express(Cs.This().Member(state).Assign(Cs.Integer(1))),
+                        Cs.Express(Cs.This().Member(builder).Assign(Context.Instance.AsyncVoidMethodBuilderCreate.Invoke())),
+                        Cs.Local(asyncStateMachine, "$self", Cs.This()),
+                        Cs.Express(Cs.This().Member(builder).Member("Start").Invoke(SyntaxFactory.Argument(Cs.IdentifierName("$self")).WithRefOrOutKeyword(Cs.Ref())))
                     )
                 );
             members.Add(constructor);
@@ -90,15 +92,27 @@ namespace WootzJs.Compiler
             //         case 1: ...
             //     }
             // }
-            var moveNextBody = SyntaxFactory.LabeledStatement("$top", Cs.While(Cs.True(), 
-                Cs.Switch(Cs.This().Member(state), states.Select((x, i) => 
-                    Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())));
-            var moveNext = SyntaxFactory.MethodDeclaration(Cs.Bool(), "MoveNext")
+            var moveNext = SyntaxFactory.MethodDeclaration(Cs.Void(), "MoveNext")
                 .AddModifiers(Cs.Public())
-                .WithBody(SyntaxFactory.Block(moveNextBody));
+                .WithBody(SyntaxFactory.Block(
+                    Cs.Try()
+                        .WithBlock(Cs.Block(
+                            Cs.Switch(Cs.This().Member(StateGenerator.state), states.Select((x, i) => 
+                                Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())
+                        ))
+                        .WithCatch(Context.Instance.Exception.ToTypeSyntax(), "ex")
+                ));
             members.Add(moveNext);
 
-            var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
+            // Generate the SetStateMachine(IAsyncStateMachine) method.  This will *never* be invoked.
+            var setStateMachine = SyntaxFactory.MethodDeclaration(Cs.Void(), "SetStateMachine")
+                .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
+                .WithParameterList(
+                    SyntaxFactory.Parameter(SyntaxFactory.Identifier("stateMachine")).WithType(asyncStateMachine)
+                )
+                .WithBody(SyntaxFactory.Block());
+            members.Add(setStateMachine);
+
             var baseTypes = new[] { asyncStateMachine };
             var result = SyntaxFactory.ClassDeclaration(className).WithBaseList(baseTypes).WithMembers(members.ToArray());
 

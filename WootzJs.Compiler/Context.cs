@@ -178,6 +178,8 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol INotifyPropertyChanged { get; private set; }
 
         public INamedTypeSymbol AsyncVoidMethodBuilder { get; private set; }
+        public IMethodSymbol AsyncVoidMethodBuilderCreate { get; private set; }
+        public IMethodSymbol AsyncVoidMethodBuilderStart { get; private set; }
         public INamedTypeSymbol AsyncTaskMethodBuilder { get; private set; }
         public INamedTypeSymbol AsyncTaskTMethodBuilder { get; private set; }
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
@@ -330,6 +332,8 @@ namespace WootzJs.Compiler
             Array = compilation.FindType("System.Array");
             INotifyPropertyChanged = compilation.FindType("System.ComponentModel.INotifyPropertyChanged");
             AsyncVoidMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncVoidMethodBuilder");
+            AsyncVoidMethodBuilderCreate = AsyncVoidMethodBuilder.GetMethod("Create");
+            AsyncVoidMethodBuilderStart = AsyncVoidMethodBuilder.GetMethod("Start");
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }

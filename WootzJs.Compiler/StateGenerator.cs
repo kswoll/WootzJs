@@ -54,10 +54,15 @@ namespace WootzJs.Compiler
             return node;
         }
 
+        protected virtual StatementSyntax ReturnOutOfState()
+        {
+            return Cs.Return(Cs.False());
+        }
+
         public void GenerateStates()
         {
             var lastState = new State(this);
-            lastState.Statements.Add(Cs.Return(Cs.False()));
+            lastState.Statements.Add(ReturnOutOfState());
 
             currentState = new State(this) { NextState = lastState };
             node.Accept(this);

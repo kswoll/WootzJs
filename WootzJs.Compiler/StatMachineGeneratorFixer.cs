@@ -35,17 +35,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WootzJs.Compiler
 {
-    public class YieldGeneratorFixer : CSharpSyntaxRewriter
+    public class StatMachineGeneratorFixer : CSharpSyntaxRewriter
     {
         private Compilation compilation;
         private SyntaxTree syntaxTree;
         private SemanticModel semanticModel;
+        private string enclosingTypeName;
 
-        public YieldGeneratorFixer(Compilation compilation, SyntaxTree syntaxTree, SemanticModel semanticModel)
+        public StatMachineGeneratorFixer(Compilation compilation, SyntaxTree syntaxTree, SemanticModel semanticModel, string enclosingTypeName)
         {
             this.compilation = compilation;
             this.syntaxTree = syntaxTree;
             this.semanticModel = semanticModel;
+            this.enclosingTypeName = enclosingTypeName;
         }
 
         public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
@@ -58,7 +60,7 @@ namespace WootzJs.Compiler
                 }
 
                 var containingType = node.GetContainingType();
-                if (containingType == null || !containingType.Name.StartsWith("YieldEnumerator$"))
+                if (containingType == null || !containingType.Name.StartsWith(enclosingTypeName))
                     return node;
 
                 var symbol = semanticModel.GetSymbolInfo(node).Symbol;

@@ -49,7 +49,7 @@ namespace WootzJs.Compiler
                 if (variable.Initializer != null)
                 {
                     var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign(variable.Initializer.Value);
-                    currentState.Add(Cs.Express(YieldThisFixer.Fix(assignment)));
+                    currentState.Add(Cs.Express(StateMachineThisFixer.Fix(assignment)));
                 }
 
                 // Hoist the variable into a field
@@ -70,7 +70,7 @@ namespace WootzJs.Compiler
             else
             {
                 currentState.Add(ChangeState(nextState));
-                currentState.Add(Cs.Express(Cs.This().Member("Current").Assign(YieldThisFixer.Fix(node.Expression))));
+                currentState.Add(Cs.Express(Cs.This().Member("Current").Assign(StateMachineThisFixer.Fix(node.Expression))));
                 currentState.Add(Cs.Return(Cs.True()));
             }
             SetClosed(currentState);
@@ -82,7 +82,7 @@ namespace WootzJs.Compiler
         {
             if (!YieldChecker.HasSpecialStatement(node))
             {
-                currentState.Add(YieldThisFixer.Fix(node));
+                currentState.Add(StateMachineThisFixer.Fix(node));
             }
             else
             {
@@ -135,7 +135,7 @@ namespace WootzJs.Compiler
         {
             if (!YieldChecker.HasSpecialStatement(node))
             {
-                currentState.Add(YieldThisFixer.Fix(node));
+                currentState.Add(StateMachineThisFixer.Fix(node));
             }
             else
             {
@@ -147,7 +147,7 @@ namespace WootzJs.Compiler
 
                 var iterationState = currentState;
 
-                conditionState.Add(Cs.If(YieldThisFixer.Fix(node.Condition), ChangeState(iterationState), ChangeState(nextState)));
+                conditionState.Add(Cs.If(StateMachineThisFixer.Fix(node.Condition), ChangeState(iterationState), ChangeState(nextState)));
                 conditionState.Add(GotoTop());
                 SetClosed(conditionState);
                 iterationState.NextState = conditionState;
@@ -166,7 +166,7 @@ namespace WootzJs.Compiler
         {
             if (!YieldChecker.HasSpecialStatement(node))
             {
-                currentState.Add(YieldThisFixer.Fix(node));
+                currentState.Add(StateMachineThisFixer.Fix(node));
             }
             else
             {
@@ -190,7 +190,7 @@ namespace WootzJs.Compiler
         {
             if (!YieldChecker.HasSpecialStatement(node))
             {
-                currentState.Add(YieldThisFixer.Fix(node));
+                currentState.Add(StateMachineThisFixer.Fix(node));
             }
             else
             {
@@ -212,7 +212,7 @@ namespace WootzJs.Compiler
                 }
                 foreach (var initializer in node.Initializers)
                 {
-                    currentState.Add(Cs.Express(YieldThisFixer.Fix(initializer)));
+                    currentState.Add(Cs.Express(StateMachineThisFixer.Fix(initializer)));
                 }
 
                 MaybeCreateNewState();
@@ -231,7 +231,7 @@ namespace WootzJs.Compiler
 
                     foreach (var incrementor in node.Incrementors)
                     {
-                        postState.Add(Cs.Express(YieldThisFixer.Fix(incrementor)));
+                        postState.Add(Cs.Express(StateMachineThisFixer.Fix(incrementor)));
                     }
                     Close(postState);
                 }
@@ -255,7 +255,7 @@ namespace WootzJs.Compiler
         {
             if (!YieldChecker.HasSpecialStatement(node))
             {
-                currentState.Add(YieldThisFixer.Fix(node));
+                currentState.Add(StateMachineThisFixer.Fix(node));
             }
             else
             {
@@ -275,7 +275,7 @@ namespace WootzJs.Compiler
                     SyntaxFactory.ParseTypeName("System.Collections.IEnumerator") :
                     SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
                 node = (ForEachStatementSyntax)HoistVariable(node, enumerator, enumeratorType);
-                currentState.Add(Cs.Express(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, YieldThisFixer.Fix(node.Expression), SyntaxFactory.IdentifierName("GetEnumerator"))))));
+                currentState.Add(Cs.Express(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, StateMachineThisFixer.Fix(node.Expression), SyntaxFactory.IdentifierName("GetEnumerator"))))));
 
                 // Mostly the same as while loop from here (key word, "mostly"; hence the lack of factoring here)
                 MaybeCreateNewState();
@@ -365,12 +365,12 @@ namespace WootzJs.Compiler
 
         public override void VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            currentState.Add(YieldThisFixer.Fix(node));
+            currentState.Add(StateMachineThisFixer.Fix(node));
         }
 
         public override void VisitThrowStatement(ThrowStatementSyntax node)
         {
-            currentState.Add(YieldThisFixer.Fix(node));
+            currentState.Add(StateMachineThisFixer.Fix(node));
         }
 
         public override void VisitEmptyStatement(EmptyStatementSyntax node)
@@ -398,7 +398,7 @@ namespace WootzJs.Compiler
 
         public override void VisitGotoStatement(GotoStatementSyntax node)
         {
-            currentState.Add(YieldThisFixer.Fix(node)); 
+            currentState.Add(StateMachineThisFixer.Fix(node)); 
             currentState.Add(GotoTop());                        
             SetClosed(currentState);
         }

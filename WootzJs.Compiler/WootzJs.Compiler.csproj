@@ -169,10 +169,10 @@
     <Compile Include="YieldChecker.cs" />
     <Compile Include="YieldGenerator.cs" />
     <Compile Include="YieldClassGenerator.cs" />
-    <Compile Include="YieldGeneratorFixer.cs" />
+    <Compile Include="StatMachineGeneratorFixer.cs" />
     <Compile Include="State.cs" />
     <Compile Include="YieldStateGenerator.cs" />
-    <Compile Include="YieldThisFixer.cs" />
+    <Compile Include="StateMachineThisFixer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
