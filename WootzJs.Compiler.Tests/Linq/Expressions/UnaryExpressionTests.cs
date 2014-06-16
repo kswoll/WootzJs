@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -39,9 +40,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<bool>> lambda = () => !true;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            QUnit.AreEqual(unaryExpression.NodeType, ExpressionType.Not);
-            QUnit.AreEqual(unaryExpression.Type, typeof(bool));
-            QUnit.AreEqual(operand.Value, true);
+            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.Not);
+            Assert.AssertEquals(unaryExpression.Type, typeof(bool));
+            Assert.AssertEquals(operand.Value, true);
         }
 
         [Test]
@@ -50,8 +51,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => -5;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            QUnit.AreEqual(unaryExpression.NodeType, ExpressionType.Negate);
-            QUnit.AreEqual(operand.Value, 5);
+            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.Negate);
+            Assert.AssertEquals(operand.Value, 5);
         }
 
         [Test]
@@ -60,9 +61,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<object>> lambda = () => "foo" as object;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            QUnit.AreEqual(unaryExpression.NodeType, ExpressionType.TypeAs);
-            QUnit.AreEqual(operand.Value, "foo");
-            QUnit.AreEqual(unaryExpression.Type.FullName, typeof(object).FullName);
+            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.TypeAs);
+            Assert.AssertEquals(operand.Value, "foo");
+            Assert.AssertEquals(unaryExpression.Type.FullName, typeof(object).FullName);
         }
     }
 }

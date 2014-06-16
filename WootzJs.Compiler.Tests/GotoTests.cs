@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using WootzJs.Testing;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -46,7 +48,7 @@ namespace WootzJs.Compiler.Tests
                 }
             }
 
-            QUnit.AreEqual(counter, 6);
+            Assert.AssertEquals(counter, 6);
         }
     }
 }

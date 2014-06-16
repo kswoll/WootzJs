@@ -28,6 +28,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -40,7 +41,7 @@ namespace WootzJs.Compiler.Tests
             var counter = 0;
             var jsObject = Jsni.@object(new { One = 1, Two = 2 });
             jsObject.forin(x => counter += jsObject[x]);
-            QUnit.AreEqual(counter, 3);
+            Assert.AssertEquals(counter, 3);
         }
     }
 }

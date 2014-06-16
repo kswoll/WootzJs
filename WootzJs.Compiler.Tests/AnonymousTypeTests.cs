@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -36,7 +37,7 @@ namespace WootzJs.Compiler.Tests
         public void OneProperty()
         {
             var o = new { MyProperty = "foo" };
-            QUnit.AreEqual(o.MyProperty, "foo");
+            Assert.AssertEquals(o.MyProperty, "foo");
         }
     }
 }

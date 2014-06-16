@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -41,9 +42,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => list[1];
             var callExpression = (IndexExpression)lambda.Body;
             var target = (ConstantExpression)callExpression.Object;
-            QUnit.AreEqual(target.Value, list);
+            Assert.AssertEquals(target.Value, list);
             var index = (ConstantExpression)callExpression.Arguments[0];
-            QUnit.AreEqual(index.Value, 1);
+            Assert.AssertEquals(index.Value, 1);
         }         
 
         [Test]
@@ -53,9 +54,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<string>> lambda = () => dictionary[1];
             var callExpression = (IndexExpression)lambda.Body;
             var target = (ConstantExpression)callExpression.Object;
-            QUnit.AreEqual(target.Value, dictionary);
+            Assert.AssertEquals(target.Value, dictionary);
             var index = (ConstantExpression)callExpression.Arguments[0];
-            QUnit.AreEqual(index.Value, 1);
+            Assert.AssertEquals(index.Value, 1);
         }         
     }
 }

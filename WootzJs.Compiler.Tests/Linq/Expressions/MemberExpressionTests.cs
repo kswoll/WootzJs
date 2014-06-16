@@ -28,6 +28,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -39,9 +40,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<ClassWithMembers, string>> lambda = x => x.StringProperty;
             var memberExpression = (MemberExpression)lambda.Body;
-            QUnit.AreEqual(memberExpression.Expression, lambda.Parameters[0]);
-            QUnit.IsTrue(memberExpression.Member is PropertyInfo);
-            QUnit.AreEqual(memberExpression.Member.Name, "StringProperty");
+            Assert.AssertEquals(memberExpression.Expression, lambda.Parameters[0]);
+            Assert.AssertTrue(memberExpression.Member is PropertyInfo);
+            Assert.AssertEquals(memberExpression.Member.Name, "StringProperty");
         }
          
 /*

@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,21 +38,21 @@ namespace WootzJs.Compiler.Tests
         public void OneProperty()
         {
             var o = new OnePropertyClass { MyProperty = "foo" };
-            QUnit.AreEqual(o.MyProperty, "foo");
+            Assert.AssertEquals(o.MyProperty, "foo");
         }
          
         [Test]
         public void OneField()
         {
             var o = new OnePropertyClass { MyField = "foo" };
-            QUnit.AreEqual(o.MyField, "foo");
+            Assert.AssertEquals(o.MyField, "foo");
         }
          
         [Test]
         public void Nested()
         {
             var o = new OnePropertyClass { NestedProperty = new OnePropertyClass { MyProperty = "foo" } };
-            QUnit.AreEqual(o.NestedProperty.MyProperty, "foo");
+            Assert.AssertEquals(o.NestedProperty.MyProperty, "foo");
         }
          
         public class OnePropertyClass

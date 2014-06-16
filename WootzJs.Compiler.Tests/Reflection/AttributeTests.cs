@@ -28,6 +28,7 @@
 using System;
 using System.Linq;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
@@ -39,8 +40,8 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(TestClass).GetMethods().Single(x => x.Name == "Method");
             var attribute = (FooAttribute)method.GetCustomAttributes(typeof(FooAttribute), false)[0];
-            QUnit.AreEqual(attribute.ConstructorValue, 1);
-            QUnit.AreEqual(attribute.PropertyValue, "One");
+            Assert.AssertEquals(attribute.ConstructorValue, 1);
+            Assert.AssertEquals(attribute.PropertyValue, "One");
         }
 
         [Test]
@@ -50,9 +51,9 @@ namespace WootzJs.Compiler.Tests.Reflection
             var field2 = typeof(TestClass).GetFields().Single(x => x.Name == "Field2");
             var attribute1 = (FooAttribute)field1.GetCustomAttributes(typeof(FooAttribute), false)[0];
             var attribute2 = (FooAttribute)field2.GetCustomAttributes(typeof(FooAttribute), false)[0];
-            QUnit.AreEqual(attribute1.ConstructorValue, 2);
-            QUnit.AreEqual(attribute1.PropertyValue, "Two");
-            QUnit.AreEqual(attribute2.ConstructorValue, 3);
+            Assert.AssertEquals(attribute1.ConstructorValue, 2);
+            Assert.AssertEquals(attribute1.PropertyValue, "Two");
+            Assert.AssertEquals(attribute2.ConstructorValue, 3);
         }
 
         [Test]
@@ -63,10 +64,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             var parameter2 = method.GetParameters()[1];
             var attribute1 = (FooAttribute)parameter1.GetCustomAttributes(typeof(FooAttribute), false)[0];
             var attribute2 = (FooAttribute)parameter2.GetCustomAttributes(typeof(FooAttribute), false)[0];
-            QUnit.AreEqual(attribute1.ConstructorValue, 4);
-            QUnit.AreEqual(attribute1.PropertyValue, "Four");
-            QUnit.AreEqual(attribute2.ConstructorValue, 5);
-            QUnit.AreEqual(attribute2.PropertyValue, "Five");
+            Assert.AssertEquals(attribute1.ConstructorValue, 4);
+            Assert.AssertEquals(attribute1.PropertyValue, "Four");
+            Assert.AssertEquals(attribute2.ConstructorValue, 5);
+            Assert.AssertEquals(attribute2.PropertyValue, "Five");
         }
 
         [Test]
@@ -74,8 +75,8 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var field = typeof(TestEnum).GetFields().Single();
             var attribute = (FooAttribute)field.GetCustomAttributes(typeof(FooAttribute), false)[0];
-            QUnit.AreEqual(attribute.ConstructorValue, 6);
-            QUnit.AreEqual(attribute.PropertyValue, "Six");
+            Assert.AssertEquals(attribute.ConstructorValue, 6);
+            Assert.AssertEquals(attribute.PropertyValue, "Six");
         }
 
         public class FooAttribute : Attribute

@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -38,9 +39,9 @@ namespace WootzJs.Compiler.Tests
             var baseClass = new BaseClass();
             var subClass = new SubClass();
             BaseClass subClassAsBaseClass = subClass;
-            QUnit.AreEqual(baseClass.Foo(), "base");
-            QUnit.AreEqual(subClass.Foo(), "sub");
-            QUnit.AreEqual(subClassAsBaseClass.Foo(), "sub");
+            Assert.AssertEquals(baseClass.Foo(), "base");
+            Assert.AssertEquals(subClass.Foo(), "sub");
+            Assert.AssertEquals(subClassAsBaseClass.Foo(), "sub");
         }
          
         class BaseClass

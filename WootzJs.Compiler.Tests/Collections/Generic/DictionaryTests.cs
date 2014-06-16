@@ -27,6 +27,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
@@ -38,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var dictionary = new Dictionary<string, int>();
             dictionary.Add("one", 1);
-            QUnit.AreEqual(dictionary.Count, 1);
+            Assert.AssertEquals(dictionary.Count, 1);
         }
          
         [Test]
@@ -46,8 +47,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var dictionary = new Dictionary<string, int>();
             dictionary.Add("one", 1);
-            QUnit.IsTrue(dictionary.ContainsKey("one"));
-            QUnit.IsTrue(!dictionary.ContainsKey("two"));
+            Assert.AssertTrue(dictionary.ContainsKey("one"));
+            Assert.AssertTrue(!dictionary.ContainsKey("two"));
         }
          
         [Test]
@@ -57,8 +58,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary.Add("one", 1);
             dictionary.Add("two", 2);
             var keys = dictionary.Keys.ToArray();
-            QUnit.IsTrue(keys[0] == "one" || keys[1] == "one");
-            QUnit.IsTrue(keys[0] == "two" || keys[1] == "two");
+            Assert.AssertTrue(keys[0] == "one" || keys[1] == "one");
+            Assert.AssertTrue(keys[0] == "two" || keys[1] == "two");
         }
          
         [Test]
@@ -67,7 +68,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary.Add("one", 1);
             dictionary.Add("two", 2);
-            QUnit.AreEqual(dictionary["one"], 1);
+            Assert.AssertEquals(dictionary["one"], 1);
         }
          
         [Test]
@@ -76,8 +77,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary["two"] = 2;
-            QUnit.AreEqual(dictionary["one"], 1);
-            QUnit.AreEqual(dictionary["two"], 2);
+            Assert.AssertEquals(dictionary["one"], 1);
+            Assert.AssertEquals(dictionary["two"], 2);
         }
          
         [Test]
@@ -86,8 +87,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary["one"] = 2;
-            QUnit.AreEqual(dictionary["one"], 2);
-            QUnit.AreEqual(dictionary.Count, 1);
+            Assert.AssertEquals(dictionary["one"], 2);
+            Assert.AssertEquals(dictionary.Count, 1);
         }
          
         [Test]
@@ -96,7 +97,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary.Remove("one");
-            QUnit.AreEqual(dictionary.Count, 0);
+            Assert.AssertEquals(dictionary.Count, 0);
         }
          
         [Test]
@@ -105,7 +106,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary.Clear();
-            QUnit.AreEqual(dictionary.Count, 0);
+            Assert.AssertEquals(dictionary.Count, 0);
         }
          
         [Test]
@@ -116,7 +117,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary["two"] = 2;
             int i;
             dictionary.TryGetValue("two", out i);
-            QUnit.AreEqual(i, 2);
+            Assert.AssertEquals(i, 2);
         }
 
         [Test]
@@ -130,9 +131,9 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary[two] = 2;
             dictionary[three] = 3;
 
-            QUnit.AreEqual(dictionary[one], 1);
-            QUnit.AreEqual(dictionary[two], 2);
-            QUnit.AreEqual(dictionary[three], 3);
+            Assert.AssertEquals(dictionary[one], 1);
+            Assert.AssertEquals(dictionary[two], 2);
+            Assert.AssertEquals(dictionary[three], 3);
         }
 
         public class MyClass

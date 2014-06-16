@@ -29,6 +29,7 @@
 
 using System.ComponentModel;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.ComponentModel
 {
@@ -42,7 +43,7 @@ namespace WootzJs.Compiler.Tests.ComponentModel
             string propertyName = null;
             obj.PropertyChanged += (sender, evt) => propertyName = evt.PropertyName;
             obj.StringProperty = "foo";
-            QUnit.AreEqual(propertyName, "StringProperty");
+            Assert.AssertEquals(propertyName, "StringProperty");
         }
 
         public class OnePropertyClass : INotifyPropertyChanged

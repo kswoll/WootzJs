@@ -28,6 +28,7 @@
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
@@ -39,7 +40,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var methods = typeof(MethodClass).GetMethods();
             var method = methods.Single(x => x.Name == "VoidMethod");
-            QUnit.IsTrue(true);
+            Assert.AssertTrue(true);
         }
 
         [Test]
@@ -49,17 +50,17 @@ namespace WootzJs.Compiler.Tests.Reflection
             var method = methods.Single(x => x.Name == "InstanceMethod");
             var instance = new MethodClass();
             var result = (string)method.Invoke(instance, new object[0]);
-            QUnit.AreEqual(result, "InstanceMethod");
+            Assert.AssertEquals(result, "InstanceMethod");
         }
 
         [Test]
         public void NameForOverload()
         {
             var method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(int) });
-            QUnit.AreEqual(method.GetParameters()[0].ParameterType, typeof(int));
+            Assert.AssertEquals(method.GetParameters()[0].ParameterType, typeof(int));
 
             method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(string) });
-            QUnit.AreEqual(method.GetParameters()[0].ParameterType, typeof(string));
+            Assert.AssertEquals(method.GetParameters()[0].ParameterType, typeof(string));
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(MethodClass).GetMethod("MethodWithDictionary");
             var parameter = method.GetParameters()[0];
-            QUnit.AreEqual(parameter.ParameterType, typeof(IDictionary<string, int>));
+            Assert.AssertEquals(parameter.ParameterType, typeof(IDictionary<string, int>));
         }
 
         [Test]
@@ -75,7 +76,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(MethodClass).GetMethod("GenericReturnType");
             var returnType = method.ReturnType;
-            QUnit.AreEqual(returnType, typeof(List<string>));            
+            Assert.AssertEquals(returnType, typeof(List<string>));            
         }
 
         public class MethodClass

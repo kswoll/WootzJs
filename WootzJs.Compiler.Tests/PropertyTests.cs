@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using WootzJs.Testing;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -34,22 +36,22 @@ namespace WootzJs.Compiler.Tests
         public void StaticProperty()
         {
             StaticPropertyClass.StringProperty = "foo";
-            QUnit.AreEqual(StaticPropertyClass.StringProperty, "foo");
+            Assert.AssertEquals(StaticPropertyClass.StringProperty, "foo");
         }
 
         [Test]
         public void PrimitiveFields()
         {
             var primitiveFields = new PrimitiveFieldsClass();
-            QUnit.AreEqual(primitiveFields.Boolean, false);
-            QUnit.AreEqual(primitiveFields.Byte, 0);
-            QUnit.AreEqual(primitiveFields.SByte, 0);
-            QUnit.AreEqual(primitiveFields.Short, 0);
-            QUnit.AreEqual(primitiveFields.UShort, 0);
-            QUnit.AreEqual(primitiveFields.Int, 0);
-            QUnit.AreEqual(primitiveFields.UInt, 0);
-            QUnit.AreEqual(primitiveFields.Long, 0);
-            QUnit.AreEqual(primitiveFields.ULong, 0);
+            Assert.AssertEquals(primitiveFields.Boolean, false);
+            Assert.AssertEquals(primitiveFields.Byte, 0);
+            Assert.AssertEquals(primitiveFields.SByte, 0);
+            Assert.AssertEquals(primitiveFields.Short, 0);
+            Assert.AssertEquals(primitiveFields.UShort, 0);
+            Assert.AssertEquals(primitiveFields.Int, 0);
+            Assert.AssertEquals(primitiveFields.UInt, 0);
+            Assert.AssertEquals(primitiveFields.Long, 0);
+            Assert.AssertEquals(primitiveFields.ULong, 0);
         }
 
         [Test]
@@ -57,7 +59,7 @@ namespace WootzJs.Compiler.Tests
         {
             var instance = new SubclassWithBasePropertyReferences();
             instance.MyProperty = "foo";
-            QUnit.AreEqual(instance.MyProperty, "foo");
+            Assert.AssertEquals(instance.MyProperty, "foo");
         }
 
         public class StaticPropertyClass

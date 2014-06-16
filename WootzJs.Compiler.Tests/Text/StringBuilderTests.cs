@@ -27,6 +27,7 @@
 
 using System.Runtime.WootzJs;
 using System.Text;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Text
 {
@@ -42,7 +43,7 @@ namespace WootzJs.Compiler.Tests.Text
             builder.AppendLine();
             builder.AppendLine('c');
             builder.AppendLine("d");
-            QUnit.AreEqual(builder.ToString(), "ab\nc\nd\n");
+            Assert.AssertEquals(builder.ToString(), "ab\nc\nd\n");
         }
     }
 }

@@ -58,6 +58,11 @@ namespace System.Threading.Tasks
             return new TaskAwaiter(this);
         }
 
+        public void Wait(Action continueWith)
+        {
+            
+        }
+
         internal void SetContinuationForAwait(Action continuationAction)
         {
             if (IsCompleted)

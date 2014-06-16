@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -41,10 +42,10 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var invocation = (InvocationExpression)lambda.Body;
 
             var target = (ConstantExpression)invocation.Expression;
-            QUnit.AreEqual(target.Value, func);
+            Assert.AssertEquals(target.Value, func);
 
             var arg = (ConstantExpression)invocation.Arguments[0];
-            QUnit.AreEqual(arg.Value, 5);
+            Assert.AssertEquals(arg.Value, 5);
         }
     }
 }

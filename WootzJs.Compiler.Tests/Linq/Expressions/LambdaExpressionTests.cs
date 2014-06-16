@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -39,8 +40,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<Func<int, int>>> lambda = () => x => x;
             var expression = (LambdaExpression)lambda.Body;
 
-            QUnit.AreEqual(expression.Parameters.Count, 1);
-            QUnit.AreEqual(expression.Body, expression.Parameters[0]);
+            Assert.AssertEquals(expression.Parameters.Count, 1);
+            Assert.AssertEquals(expression.Body, expression.Parameters[0]);
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int>> return5 = () => 5;
             var func = return5.Compile();
-            QUnit.AreEqual(func(), 5);
+            Assert.AssertEquals(func(), 5);
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int, int>> returnParameter = x => x;
             var func = returnParameter.Compile();
-            QUnit.AreEqual(func(5), 5);
+            Assert.AssertEquals(func(5), 5);
         }
 
         [Test]
@@ -64,7 +65,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int, int>> added = x => x + 1;
             var func = added.Compile();
-            QUnit.AreEqual(func(5), 6);
+            Assert.AssertEquals(func(5), 6);
         }
     }
 }

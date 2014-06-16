@@ -27,6 +27,7 @@
 
 using System.Linq;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
@@ -44,12 +45,12 @@ namespace WootzJs.Compiler.Tests.Reflection
             var protectedField = fields.Single(x => x.Name == "ProtectedField");
             var privateField = fields.Single(x => x.Name == "PrivateField");
             var internalField = fields.Single(x => x.Name == "InternalField");
-            QUnit.AreEqual(stringField.Name, "StringField");
-            QUnit.AreEqual(intField.Name, "IntField");
-            QUnit.AreEqual(staticField.Name, "StaticField");
-            QUnit.AreEqual(protectedField.Name, "ProtectedField");
-            QUnit.AreEqual(privateField.Name, "PrivateField");
-            QUnit.AreEqual(internalField.Name, "InternalField");
+            Assert.AssertEquals(stringField.Name, "StringField");
+            Assert.AssertEquals(intField.Name, "IntField");
+            Assert.AssertEquals(staticField.Name, "StaticField");
+            Assert.AssertEquals(protectedField.Name, "ProtectedField");
+            Assert.AssertEquals(privateField.Name, "PrivateField");
+            Assert.AssertEquals(internalField.Name, "InternalField");
         }                  
          
         [Test]
@@ -66,20 +67,20 @@ namespace WootzJs.Compiler.Tests.Reflection
             var protectedInternalField = fields.Single(x => x.Name == "ProtectedInternalField");
             var readonlyField = fields.Single(x => x.Name == "ReadonlyField");
             var constantField = fields.Single(x => x.Name == "ConstantField");
-            QUnit.IsTrue(stringField.IsPublic);
-            QUnit.IsTrue(intField.IsPublic);
-            QUnit.IsTrue(staticField.IsPublic);
-            QUnit.IsTrue(staticField.IsStatic);
-            QUnit.IsTrue(protectedField.IsFamily);
-            QUnit.IsTrue(!protectedField.IsPublic);
-            QUnit.IsTrue(privateField.IsPrivate);
-            QUnit.IsTrue(!privateField.IsPublic);
-            QUnit.IsTrue(internalField.IsAssembly);
-            QUnit.IsTrue(!internalField.IsPublic);
-            QUnit.IsTrue(!protectedInternalField.IsPublic);
-            QUnit.IsTrue(protectedInternalField.IsFamilyOrAssembly);
-            QUnit.IsTrue(readonlyField.IsInitOnly);
-            QUnit.IsTrue(constantField.IsLiteral);
+            Assert.AssertTrue(stringField.IsPublic);
+            Assert.AssertTrue(intField.IsPublic);
+            Assert.AssertTrue(staticField.IsPublic);
+            Assert.AssertTrue(staticField.IsStatic);
+            Assert.AssertTrue(protectedField.IsFamily);
+            Assert.AssertTrue(!protectedField.IsPublic);
+            Assert.AssertTrue(privateField.IsPrivate);
+            Assert.AssertTrue(!privateField.IsPublic);
+            Assert.AssertTrue(internalField.IsAssembly);
+            Assert.AssertTrue(!internalField.IsPublic);
+            Assert.AssertTrue(!protectedInternalField.IsPublic);
+            Assert.AssertTrue(protectedInternalField.IsFamilyOrAssembly);
+            Assert.AssertTrue(readonlyField.IsInitOnly);
+            Assert.AssertTrue(constantField.IsLiteral);
         }                  
          
         [Test]
@@ -89,7 +90,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var fields = type.GetFields();
             var constantField = fields.Single(x => x.Name == "ConstantField");
             var constantValue = constantField.GetRawConstantValue();
-            QUnit.AreEqual(constantValue, "foo");
+            Assert.AssertEquals(constantValue, "foo");
         }                  
          
         [Test]
@@ -102,10 +103,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticField = fields.Single(x => x.Name == "StaticField");
                 
             var stringFieldValue = stringField.GetValue(o);
-            QUnit.AreEqual(stringFieldValue, "bar");
+            Assert.AssertEquals(stringFieldValue, "bar");
 
             var staticFieldValue = staticField.GetValue(null);
-            QUnit.AreEqual(staticFieldValue, "foobar");
+            Assert.AssertEquals(staticFieldValue, "foobar");
         }                  
          
         [Test]
@@ -121,10 +122,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             staticField.SetValue(o, "foobar2");
 
             var stringFieldValue = stringField.GetValue(o);
-            QUnit.AreEqual(stringFieldValue, "bar2");
+            Assert.AssertEquals(stringFieldValue, "bar2");
 
             var staticFieldValue = staticField.GetValue(null);
-            QUnit.AreEqual(staticFieldValue, "foobar2");
+            Assert.AssertEquals(staticFieldValue, "foobar2");
         }                  
          
         public class FieldClass

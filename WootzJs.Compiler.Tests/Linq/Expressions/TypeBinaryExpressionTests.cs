@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -43,9 +44,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
 #pragma warning restore 184
             var unaryExpression = (TypeBinaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Expression;
-            QUnit.AreEqual(unaryExpression.NodeType, ExpressionType.TypeIs);
-            QUnit.AreEqual(operand.Value, "foo");
-            QUnit.AreEqual(unaryExpression.TypeOperand.FullName, typeof(int).FullName);
+            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.TypeIs);
+            Assert.AssertEquals(operand.Value, "foo");
+            Assert.AssertEquals(unaryExpression.TypeOperand.FullName, typeof(int).FullName);
         }
     }
 }

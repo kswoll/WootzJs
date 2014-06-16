@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,7 +38,7 @@ namespace WootzJs.Compiler.Tests
         public void ToHex()
         {
             var number = 20;
-            QUnit.AreEqual(number.ToString("X4"), "0014");
+            Assert.AssertEquals(number.ToString("X4"), "0014");
         }
 
         [Test]
@@ -45,8 +46,8 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "1";
             int i;
-            QUnit.IsTrue(int.TryParse(s, out i));
-            QUnit.AreEqual(i, 1);
+            Assert.AssertTrue(int.TryParse(s, out i));
+            Assert.AssertEquals(i, 1);
         }
 
         [Test]
@@ -54,14 +55,14 @@ namespace WootzJs.Compiler.Tests
         {
             var f = 1.234f;
             var i = (int)f;
-            QUnit.AreEqual(i, 1);
+            Assert.AssertEquals(i, 1);
         }
 
         [Test]
         public void ToLocaleString()
         {
             var s = 1.234.As<JsNumber>().toLocaleString();
-            QUnit.AreEqual(s, "1.234");
+            Assert.AssertEquals(s, "1.234");
         }
 
         [Test]
@@ -70,11 +71,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 int.Parse("a");
-                QUnit.IsTrue(false);
+                Assert.AssertTrue(false);
             }
             catch (FormatException e)
             {
-                QUnit.IsTrue(true);                
+                Assert.AssertTrue(true);                
             }
         }
     }

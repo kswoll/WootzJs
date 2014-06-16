@@ -27,6 +27,7 @@
 
 using System.Linq;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
@@ -39,7 +40,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var type = typeof(TestClass);
             var constructor = type.GetConstructors().Single(x => x.GetParameters().Length == 0);
             var testClass = (TestClass)constructor.Invoke(new object[0]);
-            QUnit.AreEqual(testClass.Foo, "parameterless");
+            Assert.AssertEquals(testClass.Foo, "parameterless");
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var type = typeof(NoConstructorClass);
             var constructor = type.GetConstructors().Single(x => x.GetParameters().Length == 0);
             var testClass = (NoConstructorClass)constructor.Invoke(new object[0]);
-            QUnit.AreEqual(testClass.Foo, "noconstructor");
+            Assert.AssertEquals(testClass.Foo, "noconstructor");
         }
 
         public class TestClass

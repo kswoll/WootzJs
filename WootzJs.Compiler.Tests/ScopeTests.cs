@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -40,7 +41,7 @@ namespace WootzJs.Compiler.Tests
             var i = 0;
             Action action = () => i = i + 1;
             action();
-            QUnit.AreEqual(i, 1);
+            Assert.AssertEquals(i, 1);
         }
 
         [Test]
@@ -49,7 +50,7 @@ namespace WootzJs.Compiler.Tests
             var i = 0;
             Action action = () => i++;
             action();
-            QUnit.AreEqual(i, 1);
+            Assert.AssertEquals(i, 1);
         }
 
         [Test]
@@ -59,7 +60,7 @@ namespace WootzJs.Compiler.Tests
             Action action = () => i = i + 1;
             i = 1;
             action();
-            QUnit.AreEqual(i, 2);
+            Assert.AssertEquals(i, 2);
         }
     }
 }

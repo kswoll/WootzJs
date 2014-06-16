@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,15 +38,15 @@ namespace WootzJs.Compiler.Tests
         public void FieldsDoNotCollide()
         {
             var subClass = new SubClass();
-            QUnit.AreEqual(subClass.GetFoo1(), "base");
-            QUnit.AreEqual(subClass.GetFoo2(), "sub");
+            Assert.AssertEquals(subClass.GetFoo1(), "base");
+            Assert.AssertEquals(subClass.GetFoo2(), "sub");
         }
 
         [Test]
         public void StaticFieldsAreStatic()
         {
             StaticFieldClass.MyField = "foo";
-            QUnit.AreEqual(StaticFieldClass.MyField, "foo");
+            Assert.AssertEquals(StaticFieldClass.MyField, "foo");
         }
 
         [Test]
@@ -55,30 +56,30 @@ namespace WootzJs.Compiler.Tests
             reference.Target = new TargetClass();
             reference.Target.Foo = "foo";
 
-            QUnit.AreEqual(reference.Target.Foo, "foo");
+            Assert.AssertEquals(reference.Target.Foo, "foo");
         }
 
         [Test]
         public void PrimitiveFields()
         {
             var primitiveFields = new PrimitiveFieldsClass();
-            QUnit.AreEqual(primitiveFields.Boolean, false);
-            QUnit.AreEqual(primitiveFields.Byte, 0);
-            QUnit.AreEqual(primitiveFields.SByte, 0);
-            QUnit.AreEqual(primitiveFields.Short, 0);
-            QUnit.AreEqual(primitiveFields.UShort, 0);
-            QUnit.AreEqual(primitiveFields.Int, 0);
-            QUnit.AreEqual(primitiveFields.UInt, 0);
-            QUnit.AreEqual(primitiveFields.Long, 0);
-            QUnit.AreEqual(primitiveFields.ULong, 0);
-            QUnit.AreEqual(primitiveFields.Enum, 0);
+            Assert.AssertEquals(primitiveFields.Boolean, false);
+            Assert.AssertEquals(primitiveFields.Byte, 0);
+            Assert.AssertEquals(primitiveFields.SByte, 0);
+            Assert.AssertEquals(primitiveFields.Short, 0);
+            Assert.AssertEquals(primitiveFields.UShort, 0);
+            Assert.AssertEquals(primitiveFields.Int, 0);
+            Assert.AssertEquals(primitiveFields.UInt, 0);
+            Assert.AssertEquals(primitiveFields.Long, 0);
+            Assert.AssertEquals(primitiveFields.ULong, 0);
+            Assert.AssertEquals(primitiveFields.Enum, 0);
         }
 
         [Test]
         public void ConstField()
         {
             var value = ConstFieldClass.MyString;
-            QUnit.AreEqual(value, "foo");
+            Assert.AssertEquals(value, "foo");
         }
 
         public class StaticFieldClass

@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -39,11 +40,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 throw new Exception();
-                QUnit.IsTrue(false);
+                Assert.AssertTrue(false);
             }
             catch (Exception e)
             {
-                QUnit.IsTrue(true);
+                Assert.AssertTrue(true);
             }
         }
          
@@ -66,7 +67,7 @@ namespace WootzJs.Compiler.Tests
             catch (Exception e)
             {
             }
-            QUnit.IsTrue(success);
+            Assert.AssertTrue(success);
         }
          
         [Test]
@@ -75,11 +76,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 throw new Exception();
-                QUnit.IsTrue(false);
+                Assert.AssertTrue(false);
             }
             catch 
             {
-                QUnit.IsTrue(true);
+                Assert.AssertTrue(true);
             }
         }
 /*

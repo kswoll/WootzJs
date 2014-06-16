@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using WootzJs.Testing;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -36,7 +38,7 @@ namespace WootzJs.Compiler.Tests
             var three = new IntValue(3);
             var five = new IntValue(5);
             var threePlusFive = three + five;
-            QUnit.AreEqual(threePlusFive.Value, 8);
+            Assert.AssertEquals(threePlusFive.Value, 8);
         }
 
         public class IntValue

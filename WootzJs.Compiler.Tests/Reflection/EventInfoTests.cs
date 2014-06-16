@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
@@ -40,8 +41,8 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticEvent = events.Single(x => x.Name == "StaticEvent");
             var stringEvent = events.Single(x => x.Name == "StringEvent");
 
-            QUnit.AreEqual(staticEvent.Name, "StaticEvent");
-            QUnit.AreEqual(stringEvent.Name, "StringEvent");
+            Assert.AssertEquals(staticEvent.Name, "StaticEvent");
+            Assert.AssertEquals(stringEvent.Name, "StringEvent");
         }
 
         public class EventClass

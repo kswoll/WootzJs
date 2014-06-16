@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -36,14 +37,14 @@ namespace WootzJs.Compiler.Tests
         public void StaticMethod()
         {
             var s = ClassWithStaticMethods.S();
-            QUnit.AreEqual(s, "foo");
+            Assert.AssertEquals(s, "foo");
         }
          
         [Test]
         public void ExtensionMethod()
         {
             var s = 5.MyExtension();
-            QUnit.AreEqual(s, "5");
+            Assert.AssertEquals(s, "5");
         }
          
         [Test]
@@ -51,7 +52,7 @@ namespace WootzJs.Compiler.Tests
         {
             string x;
             ClassWithStaticMethods.OutParameter(out x);
-            QUnit.AreEqual(x, "foo");
+            Assert.AssertEquals(x, "foo");
         }         
          
         [Test]
@@ -60,8 +61,8 @@ namespace WootzJs.Compiler.Tests
             string x;
             string y;
             ClassWithStaticMethods.TwoOutParameters(out x, out y);
-            QUnit.AreEqual(x, "foo1");
-            QUnit.AreEqual(y, "foo2");
+            Assert.AssertEquals(x, "foo1");
+            Assert.AssertEquals(y, "foo2");
         }         
          
         [Test]
@@ -69,7 +70,7 @@ namespace WootzJs.Compiler.Tests
         {
             int x = 5;
             ClassWithStaticMethods.RefParameter(ref x);
-            QUnit.AreEqual(x, 6);
+            Assert.AssertEquals(x, 6);
         }         
          
         [Test]
@@ -78,8 +79,8 @@ namespace WootzJs.Compiler.Tests
             int x = 5;
             int y = 6;
             ClassWithStaticMethods.TwoRefParameters(ref x, ref y);
-            QUnit.AreEqual(x, 6);
-            QUnit.AreEqual(y, 12);
+            Assert.AssertEquals(x, 6);
+            Assert.AssertEquals(y, 12);
         }         
          
         [Test]
@@ -88,8 +89,8 @@ namespace WootzJs.Compiler.Tests
             int x = 5;
             int y;
             ClassWithStaticMethods.RefAndOutParameter(ref x, out y);
-            QUnit.AreEqual(x, 6);
-            QUnit.AreEqual(y, 10);
+            Assert.AssertEquals(x, 6);
+            Assert.AssertEquals(y, 10);
         }         
          
         [Test]
@@ -97,7 +98,7 @@ namespace WootzJs.Compiler.Tests
         {
             ITestInterface test = new TestImplementation();
             var s = test.Method();
-            QUnit.AreEqual(s, "foo");
+            Assert.AssertEquals(s, "foo");
         }         
          
         [Test]
@@ -108,8 +109,8 @@ namespace WootzJs.Compiler.Tests
             ITestInterface2 test2 = o;
             var s = test.Method();
             var s2 = test2.Method();
-            QUnit.AreEqual(s, "ITestInterface");
-            QUnit.AreEqual(s2, "ITestInterface2");
+            Assert.AssertEquals(s, "ITestInterface");
+            Assert.AssertEquals(s2, "ITestInterface2");
         }         
          
         [Test]
@@ -120,28 +121,28 @@ namespace WootzJs.Compiler.Tests
             ITestInterface2 test2 = o;
             var s = test.Method();
             var s2 = test2.Method();
-            QUnit.AreEqual(s, "ITestInterface");
-            QUnit.AreEqual(s2, "ITestInterface2");
+            Assert.AssertEquals(s, "ITestInterface");
+            Assert.AssertEquals(s2, "ITestInterface2");
         }         
 
         [Test]
         public void ExternMethod()
         {
             var max = ExternTest.max(8, 3, 9, 5);
-            QUnit.AreEqual(max, 9);
+            Assert.AssertEquals(max, 9);
         }
 
         [Test]
         public void NamedArguments()
         {
             var result = ClassWithStaticMethods.Add(one: 1, two: 2, three: 3, four: 4);
-            QUnit.AreEqual(result, 4321);
+            Assert.AssertEquals(result, 4321);
 
             result = ClassWithStaticMethods.Add(two: 1, three: 2, four: 3);
-            QUnit.AreEqual(result, 3210);
+            Assert.AssertEquals(result, 3210);
 
             result = ClassWithStaticMethods.Add(four: 1, three: 2, two: 3, one: 4);
-            QUnit.AreEqual(result, 1234);
+            Assert.AssertEquals(result, 1234);
         }
     }
 

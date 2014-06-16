@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
@@ -13,7 +14,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("foo");
             var item = queue.First();
-            QUnit.AreEqual(item, "foo");
+            Assert.AssertEquals(item, "foo");
         }
 
         [Test]
@@ -23,7 +24,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             queue.Enqueue("foo");
             var item = queue.Dequeue();
 
-            QUnit.AreEqual(item, "foo");
+            Assert.AssertEquals(item, "foo");
         }
         
         [Test]
@@ -33,8 +34,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             queue.Enqueue("one");
             queue.Enqueue("two");
             var items = queue.ToArray();
-            QUnit.AreEqual(items[0], "one");
-            QUnit.AreEqual(items[1], "two");
+            Assert.AssertEquals(items[0], "one");
+            Assert.AssertEquals(items[1], "two");
         }
         
         [Test]
@@ -43,8 +44,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("one");
             queue.Enqueue("two");
-            QUnit.AreEqual(queue.Dequeue(), "one");
-            QUnit.AreEqual(queue.Dequeue(), "two");
+            Assert.AssertEquals(queue.Dequeue(), "one");
+            Assert.AssertEquals(queue.Dequeue(), "two");
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("one");
             var value = queue.Peek();
-            QUnit.AreEqual(value, "one");
+            Assert.AssertEquals(value, "one");
         }
 
         [Test]
@@ -63,11 +64,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             try
             {
                 queue.Peek();
-                QUnit.IsTrue(false);
+                Assert.AssertTrue(false);
             }
             catch (Exception e)
             {
-                QUnit.IsTrue(true);
+                Assert.AssertTrue(true);
             }
         }
     }

@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -39,29 +40,29 @@ namespace WootzJs.Compiler.Tests
             var test2 = new TestClass("foo");
             var test3 = new TestClass(5);
 
-            QUnit.AreEqual(test1.Arg1, "none");
-            QUnit.AreEqual(test2.Arg1, "string");
-            QUnit.AreEqual(test3.Arg1, "int");
+            Assert.AssertEquals(test1.Arg1, "none");
+            Assert.AssertEquals(test2.Arg1, "string");
+            Assert.AssertEquals(test3.Arg1, "int");
         }
          
         [Test]
         public void InitializedStaticField()
         {
-            QUnit.AreEqual(ClassWithStaticInitializedField.InitializedValue, "foo");
+            Assert.AssertEquals(ClassWithStaticInitializedField.InitializedValue, "foo");
         }
          
         [Test]
         public void StaticConstructor()
         {
-            QUnit.AreEqual(ClassWithStaticConstructor.InitializedValue, "foo");
+            Assert.AssertEquals(ClassWithStaticConstructor.InitializedValue, "foo");
         }
 
         [Test]
         public void ConstructorWithDefaultParameters()
         {
             var instance = new ClassWithDefaultParameters(4);
-            QUnit.AreEqual(instance.I, 4);
-            QUnit.AreEqual(instance.J, 5);
+            Assert.AssertEquals(instance.I, 4);
+            Assert.AssertEquals(instance.J, 5);
         }
          
         public class TestClass

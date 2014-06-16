@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using WootzJs.Testing;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -34,35 +36,35 @@ namespace WootzJs.Compiler.Tests
         public void DefaultInt()
         {
             var value = default(int);
-            QUnit.AreEqual(value, 0);
+            Assert.AssertEquals(value, 0);
         }
 
         [Test]
         public void DefaultChar()
         {
             var value = default(char);
-            QUnit.AreEqual(value, '\0');
+            Assert.AssertEquals(value, '\0');
         }
 
         [Test]
         public void DefaultBool()
         {
             var value = default(bool);
-            QUnit.AreEqual(value, false);
+            Assert.AssertEquals(value, false);
         }
 
         [Test]
         public void DefaultObject()
         {
             var value = default(object);
-            QUnit.AreEqual(value, null);
+            Assert.AssertEquals(value, null);
         }
 
         [Test]
         public void DefaultT()
         {
-            QUnit.AreEqual(DefaultOf<string>(), null);
-            QUnit.AreEqual(DefaultOf<int>(), 0);
+            Assert.AssertEquals(DefaultOf<string>(), null);
+            Assert.AssertEquals(DefaultOf<int>(), 0);
         }
 
         private T DefaultOf<T>()

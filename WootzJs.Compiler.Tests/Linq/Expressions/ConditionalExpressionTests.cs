@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -38,13 +39,13 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<bool, string>> lambda = x => x ? "yes" : "no";
             var conditional = (ConditionalExpression)lambda.Body;
 
-            QUnit.AreEqual(conditional.Test, lambda.Parameters[0]);
+            Assert.AssertEquals(conditional.Test, lambda.Parameters[0]);
 
             var ifTrue = (ConstantExpression)conditional.IfTrue;
             var ifFalse = (ConstantExpression)conditional.IfFalse;
 
-            QUnit.AreEqual(ifTrue.Value, "yes");
-            QUnit.AreEqual(ifFalse.Value, "no");
+            Assert.AssertEquals(ifTrue.Value, "yes");
+            Assert.AssertEquals(ifFalse.Value, "no");
         }
     }
 }

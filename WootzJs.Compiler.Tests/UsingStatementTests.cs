@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -39,7 +40,7 @@ namespace WootzJs.Compiler.Tests
             using (foo)
             {
             }
-            QUnit.IsTrue(foo.IsDisposed);
+            Assert.AssertTrue(foo.IsDisposed);
         }
 
         [Test]
@@ -50,7 +51,7 @@ namespace WootzJs.Compiler.Tests
             {
                 _foo = foo;
             }
-            QUnit.IsTrue(_foo.IsDisposed);
+            Assert.AssertTrue(_foo.IsDisposed);
         }
 
         public class Foo : IDisposable

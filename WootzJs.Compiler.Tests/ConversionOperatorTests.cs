@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using WootzJs.Testing;
+
 namespace WootzJs.Compiler.Tests
 {
     [TestFixture]
@@ -34,21 +36,21 @@ namespace WootzJs.Compiler.Tests
         public void Implicit()
         {
             ImplicitClass o = "foo";
-            QUnit.AreEqual(o.Value, "foofoo");
+            Assert.AssertEquals(o.Value, "foofoo");
         }
 
         [Test]
         public void Explicit()
         {
             var o = (ExplicitClass)"foo";
-            QUnit.AreEqual(o.Value, "foofoo");
+            Assert.AssertEquals(o.Value, "foofoo");
         }
 
         [Test]
         public void ImplicitMethodParameter()
         {
             var myClass = new ImplicitMethodParameterClass("5");
-            QUnit.AreEqual(myClass.ImplicitClass.Value, "55");
+            Assert.AssertEquals(myClass.ImplicitClass.Value, "55");
         }
 
         public class ImplicitMethodParameterClass

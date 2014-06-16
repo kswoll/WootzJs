@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,19 +38,19 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public void Round()
         {
-            QUnit.AreEqual(Math.Round(1.1, 3), 1.1);
-            QUnit.AreEqual(Math.Round(1.12, 3), 1.12);
-            QUnit.AreEqual(Math.Round(1.123, 3), 1.123);
-            QUnit.AreEqual(Math.Round(1.1234, 3), 1.123);
-            QUnit.AreEqual(Math.Round(2.45, 1, MidpointRounding.ToEven), 2.4);
-            QUnit.AreEqual(Math.Round(2.55, 1, MidpointRounding.ToEven), 2.6);
-            QUnit.AreEqual(Math.Round(-2.45, 1, MidpointRounding.ToEven), -2.4);
-            QUnit.AreEqual(Math.Round(-2.55, 1, MidpointRounding.ToEven), -2.6);
-            QUnit.AreEqual(Math.Round(2.5, 0, MidpointRounding.ToEven), 2);
-            QUnit.AreEqual(Math.Round(3.5, 0, MidpointRounding.ToEven), 4);
-            QUnit.AreEqual(Math.Round(-2.5, 0, MidpointRounding.ToEven), -2);
-            QUnit.AreEqual(Math.Round(-3.5, 0, MidpointRounding.ToEven), -4);
-            QUnit.AreEqual(Math.Round(-2.9999, 3, MidpointRounding.ToEven), -3);
+            Assert.AssertEquals(Math.Round(1.1, 3), 1.1);
+            Assert.AssertEquals(Math.Round(1.12, 3), 1.12);
+            Assert.AssertEquals(Math.Round(1.123, 3), 1.123);
+            Assert.AssertEquals(Math.Round(1.1234, 3), 1.123);
+            Assert.AssertEquals(Math.Round(2.45, 1, MidpointRounding.ToEven), 2.4);
+            Assert.AssertEquals(Math.Round(2.55, 1, MidpointRounding.ToEven), 2.6);
+            Assert.AssertEquals(Math.Round(-2.45, 1, MidpointRounding.ToEven), -2.4);
+            Assert.AssertEquals(Math.Round(-2.55, 1, MidpointRounding.ToEven), -2.6);
+            Assert.AssertEquals(Math.Round(2.5, 0, MidpointRounding.ToEven), 2);
+            Assert.AssertEquals(Math.Round(3.5, 0, MidpointRounding.ToEven), 4);
+            Assert.AssertEquals(Math.Round(-2.5, 0, MidpointRounding.ToEven), -2);
+            Assert.AssertEquals(Math.Round(-3.5, 0, MidpointRounding.ToEven), -4);
+            Assert.AssertEquals(Math.Round(-2.9999, 3, MidpointRounding.ToEven), -3);
         }
     }
 }

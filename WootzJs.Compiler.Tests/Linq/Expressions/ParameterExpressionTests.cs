@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -38,8 +39,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, string>> lambda = x => x;
             var parameterExpression = (ParameterExpression)lambda.Body;
-            QUnit.AreEqual(lambda.Parameters[0], parameterExpression);
-            QUnit.AreEqual(parameterExpression.Name, "x");
+            Assert.AssertEquals(lambda.Parameters[0], parameterExpression);
+            Assert.AssertEquals(parameterExpression.Name, "x");
         }
     }
 }

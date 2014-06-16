@@ -27,6 +27,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,7 +38,7 @@ namespace WootzJs.Compiler.Tests
         public void OneString()
         {
             var list = new List<string> { "one" };
-            QUnit.AreEqual(list[0], "one");
+            Assert.AssertEquals(list[0], "one");
         }
          
         [Test]
@@ -50,8 +51,8 @@ namespace WootzJs.Compiler.Tests
             };
             var one = dictionary["one"];
             var two = dictionary["two"];
-            QUnit.AreEqual(one, 1);
-            QUnit.AreEqual(two, 2);
+            Assert.AssertEquals(one, 1);
+            Assert.AssertEquals(two, 2);
         }
     }
 }

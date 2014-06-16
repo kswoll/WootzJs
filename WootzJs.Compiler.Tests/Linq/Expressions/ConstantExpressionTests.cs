@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -41,7 +42,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
                                         // tree since it's value is known at that time.
             Expression<Func<string, string>> lambda = x => s;
             var constantExpression = (ConstantExpression)lambda.Body;
-            QUnit.AreEqual(constantExpression.Value, "foo");            
+            Assert.AssertEquals(constantExpression.Value, "foo");            
         }
 
         [Test]
@@ -49,7 +50,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, int>> lambda = x => 5;
             var constantExpression = (ConstantExpression)lambda.Body;
-            QUnit.AreEqual(constantExpression.Value, 5);
+            Assert.AssertEquals(constantExpression.Value, 5);
         }
 
         [Test]
@@ -57,7 +58,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, float>> lambda = x => 5.4f;
             var constantExpression = (ConstantExpression)lambda.Body;
-            QUnit.AreEqual(constantExpression.Value, 5.4);
+            Assert.AssertEquals(constantExpression.Value, 5.4);
         }
 
         [Test]
@@ -65,7 +66,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, double>> lambda = x => 3.40282347E+40;
             var constantExpression = (ConstantExpression)lambda.Body;
-            QUnit.AreEqual(constantExpression.Value, 3.40282347E+40);
+            Assert.AssertEquals(constantExpression.Value, 3.40282347E+40);
         }
          
         [Test]
@@ -73,7 +74,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, string>> lambda = x => "foo";
             var constantExpression = (ConstantExpression)lambda.Body;
-            QUnit.AreEqual(constantExpression.Value, "foo");                
+            Assert.AssertEquals(constantExpression.Value, "foo");                
         }
          
         [Test]
@@ -81,7 +82,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, bool>> lambda = x => true;
             var constantExpression = (ConstantExpression)lambda.Body;
-            QUnit.AreEqual(constantExpression.Value, true);                
+            Assert.AssertEquals(constantExpression.Value, true);                
         }
     }
 }

@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -38,9 +39,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int[]>> lambda = () => new int[5];
             var newArrayExpression = (NewArrayExpression)lambda.Body;
-            QUnit.AreEqual(newArrayExpression.NodeType, ExpressionType.NewArrayBounds);
+            Assert.AssertEquals(newArrayExpression.NodeType, ExpressionType.NewArrayBounds);
             var value = (ConstantExpression)newArrayExpression.Expressions[0];
-            QUnit.AreEqual(value.Value, 5);
+            Assert.AssertEquals(value.Value, 5);
         }         
 
         [Test]
@@ -48,11 +49,11 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int[]>> lambda = () => new[] { 1 ,2 };
             var newArrayExpression = (NewArrayExpression)lambda.Body;
-            QUnit.AreEqual(newArrayExpression.NodeType, ExpressionType.NewArrayInit);
+            Assert.AssertEquals(newArrayExpression.NodeType, ExpressionType.NewArrayInit);
             var value1 = (ConstantExpression)newArrayExpression.Expressions[0];
             var value2 = (ConstantExpression)newArrayExpression.Expressions[1];
-            QUnit.AreEqual(value1.Value, 1);
-            QUnit.AreEqual(value2.Value, 2);
+            Assert.AssertEquals(value1.Value, 1);
+            Assert.AssertEquals(value2.Value, 2);
         }
 
         [Test]
@@ -60,17 +61,17 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int[][]>> lambda = () => new[] { new[] { 1 ,2 }, new [] { 3, 4 }};
             var newArrayExpression = (NewArrayExpression)lambda.Body;
-            QUnit.AreEqual(newArrayExpression.NodeType, ExpressionType.NewArrayInit);
+            Assert.AssertEquals(newArrayExpression.NodeType, ExpressionType.NewArrayInit);
             var array1 = (NewArrayExpression)newArrayExpression.Expressions[0];
             var array2 = (NewArrayExpression)newArrayExpression.Expressions[1];
             var value1 = (ConstantExpression)array1.Expressions[0];
             var value2 = (ConstantExpression)array1.Expressions[1];
             var value3 = (ConstantExpression)array2.Expressions[0];
             var value4 = (ConstantExpression)array2.Expressions[1];
-            QUnit.AreEqual(value1.Value, 1);
-            QUnit.AreEqual(value2.Value, 2);
-            QUnit.AreEqual(value3.Value, 3);
-            QUnit.AreEqual(value4.Value, 4);
+            Assert.AssertEquals(value1.Value, 1);
+            Assert.AssertEquals(value2.Value, 2);
+            Assert.AssertEquals(value3.Value, 3);
+            Assert.AssertEquals(value4.Value, 4);
         }
 /*
 

@@ -26,6 +26,7 @@
 #endregion
 
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
@@ -39,15 +40,15 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticProperty = properties.Single(x => x.Name == "StaticProperty");
             var stringProperty = properties.Single(x => x.Name == "StringProperty");
 
-            QUnit.AreEqual(staticProperty.Name, "StaticProperty");
-            QUnit.AreEqual(stringProperty.Name, "StringProperty");
+            Assert.AssertEquals(staticProperty.Name, "StaticProperty");
+            Assert.AssertEquals(stringProperty.Name, "StringProperty");
         }
 
         [Test]
         public void PropertyType()
         {
             var property = typeof(PropertyClass).GetProperty("StaticProperty");
-            QUnit.AreEqual(property.PropertyType.Name, "String");
+            Assert.AssertEquals(property.PropertyType.Name, "String");
         }
 
         public class PropertyClass

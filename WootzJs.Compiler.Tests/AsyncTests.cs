@@ -31,10 +31,12 @@ using System.Threading.Tasks;
 
 namespace WootzJs.Compiler.Tests
 {
+/*
     [TestFixture]
     public class AsyncTests
     {
         private bool basicTestAsync;
+        private bool basicTestTaskAsync;
 
         [Test]
         public void BasicTest()
@@ -47,5 +49,18 @@ namespace WootzJs.Compiler.Tests
         {
             basicTestAsync = true;
         }
+
+        [Test]
+        public void BasicTestTask()
+        {
+            var task = BasicTestTaskAsync();
+            QUnit.AreEqual(result, 5);
+        }
+
+        async Task BasicTestTaskAsync()
+        {
+            basicTestTaskAsync = true;
+        }
     }
+*/
 }

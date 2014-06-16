@@ -27,6 +27,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,17 +38,17 @@ namespace WootzJs.Compiler.Tests
         public void String()
         {
             var s = "foo";
-            QUnit.IsTrue(s is string);
-            QUnit.IsTrue(!(s is int));
+            Assert.AssertTrue(s is string);
+            Assert.AssertTrue(!(s is int));
         }
 
         [Test]
         public void TestClass()
         {
             var o = new MyClass();
-            QUnit.IsTrue(o is MyClass);
-            QUnit.IsTrue(o is object);
-            QUnit.IsTrue(!(o is string));
+            Assert.AssertTrue(o is MyClass);
+            Assert.AssertTrue(o is object);
+            Assert.AssertTrue(!(o is string));
         }
 /*
 Primitives like this are going to require more work         

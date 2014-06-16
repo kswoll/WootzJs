@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -39,9 +40,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Add);
-            QUnit.AreEqual(left.Value, 5);
-            QUnit.AreEqual(right.Value, 4);
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
+            Assert.AssertEquals(left.Value, 5);
+            Assert.AssertEquals(right.Value, 4);
         }         
          
         [Test]
@@ -51,9 +52,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Add);
-            QUnit.AreEqual(left.Value, "foo");
-            QUnit.AreEqual(right.Value, "bar");
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
+            Assert.AssertEquals(left.Value, "foo");
+            Assert.AssertEquals(right.Value, "bar");
         }         
          
         [Test]
@@ -63,9 +64,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Add);
-            QUnit.AreEqual(left.Value, "foo");
-            QUnit.AreEqual(right.Value, 5);
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
+            Assert.AssertEquals(left.Value, "foo");
+            Assert.AssertEquals(right.Value, 5);
         }         
          
         [Test]
@@ -75,9 +76,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Subtract);
-            QUnit.AreEqual(left.Value, 5);
-            QUnit.AreEqual(right.Value, 4);
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Subtract);
+            Assert.AssertEquals(left.Value, 5);
+            Assert.AssertEquals(right.Value, 4);
         }         
          
         [Test]
@@ -87,9 +88,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Multiply);
-            QUnit.AreEqual(left.Value, 5);
-            QUnit.AreEqual(right.Value, 4);
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Multiply);
+            Assert.AssertEquals(left.Value, 5);
+            Assert.AssertEquals(right.Value, 4);
         }         
          
         [Test]
@@ -99,9 +100,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Divide);
-            QUnit.AreEqual(left.Value, 5);
-            QUnit.AreEqual(right.Value, 4);
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Divide);
+            Assert.AssertEquals(left.Value, 5);
+            Assert.AssertEquals(right.Value, 4);
         }         
          
         [Test]
@@ -111,9 +112,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(binaryExpression.NodeType, ExpressionType.Modulo);
-            QUnit.AreEqual(left.Value, 5);
-            QUnit.AreEqual(right.Value, 4);
+            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Modulo);
+            Assert.AssertEquals(left.Value, 5);
+            Assert.AssertEquals(right.Value, 4);
         }      
    
         [Test]
@@ -123,9 +124,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => array[4];
             var binaryExpression = (BinaryExpression)lambda.Body;
             var target = (ConstantExpression)binaryExpression.Left;
-            QUnit.AreEqual(target.Value, array);
+            Assert.AssertEquals(target.Value, array);
             var index = (ConstantExpression)binaryExpression.Right;
-            QUnit.AreEqual(index.Value, 4);
+            Assert.AssertEquals(index.Value, 4);
         }
     }
 }

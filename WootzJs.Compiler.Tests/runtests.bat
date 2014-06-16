@@ -1,1 +1,0 @@
-phantomjs.exe run-qunit.js test.htm

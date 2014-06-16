@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -40,7 +41,7 @@ namespace WootzJs.Compiler.Tests
             var success = false;
             o.Foo += () => success = true;
             o.OnFoo();
-            QUnit.IsTrue(success);
+            Assert.AssertTrue(success);
         }                  
 
         [Test]
@@ -50,7 +51,7 @@ namespace WootzJs.Compiler.Tests
             var success = false;
             o.FooThis += () => success = true;
             o.OnFooThis();
-            QUnit.IsTrue(success);
+            Assert.AssertTrue(success);
         }                  
 
         [Test]
@@ -62,8 +63,8 @@ namespace WootzJs.Compiler.Tests
             o.Foo += () => success1 = true;
             o.Foo += () => success2 = true;
             o.OnFoo();
-            QUnit.IsTrue(success1);
-            QUnit.IsTrue(success2);
+            Assert.AssertTrue(success1);
+            Assert.AssertTrue(success2);
         }                  
 
         [Test]
@@ -77,8 +78,8 @@ namespace WootzJs.Compiler.Tests
             o.Foo += () => success2 = true;
             o.Foo -= foo1;
             o.OnFoo();
-            QUnit.IsTrue(!success1);
-            QUnit.IsTrue(success2);
+            Assert.AssertTrue(!success1);
+            Assert.AssertTrue(success2);
         }        
         
         [Test]
@@ -89,12 +90,12 @@ namespace WootzJs.Compiler.Tests
             Action evt = () => ran = true;
             eventClass.Bar += evt;
             eventClass.OnBar();
-            QUnit.IsTrue(ran);
+            Assert.AssertTrue(ran);
 
             ran = false;
             eventClass.Bar -= evt;
             eventClass.OnBar();
-            QUnit.IsTrue(!ran);
+            Assert.AssertTrue(!ran);
         }
 
         [Test]
@@ -105,7 +106,7 @@ namespace WootzJs.Compiler.Tests
             eventClass.Foo += () => i++;
             eventClass.Foo += () => i++;
             var action = eventClass.GetFoo();
-            QUnit.IsTrue(action is Action);
+            Assert.AssertTrue(action is Action);
         }
 
         [Test]
@@ -117,16 +118,16 @@ namespace WootzJs.Compiler.Tests
             eventClass.Foo += eventHandlers.M2;
             eventClass.OnFoo();
 
-            QUnit.AreEqual(eventHandlers.m1, "M1");
-            QUnit.AreEqual(eventHandlers.m2, "M2");
+            Assert.AssertEquals(eventHandlers.m1, "M1");
+            Assert.AssertEquals(eventHandlers.m2, "M2");
 
             eventHandlers.m1 = null;
             eventHandlers.m2 = null;
             eventClass.Foo -= eventHandlers.M1;
             eventClass.OnFoo();
 
-            QUnit.AreEqual(eventHandlers.m2, "M2");
-            QUnit.IsTrue(eventHandlers.m1 == null);
+            Assert.AssertEquals(eventHandlers.m2, "M2");
+            Assert.AssertTrue(eventHandlers.m1 == null);
         }
 
         public class EventClass

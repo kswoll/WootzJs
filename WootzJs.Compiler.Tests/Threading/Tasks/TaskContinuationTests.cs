@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Threading.Tasks
 {
@@ -10,7 +11,7 @@ namespace WootzJs.Compiler.Tests.Threading.Tasks
         {
             var task = Task.FromResult("foo");
             var continuation = task.ContinueWith(x => x.Result + "bar");
-            QUnit.AreEqual("foobar", continuation.Result);
+            Assert.AssertEquals("foobar", continuation.Result);
         }
 
         [Test]
@@ -19,7 +20,7 @@ namespace WootzJs.Compiler.Tests.Threading.Tasks
             var source = new TaskCompletionSource<string>();
             var task = source.Task.ContinueWith(x => x.Result + "bar");
             source.SetResult("foo");
-            QUnit.AreEqual("foobar", task.Result);
+            Assert.AssertEquals("foobar", task.Result);
         }
     }
 }

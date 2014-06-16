@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,8 +38,8 @@ namespace WootzJs.Compiler.Tests
         {
             object o = "foo";
             var s = o as string;
-            QUnit.IsTrue(s is string);
-            QUnit.IsTrue(!(s is int));
+            Assert.AssertTrue(s is string);
+            Assert.AssertTrue(!(s is int));
         }
 
         [Test]
@@ -46,9 +47,9 @@ namespace WootzJs.Compiler.Tests
         {
             object o = new MyClass();
             var myClass = o as MyClass;
-            QUnit.IsTrue(myClass is MyClass);
-            QUnit.IsTrue(myClass is object);
-            QUnit.IsTrue(!(myClass is string));
+            Assert.AssertTrue(myClass is MyClass);
+            Assert.AssertTrue(myClass is object);
+            Assert.AssertTrue(!(myClass is string));
         }
 
         public class MyClass {}

@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -36,14 +37,14 @@ namespace WootzJs.Compiler.Tests
         public void HasValue()
         {
             int? i = 5;
-            QUnit.IsTrue(i.HasValue);
+            Assert.AssertTrue(i.HasValue);
         }
 
         [Test]
         public void Value()
         {
             int? i = 5;
-            QUnit.AreEqual(i.Value, 5);
+            Assert.AssertEquals(i.Value, 5);
         }
 
         [Test]
@@ -51,15 +52,15 @@ namespace WootzJs.Compiler.Tests
         {
             int? i = 5;
             int? j = null;
-            QUnit.AreEqual(i.GetValueOrDefault(), 5);
-            QUnit.AreEqual(j.GetValueOrDefault(), null);
+            Assert.AssertEquals(i.GetValueOrDefault(), 5);
+            Assert.AssertEquals(j.GetValueOrDefault(), null);
         }
 
         [Test]
         public void CastToNullableDouble()
         {
             var i = (double?)5.5;
-            QUnit.AreEqual(i, 5.5);
+            Assert.AssertEquals(i, 5.5);
         }
     }
 }

@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -49,7 +50,8 @@ namespace WootzJs.Compiler.Tests
                             Console.WriteLine(currentMethod.Name);
 
                             var instance = type.GetConstructors()[0].Invoke(new object[0]);
-                            QUnit.RunTest(type.FullName + "." + currentMethod.Name, () => currentMethod.Invoke(instance, new object[0]));
+                            UnitTester.RunTest(instance, currentMethod);
+//                            QUnit.RunTest(type.FullName + "." + currentMethod.Name, () => currentMethod.Invoke(instance, new object[0]));
                         }
                     }
                 }

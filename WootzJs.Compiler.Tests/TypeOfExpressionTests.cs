@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -37,7 +38,7 @@ namespace WootzJs.Compiler.Tests
         {
             var type = typeof(TestClass);
             var name = type.Name;
-            QUnit.AreEqual(name, "TestClass");
+            Assert.AssertEquals(name, "TestClass");
         }
          
         public class TestClass {}

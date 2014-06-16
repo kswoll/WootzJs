@@ -27,6 +27,7 @@
 
 using System;
 using System.Linq.Expressions;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
@@ -38,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int>> lambda = () => default(int);
             var defaultExpression = (DefaultExpression)lambda.Body;
-            QUnit.AreEqual(defaultExpression.Type.FullName, typeof(int).FullName);
+            Assert.AssertEquals(defaultExpression.Type.FullName, typeof(int).FullName);
         }
     }
 }

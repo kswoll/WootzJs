@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -38,13 +39,13 @@ namespace WootzJs.Compiler.Tests
         public void CreateDate()
         {
             var date = new DateTime(2014, 1, 2, 15, 3, 5, 30);
-            QUnit.AreEqual(date.Year, 2014);
-            QUnit.AreEqual(date.Month, 1);
-            QUnit.AreEqual(date.Day, 2);
-            QUnit.AreEqual(date.Hour, 15);
-            QUnit.AreEqual(date.Minute, 3);
-            QUnit.AreEqual(date.Second, 5);
-            QUnit.AreEqual(date.Millisecond, 30);
+            Assert.AssertEquals(date.Year, 2014);
+            Assert.AssertEquals(date.Month, 1);
+            Assert.AssertEquals(date.Day, 2);
+            Assert.AssertEquals(date.Hour, 15);
+            Assert.AssertEquals(date.Minute, 3);
+            Assert.AssertEquals(date.Second, 5);
+            Assert.AssertEquals(date.Millisecond, 30);
         }
 
         [Test]
@@ -53,8 +54,8 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 1, 1, 0, 0, 0, 995);
             var newDate = originalDate.AddMilliseconds(10);
             
-            QUnit.AreEqual(newDate.Second, 1);
-            QUnit.AreEqual(newDate.Millisecond, 5);
+            Assert.AssertEquals(newDate.Second, 1);
+            Assert.AssertEquals(newDate.Millisecond, 5);
         }
 
         [Test]
@@ -63,8 +64,8 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 1, 1, 0, 0, 55, 0);
             var newDate = originalDate.AddSeconds(10);
             
-            QUnit.AreEqual(newDate.Minute, 1);
-            QUnit.AreEqual(newDate.Second, 5);            
+            Assert.AssertEquals(newDate.Minute, 1);
+            Assert.AssertEquals(newDate.Second, 5);            
         }
 
         [Test]
@@ -73,8 +74,8 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 1, 1, 0, 55, 0, 0);
             var newDate = originalDate.AddMinutes(10);
             
-            QUnit.AreEqual(newDate.Hour, 1);
-            QUnit.AreEqual(newDate.Minute, 5);            
+            Assert.AssertEquals(newDate.Hour, 1);
+            Assert.AssertEquals(newDate.Minute, 5);            
         }
 
         [Test]
@@ -83,8 +84,8 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 1, 1, 23, 0, 0, 0);
             var newDate = originalDate.AddHours(2);
             
-            QUnit.AreEqual(newDate.Hour, 1);
-            QUnit.AreEqual(newDate.Day, 2);            
+            Assert.AssertEquals(newDate.Hour, 1);
+            Assert.AssertEquals(newDate.Day, 2);            
         }
 
         [Test]
@@ -93,8 +94,8 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 1, 31, 0, 0, 0, 0);
             var newDate = originalDate.AddDays(1);
             
-            QUnit.AreEqual(newDate.Day, 1);
-            QUnit.AreEqual(newDate.Month, 2);            
+            Assert.AssertEquals(newDate.Day, 1);
+            Assert.AssertEquals(newDate.Month, 2);            
         }
 
         [Test]
@@ -103,8 +104,8 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 12, 1, 0, 0, 0, 0);
             var newDate = originalDate.AddMonths(1);
             
-            QUnit.AreEqual(newDate.Month, 1);
-            QUnit.AreEqual(newDate.Year, 2013);                        
+            Assert.AssertEquals(newDate.Month, 1);
+            Assert.AssertEquals(newDate.Year, 2013);                        
         }
 
         [Test]
@@ -113,7 +114,7 @@ namespace WootzJs.Compiler.Tests
             var originalDate = new DateTime(2012, 1, 1, 0, 0, 0, 0);
             var newDate = originalDate.AddYears(1);
             
-            QUnit.AreEqual(newDate.Year, 2013);
+            Assert.AssertEquals(newDate.Year, 2013);
         }
     }
 }

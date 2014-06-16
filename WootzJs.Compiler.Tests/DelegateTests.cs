@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
@@ -39,7 +40,7 @@ namespace WootzJs.Compiler.Tests
             var myClass = new MyClass { Name = "foo" };
             var lambda = myClass.CreateLambda();
             var name = lambda();
-            QUnit.AreEqual(name, "foo");
+            Assert.AssertEquals(name, "foo");
         }
 
         [Test]
@@ -47,7 +48,7 @@ namespace WootzJs.Compiler.Tests
         {
             Func<string> lambda = delegate() { return "foo"; };
             var name = lambda();
-            QUnit.AreEqual(name, "foo");
+            Assert.AssertEquals(name, "foo");
         }
 
         [Test]
@@ -61,7 +62,7 @@ namespace WootzJs.Compiler.Tests
                 j = i;
             };
             action();
-            QUnit.AreEqual(j, 5);
+            Assert.AssertEquals(j, 5);
         }
 
         [Test]
@@ -75,7 +76,7 @@ namespace WootzJs.Compiler.Tests
             Delegate delgt = action;
             var action2 = (Action)delgt;
             action2();
-            QUnit.AreEqual(i, 5);
+            Assert.AssertEquals(i, 5);
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace WootzJs.Compiler.Tests
         {
             Func<int, int> adder = x => x + 1;
             var result = adder.DynamicInvoke(1);
-            QUnit.AreEqual(result, 2);
+            Assert.AssertEquals(result, 2);
         }
 
         [Test]
@@ -92,8 +93,8 @@ namespace WootzJs.Compiler.Tests
             var methodClass = new MethodClass("foo");
             Func<string> methodDelegate = methodClass.M;
             var s = methodDelegate();
-            QUnit.AreEqual(s, "foo");
-            QUnit.AreEqual(methodDelegate.Target, methodClass);
+            Assert.AssertEquals(s, "foo");
+            Assert.AssertEquals(methodDelegate.Target, methodClass);
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace WootzJs.Compiler.Tests
         {
             Func<string> methodDelegate = M;
             var s = methodDelegate();
-            QUnit.AreEqual(s, "bar");
+            Assert.AssertEquals(s, "bar");
         }
 
         [Test]
@@ -111,10 +112,10 @@ namespace WootzJs.Compiler.Tests
             var methodClass2 = new MethodClass("foo2");
             Func<string> delegate1 = methodClass1.M;
             Func<string> delegate2 = methodClass2.M;
-            QUnit.AreEqual(delegate1(), "foo1");
-            QUnit.AreEqual(delegate2(), "foo2");
-            QUnit.AreEqual(delegate1.Target, methodClass1);
-            QUnit.AreEqual(delegate2.Target, methodClass2);
+            Assert.AssertEquals(delegate1(), "foo1");
+            Assert.AssertEquals(delegate2(), "foo2");
+            Assert.AssertEquals(delegate1.Target, methodClass1);
+            Assert.AssertEquals(delegate2.Target, methodClass2);
         }
 
         private string M()

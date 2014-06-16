@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
@@ -13,7 +14,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var stack = new Stack<string>();
             stack.Push("foo");
             var item = stack.First();
-            QUnit.AreEqual(item, "foo");
+            Assert.AssertEquals(item, "foo");
         }
 
         [Test]
@@ -23,7 +24,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             stack.Push("foo");
             var item = stack.Pop();
 
-            QUnit.AreEqual(item, "foo");
+            Assert.AssertEquals(item, "foo");
         }
         
         [Test]
@@ -33,8 +34,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             stack.Push("one");
             stack.Push("two");
             var items = stack.ToArray();
-            QUnit.AreEqual(items[0], "two");
-            QUnit.AreEqual(items[1], "one");
+            Assert.AssertEquals(items[0], "two");
+            Assert.AssertEquals(items[1], "one");
         }
 
         [Test]
@@ -43,7 +44,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var stack = new Stack<string>();
             stack.Push("one");
             var value = stack.Peek();
-            QUnit.AreEqual(value, "one");
+            Assert.AssertEquals(value, "one");
         }
 
         [Test]
@@ -53,11 +54,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             try
             {
                 stack.Peek();
-                QUnit.IsTrue(false);
+                Assert.AssertTrue(false);
             }
             catch (Exception e)
             {
-                QUnit.IsTrue(true);
+                Assert.AssertTrue(true);
             }
         }
     }

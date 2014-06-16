@@ -27,6 +27,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
@@ -38,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var list = new List<string>();
             list.Add("one");
-            QUnit.AreEqual(list[0], "one");
+            Assert.AssertEquals(list[0], "one");
         }
 
         [Test]
@@ -48,11 +49,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list.Add("one");
             list.Add("two");
             list.Add("three");
-            QUnit.AreEqual(list.Count, 3);
+            Assert.AssertEquals(list.Count, 3);
             list.Remove("two");
-            QUnit.AreEqual(list.Count, 2);
-            QUnit.AreEqual(list[0], "one");
-            QUnit.AreEqual(list[1], "three");
+            Assert.AssertEquals(list.Count, 2);
+            Assert.AssertEquals(list[0], "one");
+            Assert.AssertEquals(list[1], "three");
         }
 
         [Test]
@@ -62,10 +63,10 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list.Add("one");
             list.Add("two");
             list.Add("three");
-            QUnit.AreEqual(0, list.IndexOf("one"));
-            QUnit.AreEqual(1, list.IndexOf("two"));
-            QUnit.AreEqual(2, list.IndexOf("three"));
-            QUnit.AreEqual(-1, list.IndexOf("four"));
+            Assert.AssertEquals(0, list.IndexOf("one"));
+            Assert.AssertEquals(1, list.IndexOf("two"));
+            Assert.AssertEquals(2, list.IndexOf("three"));
+            Assert.AssertEquals(-1, list.IndexOf("four"));
         }
 
         [Test]
@@ -75,10 +76,10 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list.Add("one");
             list.Add("two");
             list.Add("three");
-            QUnit.IsTrue(list.Contains("one"));
-            QUnit.IsTrue(list.Contains("two"));
-            QUnit.IsTrue(list.Contains("three"));
-            QUnit.IsTrue(!list.Contains("four"));
+            Assert.AssertTrue(list.Contains("one"));
+            Assert.AssertTrue(list.Contains("two"));
+            Assert.AssertTrue(list.Contains("three"));
+            Assert.AssertTrue(!list.Contains("four"));
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var list = new List<string>();
             list.Add("one");
-            QUnit.AreEqual(list[0], "one");
+            Assert.AssertEquals(list[0], "one");
         }
 
         [Test]
@@ -95,7 +96,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var list = new List<string>();
             list.Add("one");
             list[0] = "two";
-            QUnit.AreEqual(list[0], "two");
+            Assert.AssertEquals(list[0], "two");
         }
 
         [Test]
@@ -104,13 +105,13 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var list = new List<int> { 8, 53, 1, 888, 444, 234, 3 };
             list.Sort();
 
-            QUnit.AreEqual(list[0], 1);
-            QUnit.AreEqual(list[1], 3);
-            QUnit.AreEqual(list[2], 8);
-            QUnit.AreEqual(list[3], 53);
-            QUnit.AreEqual(list[4], 234);
-            QUnit.AreEqual(list[5], 444);
-            QUnit.AreEqual(list[6], 888);
+            Assert.AssertEquals(list[0], 1);
+            Assert.AssertEquals(list[1], 3);
+            Assert.AssertEquals(list[2], 8);
+            Assert.AssertEquals(list[3], 53);
+            Assert.AssertEquals(list[4], 234);
+            Assert.AssertEquals(list[5], 444);
+            Assert.AssertEquals(list[6], 888);
         }
 
         [Test]
@@ -119,13 +120,13 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var list = new List<int> { 8, 53, 1, 888, 444, 234, 3 };
             list.Sort((x, y) => y - x);
 
-            QUnit.AreEqual(list[0], 888);            
-            QUnit.AreEqual(list[1], 444);
-            QUnit.AreEqual(list[2], 234);
-            QUnit.AreEqual(list[3], 53);
-            QUnit.AreEqual(list[4], 8);
-            QUnit.AreEqual(list[5], 3);
-            QUnit.AreEqual(list[6], 1);
+            Assert.AssertEquals(list[0], 888);            
+            Assert.AssertEquals(list[1], 444);
+            Assert.AssertEquals(list[2], 234);
+            Assert.AssertEquals(list[3], 53);
+            Assert.AssertEquals(list[4], 8);
+            Assert.AssertEquals(list[5], 3);
+            Assert.AssertEquals(list[6], 1);
         }
     }
 }
