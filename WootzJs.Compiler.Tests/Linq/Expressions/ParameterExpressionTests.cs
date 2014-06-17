@@ -39,8 +39,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, string>> lambda = x => x;
             var parameterExpression = (ParameterExpression)lambda.Body;
-            Assert.AssertEquals(lambda.Parameters[0], parameterExpression);
-            Assert.AssertEquals(parameterExpression.Name, "x");
+            lambda.Parameters[0].AssertEquals(parameterExpression);
+            parameterExpression.Name.AssertEquals("x");
         }
     }
 }

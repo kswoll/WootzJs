@@ -37,14 +37,14 @@ namespace WootzJs.Compiler.Tests
         public void HasValue()
         {
             int? i = 5;
-            Assert.AssertTrue(i.HasValue);
+            i.HasValue.AssertTrue();
         }
 
         [Test]
         public void Value()
         {
             int? i = 5;
-            Assert.AssertEquals(i.Value, 5);
+            i.Value.AssertEquals(5);
         }
 
         [Test]
@@ -52,15 +52,15 @@ namespace WootzJs.Compiler.Tests
         {
             int? i = 5;
             int? j = null;
-            Assert.AssertEquals(i.GetValueOrDefault(), 5);
-            Assert.AssertEquals(j.GetValueOrDefault(), null);
+            i.GetValueOrDefault().AssertEquals(5);
+            j.GetValueOrDefault().AssertEquals(null);
         }
 
         [Test]
         public void CastToNullableDouble()
         {
             var i = (double?)5.5;
-            Assert.AssertEquals(i, 5.5);
+            i.AssertEquals(5.5);
         }
     }
 }

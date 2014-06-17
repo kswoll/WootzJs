@@ -40,29 +40,29 @@ namespace WootzJs.Compiler.Tests
             var test2 = new TestClass("foo");
             var test3 = new TestClass(5);
 
-            Assert.AssertEquals(test1.Arg1, "none");
-            Assert.AssertEquals(test2.Arg1, "string");
-            Assert.AssertEquals(test3.Arg1, "int");
+            test1.Arg1.AssertEquals("none");
+            test2.Arg1.AssertEquals("string");
+            test3.Arg1.AssertEquals("int");
         }
          
         [Test]
         public void InitializedStaticField()
         {
-            Assert.AssertEquals(ClassWithStaticInitializedField.InitializedValue, "foo");
+            ClassWithStaticInitializedField.InitializedValue.AssertEquals("foo");
         }
          
         [Test]
         public void StaticConstructor()
         {
-            Assert.AssertEquals(ClassWithStaticConstructor.InitializedValue, "foo");
+            ClassWithStaticConstructor.InitializedValue.AssertEquals("foo");
         }
 
         [Test]
         public void ConstructorWithDefaultParameters()
         {
             var instance = new ClassWithDefaultParameters(4);
-            Assert.AssertEquals(instance.I, 4);
-            Assert.AssertEquals(instance.J, 5);
+            instance.I.AssertEquals(4);
+            instance.J.AssertEquals(5);
         }
          
         public class TestClass

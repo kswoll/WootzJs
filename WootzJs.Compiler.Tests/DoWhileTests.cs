@@ -41,7 +41,7 @@ namespace WootzJs.Compiler.Tests
                 i++;
             } while (i < 5);
 
-            Assert.AssertEquals(i, 5);
+            i.AssertEquals(5);
         }
     }
 }

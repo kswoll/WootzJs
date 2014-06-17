@@ -40,7 +40,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var methods = typeof(MethodClass).GetMethods();
             var method = methods.Single(x => x.Name == "VoidMethod");
-            Assert.AssertTrue(true);
+            true.AssertTrue();
         }
 
         [Test]
@@ -50,17 +50,17 @@ namespace WootzJs.Compiler.Tests.Reflection
             var method = methods.Single(x => x.Name == "InstanceMethod");
             var instance = new MethodClass();
             var result = (string)method.Invoke(instance, new object[0]);
-            Assert.AssertEquals(result, "InstanceMethod");
+            result.AssertEquals("InstanceMethod");
         }
 
         [Test]
         public void NameForOverload()
         {
             var method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(int) });
-            Assert.AssertEquals(method.GetParameters()[0].ParameterType, typeof(int));
+            method.GetParameters()[0].ParameterType.AssertEquals(typeof(int));
 
             method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(string) });
-            Assert.AssertEquals(method.GetParameters()[0].ParameterType, typeof(string));
+            method.GetParameters()[0].ParameterType.AssertEquals(typeof(string));
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(MethodClass).GetMethod("MethodWithDictionary");
             var parameter = method.GetParameters()[0];
-            Assert.AssertEquals(parameter.ParameterType, typeof(IDictionary<string, int>));
+            parameter.ParameterType.AssertEquals(typeof(IDictionary<string, int>));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(MethodClass).GetMethod("GenericReturnType");
             var returnType = method.ReturnType;
-            Assert.AssertEquals(returnType, typeof(List<string>));            
+            returnType.AssertEquals(typeof(List<string>));            
         }
 
         public class MethodClass

@@ -40,11 +40,11 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<CreateClass>> lambda = () => new CreateClass { StringProperty = "foo" };
             var memberInitExpression = (MemberInitExpression)lambda.Body;
             var newExpression = memberInitExpression.NewExpression;
-            Assert.AssertEquals(newExpression.Type.FullName, typeof(CreateClass).FullName);
+            newExpression.Type.FullName.AssertEquals(typeof(CreateClass).FullName);
 
             var binding = (MemberAssignment)memberInitExpression.Bindings[0];
             var value = (ConstantExpression)binding.Expression;
-            Assert.AssertEquals(value.Value, "foo");
+            value.Value.AssertEquals("foo");
         }
         
         public class CreateClass

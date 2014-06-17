@@ -39,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<CreateClass>> lambda = () => new CreateClass();
             var newExpression = (NewExpression)lambda.Body;
-            Assert.AssertEquals(newExpression.Type.FullName, typeof(CreateClass).FullName);
+            newExpression.Type.FullName.AssertEquals(typeof(CreateClass).FullName);
         }
         
         [Test]
@@ -47,10 +47,10 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<CreateClass>> lambda = () => new CreateClass("foo");
             var newExpression = (NewExpression)lambda.Body;
-            Assert.AssertEquals(newExpression.Type.FullName, typeof(CreateClass).FullName);
+            newExpression.Type.FullName.AssertEquals(typeof(CreateClass).FullName);
 
             var arg = (ConstantExpression)newExpression.Arguments[0];
-            Assert.AssertEquals(arg.Value, "foo");
+            arg.Value.AssertEquals("foo");
         }
         
         public class CreateClass

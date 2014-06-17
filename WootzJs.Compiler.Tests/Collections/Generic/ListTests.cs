@@ -39,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var list = new List<string>();
             list.Add("one");
-            Assert.AssertEquals(list[0], "one");
+            list[0].AssertEquals("one");
         }
 
         [Test]
@@ -49,11 +49,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list.Add("one");
             list.Add("two");
             list.Add("three");
-            Assert.AssertEquals(list.Count, 3);
+            list.Count.AssertEquals(3);
             list.Remove("two");
-            Assert.AssertEquals(list.Count, 2);
-            Assert.AssertEquals(list[0], "one");
-            Assert.AssertEquals(list[1], "three");
+            list.Count.AssertEquals(2);
+            list[0].AssertEquals("one");
+            list[1].AssertEquals("three");
         }
 
         [Test]
@@ -63,10 +63,10 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list.Add("one");
             list.Add("two");
             list.Add("three");
-            Assert.AssertEquals(0, list.IndexOf("one"));
-            Assert.AssertEquals(1, list.IndexOf("two"));
-            Assert.AssertEquals(2, list.IndexOf("three"));
-            Assert.AssertEquals(-1, list.IndexOf("four"));
+            0.AssertEquals(list.IndexOf("one"));
+            1.AssertEquals(list.IndexOf("two"));
+            2.AssertEquals(list.IndexOf("three"));
+            (-1).AssertEquals(list.IndexOf("four"));
         }
 
         [Test]
@@ -76,10 +76,10 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             list.Add("one");
             list.Add("two");
             list.Add("three");
-            Assert.AssertTrue(list.Contains("one"));
-            Assert.AssertTrue(list.Contains("two"));
-            Assert.AssertTrue(list.Contains("three"));
-            Assert.AssertTrue(!list.Contains("four"));
+            list.Contains("one").AssertTrue();
+            list.Contains("two").AssertTrue();
+            list.Contains("three").AssertTrue();
+            (!list.Contains("four")).AssertTrue();
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var list = new List<string>();
             list.Add("one");
-            Assert.AssertEquals(list[0], "one");
+            list[0].AssertEquals("one");
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var list = new List<string>();
             list.Add("one");
             list[0] = "two";
-            Assert.AssertEquals(list[0], "two");
+            list[0].AssertEquals("two");
         }
 
         [Test]
@@ -105,13 +105,13 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var list = new List<int> { 8, 53, 1, 888, 444, 234, 3 };
             list.Sort();
 
-            Assert.AssertEquals(list[0], 1);
-            Assert.AssertEquals(list[1], 3);
-            Assert.AssertEquals(list[2], 8);
-            Assert.AssertEquals(list[3], 53);
-            Assert.AssertEquals(list[4], 234);
-            Assert.AssertEquals(list[5], 444);
-            Assert.AssertEquals(list[6], 888);
+            list[0].AssertEquals(1);
+            list[1].AssertEquals(3);
+            list[2].AssertEquals(8);
+            list[3].AssertEquals(53);
+            list[4].AssertEquals(234);
+            list[5].AssertEquals(444);
+            list[6].AssertEquals(888);
         }
 
         [Test]
@@ -120,13 +120,13 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var list = new List<int> { 8, 53, 1, 888, 444, 234, 3 };
             list.Sort((x, y) => y - x);
 
-            Assert.AssertEquals(list[0], 888);            
-            Assert.AssertEquals(list[1], 444);
-            Assert.AssertEquals(list[2], 234);
-            Assert.AssertEquals(list[3], 53);
-            Assert.AssertEquals(list[4], 8);
-            Assert.AssertEquals(list[5], 3);
-            Assert.AssertEquals(list[6], 1);
+            list[0].AssertEquals(888);            
+            list[1].AssertEquals(444);
+            list[2].AssertEquals(234);
+            list[3].AssertEquals(53);
+            list[4].AssertEquals(8);
+            list[5].AssertEquals(3);
+            list[6].AssertEquals(1);
         }
     }
 }

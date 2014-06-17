@@ -11,7 +11,7 @@ namespace WootzJs.Compiler.Tests.Threading.Tasks
         {
             var task = Task.FromResult("foo");
             var continuation = task.ContinueWith(x => x.Result + "bar");
-            Assert.AssertEquals("foobar", continuation.Result);
+            "foobar".AssertEquals(continuation.Result);
         }
 
         [Test]
@@ -20,7 +20,7 @@ namespace WootzJs.Compiler.Tests.Threading.Tasks
             var source = new TaskCompletionSource<string>();
             var task = source.Task.ContinueWith(x => x.Result + "bar");
             source.SetResult("foo");
-            Assert.AssertEquals("foobar", task.Result);
+            "foobar".AssertEquals(task.Result);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace WootzJs.Compiler.Tests
             using (foo)
             {
             }
-            Assert.AssertTrue(foo.IsDisposed);
+            foo.IsDisposed.AssertTrue();
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace WootzJs.Compiler.Tests
             {
                 _foo = foo;
             }
-            Assert.AssertTrue(_foo.IsDisposed);
+            _foo.IsDisposed.AssertTrue();
         }
 
         public class Foo : IDisposable

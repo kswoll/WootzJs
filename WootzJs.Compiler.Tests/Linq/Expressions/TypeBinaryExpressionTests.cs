@@ -44,9 +44,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
 #pragma warning restore 184
             var unaryExpression = (TypeBinaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Expression;
-            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.TypeIs);
-            Assert.AssertEquals(operand.Value, "foo");
-            Assert.AssertEquals(unaryExpression.TypeOperand.FullName, typeof(int).FullName);
+            unaryExpression.NodeType.AssertEquals(ExpressionType.TypeIs);
+            operand.Value.AssertEquals("foo");
+            unaryExpression.TypeOperand.FullName.AssertEquals(typeof(int).FullName);
         }
     }
 }

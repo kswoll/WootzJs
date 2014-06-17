@@ -38,7 +38,7 @@ namespace WootzJs.Compiler.Tests
             var three = new IntValue(3);
             var five = new IntValue(5);
             var threePlusFive = three + five;
-            Assert.AssertEquals(threePlusFive.Value, 8);
+            threePlusFive.Value.AssertEquals(8);
         }
 
         public class IntValue

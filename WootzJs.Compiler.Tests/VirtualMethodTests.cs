@@ -39,9 +39,9 @@ namespace WootzJs.Compiler.Tests
             var baseClass = new BaseClass();
             var subClass = new SubClass();
             BaseClass subClassAsBaseClass = subClass;
-            Assert.AssertEquals(baseClass.Foo(), "base");
-            Assert.AssertEquals(subClass.Foo(), "sub");
-            Assert.AssertEquals(subClassAsBaseClass.Foo(), "sub");
+            baseClass.Foo().AssertEquals("base");
+            subClass.Foo().AssertEquals("sub");
+            subClassAsBaseClass.Foo().AssertEquals("sub");
         }
          
         class BaseClass

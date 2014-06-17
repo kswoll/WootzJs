@@ -43,7 +43,7 @@ namespace WootzJs.Compiler.Tests.ComponentModel
             string propertyName = null;
             obj.PropertyChanged += (sender, evt) => propertyName = evt.PropertyName;
             obj.StringProperty = "foo";
-            Assert.AssertEquals(propertyName, "StringProperty");
+            propertyName.AssertEquals("StringProperty");
         }
 
         public class OnePropertyClass : INotifyPropertyChanged

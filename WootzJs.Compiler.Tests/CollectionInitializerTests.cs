@@ -38,7 +38,7 @@ namespace WootzJs.Compiler.Tests
         public void OneString()
         {
             var list = new List<string> { "one" };
-            Assert.AssertEquals(list[0], "one");
+            list[0].AssertEquals("one");
         }
          
         [Test]
@@ -51,8 +51,8 @@ namespace WootzJs.Compiler.Tests
             };
             var one = dictionary["one"];
             var two = dictionary["two"];
-            Assert.AssertEquals(one, 1);
-            Assert.AssertEquals(two, 2);
+            one.AssertEquals(1);
+            two.AssertEquals(2);
         }
     }
 }

@@ -36,35 +36,35 @@ namespace WootzJs.Compiler.Tests
         public void DefaultInt()
         {
             var value = default(int);
-            Assert.AssertEquals(value, 0);
+            value.AssertEquals(0);
         }
 
         [Test]
         public void DefaultChar()
         {
             var value = default(char);
-            Assert.AssertEquals(value, '\0');
+            value.AssertEquals('\0');
         }
 
         [Test]
         public void DefaultBool()
         {
             var value = default(bool);
-            Assert.AssertEquals(value, false);
+            value.AssertEquals(false);
         }
 
         [Test]
         public void DefaultObject()
         {
             var value = default(object);
-            Assert.AssertEquals(value, null);
+            value.AssertEquals(null);
         }
 
         [Test]
         public void DefaultT()
         {
-            Assert.AssertEquals(DefaultOf<string>(), null);
-            Assert.AssertEquals(DefaultOf<int>(), 0);
+            DefaultOf<string>().AssertEquals(null);
+            DefaultOf<int>().AssertEquals(0);
         }
 
         private T DefaultOf<T>()

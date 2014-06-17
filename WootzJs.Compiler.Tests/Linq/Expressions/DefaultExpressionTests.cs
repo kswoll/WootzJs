@@ -39,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int>> lambda = () => default(int);
             var defaultExpression = (DefaultExpression)lambda.Body;
-            Assert.AssertEquals(defaultExpression.Type.FullName, typeof(int).FullName);
+            defaultExpression.Type.FullName.AssertEquals(typeof(int).FullName);
         }
     }
 }

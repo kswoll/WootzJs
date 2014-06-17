@@ -40,8 +40,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<Func<int, int>>> lambda = () => x => x;
             var expression = (LambdaExpression)lambda.Body;
 
-            Assert.AssertEquals(expression.Parameters.Count, 1);
-            Assert.AssertEquals(expression.Body, expression.Parameters[0]);
+            expression.Parameters.Count.AssertEquals(1);
+            expression.Body.AssertEquals(expression.Parameters[0]);
         }
 
         [Test]

@@ -39,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Action> lambda = () => ClassWithMethods.ZeroParameterStaticMethod();
             var methodCallExpression = (MethodCallExpression)lambda.Body;
-            Assert.AssertEquals(methodCallExpression.Method.Name, "ZeroParameterStaticMethod");
+            methodCallExpression.Method.Name.AssertEquals("ZeroParameterStaticMethod");
         }         
 
         [Test]
@@ -47,9 +47,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Action> lambda = () => ClassWithMethods.OneParameterStaticMethod("foo");
             var methodCallExpression = (MethodCallExpression)lambda.Body;
-            Assert.AssertEquals(methodCallExpression.Method.Name, "OneParameterStaticMethod");
+            methodCallExpression.Method.Name.AssertEquals("OneParameterStaticMethod");
             var argument = (ConstantExpression)methodCallExpression.Arguments[0];
-            Assert.AssertEquals(argument.Value, "foo");
+            argument.Value.AssertEquals("foo");
         }         
 
         [Test]
@@ -58,9 +58,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var instance = new ClassWithMethods();
             Expression<Action> lambda = () => instance.ZeroParameterInstanceMethod();
             var methodCallExpression = (MethodCallExpression)lambda.Body;
-            Assert.AssertEquals(methodCallExpression.Method.Name, "ZeroParameterInstanceMethod");
+            methodCallExpression.Method.Name.AssertEquals("ZeroParameterInstanceMethod");
             var target = (ConstantExpression)methodCallExpression.Object;
-            Assert.AssertEquals(target.Value, instance);
+            target.Value.AssertEquals(instance);
         }         
    
 /*

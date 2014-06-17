@@ -43,7 +43,7 @@ namespace WootzJs.Compiler.Tests.Text
             builder.AppendLine();
             builder.AppendLine('c');
             builder.AppendLine("d");
-            Assert.AssertEquals(builder.ToString(), "ab\nc\nd\n");
+            builder.ToString().AssertEquals("ab\nc\nd\n");
         }
     }
 }

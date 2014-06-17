@@ -38,15 +38,15 @@ namespace WootzJs.Compiler.Tests
         public void FieldsDoNotCollide()
         {
             var subClass = new SubClass();
-            Assert.AssertEquals(subClass.GetFoo1(), "base");
-            Assert.AssertEquals(subClass.GetFoo2(), "sub");
+            subClass.GetFoo1().AssertEquals("base");
+            subClass.GetFoo2().AssertEquals("sub");
         }
 
         [Test]
         public void StaticFieldsAreStatic()
         {
             StaticFieldClass.MyField = "foo";
-            Assert.AssertEquals(StaticFieldClass.MyField, "foo");
+            StaticFieldClass.MyField.AssertEquals("foo");
         }
 
         [Test]
@@ -56,30 +56,30 @@ namespace WootzJs.Compiler.Tests
             reference.Target = new TargetClass();
             reference.Target.Foo = "foo";
 
-            Assert.AssertEquals(reference.Target.Foo, "foo");
+            reference.Target.Foo.AssertEquals("foo");
         }
 
         [Test]
         public void PrimitiveFields()
         {
             var primitiveFields = new PrimitiveFieldsClass();
-            Assert.AssertEquals(primitiveFields.Boolean, false);
-            Assert.AssertEquals(primitiveFields.Byte, 0);
-            Assert.AssertEquals(primitiveFields.SByte, 0);
-            Assert.AssertEquals(primitiveFields.Short, 0);
-            Assert.AssertEquals(primitiveFields.UShort, 0);
-            Assert.AssertEquals(primitiveFields.Int, 0);
-            Assert.AssertEquals(primitiveFields.UInt, 0);
-            Assert.AssertEquals(primitiveFields.Long, 0);
-            Assert.AssertEquals(primitiveFields.ULong, 0);
-            Assert.AssertEquals(primitiveFields.Enum, 0);
+            primitiveFields.Boolean.AssertEquals(false);
+            primitiveFields.Byte.AssertEquals(0);
+            primitiveFields.SByte.AssertEquals(0);
+            primitiveFields.Short.AssertEquals(0);
+            primitiveFields.UShort.AssertEquals(0);
+            primitiveFields.Int.AssertEquals(0);
+            primitiveFields.UInt.AssertEquals(0);
+            primitiveFields.Long.AssertEquals(0);
+            primitiveFields.ULong.AssertEquals(0);
+            primitiveFields.Enum.AssertEquals(0);
         }
 
         [Test]
         public void ConstField()
         {
             var value = ConstFieldClass.MyString;
-            Assert.AssertEquals(value, "foo");
+            value.AssertEquals("foo");
         }
 
         public class StaticFieldClass

@@ -40,7 +40,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         public void FullName()
         {
             var assembly = typeof(TestsApplication).Assembly;
-            Assert.AssertEquals(assembly.FullName, "WootzJs.Compiler.Tests");
+            assembly.FullName.AssertEquals("WootzJs.Compiler.Tests");
         }
 
         [Test]
@@ -52,10 +52,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             var systemComponentModelDataAnnotations = assemblies[2];
             var tests = assemblies[4];
 
-            Assert.AssertEquals(mscorlib.FullName, "mscorlib");
-            Assert.AssertEquals(system.FullName, "System");
-            Assert.AssertEquals(systemComponentModelDataAnnotations.FullName, "System.ComponentModel.DataAnnotations");
-            Assert.AssertEquals(tests.FullName, "WootzJs.Compiler.Tests");
+            mscorlib.FullName.AssertEquals("mscorlib");
+            system.FullName.AssertEquals("System");
+            systemComponentModelDataAnnotations.FullName.AssertEquals("System.ComponentModel.DataAnnotations");
+            tests.FullName.AssertEquals("WootzJs.Compiler.Tests");
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             var type = assembly.GetType("WootzJs.Compiler.Tests.Reflection.AssemblyTests.TestClass");
-            Assert.AssertTrue(type != null);
+            (type != null).AssertTrue();
         }
 
         [Test]
@@ -73,11 +73,11 @@ namespace WootzJs.Compiler.Tests.Reflection
             try
             {
                 var type = assembly.GetType("WootzJs.Compiler.Tests.Reflection.AssemblyTests.InvalidClass", true);
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch (Exception e)
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
 
@@ -86,7 +86,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             var type = assembly.GetType("WOOTZJS.COMPILER.TESTS.REFLECTION.ASSEMBLYTESTS.TESTCLASS", false, true);
-            Assert.AssertTrue(type != null);
+            (type != null).AssertTrue();
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var assembly = AppDomain.CurrentDomain.GetAssemblies().Last();
             var assemblyTitleAttribute = (AssemblyTitleAttribute)assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0];
-            Assert.AssertEquals(assemblyTitleAttribute.Title, "WootzJs.Compiler.Tests");
+            assemblyTitleAttribute.Title.AssertEquals("WootzJs.Compiler.Tests");
         }
 /*
 

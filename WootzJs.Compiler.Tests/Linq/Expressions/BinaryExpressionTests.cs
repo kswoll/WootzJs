@@ -40,9 +40,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
-            Assert.AssertEquals(left.Value, 5);
-            Assert.AssertEquals(right.Value, 4);
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Add);
+            left.Value.AssertEquals(5);
+            right.Value.AssertEquals(4);
         }         
          
         [Test]
@@ -52,9 +52,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
-            Assert.AssertEquals(left.Value, "foo");
-            Assert.AssertEquals(right.Value, "bar");
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Add);
+            left.Value.AssertEquals("foo");
+            right.Value.AssertEquals("bar");
         }         
          
         [Test]
@@ -64,9 +64,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
-            Assert.AssertEquals(left.Value, "foo");
-            Assert.AssertEquals(right.Value, 5);
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Add);
+            left.Value.AssertEquals("foo");
+            right.Value.AssertEquals(5);
         }         
          
         [Test]
@@ -76,9 +76,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Subtract);
-            Assert.AssertEquals(left.Value, 5);
-            Assert.AssertEquals(right.Value, 4);
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Subtract);
+            left.Value.AssertEquals(5);
+            right.Value.AssertEquals(4);
         }         
          
         [Test]
@@ -88,9 +88,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Multiply);
-            Assert.AssertEquals(left.Value, 5);
-            Assert.AssertEquals(right.Value, 4);
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Multiply);
+            left.Value.AssertEquals(5);
+            right.Value.AssertEquals(4);
         }         
          
         [Test]
@@ -100,9 +100,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Divide);
-            Assert.AssertEquals(left.Value, 5);
-            Assert.AssertEquals(right.Value, 4);
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Divide);
+            left.Value.AssertEquals(5);
+            right.Value.AssertEquals(4);
         }         
          
         [Test]
@@ -112,9 +112,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(binaryExpression.NodeType, ExpressionType.Modulo);
-            Assert.AssertEquals(left.Value, 5);
-            Assert.AssertEquals(right.Value, 4);
+            binaryExpression.NodeType.AssertEquals(ExpressionType.Modulo);
+            left.Value.AssertEquals(5);
+            right.Value.AssertEquals(4);
         }      
    
         [Test]
@@ -124,9 +124,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => array[4];
             var binaryExpression = (BinaryExpression)lambda.Body;
             var target = (ConstantExpression)binaryExpression.Left;
-            Assert.AssertEquals(target.Value, array);
+            target.Value.AssertEquals(array);
             var index = (ConstantExpression)binaryExpression.Right;
-            Assert.AssertEquals(index.Value, 4);
+            index.Value.AssertEquals(4);
         }
     }
 }

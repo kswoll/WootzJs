@@ -41,7 +41,7 @@ namespace WootzJs.Compiler.Tests
             var counter = 0;
             var jsObject = Jsni.@object(new { One = 1, Two = 2 });
             jsObject.forin(x => counter += jsObject[x]);
-            Assert.AssertEquals(counter, 3);
+            counter.AssertEquals(3);
         }
     }
 }

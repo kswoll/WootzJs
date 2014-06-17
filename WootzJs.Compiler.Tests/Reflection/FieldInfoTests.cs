@@ -45,12 +45,12 @@ namespace WootzJs.Compiler.Tests.Reflection
             var protectedField = fields.Single(x => x.Name == "ProtectedField");
             var privateField = fields.Single(x => x.Name == "PrivateField");
             var internalField = fields.Single(x => x.Name == "InternalField");
-            Assert.AssertEquals(stringField.Name, "StringField");
-            Assert.AssertEquals(intField.Name, "IntField");
-            Assert.AssertEquals(staticField.Name, "StaticField");
-            Assert.AssertEquals(protectedField.Name, "ProtectedField");
-            Assert.AssertEquals(privateField.Name, "PrivateField");
-            Assert.AssertEquals(internalField.Name, "InternalField");
+            stringField.Name.AssertEquals("StringField");
+            intField.Name.AssertEquals("IntField");
+            staticField.Name.AssertEquals("StaticField");
+            protectedField.Name.AssertEquals("ProtectedField");
+            privateField.Name.AssertEquals("PrivateField");
+            internalField.Name.AssertEquals("InternalField");
         }                  
          
         [Test]
@@ -67,20 +67,20 @@ namespace WootzJs.Compiler.Tests.Reflection
             var protectedInternalField = fields.Single(x => x.Name == "ProtectedInternalField");
             var readonlyField = fields.Single(x => x.Name == "ReadonlyField");
             var constantField = fields.Single(x => x.Name == "ConstantField");
-            Assert.AssertTrue(stringField.IsPublic);
-            Assert.AssertTrue(intField.IsPublic);
-            Assert.AssertTrue(staticField.IsPublic);
-            Assert.AssertTrue(staticField.IsStatic);
-            Assert.AssertTrue(protectedField.IsFamily);
-            Assert.AssertTrue(!protectedField.IsPublic);
-            Assert.AssertTrue(privateField.IsPrivate);
-            Assert.AssertTrue(!privateField.IsPublic);
-            Assert.AssertTrue(internalField.IsAssembly);
-            Assert.AssertTrue(!internalField.IsPublic);
-            Assert.AssertTrue(!protectedInternalField.IsPublic);
-            Assert.AssertTrue(protectedInternalField.IsFamilyOrAssembly);
-            Assert.AssertTrue(readonlyField.IsInitOnly);
-            Assert.AssertTrue(constantField.IsLiteral);
+            stringField.IsPublic.AssertTrue();
+            intField.IsPublic.AssertTrue();
+            staticField.IsPublic.AssertTrue();
+            staticField.IsStatic.AssertTrue();
+            protectedField.IsFamily.AssertTrue();
+            (!protectedField.IsPublic).AssertTrue();
+            privateField.IsPrivate.AssertTrue();
+            (!privateField.IsPublic).AssertTrue();
+            internalField.IsAssembly.AssertTrue();
+            (!internalField.IsPublic).AssertTrue();
+            (!protectedInternalField.IsPublic).AssertTrue();
+            protectedInternalField.IsFamilyOrAssembly.AssertTrue();
+            readonlyField.IsInitOnly.AssertTrue();
+            constantField.IsLiteral.AssertTrue();
         }                  
          
         [Test]
@@ -90,7 +90,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var fields = type.GetFields();
             var constantField = fields.Single(x => x.Name == "ConstantField");
             var constantValue = constantField.GetRawConstantValue();
-            Assert.AssertEquals(constantValue, "foo");
+            constantValue.AssertEquals("foo");
         }                  
          
         [Test]
@@ -103,10 +103,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticField = fields.Single(x => x.Name == "StaticField");
                 
             var stringFieldValue = stringField.GetValue(o);
-            Assert.AssertEquals(stringFieldValue, "bar");
+            stringFieldValue.AssertEquals("bar");
 
             var staticFieldValue = staticField.GetValue(null);
-            Assert.AssertEquals(staticFieldValue, "foobar");
+            staticFieldValue.AssertEquals("foobar");
         }                  
          
         [Test]
@@ -122,10 +122,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             staticField.SetValue(o, "foobar2");
 
             var stringFieldValue = stringField.GetValue(o);
-            Assert.AssertEquals(stringFieldValue, "bar2");
+            stringFieldValue.AssertEquals("bar2");
 
             var staticFieldValue = staticField.GetValue(null);
-            Assert.AssertEquals(staticFieldValue, "foobar2");
+            staticFieldValue.AssertEquals("foobar2");
         }                  
          
         public class FieldClass

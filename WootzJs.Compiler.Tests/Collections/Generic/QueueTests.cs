@@ -14,7 +14,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("foo");
             var item = queue.First();
-            Assert.AssertEquals(item, "foo");
+            item.AssertEquals("foo");
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             queue.Enqueue("foo");
             var item = queue.Dequeue();
 
-            Assert.AssertEquals(item, "foo");
+            item.AssertEquals("foo");
         }
         
         [Test]
@@ -34,8 +34,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             queue.Enqueue("one");
             queue.Enqueue("two");
             var items = queue.ToArray();
-            Assert.AssertEquals(items[0], "one");
-            Assert.AssertEquals(items[1], "two");
+            items[0].AssertEquals("one");
+            items[1].AssertEquals("two");
         }
         
         [Test]
@@ -44,8 +44,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("one");
             queue.Enqueue("two");
-            Assert.AssertEquals(queue.Dequeue(), "one");
-            Assert.AssertEquals(queue.Dequeue(), "two");
+            queue.Dequeue().AssertEquals("one");
+            queue.Dequeue().AssertEquals("two");
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("one");
             var value = queue.Peek();
-            Assert.AssertEquals(value, "one");
+            value.AssertEquals("one");
         }
 
         [Test]
@@ -64,11 +64,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             try
             {
                 queue.Peek();
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch (Exception e)
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
     }

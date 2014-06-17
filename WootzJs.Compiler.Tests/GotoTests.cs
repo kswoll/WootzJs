@@ -48,7 +48,7 @@ namespace WootzJs.Compiler.Tests
                 }
             }
 
-            Assert.AssertEquals(counter, 6);
+            counter.AssertEquals(6);
         }
     }
 }

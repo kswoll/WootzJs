@@ -40,9 +40,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<ClassWithMembers, string>> lambda = x => x.StringProperty;
             var memberExpression = (MemberExpression)lambda.Body;
-            Assert.AssertEquals(memberExpression.Expression, lambda.Parameters[0]);
-            Assert.AssertTrue(memberExpression.Member is PropertyInfo);
-            Assert.AssertEquals(memberExpression.Member.Name, "StringProperty");
+            memberExpression.Expression.AssertEquals(lambda.Parameters[0]);
+            (memberExpression.Member is PropertyInfo).AssertTrue();
+            memberExpression.Member.Name.AssertEquals("StringProperty");
         }
          
 /*

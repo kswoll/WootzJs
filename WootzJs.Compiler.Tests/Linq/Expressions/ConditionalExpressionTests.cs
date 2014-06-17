@@ -39,13 +39,13 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<bool, string>> lambda = x => x ? "yes" : "no";
             var conditional = (ConditionalExpression)lambda.Body;
 
-            Assert.AssertEquals(conditional.Test, lambda.Parameters[0]);
+            conditional.Test.AssertEquals(lambda.Parameters[0]);
 
             var ifTrue = (ConstantExpression)conditional.IfTrue;
             var ifFalse = (ConstantExpression)conditional.IfFalse;
 
-            Assert.AssertEquals(ifTrue.Value, "yes");
-            Assert.AssertEquals(ifFalse.Value, "no");
+            ifTrue.Value.AssertEquals("yes");
+            ifFalse.Value.AssertEquals("no");
         }
     }
 }

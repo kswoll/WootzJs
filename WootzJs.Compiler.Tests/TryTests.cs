@@ -40,11 +40,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 throw new Exception();
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch (Exception e)
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
          
@@ -67,7 +67,7 @@ namespace WootzJs.Compiler.Tests
             catch (Exception e)
             {
             }
-            Assert.AssertTrue(success);
+            success.AssertTrue();
         }
          
         [Test]
@@ -76,11 +76,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 throw new Exception();
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch 
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
 /*

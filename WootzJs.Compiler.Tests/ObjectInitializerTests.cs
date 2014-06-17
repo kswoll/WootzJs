@@ -38,21 +38,21 @@ namespace WootzJs.Compiler.Tests
         public void OneProperty()
         {
             var o = new OnePropertyClass { MyProperty = "foo" };
-            Assert.AssertEquals(o.MyProperty, "foo");
+            o.MyProperty.AssertEquals("foo");
         }
          
         [Test]
         public void OneField()
         {
             var o = new OnePropertyClass { MyField = "foo" };
-            Assert.AssertEquals(o.MyField, "foo");
+            o.MyField.AssertEquals("foo");
         }
          
         [Test]
         public void Nested()
         {
             var o = new OnePropertyClass { NestedProperty = new OnePropertyClass { MyProperty = "foo" } };
-            Assert.AssertEquals(o.NestedProperty.MyProperty, "foo");
+            o.NestedProperty.MyProperty.AssertEquals("foo");
         }
          
         public class OnePropertyClass

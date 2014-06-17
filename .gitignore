@@ -36,3 +36,5 @@ WootzJs.ComponentModel.DataAnnotations/obj/Debug/System.ComponentModel.DataAnnot
 WootzJs.ComponentModel.DataAnnotations/obj/
 WootzJs.Runtime/bin/
 WootzJs.sln.ide/
+WootzJs.Testing/bin/
+WootzJs.Testing/obj/

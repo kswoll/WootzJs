@@ -38,8 +38,8 @@ namespace WootzJs.Compiler.Tests
         {
             object o = "foo";
             var s = o as string;
-            Assert.AssertTrue(s is string);
-            Assert.AssertTrue(!(s is int));
+            (s is string).AssertTrue();
+            (!(s is int)).AssertTrue();
         }
 
         [Test]
@@ -47,9 +47,9 @@ namespace WootzJs.Compiler.Tests
         {
             object o = new MyClass();
             var myClass = o as MyClass;
-            Assert.AssertTrue(myClass is MyClass);
-            Assert.AssertTrue(myClass is object);
-            Assert.AssertTrue(!(myClass is string));
+            (myClass is MyClass).AssertTrue();
+            (myClass is object).AssertTrue();
+            (!(myClass is string)).AssertTrue();
         }
 
         public class MyClass {}

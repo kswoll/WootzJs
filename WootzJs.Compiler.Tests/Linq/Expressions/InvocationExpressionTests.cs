@@ -42,10 +42,10 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var invocation = (InvocationExpression)lambda.Body;
 
             var target = (ConstantExpression)invocation.Expression;
-            Assert.AssertEquals(target.Value, func);
+            target.Value.AssertEquals(func);
 
             var arg = (ConstantExpression)invocation.Arguments[0];
-            Assert.AssertEquals(arg.Value, 5);
+            arg.Value.AssertEquals(5);
         }
     }
 }

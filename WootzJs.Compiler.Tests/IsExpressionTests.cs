@@ -38,17 +38,17 @@ namespace WootzJs.Compiler.Tests
         public void String()
         {
             var s = "foo";
-            Assert.AssertTrue(s is string);
-            Assert.AssertTrue(!(s is int));
+            (s is string).AssertTrue();
+            (!(s is int)).AssertTrue();
         }
 
         [Test]
         public void TestClass()
         {
             var o = new MyClass();
-            Assert.AssertTrue(o is MyClass);
-            Assert.AssertTrue(o is object);
-            Assert.AssertTrue(!(o is string));
+            (o is MyClass).AssertTrue();
+            (o is object).AssertTrue();
+            (!(o is string)).AssertTrue();
         }
 /*
 Primitives like this are going to require more work         

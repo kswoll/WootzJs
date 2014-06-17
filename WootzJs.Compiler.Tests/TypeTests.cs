@@ -38,22 +38,22 @@ namespace WootzJs.Compiler.Tests
         public void FullName()
         {
             var type = typeof(TestClass);
-            Assert.AssertEquals(type.FullName, "WootzJs.Compiler.Tests.TypeTests.TestClass");
+            type.FullName.AssertEquals("WootzJs.Compiler.Tests.TypeTests.TestClass");
         }                  
 
         [Test]
         public void InnerClassName()
         {
             var type = typeof(ClassWithInnerClass.InnerClass);
-            Assert.AssertEquals(type.Name, "InnerClass");
+            type.Name.AssertEquals("InnerClass");
         }                  
 
         [Test]
         public void BaseType()
         {
             var type = typeof(SubClass);
-            Assert.AssertEquals(type.FullName, "WootzJs.Compiler.Tests.TypeTests.SubClass");
-            Assert.AssertEquals(type.BaseType.FullName, "WootzJs.Compiler.Tests.TypeTests.TestClass");
+            type.FullName.AssertEquals("WootzJs.Compiler.Tests.TypeTests.SubClass");
+            type.BaseType.FullName.AssertEquals("WootzJs.Compiler.Tests.TypeTests.TestClass");
         }                  
 
         [Test]
@@ -61,7 +61,7 @@ namespace WootzJs.Compiler.Tests
         {
             var subClass = typeof(SubClass);
             var baseClass = typeof(TestClass);
-            Assert.AssertTrue(baseClass.IsAssignableFrom(subClass));
+            baseClass.IsAssignableFrom(subClass).AssertTrue();
         }                  
 
         [Test]
@@ -69,30 +69,30 @@ namespace WootzJs.Compiler.Tests
         {
             var subClass = new SubClass();
             var baseClass = typeof(TestClass);
-            Assert.AssertTrue(baseClass.IsInstanceOfType(subClass));
+            baseClass.IsInstanceOfType(subClass).AssertTrue();
         }                  
 
         [Test]
         public void GetFields()
         {
             var fields = typeof(FieldsClass).GetFields();
-            Assert.AssertEquals(fields.Length, 1);
+            fields.Length.AssertEquals(1);
             var field = fields[0];
-            Assert.AssertEquals(field.Name, "MyString");
+            field.Name.AssertEquals("MyString");
         }        
         
         [Test]
         public void GetTypeByName()
         {
             var type = Type.GetType("WootzJs.Compiler.Tests.TypeTests.TestClass");
-            Assert.AssertTrue(type != null);
+            (type != null).AssertTrue();
         }
 
         [Test]
         public void TypeOfIntArray()
         {
             var type = typeof(int[]);
-            Assert.AssertEquals(type.Name, "Int32[]");
+            type.Name.AssertEquals("Int32[]");
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace WootzJs.Compiler.Tests
             o = (int[])o;
             o = (float[])o;
             o = (bool[])o;
-            Assert.AssertTrue(true);
+            true.AssertTrue();
         }
 
         public class TestClass

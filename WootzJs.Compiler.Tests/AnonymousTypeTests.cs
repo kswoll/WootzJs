@@ -37,7 +37,7 @@ namespace WootzJs.Compiler.Tests
         public void OneProperty()
         {
             var o = new { MyProperty = "foo" };
-            Assert.AssertEquals(o.MyProperty, "foo");
+            o.MyProperty.AssertEquals("foo");
         }
     }
 }

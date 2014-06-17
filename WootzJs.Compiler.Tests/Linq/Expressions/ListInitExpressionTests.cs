@@ -41,11 +41,11 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<List<string>>> lambda = () => new List<string> { "foo" };
             var listInitExpression = (ListInitExpression)lambda.Body;
             var newExpression = listInitExpression.NewExpression;
-            Assert.AssertEquals(newExpression.Type.FullName, typeof(List<string>).FullName);
+            newExpression.Type.FullName.AssertEquals(typeof(List<string>).FullName);
 
             var binding = listInitExpression.Initializers[0];
             var value = (ConstantExpression)binding.Arguments[0];
-            Assert.AssertEquals(value.Value, "foo");
+            value.Value.AssertEquals("foo");
         }
 
         [Test]
@@ -54,14 +54,14 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<List<string>>> lambda = () => new List<string> { "foo", "bar" };
             var listInitExpression = (ListInitExpression)lambda.Body;
             var newExpression = listInitExpression.NewExpression;
-            Assert.AssertEquals(newExpression.Type.FullName, typeof(List<string>).FullName);
+            newExpression.Type.FullName.AssertEquals(typeof(List<string>).FullName);
 
             var binding1 = listInitExpression.Initializers[0];
             var binding2 = listInitExpression.Initializers[1];
             var value1 = (ConstantExpression)binding1.Arguments[0];
             var value2 = (ConstantExpression)binding2.Arguments[0];
-            Assert.AssertEquals(value1.Value, "foo");
-            Assert.AssertEquals(value2.Value, "bar");
+            value1.Value.AssertEquals("foo");
+            value2.Value.AssertEquals("bar");
         }
         
         [Test]
@@ -70,13 +70,13 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<Dictionary<string, int>>> lambda = () => new Dictionary<string, int> { { "foo", 5 } };
             var listInitExpression = (ListInitExpression)lambda.Body;
             var newExpression = listInitExpression.NewExpression;
-            Assert.AssertEquals(newExpression.Type.FullName, typeof(Dictionary<string, int>).FullName);
+            newExpression.Type.FullName.AssertEquals(typeof(Dictionary<string, int>).FullName);
 
             var binding = listInitExpression.Initializers[0];
             var key = (ConstantExpression)binding.Arguments[0];
             var value = (ConstantExpression)binding.Arguments[1];
-            Assert.AssertEquals(key.Value, "foo");
-            Assert.AssertEquals(value.Value, 5);
+            key.Value.AssertEquals("foo");
+            value.Value.AssertEquals(5);
         }
     }
 }

@@ -40,9 +40,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<bool>> lambda = () => !true;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.Not);
-            Assert.AssertEquals(unaryExpression.Type, typeof(bool));
-            Assert.AssertEquals(operand.Value, true);
+            unaryExpression.NodeType.AssertEquals(ExpressionType.Not);
+            unaryExpression.Type.AssertEquals(typeof(bool));
+            operand.Value.AssertEquals(true);
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => -5;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.Negate);
-            Assert.AssertEquals(operand.Value, 5);
+            unaryExpression.NodeType.AssertEquals(ExpressionType.Negate);
+            operand.Value.AssertEquals(5);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<object>> lambda = () => "foo" as object;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            Assert.AssertEquals(unaryExpression.NodeType, ExpressionType.TypeAs);
-            Assert.AssertEquals(operand.Value, "foo");
-            Assert.AssertEquals(unaryExpression.Type.FullName, typeof(object).FullName);
+            unaryExpression.NodeType.AssertEquals(ExpressionType.TypeAs);
+            operand.Value.AssertEquals("foo");
+            unaryExpression.Type.FullName.AssertEquals(typeof(object).FullName);
         }
     }
 }

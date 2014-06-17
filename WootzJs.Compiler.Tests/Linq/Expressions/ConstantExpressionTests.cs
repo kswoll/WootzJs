@@ -42,7 +42,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
                                         // tree since it's value is known at that time.
             Expression<Func<string, string>> lambda = x => s;
             var constantExpression = (ConstantExpression)lambda.Body;
-            Assert.AssertEquals(constantExpression.Value, "foo");            
+            constantExpression.Value.AssertEquals("foo");            
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, int>> lambda = x => 5;
             var constantExpression = (ConstantExpression)lambda.Body;
-            Assert.AssertEquals(constantExpression.Value, 5);
+            constantExpression.Value.AssertEquals(5);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, float>> lambda = x => 5.4f;
             var constantExpression = (ConstantExpression)lambda.Body;
-            Assert.AssertEquals(constantExpression.Value, 5.4);
+            constantExpression.Value.AssertEquals(5.4);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, double>> lambda = x => 3.40282347E+40;
             var constantExpression = (ConstantExpression)lambda.Body;
-            Assert.AssertEquals(constantExpression.Value, 3.40282347E+40);
+            constantExpression.Value.AssertEquals(3.40282347E+40);
         }
          
         [Test]
@@ -74,7 +74,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, string>> lambda = x => "foo";
             var constantExpression = (ConstantExpression)lambda.Body;
-            Assert.AssertEquals(constantExpression.Value, "foo");                
+            constantExpression.Value.AssertEquals("foo");                
         }
          
         [Test]
@@ -82,7 +82,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<string, bool>> lambda = x => true;
             var constantExpression = (ConstantExpression)lambda.Body;
-            Assert.AssertEquals(constantExpression.Value, true);                
+            constantExpression.Value.AssertEquals(true);                
         }
     }
 }

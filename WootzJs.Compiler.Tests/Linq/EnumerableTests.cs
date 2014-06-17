@@ -42,7 +42,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { 1, 2, 3 };
             var result = array.Aggregate((x, y) => x + y);
-            Assert.AssertEquals(result, 6);
+            result.AssertEquals(6);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { 1, 2, 3 };
             var result = array.Aggregate(10, (x, y) => x + y);
-            Assert.AssertEquals(result, 16);
+            result.AssertEquals(16);
         }
 
         [Test]
@@ -58,15 +58,15 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { 1, 2, 3 };
             var result = array.Aggregate(10, (x, y) => x + y, x => x.ToString());
-            Assert.AssertEquals(result, "16");
+            result.AssertEquals("16");
         }
 
         [Test]
         public void All()
         {
             var array = new[] { 1, 2, 3 };
-            Assert.AssertEquals(array.All(x => x > 0), true);
-            Assert.AssertEquals(array.All(x => x > 1), false);
+            array.All(x => x > 0).AssertEquals(true);
+            array.All(x => x > 1).AssertEquals(false);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { "1", "2", "3" };
             var two = array.Where(x => x == "2").Single();
-            Assert.AssertEquals(two, "2");
+            two.AssertEquals("2");
         }
 
         [Test]
@@ -82,9 +82,9 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { "1", "2", "3" };
             var result = array.Where((x, i) => x == "2" || i == 2).ToArray();
-            Assert.AssertEquals(result.Length, 2);
-            Assert.AssertEquals(result[0], "2");
-            Assert.AssertEquals(result[1], "3");
+            result.Length.AssertEquals(2);
+            result[0].AssertEquals("2");
+            result[1].AssertEquals("3");
         }
 
         [Test]
@@ -92,9 +92,9 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { "1", "2", "3" };
             var two = array.Select(x => x + "a").ToArray();
-            Assert.AssertEquals(two[0], "1a");
-            Assert.AssertEquals(two[1], "2a");
-            Assert.AssertEquals(two[2], "3a");
+            two[0].AssertEquals("1a");
+            two[1].AssertEquals("2a");
+            two[2].AssertEquals("3a");
         }
 
         [Test]
@@ -102,9 +102,9 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var array = new[] { "1", "2", "3" };
             var two = array.Select((x, i) => x + "a" + i).ToArray();
-            Assert.AssertEquals(two[0], "1a0");
-            Assert.AssertEquals(two[1], "2a1");
-            Assert.AssertEquals(two[2], "3a2");
+            two[0].AssertEquals("1a0");
+            two[1].AssertEquals("2a1");
+            two[2].AssertEquals("3a2");
         }
 
         [Test]
@@ -117,13 +117,13 @@ namespace WootzJs.Compiler.Tests.Linq
             };
 
             var elements = arrays.SelectMany(x => x).ToArray();
-            Assert.AssertEquals(elements.Length, 6);
-            Assert.AssertEquals(elements[0], "1");
-            Assert.AssertEquals(elements[1], "2");
-            Assert.AssertEquals(elements[2], "3");
-            Assert.AssertEquals(elements[3], "4");
-            Assert.AssertEquals(elements[4], "5");
-            Assert.AssertEquals(elements[5], "6");
+            elements.Length.AssertEquals(6);
+            elements[0].AssertEquals("1");
+            elements[1].AssertEquals("2");
+            elements[2].AssertEquals("3");
+            elements[3].AssertEquals("4");
+            elements[4].AssertEquals("5");
+            elements[5].AssertEquals("6");
         }
 
         [Test]
@@ -136,13 +136,13 @@ namespace WootzJs.Compiler.Tests.Linq
             };
 
             var elements = arrays.SelectMany((x, i) => x.Select(y => y + i)).ToArray();
-            Assert.AssertEquals(elements.Length, 6);
-            Assert.AssertEquals(elements[0], "10");
-            Assert.AssertEquals(elements[1], "20");
-            Assert.AssertEquals(elements[2], "30");
-            Assert.AssertEquals(elements[3], "41");
-            Assert.AssertEquals(elements[4], "51");
-            Assert.AssertEquals(elements[5], "61");
+            elements.Length.AssertEquals(6);
+            elements[0].AssertEquals("10");
+            elements[1].AssertEquals("20");
+            elements[2].AssertEquals("30");
+            elements[3].AssertEquals("41");
+            elements[4].AssertEquals("51");
+            elements[5].AssertEquals("61");
         }
 
         [Test]
@@ -155,13 +155,13 @@ namespace WootzJs.Compiler.Tests.Linq
             };
 
             var elements = arrays.SelectMany((x, i) => x.Select(y => y + i), (row, item) => row.Length*int.Parse(item)).ToArray();
-            Assert.AssertEquals(elements.Length, 6);
-            Assert.AssertEquals(elements[0], 30);
-            Assert.AssertEquals(elements[1], 60);
-            Assert.AssertEquals(elements[2], 90);
-            Assert.AssertEquals(elements[3], 123);
-            Assert.AssertEquals(elements[4], 153);
-            Assert.AssertEquals(elements[5], 183);
+            elements.Length.AssertEquals(6);
+            elements[0].AssertEquals(30);
+            elements[1].AssertEquals(60);
+            elements[2].AssertEquals(90);
+            elements[3].AssertEquals(123);
+            elements[4].AssertEquals(153);
+            elements[5].AssertEquals(183);
         }
 
         [Test]
@@ -174,84 +174,84 @@ namespace WootzJs.Compiler.Tests.Linq
             };
 
             var elements = arrays.SelectMany(x => x, (row, item) => row.Length*int.Parse(item)).ToArray();
-            Assert.AssertEquals(elements.Length, 6);
-            Assert.AssertEquals(elements[0], 3);
-            Assert.AssertEquals(elements[1], 6);
-            Assert.AssertEquals(elements[2], 9);
-            Assert.AssertEquals(elements[3], 12);
-            Assert.AssertEquals(elements[4], 15);
-            Assert.AssertEquals(elements[5], 18);
+            elements.Length.AssertEquals(6);
+            elements[0].AssertEquals(3);
+            elements[1].AssertEquals(6);
+            elements[2].AssertEquals(9);
+            elements[3].AssertEquals(12);
+            elements[4].AssertEquals(15);
+            elements[5].AssertEquals(18);
         }
 
         [Test]
         public void Max()
         {
-            Assert.AssertEquals(new[] { 1, 2, 3 }.Max(), 3);
-            Assert.AssertEquals(new[] { 1.3, 2.4, 3.5 }.Max(), 3.5);
+            new[] { 1, 2, 3 }.Max().AssertEquals(3);
+            new[] { 1.3, 2.4, 3.5 }.Max().AssertEquals(3.5);
         }
 
         [Test]
         public void Min()
         {
-            Assert.AssertEquals(new[] { -1, 2, 3 }.Min(), -1);
-            Assert.AssertEquals(new[] { 1.3, -2.4, 3.5 }.Min(), -2.4);
+            new[] { -1, 2, 3 }.Min().AssertEquals(-1);
+            new[] { 1.3, -2.4, 3.5 }.Min().AssertEquals(-2.4);
         }
 
         [Test]
         public void Take()
         {
             var ints = new[] { 8, 3, 5, 1 }.Take(3).ToArray();
-            Assert.AssertEquals(ints.Length, 3);
-            Assert.AssertEquals(ints[0], 8);
-            Assert.AssertEquals(ints[1], 3);
-            Assert.AssertEquals(ints[2], 5);
+            ints.Length.AssertEquals(3);
+            ints[0].AssertEquals(8);
+            ints[1].AssertEquals(3);
+            ints[2].AssertEquals(5);
         }
 
         [Test]
         public void TakeWhile()
         {
             var ints = new[] { 1, 2, 3, 4, 5 }.TakeWhile(x => x < 3).ToArray();
-            Assert.AssertEquals(ints.Length, 2);
-            Assert.AssertEquals(ints[0], 1);
-            Assert.AssertEquals(ints[1], 2);
+            ints.Length.AssertEquals(2);
+            ints[0].AssertEquals(1);
+            ints[1].AssertEquals(2);
         }
 
         [Test]
         public void TakeWhileWithIndex()
         {
             var ints = new[] { 1, 2, 3, 4, 5 }.TakeWhile((x, i) => i < 3).ToArray();
-            Assert.AssertEquals(ints.Length, 3);
-            Assert.AssertEquals(ints[0], 1);
-            Assert.AssertEquals(ints[1], 2);
-            Assert.AssertEquals(ints[2], 3);
+            ints.Length.AssertEquals(3);
+            ints[0].AssertEquals(1);
+            ints[1].AssertEquals(2);
+            ints[2].AssertEquals(3);
         }
 
         [Test]
         public void Skip()
         {
             var ints = new[] { 8, 3, 5, 1 }.Skip(2).ToArray();
-            Assert.AssertEquals(ints.Length, 2);
-            Assert.AssertEquals(ints[0], 5);
-            Assert.AssertEquals(ints[1], 1);
+            ints.Length.AssertEquals(2);
+            ints[0].AssertEquals(5);
+            ints[1].AssertEquals(1);
         }
 
         [Test]
         public void SkipWhile()
         {
             var ints = new[] { 1, 2, 3, 4, 5 }.SkipWhile(x => x < 3).ToArray();
-            Assert.AssertEquals(ints.Length, 3);
-            Assert.AssertEquals(ints[0], 3);
-            Assert.AssertEquals(ints[1], 4);
-            Assert.AssertEquals(ints[2], 5);
+            ints.Length.AssertEquals(3);
+            ints[0].AssertEquals(3);
+            ints[1].AssertEquals(4);
+            ints[2].AssertEquals(5);
         }
 
         [Test]
         public void SkipWhileWithIndex()
         {
             var ints = new[] { 1, 2, 3, 4, 5 }.SkipWhile((x, i) => i < 3).ToArray();
-            Assert.AssertEquals(ints.Length, 2);
-            Assert.AssertEquals(ints[0], 4);
-            Assert.AssertEquals(ints[1], 5);
+            ints.Length.AssertEquals(2);
+            ints[0].AssertEquals(4);
+            ints[1].AssertEquals(5);
         }
 
         [Test]
@@ -260,9 +260,9 @@ namespace WootzJs.Compiler.Tests.Linq
             var ints1 = new[] { 1, 2, 3, 4 };
             var ints2 = new[] { 3, 4, 5, 6 };
             var join = ints1.Join(ints2, x => x, x => x, (x, y) => x + y).ToArray();
-            Assert.AssertEquals(join.Length, 2);
-            Assert.AssertEquals(join[0], 6);
-            Assert.AssertEquals(join[1], 8);
+            @join.Length.AssertEquals(2);
+            @join[0].AssertEquals(6);
+            @join[1].AssertEquals(8);
         }
 
         [Test]
@@ -271,9 +271,9 @@ namespace WootzJs.Compiler.Tests.Linq
             var ints1 = new[] { 1, 2, 3, 4 };
             var ints2 = new[] { 3, 4, 5, 6 };
             var join = ints1.Except(ints2).ToArray();
-            Assert.AssertEquals(join.Length, 2);
-            Assert.AssertEquals(join[0], 1);
-            Assert.AssertEquals(join[1], 2);
+            @join.Length.AssertEquals(2);
+            @join[0].AssertEquals(1);
+            @join[1].AssertEquals(2);
         }
 
         [Test]
@@ -281,7 +281,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var ints1 = new[] { 1 };
             var int1 = ints1.Single();
-            Assert.AssertEquals(int1, 1);
+            int1.AssertEquals(1);
         }
 
         [Test]
@@ -291,11 +291,11 @@ namespace WootzJs.Compiler.Tests.Linq
             try
             {
                 var int1 = ints1.Single();
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch (Exception e)
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
 
@@ -304,7 +304,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var ints = new[] { 1, 2, 3 };
             var sum = ints.Sum();
-            Assert.AssertEquals(sum, 6);
+            sum.AssertEquals(6);
         }
 
         [Test]
@@ -314,11 +314,11 @@ namespace WootzJs.Compiler.Tests.Linq
             try
             {
                 var int1 = ints1.Single();
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch (Exception e)
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
 
@@ -327,10 +327,10 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var ints = new[] { 1, 2, 3 };
             var reverse = ints.Reverse().ToArray();
-            Assert.AssertEquals(reverse.Length, 3);
-            Assert.AssertEquals(reverse[0], 3);
-            Assert.AssertEquals(reverse[1], 2);
-            Assert.AssertEquals(reverse[2], 1);
+            reverse.Length.AssertEquals(3);
+            reverse[0].AssertEquals(3);
+            reverse[1].AssertEquals(2);
+            reverse[2].AssertEquals(1);
         }
 
         [Test]
@@ -342,8 +342,8 @@ namespace WootzJs.Compiler.Tests.Linq
                 new DictionaryClass { Name = "Gary", Value = "California" }
             };
             var dictionary = items.ToDictionary(x => x.Name, x => x.Value);
-            Assert.AssertEquals(dictionary["John"], "Austria");
-            Assert.AssertEquals(dictionary["Gary"], "California");
+            dictionary["John"].AssertEquals("Austria");
+            dictionary["Gary"].AssertEquals("California");
         }
 
         [Test]
@@ -351,7 +351,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var ints1 = new[] { 1, 2, 3 };
             var ints2 = new[] { 1, 2, 3 };
-            Assert.AssertTrue(ints1.SequenceEqual(ints2));
+            ints1.SequenceEqual(ints2).AssertTrue();
         }
 
         [Test]
@@ -359,7 +359,7 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var ints = new[] { 1, 2, 3, 4 };
             var last = ints.Last();
-            Assert.AssertEquals(last, 4);
+            last.AssertEquals(4);
         }
 
         [Test]
@@ -367,8 +367,8 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var objects = new object[] { 1, "5", 5d, "8" };
             var strings = objects.OfType<string>().ToArray();
-            Assert.AssertEquals(strings[0], "5");
-            Assert.AssertEquals(strings[1], "8");
+            strings[0].AssertEquals("5");
+            strings[1].AssertEquals("8");
         }
 
         [Test]
@@ -376,13 +376,13 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var list = new[] { 8, 53, 1, 888, 444, 234, 3 }.OrderBy(x => x).ToArray();
 
-            Assert.AssertEquals(list[0], 1);
-            Assert.AssertEquals(list[1], 3);
-            Assert.AssertEquals(list[2], 8);
-            Assert.AssertEquals(list[3], 53);
-            Assert.AssertEquals(list[4], 234);
-            Assert.AssertEquals(list[5], 444);
-            Assert.AssertEquals(list[6], 888);
+            list[0].AssertEquals(1);
+            list[1].AssertEquals(3);
+            list[2].AssertEquals(8);
+            list[3].AssertEquals(53);
+            list[4].AssertEquals(234);
+            list[5].AssertEquals(444);
+            list[6].AssertEquals(888);
         }
 
         [Test]
@@ -390,9 +390,9 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var list = new[] { 8, 53, 1 }.OrderByDescending(x => x).ToArray();
 
-            Assert.AssertEquals(list[0], 53);
-            Assert.AssertEquals(list[1], 8);
-            Assert.AssertEquals(list[2], 1);
+            list[0].AssertEquals(53);
+            list[1].AssertEquals(8);
+            list[2].AssertEquals(1);
         }
 
         [Test]
@@ -408,18 +408,18 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "c", Value = 1 },
             }.OrderBy(x => x.Key).ThenBy(x => x.Value).ToArray();
 
-            Assert.AssertEquals(list[0].Key, "a");
-            Assert.AssertEquals(list[0].Value, 1);
-            Assert.AssertEquals(list[1].Key, "a");
-            Assert.AssertEquals(list[1].Value, 2);
-            Assert.AssertEquals(list[2].Key, "b");
-            Assert.AssertEquals(list[2].Value, 1);
-            Assert.AssertEquals(list[3].Key, "c");
-            Assert.AssertEquals(list[3].Value, 1);
-            Assert.AssertEquals(list[4].Key, "c");
-            Assert.AssertEquals(list[4].Value, 3);
-            Assert.AssertEquals(list[5].Key, "c");
-            Assert.AssertEquals(list[5].Value, 4);
+            list[0].Key.AssertEquals("a");
+            list[0].Value.AssertEquals(1);
+            list[1].Key.AssertEquals("a");
+            list[1].Value.AssertEquals(2);
+            list[2].Key.AssertEquals("b");
+            list[2].Value.AssertEquals(1);
+            list[3].Key.AssertEquals("c");
+            list[3].Value.AssertEquals(1);
+            list[4].Key.AssertEquals("c");
+            list[4].Value.AssertEquals(3);
+            list[5].Key.AssertEquals("c");
+            list[5].Value.AssertEquals(4);
         }
 
         [Test]
@@ -435,45 +435,45 @@ namespace WootzJs.Compiler.Tests.Linq
                 new KeyValueClass { Key = "c", Value = 1 }
             }.OrderBy(x => x.Key).ThenByDescending(x => x.Value).ToArray();
 
-            Assert.AssertEquals(list[0].Key, "a");
-            Assert.AssertEquals(list[0].Value, 2);
-            Assert.AssertEquals(list[1].Key, "a");
-            Assert.AssertEquals(list[1].Value, 1);
-            Assert.AssertEquals(list[2].Key, "b");
-            Assert.AssertEquals(list[2].Value, 1);
-            Assert.AssertEquals(list[3].Key, "c");
-            Assert.AssertEquals(list[3].Value, 4);
-            Assert.AssertEquals(list[4].Key, "c");
-            Assert.AssertEquals(list[4].Value, 3);
-            Assert.AssertEquals(list[5].Key, "c");
-            Assert.AssertEquals(list[5].Value, 1);
+            list[0].Key.AssertEquals("a");
+            list[0].Value.AssertEquals(2);
+            list[1].Key.AssertEquals("a");
+            list[1].Value.AssertEquals(1);
+            list[2].Key.AssertEquals("b");
+            list[2].Value.AssertEquals(1);
+            list[3].Key.AssertEquals("c");
+            list[3].Value.AssertEquals(4);
+            list[4].Key.AssertEquals("c");
+            list[4].Value.AssertEquals(3);
+            list[5].Key.AssertEquals("c");
+            list[5].Value.AssertEquals(1);
         }
 
         [Test]
         public void Empty()
         {
             var enumerator = Enumerable.Empty<string>().GetEnumerator();
-            Assert.AssertTrue(!enumerator.MoveNext());
+            (!enumerator.MoveNext()).AssertTrue();
         }
 
         [Test]
         public void DefaultIfEmpty()
         {
             var s = new string[0].DefaultIfEmpty().Single();
-            Assert.AssertEquals(s, null);
+            s.AssertEquals(null);
 
             var i = new int[0].DefaultIfEmpty().Single();
-            Assert.AssertEquals(i, 0);
+            i.AssertEquals(0);
         }
 
         [Test]
         public void DefaultIfEmptyExplicitDefault()
         {
             var s = new string[0].DefaultIfEmpty("default").Single();
-            Assert.AssertEquals(s, "default");
+            s.AssertEquals("default");
 
             var i = new int[0].DefaultIfEmpty(5).Single();
-            Assert.AssertEquals(i, 5);
+            i.AssertEquals(5);
         }
 
         [Test]
@@ -493,12 +493,12 @@ namespace WootzJs.Compiler.Tests.Linq
             var a = groups["a"];
             var b = groups["b"];
             var c = groups["c"];
-            Assert.AssertEquals(a[0], 2);
-            Assert.AssertEquals(a[1], 1);
-            Assert.AssertEquals(b[0], 1);
-            Assert.AssertEquals(c[0], 3);
-            Assert.AssertEquals(c[1], 4);
-            Assert.AssertEquals(c[2], 1);
+            a[0].AssertEquals(2);
+            a[1].AssertEquals(1);
+            b[0].AssertEquals(1);
+            c[0].AssertEquals(3);
+            c[1].AssertEquals(4);
+            c[2].AssertEquals(1);
         }
 
         [Test]
@@ -518,12 +518,12 @@ namespace WootzJs.Compiler.Tests.Linq
             var a = groups["a"].Select(x => x.Value).ToArray();
             var b = groups["b"].Select(x => x.Value).ToArray();
             var c = groups["c"].Select(x => x.Value).ToArray();
-            Assert.AssertEquals(a[0], 2);
-            Assert.AssertEquals(a[1], 1);
-            Assert.AssertEquals(b[0], 1);
-            Assert.AssertEquals(c[0], 3);
-            Assert.AssertEquals(c[1], 4);
-            Assert.AssertEquals(c[2], 1);
+            a[0].AssertEquals(2);
+            a[1].AssertEquals(1);
+            b[0].AssertEquals(1);
+            c[0].AssertEquals(3);
+            c[1].AssertEquals(4);
+            c[2].AssertEquals(1);
         }
 
         [Test]
@@ -531,30 +531,30 @@ namespace WootzJs.Compiler.Tests.Linq
         {
             var items = new[] { 1, 3, 6, 3, 4, 1 };
             var distinct = items.Distinct().ToArray();
-            Assert.AssertEquals(distinct.Length, 4);
-            Assert.AssertEquals(distinct[0], 1);
-            Assert.AssertEquals(distinct[1], 3);
-            Assert.AssertEquals(distinct[2], 6);
-            Assert.AssertEquals(distinct[3], 4);
+            distinct.Length.AssertEquals(4);
+            distinct[0].AssertEquals(1);
+            distinct[1].AssertEquals(3);
+            distinct[2].AssertEquals(6);
+            distinct[3].AssertEquals(4);
         }
 
         [Test]
         public void ElementAt()
         {
             var items = new[] { 0, 1, 2 };
-            Assert.AssertEquals(items.ElementAt(0), 0);
-            Assert.AssertEquals(items.ElementAt(1), 1);
-            Assert.AssertEquals(items.ElementAt(2), 2);
+            items.ElementAt(0).AssertEquals(0);
+            items.ElementAt(1).AssertEquals(1);
+            items.ElementAt(2).AssertEquals(2);
         }
 
         [Test]
         public void ElementAtOrDefault()
         {
             var items = new[] { 0, 1, 2 };
-            Assert.AssertEquals(items.ElementAtOrDefault(0), 0);
-            Assert.AssertEquals(items.ElementAtOrDefault(1), 1);
-            Assert.AssertEquals(items.ElementAtOrDefault(2), 2);
-            Assert.AssertEquals(items.ElementAtOrDefault(3), 0);
+            items.ElementAtOrDefault(0).AssertEquals(0);
+            items.ElementAtOrDefault(1).AssertEquals(1);
+            items.ElementAtOrDefault(2).AssertEquals(2);
+            items.ElementAtOrDefault(3).AssertEquals(0);
         }
 
         [Test]
@@ -563,61 +563,61 @@ namespace WootzJs.Compiler.Tests.Linq
             var ints1 = new[] { 1, 2, 3 };
             var ints2 = new[] { 4, 5, 6 };
             var zipped = ints1.Zip(ints2, (x, y) => new { x, y }).ToArray();
-            Assert.AssertEquals(zipped[0].x, 1);
-            Assert.AssertEquals(zipped[0].y, 4);
-            Assert.AssertEquals(zipped[1].x, 2);
-            Assert.AssertEquals(zipped[1].y, 5);
-            Assert.AssertEquals(zipped[2].x, 3);
-            Assert.AssertEquals(zipped[2].y, 6);
+            zipped[0].x.AssertEquals(1);
+            zipped[0].y.AssertEquals(4);
+            zipped[1].x.AssertEquals(2);
+            zipped[1].y.AssertEquals(5);
+            zipped[2].x.AssertEquals(3);
+            zipped[2].y.AssertEquals(6);
         }
 
         [Test]
         public void Union()
         {
             var union = new[] { 1, 1, 2 }.Union(new[] { 1, 2, 2, 3 }).ToArray();
-            Assert.AssertEquals(union.Length, 3);
-            Assert.AssertEquals(union[0], 1);
-            Assert.AssertEquals(union[1], 2);
-            Assert.AssertEquals(union[2], 3);
+            union.Length.AssertEquals(3);
+            union[0].AssertEquals(1);
+            union[1].AssertEquals(2);
+            union[2].AssertEquals(3);
         }
 
         [Test]
         public void Intersect()
         {
             var intersection = new[] { 1, 1, 2 }.Intersect(new[] { 1, 2, 2, 3 }).ToArray();
-            Assert.AssertEquals(intersection.Length, 2);
-            Assert.AssertEquals(intersection[0], 1);
-            Assert.AssertEquals(intersection[1], 2);
+            intersection.Length.AssertEquals(2);
+            intersection[0].AssertEquals(1);
+            intersection[1].AssertEquals(2);
         }
 
         [Test]
         public void AverageDouble()
         {
-            Assert.AssertEquals(new double[] { 1, 2, 3, 4, 5, 6, 7 }.Average(), 4);
-            Assert.AssertEquals(new double[] { 1, 2, 3, 4, 5, 6 }.Average(), 3.5);
+            new double[] { 1, 2, 3, 4, 5, 6, 7 }.Average().AssertEquals(4);
+            new double[] { 1, 2, 3, 4, 5, 6 }.Average().AssertEquals(3.5);
         }
 
         [Test]
         public void AverageInt()
         {
-            Assert.AssertEquals(new[] { 1, 2, 3, 4, 5, 6, 7 }.Average(), 4);
-            Assert.AssertEquals(new[] { 1, 2, 3, 4, 5, 6 }.Average(), 3.5);
+            new[] { 1, 2, 3, 4, 5, 6, 7 }.Average().AssertEquals(4);
+            new[] { 1, 2, 3, 4, 5, 6 }.Average().AssertEquals(3.5);
         }
 
         [Test]
         public void Count()
         {
             var values = new[] { 1, 2, 3, 4, 5 };
-            Assert.AssertEquals(values.Count(), 5);
+            values.Count().AssertEquals(5);
         }
         
         [Test]
         public void Contains()
         {
             IEnumerable<string> values = new[] { "one", "two", "three" };
-            Assert.AssertTrue(values.Contains("one"));
-            Assert.AssertTrue(values.Contains("two"));
-            Assert.AssertTrue(values.Contains("three"));
+            values.Contains("one").AssertTrue();
+            values.Contains("two").AssertTrue();
+            values.Contains("three").AssertTrue();
         }
 
         public class DictionaryClass

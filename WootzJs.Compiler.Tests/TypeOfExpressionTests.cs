@@ -38,7 +38,7 @@ namespace WootzJs.Compiler.Tests
         {
             var type = typeof(TestClass);
             var name = type.Name;
-            Assert.AssertEquals(name, "TestClass");
+            name.AssertEquals("TestClass");
         }
          
         public class TestClass {}

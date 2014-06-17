@@ -36,21 +36,21 @@ namespace WootzJs.Compiler.Tests
         public void Implicit()
         {
             ImplicitClass o = "foo";
-            Assert.AssertEquals(o.Value, "foofoo");
+            o.Value.AssertEquals("foofoo");
         }
 
         [Test]
         public void Explicit()
         {
             var o = (ExplicitClass)"foo";
-            Assert.AssertEquals(o.Value, "foofoo");
+            o.Value.AssertEquals("foofoo");
         }
 
         [Test]
         public void ImplicitMethodParameter()
         {
             var myClass = new ImplicitMethodParameterClass("5");
-            Assert.AssertEquals(myClass.ImplicitClass.Value, "55");
+            myClass.ImplicitClass.Value.AssertEquals("55");
         }
 
         public class ImplicitMethodParameterClass

@@ -40,15 +40,15 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticProperty = properties.Single(x => x.Name == "StaticProperty");
             var stringProperty = properties.Single(x => x.Name == "StringProperty");
 
-            Assert.AssertEquals(staticProperty.Name, "StaticProperty");
-            Assert.AssertEquals(stringProperty.Name, "StringProperty");
+            staticProperty.Name.AssertEquals("StaticProperty");
+            stringProperty.Name.AssertEquals("StringProperty");
         }
 
         [Test]
         public void PropertyType()
         {
             var property = typeof(PropertyClass).GetProperty("StaticProperty");
-            Assert.AssertEquals(property.PropertyType.Name, "String");
+            property.PropertyType.Name.AssertEquals("String");
         }
 
         public class PropertyClass

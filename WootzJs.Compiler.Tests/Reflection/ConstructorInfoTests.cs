@@ -40,7 +40,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var type = typeof(TestClass);
             var constructor = type.GetConstructors().Single(x => x.GetParameters().Length == 0);
             var testClass = (TestClass)constructor.Invoke(new object[0]);
-            Assert.AssertEquals(testClass.Foo, "parameterless");
+            testClass.Foo.AssertEquals("parameterless");
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var type = typeof(NoConstructorClass);
             var constructor = type.GetConstructors().Single(x => x.GetParameters().Length == 0);
             var testClass = (NoConstructorClass)constructor.Invoke(new object[0]);
-            Assert.AssertEquals(testClass.Foo, "noconstructor");
+            testClass.Foo.AssertEquals("noconstructor");
         }
 
         public class TestClass

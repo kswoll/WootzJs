@@ -41,8 +41,8 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticEvent = events.Single(x => x.Name == "StaticEvent");
             var stringEvent = events.Single(x => x.Name == "StringEvent");
 
-            Assert.AssertEquals(staticEvent.Name, "StaticEvent");
-            Assert.AssertEquals(stringEvent.Name, "StringEvent");
+            staticEvent.Name.AssertEquals("StaticEvent");
+            stringEvent.Name.AssertEquals("StringEvent");
         }
 
         public class EventClass

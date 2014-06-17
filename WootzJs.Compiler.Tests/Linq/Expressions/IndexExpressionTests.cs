@@ -42,9 +42,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => list[1];
             var callExpression = (IndexExpression)lambda.Body;
             var target = (ConstantExpression)callExpression.Object;
-            Assert.AssertEquals(target.Value, list);
+            target.Value.AssertEquals(list);
             var index = (ConstantExpression)callExpression.Arguments[0];
-            Assert.AssertEquals(index.Value, 1);
+            index.Value.AssertEquals(1);
         }         
 
         [Test]
@@ -54,9 +54,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<string>> lambda = () => dictionary[1];
             var callExpression = (IndexExpression)lambda.Body;
             var target = (ConstantExpression)callExpression.Object;
-            Assert.AssertEquals(target.Value, dictionary);
+            target.Value.AssertEquals(dictionary);
             var index = (ConstantExpression)callExpression.Arguments[0];
-            Assert.AssertEquals(index.Value, 1);
+            index.Value.AssertEquals(1);
         }         
     }
 }

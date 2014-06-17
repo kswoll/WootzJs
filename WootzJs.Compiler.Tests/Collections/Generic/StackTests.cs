@@ -14,7 +14,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var stack = new Stack<string>();
             stack.Push("foo");
             var item = stack.First();
-            Assert.AssertEquals(item, "foo");
+            item.AssertEquals("foo");
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             stack.Push("foo");
             var item = stack.Pop();
 
-            Assert.AssertEquals(item, "foo");
+            item.AssertEquals("foo");
         }
         
         [Test]
@@ -34,8 +34,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             stack.Push("one");
             stack.Push("two");
             var items = stack.ToArray();
-            Assert.AssertEquals(items[0], "two");
-            Assert.AssertEquals(items[1], "one");
+            items[0].AssertEquals("two");
+            items[1].AssertEquals("one");
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var stack = new Stack<string>();
             stack.Push("one");
             var value = stack.Peek();
-            Assert.AssertEquals(value, "one");
+            value.AssertEquals("one");
         }
 
         [Test]
@@ -54,11 +54,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             try
             {
                 stack.Peek();
-                Assert.AssertTrue(false);
+                false.AssertTrue();
             }
             catch (Exception e)
             {
-                Assert.AssertTrue(true);
+                true.AssertTrue();
             }
         }
     }
