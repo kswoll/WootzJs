@@ -177,11 +177,17 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol Array { get; private set; }
         public INamedTypeSymbol INotifyPropertyChanged { get; private set; }
 
+        public INamedTypeSymbol Task { get; private set; }
+        public INamedTypeSymbol TaskT { get; private set; }
         public INamedTypeSymbol AsyncVoidMethodBuilder { get; private set; }
         public IMethodSymbol AsyncVoidMethodBuilderCreate { get; private set; }
         public IMethodSymbol AsyncVoidMethodBuilderStart { get; private set; }
         public INamedTypeSymbol AsyncTaskMethodBuilder { get; private set; }
+        public IMethodSymbol AsyncTaskMethodBuilderCreate { get; private set; }
+        public IMethodSymbol AsyncTaskMethodBuilderStart { get; private set; }
         public INamedTypeSymbol AsyncTaskTMethodBuilder { get; private set; }
+        public IMethodSymbol AsyncTaskTMethodBuilderCreate { get; private set; }
+        public IMethodSymbol AsyncTaskTMethodBuilderStart { get; private set; }
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
@@ -331,9 +337,17 @@ namespace WootzJs.Compiler
             SafeToString = SpecialFunctions.GetMembers("SafeToString").OfType<IMethodSymbol>().Single();
             Array = compilation.FindType("System.Array");
             INotifyPropertyChanged = compilation.FindType("System.ComponentModel.INotifyPropertyChanged");
+            Task = compilation.FindType("System.Threading.Tasks.Task");
+            TaskT = compilation.FindType("System.Threading.Tasks.Task`1");
             AsyncVoidMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncVoidMethodBuilder");
             AsyncVoidMethodBuilderCreate = AsyncVoidMethodBuilder.GetMethod("Create");
             AsyncVoidMethodBuilderStart = AsyncVoidMethodBuilder.GetMethod("Start");
+            AsyncTaskMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncTaskMethodBuilder");
+            AsyncTaskMethodBuilderCreate = AsyncTaskMethodBuilder.GetMethod("Create");
+            AsyncTaskMethodBuilderStart = AsyncTaskMethodBuilder.GetMethod("Start");
+            AsyncTaskTMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1");
+            AsyncTaskTMethodBuilderCreate = AsyncTaskTMethodBuilder.GetMethod("Create");
+            AsyncTaskTMethodBuilderStart = AsyncTaskTMethodBuilder.GetMethod("Start");
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }

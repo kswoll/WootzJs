@@ -2,6 +2,14 @@
 {
     public static class Assert
     {
+        private static UnitTest currentTest;
+
+        public static UnitTest CurrentTest
+        {
+            get { return currentTest; }
+            internal set { currentTest = value; }
+        }
+
         public static void AssertEquals(this object actual, object expected)
         {
             bool equal = actual == expected;

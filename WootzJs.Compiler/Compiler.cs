@@ -35,7 +35,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.MSBuild;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
@@ -55,7 +54,7 @@ namespace WootzJs.Compiler
             File.WriteAllText(projectFolder + "\\" + outputFolder + projectName + ".js", output);
         }
 
-        public async Task<Tuple<string, Project>> Compile(string projectFile)
+        public async Task<Tuple<string, Microsoft.CodeAnalysis.Project>> Compile(string projectFile)
         {
             var projectFileInfo = new FileInfo(projectFile);
             var projectFolder = projectFileInfo.Directory.FullName;
@@ -66,7 +65,7 @@ namespace WootzJs.Compiler
             if (File.Exists(projectUserFile))
                 File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
-            var project = await MSBuildWorkspace.Create().OpenProjectAsync(projectFile);
+            var project = await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile);
             var projectName = project.AssemblyName;
             Compilation compilation = await project.GetCompilationAsync();
             Context.Update(project.Solution, project, compilation);

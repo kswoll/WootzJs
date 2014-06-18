@@ -38,6 +38,8 @@ namespace WootzJs.Compiler.Tests
             var assembly = typeof(TestsApplication).Assembly;
             Console.WriteLine(assembly.FullName);
 
+            var unitTester = new UnitTester();
+
             foreach (var type in assembly.GetTypes())
             {
                 if (type.GetCustomAttributes(typeof(TestFixtureAttribute), false).Any())
@@ -50,12 +52,13 @@ namespace WootzJs.Compiler.Tests
                             Console.WriteLine(currentMethod.Name);
 
                             var instance = type.GetConstructors()[0].Invoke(new object[0]);
-                            UnitTester.RunTest(instance, currentMethod);
-//                            QUnit.RunTest(type.FullName + "." + currentMethod.Name, () => currentMethod.Invoke(instance, new object[0]));
+                            unitTester.QueueTest(instance, currentMethod);
                         }
                     }
                 }
             }
+
+            unitTester.RunTests();
         }
     }
 }

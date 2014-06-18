@@ -65,6 +65,30 @@ namespace WootzJs.Compiler
             constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
 
             var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
+
+            IMethodSymbol asyncMethodBuilderCreate;
+            IMethodSymbol asyncMethodBuilderStart;
+
+            if (method.ReturnsVoid)
+            {
+                asyncMethodBuilderCreate = Context.Instance.AsyncVoidMethodBuilderCreate;
+                asyncMethodBuilderStart = Context.Instance.AsyncVoidMethodBuilderStart;
+            }
+            else if (method.ReturnType.Equals(Context.Instance.Task))
+            {
+                asyncMethodBuilderCreate = Context.Instance.AsyncTaskMethodBuilderCreate;
+                asyncMethodBuilderStart = Context.Instance.AsyncTaskMethodBuilderStart;
+            }
+            else if (method.ReturnType.Equals(Context.Instance.TaskT))
+            {
+                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilderCreate;
+                asyncMethodBuilderStart = Context.Instance.AsyncTaskTMethodBuilderStart;
+            }
+            else
+            {
+                throw new Exception();
+            }
+
             var constructor = SyntaxFactory.ConstructorDeclaration(className)
                 .AddModifiers(Cs.Public())
                 .WithParameterList(constructorParameters.ToArray())
@@ -75,7 +99,7 @@ namespace WootzJs.Compiler
                     )
                     .AddStatements(
                         Cs.Express(Cs.This().Member(state).Assign(Cs.Integer(1))),
-                        Cs.Express(Cs.This().Member(builder).Assign(Context.Instance.AsyncVoidMethodBuilderCreate.Invoke())),
+                        Cs.Express(Cs.This().Member(builder).Assign(asyncMethodBuilderCreate.Invoke())),
                         Cs.Local(asyncStateMachine, "$self", Cs.This()),
                         Cs.Express(Cs.This().Member(builder).Member("Start").Invoke(SyntaxFactory.Argument(Cs.IdentifierName("$self")).WithRefOrOutKeyword(Cs.Ref())))
                     )

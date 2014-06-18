@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WootzJs.Compiler</RootNamespace>
     <AssemblyName>WootzJs.Compiler</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,22 +34,28 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeAnalysis">
+    <Reference Include="Microsoft.CodeAnalysis, Version=0.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.7.4052301-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=0.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.0.7.4052301-beta\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces, Version=0.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.0.7.4052301-beta\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.VisualBasic">
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=0.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.0.7.4052301-beta\lib\net45\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces">
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=0.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.0.7.4052301-beta\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces">
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=0.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.0.7.4052301-beta\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -175,6 +182,7 @@
     <Compile Include="StateMachineThisFixer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

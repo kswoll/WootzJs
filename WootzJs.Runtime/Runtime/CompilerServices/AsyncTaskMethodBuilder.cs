@@ -31,7 +31,7 @@ namespace System.Runtime.CompilerServices
         public static AsyncTaskMethodBuilder Create()
         {
             var result = new AsyncTaskMethodBuilder();
-            result.m_builder = new AsyncTaskMethodBuilder<VoidTaskResult>();
+            result.m_builder = AsyncTaskMethodBuilder<VoidTaskResult>.Create();
             return result;
         }
 

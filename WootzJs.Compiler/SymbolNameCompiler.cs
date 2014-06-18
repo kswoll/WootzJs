@@ -35,7 +35,7 @@ namespace WootzJs.Compiler
 {
     public class SymbolNameCompiler
     {
-        public static SymbolNameMap CompileSymbolNames(Project project, Compilation compilation)
+        public static SymbolNameMap CompileSymbolNames(Microsoft.CodeAnalysis.Project project, Compilation compilation)
         {
 /*
             var assemblyInfoByAssemblySymbol = project.MetadataReferences

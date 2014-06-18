@@ -28,10 +28,10 @@
 #endregion
 
 using System.Threading.Tasks;
+using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-/*
     [TestFixture]
     public class AsyncTests
     {
@@ -42,7 +42,7 @@ namespace WootzJs.Compiler.Tests
         public void BasicTest()
         {
             BasicTestAsync();
-            QUnit.IsTrue(basicTestAsync);
+            basicTestAsync.AssertTrue();
         }
 
         async void BasicTestAsync()
@@ -53,8 +53,8 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public void BasicTestTask()
         {
-            var task = BasicTestTaskAsync();
-            QUnit.AreEqual(result, 5);
+            BasicTestTaskAsync();
+            basicTestTaskAsync.AssertTrue();
         }
 
         async Task BasicTestTaskAsync()
@@ -62,5 +62,4 @@ namespace WootzJs.Compiler.Tests
             basicTestTaskAsync = true;
         }
     }
-*/
 }

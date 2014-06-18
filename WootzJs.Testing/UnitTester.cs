@@ -1,14 +1,35 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace WootzJs.Testing
 {
     public class UnitTester
     {
-        public static Task RunTest(object instance, MethodInfo method)
+        private List<UnitTest> unitTests = new List<UnitTest>();
+
+        public void QueueTest(object instance, MethodInfo method)
         {
-            var result = method.Invoke(instance, new object[0]);
-            if (typeof(Task).IsAssignableFrom(method.ReturnType))
+            var unitTest = new UnitTest
+            {
+                Instance = instance,
+                Method = method
+            };
+            unitTests.Add(unitTest);
+        }
+
+        public void RunTests()
+        {
+            foreach (var test in unitTests)
+            {
+                RunTest(test);
+            }
+        }
+
+        public Task RunTest(UnitTest test)
+        {
+            var result = test.Method.Invoke(test.Instance, new object[0]);
+            if (typeof(Task).IsAssignableFrom(test.Method.ReturnType))
             {
                 var task = (Task)result;
                 return task;
