@@ -41,6 +41,18 @@ namespace WootzJs.Compiler
             while (true);
         }
 
+        protected SyntaxNode HoistVariable(CSharpSyntaxNode node, ref SyntaxToken identifier, TypeSyntax type)
+        {
+            if (hoistedVariables.ContainsKey(identifier.ToString()))
+            {
+                var newName = GenerateNewName(identifier);
+                var newIdentifier = SyntaxFactory.Identifier(newName);
+                identifier = newIdentifier;
+            }
+            hoistedVariables[identifier.ToString()] = type;
+            return node;            
+        }
+
         protected SyntaxNode HoistVariable(CSharpSyntaxNode node, SyntaxToken identifier, TypeSyntax type)
         {
             if (hoistedVariables.ContainsKey(identifier.ToString()))
@@ -77,7 +89,8 @@ namespace WootzJs.Compiler
                 }
             }
 
-            if (!states.Last().Statements.Any())
+            var lastStatement = states.Last().Statements.LastOrDefault();
+            if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax)))
                 states.Last().Statements.Add(Cs.Break());
         }
 

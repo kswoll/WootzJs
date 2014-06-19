@@ -61,5 +61,18 @@ namespace WootzJs.Compiler.Tests
         {
             basicTestTaskAsync = true;
         }
+
+        [Test]
+        public async Task BasicTestTaskT()
+        {
+//            await BasicTestTaskAsync();
+            var value = await BasicTestTaskTAsync();
+            value.AssertEquals(5);
+        }
+
+        async Task<int> BasicTestTaskTAsync()
+        {
+            return 5;
+        }
     }
 }

@@ -177,8 +177,11 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol Array { get; private set; }
         public INamedTypeSymbol INotifyPropertyChanged { get; private set; }
 
+        public IMethodSymbol Nop { get; private set; }
         public INamedTypeSymbol Task { get; private set; }
         public INamedTypeSymbol TaskT { get; private set; }
+        public INamedTypeSymbol TaskAwaiter { get; private set; }
+        public INamedTypeSymbol TaskAwaiterT { get; private set; }
         public INamedTypeSymbol AsyncVoidMethodBuilder { get; private set; }
         public IMethodSymbol AsyncVoidMethodBuilderCreate { get; private set; }
         public IMethodSymbol AsyncVoidMethodBuilderStart { get; private set; }
@@ -339,6 +342,9 @@ namespace WootzJs.Compiler
             INotifyPropertyChanged = compilation.FindType("System.ComponentModel.INotifyPropertyChanged");
             Task = compilation.FindType("System.Threading.Tasks.Task");
             TaskT = compilation.FindType("System.Threading.Tasks.Task`1");
+            TaskAwaiter = compilation.FindType("System.Runtime.CompilerServices.TaskAwaiter");
+            TaskAwaiterT = compilation.FindType("System.Runtime.CompilerServices.TaskAwaiter`1");
+            Nop = compilation.FindType("System.Runtime.CompilerServices.Op").GetMethod("Nothing");
             AsyncVoidMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncVoidMethodBuilder");
             AsyncVoidMethodBuilderCreate = AsyncVoidMethodBuilder.GetMethod("Create");
             AsyncVoidMethodBuilderStart = AsyncVoidMethodBuilder.GetMethod("Start");

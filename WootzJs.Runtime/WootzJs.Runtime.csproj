@@ -220,6 +220,7 @@
     <Compile Include="Runtime\CompilerServices\IndexerNameAttribute.cs" />
     <Compile Include="Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="Runtime\CompilerServices\IsVolatile.cs" />
+    <Compile Include="Runtime\CompilerServices\Op.cs" />
     <Compile Include="Runtime\CompilerServices\OperationCanceledException.cs" />
     <Compile Include="Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="Runtime\CompilerServices\TaskAwaiter.cs" />

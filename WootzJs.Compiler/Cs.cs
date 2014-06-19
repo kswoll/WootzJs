@@ -36,6 +36,15 @@ namespace WootzJs.Compiler
 {
     public static class Cs
     {
+        public static GotoStatementSyntax Goto(int label)
+        {
+            return SyntaxFactory.GotoStatement(
+                SyntaxKind.GotoCaseStatement, 
+                SyntaxFactory.LiteralExpression(
+                    SyntaxKind.NumericLiteralExpression, 
+                    SyntaxFactory.Literal(label)));
+        }
+
         public static IdentifierNameSyntax IdentifierName(string name)
         {
             return SyntaxFactory.IdentifierName(name);
@@ -117,7 +126,7 @@ namespace WootzJs.Compiler
             return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, target, member);
         }
 
-        public static ExpressionStatementSyntax Express(ExpressionSyntax expression)
+        public static ExpressionStatementSyntax Express(this ExpressionSyntax expression)
         {
             return SyntaxFactory.ExpressionStatement(expression);
         }

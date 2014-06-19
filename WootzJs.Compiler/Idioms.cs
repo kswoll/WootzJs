@@ -1665,7 +1665,7 @@ namespace WootzJs.Compiler
                     var diagnostics = transformer.model.GetDiagnostics().Select(x => x.ToString()).ToArray();
                 }
 
-                if (method.ReducedFrom != null && method.ReducedFrom != method)
+                if (method.ReducedFrom != null && !method.ReducedFrom.Equals(method))
                 {
                     method = method.ReducedFrom;
                     var target = (JsExpression)jsniInvocation.Expression.Accept(transformer);

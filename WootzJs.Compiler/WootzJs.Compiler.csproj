@@ -80,7 +80,9 @@
     </Compile>
     <Compile Include="AsyncClassGenerator.cs" />
     <Compile Include="AsyncGenerator.cs" />
+    <Compile Include="AsyncState.cs" />
     <Compile Include="AsyncStateGenerator.cs" />
+    <Compile Include="BaseAsyncStateGenerator.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Cs.cs" />

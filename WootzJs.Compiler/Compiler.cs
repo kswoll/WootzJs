@@ -91,6 +91,7 @@ namespace WootzJs.Compiler
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
+            compilation = compilation.Clone();
             Context.Update(project.Solution, project, compilation);
 
             // Check for async
@@ -102,6 +103,7 @@ namespace WootzJs.Compiler
                 compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(asyncGenerator);
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
+            compilation = compilation.Clone();
             Context.Update(project.Solution, project, compilation);
 
             // After the basic transformation happens, we need to fix up some references afterward
@@ -110,7 +112,15 @@ namespace WootzJs.Compiler
                 var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 var yieldFixer = new StatMachineGeneratorFixer(compilation, syntaxTree, semanticModel, "Async$");
-                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
+
+                try
+                {
+                    compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(compilationUnit.NormalizeWhitespace().ToString(), e);
+                }
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
             Context.Update(project.Solution, project, compilation);

@@ -41,7 +41,27 @@ namespace WootzJs.Compiler
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
 
-            var builderField = Cs.Field(Context.Instance.AsyncVoidMethodBuilder.ToTypeSyntax(), builder);
+            IMethodSymbol asyncMethodBuilderCreate;
+            IMethodSymbol asyncMethodBuilderStart;
+
+            if (method.ReturnsVoid)
+            {
+                asyncMethodBuilderCreate = Context.Instance.AsyncVoidMethodBuilderCreate;
+                asyncMethodBuilderStart = Context.Instance.AsyncVoidMethodBuilderStart;
+            }
+            else if (method.ReturnType.Equals(Context.Instance.Task))
+            {
+                asyncMethodBuilderCreate = Context.Instance.AsyncTaskMethodBuilderCreate;
+                asyncMethodBuilderStart = Context.Instance.AsyncTaskMethodBuilderStart;
+            }
+            else 
+            {
+                var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
+                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Create");
+                asyncMethodBuilderStart = Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Start");
+            }
+
+            var builderField = Cs.Field(asyncMethodBuilderCreate.ContainingType.ToTypeSyntax(), builder);
             members.Add(builderField);
 
             foreach (var parameter in node.ParameterList.Parameters)
@@ -66,29 +86,6 @@ namespace WootzJs.Compiler
 
             var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
 
-            IMethodSymbol asyncMethodBuilderCreate;
-            IMethodSymbol asyncMethodBuilderStart;
-
-            if (method.ReturnsVoid)
-            {
-                asyncMethodBuilderCreate = Context.Instance.AsyncVoidMethodBuilderCreate;
-                asyncMethodBuilderStart = Context.Instance.AsyncVoidMethodBuilderStart;
-            }
-            else if (method.ReturnType.Equals(Context.Instance.Task))
-            {
-                asyncMethodBuilderCreate = Context.Instance.AsyncTaskMethodBuilderCreate;
-                asyncMethodBuilderStart = Context.Instance.AsyncTaskMethodBuilderStart;
-            }
-            else if (method.ReturnType.Equals(Context.Instance.TaskT))
-            {
-                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilderCreate;
-                asyncMethodBuilderStart = Context.Instance.AsyncTaskTMethodBuilderStart;
-            }
-            else
-            {
-                throw new Exception();
-            }
-
             var constructor = SyntaxFactory.ConstructorDeclaration(className)
                 .AddModifiers(Cs.Public())
                 .WithParameterList(constructorParameters.ToArray())
@@ -98,10 +95,9 @@ namespace WootzJs.Compiler
                         constructorParameters.Select(x => Cs.Express(Cs.This().Member(x.Identifier).Assign(SyntaxFactory.IdentifierName(x.Identifier))))
                     )
                     .AddStatements(
-                        Cs.Express(Cs.This().Member(state).Assign(Cs.Integer(1))),
-                        Cs.Express(Cs.This().Member(builder).Assign(asyncMethodBuilderCreate.Invoke())),
+                        Cs.This().Member(builder).Assign(asyncMethodBuilderCreate.Invoke()).Express(),
                         Cs.Local(asyncStateMachine, "$self", Cs.This()),
-                        Cs.Express(Cs.This().Member(builder).Member("Start").Invoke(SyntaxFactory.Argument(Cs.IdentifierName("$self")).WithRefOrOutKeyword(Cs.Ref())))
+                        Cs.This().Member(builder).Member("Start").Invoke(SyntaxFactory.Argument(Cs.IdentifierName("$self")).WithRefOrOutKeyword(Cs.Ref())).Express()
                     )
                 );
             members.Add(constructor);
@@ -121,8 +117,14 @@ namespace WootzJs.Compiler
                 .WithBody(SyntaxFactory.Block(
                     Cs.Try()
                         .WithBlock(Cs.Block(
-                            Cs.Switch(Cs.This().Member(StateGenerator.state), states.Select((x, i) => 
-                                Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray())
+                            SyntaxFactory.LabeledStatement("$top", 
+                                Cs.While(
+                                    Cs.True(), 
+                                    Cs.Block(
+                                        Cs.Switch(Cs.This().Member(StateGenerator.state), states.Select((x, i) => 
+                                            Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray()),
+                                        Cs.Break()
+                                    )))
                         ))
                         .WithCatch(Context.Instance.Exception.ToTypeSyntax(), "ex")
                 ));

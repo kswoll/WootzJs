@@ -64,7 +64,7 @@ namespace WootzJs.Compiler
                     return node;
 
                 var symbol = semanticModel.GetSymbolInfo(node).Symbol;
-                if (symbol == null)
+                if (symbol == null || (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.ContainingType.Name.StartsWith(enclosingTypeName) && !symbol.IsStatic))
                 {
                     return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
                 }
