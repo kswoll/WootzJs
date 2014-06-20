@@ -283,7 +283,12 @@ namespace WootzJs.Compiler
         public static TryStatementSyntax WithCatch(this TryStatementSyntax tryStatement, TypeSyntax exceptionType, string exceptionIdentifier, params StatementSyntax[] statements)
         {
             return tryStatement
-                .WithCatches(SyntaxFactory.List(new[] { SyntaxFactory.CatchClause().WithDeclaration(SyntaxFactory.CatchDeclaration(exceptionType, SyntaxFactory.Identifier(exceptionIdentifier))) }));
+                .WithCatches(SyntaxFactory.List(new[]
+                {
+                    SyntaxFactory.CatchClause()
+                        .WithDeclaration(SyntaxFactory.CatchDeclaration(exceptionType, SyntaxFactory.Identifier(exceptionIdentifier)))
+                        .WithBlock(Block(statements))
+                }));
         }
 
         public static BinaryExpressionSyntax NotEqualTo(this ExpressionSyntax left, ExpressionSyntax right)

@@ -35,11 +35,18 @@ namespace System.Threading.Tasks
     public class Task
     {
         protected bool isCompleted;
+        protected bool isFaulted;
         protected Action m_continuationObject;
+        private List<Exception> exceptions;
 
         public bool IsCompleted
         {
             get { return isCompleted; }
+        }
+
+        public bool IsFaulted
+        {
+            get { return isFaulted; }
         }
 
         public static Task<TResult> FromResult<TResult>(TResult result)
@@ -120,22 +127,42 @@ namespace System.Threading.Tasks
             }
             return this;
         }
-    }
 
-    public class Task<TResult> : Task
-    {
-        private List<Exception> exceptions;
-        internal TResult m_result;
+        internal void ThrowIfExceptional(bool includeTaskCanceledExceptions)
+        { 
+            Exception exception = GetExceptions(includeTaskCanceledExceptions); 
+            if (exception != null)
+            {
+                throw exception; 
+            }
+        } 
 
-        public Task()
+        private AggregateException GetExceptions(bool includeTaskCanceledExceptions)
         {
-        }
-
-        public Task(TResult mResult)
-        {
-            m_result = mResult;
-            isCompleted = true;
-        }
+/*
+            Exception canceledException = null; 
+            if (includeTaskCanceledExceptions && IsCanceled)
+            { 
+                canceledException = new TaskCanceledException(this); 
+            }
+*/
+            
+            if (exceptions != null && exceptions.Count > 0) 
+            {
+                // No need to lock around this, as other logic prevents the consumption of exceptions 
+                // before they have been completely processed.
+                return new AggregateException(exceptions); 
+            }
+/*
+            else if (canceledException != null)
+            {
+                // No exceptions, but there was a cancelation. Aggregate and return it. 
+                return new AggregateException(canceledException);
+            } 
+*/
+ 
+            return null;
+        } 
 
         internal bool TrySetException(object exceptionObject)
         {
@@ -144,6 +171,7 @@ namespace System.Threading.Tasks
             {
                 exceptions = exceptions ?? new List<Exception>();
                 exceptions.Add(exceptionObject);
+                isFaulted = true;
                 this.Finish();
                 flag = true;
             }
@@ -163,6 +191,21 @@ namespace System.Threading.Tasks
                 flag = true;
             }
             return flag;
+        }
+    }
+
+    public class Task<TResult> : Task
+    {
+        internal TResult m_result;
+
+        public Task()
+        {
+        }
+
+        public Task(TResult mResult)
+        {
+            m_result = mResult;
+            isCompleted = true;
         }
 
         internal bool TrySetResult(TResult result)

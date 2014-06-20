@@ -8,6 +8,7 @@ namespace WootzJs.Compiler
     {
         public int Index { get; private set; }
         public List<StatementSyntax> Statements { get; set; }
+        public AsyncState Next { get; set; }
             
         public AsyncState(BaseAsyncStateGenerator generator)
         {

@@ -46,6 +46,26 @@
         /// <param name="stateMachine">The state machine.</param>
         /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
+        public void AwaitOnCompleted<TAwaiter, TStateMachine>(TAwaiter awaiter, TStateMachine stateMachine) where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
+        {
+            try
+            {
+                Action completionAction = m_coreState.GetCompletionAction(this, stateMachine);
+                awaiter.OnCompleted(completionAction);
+            }
+            catch (Exception ex)
+            {
+                AsyncMethodBuilderCore.ThrowAsync(ex);
+            }
+        }
+
+        /// <summary>
+        ///     Schedules the state machine to proceed to the next action when the specified awaiter completes.
+        /// </summary>
+        /// <param name="awaiter">The awaiter.</param>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
+        /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
         public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
         {
             try
@@ -69,15 +89,6 @@
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : ICriticalNotifyCompletion where TStateMachine : IAsyncStateMachine
         {
-            try
-            {
-                Action completionAction = m_coreState.GetCompletionAction(this, stateMachine);
-                awaiter.UnsafeOnCompleted(completionAction);
-            }
-            catch (Exception ex)
-            {
-                AsyncMethodBuilderCore.ThrowAsync(ex);
-            }
         }
 
         public void SetResult()
@@ -86,7 +97,8 @@
 
         public void SetException(Exception exception)
         {
-            AsyncMethodBuilderCore.ThrowAsync(exception);
+            throw exception;
+//            AsyncMethodBuilderCore.ThrowAsync(exception);
         }
     }
 }

@@ -126,7 +126,10 @@ namespace WootzJs.Compiler
                                         Cs.Break()
                                     )))
                         ))
-                        .WithCatch(Context.Instance.Exception.ToTypeSyntax(), "ex")
+                        .WithCatch(Context.Instance.Exception.ToTypeSyntax(), "ex", 
+                            Cs.This().Member(state).Assign(Cs.Integer(-1)).Express(),
+                            Cs.This().Member(builder).Member("SetException").Invoke(SyntaxFactory.IdentifierName("ex")).Express(),
+                            Cs.Return())
                 ));
             members.Add(moveNext);
 

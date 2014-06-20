@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -26,17 +27,13 @@ namespace WootzJs.Testing
             }
         }
 
-        public Task RunTest(UnitTest test)
+        public async void RunTest(UnitTest test)
         {
             var result = test.Method.Invoke(test.Instance, new object[0]);
-            if (typeof(Task).IsAssignableFrom(test.Method.ReturnType))
+            if (test.Method.ReturnType != typeof(void) && typeof(Task).IsAssignableFrom(test.Method.ReturnType))
             {
                 var task = (Task)result;
-                return task;
-            }
-            else
-            {
-                return Task.FromResult<object>(null);
+                await task;
             }
         } 
     }

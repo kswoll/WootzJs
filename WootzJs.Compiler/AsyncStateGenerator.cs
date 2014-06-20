@@ -85,6 +85,56 @@ namespace WootzJs.Compiler
             currentState = GetNextState();
         }
 
+        public override void VisitIfStatement(IfStatementSyntax node)
+        {
+            var afterIfState = GetNextState();
+            var ifTrueState = new AsyncState(this) { Next = afterIfState };
+            var ifFalseState = node.Else != null ? new AsyncState(this) { Next = afterIfState } : null;
+
+            var newIfStatement = Cs.If(
+                (ExpressionSyntax)node.Condition.Accept(decomposer),
+                GotoState(ifTrueState));
+
+            if (node.Else != null)
+                newIfStatement.WithElse(SyntaxFactory.ElseClause(GotoState(ifFalseState)));
+
+            currentState.Add(newIfStatement);
+            currentState.Add(GotoState(afterIfState));
+
+            currentState = ifTrueState;
+            if (node.Statement is BlockSyntax)
+            {
+                var block = (BlockSyntax)node.Statement;
+                foreach (var statement in block.Statements)
+                {
+                    statement.Accept(this);
+                }
+            }
+            else
+            {
+                node.Statement.Accept(this);
+            }
+
+            if (ifFalseState != null)
+            {
+                currentState = ifFalseState;
+                if (node.Else.Statement is BlockSyntax)
+                {
+                    var block = (BlockSyntax)node.Else.Statement;
+                    foreach (var statement in block.Statements)
+                    {
+                        statement.Accept(this);
+                    }
+                }
+                else
+                {
+                    node.Else.Statement.Accept(this);
+                }
+            }
+
+            currentState = afterIfState;
+        }
+
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter
         {
             private AsyncStateGenerator stateGenerator;
@@ -112,26 +162,33 @@ namespace WootzJs.Compiler
                         var awaiterType = expressionInfo.GetAwaiterMethod.ReturnType;
                         var awaiterIdentifier = SyntaxFactory.Identifier("$awaiter");
                         awaiterIdentifier = stateGenerator.HoistVariable(awaiterIdentifier, awaiterType.ToTypeSyntax());
-                        var awaiter = operand.Member("GetAwaiter").Invoke();
-                        stateGenerator.currentState.Add(SyntaxFactory.IdentifierName(awaiterIdentifier).Assign(awaiter).Express());
+                        var awaiter = SyntaxFactory.IdentifierName(awaiterIdentifier);
+                        stateGenerator.currentState.Add(awaiter.Assign(operand.Member("GetAwaiter").Invoke()).Express());
 
-                        var nextState = stateGenerator.GetNextState();
+                        var nextState = stateGenerator.InsertState();
 
-                        // If the await returns a value, store it in a field
                         ExpressionSyntax result = null;
                         if (!returnsVoid)
                         {
+                            // If the await returns a value, store it in a field
                             var resultIdentifier = SyntaxFactory.Identifier("$result");
                             resultIdentifier = stateGenerator.HoistVariable(resultIdentifier, expressionInfo.GetResultMethod.ReturnType.ToTypeSyntax());
-
                             result = SyntaxFactory.IdentifierName(resultIdentifier);
+
+                            // Make sure the field gets set from the awaiter at the beginning of the next state.
+                            nextState.Add(result.Assign(awaiter.Member("GetResult").Invoke()).Express());
+                        }
+                        else
+                        {
+                            // We still need to call GetResult even if void in order to propagate exceptions
+                            nextState.Add(awaiter.Member("GetResult").Invoke().Express());
                         }
 
                         // Set the state to the next state
                         stateGenerator.currentState.Add(stateGenerator.ChangeState(nextState));
 
                         stateGenerator.currentState.Add(Cs.If(
-                            SyntaxFactory.IdentifierName(awaiterIdentifier).Member("IsCompleted"), 
+                            awaiter.Member("IsCompleted"), 
 
                             // If the awaiter is already completed, go to the next state
                             stateGenerator.GotoTop(),
@@ -142,7 +199,8 @@ namespace WootzJs.Compiler
                                 SyntaxFactory.IdentifierName(AsyncClassGenerator.builder)
                                     .Member("AwaitOnCompleted")
                                     .Invoke(SyntaxFactory.IdentifierName(awaiterIdentifier), Cs.This())
-                                    .Express()
+                                    .Express(),
+                                Cs.Return()
                             )
                         ));
 

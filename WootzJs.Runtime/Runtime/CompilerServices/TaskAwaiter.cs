@@ -31,6 +31,8 @@ namespace System.Runtime.CompilerServices
 
         public void GetResult()
         {
+            if (m_task.IsFaulted)
+                m_task.ThrowIfExceptional(false);
         }
     }
 
@@ -60,7 +62,11 @@ namespace System.Runtime.CompilerServices
 
         public TResult GetResult()
         {
-            return this.m_task.m_result;
+            if (!m_task.IsFaulted)
+                return this.m_task.m_result;
+
+            m_task.ThrowIfExceptional(false);
+            return default(TResult);
         }
     }
 }

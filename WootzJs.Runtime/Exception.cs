@@ -41,7 +41,7 @@ namespace System
         private string _message;
 
         [Js(Name = "stacktrace")]
-        private string stacktrace;
+        protected string stacktrace;
 
 	    public Exception()
 	    {
@@ -60,6 +60,9 @@ namespace System
 
         public Exception InternalInit(JsError error)
         {
+            if (stacktrace != null)
+                return this;
+
             stacktrace = error.stack;
             toStringSaved = toString();
             return this;

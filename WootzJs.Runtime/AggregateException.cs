@@ -287,18 +287,14 @@ namespace System
         /// <returns>A string representation of the current exception.</returns>
         public override string ToString()
         { 
-            string text = base.ToString();
+            string text = "";
  
             for (int i = 0; i < m_innerExceptions.Count; i++) 
             {
-                text = String.Format( 
-                    CultureInfo.InvariantCulture,
-                    "AggregateException_ToString",
-                    text, Environment.NewLine, i, m_innerExceptions[i].ToString(), "<---", Environment.NewLine);
+                text += m_innerExceptions[i] + "<---\n";
             } 
 
             return text; 
-        } 
-
+        }
     } 
 }

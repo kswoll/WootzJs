@@ -36,9 +36,12 @@ namespace WootzJs.Compiler
             currentState = new AsyncState(this);
             node.Accept(this);
 
-            var lastStatement = states.Last().Statements.LastOrDefault();
-            if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax) && !(lastStatement is GotoStatementSyntax)))
-                states.Last().Statements.Add(Cs.Break());
+            foreach (var state in states)
+            {
+                var lastStatement = state.Statements.LastOrDefault();
+                if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax) && !(lastStatement is GotoStatementSyntax)))
+                    state.Statements.Add(Cs.Return());
+            }
         }
 
         public AsyncState[] States
@@ -48,7 +51,21 @@ namespace WootzJs.Compiler
 
         protected AsyncState GetNextState()
         {
+            if (currentState.Next != null)
+            {
+                return currentState.Next;
+            }
+            else
+            {
+                var nextState = new AsyncState(this);
+                return nextState;                
+            }
+        }
+
+        protected AsyncState InsertState()
+        {
             var nextState = new AsyncState(this);
+            nextState.Next = currentState.Next;
             return nextState;
         }
 
@@ -75,6 +92,14 @@ namespace WootzJs.Compiler
         public StatementSyntax ChangeState(AsyncState newState)
         {
             return Cs.This().Member(state).Assign(Cs.Integer(newState.Index)).Express();
+        }
+
+        public BlockSyntax GotoState(AsyncState newState)
+        {
+            return Cs.Block(
+                ChangeState(newState),
+                GotoTop()
+            );
         }
     }
 }

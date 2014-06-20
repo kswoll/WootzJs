@@ -27,6 +27,7 @@
 
 #endregion
 
+using System.Runtime.WootzJs;
 using System.Threading.Tasks;
 using WootzJs.Testing;
 
@@ -73,6 +74,15 @@ namespace WootzJs.Compiler.Tests
         async Task<int> BasicTestTaskTAsync()
         {
             return 5;
+        }
+
+        [Test]
+        public async Task TrueAsyncTestTaskT()
+        {
+            var taskCompletionSource = new TaskCompletionSource<int>();
+            Jsni.setTimeout(() => taskCompletionSource.SetResult(4), 0);
+            var value = await taskCompletionSource.Task;
+            value.AssertEquals(3);
         }
     }
 }

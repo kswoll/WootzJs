@@ -34,7 +34,7 @@ namespace WootzJs.Compiler
 
         public JsStatement TransformLoop(JsStatement loop)
         {
-            if (loopNode.GetContainingType().Name.StartsWith("YieldEnumerator$"))
+            if (loopNode.GetContainingType().Name.StartsWith("YieldEnumerator$") || loopNode.GetContainingType().Name.StartsWith("Async$"))
                 return loop;
             if (!LambdaChecker.HasLambdasWithClosedVariables(body))
                 return loop;
