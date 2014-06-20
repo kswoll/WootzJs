@@ -31,11 +31,12 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsForStatement : JsStatement
     {
+        private JsStatement body;
+
         public JsVariableDeclaration Declaration { get; set; }
         public JsExpression Condition { get; set; }
         public List<JsExpression> Initializers { get; set; }
         public List<JsExpression> Incrementors { get; set; }
-        public JsStatement Body { get; set; }
 
         public JsForStatement()
         {
@@ -52,6 +53,16 @@ namespace WootzJs.Compiler.JsAst
         {
             Declaration = declaration;
             Condition = condition;
+        }
+
+        public JsStatement Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)

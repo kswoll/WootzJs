@@ -284,6 +284,8 @@ namespace WootzJs.Compiler
             {
                 output.CurrentIndentLevel--;
                 output.Append("}");
+                if (node.IsTopLevel)
+                    output.AppendLine();
             }
         }
 

@@ -96,7 +96,7 @@ namespace WootzJs.Compiler
                 GotoState(ifTrueState));
 
             if (node.Else != null)
-                newIfStatement.WithElse(SyntaxFactory.ElseClause(GotoState(ifFalseState)));
+                newIfStatement = newIfStatement.WithElse(SyntaxFactory.ElseClause(GotoState(ifFalseState)));
 
             currentState.Add(newIfStatement);
             currentState.Add(GotoState(afterIfState));
@@ -109,10 +109,12 @@ namespace WootzJs.Compiler
                 {
                     statement.Accept(this);
                 }
+                currentState.Add(GotoState(afterIfState));
             }
             else
             {
                 node.Statement.Accept(this);
+                currentState.Add(GotoState(afterIfState));
             }
 
             if (ifFalseState != null)
@@ -124,11 +126,13 @@ namespace WootzJs.Compiler
                     foreach (var statement in block.Statements)
                     {
                         statement.Accept(this);
+                        currentState.Add(GotoState(afterIfState));
                     }
                 }
                 else
                 {
                     node.Else.Statement.Accept(this);
+                    currentState.Add(GotoState(afterIfState));
                 }
             }
 

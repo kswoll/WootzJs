@@ -29,8 +29,9 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsLabeledStatement : JsStatement
     {
+        private JsStatement statement;
+
         public string Label { get; set; }
-        public JsStatement Statement { get; set; }
 
         public JsLabeledStatement()
         {
@@ -40,6 +41,16 @@ namespace WootzJs.Compiler.JsAst
         {
             Label = label;
             Statement = statement;
+        }
+
+        public JsStatement Statement
+        {
+            get { return statement; }
+            set
+            {
+                statement = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)

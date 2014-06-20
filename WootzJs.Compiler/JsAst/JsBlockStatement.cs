@@ -33,8 +33,14 @@ namespace WootzJs.Compiler.JsAst
     public class JsBlockStatement : JsStatement
     {
         public bool Inline { get; set; }
+        public bool IsTopLevel { get; set; }
 
         private List<JsStatement> statements = new List<JsStatement>();
+
+        public JsBlockStatement()
+        {
+            IsTopLevel = true;
+        }
 
         public List<JsStatement> Statements
         {
@@ -70,6 +76,12 @@ namespace WootzJs.Compiler.JsAst
             {
                 Add(statement);
             }
+        }
+
+        public static void EnsureNotTopLevel(JsStatement statement)
+        {
+            if (statement is JsBlockStatement)
+                ((JsBlockStatement)statement).IsTopLevel = false;
         }
     }
 }

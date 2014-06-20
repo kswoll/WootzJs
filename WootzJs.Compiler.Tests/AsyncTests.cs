@@ -82,7 +82,53 @@ namespace WootzJs.Compiler.Tests
             var taskCompletionSource = new TaskCompletionSource<int>();
             Jsni.setTimeout(() => taskCompletionSource.SetResult(4), 0);
             var value = await taskCompletionSource.Task;
-            value.AssertEquals(3);
+            value.AssertEquals(4);
+        }
+
+        [Test]
+        public async void IfStatementTrue()
+        {
+            int i = 5;
+            if (true)
+            {
+                i = 6;
+            }
+            i.AssertEquals(6);
+        }
+
+        [Test]
+        public async void IfStatementFalse()
+        {
+            int i = 5;
+            if (false)
+            {
+                i = 6;
+            }
+            i.AssertEquals(5);
+        }
+
+        [Test]
+        public async void IfElseTrue()
+        {
+            int i = 5;
+            if (true) 
+                i = 6;
+            else 
+                i = 7;
+
+            i.AssertEquals(6);
+        }
+
+        [Test]
+        public async void IfElseFalse()
+        {
+            int i = 5;
+            if (false) 
+                i = 6;
+            else 
+                i = 7;
+
+            i.AssertEquals(7);
         }
     }
 }

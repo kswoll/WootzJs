@@ -29,8 +29,9 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsCatchClause : JsNode
     {
+        private JsBlockStatement body;
+
         public JsVariableDeclarator Declaration { get; set; }
-        public JsBlockStatement Body { get; set; }
 
         public JsCatchClause()
         {
@@ -40,6 +41,16 @@ namespace WootzJs.Compiler.JsAst
         public JsCatchClause(JsVariableDeclarator declaration) : this()
         {
             Declaration = declaration;
+        }
+
+        public JsBlockStatement Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)

@@ -29,9 +29,10 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsIfStatement : JsStatement
     {
+        private JsStatement ifTrue;
+        private JsStatement ifFalse;
+
         public JsExpression Condition { get; set; }
-        public JsStatement IfTrue { get; set; }
-        public JsStatement IfFalse { get; set; }
 
         public JsIfStatement()
         {
@@ -48,6 +49,26 @@ namespace WootzJs.Compiler.JsAst
             Condition = condition;
             IfTrue = ifTrue;
             IfFalse = ifFalse;
+        }
+
+        public JsStatement IfTrue
+        {
+            get { return ifTrue; }
+            set
+            {
+                ifTrue = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
+        }
+
+        public JsStatement IfFalse
+        {
+            get { return ifFalse; }
+            set
+            {
+                ifFalse = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)

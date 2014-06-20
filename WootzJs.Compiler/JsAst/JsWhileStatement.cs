@@ -29,8 +29,9 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsWhileStatement : JsStatement
     {
+        private JsStatement body;
+
         public JsExpression Condition { get; set; }
-        public JsStatement Body { get; set; }
 
         public JsWhileStatement()
         {
@@ -40,6 +41,16 @@ namespace WootzJs.Compiler.JsAst
         {
             Condition = condition;
             Body = body;
+        }
+
+        public JsStatement Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)

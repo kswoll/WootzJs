@@ -29,13 +29,34 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsTryStatement : JsStatement
     {
-        public JsBlockStatement Body { get; set; }
+        private JsBlockStatement body;
+        private JsBlockStatement @finally;
+
         public JsCatchClause Catch { get; set; }
-        public JsBlockStatement Finally { get; set; }
 
         public JsTryStatement()
         {
             Body = new JsBlockStatement();
+        }
+
+        public JsBlockStatement Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
+        }
+
+        public JsBlockStatement Finally
+        {
+            get { return @finally; }
+            set
+            {
+                @finally = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)

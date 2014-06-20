@@ -31,9 +31,10 @@ namespace WootzJs.Compiler.JsAst
 {
     public class JsFunction : JsExpression
     {
+        private JsBlockStatement body;
+
         public string Name { get; set; }
         public List<IJsDeclaration> Parameters { get; set; }
-        public JsBlockStatement Body { get; set; }
 
         public JsFunction()
         {
@@ -44,6 +45,16 @@ namespace WootzJs.Compiler.JsAst
         public JsFunction(string name) : this()
         {
             Name = name;
+        }
+
+        public JsBlockStatement Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                JsBlockStatement.EnsureNotTopLevel(value);
+            }
         }
 
         public override void Accept(IJsVisitor visitor)
