@@ -100,6 +100,14 @@ namespace WootzJs.Compiler
             }
         }
 
+        public override void VisitBlock(BlockSyntax node)
+        {
+            foreach (var statement in node.Statements)
+            {
+                statement.Accept(this);
+            }
+        }
+
         public override void VisitIfStatement(IfStatementSyntax node)
         {
             var afterIfState = GetNextState();
@@ -117,41 +125,41 @@ namespace WootzJs.Compiler
             currentState.Add(GotoState(afterIfState));
 
             currentState = ifTrueState;
-            if (node.Statement is BlockSyntax)
-            {
-                var block = (BlockSyntax)node.Statement;
-                foreach (var statement in block.Statements)
-                {
-                    statement.Accept(this);
-                }
-                currentState.Add(GotoState(afterIfState));
-            }
-            else
-            {
-                node.Statement.Accept(this);
-                currentState.Add(GotoState(afterIfState));
-            }
+            node.Statement.Accept(this);
+            currentState.Add(GotoState(afterIfState));
 
             if (ifFalseState != null)
             {
                 currentState = ifFalseState;
-                if (node.Else.Statement is BlockSyntax)
-                {
-                    var block = (BlockSyntax)node.Else.Statement;
-                    foreach (var statement in block.Statements)
-                    {
-                        statement.Accept(this);
-                        currentState.Add(GotoState(afterIfState));
-                    }
-                }
-                else
-                {
-                    node.Else.Statement.Accept(this);
-                    currentState.Add(GotoState(afterIfState));
-                }
+                node.Else.Statement.Accept(this);
+                currentState.Add(GotoState(afterIfState));
             }
 
             currentState = afterIfState;
+        }
+
+        public override void VisitWhileStatement(WhileStatementSyntax node)
+        {
+            var topOfLoop = GetNextState();
+
+            currentState.Add(GotoState(topOfLoop));
+            currentState = topOfLoop;
+
+            var afterWhileStatement = GetNextState();
+            var bodyState = new AsyncState(this) { Next = afterWhileStatement };
+
+            var newWhileStatement = Cs.While(
+                (ExpressionSyntax)node.Condition.Accept(decomposer),
+                GotoState(bodyState));
+
+            currentState.Add(newWhileStatement);
+            currentState.Add(GotoState(afterWhileStatement));
+
+            currentState = bodyState;
+            node.Statement.Accept(this);
+            currentState.Add(GotoState(topOfLoop));
+
+            currentState = afterWhileStatement;
         }
 
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter

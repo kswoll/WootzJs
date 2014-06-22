@@ -200,7 +200,7 @@ namespace System.Reflection
 
         public override string ToString()
         {
-            return DeclaringType.FullName + "." + Name + "(" + string.Format(", ", GetParameters().Select(x => x.ParameterType.FullName + " " + x.Name)) + ")";
+            return DeclaringType.FullName + "." + Name + "(" + string.Join(", ", GetParameters().Select(x => x.ParameterType.FullName + " " + x.Name)) + ")";
         }
     }
 }

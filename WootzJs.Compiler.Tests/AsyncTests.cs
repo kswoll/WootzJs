@@ -130,5 +130,16 @@ namespace WootzJs.Compiler.Tests
 
             i.AssertEquals(7);
         }
+
+        [Test]
+        public async void WhileLoop()
+        {
+            var i = 0;
+            while (i < 5)
+            {
+                i++;
+            }
+            i.AssertEquals(5);
+        }
     }
 }

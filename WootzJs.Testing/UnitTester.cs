@@ -67,10 +67,34 @@ namespace WootzJs.Testing
 
         private void Finished()
         {
+            var passed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Passed));
+            var failed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Failed));
+            var errored = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Errored));
+
             Console.WriteLine("Finished.");
-            Console.WriteLine(unitTests.Count(x => x.Assertions.All(y => y.Status == AssertionStatus.Passed)) + " passed.");
-            Console.WriteLine(unitTests.Count(x => x.Assertions.All(y => y.Status == AssertionStatus.Failed)) + " had one or more assertions fail.");
-            Console.WriteLine(unitTests.Count(x => x.Assertions.All(y => y.Status == AssertionStatus.Errored)) + " threw an unhandled exception.");
+            Console.WriteLine(passed.Count() + " passed.");
+            Console.WriteLine(failed.Count() + " had one or more assertions fail.");
+            Console.WriteLine(errored.Count() + " threw an unhandled exception.");
+
+            if (failed.Any() || errored.Any())
+            {
+                Console.WriteLine("Failures:");
+                foreach (var test in failed)
+                {
+                    Console.WriteLine(test.Method);
+                    foreach (var assertion in test.Assertions.Where(x => x.Status == AssertionStatus.Failed || x.Status == AssertionStatus.Errored))
+                    {
+                        if (assertion.Status == AssertionStatus.Failed)
+                        {
+                            Console.WriteLine("Failed: " + assertion.Message);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error: " + assertion.Error);
+                        }
+                    }
+                }
+            }
         }
     }
 }
