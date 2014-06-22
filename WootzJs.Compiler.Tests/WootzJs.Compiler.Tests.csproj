@@ -132,6 +132,7 @@
 copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
 copy $(ProjectDir)..\build\System.js $(TargetDir)
 copy $(ProjectDir)..\build\System.ComponentModel.DataAnnotations.js $(TargetDir)
+copy $(ProjectDir)..\build\WootzJs.Web.js $(TargetDir)
 copy $(ProjectDir)..\build\WootzJs.Testing.js $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

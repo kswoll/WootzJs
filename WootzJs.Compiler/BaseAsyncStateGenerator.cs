@@ -12,7 +12,8 @@ namespace WootzJs.Compiler
         public const string stateFieldName = "$state";
 
         protected Compilation compilation;
-        private MethodDeclarationSyntax node;
+        protected SemanticModel semanticModel;
+        protected MethodDeclarationSyntax node;
         internal List<AsyncState> states = new List<AsyncState>();
         protected AsyncState currentState;
         protected int exceptionNameCounter = 1;
@@ -24,6 +25,8 @@ namespace WootzJs.Compiler
         {
             this.compilation = compilation;
             this.node = node;
+
+            semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
         }
 
         protected virtual StatementSyntax ReturnOutOfState()
@@ -35,6 +38,7 @@ namespace WootzJs.Compiler
         {
             currentState = new AsyncState(this);
             node.Accept(this);
+            OnBaseStateGenerated();
 
             foreach (var state in states)
             {
@@ -42,6 +46,10 @@ namespace WootzJs.Compiler
                 if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax) && !(lastStatement is GotoStatementSyntax)))
                     state.Statements.Add(Cs.Return());
             }
+        }
+
+        protected virtual void OnBaseStateGenerated()
+        {
         }
 
         public AsyncState[] States

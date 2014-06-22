@@ -57,8 +57,6 @@ namespace WootzJs.Compiler
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
         {
-            var semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
-
             // Convert the variable declaration to an assignment expression statement
             foreach (var variable in node.Declaration.Variables)
             {
@@ -76,13 +74,30 @@ namespace WootzJs.Compiler
 
         public override void VisitReturnStatement(ReturnStatementSyntax node)
         {
+            SetResult(node.Expression);
+            currentState = GetNextState();             // @Todo: make this currentState = currentState.Next
+        }
+
+        private void SetResult(ExpressionSyntax result = null)
+        {
             var setResult = SyntaxFactory.IdentifierName(AsyncClassGenerator.builder).Member("SetResult");
-            if (node.Expression != null)
-                currentState.Add(setResult.Invoke((ExpressionSyntax)node.Expression.Accept(decomposer)).Express());
+            if (result != null)
+                currentState.Add(setResult.Invoke((ExpressionSyntax)result.Accept(decomposer)).Express());
             else 
                 currentState.Add(setResult.Invoke().Express());
             currentState.Add(Cs.Return());
-            currentState = GetNextState();
+        }
+
+        protected override void OnBaseStateGenerated()
+        {
+            base.OnBaseStateGenerated();
+
+            var method = semanticModel.GetDeclaredSymbol(node);
+            if (!(currentState.Statements.LastOrDefault() is ReturnStatementSyntax) && (method.ReturnsVoid || method.ReturnType.Equals(Context.Instance.Task)))
+            {
+                SetResult();
+//                var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
+            }
         }
 
         public override void VisitIfStatement(IfStatementSyntax node)
@@ -156,8 +171,7 @@ namespace WootzJs.Compiler
                     case SyntaxKind.AwaitExpression:
                         awaiterCount++;
                         var operand = (ExpressionSyntax)node.Operand.Accept(this);
-                        var semanticModel = stateGenerator.compilation.GetSemanticModel(node.SyntaxTree);
-                        var expressionInfo = semanticModel.GetAwaitExpressionInfo(node);
+                        var expressionInfo = stateGenerator.semanticModel.GetAwaitExpressionInfo(node);
                         var returnsVoid = expressionInfo.GetResultMethod.ReturnsVoid;
 //                        var expressionType = semanticModel.GetTypeInfo(node).ConvertedType;
 //                        bool voidExpression = expressionType.SpecialType == SpecialType.System_Void;

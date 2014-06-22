@@ -37,10 +37,18 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assertion.cs" />
     <Compile Include="AssertionException.cs" />
     <Compile Include="Assert.cs" />
+    <Compile Include="AssertionStatus.cs" />
     <Compile Include="UnitTest.cs" />
     <Compile Include="UnitTester.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WootzJs.Web\WootzJs.Web.csproj">
+      <Project>{0f747461-9c1c-4fce-a8b3-2d70d23388cb}</Project>
+      <Name>WootzJs.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -197,5 +197,10 @@ namespace System.Reflection
             }
             return Jsni.apply(jsMethod, obj.As<JsObject>(), args);
         }
+
+        public override string ToString()
+        {
+            return DeclaringType.FullName + "." + Name + "(" + string.Format(", ", GetParameters().Select(x => x.ParameterType.FullName + " " + x.Name)) + ")";
+        }
     }
 }

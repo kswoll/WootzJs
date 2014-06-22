@@ -44,13 +44,10 @@ namespace WootzJs.Compiler.Tests
             {
                 if (type.GetCustomAttributes(typeof(TestFixtureAttribute), false).Any())
                 {
-                    Console.WriteLine(type.FullName);
                     foreach (var currentMethod in type.GetMethods())
                     {
                         if (currentMethod.GetCustomAttributes(typeof(TestAttribute), false).Any())
                         {
-                            Console.WriteLine(currentMethod.Name);
-
                             var instance = type.GetConstructors()[0].Invoke(new object[0]);
                             unitTester.QueueTest(instance, currentMethod);
                         }

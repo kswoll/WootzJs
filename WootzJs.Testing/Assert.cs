@@ -25,13 +25,13 @@
 */
                 
             if (!equal)
-                throw new AssertionException("Expected: " + expected + ", Found: " + actual);
+                throw new AssertionException(CurrentTest, "Expected: " + expected + ", Found: " + actual);
         }
 
         public static void AssertTrue(this bool actual)
         {
             if (!actual)
-                throw new AssertionException("Expected true");
+                throw new AssertionException(CurrentTest, "Expected true");
         }
     }
 }
