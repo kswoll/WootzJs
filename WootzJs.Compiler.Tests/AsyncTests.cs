@@ -141,5 +141,28 @@ namespace WootzJs.Compiler.Tests
             }
             i.AssertEquals(5);
         }
+
+        [Test]
+        public async void ForLoop()
+        {
+            var x = 0;
+            for (var i = 0; i < 5; i++)
+            {
+                x++;
+            }
+            x.AssertEquals(5);
+        }
+
+        [Test]
+        public async void ForeachLoop()
+        {
+            var items = new[] { "1", "2", "3" };
+            var s = "";
+            foreach (var item in items)
+            {
+                s += item;
+            }
+            s.AssertEquals("123");
+        }
     }
 }

@@ -63,7 +63,7 @@ namespace WootzJs.Compiler
                 if (variable.Initializer != null)
                 {
                     var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
-                    currentState.Add(Cs.Express(StateMachineThisFixer.Fix(assignment)));
+                    currentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
                 }
 
                 // Hoist the variable into a field
@@ -160,6 +160,92 @@ namespace WootzJs.Compiler
             currentState.Add(GotoState(topOfLoop));
 
             currentState = afterWhileStatement;
+        }
+
+        public override void VisitForStatement(ForStatementSyntax node)
+        {            
+            // Convert the variable declaration to an assignment expression statement
+            foreach (var variable in node.Declaration.Variables)
+            {
+                if (variable.Initializer != null)
+                {
+                    var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
+                    currentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
+                }
+
+                // Hoist the variable into a field
+                var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, variable);
+                HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+            }
+
+            var topOfLoop = GetNextState();
+
+            currentState.Add(GotoState(topOfLoop));
+            currentState = topOfLoop;
+
+            var afterLoop = GetNextState();
+            var bodyState = new AsyncState(this) { Next = afterLoop };
+
+            var newWhileStatement = Cs.While(
+                (ExpressionSyntax)node.Condition.Accept(decomposer),
+                GotoState(bodyState));
+
+            currentState.Add(newWhileStatement);
+            currentState.Add(GotoState(afterLoop));
+
+            currentState = bodyState;
+            node.Statement.Accept(this);
+
+            foreach (var incrementor in node.Incrementors)
+            {
+                currentState.Add(((ExpressionSyntax)incrementor.Accept(decomposer)).Express());
+            }
+
+            currentState.Add(GotoState(topOfLoop));
+
+            currentState = afterLoop;
+        }
+
+        public override void VisitForEachStatement(ForEachStatementSyntax node)
+        {
+            // Hoist the variable into a field
+            var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, node);
+            HoistVariable(node.Identifier, symbol.Type.ToTypeSyntax());
+
+            // Hoist the enumerator into a field
+            var targetType = ModelExtensions.GetTypeInfo(semanticModel, node.Expression);
+            var enumerator = SyntaxFactory.Identifier(node.Identifier + "$enumerator");
+            var genericEnumeratorType = compilation.FindType("System.Collections.Generic.IEnumerable`1");
+            var elementType = targetType.ConvertedType.GetGenericArgument(genericEnumeratorType, 0);
+            var enumeratorType = elementType == null ?
+                SyntaxFactory.ParseTypeName("System.Collections.IEnumerator") :
+                SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
+            HoistVariable(enumerator, enumeratorType);
+            currentState.Add(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, StateMachineThisFixer.Fix(node.Expression), SyntaxFactory.IdentifierName("GetEnumerator")))).Express());
+
+            var topOfLoop = GetNextState();
+
+            currentState.Add(GotoState(topOfLoop));
+            currentState = topOfLoop;
+
+            var afterLoop = GetNextState();
+            var bodyState = new AsyncState(this) { Next = afterLoop };
+
+            var moveNext = SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("MoveNext")));
+            var newWhileStatement = Cs.While(moveNext, GotoState(bodyState));
+
+            currentState.Add(newWhileStatement);
+            currentState.Add(GotoState(afterLoop));
+
+            currentState = bodyState;
+            currentState.Add(SyntaxFactory.IdentifierName(node.Identifier).Assign(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
+                SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("Current"))).Express());
+            
+            node.Statement.Accept(this);
+
+            currentState.Add(GotoState(topOfLoop));
+
+            currentState = afterLoop;
         }
 
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter
