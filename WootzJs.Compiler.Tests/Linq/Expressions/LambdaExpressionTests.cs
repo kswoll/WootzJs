@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class LambdaExpressionTests
+    public class LambdaExpressionTests : TestFixture
     {
         [Test]
         public void Func()
@@ -40,8 +39,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<Func<int, int>>> lambda = () => x => x;
             var expression = (LambdaExpression)lambda.Body;
 
-            expression.Parameters.Count.AssertEquals(1);
-            expression.Body.AssertEquals(expression.Parameters[0]);
+            AssertEquals(expression.Parameters.Count, 1);
+            AssertEquals(expression.Body, expression.Parameters[0]);
         }
 
         [Test]
@@ -49,7 +48,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int>> return5 = () => 5;
             var func = return5.Compile();
-            Assert.AssertEquals(func(), 5);
+            AssertEquals(func(), 5);
         }
 
         [Test]
@@ -57,7 +56,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int, int>> returnParameter = x => x;
             var func = returnParameter.Compile();
-            Assert.AssertEquals(func(5), 5);
+            AssertEquals(func(5), 5);
         }
 
         [Test]
@@ -65,7 +64,7 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<int, int>> added = x => x + 1;
             var func = added.Compile();
-            Assert.AssertEquals(func(5), 6);
+            AssertEquals(func(5), 6);
         }
     }
 }

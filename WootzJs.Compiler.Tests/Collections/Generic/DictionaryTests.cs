@@ -31,15 +31,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
-    [TestFixture]
-    public class DictionaryTests
+    public class DictionaryTests : TestFixture
     {
         [Test]
         public void Count()
         {
             var dictionary = new Dictionary<string, int>();
             dictionary.Add("one", 1);
-            dictionary.Count.AssertEquals(1);
+            AssertEquals(dictionary.Count, 1);
         }
          
         [Test]
@@ -47,8 +46,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
         {
             var dictionary = new Dictionary<string, int>();
             dictionary.Add("one", 1);
-            dictionary.ContainsKey("one").AssertTrue();
-            (!dictionary.ContainsKey("two")).AssertTrue();
+            AssertTrue(dictionary.ContainsKey("one"));
+            AssertTrue((!dictionary.ContainsKey("two")));
         }
          
         [Test]
@@ -58,8 +57,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary.Add("one", 1);
             dictionary.Add("two", 2);
             var keys = dictionary.Keys.ToArray();
-            (keys[0] == "one" || keys[1] == "one").AssertTrue();
-            (keys[0] == "two" || keys[1] == "two").AssertTrue();
+            AssertTrue((keys[0] == "one" || keys[1] == "one"));
+            AssertTrue((keys[0] == "two" || keys[1] == "two"));
         }
          
         [Test]
@@ -68,7 +67,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary.Add("one", 1);
             dictionary.Add("two", 2);
-            dictionary["one"].AssertEquals(1);
+            AssertEquals(dictionary["one"], 1);
         }
          
         [Test]
@@ -77,8 +76,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary["two"] = 2;
-            dictionary["one"].AssertEquals(1);
-            dictionary["two"].AssertEquals(2);
+            AssertEquals(dictionary["one"], 1);
+            AssertEquals(dictionary["two"], 2);
         }
          
         [Test]
@@ -87,8 +86,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary["one"] = 2;
-            dictionary["one"].AssertEquals(2);
-            dictionary.Count.AssertEquals(1);
+            AssertEquals(dictionary["one"], 2);
+            AssertEquals(dictionary.Count, 1);
         }
          
         [Test]
@@ -97,7 +96,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary.Remove("one");
-            dictionary.Count.AssertEquals(0);
+            AssertEquals(dictionary.Count, 0);
         }
          
         [Test]
@@ -106,7 +105,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var dictionary = new Dictionary<string, int>();
             dictionary["one"] = 1;
             dictionary.Clear();
-            dictionary.Count.AssertEquals(0);
+            AssertEquals(dictionary.Count, 0);
         }
          
         [Test]
@@ -117,7 +116,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary["two"] = 2;
             int i;
             dictionary.TryGetValue("two", out i);
-            i.AssertEquals(2);
+            AssertEquals(i, 2);
         }
 
         [Test]
@@ -131,9 +130,9 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             dictionary[two] = 2;
             dictionary[three] = 3;
 
-            dictionary[one].AssertEquals(1);
-            dictionary[two].AssertEquals(2);
-            dictionary[three].AssertEquals(3);
+            AssertEquals(dictionary[one], 1);
+            AssertEquals(dictionary[two], 2);
+            AssertEquals(dictionary[three], 3);
         }
 
         public class MyClass

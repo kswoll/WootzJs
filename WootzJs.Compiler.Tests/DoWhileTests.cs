@@ -29,8 +29,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class DoWhileTests
+    public class DoWhileTests : TestFixture
     {
         [Test]
         public void DoWhile()
@@ -41,7 +40,7 @@ namespace WootzJs.Compiler.Tests
                 i++;
             } while (i < 5);
 
-            i.AssertEquals(5);
+            AssertEquals(i, 5);
         }
     }
 }

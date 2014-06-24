@@ -283,12 +283,12 @@ namespace WootzJs.Compiler
         public static TryStatementSyntax WithCatch(this TryStatementSyntax tryStatement, TypeSyntax exceptionType, string exceptionIdentifier, params StatementSyntax[] statements)
         {
             return tryStatement
-                .WithCatches(SyntaxFactory.List(new[]
+                .WithCatches(SyntaxFactory.List(tryStatement.Catches.Concat(new[]
                 {
                     SyntaxFactory.CatchClause()
                         .WithDeclaration(SyntaxFactory.CatchDeclaration(exceptionType, SyntaxFactory.Identifier(exceptionIdentifier)))
                         .WithBlock(Block(statements))
-                }));
+                })));
         }
 
         public static BinaryExpressionSyntax NotEqualTo(this ExpressionSyntax left, ExpressionSyntax right)
@@ -380,6 +380,35 @@ namespace WootzJs.Compiler
         {
             return SyntaxFactory.ObjectCreationExpression(type)
                 .WithArgumentList(SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments.Select(x => SyntaxFactory.Argument(x)), arguments.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
+        }
+
+        public static string GetContainingMemberName(this SyntaxNode node)
+        {
+            var current = node;
+            while (current != null)
+            {
+                if (current is MethodDeclarationSyntax && !(current.Parent is PropertyDeclarationSyntax))
+                {
+                    var method = (MethodDeclarationSyntax)current;
+                    return method.Identifier.ToString();
+                }
+                else if (current is PropertyDeclarationSyntax)
+                {
+                    var property = (PropertyDeclarationSyntax)current;
+                    return property.Identifier.ToString();
+                }
+                else if (current is ConstructorDeclarationSyntax)
+                {
+                    var constructor = (ConstructorDeclarationSyntax)current;
+                    if (constructor.Modifiers.Any(x => x.IsKind(SyntaxKind.StaticKeyword)))
+                        return ".cctor";
+                    else
+                        return ".ctor";
+                }
+
+                current = current.Parent;
+            }
+            return null;
         }
     }
 }

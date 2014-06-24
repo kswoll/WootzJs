@@ -31,14 +31,13 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class CollectionInitializerTests
+    public class CollectionInitializerTests : TestFixture
     {
         [Test]
         public void OneString()
         {
             var list = new List<string> { "one" };
-            list[0].AssertEquals("one");
+            AssertEquals(list[0], "one");
         }
          
         [Test]
@@ -51,8 +50,8 @@ namespace WootzJs.Compiler.Tests
             };
             var one = dictionary["one"];
             var two = dictionary["two"];
-            one.AssertEquals(1);
-            two.AssertEquals(2);
+            AssertEquals(one, 1);
+            AssertEquals(two, 2);
         }
     }
 }

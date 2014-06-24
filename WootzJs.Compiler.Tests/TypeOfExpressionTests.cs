@@ -30,15 +30,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class TypeOfExpressionTests
+    public class TypeOfExpressionTests : TestFixture
     {
         [Test]
         public void TypeOfReturnsName()
         {
             var type = typeof(TestClass);
             var name = type.Name;
-            name.AssertEquals("TestClass");
+            AssertEquals(name, "TestClass");
         }
          
         public class TestClass {}

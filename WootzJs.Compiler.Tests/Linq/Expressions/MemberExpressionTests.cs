@@ -32,17 +32,16 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class MemberExpressionTests
+    public class MemberExpressionTests : TestFixture
     {
         [Test]
         public void Property()
         {
             Expression<Func<ClassWithMembers, string>> lambda = x => x.StringProperty;
             var memberExpression = (MemberExpression)lambda.Body;
-            memberExpression.Expression.AssertEquals(lambda.Parameters[0]);
-            (memberExpression.Member is PropertyInfo).AssertTrue();
-            memberExpression.Member.Name.AssertEquals("StringProperty");
+            AssertEquals(memberExpression.Expression, lambda.Parameters[0]);
+            AssertTrue((memberExpression.Member is PropertyInfo));
+            AssertEquals(memberExpression.Member.Name, "StringProperty");
         }
          
 /*

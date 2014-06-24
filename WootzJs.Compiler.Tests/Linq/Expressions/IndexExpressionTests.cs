@@ -32,8 +32,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class IndexExpressionTests
+    public class IndexExpressionTests : TestFixture
     {
         [Test]
         public void IndexIntoList()
@@ -42,9 +41,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => list[1];
             var callExpression = (IndexExpression)lambda.Body;
             var target = (ConstantExpression)callExpression.Object;
-            target.Value.AssertEquals(list);
+            AssertEquals(target.Value, list);
             var index = (ConstantExpression)callExpression.Arguments[0];
-            index.Value.AssertEquals(1);
+            AssertEquals(index.Value, 1);
         }         
 
         [Test]
@@ -54,9 +53,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<string>> lambda = () => dictionary[1];
             var callExpression = (IndexExpression)lambda.Body;
             var target = (ConstantExpression)callExpression.Object;
-            target.Value.AssertEquals(dictionary);
+            AssertEquals(target.Value, dictionary);
             var index = (ConstantExpression)callExpression.Arguments[0];
-            index.Value.AssertEquals(1);
+            AssertEquals(index.Value, 1);
         }         
     }
 }

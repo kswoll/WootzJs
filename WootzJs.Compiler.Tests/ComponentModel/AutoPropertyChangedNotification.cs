@@ -33,8 +33,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.ComponentModel
 {
-    [TestFixture]
-    public class AutoPropertyChangedNotification
+    public class AutoPropertyChangedNotification : TestFixture
     {
         [Test]
         public void OneProperty()
@@ -43,7 +42,7 @@ namespace WootzJs.Compiler.Tests.ComponentModel
             string propertyName = null;
             obj.PropertyChanged += (sender, evt) => propertyName = evt.PropertyName;
             obj.StringProperty = "foo";
-            propertyName.AssertEquals("StringProperty");
+            AssertEquals(propertyName, "StringProperty");
         }
 
         public class OnePropertyClass : INotifyPropertyChanged

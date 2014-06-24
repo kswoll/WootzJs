@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class EventTests
+    public class EventTests : TestFixture
     {
         [Test]
         public void BasicEvent()
@@ -41,7 +40,7 @@ namespace WootzJs.Compiler.Tests
             var success = false;
             o.Foo += () => success = true;
             o.OnFoo();
-            success.AssertTrue();
+            AssertTrue(success);
         }                  
 
         [Test]
@@ -51,7 +50,7 @@ namespace WootzJs.Compiler.Tests
             var success = false;
             o.FooThis += () => success = true;
             o.OnFooThis();
-            success.AssertTrue();
+            AssertTrue(success);
         }                  
 
         [Test]
@@ -63,8 +62,8 @@ namespace WootzJs.Compiler.Tests
             o.Foo += () => success1 = true;
             o.Foo += () => success2 = true;
             o.OnFoo();
-            success1.AssertTrue();
-            success2.AssertTrue();
+            AssertTrue(success1);
+            AssertTrue(success2);
         }                  
 
         [Test]
@@ -78,8 +77,8 @@ namespace WootzJs.Compiler.Tests
             o.Foo += () => success2 = true;
             o.Foo -= foo1;
             o.OnFoo();
-            (!success1).AssertTrue();
-            success2.AssertTrue();
+            AssertTrue((!success1));
+            AssertTrue(success2);
         }        
         
         [Test]
@@ -90,12 +89,12 @@ namespace WootzJs.Compiler.Tests
             Action evt = () => ran = true;
             eventClass.Bar += evt;
             eventClass.OnBar();
-            ran.AssertTrue();
+            AssertTrue(ran);
 
             ran = false;
             eventClass.Bar -= evt;
             eventClass.OnBar();
-            (!ran).AssertTrue();
+            AssertTrue((!ran));
         }
 
         [Test]
@@ -106,7 +105,7 @@ namespace WootzJs.Compiler.Tests
             eventClass.Foo += () => i++;
             eventClass.Foo += () => i++;
             var action = eventClass.GetFoo();
-            (action is Action).AssertTrue();
+            AssertTrue((action is Action));
         }
 
         [Test]
@@ -118,16 +117,16 @@ namespace WootzJs.Compiler.Tests
             eventClass.Foo += eventHandlers.M2;
             eventClass.OnFoo();
 
-            eventHandlers.m1.AssertEquals("M1");
-            eventHandlers.m2.AssertEquals("M2");
+            AssertEquals(eventHandlers.m1, "M1");
+            AssertEquals(eventHandlers.m2, "M2");
 
             eventHandlers.m1 = null;
             eventHandlers.m2 = null;
             eventClass.Foo -= eventHandlers.M1;
             eventClass.OnFoo();
 
-            eventHandlers.m2.AssertEquals("M2");
-            (eventHandlers.m1 == null).AssertTrue();
+            AssertEquals(eventHandlers.m2, "M2");
+            AssertTrue((eventHandlers.m1 == null));
         }
 
         public class EventClass

@@ -30,8 +30,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class ConstructorTests
+    public class ConstructorTests : TestFixture
     {
         [Test]
         public void ConstructorsWithOverloads()
@@ -40,29 +39,29 @@ namespace WootzJs.Compiler.Tests
             var test2 = new TestClass("foo");
             var test3 = new TestClass(5);
 
-            test1.Arg1.AssertEquals("none");
-            test2.Arg1.AssertEquals("string");
-            test3.Arg1.AssertEquals("int");
+            AssertEquals(test1.Arg1, "none");
+            AssertEquals(test2.Arg1, "string");
+            AssertEquals(test3.Arg1, "int");
         }
          
         [Test]
         public void InitializedStaticField()
         {
-            ClassWithStaticInitializedField.InitializedValue.AssertEquals("foo");
+            AssertEquals(ClassWithStaticInitializedField.InitializedValue, "foo");
         }
          
         [Test]
         public void StaticConstructor()
         {
-            ClassWithStaticConstructor.InitializedValue.AssertEquals("foo");
+            AssertEquals(ClassWithStaticConstructor.InitializedValue, "foo");
         }
 
         [Test]
         public void ConstructorWithDefaultParameters()
         {
             var instance = new ClassWithDefaultParameters(4);
-            instance.I.AssertEquals(4);
-            instance.J.AssertEquals(5);
+            AssertEquals(instance.I, 4);
+            AssertEquals(instance.J, 5);
         }
          
         public class TestClass

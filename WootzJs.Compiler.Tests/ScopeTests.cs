@@ -32,8 +32,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class ScopeTests
+    public class ScopeTests : TestFixture
     {
         [Test]
         public void CanModifyClosedVariableWithAssignment()
@@ -41,7 +40,7 @@ namespace WootzJs.Compiler.Tests
             var i = 0;
             Action action = () => i = i + 1;
             action();
-            i.AssertEquals(1);
+            AssertEquals(i, 1);
         }
 
         [Test]
@@ -50,7 +49,7 @@ namespace WootzJs.Compiler.Tests
             var i = 0;
             Action action = () => i++;
             action();
-            i.AssertEquals(1);
+            AssertEquals(i, 1);
         }
 
         [Test]
@@ -60,7 +59,7 @@ namespace WootzJs.Compiler.Tests
             Action action = () => i = i + 1;
             i = 1;
             action();
-            i.AssertEquals(2);
+            AssertEquals(i, 2);
         }
     }
 }

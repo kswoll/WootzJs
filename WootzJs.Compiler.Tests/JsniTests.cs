@@ -32,8 +32,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class JsniTests
+    public class JsniTests : TestFixture
     {
         [Test]
         public void ForIn()
@@ -41,7 +40,7 @@ namespace WootzJs.Compiler.Tests
             var counter = 0;
             var jsObject = Jsni.@object(new { One = 1, Two = 2 });
             jsObject.forin(x => counter += jsObject[x]);
-            counter.AssertEquals(3);
+            AssertEquals(counter, 3);
         }
     }
 }

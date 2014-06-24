@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class UnaryExpressionTests
+    public class UnaryExpressionTests : TestFixture
     {
         [Test]
         public void NotBoolean()
@@ -40,9 +39,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<bool>> lambda = () => !true;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            unaryExpression.NodeType.AssertEquals(ExpressionType.Not);
-            unaryExpression.Type.AssertEquals(typeof(bool));
-            operand.Value.AssertEquals(true);
+            AssertEquals(unaryExpression.NodeType, ExpressionType.Not);
+            AssertEquals(unaryExpression.Type, typeof(bool));
+            AssertEquals(operand.Value, true);
         }
 
         [Test]
@@ -51,8 +50,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<int>> lambda = () => -5;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            unaryExpression.NodeType.AssertEquals(ExpressionType.Negate);
-            operand.Value.AssertEquals(5);
+            AssertEquals(unaryExpression.NodeType, ExpressionType.Negate);
+            AssertEquals(operand.Value, 5);
         }
 
         [Test]
@@ -61,9 +60,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<object>> lambda = () => "foo" as object;
             var unaryExpression = (UnaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Operand;
-            unaryExpression.NodeType.AssertEquals(ExpressionType.TypeAs);
-            operand.Value.AssertEquals("foo");
-            unaryExpression.Type.FullName.AssertEquals(typeof(object).FullName);
+            AssertEquals(unaryExpression.NodeType, ExpressionType.TypeAs);
+            AssertEquals(operand.Value, "foo");
+            AssertEquals(unaryExpression.Type.FullName, typeof(object).FullName);
         }
     }
 }

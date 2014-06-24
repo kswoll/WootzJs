@@ -30,8 +30,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
-    [TestFixture]
-    public class PropertyInfoTests
+    public class PropertyInfoTests : TestFixture
     {
         [Test]
         public void Name()
@@ -40,15 +39,15 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticProperty = properties.Single(x => x.Name == "StaticProperty");
             var stringProperty = properties.Single(x => x.Name == "StringProperty");
 
-            staticProperty.Name.AssertEquals("StaticProperty");
-            stringProperty.Name.AssertEquals("StringProperty");
+            AssertEquals(staticProperty.Name, "StaticProperty");
+            AssertEquals(stringProperty.Name, "StringProperty");
         }
 
         [Test]
         public void PropertyType()
         {
             var property = typeof(PropertyClass).GetProperty("StaticProperty");
-            property.PropertyType.Name.AssertEquals("String");
+            AssertEquals(property.PropertyType.Name, "String");
         }
 
         public class PropertyClass

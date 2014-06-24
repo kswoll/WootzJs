@@ -31,15 +31,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class DefaultExpressionTests
+    public class DefaultExpressionTests : TestFixture
     {
         [Test]
         public void DefaultInt()
         {
             Expression<Func<int>> lambda = () => default(int);
             var defaultExpression = (DefaultExpression)lambda.Body;
-            defaultExpression.Type.FullName.AssertEquals(typeof(int).FullName);
+            AssertEquals(defaultExpression.Type.FullName, typeof(int).FullName);
         }
     }
 }

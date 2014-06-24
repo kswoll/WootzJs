@@ -5,8 +5,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
-    [TestFixture]
-    public class StackTests
+    public class StackTests : TestFixture
     {
         [Test]
         public void PushOne()
@@ -14,7 +13,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var stack = new Stack<string>();
             stack.Push("foo");
             var item = stack.First();
-            item.AssertEquals("foo");
+            AssertEquals(item, "foo");
         }
 
         [Test]
@@ -24,7 +23,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             stack.Push("foo");
             var item = stack.Pop();
 
-            item.AssertEquals("foo");
+            AssertEquals(item, "foo");
         }
         
         [Test]
@@ -34,8 +33,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             stack.Push("one");
             stack.Push("two");
             var items = stack.ToArray();
-            items[0].AssertEquals("two");
-            items[1].AssertEquals("one");
+            AssertEquals(items[0], "two");
+            AssertEquals(items[1], "one");
         }
 
         [Test]
@@ -44,7 +43,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var stack = new Stack<string>();
             stack.Push("one");
             var value = stack.Peek();
-            value.AssertEquals("one");
+            AssertEquals(value, "one");
         }
 
         [Test]
@@ -54,11 +53,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             try
             {
                 stack.Peek();
-                false.AssertTrue();
+                AssertTrue(false);
             }
             catch (Exception e)
             {
-                true.AssertTrue();
+                AssertTrue(true);
             }
         }
     }

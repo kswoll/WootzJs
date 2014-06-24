@@ -5,8 +5,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Collections.Generic
 {
-    [TestFixture]
-    public class QueueTests
+    public class QueueTests : TestFixture
     {
         [Test]
         public void EnqueueOne()
@@ -14,7 +13,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("foo");
             var item = queue.First();
-            item.AssertEquals("foo");
+            AssertEquals(item, "foo");
         }
 
         [Test]
@@ -24,7 +23,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             queue.Enqueue("foo");
             var item = queue.Dequeue();
 
-            item.AssertEquals("foo");
+            AssertEquals(item, "foo");
         }
         
         [Test]
@@ -34,8 +33,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             queue.Enqueue("one");
             queue.Enqueue("two");
             var items = queue.ToArray();
-            items[0].AssertEquals("one");
-            items[1].AssertEquals("two");
+            AssertEquals(items[0], "one");
+            AssertEquals(items[1], "two");
         }
         
         [Test]
@@ -44,8 +43,8 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("one");
             queue.Enqueue("two");
-            queue.Dequeue().AssertEquals("one");
-            queue.Dequeue().AssertEquals("two");
+            AssertEquals(queue.Dequeue(), "one");
+            AssertEquals(queue.Dequeue(), "two");
         }
 
         [Test]
@@ -54,7 +53,7 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             var queue = new Queue<string>();
             queue.Enqueue("one");
             var value = queue.Peek();
-            value.AssertEquals("one");
+            AssertEquals(value, "one");
         }
 
         [Test]
@@ -64,11 +63,11 @@ namespace WootzJs.Compiler.Tests.Collections.Generic
             try
             {
                 queue.Peek();
-                false.AssertTrue();
+                AssertTrue(false);
             }
             catch (Exception e)
             {
-                true.AssertTrue();
+                AssertTrue(true);
             }
         }
     }

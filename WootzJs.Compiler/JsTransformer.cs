@@ -1000,6 +1000,7 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, specialResult);
 
             var arguments = idioms.TranslateArguments(
+                node,
                 method, 
                 (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is IArrayTypeSymbol, 
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
@@ -1324,6 +1325,7 @@ namespace WootzJs.Compiler
             var isBuiltIn = type.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
             var actualArguments = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
             var args = idioms.TranslateArguments(
+                node,
                 method, 
                 (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is IArrayTypeSymbol, 
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
@@ -2088,6 +2090,7 @@ namespace WootzJs.Compiler
             var method = (IMethodSymbol)symbol.Symbol;
 
             var arguments = idioms.TranslateArguments(
+                node,
                 method, 
                 (x, i) => model.GetTypeInfo(node.ArgumentList.Arguments[i].Expression).ConvertedType is IArrayTypeSymbol, 
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),

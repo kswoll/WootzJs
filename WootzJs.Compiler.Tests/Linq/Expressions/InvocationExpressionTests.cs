@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class InvocationExpressionTests
+    public class InvocationExpressionTests : TestFixture
     {
         [Test]
         public void CallDelegate()
@@ -42,10 +41,10 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var invocation = (InvocationExpression)lambda.Body;
 
             var target = (ConstantExpression)invocation.Expression;
-            target.Value.AssertEquals(func);
+            AssertEquals(target.Value, func);
 
             var arg = (ConstantExpression)invocation.Arguments[0];
-            arg.Value.AssertEquals(5);
+            AssertEquals(arg.Value, 5);
         }
     }
 }

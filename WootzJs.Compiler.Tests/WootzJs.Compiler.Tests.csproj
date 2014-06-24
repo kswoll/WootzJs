@@ -99,8 +99,6 @@
     <Compile Include="Reflection\EventInfoTests.cs" />
     <Compile Include="Reflection\PropertyInfoTests.cs" />
     <Compile Include="ScopeTests.cs" />
-    <Compile Include="TestAttribute.cs" />
-    <Compile Include="TestFixtureAttribute.cs" />
     <Compile Include="Reflection\AssemblyTests.cs" />
     <Compile Include="Reflection\FieldInfoTests.cs" />
     <Compile Include="Reflection\MethodInfoTests.cs" />

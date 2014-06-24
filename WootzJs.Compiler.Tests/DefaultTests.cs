@@ -29,42 +29,41 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class DefaultTests
+    public class DefaultTests : TestFixture
     {
         [Test]
         public void DefaultInt()
         {
             var value = default(int);
-            value.AssertEquals(0);
+            AssertEquals(value, 0);
         }
 
         [Test]
         public void DefaultChar()
         {
             var value = default(char);
-            value.AssertEquals('\0');
+            AssertEquals(value, '\0');
         }
 
         [Test]
         public void DefaultBool()
         {
             var value = default(bool);
-            value.AssertEquals(false);
+            AssertEquals(value, false);
         }
 
         [Test]
         public void DefaultObject()
         {
             var value = default(object);
-            value.AssertEquals(null);
+            AssertEquals(value, null);
         }
 
         [Test]
         public void DefaultT()
         {
-            DefaultOf<string>().AssertEquals(null);
-            DefaultOf<int>().AssertEquals(0);
+            AssertEquals(DefaultOf<string>(), null);
+            AssertEquals(DefaultOf<int>(), 0);
         }
 
         private T DefaultOf<T>()

@@ -31,102 +31,102 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    public class BinaryExpressionTests
+    public class BinaryExpressionTests : TestFixture
     {
         [Test]
-        public static void AddTwoInts()
+        public void AddTwoInts()
         {
             Expression<Func<int>> lambda = () => 5 + 4;
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Add);
-            left.Value.AssertEquals(5);
-            right.Value.AssertEquals(4);
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
+            AssertEquals(left.Value, 5);
+            AssertEquals(right.Value, 4);
         }         
          
         [Test]
-        public static void AddTwoStrings()
+        public void AddTwoStrings()
         {
             Expression<Func<string>> lambda = () => "foo" + "bar";
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Add);
-            left.Value.AssertEquals("foo");
-            right.Value.AssertEquals("bar");
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
+            AssertEquals(left.Value, "foo");
+            AssertEquals(right.Value, "bar");
         }         
          
         [Test]
-        public static void AddStringAndInt()
+        public void AddStringAndInt()
         {
             Expression<Func<string>> lambda = () => "foo" + 5;
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Add);
-            left.Value.AssertEquals("foo");
-            right.Value.AssertEquals(5);
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Add);
+            AssertEquals(left.Value, "foo");
+            AssertEquals(right.Value, 5);
         }         
          
         [Test]
-        public static void SubtractTwoInts()
+        public void SubtractTwoInts()
         {
             Expression<Func<int>> lambda = () => 5 - 4;
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Subtract);
-            left.Value.AssertEquals(5);
-            right.Value.AssertEquals(4);
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Subtract);
+            AssertEquals(left.Value, 5);
+            AssertEquals(right.Value, 4);
         }         
          
         [Test]
-        public static void MultiplyTwoInts()
+        public void MultiplyTwoInts()
         {
             Expression<Func<int>> lambda = () => 5 * 4;
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Multiply);
-            left.Value.AssertEquals(5);
-            right.Value.AssertEquals(4);
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Multiply);
+            AssertEquals(left.Value, 5);
+            AssertEquals(right.Value, 4);
         }         
          
         [Test]
-        public static void DivideTwoInts()
+        public void DivideTwoInts()
         {
             Expression<Func<int>> lambda = () => 5 / 4;
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Divide);
-            left.Value.AssertEquals(5);
-            right.Value.AssertEquals(4);
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Divide);
+            AssertEquals(left.Value, 5);
+            AssertEquals(right.Value, 4);
         }         
          
         [Test]
-        public static void ModuloTwoInts()
+        public void ModuloTwoInts()
         {
             Expression<Func<int>> lambda = () => 5 % 4;
             var binaryExpression = (BinaryExpression)lambda.Body;
             var left = (ConstantExpression)binaryExpression.Left;
             var right = (ConstantExpression)binaryExpression.Right;
-            binaryExpression.NodeType.AssertEquals(ExpressionType.Modulo);
-            left.Value.AssertEquals(5);
-            right.Value.AssertEquals(4);
+            AssertEquals(binaryExpression.NodeType, ExpressionType.Modulo);
+            AssertEquals(left.Value, 5);
+            AssertEquals(right.Value, 4);
         }      
    
         [Test]
-        public static void ArrayIndex()
+        public void ArrayIndex()
         {
             var array = new[] { 5 };
             Expression<Func<int>> lambda = () => array[4];
             var binaryExpression = (BinaryExpression)lambda.Body;
             var target = (ConstantExpression)binaryExpression.Left;
-            target.Value.AssertEquals(array);
+            AssertEquals(target.Value, array);
             var index = (ConstantExpression)binaryExpression.Right;
-            index.Value.AssertEquals(4);
+            AssertEquals(index.Value, 4);
         }
     }
 }

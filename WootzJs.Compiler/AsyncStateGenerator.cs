@@ -111,8 +111,8 @@ namespace WootzJs.Compiler
         public override void VisitIfStatement(IfStatementSyntax node)
         {
             var afterIfState = GetNextState();
-            var ifTrueState = new AsyncState(this) { Next = afterIfState };
-            var ifFalseState = node.Else != null ? new AsyncState(this) { Next = afterIfState } : null;
+            var ifTrueState = NewState(afterIfState);
+            var ifFalseState = node.Else != null ? NewState(afterIfState) : null;
 
             var newIfStatement = Cs.If(
                 (ExpressionSyntax)node.Condition.Accept(decomposer),
@@ -146,7 +146,7 @@ namespace WootzJs.Compiler
             currentState = topOfLoop;
 
             var afterWhileStatement = GetNextState();
-            var bodyState = new AsyncState(this) { Next = afterWhileStatement };
+            var bodyState = NewState(afterWhileStatement);
 
             var newWhileStatement = Cs.While(
                 (ExpressionSyntax)node.Condition.Accept(decomposer),
@@ -184,7 +184,7 @@ namespace WootzJs.Compiler
             currentState = topOfLoop;
 
             var afterLoop = GetNextState();
-            var bodyState = new AsyncState(this) { Next = afterLoop };
+            var bodyState = NewState(afterLoop);
 
             var newWhileStatement = Cs.While(
                 (ExpressionSyntax)node.Condition.Accept(decomposer),
@@ -229,7 +229,7 @@ namespace WootzJs.Compiler
             currentState = topOfLoop;
 
             var afterLoop = GetNextState();
-            var bodyState = new AsyncState(this) { Next = afterLoop };
+            var bodyState = NewState(afterLoop);
 
             var moveNext = SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("MoveNext")));
             var newWhileStatement = Cs.While(moveNext, GotoState(bodyState));
@@ -246,6 +246,38 @@ namespace WootzJs.Compiler
             currentState.Add(GotoState(topOfLoop));
 
             currentState = afterLoop;
+        }
+
+        public override void VisitThrowStatement(ThrowStatementSyntax node)
+        {
+            currentState.Add(Cs.Throw((ExpressionSyntax)node.Expression.Accept(decomposer)));
+        }
+
+        public override void VisitTryStatement(TryStatementSyntax node)
+        {
+            var originalState = currentState;
+//            var afterTry = GetNextState();
+
+            var tryBlockState = new AsyncState();
+            currentState = tryBlockState;
+            node.Block.Accept(this);
+
+            var newTryStatement = Cs.Try()
+                .WithBlock(Cs.Block(currentState.Statements/*.Concat(new[] { GotoState(afterTry) })*/.ToArray()));
+
+            foreach (var catchClause in node.Catches)
+            {
+                // Hoist the variable into a field
+                var symbol = semanticModel.GetDeclaredSymbol(catchClause.Declaration);
+                var newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
+
+                var catchState = new AsyncState();
+                currentState = catchState;
+                catchClause.Block.Accept(this);
+                newTryStatement = newTryStatement.WithCatch(catchClause.Declaration.Type, newIdentifier.ToString(), catchState.Statements.ToArray());
+            }
+
+            originalState.Add(newTryStatement);
         }
 
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter

@@ -31,15 +31,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class NewExpressionTests 
+    public class NewExpressionTests : TestFixture
     {
         [Test]
         public void ConstructorNoArgsOrInitializers()
         {
             Expression<Func<CreateClass>> lambda = () => new CreateClass();
             var newExpression = (NewExpression)lambda.Body;
-            newExpression.Type.FullName.AssertEquals(typeof(CreateClass).FullName);
+            AssertEquals(newExpression.Type.FullName, typeof(CreateClass).FullName);
         }
         
         [Test]
@@ -47,10 +46,10 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<CreateClass>> lambda = () => new CreateClass("foo");
             var newExpression = (NewExpression)lambda.Body;
-            newExpression.Type.FullName.AssertEquals(typeof(CreateClass).FullName);
+            AssertEquals(newExpression.Type.FullName, typeof(CreateClass).FullName);
 
             var arg = (ConstantExpression)newExpression.Arguments[0];
-            arg.Value.AssertEquals("foo");
+            AssertEquals(arg.Value, "foo");
         }
         
         public class CreateClass

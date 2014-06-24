@@ -31,14 +31,13 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class NumberTests
+    public class NumberTests : TestFixture
     {
         [Test]
         public void ToHex()
         {
             var number = 20;
-            number.ToString("X4").AssertEquals("0014");
+            AssertEquals(number.ToString("X4"), "0014");
         }
 
         [Test]
@@ -46,8 +45,8 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "1";
             int i;
-            int.TryParse(s, out i).AssertTrue();
-            i.AssertEquals(1);
+            AssertTrue(int.TryParse(s, out i));
+            AssertEquals(i, 1);
         }
 
         [Test]
@@ -55,14 +54,14 @@ namespace WootzJs.Compiler.Tests
         {
             var f = 1.234f;
             var i = (int)f;
-            i.AssertEquals(1);
+            AssertEquals(i, 1);
         }
 
         [Test]
         public void ToLocaleString()
         {
             var s = 1.234.As<JsNumber>().toLocaleString();
-            s.AssertEquals("1.234");
+            AssertEquals(s, "1.234");
         }
 
         [Test]
@@ -71,11 +70,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 int.Parse("a");
-                false.AssertTrue();
+                AssertTrue(false);
             }
             catch (FormatException e)
             {
-                true.AssertTrue();                
+                AssertTrue(true);                
             }
         }
     }

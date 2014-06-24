@@ -210,6 +210,7 @@
     <Compile Include="Runtime\CompilerServices\AsyncMethodBuilderCore.cs" />
     <Compile Include="Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="Runtime\CompilerServices\AsyncVoidMethodBuilder.cs" />
+    <Compile Include="Runtime\CompilerServices\CallerMemberNameAttribute.cs" />
     <Compile Include="Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="Runtime\CompilerServices\CallSiteBinder.cs" />
     <Compile Include="Runtime\CompilerServices\DynamicAttribute.cs" />

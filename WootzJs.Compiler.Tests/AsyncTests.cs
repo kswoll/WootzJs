@@ -27,14 +27,14 @@
 
 #endregion
 
+using System;
 using System.Runtime.WootzJs;
 using System.Threading.Tasks;
 using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class AsyncTests
+    public class AsyncTests : TestFixture
     {
         private bool basicTestAsync;
         private bool basicTestTaskAsync;
@@ -43,7 +43,7 @@ namespace WootzJs.Compiler.Tests
         public void BasicTest()
         {
             BasicTestAsync();
-            basicTestAsync.AssertTrue();
+            AssertTrue(basicTestAsync);
         }
 
         async void BasicTestAsync()
@@ -55,7 +55,7 @@ namespace WootzJs.Compiler.Tests
         public void BasicTestTask()
         {
             BasicTestTaskAsync();
-            basicTestTaskAsync.AssertTrue();
+            AssertTrue(basicTestTaskAsync);
         }
 
         async Task BasicTestTaskAsync()
@@ -68,7 +68,7 @@ namespace WootzJs.Compiler.Tests
         {
 //            await BasicTestTaskAsync();
             var value = await BasicTestTaskTAsync();
-            value.AssertEquals(5);
+            AssertEquals(value, 5);
         }
 
         async Task<int> BasicTestTaskTAsync()
@@ -82,7 +82,7 @@ namespace WootzJs.Compiler.Tests
             var taskCompletionSource = new TaskCompletionSource<int>();
             Jsni.setTimeout(() => taskCompletionSource.SetResult(4), 0);
             var value = await taskCompletionSource.Task;
-            value.AssertEquals(4);
+            AssertEquals(value, 4);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace WootzJs.Compiler.Tests
             {
                 i = 6;
             }
-            i.AssertEquals(6);
+            AssertEquals(i, 6);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace WootzJs.Compiler.Tests
             {
                 i = 6;
             }
-            i.AssertEquals(5);
+            AssertEquals(i, 5);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace WootzJs.Compiler.Tests
             else 
                 i = 7;
 
-            i.AssertEquals(6);
+            AssertEquals(i, 6);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace WootzJs.Compiler.Tests
             else 
                 i = 7;
 
-            i.AssertEquals(7);
+            AssertEquals(i, 7);
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace WootzJs.Compiler.Tests
             {
                 i++;
             }
-            i.AssertEquals(5);
+            AssertEquals(i, 5);
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace WootzJs.Compiler.Tests
             {
                 x++;
             }
-            x.AssertEquals(5);
+            AssertEquals(x, 5);
         }
 
         [Test]
@@ -162,7 +162,23 @@ namespace WootzJs.Compiler.Tests
             {
                 s += item;
             }
-            s.AssertEquals("123");
+            AssertEquals(s, "123");
+        }
+
+        [Test]
+        public async void TryCatch()
+        {
+            bool flag = false;
+
+            try
+            {
+                throw new Exception();
+            }
+            catch (Exception ex)
+            {
+                flag = true;
+            }
+            AssertTrue(flag);
         }
     }
 }

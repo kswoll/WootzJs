@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
-    [TestFixture]
-    public class EventInfoTests
+    public class EventInfoTests : TestFixture
     {
         [Test]
         public void Name()
@@ -41,8 +40,8 @@ namespace WootzJs.Compiler.Tests.Reflection
             var staticEvent = events.Single(x => x.Name == "StaticEvent");
             var stringEvent = events.Single(x => x.Name == "StringEvent");
 
-            staticEvent.Name.AssertEquals("StaticEvent");
-            stringEvent.Name.AssertEquals("StringEvent");
+            AssertEquals(staticEvent.Name, "StaticEvent");
+            AssertEquals(stringEvent.Name, "StringEvent");
         }
 
         public class EventClass

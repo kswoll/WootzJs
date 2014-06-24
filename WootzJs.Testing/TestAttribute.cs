@@ -27,7 +27,7 @@
 
 using System;
 
-namespace WootzJs.Compiler.Tests
+namespace WootzJs.Testing
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class TestAttribute : Attribute

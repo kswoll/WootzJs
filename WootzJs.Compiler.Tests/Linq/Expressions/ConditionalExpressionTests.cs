@@ -31,21 +31,21 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    public class ConditionalExpressionTests
+    public class ConditionalExpressionTests : TestFixture
     {
         [Test]
-        public static void Conditional()
+        public void Conditional()
         {
             Expression<Func<bool, string>> lambda = x => x ? "yes" : "no";
             var conditional = (ConditionalExpression)lambda.Body;
 
-            conditional.Test.AssertEquals(lambda.Parameters[0]);
+            AssertEquals(conditional.Test, lambda.Parameters[0]);
 
             var ifTrue = (ConstantExpression)conditional.IfTrue;
             var ifFalse = (ConstantExpression)conditional.IfFalse;
 
-            ifTrue.Value.AssertEquals("yes");
-            ifFalse.Value.AssertEquals("no");
+            AssertEquals(ifTrue.Value, "yes");
+            AssertEquals(ifFalse.Value, "no");
         }
     }
 }

@@ -32,21 +32,20 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class ArrayTests
+    public class ArrayTests : TestFixture
     {
         [Test]
         public void LengthProperty()
         {
             var array = new[] { "1", "2", "3" };
-            array.Length.AssertEquals(3);
+            AssertEquals(array.Length, 3);
         }         
 
         [Test]
         public void ArrayIndex()
         {
             var array = new[] { "1", "2", "3" };
-            array[2].AssertEquals("3");
+            AssertEquals(array[2], "3");
         }         
 
         [Test]
@@ -54,7 +53,7 @@ namespace WootzJs.Compiler.Tests
         {
             var array = new[] { "1", "2", "3" };
             array[2] = "10";
-            array[2].AssertEquals("10");
+            AssertEquals(array[2], "10");
         }         
 
         [Test]
@@ -63,22 +62,22 @@ namespace WootzJs.Compiler.Tests
             var array = new[] { "1", "2", "3" };
             var newArray = new string[2];
             array.CopyTo(newArray, 1);
-            newArray[0].AssertEquals("2");
-            newArray[1].AssertEquals("3");
+            AssertEquals(newArray[0], "2");
+            AssertEquals(newArray[1], "3");
         }         
 
         [Test]
         public void StringArrayType()
         {
             var array = new[] { "1", "2", "3" };
-            array.GetType().Name.AssertEquals("String[]");
+            AssertEquals(array.GetType().Name, "String[]");
         }         
 
         [Test]
         public void CreateArray()
         {
             var array = (int[])Array.CreateInstance(typeof(int), 5);
-            array.Length.AssertEquals(5);
+            AssertEquals(array.Length, 5);
         }
 
         [Test]
@@ -86,7 +85,7 @@ namespace WootzJs.Compiler.Tests
         {
             var array = new[] { 1, 2, 3 };
             array.GetEnumerator();
-            true.AssertTrue();     // Just making sure the method is present
+            AssertTrue(true);     // Just making sure the method is present
         }
 
         [Test]
@@ -94,7 +93,7 @@ namespace WootzJs.Compiler.Tests
         {
             Jsni.reference("window").memberset("ExportTest", Jsni.@object(new { Values = Jsni.array() }));
             ExportTest.Values[0] = Tuple.Create("foo", 1);
-            (ExportTest.Values is Tuple<string, int>[]).AssertTrue();
+            AssertTrue((ExportTest.Values is Tuple<string, int>[]));
         }
 
         [Test]
@@ -116,23 +115,23 @@ namespace WootzJs.Compiler.Tests
             }));
             var indexerOverride = Jsni.reference("window").member("IndexerOverride").As<IndexerOverrideClass>();
             indexerOverride[3] = "foo";
-            indexerOverride[3].AssertEquals("foo");
+            AssertEquals(indexerOverride[3], "foo");
         }
 
         [Test]
         public void MakeArray()
         {
             var arrayType = typeof(string).MakeArrayType(1);
-            arrayType.GetElementType().AssertEquals(typeof(string));
+            AssertEquals(arrayType.GetElementType(), typeof(string));
         }
 
         [Test]
         public void AsReadOnlyList()
         {
             IReadOnlyList<string> strings = new[] { "one", "two", "three" };
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
-            strings[2].AssertEquals("three");
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
+            AssertEquals(strings[2], "three");
         }
 
         [Js(Name = "ExportTest", Export = false)]

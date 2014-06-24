@@ -32,15 +32,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
-    [TestFixture]
-    public class MethodInfoTests
+    public class MethodInfoTests : TestFixture
     {
         [Test]
         public void Name()
         {
             var methods = typeof(MethodClass).GetMethods();
             var method = methods.Single(x => x.Name == "VoidMethod");
-            true.AssertTrue();
+            AssertTrue(true);
         }
 
         [Test]
@@ -50,17 +49,17 @@ namespace WootzJs.Compiler.Tests.Reflection
             var method = methods.Single(x => x.Name == "InstanceMethod");
             var instance = new MethodClass();
             var result = (string)method.Invoke(instance, new object[0]);
-            result.AssertEquals("InstanceMethod");
+            AssertEquals(result, "InstanceMethod");
         }
 
         [Test]
         public void NameForOverload()
         {
             var method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(int) });
-            method.GetParameters()[0].ParameterType.AssertEquals(typeof(int));
+            AssertEquals(method.GetParameters()[0].ParameterType, typeof(int));
 
             method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(string) });
-            method.GetParameters()[0].ParameterType.AssertEquals(typeof(string));
+            AssertEquals(method.GetParameters()[0].ParameterType, typeof(string));
         }
 
         [Test]
@@ -68,7 +67,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(MethodClass).GetMethod("MethodWithDictionary");
             var parameter = method.GetParameters()[0];
-            parameter.ParameterType.AssertEquals(typeof(IDictionary<string, int>));
+            AssertEquals(parameter.ParameterType, typeof(IDictionary<string, int>));
         }
 
         [Test]
@@ -76,7 +75,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(MethodClass).GetMethod("GenericReturnType");
             var returnType = method.ReturnType;
-            returnType.AssertEquals(typeof(List<string>));            
+            AssertEquals(returnType, typeof(List<string>));            
         }
 
         public class MethodClass

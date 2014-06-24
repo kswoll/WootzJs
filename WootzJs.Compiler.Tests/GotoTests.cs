@@ -29,8 +29,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class GotoTests
+    public class GotoTests : TestFixture
     {
         [Test]
         public void LabeledBreak()
@@ -48,7 +47,7 @@ namespace WootzJs.Compiler.Tests
                 }
             }
 
-            counter.AssertEquals(6);
+            AssertEquals(counter, 6);
         }
     }
 }

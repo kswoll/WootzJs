@@ -31,22 +31,21 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class EnumTests
+    public class EnumTests : TestFixture
     {
         [Test]
         public void Name()
         {
             var s = TestEnum.One.ToString();
-            s.AssertEquals("One");
+            AssertEquals(s, "One");
         }
          
         [Test]
         public void Value()
         {
-            ((int)TestEnum.One).AssertEquals(0);
-            ((int)TestEnum.Two).AssertEquals(1);
-            ((int)TestEnum.Three).AssertEquals(2);
+            AssertEquals(((int)TestEnum.One), 0);
+            AssertEquals(((int)TestEnum.Two), 1);
+            AssertEquals(((int)TestEnum.Three), 2);
         }
 
         [Test]
@@ -54,14 +53,14 @@ namespace WootzJs.Compiler.Tests
         {
             var oneAndTwo = FlagsEnum.One | FlagsEnum.Two;
 
-            ((oneAndTwo & FlagsEnum.One) == FlagsEnum.One).AssertTrue();
+            AssertTrue(((oneAndTwo & FlagsEnum.One) == FlagsEnum.One));
         }
 
         [Test]
         public void ThreeFlags()
         {
             var oneAndTwo = FlagsEnum.One | FlagsEnum.Two | FlagsEnum.Three;
-            ((oneAndTwo & FlagsEnum.One) == FlagsEnum.One).AssertTrue();
+            AssertTrue(((oneAndTwo & FlagsEnum.One) == FlagsEnum.One));
         }
 
         [Test]
@@ -69,30 +68,30 @@ namespace WootzJs.Compiler.Tests
         {
             var value = TestEnum.One;
             var type = value.GetType();
-            type.AssertEquals(typeof(TestEnum));
+            AssertEquals(type, typeof(TestEnum));
         }
 
         [Test]
         public void NumberToEnumCast()
         {
             var two = (TestEnum)1;
-            two.AssertEquals(TestEnum.Two);
+            AssertEquals(two, TestEnum.Two);
         }
 
         [Test]
         public void InvalidEnum()
         {
             var testEnum = (TestEnum)323432;
-            testEnum.AssertEquals(323432);
+            AssertEquals(testEnum, 323432);
         }
 
         [Test]
         public void EnumNames()
         {
             var names = Enum.GetNames(typeof(EnumNamesClass));
-            names[0].AssertEquals("One");
-            names[1].AssertEquals("Two");
-            names[2].AssertEquals("Three");
+            AssertEquals(names[0], "One");
+            AssertEquals(names[1], "Two");
+            AssertEquals(names[2], "Three");
         }
 
         public enum TestEnum

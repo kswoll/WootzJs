@@ -30,8 +30,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class VirtualMethodTests
+    public class VirtualMethodTests : TestFixture
     {
         [Test]
         public void Override()
@@ -39,9 +38,9 @@ namespace WootzJs.Compiler.Tests
             var baseClass = new BaseClass();
             var subClass = new SubClass();
             BaseClass subClassAsBaseClass = subClass;
-            baseClass.Foo().AssertEquals("base");
-            subClass.Foo().AssertEquals("sub");
-            subClassAsBaseClass.Foo().AssertEquals("sub");
+            AssertEquals(baseClass.Foo(), "base");
+            AssertEquals(subClass.Foo(), "sub");
+            AssertEquals(subClassAsBaseClass.Foo(), "sub");
         }
          
         class BaseClass

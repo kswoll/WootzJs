@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class TypeBinaryExpressionTests
+    public class TypeBinaryExpressionTests : TestFixture
     {
         [Test]
         public void IsOperator()
@@ -44,9 +43,9 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
 #pragma warning restore 184
             var unaryExpression = (TypeBinaryExpression)lambda.Body;
             var operand = (ConstantExpression)unaryExpression.Expression;
-            unaryExpression.NodeType.AssertEquals(ExpressionType.TypeIs);
-            operand.Value.AssertEquals("foo");
-            unaryExpression.TypeOperand.FullName.AssertEquals(typeof(int).FullName);
+            AssertEquals(unaryExpression.NodeType, ExpressionType.TypeIs);
+            AssertEquals(operand.Value, "foo");
+            AssertEquals(unaryExpression.TypeOperand.FullName, typeof(int).FullName);
         }
     }
 }

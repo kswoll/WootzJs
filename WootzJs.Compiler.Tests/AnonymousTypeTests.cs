@@ -30,14 +30,13 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class AnonymousTypeTests
+    public class AnonymousTypeTests : TestFixture
     {
         [Test]
         public void OneProperty()
         {
             var o = new { MyProperty = "foo" };
-            o.MyProperty.AssertEquals("foo");
+            AssertEquals(o.MyProperty, "foo");
         }
     }
 }

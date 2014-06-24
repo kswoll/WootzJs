@@ -31,24 +31,23 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class IsExpressionTests
+    public class IsExpressionTests : TestFixture
     {
         [Test]
         public void String()
         {
             var s = "foo";
-            (s is string).AssertTrue();
-            (!(s is int)).AssertTrue();
+            AssertTrue((s is string));
+            AssertTrue((!(s is int)));
         }
 
         [Test]
         public void TestClass()
         {
             var o = new MyClass();
-            (o is MyClass).AssertTrue();
-            (o is object).AssertTrue();
-            (!(o is string)).AssertTrue();
+            AssertTrue((o is MyClass));
+            AssertTrue((o is object));
+            AssertTrue((!(o is string)));
         }
 /*
 Primitives like this are going to require more work         

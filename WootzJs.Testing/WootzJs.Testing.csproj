@@ -39,7 +39,8 @@
   <ItemGroup>
     <Compile Include="Assertion.cs" />
     <Compile Include="AssertionException.cs" />
-    <Compile Include="Assert.cs" />
+    <Compile Include="TestAttribute.cs" />
+    <Compile Include="TestFixture.cs" />
     <Compile Include="AssertionStatus.cs" />
     <Compile Include="UnitTest.cs" />
     <Compile Include="UnitTester.cs" />

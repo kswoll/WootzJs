@@ -29,8 +29,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class OperatorOverloadTests
+    public class OperatorOverloadTests : TestFixture
     {
         [Test]
         public void Add()
@@ -38,7 +37,7 @@ namespace WootzJs.Compiler.Tests
             var three = new IntValue(3);
             var five = new IntValue(5);
             var threePlusFive = three + five;
-            threePlusFive.Value.AssertEquals(8);
+            AssertEquals(threePlusFive.Value, 8);
         }
 
         public class IntValue

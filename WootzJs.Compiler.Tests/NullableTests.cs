@@ -30,21 +30,20 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class NullableTests
+    public class NullableTests : TestFixture
     {
         [Test]
         public void HasValue()
         {
             int? i = 5;
-            i.HasValue.AssertTrue();
+            AssertTrue(i.HasValue);
         }
 
         [Test]
         public void Value()
         {
             int? i = 5;
-            i.Value.AssertEquals(5);
+            AssertEquals(i.Value, 5);
         }
 
         [Test]
@@ -52,15 +51,15 @@ namespace WootzJs.Compiler.Tests
         {
             int? i = 5;
             int? j = null;
-            i.GetValueOrDefault().AssertEquals(5);
-            j.GetValueOrDefault().AssertEquals(null);
+            AssertEquals(i.GetValueOrDefault(), 5);
+            AssertEquals(j.GetValueOrDefault(), null);
         }
 
         [Test]
         public void CastToNullableDouble()
         {
             var i = (double?)5.5;
-            i.AssertEquals(5.5);
+            AssertEquals(i, 5.5);
         }
     }
 }

@@ -29,28 +29,27 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class ConversionOperatorTests
+    public class ConversionOperatorTests : TestFixture
     {
         [Test]
         public void Implicit()
         {
             ImplicitClass o = "foo";
-            o.Value.AssertEquals("foofoo");
+            AssertEquals(o.Value, "foofoo");
         }
 
         [Test]
         public void Explicit()
         {
             var o = (ExplicitClass)"foo";
-            o.Value.AssertEquals("foofoo");
+            AssertEquals(o.Value, "foofoo");
         }
 
         [Test]
         public void ImplicitMethodParameter()
         {
             var myClass = new ImplicitMethodParameterClass("5");
-            myClass.ImplicitClass.Value.AssertEquals("55");
+            AssertEquals(myClass.ImplicitClass.Value, "55");
         }
 
         public class ImplicitMethodParameterClass

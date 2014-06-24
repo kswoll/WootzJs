@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Text
 {
-    [TestFixture]
-    public class StringBuilderTests
+    public class StringBuilderTests : TestFixture
     {
         [Test]
         public void Append()
@@ -43,7 +42,7 @@ namespace WootzJs.Compiler.Tests.Text
             builder.AppendLine();
             builder.AppendLine('c');
             builder.AppendLine("d");
-            builder.ToString().AssertEquals("ab\nc\nd\n");
+            AssertEquals(builder.ToString(), "ab\nc\nd\n");
         }
     }
 }

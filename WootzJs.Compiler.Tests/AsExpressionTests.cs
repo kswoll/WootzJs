@@ -30,16 +30,15 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class AsExpressionTests
+    public class AsExpressionTests : TestFixture
     {
         [Test]
         public void String()
         {
             object o = "foo";
             var s = o as string;
-            (s is string).AssertTrue();
-            (!(s is int)).AssertTrue();
+            AssertTrue((s is string));
+            AssertTrue((!(s is int)));
         }
 
         [Test]
@@ -47,9 +46,9 @@ namespace WootzJs.Compiler.Tests
         {
             object o = new MyClass();
             var myClass = o as MyClass;
-            (myClass is MyClass).AssertTrue();
-            (myClass is object).AssertTrue();
-            (!(myClass is string)).AssertTrue();
+            AssertTrue((myClass is MyClass));
+            AssertTrue((myClass is object));
+            AssertTrue((!(myClass is string)));
         }
 
         public class MyClass {}

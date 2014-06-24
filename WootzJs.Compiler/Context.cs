@@ -191,6 +191,7 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol AsyncTaskTMethodBuilder { get; private set; }
         public IMethodSymbol AsyncTaskTMethodBuilderCreate { get; private set; }
         public IMethodSymbol AsyncTaskTMethodBuilderStart { get; private set; }
+        public INamedTypeSymbol CallerMemberNameAttribute { get; private set; }
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
@@ -354,6 +355,7 @@ namespace WootzJs.Compiler
             AsyncTaskTMethodBuilder = compilation.FindType("System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1");
             AsyncTaskTMethodBuilderCreate = AsyncTaskTMethodBuilder.GetMethod("Create");
             AsyncTaskTMethodBuilderStart = AsyncTaskTMethodBuilder.GetMethod("Start");
+            CallerMemberNameAttribute = compilation.FindType("System.Runtime.CompilerServices.CallerMemberNameAttribute");
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }

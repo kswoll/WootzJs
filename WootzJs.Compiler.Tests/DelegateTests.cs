@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class DelegateTests
+    public class DelegateTests : TestFixture
     {
         [Test]
         public void SimpleLambda()
@@ -40,7 +39,7 @@ namespace WootzJs.Compiler.Tests
             var myClass = new MyClass { Name = "foo" };
             var lambda = myClass.CreateLambda();
             var name = lambda();
-            name.AssertEquals("foo");
+            AssertEquals(name, "foo");
         }
 
         [Test]
@@ -48,7 +47,7 @@ namespace WootzJs.Compiler.Tests
         {
             Func<string> lambda = delegate() { return "foo"; };
             var name = lambda();
-            name.AssertEquals("foo");
+            AssertEquals(name, "foo");
         }
 
         [Test]
@@ -62,7 +61,7 @@ namespace WootzJs.Compiler.Tests
                 j = i;
             };
             action();
-            j.AssertEquals(5);
+            AssertEquals(j, 5);
         }
 
         [Test]
@@ -76,7 +75,7 @@ namespace WootzJs.Compiler.Tests
             Delegate delgt = action;
             var action2 = (Action)delgt;
             action2();
-            i.AssertEquals(5);
+            AssertEquals(i, 5);
         }
 
         [Test]
@@ -84,7 +83,7 @@ namespace WootzJs.Compiler.Tests
         {
             Func<int, int> adder = x => x + 1;
             var result = adder.DynamicInvoke(1);
-            result.AssertEquals(2);
+            AssertEquals(result, 2);
         }
 
         [Test]
@@ -93,8 +92,8 @@ namespace WootzJs.Compiler.Tests
             var methodClass = new MethodClass("foo");
             Func<string> methodDelegate = methodClass.M;
             var s = methodDelegate();
-            s.AssertEquals("foo");
-            methodDelegate.Target.AssertEquals(methodClass);
+            AssertEquals(s, "foo");
+            AssertEquals(methodDelegate.Target, methodClass);
         }
 
         [Test]
@@ -102,7 +101,7 @@ namespace WootzJs.Compiler.Tests
         {
             Func<string> methodDelegate = M;
             var s = methodDelegate();
-            s.AssertEquals("bar");
+            AssertEquals(s, "bar");
         }
 
         [Test]
@@ -112,10 +111,10 @@ namespace WootzJs.Compiler.Tests
             var methodClass2 = new MethodClass("foo2");
             Func<string> delegate1 = methodClass1.M;
             Func<string> delegate2 = methodClass2.M;
-            Assert.AssertEquals(delegate1(), "foo1");
-            Assert.AssertEquals(delegate2(), "foo2");
-            delegate1.Target.AssertEquals(methodClass1);
-            delegate2.Target.AssertEquals(methodClass2);
+            AssertEquals(delegate1(), "foo1");
+            AssertEquals(delegate2(), "foo2");
+            AssertEquals(delegate1.Target, methodClass1);
+            AssertEquals(delegate2.Target, methodClass2);
         }
 
         private string M()

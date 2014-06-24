@@ -31,28 +31,27 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class ObjectInitializerTests
+    public class ObjectInitializerTests : TestFixture
     {
         [Test]
         public void OneProperty()
         {
             var o = new OnePropertyClass { MyProperty = "foo" };
-            o.MyProperty.AssertEquals("foo");
+            AssertEquals(o.MyProperty, "foo");
         }
          
         [Test]
         public void OneField()
         {
             var o = new OnePropertyClass { MyField = "foo" };
-            o.MyField.AssertEquals("foo");
+            AssertEquals(o.MyField, "foo");
         }
          
         [Test]
         public void Nested()
         {
             var o = new OnePropertyClass { NestedProperty = new OnePropertyClass { MyProperty = "foo" } };
-            o.NestedProperty.MyProperty.AssertEquals("foo");
+            AssertEquals(o.NestedProperty.MyProperty, "foo");
         }
          
         public class OnePropertyClass

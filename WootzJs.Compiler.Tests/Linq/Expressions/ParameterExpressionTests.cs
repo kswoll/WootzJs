@@ -31,16 +31,15 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class ParameterExpressionTests
+    public class ParameterExpressionTests : TestFixture
     {
         [Test]
         public void LambdaReturnsParameter()
         {
             Expression<Func<string, string>> lambda = x => x;
             var parameterExpression = (ParameterExpression)lambda.Body;
-            lambda.Parameters[0].AssertEquals(parameterExpression);
-            parameterExpression.Name.AssertEquals("x");
+            AssertEquals(lambda.Parameters[0], parameterExpression);
+            AssertEquals(parameterExpression.Name, "x");
         }
     }
 }

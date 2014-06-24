@@ -42,7 +42,7 @@ namespace WootzJs.Compiler.Tests
 
             foreach (var type in assembly.GetTypes())
             {
-                if (type.GetCustomAttributes(typeof(TestFixtureAttribute), false).Any())
+                if (typeof(TestFixture).IsAssignableFrom(type))
                 {
                     foreach (var currentMethod in type.GetMethods())
                     {

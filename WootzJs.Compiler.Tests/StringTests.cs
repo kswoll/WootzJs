@@ -32,15 +32,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class StringTests
+    public class StringTests : TestFixture
     {
         [Test]
         public void ToUpper()
         {
             var s = "foo";
             s = s.ToUpper();
-            s.AssertEquals("FOO");
+            AssertEquals(s, "FOO");
         }
 
         [Test]
@@ -48,7 +47,7 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "FOO";
             s = s.ToLower();
-            s.AssertEquals("foo");
+            AssertEquals(s, "foo");
         }
 
         [Test]
@@ -56,29 +55,29 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "FOO";
             int length = s.Length;
-            length.AssertEquals(3);
+            AssertEquals(length, 3);
         }
 
         [Test]
         public void EndsWith()
         {
             var s = "HelloWorld";
-            s.EndsWith("World").AssertTrue();
+            AssertTrue(s.EndsWith("World"));
         }
 
         [Test]
         public void StartsWith()
         {
             var s = "HelloWorld";
-            s.StartsWith("Hello").AssertTrue();
+            AssertTrue(s.StartsWith("Hello"));
         }
 
         [Test]
         public void Compare()
         {
-            string.Compare("a", "b").AssertEquals(-1);
-            string.Compare("b", "a").AssertEquals(1);
-            string.Compare("a", "a").AssertEquals(0);
+            AssertEquals(string.Compare("a", "b"), -1);
+            AssertEquals(string.Compare("b", "a"), 1);
+            AssertEquals(string.Compare("a", "a"), 0);
         }
 
         [Test]
@@ -86,28 +85,28 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "12341234";
             String two = "2";
-            s.IndexOf(two).AssertEquals(1);
-            s.IndexOf("2", 4).AssertEquals(5);
-            s.IndexOf('2').AssertEquals(1);
-            s.IndexOf('2', 4).AssertEquals(5);
+            AssertEquals(s.IndexOf(two), 1);
+            AssertEquals(s.IndexOf("2", 4), 5);
+            AssertEquals(s.IndexOf('2'), 1);
+            AssertEquals(s.IndexOf('2', 4), 5);
         }
 
         [Test]
         public void LastIndexOf()
         {
             var s = "12341234";
-            s.LastIndexOf("2").AssertEquals(5);
-            s.LastIndexOf("2", 4).AssertEquals(1);
-            s.LastIndexOf('2').AssertEquals(5);
-            s.LastIndexOf('2', 4).AssertEquals(1);
+            AssertEquals(s.LastIndexOf("2"), 5);
+            AssertEquals(s.LastIndexOf("2", 4), 1);
+            AssertEquals(s.LastIndexOf('2'), 5);
+            AssertEquals(s.LastIndexOf('2', 4), 1);
         }
 
         [Test]
         public void Substring()
         {
             var s = "12341234";
-            s.Substring(4, 2).AssertEquals("12");
-            s.Substring(6).AssertEquals("34");
+            AssertEquals(s.Substring(4, 2), "12");
+            AssertEquals(s.Substring(6), "34");
         }
 
         [Test]
@@ -115,11 +114,11 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "12a34b56c78";
             var parts = s.Split('a', 'b', 'c');
-            parts.Length.AssertEquals(4);
-            parts[0].AssertEquals("12");
-            parts[1].AssertEquals("34");
-            parts[2].AssertEquals("56");
-            parts[3].AssertEquals("78");
+            AssertEquals(parts.Length, 4);
+            AssertEquals(parts[0], "12");
+            AssertEquals(parts[1], "34");
+            AssertEquals(parts[2], "56");
+            AssertEquals(parts[3], "78");
         }
 
         [Test]
@@ -127,10 +126,10 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "12a34b56c78";
             var parts = s.Split(new[] { 'a', 'b', 'c' }, 3);
-            parts.Length.AssertEquals(3);    
-            parts[0].AssertEquals("12");
-            parts[1].AssertEquals("34");
-            parts[2].AssertEquals("56");
+            AssertEquals(parts.Length, 3);    
+            AssertEquals(parts[0], "12");
+            AssertEquals(parts[1], "34");
+            AssertEquals(parts[2], "56");
         }
 
         [Test]
@@ -139,7 +138,7 @@ namespace WootzJs.Compiler.Tests
             char b = 'b';
             char a = 'a';
             int i = b - a;
-            i.AssertEquals(1);
+            AssertEquals(i, 1);
         }
 
         [Test]
@@ -147,8 +146,8 @@ namespace WootzJs.Compiler.Tests
         {
             char b = 'b';
             var c = ++b;
-            b.AssertEquals('c');
-            c.AssertEquals('c');
+            AssertEquals(b, 'c');
+            AssertEquals(c, 'c');
         }
 
         [Test]
@@ -156,8 +155,8 @@ namespace WootzJs.Compiler.Tests
         {
             char b = 'b';
             var stillB = b++;
-            b.AssertEquals('c');
-            stillB.AssertEquals('b');
+            AssertEquals(b, 'c');
+            AssertEquals(stillB, 'b');
         }
 
         [Test]
@@ -165,7 +164,7 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "1) {0} 2) {1}";
             var result = string.Format(s, 1, 2);
-            result.AssertEquals("1) 1 2) 2");
+            AssertEquals(result, "1) 1 2) 2");
         }
 
         [Test]
@@ -173,36 +172,36 @@ namespace WootzJs.Compiler.Tests
         {
             var s = "1234";
             var chars = s.ToArray();
-            chars[0].AssertEquals('1');
-            chars[1].AssertEquals('2');
-            chars[2].AssertEquals('3');
-            chars[3].AssertEquals('4');
+            AssertEquals(chars[0], '1');
+            AssertEquals(chars[1], '2');
+            AssertEquals(chars[2], '3');
+            AssertEquals(chars[3], '4');
         }
 
         [Test]
         public void Contains()
         {
             var s = "hello world";
-            s.Contains("world").AssertTrue();
+            AssertTrue(s.Contains("world"));
         }
 
         [Test]
         public void IsWhiteSpace()
         {
-            char.IsWhiteSpace(' ').AssertTrue();
-            char.IsWhiteSpace('\t').AssertTrue();
-            char.IsWhiteSpace('\r').AssertTrue();
-            char.IsWhiteSpace('\n').AssertTrue();
-            (!char.IsWhiteSpace('a')).AssertTrue();
+            AssertTrue(char.IsWhiteSpace(' '));
+            AssertTrue(char.IsWhiteSpace('\t'));
+            AssertTrue(char.IsWhiteSpace('\r'));
+            AssertTrue(char.IsWhiteSpace('\n'));
+            AssertTrue((!char.IsWhiteSpace('a')));
         }
 
         [Test]
         public void IsDigit()
         {
-            char.IsDigit('0').AssertTrue();
-            char.IsDigit('3').AssertTrue();
-            char.IsDigit('9').AssertTrue();
-            (!char.IsDigit('a')).AssertTrue();
+            AssertTrue(char.IsDigit('0'));
+            AssertTrue(char.IsDigit('3'));
+            AssertTrue(char.IsDigit('9'));
+            AssertTrue((!char.IsDigit('a')));
         }
 
         [Test]
@@ -210,14 +209,14 @@ namespace WootzJs.Compiler.Tests
         {
             object o = null;
             var s = "foo" + o;
-            s.AssertEquals("foo");
+            AssertEquals(s, "foo");
         }
 
         [Test]
         public void SingleQuotesInsideStringAreNotEscaped()
         {
             var s = "'foo'";
-            s.Length.AssertEquals(5);
+            AssertEquals(s.Length, 5);
         }
     }
 }

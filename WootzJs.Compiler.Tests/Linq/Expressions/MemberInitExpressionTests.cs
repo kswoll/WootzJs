@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Linq.Expressions
 {
-    [TestFixture]
-    public class MemberInitExpressionTests
+    public class MemberInitExpressionTests : TestFixture
     {
         [Test]
         public void ConstructorNoArgOneInitializer()
@@ -40,11 +39,11 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             Expression<Func<CreateClass>> lambda = () => new CreateClass { StringProperty = "foo" };
             var memberInitExpression = (MemberInitExpression)lambda.Body;
             var newExpression = memberInitExpression.NewExpression;
-            newExpression.Type.FullName.AssertEquals(typeof(CreateClass).FullName);
+            AssertEquals(newExpression.Type.FullName, typeof(CreateClass).FullName);
 
             var binding = (MemberAssignment)memberInitExpression.Bindings[0];
             var value = (ConstantExpression)binding.Expression;
-            value.Value.AssertEquals("foo");
+            AssertEquals(value.Value, "foo");
         }
         
         public class CreateClass

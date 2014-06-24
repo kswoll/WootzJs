@@ -30,21 +30,20 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class MethodTests
+    public class MethodTests : TestFixture
     {
         [Test]
         public void StaticMethod()
         {
             var s = ClassWithStaticMethods.S();
-            s.AssertEquals("foo");
+            AssertEquals(s, "foo");
         }
          
         [Test]
         public void ExtensionMethod()
         {
             var s = 5.MyExtension();
-            s.AssertEquals("5");
+            AssertEquals(s, "5");
         }
          
         [Test]
@@ -52,7 +51,7 @@ namespace WootzJs.Compiler.Tests
         {
             string x;
             ClassWithStaticMethods.OutParameter(out x);
-            x.AssertEquals("foo");
+            AssertEquals(x, "foo");
         }         
          
         [Test]
@@ -61,8 +60,8 @@ namespace WootzJs.Compiler.Tests
             string x;
             string y;
             ClassWithStaticMethods.TwoOutParameters(out x, out y);
-            x.AssertEquals("foo1");
-            y.AssertEquals("foo2");
+            AssertEquals(x, "foo1");
+            AssertEquals(y, "foo2");
         }         
          
         [Test]
@@ -70,7 +69,7 @@ namespace WootzJs.Compiler.Tests
         {
             int x = 5;
             ClassWithStaticMethods.RefParameter(ref x);
-            x.AssertEquals(6);
+            AssertEquals(x, 6);
         }         
          
         [Test]
@@ -79,8 +78,8 @@ namespace WootzJs.Compiler.Tests
             int x = 5;
             int y = 6;
             ClassWithStaticMethods.TwoRefParameters(ref x, ref y);
-            x.AssertEquals(6);
-            y.AssertEquals(12);
+            AssertEquals(x, 6);
+            AssertEquals(y, 12);
         }         
          
         [Test]
@@ -89,8 +88,8 @@ namespace WootzJs.Compiler.Tests
             int x = 5;
             int y;
             ClassWithStaticMethods.RefAndOutParameter(ref x, out y);
-            x.AssertEquals(6);
-            y.AssertEquals(10);
+            AssertEquals(x, 6);
+            AssertEquals(y, 10);
         }         
          
         [Test]
@@ -98,7 +97,7 @@ namespace WootzJs.Compiler.Tests
         {
             ITestInterface test = new TestImplementation();
             var s = test.Method();
-            s.AssertEquals("foo");
+            AssertEquals(s, "foo");
         }         
          
         [Test]
@@ -109,8 +108,8 @@ namespace WootzJs.Compiler.Tests
             ITestInterface2 test2 = o;
             var s = test.Method();
             var s2 = test2.Method();
-            s.AssertEquals("ITestInterface");
-            s2.AssertEquals("ITestInterface2");
+            AssertEquals(s, "ITestInterface");
+            AssertEquals(s2, "ITestInterface2");
         }         
          
         [Test]
@@ -121,28 +120,28 @@ namespace WootzJs.Compiler.Tests
             ITestInterface2 test2 = o;
             var s = test.Method();
             var s2 = test2.Method();
-            s.AssertEquals("ITestInterface");
-            s2.AssertEquals("ITestInterface2");
+            AssertEquals(s, "ITestInterface");
+            AssertEquals(s2, "ITestInterface2");
         }         
 
         [Test]
         public void ExternMethod()
         {
             var max = ExternTest.max(8, 3, 9, 5);
-            max.AssertEquals(9);
+            AssertEquals(max, 9);
         }
 
         [Test]
         public void NamedArguments()
         {
             var result = ClassWithStaticMethods.Add(one: 1, two: 2, three: 3, four: 4);
-            result.AssertEquals(4321);
+            AssertEquals(result, 4321);
 
             result = ClassWithStaticMethods.Add(two: 1, three: 2, four: 3);
-            result.AssertEquals(3210);
+            AssertEquals(result, 3210);
 
             result = ClassWithStaticMethods.Add(four: 1, three: 2, two: 3, one: 4);
-            result.AssertEquals(1234);
+            AssertEquals(result, 1234);
         }
     }
 

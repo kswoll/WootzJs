@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class TryTests
+    public class TryTests : TestFixture
     {
         [Test]
         public void ExceptionCaught()
@@ -40,11 +39,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 throw new Exception();
-                false.AssertTrue();
+                AssertTrue(false);
             }
             catch (Exception e)
             {
-                true.AssertTrue();
+                AssertTrue(true);
             }
         }
          
@@ -67,7 +66,7 @@ namespace WootzJs.Compiler.Tests
             catch (Exception e)
             {
             }
-            success.AssertTrue();
+            AssertTrue(success);
         }
          
         [Test]
@@ -76,11 +75,11 @@ namespace WootzJs.Compiler.Tests
             try
             {
                 throw new Exception();
-                false.AssertTrue();
+                AssertTrue(false);
             }
             catch 
             {
-                true.AssertTrue();
+                AssertTrue(true);
             }
         }
 /*

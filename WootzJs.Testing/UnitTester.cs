@@ -33,15 +33,12 @@ namespace WootzJs.Testing
 
         public async void RunTest(UnitTest test)
         {
-            Assert.CurrentTest = test;
             var result = test.Method.Invoke(test.Instance, new object[0]);
             if (test.Method.ReturnType != typeof(void) && typeof(Task).IsAssignableFrom(test.Method.ReturnType))
             {
                 var task = (Task)result;
                 await task;
             }
-            test.Assertions.Add(new Assertion());
-            Assert.CurrentTest = null;
 
             ReportTest(test);
         } 
@@ -67,15 +64,25 @@ namespace WootzJs.Testing
 
         private void Finished()
         {
-            var passed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Passed));
+            var passed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Passed) && x.Assertions.Any());
+            var empty = unitTests.Where(x => !x.Assertions.Any());
             var failed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Failed));
             var errored = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Errored));
 
             Console.WriteLine("Finished.");
             Console.WriteLine(passed.Count() + " passed.");
+            Console.WriteLine(empty.Count() + " failed to make any assertions.");
             Console.WriteLine(failed.Count() + " had one or more assertions fail.");
             Console.WriteLine(errored.Count() + " threw an unhandled exception.");
 
+            if (empty.Any())
+            {
+                Console.WriteLine("No Assertions:");
+                foreach (var test in empty)
+                {
+                    Console.WriteLine(test.Method);
+                }
+            }
             if (failed.Any() || errored.Any())
             {
                 Console.WriteLine("Failures:");

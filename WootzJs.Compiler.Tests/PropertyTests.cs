@@ -29,29 +29,28 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class PropertyTests
+    public class PropertyTests : TestFixture
     {
         [Test]
         public void StaticProperty()
         {
             StaticPropertyClass.StringProperty = "foo";
-            StaticPropertyClass.StringProperty.AssertEquals("foo");
+            AssertEquals(StaticPropertyClass.StringProperty, "foo");
         }
 
         [Test]
         public void PrimitiveFields()
         {
             var primitiveFields = new PrimitiveFieldsClass();
-            primitiveFields.Boolean.AssertEquals(false);
-            primitiveFields.Byte.AssertEquals(0);
-            primitiveFields.SByte.AssertEquals(0);
-            primitiveFields.Short.AssertEquals(0);
-            primitiveFields.UShort.AssertEquals(0);
-            primitiveFields.Int.AssertEquals(0);
-            primitiveFields.UInt.AssertEquals(0);
-            primitiveFields.Long.AssertEquals(0);
-            primitiveFields.ULong.AssertEquals(0);
+            AssertEquals(primitiveFields.Boolean, false);
+            AssertEquals(primitiveFields.Byte, 0);
+            AssertEquals(primitiveFields.SByte, 0);
+            AssertEquals(primitiveFields.Short, 0);
+            AssertEquals(primitiveFields.UShort, 0);
+            AssertEquals(primitiveFields.Int, 0);
+            AssertEquals(primitiveFields.UInt, 0);
+            AssertEquals(primitiveFields.Long, 0);
+            AssertEquals(primitiveFields.ULong, 0);
         }
 
         [Test]
@@ -59,7 +58,7 @@ namespace WootzJs.Compiler.Tests
         {
             var instance = new SubclassWithBasePropertyReferences();
             instance.MyProperty = "foo";
-            instance.MyProperty.AssertEquals("foo");
+            AssertEquals(instance.MyProperty, "foo");
         }
 
         public class StaticPropertyClass

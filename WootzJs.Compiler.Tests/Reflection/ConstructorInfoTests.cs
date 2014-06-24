@@ -31,8 +31,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Reflection
 {
-    [TestFixture]
-    public class ConstructorInfoTests
+    public class ConstructorInfoTests : TestFixture
     {
         [Test]
         public void InvokeParameterless()
@@ -40,7 +39,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var type = typeof(TestClass);
             var constructor = type.GetConstructors().Single(x => x.GetParameters().Length == 0);
             var testClass = (TestClass)constructor.Invoke(new object[0]);
-            testClass.Foo.AssertEquals("parameterless");
+            AssertEquals(testClass.Foo, "parameterless");
         }
 
         [Test]
@@ -49,7 +48,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var type = typeof(NoConstructorClass);
             var constructor = type.GetConstructors().Single(x => x.GetParameters().Length == 0);
             var testClass = (NoConstructorClass)constructor.Invoke(new object[0]);
-            testClass.Foo.AssertEquals("noconstructor");
+            AssertEquals(testClass.Foo, "noconstructor");
         }
 
         public class TestClass

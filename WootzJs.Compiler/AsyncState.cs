@@ -6,15 +6,13 @@ namespace WootzJs.Compiler
 {
     public class AsyncState
     {
-        public int Index { get; private set; }
+        public int Index { get; set; }
         public List<StatementSyntax> Statements { get; set; }
         public AsyncState Next { get; set; }
             
-        public AsyncState(BaseAsyncStateGenerator generator)
+        public AsyncState()
         {
             Statements = new List<StatementSyntax>();
-            Index = generator.states.Count;
-            generator.states.Add(this);
         }
 
         public void Add(StatementSyntax statement)

@@ -30,8 +30,7 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class UsingStatementTests
+    public class UsingStatementTests : TestFixture
     {
         [Test]
         public void SimpleUsing()
@@ -40,7 +39,7 @@ namespace WootzJs.Compiler.Tests
             using (foo)
             {
             }
-            foo.IsDisposed.AssertTrue();
+            AssertTrue(foo.IsDisposed);
         }
 
         [Test]
@@ -51,7 +50,7 @@ namespace WootzJs.Compiler.Tests
             {
                 _foo = foo;
             }
-            _foo.IsDisposed.AssertTrue();
+            AssertTrue(_foo.IsDisposed);
         }
 
         public class Foo : IDisposable

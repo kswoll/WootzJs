@@ -30,14 +30,13 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class GenericTests
+    public class GenericTests : TestFixture
     {
         [Test]
         public void TypeEqualsString()
         {
-            Assert.AssertTrue(MethodTypeEqualsString<string>());
-            Assert.AssertTrue(!MethodTypeEqualsString<int>());
+            AssertTrue(MethodTypeEqualsString<string>());
+            AssertTrue(!MethodTypeEqualsString<int>());
         }
         
         [Test]
@@ -47,32 +46,32 @@ namespace WootzJs.Compiler.Tests
             var intClass = new GenericClass<int>();
             var simpleClass = new GenericClass<SimpleClass>();
 
-            Assert.AssertEquals(stringClass.GetName(), "String");
-            Assert.AssertEquals(intClass.GetName(), "Int32");
-            Assert.AssertEquals(simpleClass.GetName(), "SimpleClass");
+            AssertEquals(stringClass.GetName(), "String");
+            AssertEquals(intClass.GetName(), "Int32");
+            AssertEquals(simpleClass.GetName(), "SimpleClass");
         }
         
         [Test]
         public void GenericClassStaticMethod()
         {
-            Assert.AssertEquals(GenericClass<string>.GetUpperName(), "STRING");
-            Assert.AssertEquals(GenericClass<int>.GetUpperName(), "INT32");
-            Assert.AssertEquals(GenericClass<SimpleClass>.GetUpperName(), "SIMPLECLASS");
+            AssertEquals(GenericClass<string>.GetUpperName(), "STRING");
+            AssertEquals(GenericClass<int>.GetUpperName(), "INT32");
+            AssertEquals(GenericClass<SimpleClass>.GetUpperName(), "SIMPLECLASS");
         }
         
         [Test]
         public void GenericOuterClassStaticMethod()
         {
-            Assert.AssertEquals(GenericClass<string>.NestedClass.GetUpperName(), "STRING");
-            Assert.AssertEquals(GenericClass<int>.NestedClass.GetUpperName(), "INT32");
-            Assert.AssertEquals(GenericClass<SimpleClass>.NestedClass.GetUpperName(), "SIMPLECLASS");
+            AssertEquals(GenericClass<string>.NestedClass.GetUpperName(), "STRING");
+            AssertEquals(GenericClass<int>.NestedClass.GetUpperName(), "INT32");
+            AssertEquals(GenericClass<SimpleClass>.NestedClass.GetUpperName(), "SIMPLECLASS");
         }
         
         [Test]
         public void TypeFunctionsAreCached()
         {
-            Assert.AssertTrue(typeof(GenericClass<string>) == typeof(GenericClass<string>));
-            Assert.AssertTrue(typeof(GenericClass<string>.NestedClass) == typeof(GenericClass<string>.NestedClass));
+            AssertTrue(typeof(GenericClass<string>) == typeof(GenericClass<string>));
+            AssertTrue(typeof(GenericClass<string>.NestedClass) == typeof(GenericClass<string>.NestedClass));
         }
         
         [Test]
@@ -82,80 +81,80 @@ namespace WootzJs.Compiler.Tests
             var intClass = new TopLevelGenericClass<int>();
             var simpleClass = new TopLevelGenericClass<SimpleClass>();
 
-            Assert.AssertEquals(stringClass.GetName(), "String");
-            Assert.AssertEquals(intClass.GetName(), "Int32");
-            Assert.AssertEquals(simpleClass.GetName(), "SimpleClass");
+            AssertEquals(stringClass.GetName(), "String");
+            AssertEquals(intClass.GetName(), "Int32");
+            AssertEquals(simpleClass.GetName(), "SimpleClass");
         }
         
         [Test]
         public void TopLevelGenericClassStaticMethod()
         {
-            Assert.AssertEquals(TopLevelGenericClass<string>.GetUpperName(), "STRING");
-            Assert.AssertEquals(TopLevelGenericClass<int>.GetUpperName(), "INT32");
-            Assert.AssertEquals(TopLevelGenericClass<SimpleClass>.GetUpperName(), "SIMPLECLASS");
+            AssertEquals(TopLevelGenericClass<string>.GetUpperName(), "STRING");
+            AssertEquals(TopLevelGenericClass<int>.GetUpperName(), "INT32");
+            AssertEquals(TopLevelGenericClass<SimpleClass>.GetUpperName(), "SIMPLECLASS");
         }
         
         [Test]
         public void TopLevelGenericOuterClassStaticMethod()
         {
-            Assert.AssertEquals(TopLevelGenericClass<string>.NestedClass.GetUpperName(), "STRING");
-            Assert.AssertEquals(TopLevelGenericClass<int>.NestedClass.GetUpperName(), "INT32");
-            Assert.AssertEquals(TopLevelGenericClass<SimpleClass>.NestedClass.GetUpperName(), "SIMPLECLASS");
+            AssertEquals(TopLevelGenericClass<string>.NestedClass.GetUpperName(), "STRING");
+            AssertEquals(TopLevelGenericClass<int>.NestedClass.GetUpperName(), "INT32");
+            AssertEquals(TopLevelGenericClass<SimpleClass>.NestedClass.GetUpperName(), "SIMPLECLASS");
         }
         
         [Test]
         public void TopLevelTypeFunctionsAreCached()
         {
-            Assert.AssertTrue(typeof(TopLevelGenericClass<string>) == typeof(TopLevelGenericClass<string>));
-            Assert.AssertTrue(typeof(TopLevelGenericClass<string>.NestedClass) == typeof(TopLevelGenericClass<string>.NestedClass));
+            AssertTrue(typeof(TopLevelGenericClass<string>) == typeof(TopLevelGenericClass<string>));
+            AssertTrue(typeof(TopLevelGenericClass<string>.NestedClass) == typeof(TopLevelGenericClass<string>.NestedClass));
         }
 
         [Test]
         public void GenericClassWithStaticInitializedFieldIsInitialized()
         {
-            Assert.AssertEquals(GenericClassWithStaticInitializedField<string>.Foo, "String");
+            AssertEquals(GenericClassWithStaticInitializedField<string>.Foo, "String");
         }
 
         [Test]
         public void SubStaticClassField()
         {
-            Assert.AssertEquals(SubStaticClass.StaticField, "StaticField");
+            AssertEquals(SubStaticClass.StaticField, "StaticField");
         }
 
         [Test]
         public void SubStaticClassMethod()
         {
-            Assert.AssertEquals(SubStaticClass.StaticMethod(), "StaticMethod");
+            AssertEquals(SubStaticClass.StaticMethod(), "StaticMethod");
         }
 
         [Test]
         public void SubStaticClassProperty()
         {
-            Assert.AssertEquals(SubStaticClass.StaticProperty, "StaticProperty");
+            AssertEquals(SubStaticClass.StaticProperty, "StaticProperty");
         }
         
         [Test]
         public void SubGenericStaticClassField()
         {
-            Assert.AssertEquals(SubGenericStaticClass<string>.StaticField, "StaticFieldString");
+            AssertEquals(SubGenericStaticClass<string>.StaticField, "StaticFieldString");
         }
 
         [Test]
         public void SubGenericStaticClassMethod()
         {
-            Assert.AssertEquals(SubGenericStaticClass<string>.StaticMethod(), "StaticMethodString");
+            AssertEquals(SubGenericStaticClass<string>.StaticMethod(), "StaticMethodString");
         }
 
         [Test]
         public void SubGenericStaticClassProperty()
         {
-            Assert.AssertEquals(SubGenericStaticClass<string>.StaticProperty, "StaticPropertyString");
+            AssertEquals(SubGenericStaticClass<string>.StaticProperty, "StaticPropertyString");
         }
         
         [Test]
         public void GenericTypeDefinition()
         {
-            Assert.AssertEquals(typeof(GenericClass<string>).GetGenericTypeDefinition(), typeof(GenericClass<>));
+            AssertEquals(typeof(GenericClass<string>).GetGenericTypeDefinition(), typeof(GenericClass<>));
         }
 
         [Test]
@@ -163,7 +162,7 @@ namespace WootzJs.Compiler.Tests
         {
             var type = typeof(GenericClass<string>);
             var typeArgument = type.GenericTypeArguments[0];
-            Assert.AssertEquals(typeArgument, typeof(string));
+            AssertEquals(typeArgument, typeof(string));
         }
 
         [Test]
@@ -172,7 +171,7 @@ namespace WootzJs.Compiler.Tests
             var type = typeof(GenericClass<>);
             var stringType = type.MakeGenericType(typeof(string));
             var typeArg = stringType.GenericTypeArguments[0];
-            Assert.AssertEquals(typeArg, typeof(string));
+            AssertEquals(typeArg, typeof(string));
         }
 
         [Test]
@@ -180,14 +179,14 @@ namespace WootzJs.Compiler.Tests
         {
             var method = typeof(ClassWithGenericMethod).GetMethod("GenericMethod");
             var parameter = method.GetParameters()[0];
-            Assert.AssertEquals(parameter.ParameterType.Name, "T");
+            AssertEquals(parameter.ParameterType.Name, "T");
         }
 
         [Test]
         public void NewConstraint()
         {
             var simpleClass = CreateT<SimpleClass>();
-            Assert.AssertEquals(simpleClass.GetType().Name, "SimpleClass");
+            AssertEquals(simpleClass.GetType().Name, "SimpleClass");
         }
 
         public bool MethodTypeEqualsString<T>()

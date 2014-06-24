@@ -32,25 +32,24 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class MathTests
+    public class MathTests : TestFixture
     {
         [Test]
         public void Round()
         {
-            Math.Round(1.1, 3).AssertEquals(1.1);
-            Math.Round(1.12, 3).AssertEquals(1.12);
-            Math.Round(1.123, 3).AssertEquals(1.123);
-            Math.Round(1.1234, 3).AssertEquals(1.123);
-            Math.Round(2.45, 1, MidpointRounding.ToEven).AssertEquals(2.4);
-            Math.Round(2.55, 1, MidpointRounding.ToEven).AssertEquals(2.6);
-            Math.Round(-2.45, 1, MidpointRounding.ToEven).AssertEquals(-2.4);
-            Math.Round(-2.55, 1, MidpointRounding.ToEven).AssertEquals(-2.6);
-            Math.Round(2.5, 0, MidpointRounding.ToEven).AssertEquals(2);
-            Math.Round(3.5, 0, MidpointRounding.ToEven).AssertEquals(4);
-            Math.Round(-2.5, 0, MidpointRounding.ToEven).AssertEquals(-2);
-            Math.Round(-3.5, 0, MidpointRounding.ToEven).AssertEquals(-4);
-            Math.Round(-2.9999, 3, MidpointRounding.ToEven).AssertEquals(-3);
+            AssertEquals(Math.Round(1.1, 3), 1.1);
+            AssertEquals(Math.Round(1.12, 3), 1.12);
+            AssertEquals(Math.Round(1.123, 3), 1.123);
+            AssertEquals(Math.Round(1.1234, 3), 1.123);
+            AssertEquals(Math.Round(2.45, 1, MidpointRounding.ToEven), 2.4);
+            AssertEquals(Math.Round(2.55, 1, MidpointRounding.ToEven), 2.6);
+            AssertEquals(Math.Round(-2.45, 1, MidpointRounding.ToEven), -2.4);
+            AssertEquals(Math.Round(-2.55, 1, MidpointRounding.ToEven), -2.6);
+            AssertEquals(Math.Round(2.5, 0, MidpointRounding.ToEven), 2);
+            AssertEquals(Math.Round(3.5, 0, MidpointRounding.ToEven), 4);
+            AssertEquals(Math.Round(-2.5, 0, MidpointRounding.ToEven), -2);
+            AssertEquals(Math.Round(-3.5, 0, MidpointRounding.ToEven), -4);
+            AssertEquals(Math.Round(-2.9999, 3, MidpointRounding.ToEven), -3);
         }
     }
 }

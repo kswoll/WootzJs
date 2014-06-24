@@ -36,7 +36,7 @@ namespace WootzJs.Compiler
 
         public void GenerateStates()
         {
-            currentState = new AsyncState(this);
+            currentState = NewState();
             node.Accept(this);
             OnBaseStateGenerated();
 
@@ -57,6 +57,15 @@ namespace WootzJs.Compiler
             get { return states.ToArray(); }
         }
 
+        protected AsyncState NewState(AsyncState nextState = null)
+        {
+            var newState = new AsyncState();
+            newState.Index = states.Count;
+            newState.Next = nextState;
+            states.Add(newState);            
+            return newState;
+        }
+
         protected AsyncState GetNextState()
         {
             if (currentState.Next != null)
@@ -65,14 +74,14 @@ namespace WootzJs.Compiler
             }
             else
             {
-                var nextState = new AsyncState(this);
+                var nextState = NewState();
                 return nextState;                
             }
         }
 
         protected AsyncState InsertState()
         {
-            var nextState = new AsyncState(this);
+            var nextState = NewState();
             nextState.Next = currentState.Next;
             return nextState;
         }

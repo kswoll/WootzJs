@@ -33,415 +33,414 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
 {
-    [TestFixture]
-    public class YieldTests
+    public class YieldTests : TestFixture
     {
         [Test]
         public void YieldBreak()
         {
             var strings = YieldClass.YieldBreak().ToArray();
-            0.AssertEquals(strings.Length);
+            AssertEquals(0, strings.Length);
         }
 
         [Test]
         public void ReturnOne()
         {
             var strings = YieldClass.ReturnOne().ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("one");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "one");
         }
 
         [Test]
         public void ReturnTwo()
         {
             var strings = YieldClass.ReturnTwo().ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
         }
 
         [Test]
         public void IfStatementTrue()
         {
             var strings = YieldClass.IfStatement(true).ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("true");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "true");
         }
 
         [Test]
         public void IfStatementFalse()
         {
             var strings = YieldClass.IfStatement(false).ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("false");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "false");
         }
 
         [Test]
         public void IfStatementTwoItemsTrue()
         {
             var strings = YieldClass.IfStatementTwoItems(true).ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
         }
 
         [Test]
         public void IfStatementTwoItemsFalse()
         {
             var strings = YieldClass.IfStatementTwoItems(false).ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("three");
-            strings[1].AssertEquals("four");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "three");
+            AssertEquals(strings[1], "four");
         }
 
         [Test]
         public void NestedIfTrueTrue()
         {
             var strings = YieldClass.NestedIf(true, true).ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("one");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "one");
         }
 
         [Test]
         public void NestedIfTrueFalse()
         {
             var strings = YieldClass.NestedIf(true, false).ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("two");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "two");
         }
 
         [Test]
         public void NestedIfFalseTrue()
         {
             var strings = YieldClass.NestedIf(false, true).ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("three");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "three");
         }
 
         [Test]
         public void NestedIfFalseFalse()
         {
             var strings = YieldClass.NestedIf(false, false).ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("four");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "four");
         }
 
         [Test]
         public void NestedIfTwoStatementsTrueTrue()
         {
             var strings = YieldClass.NestedIfTwoStatements(true, true).ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
         }
 
         [Test]
         public void NestedIfTwoStatementsTrueFalse()
         {
             var strings = YieldClass.NestedIfTwoStatements(true, false).ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("three");
-            strings[1].AssertEquals("four");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "three");
+            AssertEquals(strings[1], "four");
         }
 
         [Test]
         public void NestedIfTwoStatementsFalseTrue()
         {
             var strings = YieldClass.NestedIfTwoStatements(false, true).ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("five");
-            strings[1].AssertEquals("six");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "five");
+            AssertEquals(strings[1], "six");
         }
 
         [Test]
         public void ReturnAfterIfTrue()
         {
             var strings = YieldClass.ReturnAfterIf(true).ToArray();
-            strings.Length.AssertEquals(5);
-            strings[0].AssertEquals("zero");
-            strings[1].AssertEquals("one");
-            strings[2].AssertEquals("two");
-            strings[3].AssertEquals("five");
-            strings[4].AssertEquals("six");
+            AssertEquals(strings.Length, 5);
+            AssertEquals(strings[0], "zero");
+            AssertEquals(strings[1], "one");
+            AssertEquals(strings[2], "two");
+            AssertEquals(strings[3], "five");
+            AssertEquals(strings[4], "six");
         }
 
         [Test]
         public void ReturnAfterIfFalse()
         {
             var strings = YieldClass.ReturnAfterIf(false).ToArray();
-            strings.Length.AssertEquals(5);
-            strings[0].AssertEquals("zero");
-            strings[1].AssertEquals("three");
-            strings[2].AssertEquals("four");
-            strings[3].AssertEquals("five");
-            strings[4].AssertEquals("six");
+            AssertEquals(strings.Length, 5);
+            AssertEquals(strings[0], "zero");
+            AssertEquals(strings[1], "three");
+            AssertEquals(strings[2], "four");
+            AssertEquals(strings[3], "five");
+            AssertEquals(strings[4], "six");
         }
 
         [Test]
         public void IterateVariable()
         {
             var strings = YieldClass.InitializeVariable().ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("foo");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "foo");
         }
 
         [Test]
         public void WhileLoop()
         {
             var ints = YieldClass.WhileLoop().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
-            ints[2].AssertEquals(2);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
+            AssertEquals(ints[2], 2);
         }
 
         [Test]
         public void IfWithErrataAfterYield()
         {
             var ints = YieldClass.IfWithErrataAfterYield(true).ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
         }
 
         [Test]
         public void ForLoop()
         {
             var ints = YieldClass.ForLoop().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
-            ints[2].AssertEquals(2);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
+            AssertEquals(ints[2], 2);
         }
 
         [Test]
         public void ForLoopNoVariableWithInitializer()
         {
             var ints = YieldClass.ForLoopNoVariableWithInitializer().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
-            ints[2].AssertEquals(2);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
+            AssertEquals(ints[2], 2);
         }
 
         [Test]
         public void ForLoopNoVariableNoInitializer()
         {
             var ints = YieldClass.ForLoopNoVariableNoInitializer().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
-            ints[2].AssertEquals(2);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
+            AssertEquals(ints[2], 2);
         }
 
         [Test]
         public void ForLoopNoVariableNoInitializerNoIncrementor()
         {
             var ints = YieldClass.ForLoopNoVariableNoInitializerNoIncrementor().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
-            ints[2].AssertEquals(2);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
+            AssertEquals(ints[2], 2);
         }
 
         [Test]
         public void ForLoopTwoVariablesTwoIncrementors()
         {
             var ints = YieldClass.ForLoopTwoVariablesTwoIncrementors().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(1);
-            ints[1].AssertEquals(3);
-            ints[2].AssertEquals(5);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 1);
+            AssertEquals(ints[1], 3);
+            AssertEquals(ints[2], 5);
         }
 
         [Test]
         public void NestedLoops()
         {
             var ints = YieldClass.NestedLoops().ToArray();
-            ints.Length.AssertEquals(6);
-            ints[0].AssertEquals(0);
-            ints[1].AssertEquals(1);
-            ints[2].AssertEquals(0);
-            ints[3].AssertEquals(1);
-            ints[4].AssertEquals(2);
-            ints[5].AssertEquals(1);
+            AssertEquals(ints.Length, 6);
+            AssertEquals(ints[0], 0);
+            AssertEquals(ints[1], 1);
+            AssertEquals(ints[2], 0);
+            AssertEquals(ints[3], 1);
+            AssertEquals(ints[4], 2);
+            AssertEquals(ints[5], 1);
         }
 
         [Test]
         public void TypeParameter()
         {
             var strings = YieldClass.TypeParameter<YieldClass>().ToArray();
-            strings.Length.AssertEquals(1);
-            strings[0].AssertEquals("WootzJs.Compiler.Tests.YieldTests.YieldClass");
+            AssertEquals(strings.Length, 1);
+            AssertEquals(strings[0], "WootzJs.Compiler.Tests.YieldTests.YieldClass");
         }
 
         [Test]
         public void Foreach()
         {
             var strings = YieldClass.Foreach().ToArray();
-            strings.Length.AssertEquals(3);
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
-            strings[2].AssertEquals("three");
+            AssertEquals(strings.Length, 3);
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
+            AssertEquals(strings[2], "three");
         }
 
         [Test]
         public void DoWhileFalse()
         {
             var ints = YieldClass.DoWhileFalse().ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);
         }
 
         [Test]
         public void DoWhileLessThan3()
         {
             var ints = YieldClass.DoWhileLessThan3().ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(1);            
-            ints[1].AssertEquals(2);
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 1);            
+            AssertEquals(ints[1], 2);
         }
 
         [Test]
         public void SwitchOne()
         {
             var ints = YieldClass.Switch("one").ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);            
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);            
         }
 
         [Test]
         public void SwitchTwo()
         {
             var ints = YieldClass.Switch("two").ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(1);            
-            ints[1].AssertEquals(2);            
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 1);            
+            AssertEquals(ints[1], 2);            
         }
 
         [Test]
         public void SwitchThree()
         {
             var ints = YieldClass.Switch("three").ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(1);            
-            ints[1].AssertEquals(2);            
-            ints[2].AssertEquals(3);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 1);            
+            AssertEquals(ints[1], 2);            
+            AssertEquals(ints[2], 3);
         }
 
         [Test]
         public void SwitchDefault()
         {
             var ints = YieldClass.Switch("foo").ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(-1);            
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], -1);            
         }
 
         [Test]
         public void BreakWhile()
         {
             var ints = YieldClass.BreakWhile().ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);            
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);            
         }
 
         [Test]
         public void ContinueWhile()
         {
             var ints = YieldClass.ContinueWhile().ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(2);            
-            ints[1].AssertEquals(3);            
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 2);            
+            AssertEquals(ints[1], 3);            
         }
 
         [Test]
         public void BreakFor()
         {
             var ints = YieldClass.BreakFor().ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);            
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);            
         }
 
         [Test]
         public void ContinueFor()
         {
             var ints = YieldClass.ContinueFor().ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(2);            
-            ints[1].AssertEquals(3);            
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 2);            
+            AssertEquals(ints[1], 3);            
         }
 
         [Test]
         public void BreakForeach()
         {
             var ints = YieldClass.BreakForeach().ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);            
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);            
         }
 
         [Test]
         public void ContinueForeach()
         {
             var ints = YieldClass.ContinueForeach().ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(2);            
-            ints[1].AssertEquals(3);            
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 2);            
+            AssertEquals(ints[1], 3);            
         }
 
         [Test]
         public void BreakDoWhile()
         {
             var ints = YieldClass.BreakDoWhile().ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);            
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);            
         }
 
         [Test]
         public void ContinueDoWhile()
         {
             var ints = YieldClass.ContinueDoWhile().ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(2);            
-            ints[1].AssertEquals(3);            
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 2);            
+            AssertEquals(ints[1], 3);            
         }
 
         [Test]
         public void TryFinally()
         {
             var ints = YieldClass.TryFinally().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(1);            
-            ints[1].AssertEquals(2);            
-            ints[2].AssertEquals(3);            
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 1);            
+            AssertEquals(ints[1], 2);            
+            AssertEquals(ints[2], 3);            
         }
 
         [Test]
         public void NestedTryFinally()
         {
             var ints = YieldClass.NestedTryFinally().ToArray();
-            ints.Length.AssertEquals(6);
-            ints[0].AssertEquals(1);            
-            ints[1].AssertEquals(2);            
-            ints[2].AssertEquals(3);            
-            ints[3].AssertEquals(4);            
-            ints[4].AssertEquals(11);            
-            ints[5].AssertEquals(22);            
+            AssertEquals(ints.Length, 6);
+            AssertEquals(ints[0], 1);            
+            AssertEquals(ints[1], 2);            
+            AssertEquals(ints[2], 3);            
+            AssertEquals(ints[3], 4);            
+            AssertEquals(ints[4], 11);            
+            AssertEquals(ints[5], 22);            
         }
 
         [Test]
         public void TryFinallyThrowsException()
         {
             var enumerator = YieldClass.TryFinallyThrowsException(true).GetEnumerator();
-            enumerator.MoveNext().AssertTrue();
-            enumerator.Current.AssertEquals(1);
+            AssertTrue(enumerator.MoveNext());
+            AssertEquals(enumerator.Current, 1);
             try
             {
                 enumerator.MoveNext();
-                false.AssertTrue();
+                AssertTrue(false);
             }
             catch (Exception)
             {
-                true.AssertTrue();
+                AssertTrue(true);
             }
         }
 
@@ -449,45 +448,45 @@ namespace WootzJs.Compiler.Tests
         public void LabeledStatementGotoFirst()
         {
             var ints = YieldClass.LabeledStatementGotoFirst(true).ToArray();
-            ints.Length.AssertEquals(1);
-            ints[0].AssertEquals(1);
+            AssertEquals(ints.Length, 1);
+            AssertEquals(ints[0], 1);
 
             ints = YieldClass.LabeledStatementGotoFirst(false).ToArray();
-            ints.Length.AssertEquals(2);
-            ints[0].AssertEquals(1);
-            ints[1].AssertEquals(2);
+            AssertEquals(ints.Length, 2);
+            AssertEquals(ints[0], 1);
+            AssertEquals(ints[1], 2);
         }
 
         [Test]
         public void LabeledStatementGotoSecond()
         {
             var ints = YieldClass.LabeledStatementGotoSecond().ToArray();
-            ints.Length.AssertEquals(3);
-            ints[0].AssertEquals(1);
-            ints[1].AssertEquals(2);
-            ints[2].AssertEquals(3);
+            AssertEquals(ints.Length, 3);
+            AssertEquals(ints[0], 1);
+            AssertEquals(ints[1], 2);
+            AssertEquals(ints[2], 3);
         }
 
         [Test]
         public void CollidingForeach()
         {
             var ints = YieldClass.CollidingForeach().ToArray();
-            ints.Length.AssertEquals(4);
-            ints[0].AssertEquals(1);
-            ints[1].AssertEquals(2);
-            ints[2].AssertEquals(3);
-            ints[3].AssertEquals(4);
+            AssertEquals(ints.Length, 4);
+            AssertEquals(ints[0], 1);
+            AssertEquals(ints[1], 2);
+            AssertEquals(ints[2], 3);
+            AssertEquals(ints[3], 4);
         }
 
         [Test]
         public void CollidingFor()
         {
             var ints = YieldClass.CollidingForeach().ToArray();
-            ints.Length.AssertEquals(4);
-            ints[0].AssertEquals(1);
-            ints[1].AssertEquals(2);
-            ints[2].AssertEquals(3);
-            ints[3].AssertEquals(4);
+            AssertEquals(ints.Length, 4);
+            AssertEquals(ints[0], 1);
+            AssertEquals(ints[1], 2);
+            AssertEquals(ints[2], 3);
+            AssertEquals(ints[3], 4);
         }
 
         [Test]
@@ -495,14 +494,14 @@ namespace WootzJs.Compiler.Tests
         {
             var enumerable = YieldClass.ReturnTwo();
             var strings = enumerable.ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
             
             strings = enumerable.ToArray();
-            strings.Length.AssertEquals(2);
-            strings[0].AssertEquals("one");
-            strings[1].AssertEquals("two");
+            AssertEquals(strings.Length, 2);
+            AssertEquals(strings[0], "one");
+            AssertEquals(strings[1], "two");
         }
 
         public class YieldClass

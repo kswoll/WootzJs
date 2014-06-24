@@ -691,7 +691,7 @@ namespace WootzJs.Compiler
         }
 */
 
-        public JsExpression[] TranslateArguments(IMethodSymbol method, Func<JsExpression, int, bool> isArgumentArray, Func<JsExpression, int, string> getArgumentName, params JsExpression[] args)
+        public JsExpression[] TranslateArguments(SyntaxNode context, IMethodSymbol method, Func<JsExpression, int, bool> isArgumentArray, Func<JsExpression, int, string> getArgumentName, params JsExpression[] args)
         {
             var isExported = method.IsExported();
 
@@ -717,7 +717,15 @@ namespace WootzJs.Compiler
                     {
                         if (!argumentsByName.ContainsKey(parameter.Name))
                         {
-                            newArguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
+                            if (parameter.GetAttributes().Any(x => Equals(x.AttributeClass, Context.Instance.CallerMemberNameAttribute)))
+                            {
+                                var value = context.GetContainingMemberName();
+                                newArguments.Add(Js.Literal(value ?? parameter.ExplicitDefaultValue));
+                            }
+                            else
+                            {
+                               newArguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
+                            }
                         }
                         else
                         {
@@ -779,7 +787,17 @@ namespace WootzJs.Compiler
                     // If not exported, then it's a C# to Javascript transfer, and in Javascript land, default arguments are 
                     // always undefined. Thus we don't want to add default arguments for non-exported methods.
                     if (isExported)
-                        arguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
+                    {
+                        if (parameter.GetAttributes().Any(x => Equals(x.AttributeClass, Context.Instance.CallerMemberNameAttribute)))
+                        {
+                            var value = context.GetContainingMemberName();
+                            arguments.Add(Js.Literal(value ?? parameter.ExplicitDefaultValue));
+                        }
+                        else
+                        {
+                            arguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
+                        }
+                    }
                 }
                 else
                 {

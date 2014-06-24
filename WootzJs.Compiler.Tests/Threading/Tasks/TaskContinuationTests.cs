@@ -3,15 +3,14 @@ using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests.Threading.Tasks
 {
-    [TestFixture]
-    public class TaskContinuationTests
+    public class TaskContinuationTests : TestFixture
     {
         [Test]
         public void SimpleContinuation()
         {
             var task = Task.FromResult("foo");
             var continuation = task.ContinueWith(x => x.Result + "bar");
-            "foobar".AssertEquals(continuation.Result);
+            AssertEquals("foobar", continuation.Result);
         }
 
         [Test]
@@ -20,7 +19,7 @@ namespace WootzJs.Compiler.Tests.Threading.Tasks
             var source = new TaskCompletionSource<string>();
             var task = source.Task.ContinueWith(x => x.Result + "bar");
             source.SetResult("foo");
-            "foobar".AssertEquals(task.Result);
+            AssertEquals("foobar", task.Result);
         }
     }
 }
