@@ -387,6 +387,12 @@ namespace WootzJs.Compiler
             var current = node;
             while (current != null)
             {
+                if (current.Parent is BaseTypeDeclarationSyntax && ((BaseTypeDeclarationSyntax)current.Parent).Identifier.ToString().Contains("$"))
+                {
+                    var identifier = ((BaseTypeDeclarationSyntax)current.Parent).Identifier.ToString();
+                    var parts = identifier.Split('$');
+                    return parts[1];
+                }
                 if (current is MethodDeclarationSyntax && !(current.Parent is PropertyDeclarationSyntax))
                 {
                     var method = (MethodDeclarationSyntax)current;
