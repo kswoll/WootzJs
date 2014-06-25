@@ -180,5 +180,25 @@ namespace WootzJs.Compiler.Tests
             }
             AssertTrue(flag);
         }
+
+        [Test]
+        public async void TryCatchTrueAsync()
+        {
+            var taskCompletionSource = new TaskCompletionSource<int>();
+            Jsni.setTimeout(() => taskCompletionSource.SetResult(4), 0);
+
+            bool flag = false;
+
+            try
+            {
+                await taskCompletionSource.Task;
+                throw new Exception();
+            }
+            catch (Exception ex)
+            {
+                flag = true;
+            }
+            AssertTrue(flag);
+        }
     }
 }

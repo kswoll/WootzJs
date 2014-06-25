@@ -263,7 +263,7 @@ namespace WootzJs.Compiler
             node.Block.Accept(this);
 
             var newTryStatement = Cs.Try()
-                .WithBlock(Cs.Block(currentState.Statements/*.Concat(new[] { GotoState(afterTry) })*/.ToArray()));
+                .WithBlock(Cs.Block(tryBlockState.Statements/*.Concat(new[] { GotoState(afterTry) })*/.ToArray()));
 
             foreach (var catchClause in node.Catches)
             {
@@ -278,6 +278,8 @@ namespace WootzJs.Compiler
             }
 
             originalState.Add(newTryStatement);
+
+            currentState = originalState;
         }
 
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter
