@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace WootzJs.Testing
 {
     public class TestFixture
     {
-        private Dictionary<string, UnitTest> tests = new Dictionary<string, UnitTest>();
+        private UnitTest unitTest;
 
-        public TestFixture()
+        public void SetUnitTest(UnitTest unitTest)
         {
-            foreach (var method in GetType().GetMethods())
-            {
-                if (method.IsDefined(typeof(TestAttribute), false))
-                {
-                    tests[method.Name] = new UnitTest();
-                }
-            }
+            this.unitTest = unitTest;
+        }
+
+        private UnitTest GetTest(string name)
+        {
+            return unitTest;
         }
 
 //        public static UnitTest CurrentTest
@@ -38,7 +38,7 @@ namespace WootzJs.Testing
                 equal = actual.Equals(expected);
 */
                 
-            var currentTest = tests[callerMemberName];
+            var currentTest = GetTest(callerMemberName);
             if (!equal)
             {
                 var exception = new AssertionException("Expected: " + expected + ", Found: " + actual);
@@ -53,7 +53,7 @@ namespace WootzJs.Testing
 
         public void AssertTrue(bool actual, [CallerMemberName]string callerMemberName = null)
         {
-            var currentTest = tests[callerMemberName];
+            var currentTest = GetTest(callerMemberName);
             if (!actual)
             {
                 var exception = new AssertionException("Expected true");

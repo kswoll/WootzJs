@@ -12,7 +12,7 @@ namespace WootzJs.Testing
         private List<UnitTest> unitTests = new List<UnitTest>();
         private HashSet<UnitTest> outstandingTests;
 
-        public void QueueTest(object instance, MethodInfo method)
+        public void QueueTest(TestFixture instance, MethodInfo method)
         {
             var unitTest = new UnitTest
             {
@@ -20,6 +20,7 @@ namespace WootzJs.Testing
                 Method = method
             };
             unitTests.Add(unitTest);
+            instance.SetUnitTest(unitTest);
         }
 
         public void RunTests()
@@ -66,8 +67,8 @@ namespace WootzJs.Testing
         {
             var passed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Passed) && x.Assertions.Any());
             var empty = unitTests.Where(x => !x.Assertions.Any());
-            var failed = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Failed));
-            var errored = unitTests.Where(x => x.Assertions.All(y => y.Status == AssertionStatus.Errored));
+            var failed = unitTests.Where(x => x.Assertions.Any(y => y.Status == AssertionStatus.Failed));
+            var errored = unitTests.Where(x => x.Assertions.Any(y => y.Status == AssertionStatus.Errored));
 
             Console.WriteLine("Finished.");
             Console.WriteLine(passed.Count() + " passed.");

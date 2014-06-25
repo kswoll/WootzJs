@@ -48,7 +48,7 @@ namespace WootzJs.Compiler.Tests
                     {
                         if (currentMethod.GetCustomAttributes(typeof(TestAttribute), false).Any())
                         {
-                            var instance = type.GetConstructors()[0].Invoke(new object[0]);
+                            var instance = (TestFixture)type.GetConstructors()[0].Invoke(new object[0]);
                             unitTester.QueueTest(instance, currentMethod);
                         }
                     }
