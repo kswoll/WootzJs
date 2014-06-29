@@ -52,7 +52,7 @@ namespace WootzJs.Compiler
 
         public override void VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            currentState.Add((StatementSyntax)node.Accept(decomposer));
+            CurrentState.Add((StatementSyntax)node.Accept(decomposer));
         }
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
@@ -63,7 +63,7 @@ namespace WootzJs.Compiler
                 if (variable.Initializer != null)
                 {
                     var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
-                    currentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
+                    CurrentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
                 }
 
                 // Hoist the variable into a field
@@ -75,17 +75,17 @@ namespace WootzJs.Compiler
         public override void VisitReturnStatement(ReturnStatementSyntax node)
         {
             SetResult(node.Expression);
-            currentState = GetNextState();             // @Todo: make this currentState = currentState.Next
+            CurrentState = GetNextState();             // @Todo: make this currentState = currentState.Next
         }
 
         private void SetResult(ExpressionSyntax result = null)
         {
             var setResult = SyntaxFactory.IdentifierName(AsyncClassGenerator.builder).Member("SetResult");
             if (result != null)
-                currentState.Add(setResult.Invoke((ExpressionSyntax)result.Accept(decomposer)).Express());
+                CurrentState.Add(setResult.Invoke((ExpressionSyntax)result.Accept(decomposer)).Express());
             else 
-                currentState.Add(setResult.Invoke().Express());
-            currentState.Add(Cs.Return());
+                CurrentState.Add(setResult.Invoke().Express());
+            CurrentState.Add(Cs.Return());
         }
 
         protected override void OnBaseStateGenerated()
@@ -93,7 +93,7 @@ namespace WootzJs.Compiler
             base.OnBaseStateGenerated();
 
             var method = semanticModel.GetDeclaredSymbol(node);
-            if (!(currentState.Statements.LastOrDefault() is ReturnStatementSyntax) && (method.ReturnsVoid || method.ReturnType.Equals(Context.Instance.Task)))
+            if (!(CurrentState.Statements.LastOrDefault() is ReturnStatementSyntax) && (method.ReturnsVoid || method.ReturnType.Equals(Context.Instance.Task)))
             {
                 SetResult();
 //                var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
@@ -121,29 +121,29 @@ namespace WootzJs.Compiler
             if (node.Else != null)
                 newIfStatement = newIfStatement.WithElse(SyntaxFactory.ElseClause(GotoState(ifFalseState)));
 
-            currentState.Add(newIfStatement);
-            currentState.Add(GotoState(afterIfState));
+            CurrentState.Add(newIfStatement);
+            CurrentState.Add(GotoState(afterIfState));
 
-            currentState = ifTrueState;
+            CurrentState = ifTrueState;
             node.Statement.Accept(this);
-            currentState.Add(GotoState(afterIfState));
+            CurrentState.Add(GotoState(afterIfState));
 
             if (ifFalseState != null)
             {
-                currentState = ifFalseState;
+                CurrentState = ifFalseState;
                 node.Else.Statement.Accept(this);
-                currentState.Add(GotoState(afterIfState));
+                CurrentState.Add(GotoState(afterIfState));
             }
 
-            currentState = afterIfState;
+            CurrentState = afterIfState;
         }
 
         public override void VisitWhileStatement(WhileStatementSyntax node)
         {
             var topOfLoop = GetNextState();
 
-            currentState.Add(GotoState(topOfLoop));
-            currentState = topOfLoop;
+            CurrentState.Add(GotoState(topOfLoop));
+            CurrentState = topOfLoop;
 
             var afterWhileStatement = GetNextState();
             var bodyState = NewState(afterWhileStatement);
@@ -152,14 +152,14 @@ namespace WootzJs.Compiler
                 (ExpressionSyntax)node.Condition.Accept(decomposer),
                 GotoState(bodyState));
 
-            currentState.Add(newWhileStatement);
-            currentState.Add(GotoState(afterWhileStatement));
+            CurrentState.Add(newWhileStatement);
+            CurrentState.Add(GotoState(afterWhileStatement));
 
-            currentState = bodyState;
+            CurrentState = bodyState;
             node.Statement.Accept(this);
-            currentState.Add(GotoState(topOfLoop));
+            CurrentState.Add(GotoState(topOfLoop));
 
-            currentState = afterWhileStatement;
+            CurrentState = afterWhileStatement;
         }
 
         public override void VisitForStatement(ForStatementSyntax node)
@@ -170,7 +170,7 @@ namespace WootzJs.Compiler
                 if (variable.Initializer != null)
                 {
                     var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
-                    currentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
+                    CurrentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
                 }
 
                 // Hoist the variable into a field
@@ -180,8 +180,8 @@ namespace WootzJs.Compiler
 
             var topOfLoop = GetNextState();
 
-            currentState.Add(GotoState(topOfLoop));
-            currentState = topOfLoop;
+            CurrentState.Add(GotoState(topOfLoop));
+            CurrentState = topOfLoop;
 
             var afterLoop = GetNextState();
             var bodyState = NewState(afterLoop);
@@ -190,20 +190,20 @@ namespace WootzJs.Compiler
                 (ExpressionSyntax)node.Condition.Accept(decomposer),
                 GotoState(bodyState));
 
-            currentState.Add(newWhileStatement);
-            currentState.Add(GotoState(afterLoop));
+            CurrentState.Add(newWhileStatement);
+            CurrentState.Add(GotoState(afterLoop));
 
-            currentState = bodyState;
+            CurrentState = bodyState;
             node.Statement.Accept(this);
 
             foreach (var incrementor in node.Incrementors)
             {
-                currentState.Add(((ExpressionSyntax)incrementor.Accept(decomposer)).Express());
+                CurrentState.Add(((ExpressionSyntax)incrementor.Accept(decomposer)).Express());
             }
 
-            currentState.Add(GotoState(topOfLoop));
+            CurrentState.Add(GotoState(topOfLoop));
 
-            currentState = afterLoop;
+            CurrentState = afterLoop;
         }
 
         public override void VisitForEachStatement(ForEachStatementSyntax node)
@@ -221,12 +221,12 @@ namespace WootzJs.Compiler
                 SyntaxFactory.ParseTypeName("System.Collections.IEnumerator") :
                 SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
             HoistVariable(enumerator, enumeratorType);
-            currentState.Add(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, StateMachineThisFixer.Fix(node.Expression), SyntaxFactory.IdentifierName("GetEnumerator")))).Express());
+            CurrentState.Add(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, StateMachineThisFixer.Fix(node.Expression), SyntaxFactory.IdentifierName("GetEnumerator")))).Express());
 
             var topOfLoop = GetNextState();
 
-            currentState.Add(GotoState(topOfLoop));
-            currentState = topOfLoop;
+            CurrentState.Add(GotoState(topOfLoop));
+            CurrentState = topOfLoop;
 
             var afterLoop = GetNextState();
             var bodyState = NewState(afterLoop);
@@ -234,36 +234,32 @@ namespace WootzJs.Compiler
             var moveNext = SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("MoveNext")));
             var newWhileStatement = Cs.While(moveNext, GotoState(bodyState));
 
-            currentState.Add(newWhileStatement);
-            currentState.Add(GotoState(afterLoop));
+            CurrentState.Add(newWhileStatement);
+            CurrentState.Add(GotoState(afterLoop));
 
-            currentState = bodyState;
-            currentState.Add(SyntaxFactory.IdentifierName(node.Identifier).Assign(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
+            CurrentState = bodyState;
+            CurrentState.Add(SyntaxFactory.IdentifierName(node.Identifier).Assign(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
                 SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("Current"))).Express());
             
             node.Statement.Accept(this);
 
-            currentState.Add(GotoState(topOfLoop));
+            CurrentState.Add(GotoState(topOfLoop));
 
-            currentState = afterLoop;
+            CurrentState = afterLoop;
         }
 
         public override void VisitThrowStatement(ThrowStatementSyntax node)
         {
-            currentState.Add(Cs.Throw((ExpressionSyntax)node.Expression.Accept(decomposer)));
+            CurrentState.Add(Cs.Throw((ExpressionSyntax)node.Expression.Accept(decomposer)));
         }
 
         public override void VisitTryStatement(TryStatementSyntax node)
         {
-            var originalState = currentState;
-//            var afterTry = GetNextState();
+            var afterTry = GetNextState();
+            var newTryStatement = Cs.Try();
 
-            var tryBlockState = new AsyncState();
-            currentState = tryBlockState;
-            node.Block.Accept(this);
-
-            var newTryStatement = Cs.Try()
-                .WithBlock(Cs.Block(tryBlockState.Statements/*.Concat(new[] { GotoState(afterTry) })*/.ToArray()));
+            var tryState = NewSubstate();
+            CurrentState.Add(GotoState(tryState));      
 
             foreach (var catchClause in node.Catches)
             {
@@ -271,15 +267,20 @@ namespace WootzJs.Compiler
                 var symbol = semanticModel.GetDeclaredSymbol(catchClause.Declaration);
                 var newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
 
-                var catchState = new AsyncState();
-                currentState = catchState;
+                var catchState = GetNextState();
+                CurrentState = catchState;
                 catchClause.Block.Accept(this);
-                newTryStatement = newTryStatement.WithCatch(catchClause.Declaration.Type, newIdentifier.ToString(), catchState.Statements.ToArray());
+                CurrentState.Add(GotoState(afterTry));
+                newTryStatement = newTryStatement.WithCatch(catchClause.Declaration.Type, newIdentifier.ToString(), GotoState(catchState));
             }
 
-            originalState.Add(newTryStatement);
+            tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));
 
-            currentState = originalState;
+            StartSubstate(tryState);
+            node.Block.Accept(this);
+            EndSubstate();
+
+            CurrentState = afterTry;
         }
 
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter
@@ -309,7 +310,7 @@ namespace WootzJs.Compiler
                         var awaiterIdentifier = SyntaxFactory.Identifier("$awaiter");
                         awaiterIdentifier = stateGenerator.HoistVariable(awaiterIdentifier, awaiterType.ToTypeSyntax());
                         var awaiter = SyntaxFactory.IdentifierName(awaiterIdentifier);
-                        stateGenerator.currentState.Add(awaiter.Assign(operand.Member("GetAwaiter").Invoke()).Express());
+                        stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member("GetAwaiter").Invoke()).Express());
 
                         var nextState = stateGenerator.InsertState();
 
@@ -331,9 +332,9 @@ namespace WootzJs.Compiler
                         }
 
                         // Set the state to the next state
-                        stateGenerator.currentState.Add(stateGenerator.ChangeState(nextState));
+                        stateGenerator.CurrentState.Add(stateGenerator.ChangeState(nextState));
 
-                        stateGenerator.currentState.Add(Cs.If(
+                        stateGenerator.CurrentState.Add(Cs.If(
                             awaiter.Member("IsCompleted"), 
 
                             // If the awaiter is already completed, go to the next state
@@ -350,7 +351,7 @@ namespace WootzJs.Compiler
                             )
                         ));
 
-                        stateGenerator.currentState = nextState;
+                        stateGenerator.CurrentState = nextState;
 
                         return result ?? Context.Instance.Nop.Invoke();
                 }

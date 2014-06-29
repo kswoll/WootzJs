@@ -36,7 +36,7 @@ namespace WootzJs.Compiler
 
             var stateGenerator = new AsyncStateGenerator(compilation, node);
             stateGenerator.GenerateStates();
-            var states = stateGenerator.States;
+            var rootState = stateGenerator.TopState;
 
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
@@ -121,8 +121,7 @@ namespace WootzJs.Compiler
                                 Cs.While(
                                     Cs.True(), 
                                     Cs.Block(
-                                        Cs.Switch(Cs.This().Member(StateGenerator.state), states.Select((x, i) => 
-                                            Cs.Section(Cs.Integer(i), x.Statements.ToArray())).ToArray()),
+                                        stateGenerator.GenerateSwitch(rootState),
                                         Cs.Break()
                                     )))
                         ))

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,13 +10,12 @@ namespace WootzJs.Compiler
     {
         public const string stateFieldName = "$state";
 
+        private int currentStateIndex;
         protected Compilation compilation;
         protected SemanticModel semanticModel;
         protected MethodDeclarationSyntax node;
-        internal List<AsyncState> states = new List<AsyncState>();
-        protected AsyncState currentState;
+        internal AsyncState topState = new AsyncState();
         protected int exceptionNameCounter = 1;
-        protected Dictionary<object, State> labelStates = new Dictionary<object, State>();
 
         public const string state = stateFieldName;
         
@@ -36,15 +34,15 @@ namespace WootzJs.Compiler
 
         public void GenerateStates()
         {
-            currentState = NewState();
+            topState.CurrentState = NewState();
             node.Accept(this);
             OnBaseStateGenerated();
 
-            foreach (var state in states)
+            foreach (var state in topState.GetAllSubstates())
             {
                 var lastStatement = state.Statements.LastOrDefault();
                 if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax) && !(lastStatement is GotoStatementSyntax)))
-                    state.Statements.Add(Cs.Return());
+                    state.InternalAdd(Cs.Return());
             }
         }
 
@@ -52,25 +50,44 @@ namespace WootzJs.Compiler
         {
         }
 
-        public AsyncState[] States
+        public AsyncState TopState
         {
-            get { return states.ToArray(); }
+            get { return topState; }
         }
 
         protected AsyncState NewState(AsyncState nextState = null)
         {
             var newState = new AsyncState();
-            newState.Index = states.Count;
+            newState.Parent = topState;
+            newState.Index = currentStateIndex++;
             newState.Next = nextState;
-            states.Add(newState);            
+            topState.Substates.Add(newState);            
             return newState;
+        }
+
+        protected AsyncState NewSubstate()
+        {
+            var newState = NewState();
+            return newState;
+        }
+
+        protected void StartSubstate(AsyncState substate)
+        {
+            topState = substate;
+            CurrentState = NewState();            
+        }
+
+        protected void EndSubstate()
+        {
+            topState.InternalAdd(GenerateSwitch(topState));
+            topState = topState.Parent;
         }
 
         protected AsyncState GetNextState()
         {
-            if (currentState.Next != null)
+            if (topState.CurrentState.Next != null)
             {
-                return currentState.Next;
+                return topState.CurrentState.Next;
             }
             else
             {
@@ -82,8 +99,14 @@ namespace WootzJs.Compiler
         protected AsyncState InsertState()
         {
             var nextState = NewState();
-            nextState.Next = currentState.Next;
+            nextState.Next = topState.CurrentState.Next;
             return nextState;
+        }
+
+        public AsyncState CurrentState
+        {
+            get { return topState.CurrentState; }
+            set { topState.CurrentState = value; }
         }
 
 /*
@@ -117,6 +140,20 @@ namespace WootzJs.Compiler
                 ChangeState(newState),
                 GotoTop()
             );
+        }
+
+        public StatementSyntax GenerateSwitch(AsyncState state)
+        {
+            var sections = new List<SwitchSectionSyntax>();
+            if (state.Parent != null)
+                sections.Add(Cs.Section(Cs.Integer(state.Index), GotoState(state.Substates.First())));
+            sections.AddRange(state.Substates.Select(substate => Cs.Section(
+                SyntaxFactory.List(substate.GetAllIndices().Select(index => 
+                    SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, Cs.Integer(index)))
+                ), 
+                substate.Statements.ToArray()
+            )));
+            return state.Wrap(Cs.Switch(Cs.This().Member(StateGenerator.state), sections.ToArray()));
         }
     }
 }
