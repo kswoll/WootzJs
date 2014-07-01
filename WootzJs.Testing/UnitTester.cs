@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.WootzJs;
 using System.Threading.Tasks;
 using System.Linq;
+using WootzJs.Web;
 
 namespace WootzJs.Testing
 {
@@ -11,6 +12,21 @@ namespace WootzJs.Testing
     {
         private List<UnitTest> unitTests = new List<UnitTest>();
         private HashSet<UnitTest> outstandingTests;
+        private Element table;
+
+        public UnitTester()
+        {
+            var nameHeader = Browser.Document.CreateElement("th");
+            nameHeader.AppendChild(Browser.Document.CreateTextNode("Name"));
+
+            var header = Browser.Document.CreateElement("tr");
+            header.AppendChild(nameHeader);
+
+            table = Browser.Document.CreateElement("table");
+            table.AppendChild(header);
+
+            Browser.Document.Body.AppendChild(table);
+        }
 
         public void QueueTest(TestFixture instance, MethodInfo method)
         {
@@ -54,15 +70,6 @@ namespace WootzJs.Testing
             outstandingTests.Remove(test);
             if (!outstandingTests.Any())
                 Finished();
-/*
-            if (outstandingTests.Count == 2)
-            {
-                foreach (var outstandingTest in outstandingTests)
-                {
-                    Console.WriteLine("Problem: " + outstandingTest.Method);
-                }
-            }
-*/
         }
 
         private void Finished()
