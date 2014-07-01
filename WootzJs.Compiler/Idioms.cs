@@ -875,7 +875,10 @@ namespace WootzJs.Compiler
                         type = type.Invoke();
                     return type;
                 case SymbolKind.Local:
-                    var declaration = transformer.ReferenceDeclarationInScope(symbol.Name);
+                    var localName = symbol.Name;
+                    if (transformer.nameOverrides.ContainsKey(localName))
+                        localName = transformer.nameOverrides[localName];
+                    var declaration = transformer.ReferenceDeclarationInScope(localName);
                     return !isSetter ? declaration.GetReference() : declaration.SetReference();
                 case SymbolKind.Method:
                 {
@@ -1560,7 +1563,7 @@ namespace WootzJs.Compiler
                         var jsParameters = lambdaParameters.Select(x => Js.Parameter(x.Identifier.ToString())).Cast<IJsDeclaration>().ToArray();
                         for (var i = 0; i < nameOverrides.Length; i++)
                         {
-                            jsParameters[i] = new WrappedParent(jsParameters[i]) { Name = nameOverrides[i]};
+                            jsParameters[i] = new WrappedParent(jsParameters[i]) { Name = nameOverrides[i] };
                         }
                         foreach (var parameter in jsParameters)
                         {

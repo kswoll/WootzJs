@@ -82,24 +82,22 @@ namespace WootzJs.Compiler.Tests
                 AssertTrue(true);
             }
         }
-/*
-         
-        [Js(Inline = true)]
+
+        [Test] 
         public void MultipleCatchClauses()
         {
-            QUnit.RunTest("TryTests.MultipleCatchClauses", () =>
+            try
             {
-                try
-                {
-                    throw new Exception();
-                    QUnit.IsTrue(false);
-                }
-                catch 
-                {
-                    QUnit.IsTrue(true);
-                }
-           });
+                throw new InvalidOperationException();
+            }
+            catch (InvalidOperationException e)
+            {
+                AssertEquals(e.GetType().Name, "InvalidOperationException");
+            }
+            catch (Exception e)
+            {
+                AssertTrue(false);
+            }
         }
-*/
     }
 }

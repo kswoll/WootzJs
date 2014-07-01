@@ -182,7 +182,7 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
-        public async void TryCatchTrueAsync()
+        public async Task TryCatchTrueAsync()
         {
             var taskCompletionSource = new TaskCompletionSource<int>();
             Jsni.setTimeout(() => taskCompletionSource.SetResult(4), 0);

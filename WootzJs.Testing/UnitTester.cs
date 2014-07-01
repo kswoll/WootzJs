@@ -54,6 +54,7 @@ namespace WootzJs.Testing
             outstandingTests.Remove(test);
             if (!outstandingTests.Any())
                 Finished();
+/*
             if (outstandingTests.Count == 2)
             {
                 foreach (var outstandingTest in outstandingTests)
@@ -61,6 +62,7 @@ namespace WootzJs.Testing
                     Console.WriteLine("Problem: " + outstandingTest.Method);
                 }
             }
+*/
         }
 
         private void Finished()

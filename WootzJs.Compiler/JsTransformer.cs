@@ -47,6 +47,7 @@ namespace WootzJs.Compiler
         private Stack<IJsDeclaration> initializableObjectsStack = new Stack<IJsDeclaration>();
         private Stack<ISymbol> declarationStack = new Stack<ISymbol>();
         private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
+        internal Dictionary<string, string> nameOverrides = new Dictionary<string, string>();
 
         public JsTransformer(SyntaxTree syntaxTree, SemanticModel model)
         {
@@ -1817,7 +1818,7 @@ namespace WootzJs.Compiler
             result.Body.Aggregate((JsStatement)node.Block.Accept(this));
             PopOutput();
 
-            if (node.Catches != null && node.Catches.Any())
+            if (node.Catches.Any())
             {
                 PushScope(null);
 
@@ -1826,7 +1827,39 @@ namespace WootzJs.Compiler
 
                 if (node.Catches.Count > 1)
                 {
-                    throw new Exception();
+                    result.Catch.Declaration = Js.Variable(GenerateUniqueNameInScope());
+                    DeclareInCurrentScope(result.Catch.Declaration);
+                    JsIfStatement currentIfStatement = null;
+                    foreach (var catchClause in node.Catches)
+                    {
+                        // Catch if block
+                        var operand = (ITypeSymbol)model.GetSymbolInfo(catchClause.Declaration.Type).Symbol;
+                        var getTypeFromType = idioms.Type(operand).Member(SpecialNames.GetTypeFromType).Invoke();
+                        var catchBlock = Js.Block();
+                        if (catchClause.Declaration != null)
+                        {
+                            nameOverrides[catchClause.Declaration.Identifier.ToString()] = result.Catch.Declaration.Name;
+                        }
+                        catchBlock.Aggregate((JsStatement)catchClause.Block.Accept(this));
+                        if (catchClause.Declaration != null)
+                        {
+                            nameOverrides.Remove(catchClause.Declaration.Identifier.ToString());
+                        }
+                        var ifStatement = Js.If(
+                            idioms.Invoke(getTypeFromType, Context.Instance.TypeIsInstanceOfType, result.Catch.Declaration.GetReference()),
+                            catchBlock);
+
+                        if (currentIfStatement == null)
+                        {
+                            currentIfStatement = ifStatement;
+                            result.Catch.Body.Add(ifStatement);
+                        }
+                        else
+                        {
+                            currentIfStatement.IfFalse = ifStatement;
+                            currentIfStatement = ifStatement;
+                        }
+                    }
                 }
                 else if (node.Catches.Count == 1)
                 {
