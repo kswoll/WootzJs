@@ -262,6 +262,9 @@ namespace WootzJs.Web
         [Js(Name = "right")]
         public extern string Right { get; set; }
         
+        [Js(Name = "textAlign")]
+        public extern string TextAlign { get; set; }
+
         [Js(Name = "textOverflow")]
         public extern string TextOverflow { get; set; }
         

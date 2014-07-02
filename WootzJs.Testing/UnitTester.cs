@@ -13,19 +13,60 @@ namespace WootzJs.Testing
         private List<UnitTest> unitTests = new List<UnitTest>();
         private HashSet<UnitTest> outstandingTests;
         private Element table;
+        private Dictionary<Type, Element> fixtureRows = new Dictionary<Type, Element>();
+        private Dictionary<MethodInfo, Element> testRows = new Dictionary<MethodInfo, Element>();
 
         public UnitTester()
         {
-            var nameHeader = Browser.Document.CreateElement("th");
-            nameHeader.AppendChild(Browser.Document.CreateTextNode("Name"));
+            var nameHeader = CreateHeaderCell("Name");
+            var passedHeader = CreateHeaderCell("Passed");
+            var failedHeader = CreateHeaderCell("Failed");
+            var erroredHeader = CreateHeaderCell("Errored");
 
             var header = Browser.Document.CreateElement("tr");
             header.AppendChild(nameHeader);
+            header.AppendChild(passedHeader);
+            header.AppendChild(failedHeader);
+            header.AppendChild(erroredHeader);
 
             table = Browser.Document.CreateElement("table");
+            table.Style.Width = "100%";
             table.AppendChild(header);
 
             Browser.Document.Body.AppendChild(table);
+        }
+
+        private Element CreateHeaderCell(string text)
+        {
+            var div = Browser.Document.CreateElement("div");
+            div.AppendChild(Browser.Document.CreateTextNode(text));
+            div.Style.Padding = "3px";
+
+            var result = Browser.Document.CreateElement("th");
+            result.AppendChild(div);
+            result.Style.TextAlign = "left";
+            result.Style.BackgroundColor = "#CCCCFF";
+            return result;
+        }
+
+        private Element CreateDataCell(string text = null)
+        {
+            var div = Browser.Document.CreateElement("div");
+            if (text != null)
+                div.AppendChild(Browser.Document.CreateTextNode(text));
+            div.Style.Padding = "3px";
+
+            var result = Browser.Document.CreateElement("td");
+            result.AppendChild(div);
+
+            return result;
+        }
+
+        private Element CreateFixtureDataCell(string text = null)
+        {
+            var result = CreateDataCell(text);
+            result.Style.BackgroundColor = "#FFDDDD";
+            return result;
         }
 
         public void QueueTest(TestFixture instance, MethodInfo method)
@@ -37,6 +78,40 @@ namespace WootzJs.Testing
             };
             unitTests.Add(unitTest);
             instance.SetUnitTest(unitTest);
+
+            Element fixtureRow;
+            if (!fixtureRows.TryGetValue(instance.GetType(), out fixtureRow))
+            {
+                var nameCell = CreateFixtureDataCell(instance.GetType().FullName);
+
+                var passedCell = CreateFixtureDataCell();
+                var failedCell = CreateFixtureDataCell();
+                var erroredCell = CreateFixtureDataCell();
+
+                fixtureRow = Browser.Document.CreateElement("tr");
+                fixtureRow.AppendChild(nameCell);
+                fixtureRow.AppendChild(passedCell);
+                fixtureRow.AppendChild(failedCell);
+                fixtureRow.AppendChild(erroredCell);
+                table.AppendChild(fixtureRow);
+
+                fixtureRows[instance.GetType()] = fixtureRow;
+            }
+
+            var testNameCell = CreateDataCell(unitTest.Method.Name);
+
+            var testPassedCell = CreateDataCell();
+            var testFailedCell = CreateDataCell();
+            var testErroredCell = CreateDataCell();
+
+            var testRow = Browser.Document.CreateElement("tr");
+            testRow.AppendChild(testNameCell);
+            testRow.AppendChild(testPassedCell);
+            testRow.AppendChild(testFailedCell);
+            testRow.AppendChild(testErroredCell);
+            testRows[unitTest.Method] = testRow;
+
+            table.AppendChild(testRow);
         }
 
         public void RunTests()
@@ -63,11 +138,31 @@ namespace WootzJs.Testing
         private void ReportTest(UnitTest test)
         {
             Console.WriteLine(test.Method);
-            Console.WriteLine("Passed: " + test.Assertions.Count(x => x.Status == AssertionStatus.Passed) + 
-                ", Failed: " + test.Assertions.Count(x => x.Status == AssertionStatus.Errored) + 
-                ", Errored: " + test.Assertions.Count(x => x.Status == AssertionStatus.Errored));
+            var passedCount = test.Assertions.Count(x => x.Status == AssertionStatus.Passed);
+            var failedCount = test.Assertions.Count(x => x.Status == AssertionStatus.Failed);
+            var erroredCount = test.Assertions.Count(x => x.Status == AssertionStatus.Errored);
+            Console.WriteLine("Passed: " + passedCount + ", Failed: " + failedCount + ", Errored: " + erroredCount);
+
+            var testRow = testRows[test.Method];
+            testRow.Children[1].Children[0].AppendChild(Browser.Document.CreateTextNode(passedCount.ToString()));
+            testRow.Children[2].Children[0].AppendChild(Browser.Document.CreateTextNode(failedCount.ToString()));
+            testRow.Children[3].Children[0].AppendChild(Browser.Document.CreateTextNode(erroredCount.ToString()));
 
             outstandingTests.Remove(test);
+
+            if (!outstandingTests.Any(x => x.Instance.GetType().FullName == test.Instance.GetType().FullName))
+            {
+                var fixtureTestAssertions = unitTests.Where(x => x.Instance.GetType().FullName == test.Instance.GetType().FullName).SelectMany(x => x.Assertions).ToArray();
+                var fixturePassedCount = fixtureTestAssertions.Count(x => x.Status == AssertionStatus.Passed);
+                var fixtureFailedCount = fixtureTestAssertions.Count(x => x.Status == AssertionStatus.Failed);
+                var fixtureErroredCount = fixtureTestAssertions.Count(x => x.Status == AssertionStatus.Errored);
+
+                var fixtureRow = fixtureRows[test.Instance.GetType()];
+                fixtureRow.Children[1].Children[0].AppendChild(Browser.Document.CreateTextNode(fixturePassedCount.ToString()));
+                fixtureRow.Children[2].Children[0].AppendChild(Browser.Document.CreateTextNode(fixtureFailedCount.ToString()));
+                fixtureRow.Children[3].Children[0].AppendChild(Browser.Document.CreateTextNode(fixtureErroredCount.ToString()));
+            }
+
             if (!outstandingTests.Any())
                 Finished();
         }

@@ -49,7 +49,7 @@ namespace WootzJs.Compiler.Tests.Reflection
             var mscorlib = assemblies[0];
             var system = assemblies[1];
             var systemComponentModelDataAnnotations = assemblies[2];
-            var tests = assemblies[4];
+            var tests = assemblies[5];
 
             AssertEquals(mscorlib.FullName, "mscorlib");
             AssertEquals(system.FullName, "System");
