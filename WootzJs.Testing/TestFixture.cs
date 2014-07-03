@@ -42,7 +42,7 @@ namespace WootzJs.Testing
             if (!equal)
             {
                 var exception = new AssertionException("Expected: " + expected + ", Found: " + actual);
-                currentTest.Assertions.Add(new Assertion(AssertionStatus.Failed, exception.Message));
+                currentTest.Assertions.Add(new Assertion(AssertionStatus.Failed, exception.ToString()));
                 throw exception;
             }
             else
@@ -57,7 +57,7 @@ namespace WootzJs.Testing
             if (!actual)
             {
                 var exception = new AssertionException("Expected true");
-                currentTest.Assertions.Add(new Assertion(AssertionStatus.Failed, exception.Message));
+                currentTest.Assertions.Add(new Assertion(AssertionStatus.Failed, exception.ToString()));
                 throw exception;
             }
             else

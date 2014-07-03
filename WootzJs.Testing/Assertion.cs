@@ -19,10 +19,10 @@ namespace WootzJs.Testing
             Message = message;
         }
 
-        public Assertion(string message, Exception error)
+        public Assertion(Exception error)
         {
             Status = AssertionStatus.Errored;
-            Message = message;
+            Message = error.ToString();
             Error = error;
         }
     }

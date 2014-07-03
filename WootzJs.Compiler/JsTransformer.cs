@@ -1355,7 +1355,10 @@ namespace WootzJs.Compiler
                     return ImplicitCheck(node, idioms.Wrap(initializerBlock));
                 }
 
-                return ImplicitCheck(node, obj);
+                var result = (JsExpression)ImplicitCheck(node, obj);
+                if (Context.Instance.Exception.IsAssignableFrom(type))
+                    result = idioms.Invoke(result, Context.Instance.InternalInit, Js.New(Js.Reference("Error")));;
+                return result;
             }
             else
             {
@@ -1551,7 +1554,6 @@ namespace WootzJs.Compiler
             else
             {
                 expression = (JsExpression)node.Expression.Accept(this);
-                expression = idioms.Invoke(expression, Context.Instance.InternalInit, Js.New(Js.Reference("Error")));
             }
 
             return Js.Throw(expression);
