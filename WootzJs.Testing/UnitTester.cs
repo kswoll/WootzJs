@@ -15,6 +15,7 @@ namespace WootzJs.Testing
         private Element table;
         private Dictionary<Type, Element> fixtureRows = new Dictionary<Type, Element>();
         private Dictionary<MethodInfo, Element> testRows = new Dictionary<MethodInfo, Element>();
+        private Element header;
 
         public UnitTester()
         {
@@ -23,7 +24,7 @@ namespace WootzJs.Testing
             var failedHeader = CreateHeaderCell("Failed");
             var erroredHeader = CreateHeaderCell("Errored");
 
-            var header = Browser.Document.CreateElement("tr");
+            header = Browser.Document.CreateElement("tr");
             header.AppendChild(nameHeader);
             header.AppendChild(passedHeader);
             header.AppendChild(failedHeader);
@@ -125,11 +126,18 @@ namespace WootzJs.Testing
 
         public async void RunTest(UnitTest test)
         {
-            var result = test.Method.Invoke(test.Instance, new object[0]);
-            if (test.Method.ReturnType != typeof(void) && typeof(Task).IsAssignableFrom(test.Method.ReturnType))
+            try
             {
-                var task = (Task)result;
-                await task;
+                var result = test.Method.Invoke(test.Instance, new object[0]);
+                if (test.Method.ReturnType != typeof(void) && typeof(Task).IsAssignableFrom(test.Method.ReturnType))
+                {
+                    var task = (Task)result;
+                    await task;
+                }                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
 
             ReportTest(test);
@@ -179,6 +187,14 @@ namespace WootzJs.Testing
             Console.WriteLine(empty.Count() + " failed to make any assertions.");
             Console.WriteLine(failed.Count() + " had one or more assertions fail.");
             Console.WriteLine(errored.Count() + " threw an unhandled exception.");
+
+            if (failed.Any() || errored.Any())
+            {
+                for (var i = 0; i < header.Children.Length; i++)
+                {
+                    header.Children[i].Style.BackgroundColor = "red";
+                }
+            }
 
             if (empty.Any())
             {

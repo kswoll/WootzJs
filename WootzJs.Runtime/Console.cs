@@ -51,7 +51,10 @@ namespace System
         /// <param name="value">The value to write. </param><exception cref="T:System.IO.IOException">An I/O error occurred. </exception><filterpriority>1</filterpriority>
         public static void WriteLine(object value)
         {
-            WriteLine(value.ToString());
+            if (value == null)
+                WriteLine("null");
+            else
+                WriteLine(value.ToString());
         }
 
         /// <summary>

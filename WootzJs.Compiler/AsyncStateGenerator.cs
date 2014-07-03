@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
@@ -271,13 +272,20 @@ namespace WootzJs.Compiler
                 CurrentState = catchState;
                 catchClause.Block.Accept(this);
                 CurrentState.Add(GotoState(afterTry));
-                newTryStatement = newTryStatement.WithCatch(catchClause.Declaration.Type, newIdentifier.ToString(), GotoState(catchState));
+                newTryStatement = newTryStatement.WithCatch(
+                    catchClause.Declaration.Type, 
+                    newIdentifier.ToString(), 
+                    Cs.Block(
+                        Cs.This().Member(SyntaxFactory.IdentifierName(newIdentifier)).Assign(SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier)).Express(),
+                        GotoState(catchState)
+                    ));
             }
 
             tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));
 
             StartSubstate(tryState);
             node.Block.Accept(this);
+            CurrentState.Add(GotoState(afterTry));
             EndSubstate();
 
             CurrentState = afterTry;
