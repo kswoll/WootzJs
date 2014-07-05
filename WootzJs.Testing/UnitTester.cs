@@ -66,7 +66,7 @@ namespace WootzJs.Testing
         private Element CreateFixtureDataCell(string text = null)
         {
             var result = CreateDataCell(text);
-            result.Style.BackgroundColor = "#FFDDDD";
+            result.Style.BackgroundColor = "#DDDDFF";
             return result;
         }
 
@@ -146,18 +146,25 @@ namespace WootzJs.Testing
         private void ReportTest(UnitTest test)
         {
             Console.WriteLine(test.Method);
-            var passedCount = test.Assertions.Count(x => x.Status == AssertionStatus.Passed);
-            var failedCount = test.Assertions.Count(x => x.Status == AssertionStatus.Failed);
-            var erroredCount = test.Assertions.Count(x => x.Status == AssertionStatus.Errored);
-            Console.WriteLine("Passed: " + passedCount + ", Failed: " + failedCount + ", Errored: " + erroredCount);
+            var passed = test.Assertions.Where(x => x.Status == AssertionStatus.Passed).ToArray();
+            var failed = test.Assertions.Where(x => x.Status == AssertionStatus.Failed).ToArray();
+            var errored = test.Assertions.Where(x => x.Status == AssertionStatus.Errored).ToArray();
+            Console.WriteLine("Passed: " + passed.Length + ", Failed: " + failed.Length + ", Errored: " + errored.Length);
 
             var testRow = testRows[test.Method];
-            testRow.Children[1].Children[0].AppendChild(Browser.Document.CreateTextNode(passedCount.ToString()));
-            testRow.Children[2].Children[0].AppendChild(Browser.Document.CreateTextNode(failedCount.ToString()));
-            testRow.Children[3].Children[0].AppendChild(Browser.Document.CreateTextNode(erroredCount.ToString()));
+            testRow.Children[1].Children[0].AppendChild(Browser.Document.CreateTextNode(passed.Length.ToString()));
+            testRow.Children[2].Children[0].AppendChild(Browser.Document.CreateTextNode(failed.Length.ToString()));
+            testRow.Children[3].Children[0].AppendChild(Browser.Document.CreateTextNode(errored.Length.ToString()));
 
             outstandingTests.Remove(test);
 
+            if (failed.Any() || errored.Any())
+            {
+                for (var i = 0; i < testRow.Children.Length; i++)
+                {
+                    testRow.Children[i].Style.BackgroundColor = "red";
+                }
+            }
             if (!outstandingTests.Any(x => x.Instance.GetType().FullName == test.Instance.GetType().FullName))
             {
                 var fixtureTestAssertions = unitTests.Where(x => x.Instance.GetType().FullName == test.Instance.GetType().FullName).SelectMany(x => x.Assertions).ToArray();

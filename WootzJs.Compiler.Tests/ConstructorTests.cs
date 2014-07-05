@@ -35,7 +35,6 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public void ConstructorsWithOverloads()
         {
-            AssertTrue(false);
             var test1 = new TestClass();
             var test2 = new TestClass("foo");
             var test3 = new TestClass(5);

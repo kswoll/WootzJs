@@ -281,6 +281,18 @@ namespace WootzJs.Compiler
                     ));
             }
 
+            if (node.Finally != null)
+            {
+                var finallyState = GetNextState();
+                CurrentState = finallyState;
+                node.Finally.Block.Accept(this);
+                CurrentState.Add(GotoState(afterTry));
+                newTryStatement = newTryStatement.WithFinally(
+                    Cs.Finally(
+                        GotoState(finallyState)
+                    ));
+            }
+
             tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));
 
             StartSubstate(tryState);

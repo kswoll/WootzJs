@@ -200,5 +200,19 @@ namespace WootzJs.Compiler.Tests
             }
             AssertTrue(flag);
         }
+
+        [Test]
+        public async Task TryFinally()
+        {
+            var flag = false;
+            try
+            {
+            }
+            finally
+            {
+                flag = true;
+            }
+            AssertTrue(flag);
+        }
     }
 }
