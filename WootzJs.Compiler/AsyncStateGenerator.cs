@@ -13,6 +13,8 @@ namespace WootzJs.Compiler
         private AsyncExpressionDecomposer decomposer;
         private Dictionary<string, TypeSyntax> hoistedVariables = new Dictionary<string, TypeSyntax>();
         private Dictionary<string, string> renamedVariables = new Dictionary<string, string>();
+        private Stack<AsyncState> breakStates = new Stack<AsyncState>();
+        private Stack<AsyncState> continueStates = new Stack<AsyncState>();
 
         public AsyncStateGenerator(Compilation compilation, MethodDeclarationSyntax node) : base(compilation, node)
         {
@@ -49,6 +51,19 @@ namespace WootzJs.Compiler
         public Tuple<SyntaxToken, TypeSyntax>[] HoistedVariables
         {
             get { return hoistedVariables.Select(x => Tuple.Create(SyntaxFactory.Identifier(x.Key), x.Value)).ToArray(); }
+        }
+
+        private void AcceptStatement(StatementSyntax statement, AsyncState breakState = null, AsyncState continueState = null)
+        {
+            if (breakState != null)
+                breakStates.Push(breakState);
+            if (continueState != null)
+                continueStates.Push(continueState);
+            statement.Accept(this);
+            if (breakState != null)
+                breakStates.Pop();
+            if (continueState !=  null)
+                continueStates.Pop();
         }
 
         public override void VisitExpressionStatement(ExpressionStatementSyntax node)
@@ -105,7 +120,7 @@ namespace WootzJs.Compiler
         {
             foreach (var statement in node.Statements)
             {
-                statement.Accept(this);
+                AcceptStatement(statement);
             }
         }
 
@@ -126,13 +141,13 @@ namespace WootzJs.Compiler
             CurrentState.Add(GotoState(afterIfState));
 
             CurrentState = ifTrueState;
-            node.Statement.Accept(this);
+            AcceptStatement(node.Statement);
             CurrentState.Add(GotoState(afterIfState));
 
             if (ifFalseState != null)
             {
                 CurrentState = ifFalseState;
-                node.Else.Statement.Accept(this);
+                AcceptStatement(node.Else.Statement);
                 CurrentState.Add(GotoState(afterIfState));
             }
 
@@ -157,7 +172,7 @@ namespace WootzJs.Compiler
             CurrentState.Add(GotoState(afterWhileStatement));
 
             CurrentState = bodyState;
-            node.Statement.Accept(this);
+            AcceptStatement(node.Statement, afterWhileStatement, topOfLoop);
             CurrentState.Add(GotoState(topOfLoop));
 
             CurrentState = afterWhileStatement;
@@ -195,7 +210,7 @@ namespace WootzJs.Compiler
             CurrentState.Add(GotoState(afterLoop));
 
             CurrentState = bodyState;
-            node.Statement.Accept(this);
+            AcceptStatement(node.Statement, afterLoop, topOfLoop);
 
             foreach (var incrementor in node.Incrementors)
             {
@@ -242,7 +257,7 @@ namespace WootzJs.Compiler
             CurrentState.Add(SyntaxFactory.IdentifierName(node.Identifier).Assign(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
                 SyntaxFactory.IdentifierName(enumerator), SyntaxFactory.IdentifierName("Current"))).Express());
             
-            node.Statement.Accept(this);
+            AcceptStatement(node.Statement, afterLoop, topOfLoop);
 
             CurrentState.Add(GotoState(topOfLoop));
 
@@ -270,7 +285,7 @@ namespace WootzJs.Compiler
 
                 var catchState = GetNextState();
                 CurrentState = catchState;
-                catchClause.Block.Accept(this);
+                AcceptStatement(catchClause.Block);
                 CurrentState.Add(GotoState(afterTry));
                 newTryStatement = newTryStatement.WithCatch(
                     catchClause.Declaration.Type, 
@@ -285,7 +300,7 @@ namespace WootzJs.Compiler
             {
                 var finallyState = GetNextState();
                 CurrentState = finallyState;
-                node.Finally.Block.Accept(this);
+                AcceptStatement(node.Finally.Block);
                 CurrentState.Add(GotoState(afterTry));
                 newTryStatement = newTryStatement.WithFinally(
                     Cs.Finally(
@@ -296,11 +311,51 @@ namespace WootzJs.Compiler
             tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));
 
             StartSubstate(tryState);
-            node.Block.Accept(this);
+            AcceptStatement(node.Block);
             CurrentState.Add(GotoState(afterTry));
             EndSubstate();
 
             CurrentState = afterTry;
+        }
+
+        public override void VisitSwitchStatement(SwitchStatementSyntax node)
+        {
+            var afterSwitchState = GetNextState();
+
+            var sectionStates = node.Sections.Select(x => NewState(afterSwitchState)).ToArray();
+            var newSwitchStatement = Cs.Switch((ExpressionSyntax)node.Expression.Accept(decomposer),
+                node.Sections.Select((x, i) => Cs.Section(
+                    SyntaxFactory.List(x.Labels.Select(y => SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, (ExpressionSyntax)y.Value.Accept(decomposer)))),
+                    GotoState(sectionStates[i])
+                )).ToArray());
+
+            CurrentState.Add(newSwitchStatement);
+            CurrentState.Add(GotoState(afterSwitchState));
+
+            breakStates.Push(afterSwitchState);
+            for (var i = 0; i < node.Sections.Count; i++)
+            {
+                var section = node.Sections[i];
+                var sectionState = sectionStates[i];
+                CurrentState = sectionState;
+                foreach (var statement in section.Statements)
+                {
+                    AcceptStatement(statement);
+                }
+            }
+            breakStates.Pop();
+
+            CurrentState = afterSwitchState;
+        }
+
+        public override void VisitBreakStatement(BreakStatementSyntax node)
+        {
+            CurrentState.Add(GotoState(breakStates.Peek()));
+        }
+
+        public override void VisitContinueStatement(ContinueStatementSyntax node)
+        {
+            CurrentState.Add(GotoState(continueStates.Peek()));
         }
 
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter

@@ -214,5 +214,22 @@ namespace WootzJs.Compiler.Tests
             }
             AssertTrue(flag);
         }
+
+        [Test]
+        public async Task Switch()
+        {
+            string value = null;
+            string expression = "foo";
+            switch (expression)
+            {
+                case "bar":
+                    value = "abar";
+                    break;
+                case "foo":
+                    value = "afoo";
+                    break;
+            }
+            AssertEquals(value, "afoo");
+        }
     }
 }
