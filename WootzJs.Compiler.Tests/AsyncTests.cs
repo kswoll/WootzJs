@@ -231,5 +231,18 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(value, "afoo");
         }
+
+        [Test]
+        public async Task BreakForLoop()
+        {
+            var counter = 0;
+            for (var i = 0; i < 10; i++)
+            {
+                counter++;
+                if (i == 1)
+                    break;
+            }
+            AssertEquals(counter, 2);
+        }
     }
 }

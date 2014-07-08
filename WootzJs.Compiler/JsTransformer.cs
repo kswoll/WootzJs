@@ -264,17 +264,6 @@ namespace WootzJs.Compiler
 
             // Initialize all the static fields
             staticInitializer.Aggregate(idioms.InitializeStaticFields(node));
-//            foreach (var field in node.Members.OfType<FieldDeclarationSyntax>())
-//            {
-//                foreach (var variable in field.Declaration.Variables)
-//                {
-//                    var fieldSymbol = (FieldSymbol)model.GetDeclaredSymbol(variable);
-//                    if (fieldSymbol.IsStatic && variable.Initializer != null)
-//                    {
-//                        staticInitializer.Assign(idioms.Type(fieldSymbol.ContainingType).Member(fieldSymbol.GetMemberName()), (JsExpression)variable.Initializer.Accept(this));
-//                    }
-//                }
-//            }
 
             // Call all static initializers in sequence
             foreach (var constructor in node.Members.OfType<ConstructorDeclarationSyntax>())

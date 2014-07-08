@@ -200,7 +200,7 @@ namespace WootzJs.Compiler
             CurrentState = topOfLoop;
 
             var afterLoop = GetNextState();
-            var bodyState = NewState(afterLoop);
+            var bodyState = NewState();
 
             var newWhileStatement = Cs.While(
                 (ExpressionSyntax)node.Condition.Accept(decomposer),
@@ -216,7 +216,6 @@ namespace WootzJs.Compiler
             {
                 CurrentState.Add(((ExpressionSyntax)incrementor.Accept(decomposer)).Express());
             }
-
             CurrentState.Add(GotoState(topOfLoop));
 
             CurrentState = afterLoop;
