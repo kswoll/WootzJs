@@ -244,5 +244,18 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(counter, 2);
         }
+
+        [Test]
+        public async Task ContinueForLoop()
+        {
+            var counter = 0;
+            for (var i = 0; i < 10; i++)
+            {
+                if (i % 2 == 1)
+                    continue;
+                counter++;
+            }
+            AssertEquals(counter, 5);
+        }
     }
 }

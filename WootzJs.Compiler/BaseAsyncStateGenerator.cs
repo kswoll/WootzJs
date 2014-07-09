@@ -27,23 +27,20 @@ namespace WootzJs.Compiler
             semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
         }
 
-        protected virtual StatementSyntax ReturnOutOfState()
-        {
-            return Cs.Return();
-        }
-
         public void GenerateStates()
         {
             topState.CurrentState = NewState();
             node.Accept(this);
             OnBaseStateGenerated();
 
+/*
             foreach (var state in topState.GetAllSubstates())
             {
                 var lastStatement = state.Statements.LastOrDefault();
                 if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax) && !(lastStatement is GotoStatementSyntax)))
                     state.InternalAdd(Cs.Return());
             }
+*/
         }
 
         protected virtual void OnBaseStateGenerated()
@@ -134,7 +131,15 @@ namespace WootzJs.Compiler
             return Cs.This().Member(state).Assign(Cs.Integer(newState.Index)).Express();
         }
 
-        public BlockSyntax GotoState(AsyncState newState)
+        public void GotoState(AsyncState newState)
+        {
+            if (CurrentState.Statements.LastOrDefault() is GotoStatementSyntax)
+                return;
+            CurrentState.Add(ChangeState(newState));
+            CurrentState.Add(GotoTop());
+        }
+
+        public BlockSyntax GotoStateBlock(AsyncState newState)
         {
             return Cs.Block(
                 ChangeState(newState),
@@ -142,11 +147,20 @@ namespace WootzJs.Compiler
             );
         }
 
+        public StatementSyntax[] GotoStateStatements(AsyncState newState)
+        {
+            return new[]
+            {
+                ChangeState(newState),
+                GotoTop()                
+            };
+        }
+
         public StatementSyntax GenerateSwitch(AsyncState state)
         {
             var sections = new List<SwitchSectionSyntax>();
             if (state.Parent != null)
-                sections.Add(Cs.Section(Cs.Integer(state.Index), GotoState(state.Substates.First())));
+                sections.Add(Cs.Section(Cs.Integer(state.Index), GotoStateBlock(state.Substates.First())));
             sections.AddRange(state.Substates.Select(substate => Cs.Section(
                 SyntaxFactory.List(substate.GetAllIndices().Select(index => 
                     SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, Cs.Integer(index)))
