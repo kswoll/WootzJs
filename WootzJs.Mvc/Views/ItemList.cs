@@ -74,8 +74,8 @@ namespace WootzJs.Mvc.Views
                 set
                 {
                     isHighlighted = value;
-                    list.DefaultItemBackgroundStyle.ApplyTo(Style);
 /*
+                    list.DefaultItemBackgroundStyle.ApplyTo(Style);
                     if (isHighlighted)
                     {
                         Style.BackgroundColor = 

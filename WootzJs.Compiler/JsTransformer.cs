@@ -1121,7 +1121,7 @@ namespace WootzJs.Compiler
                              Equals(x, Context.Instance.Double) || Equals(x, Context.Instance.Decimal) ||
                 (Equals(x.OriginalDefinition, Context.Instance.NullableType) && isDecimal(((INamedTypeSymbol)x).TypeArguments[0]));
 
-            if (originalType.TypeKind == TypeKind.Enum)
+            if (originalType != null && originalType.TypeKind == TypeKind.Enum)
             {
                 return idioms.Invoke(target, Context.Instance.EnumGetValue);
             }
