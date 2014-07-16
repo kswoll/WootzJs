@@ -257,5 +257,31 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(counter, 5);
         }
+        
+        [Test]
+        public async Task UsingDeclare()
+        {
+            TestDisposable disposed;
+            using (var disposable = new TestDisposable())
+            {
+                disposed = disposable;
+            }
+            AssertTrue(disposed.Disposed);
+        }
+
+        class TestDisposable : IDisposable
+        {
+            private bool disposed;
+
+            public void Dispose()
+            {
+                disposed = true;
+            }
+
+            public bool Disposed
+            {
+                get { return disposed; }
+            }
+        }
     }
 }

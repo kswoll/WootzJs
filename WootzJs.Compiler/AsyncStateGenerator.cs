@@ -359,6 +359,57 @@ namespace WootzJs.Compiler
             GotoState(continueStates.Peek());
         }
 
+        public override void VisitUsingStatement(UsingStatementSyntax node)
+        {
+            var afterTry = GetNextState();
+            var newTryStatement = Cs.Try();
+
+            // Hoist the variable into a field
+            var disposables = new List<IdentifierNameSyntax>();
+            if (node.Declaration != null) 
+            {
+                foreach (var variable in node.Declaration.Variables)
+                {
+                    var symbol = (ILocalSymbol)semanticModel.GetDeclaredSymbol(variable);
+                    HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+                    var name = SyntaxFactory.IdentifierName(variable.Identifier);
+                    disposables.Add(name);
+                    CurrentState.Add(name.Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer)).Express());
+                }
+            }
+            if (node.Expression != null)
+            {
+                var identifier = SyntaxFactory.IdentifierName(GenerateNewName(SyntaxFactory.Identifier("$using")));
+                disposables.Add(identifier);
+                CurrentState.Add(identifier.Assign((ExpressionSyntax)node.Expression.Accept(decomposer)).Express());
+            }
+
+            var tryState = NewSubstate();
+            GotoState(tryState);
+
+            var finallyState = GetNextState();
+            CurrentState = finallyState;
+            foreach (var disposable in disposables)
+            {
+                CurrentState.Add(disposable.Member("Dispose").Invoke().Express());
+            }
+            GotoState(afterTry);
+            newTryStatement = newTryStatement.WithCatches(SyntaxFactory.List(new[] 
+            {
+                SyntaxFactory.CatchClause()
+                    .WithBlock(Cs.Block(GotoStateStatements(finallyState)))
+            }));
+
+            tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));
+
+            StartSubstate(tryState);
+            AcceptStatement(node.Statement);
+            GotoState(finallyState);
+            EndSubstate();
+
+            CurrentState = afterTry;
+        }
+
         class AsyncExpressionDecomposer : CSharpSyntaxRewriter
         {
             private AsyncStateGenerator stateGenerator;
