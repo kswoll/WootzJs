@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Nito.AsyncEx;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
@@ -45,7 +46,7 @@ namespace WootzJs.Compiler
         {
             var projectFileInfo = new FileInfo(args[0]);
             var projectFolder = projectFileInfo.Directory.FullName;
-            var result = new Compiler().Compile(args[0]).Result;
+            var result = AsyncContext.Run(() => new Compiler().Compile(args[0]));
             var output = result.Item1;
             var project = result.Item2;
             var projectName = project.AssemblyName;

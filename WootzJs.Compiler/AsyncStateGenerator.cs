@@ -279,27 +279,60 @@ namespace WootzJs.Compiler
             var tryState = NewSubstate();
             GotoState(tryState);
 
-            foreach (var catchClause in node.Catches)
-            {
-                // Hoist the variable into a field
-                var symbol = semanticModel.GetDeclaredSymbol(catchClause.Declaration);
-                var newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
+            // Keep track of exception, if any, so we can rethrow
+            var exceptionIdentifier = HoistVariable(SyntaxFactory.Identifier("$usingex"), Context.Instance.Exception.ToTypeSyntax());
+            CurrentState.Add(SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(Cs.Null()).Express());
 
-                var catchState = GetNextState();
-                CurrentState = catchState;
-                AcceptStatement(catchClause.Block);
-                GotoState(afterTry);
-                newTryStatement = newTryStatement.WithCatch(
-                    catchClause.Declaration.Type, 
-                    newIdentifier.ToString(), 
-                    Cs.Block(new[] { Cs.This().Member(SyntaxFactory.IdentifierName(newIdentifier)).Assign(SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier)).Express() }
-                        .Concat(GotoStateStatements(catchState)).ToArray()
-                    ));
+            AsyncState finallyState = node.Finally == null ? null : GetNextState();
+
+            if (node.Catches.Any())
+            {
+                foreach (var catchClause in node.Catches)
+                {
+                    // Hoist the variable into a field
+                    var symbol = semanticModel.GetDeclaredSymbol(catchClause.Declaration);
+                    var newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
+
+                    var catchState = GetNextState();
+                    CurrentState = catchState;
+                    AcceptStatement(catchClause.Block);
+                    if (finallyState != null)
+                        GotoState(finallyState);
+
+                    var catchStatements = new List<StatementSyntax>();
+
+                    if (node.Finally != null)
+                    {
+                        catchStatements.Add(SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(SyntaxFactory.IdentifierName(newIdentifier)).Express());
+                    }
+
+                    catchStatements.Add(Cs.This().Member(SyntaxFactory.IdentifierName(newIdentifier)).Assign(SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier)).Express());
+                    catchStatements.AddRange(GotoStateStatements(catchState));
+
+                    newTryStatement = newTryStatement.WithCatch(
+                        catchClause.Declaration.Type, 
+                        newIdentifier.ToString(), 
+                        Cs.Block(catchStatements.ToArray())
+                    );
+                }
+            }
+            else if (node.Finally != null)
+            {
+                SyntaxToken caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("$caughtex")));
+                newTryStatement = newTryStatement.WithCatches(SyntaxFactory.List(new[] 
+                {
+                    SyntaxFactory.CatchClause()
+                        .WithDeclaration(SyntaxFactory.CatchDeclaration(Context.Instance.Exception.ToTypeSyntax(), caughtExceptionIdentifier))
+                        .WithBlock(Cs.Block(
+                            new[] { SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(SyntaxFactory.IdentifierName(caughtExceptionIdentifier)).Express() }
+                                .Concat(GotoStateStatements(finallyState))
+                                .ToArray()
+                        ))
+                }));
             }
 
             if (node.Finally != null)
             {
-                var finallyState = GetNextState();
                 CurrentState = finallyState;
                 AcceptStatement(node.Finally.Block);
                 GotoState(afterTry);
@@ -366,7 +399,7 @@ namespace WootzJs.Compiler
 
             // Keep track of exception, if any, so we can rethrow
             var exceptionIdentifier = HoistVariable(SyntaxFactory.Identifier("$usingex"), Context.Instance.Exception.ToTypeSyntax());
-            SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(Cs.Null());
+            CurrentState.Add(SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(Cs.Null()).Express());
 
             // Identifier for caught exception
             var caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("$caughtex")));

@@ -216,6 +216,29 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public async Task TryFinallyThrowsException()
+        {
+            var flag = false;
+            try
+            {
+                try
+                {
+                    throw new Exception();
+                }
+                finally
+                {
+                    flag = true;
+                }
+                AssertTrue(false);
+            }
+            catch (Exception e)
+            {
+                AssertTrue(true);
+            }
+            AssertTrue(flag);
+        }
+
+        [Test]
         public async Task Switch()
         {
             string value = null;
