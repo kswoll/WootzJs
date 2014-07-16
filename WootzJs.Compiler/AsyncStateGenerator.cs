@@ -364,6 +364,13 @@ namespace WootzJs.Compiler
             var afterTry = GetNextState();
             var newTryStatement = Cs.Try();
 
+            // Keep track of exception, if any, so we can rethrow
+            var exceptionIdentifier = HoistVariable(SyntaxFactory.Identifier("$usingex"), Context.Instance.Exception.ToTypeSyntax());
+            SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(Cs.Null());
+
+            // Identifier for caught exception
+            var caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("$caughtex")));
+
             // Hoist the variable into a field
             var disposables = new List<IdentifierNameSyntax>();
             if (node.Declaration != null) 
@@ -393,11 +400,17 @@ namespace WootzJs.Compiler
             {
                 CurrentState.Add(disposable.Member("Dispose").Invoke().Express());
             }
+            CurrentState.Add(Cs.If(SyntaxFactory.IdentifierName(exceptionIdentifier).NotEqualTo(Cs.Null()), Cs.Throw(SyntaxFactory.IdentifierName(exceptionIdentifier))));
             GotoState(afterTry);
             newTryStatement = newTryStatement.WithCatches(SyntaxFactory.List(new[] 
             {
                 SyntaxFactory.CatchClause()
-                    .WithBlock(Cs.Block(GotoStateStatements(finallyState)))
+                    .WithDeclaration(SyntaxFactory.CatchDeclaration(Context.Instance.Exception.ToTypeSyntax(), caughtExceptionIdentifier))
+                    .WithBlock(Cs.Block(
+                        new[] { SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(SyntaxFactory.IdentifierName(caughtExceptionIdentifier)).Express() }
+                            .Concat(GotoStateStatements(finallyState))
+                            .ToArray()
+                    ))
             }));
 
             tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));

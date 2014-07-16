@@ -268,6 +268,26 @@ namespace WootzJs.Compiler.Tests
             }
             AssertTrue(disposed.Disposed);
         }
+        
+        [Test]
+        public async Task UsingDeclareWithException()
+        {
+            TestDisposable disposed = null;
+            try
+            {
+                using (var disposable = new TestDisposable())
+                {
+                    disposed = disposable;
+                    throw new Exception();
+                }                
+                AssertTrue(false);
+            }
+            catch (Exception ex) 
+            {
+                AssertTrue(true);
+            }
+            AssertTrue(disposed.Disposed);
+        }
 
         class TestDisposable : IDisposable
         {
