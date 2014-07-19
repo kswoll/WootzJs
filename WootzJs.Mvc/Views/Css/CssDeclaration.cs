@@ -73,7 +73,10 @@ namespace WootzJs.Mvc.Views.Css
         protected internal void Set(string name, object value)
         {
             var val = value.ToString();
-            Act(name, val);
+            if (node == null)
+                Act(name, val);
+            else
+                node[name] = val;
         }
 
         protected internal bool IsSet(string name)

@@ -32,48 +32,7 @@ namespace WootzJs.Mvc.Views.Css
 
         public void SetComponent(int index, CssValue value)
         {
-            if (value == null && index < 2)
-                throw new Exception("HShadow and VShadow are required");
-
-            var hshadow = HShadow;
-            var vshadow = VShadow;
-            if (hshadow == null)
-                hshadow = 1;
-            if (vshadow == null)
-                vshadow = 1;
-            var blur = Blur;
-            if (blur == null && index > 2)
-                blur = 1;
-            var spread = Spread;
-            if (spread == null && index > 3)
-                spread = 1;
-            var color = Color;
-            if (color == null && index > 4)
-                color = CssColor.Black;
-            var inset = Inset;
-
-            if (value == null)
-            {
-                if (index < 5)
-                    inset = null;
-                if (index < 4)
-                    color = null;
-                if (index < 3)
-                    spread = null;
-            }
-
-            var args = new CssValue[] { hshadow, vshadow, blur, spread, color, inset };
-            args[index] = value;
-            args = args.Where(x => x != null).ToArray();
-            
-            var builder = new StringBuilder();
-            foreach (var argument in args)
-            {
-                if (builder.Length > 0)
-                    builder.Append(" ");
-                builder.Append(argument);
-            }
-            Set("box-shadow", builder.ToString());
+            Act(new SetComponentAction(index, value));
         }
 
         public CssNumericValue HShadow
@@ -110,6 +69,65 @@ namespace WootzJs.Mvc.Views.Css
         {
             get { return GetComponent(5) == "inset" ? CssInset.Instance : null; }
             set { SetComponent(5, value); }
+        }
+
+        class SetComponentAction : ICssDeclarationAction
+        {
+            private int index;
+            private CssValue value;
+
+            public SetComponentAction(int index, CssValue value)
+            {
+                this.index = index;
+                this.value = value;
+            }
+
+            public void Act(CssDeclaration declaration)
+            {
+                var boxShadow = (CssBoxShadow)declaration;
+                if (value == null && index < 2)
+                    throw new Exception("HShadow and VShadow are required");
+
+                var hshadow = boxShadow.HShadow;
+                var vshadow = boxShadow.VShadow;
+                if (hshadow == null)
+                    hshadow = 1;
+                if (vshadow == null)
+                    vshadow = 1;
+                var blur = boxShadow.Blur;
+                if (blur == null && index > 2)
+                    blur = 1;
+                var spread = boxShadow.Spread;
+                if (spread == null && index > 3)
+                    spread = 1;
+                var color = boxShadow.Color;
+                if (color == null && index > 4)
+                    color = CssColor.Black;
+                var inset = boxShadow.Inset;
+
+                if (value == null)
+                {
+                    if (index < 5)
+                        inset = null;
+                    if (index < 4)
+                        color = null;
+                    if (index < 3)
+                        spread = null;
+                }
+
+                var args = new CssValue[] { hshadow, vshadow, blur, spread, color, inset };
+                args[index] = value;
+                args = args.Where(x => x != null).ToArray();
+            
+                var builder = new StringBuilder();
+                foreach (var argument in args)
+                {
+                    if (builder.Length > 0)
+                        builder.Append(" ");
+                    builder.Append(argument);
+                }
+                boxShadow.Set("box-shadow", builder.ToString());                
+            }
         }
     }
 }
