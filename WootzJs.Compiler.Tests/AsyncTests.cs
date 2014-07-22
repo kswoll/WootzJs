@@ -312,6 +312,18 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(disposed.Disposed);
         }
 
+        [Test]
+        public async Task CallOtherMethod()
+        {
+            var response = await OtherMethod<string>();
+            AssertEquals(response, "foo String");
+        }
+
+        private async Task<string> OtherMethod<T>()
+        {
+            return "foo" + " " + typeof(T).Name;
+        }
+
         class TestDisposable : IDisposable
         {
             private bool disposed;

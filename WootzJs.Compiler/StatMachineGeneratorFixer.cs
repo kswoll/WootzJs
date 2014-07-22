@@ -27,6 +27,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -48,6 +49,31 @@ namespace WootzJs.Compiler
             this.syntaxTree = syntaxTree;
             this.semanticModel = semanticModel;
             this.enclosingTypeName = enclosingTypeName;
+        }
+
+        public override SyntaxNode VisitGenericName(GenericNameSyntax node)
+        {
+            if (node.ToString().Contains("OtherMethod"))
+                Console.WriteLine();
+
+            if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
+            {
+                if (node.GetContainingMethod() == null)
+                {
+                    return base.VisitGenericName(node);
+                }
+
+                var containingType = node.GetContainingType();
+                if (containingType == null || !containingType.Name.StartsWith(enclosingTypeName))
+                    return node;
+
+                var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+                if (symbol == null || (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.ContainingType.Name.StartsWith(enclosingTypeName) && !symbol.IsStatic))
+                {
+                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
+                }
+            }
+            return base.VisitGenericName(node);
         }
 
         public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
