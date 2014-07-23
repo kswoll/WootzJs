@@ -56,7 +56,7 @@ namespace System
         {
             var constructor = GetType().GetConstructors()[0];
             var toAdd = new[] { value };
-            var newInvocationList = only == null && all == null ? toAdd : all == null ? all.Concat(toAdd).ToArray() : new[] { only }.Concat(toAdd).ToArray();
+            var newInvocationList = only == null && all == null ? toAdd : only == null ? all.Concat(toAdd).ToArray() : new[] { only }.Concat(toAdd).ToArray();
             return new MulticastDelegate(Target, newInvocationList);
 //            return constructor.Invoke(new[] { Target }.Concat(newInvocationList).ToArray()).As<Delegate>();            
         }
