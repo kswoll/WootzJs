@@ -115,7 +115,7 @@ namespace System.Runtime.WootzJs
             Jsni.type<Delegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
             Jsni.type<MulticastDelegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
             delegateType.TypeInitializer.invoke(delegateFunc, delegateFunc);
-            Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, new[] { delegateFunc }.As<JsArray>());
+            Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, delegateFunc);
             Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
             if (delegateKey != null)
                 thisExpression[delegateKey] = delegateFunc;
@@ -132,10 +132,14 @@ namespace System.Runtime.WootzJs
 
             array.memberset("$isInitialized", true);
             var arrayType = MakeArrayType(elementType);
-            foreach (var property in arrayType.member("prototype"))
-            {
-                array[property] = arrayType.member("prototype")[property];
-            }
+
+            // This is way faster than the foreach/for...in that was used below.  So we'll just copy the methods we need manually.
+            array["System$Collections$Generic$IEnumerable$1$GetEnumerator"] = arrayType.member("prototype")["System$Collections$Generic$IEnumerable$1$GetEnumerator"];
+
+//            foreach (var property in arrayType.member("prototype"))
+//            {
+//                array[property] = arrayType.member("prototype")[property];
+//            }
 
             arrayType.member("prototype").member("$ctor").member("call").invoke(array);
 

@@ -32,11 +32,17 @@ namespace System
 {
 	public class MulticastDelegate : Delegate
 	{
-        private Delegate[] invocationList;
+        private Delegate only;
+        private Delegate[] all;
+
+        public MulticastDelegate(object target, Delegate invocationList) : base(target)
+        {
+            only = invocationList;
+        }
 
         public MulticastDelegate(object target, Delegate[] invocationList) : base(target)
         {
-            this.invocationList = invocationList;
+            all = invocationList;
         }
 
         [Js(Name = "GetType")]
@@ -50,7 +56,7 @@ namespace System
         {
             var constructor = GetType().GetConstructors()[0];
             var toAdd = new[] { value };
-            var newInvocationList = invocationList == null ? toAdd : invocationList.Concat(toAdd).ToArray();
+            var newInvocationList = only == null && all == null ? toAdd : all == null ? all.Concat(toAdd).ToArray() : new[] { only }.Concat(toAdd).ToArray();
             return new MulticastDelegate(Target, newInvocationList);
 //            return constructor.Invoke(new[] { Target }.Concat(newInvocationList).ToArray()).As<Delegate>();            
         }
@@ -59,7 +65,7 @@ namespace System
         public Delegate Remove(Delegate value)
         {
             var constructor = GetType().GetConstructors()[0];
-            var newInvocationList = invocationList.Except(new[] { value }).ToArray();
+            var newInvocationList = only == null && all == null ? null : all == null ? new[] { only }.Except(new[] { value }).ToArray() : all.Except(new[] { value }).ToArray();
             return new MulticastDelegate(Target, newInvocationList);
 //            return constructor.Invoke(new[] { Target }.Concat(newInvocationList).ToArray()).As<Delegate>();
         }

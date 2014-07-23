@@ -266,7 +266,7 @@ namespace WootzJs.Compiler
             DelegateCombine = DelegateType.GetMembers("Combine").OfType<IMethodSymbol>().Single(x => x.Parameters.Count() == 2 && x.Parameters.All(y => Equals(y.Type, DelegateType)));
             DelegateRemove = DelegateType.GetMembers("Remove").OfType<IMethodSymbol>().Single(x => x.Parameters.Count() == 2 && x.Parameters.All(y => Equals(y.Type, DelegateType)));
             MulticastDelegateType = compilation.FindType("System.MulticastDelegate");
-            MulticastDelegateConstructor = MulticastDelegateType.InstanceConstructors.Single();
+            MulticastDelegateConstructor = MulticastDelegateType.InstanceConstructors.Single(x => x.Parameters.Last().Type.TypeKind == TypeKind.ArrayType);
             NullableType = compilation.FindType("System.Nullable`1");
             NullableHasValue = (IPropertySymbol)NullableType.GetMembers("HasValue").Single();
             NullableValue = (IPropertySymbol)NullableType.GetMembers("Value").Single();
