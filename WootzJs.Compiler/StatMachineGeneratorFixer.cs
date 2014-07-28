@@ -53,7 +53,7 @@ namespace WootzJs.Compiler
 
         public override SyntaxNode VisitGenericName(GenericNameSyntax node)
         {
-            if (node.ToString().Contains("OtherMethod"))
+            if (node.ToString().Contains("Request"))
                 Console.WriteLine();
 
             if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
@@ -90,9 +90,13 @@ namespace WootzJs.Compiler
                     return node;
 
                 var symbol = semanticModel.GetSymbolInfo(node).Symbol;
-                if (symbol == null || (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.ContainingType.Name.StartsWith(enclosingTypeName) && !symbol.IsStatic))
+                var isObjectInitializer = node.Parent != null && node.Parent.Parent is InitializerExpressionSyntax;
+                if (!isObjectInitializer)
                 {
-                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
+                    if (symbol == null || (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.ContainingType.Name.StartsWith(enclosingTypeName) && !symbol.IsStatic))
+                    {
+                        return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
+                    }
                 }
             }
             return base.VisitIdentifierName(node);

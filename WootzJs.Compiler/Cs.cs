@@ -416,5 +416,12 @@ namespace WootzJs.Compiler
             }
             return null;
         }
+
+        public static ParameterListSyntax ToParameterList(this IEnumerable<IParameterSymbol> parameters)
+        {
+            return SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(parameters.Select(x => 
+                SyntaxFactory.Parameter(SyntaxFactory.Identifier(x.Name)).WithType(x.Type.ToTypeSyntax())
+            )));
+        }
     }
 }

@@ -23,17 +23,20 @@ namespace WootzJs.Compiler
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             var asyncClasses = new List<ClassDeclarationSyntax>();
+            var additionalMethods = new List<MethodDeclarationSyntax>();
             foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => x.IsAsync()))
             {
                 var asyncGenerator = new AsyncClassGenerator(compilation, method);
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
+                additionalMethods.AddRange(asyncGenerator.AdditionalHostMethods);
             }
 
             if (asyncClasses.Any())
             {
-                var result = node.AddMembers(asyncClasses.ToArray());
+                var result = ((ClassDeclarationSyntax)base.VisitClassDeclaration(node)).AddMembers(asyncClasses.ToArray()).AddMembers(additionalMethods.ToArray());
                 Console.WriteLine(result.NormalizeWhitespace());
+                System.Diagnostics.Debug.Write(result.NormalizeWhitespace());
                 return result;
             }
             else

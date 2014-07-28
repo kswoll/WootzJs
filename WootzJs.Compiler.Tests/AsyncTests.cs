@@ -324,6 +324,32 @@ namespace WootzJs.Compiler.Tests
             return "foo" + " " + typeof(T).Name;
         }
 
+        [Test]
+        public async Task CallBaseMethod()
+        {
+            var subInvocationClass = new SubInvocationClass();
+            await subInvocationClass.SubInvocationTest();
+            AssertTrue(subInvocationClass.Flag);
+        }
+
+        class BaseInvocationClass
+        {
+            public bool Flag;
+
+            protected void MyMethod()
+            {
+                Flag = true;
+            }
+        }
+
+        class SubInvocationClass : BaseInvocationClass
+        {
+            public async Task SubInvocationTest()
+            {
+                base.MyMethod();
+            }
+        }
+
         class TestDisposable : IDisposable
         {
             private bool disposed;

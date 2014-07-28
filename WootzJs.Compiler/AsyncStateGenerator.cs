@@ -15,10 +15,16 @@ namespace WootzJs.Compiler
         private Dictionary<string, string> renamedVariables = new Dictionary<string, string>();
         private Stack<AsyncState> breakStates = new Stack<AsyncState>();
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
+        private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
 
         public AsyncStateGenerator(Compilation compilation, MethodDeclarationSyntax node) : base(compilation, node)
         {
             decomposer = new AsyncExpressionDecomposer(this);
+        }
+
+        public IEnumerable<MethodDeclarationSyntax> AdditionalHostMethods
+        {
+            get { return additionalHostMethods; }
         }
 
         private string GenerateNewName(SyntaxToken identifier)
@@ -535,6 +541,34 @@ namespace WootzJs.Compiler
             public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax node)
             {
                 return base.VisitExpressionStatement(node);
+            }
+
+            public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
+            {
+                var model = stateGenerator.semanticModel;
+                var symbol = model.GetSymbolInfo(node).Symbol;
+                var method = (IMethodSymbol)symbol;
+
+                if (node.Expression is MemberAccessExpressionSyntax)
+                {
+                    var methodTargetSyntax = ((MemberAccessExpressionSyntax)node.Expression).Expression;
+                    if (methodTargetSyntax is BaseExpressionSyntax)
+                    {
+                        var baseMethodName = "Base" + method.Name;
+                        if (!stateGenerator.additionalHostMethods.Any(x => x.Identifier.ToString() == baseMethodName))
+                        {
+                            var baseMethodShim = SyntaxFactory.MethodDeclaration(method.ReturnType.ToTypeSyntax(), baseMethodName)
+                                .WithModifiers(SyntaxFactory.TokenList(Cs.Token(SyntaxKind.PrivateKeyword)))
+                                .WithParameterList(method.Parameters.ToParameterList())
+                                .WithBody(Cs.Block(SyntaxFactory.BaseExpression().Member(method.Name).Invoke(method.Parameters.Select(x => Cs.IdentifierName(x.Name)).ToArray()).Express()));
+                            stateGenerator.additionalHostMethods.Add(baseMethodShim);
+                        }
+
+                        return node.WithExpression(Cs.IdentifierName(baseMethodName));
+                    }
+                }            
+
+                return base.VisitInvocationExpression(node);
             }
         }
     }

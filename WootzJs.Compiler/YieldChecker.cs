@@ -48,6 +48,9 @@ namespace WootzJs.Compiler
 
         public static bool HasYield(MethodDeclarationSyntax method)
         {
+            if (method.IsAsync())
+                return false;
+
             var yieldChecker = new YieldChecker(true);
             method.Accept(yieldChecker);
             return yieldChecker.isSpecial;

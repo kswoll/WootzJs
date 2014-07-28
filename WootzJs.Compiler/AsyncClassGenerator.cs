@@ -12,6 +12,7 @@ namespace WootzJs.Compiler
         private Compilation compilation;
         private MethodDeclarationSyntax node;
         private IMethodSymbol method;
+        private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
         
         public const string state = "$state";
         public const string builder = "$builder";
@@ -22,6 +23,11 @@ namespace WootzJs.Compiler
             this.node = node;
 
             method = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(compilation.GetSemanticModel(node.SyntaxTree), node);
+        }
+
+        public List<MethodDeclarationSyntax> AdditionalHostMethods
+        {
+            get { return additionalHostMethods; }
         }
 
         public ClassDeclarationSyntax CreateStateMachine()
@@ -40,6 +46,9 @@ namespace WootzJs.Compiler
 
             var stateField = Cs.Field(Cs.Int(), state);
             members.Add(stateField);
+
+//            members.AddRange(stateGenerator.AdditionalHostMethods);
+            additionalHostMethods.AddRange(stateGenerator.AdditionalHostMethods);
 
             IMethodSymbol asyncMethodBuilderCreate;
             IMethodSymbol asyncMethodBuilderStart;
