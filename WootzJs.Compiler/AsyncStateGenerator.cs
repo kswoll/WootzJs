@@ -85,7 +85,7 @@ namespace WootzJs.Compiler
                 if (variable.Initializer != null)
                 {
                     var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
-                    CurrentState.Add(((ExpressionSyntax)assignment.Accept(decomposer)).Express());
+                    CurrentState.Add(assignment.Express());
                 }
 
                 // Hoist the variable into a field

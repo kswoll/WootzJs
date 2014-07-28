@@ -29,7 +29,11 @@ namespace WootzJs.Compiler
                 var asyncGenerator = new AsyncClassGenerator(compilation, method);
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
-                additionalMethods.AddRange(asyncGenerator.AdditionalHostMethods);
+                foreach (var additionalMethod in asyncGenerator.AdditionalHostMethods)
+                {
+                    if (!additionalMethods.Any(x => x.Identifier.ToString() == additionalMethod.Identifier.ToString()))
+                        additionalMethods.Add(additionalMethod);
+                }
             }
 
             if (asyncClasses.Any())
