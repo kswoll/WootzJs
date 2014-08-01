@@ -17,8 +17,6 @@ namespace WootzJs.Mvc.Views
             contentNode.SetAttribute("type", "text");
             contentNode.Style.Height = "100%";
 
-            var dropdown = Browser.Document.CreateElement("");
-
             overlayContainer = Browser.Document.CreateElement("div");
             overlayContainer.Style.Position = "absolute";
             overlayContainer.Style.Display = "none";
