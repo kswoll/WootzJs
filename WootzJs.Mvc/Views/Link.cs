@@ -1,4 +1,5 @@
-﻿using WootzJs.Web;
+﻿using System;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
 {
@@ -45,8 +46,8 @@ namespace WootzJs.Mvc.Views
 
         private void LocalHrefClick(Event evt)
         {
-            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"), null);
             evt.PreventDefault();
+            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"), null);
         }
 
         protected override Element CreateNode()
