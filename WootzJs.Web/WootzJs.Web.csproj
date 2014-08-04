@@ -7,7 +7,6 @@
     <ProjectGuid>{0F747461-9C1C-4FCE-A8B3-2D70D23388CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <NoStdLib>True</NoStdLib>
     <RootNamespace>WootzJs.Web</RootNamespace>
     <AssemblyName>WootzJs.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
