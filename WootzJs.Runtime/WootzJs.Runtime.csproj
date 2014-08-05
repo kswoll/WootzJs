@@ -123,6 +123,7 @@
     <Compile Include="IObservable.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="IServiceProvider.cs" />
+    <Compile Include="JsException.cs" />
     <Compile Include="Lazy.cs" />
     <Compile Include="Linq\Enumerable.cs" />
     <Compile Include="Linq\Expressions\BinaryExpression.cs" />

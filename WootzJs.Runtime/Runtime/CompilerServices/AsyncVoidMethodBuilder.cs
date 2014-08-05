@@ -1,4 +1,6 @@
-﻿namespace System.Runtime.CompilerServices
+﻿using System.Runtime.WootzJs;
+
+namespace System.Runtime.CompilerServices
 {
     public struct AsyncVoidMethodBuilder : IAsyncMethodBuilder
     {
@@ -97,7 +99,11 @@
 
         public void SetException(Exception exception)
         {
-            throw exception;
+            if (exception.As<JsObject>().member("GetType") == null)
+                exception = new JsException(exception.As<JsError>());
+            Console.WriteLine(exception);  // We don't to forget about the exception, but the fact of the matter is
+                                           // an async void method can't propagate the exception to the caller.
+//            throw exception;
 //            AsyncMethodBuilderCore.ThrowAsync(exception);
         }
     }

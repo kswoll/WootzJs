@@ -50,7 +50,7 @@ namespace WootzJs.Mvc
 
         public string CurrentPath
         {
-            get { return currentPath; }
+            get { return currentPath ?? initialPath; }
         }
 
         public HtmlControl Body

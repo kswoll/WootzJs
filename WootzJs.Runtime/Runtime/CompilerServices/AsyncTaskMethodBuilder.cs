@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 using System.Threading.Tasks;
 
 namespace System.Runtime.CompilerServices
@@ -230,6 +231,9 @@ namespace System.Runtime.CompilerServices
         {
             if (exception == null)
                 throw new ArgumentNullException("exception");
+            if (exception.As<JsObject>().member("GetType") == null)
+                exception = new JsException(exception.As<JsError>());
+
             Task<TResult> task = Task;
             var canceledException = exception as OperationCanceledException;
             if (

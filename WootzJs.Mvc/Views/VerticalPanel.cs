@@ -95,12 +95,13 @@ namespace WootzJs.Mvc.Views
             get { return spacing; }
             set
             {
+                EnsureNodeExists();
                 var difference = value - spacing;
                 spacing = value;
 
-                for (var i = 0; i < Node.Children.Length; i++)
+                for (var i = 0; i < table.Children.Length; i++)
                 {
-                    var row = Node.Children[i];
+                    var row = table.Children[i];
                     var div = row.Children[0];
                     var existingMargin = div.Style.MarginTop;
                     var existingSpacing = existingMargin == "" ? 0 : int.Parse(existingMargin.Substring(0, existingMargin.Length - 2));

@@ -8,27 +8,54 @@ namespace WootzJs.Mvc.Views
         private Control overlay;
         private Element contentNode;
         private Element overlayContainer;
+        private Element contentContainerRow;
         private DropDownAlignment alignment;
         private T selectedItem;
 
+        public AutocompleteTextBox()
+        {
+            overlay = new Control();
+            Add(overlay);
+        }
+
         protected override Element CreateNode()
         {
+            var contentContainer = Browser.Document.CreateElement("table");
+            contentContainer.Style.Width = "100%";
+
+            contentContainerRow = Browser.Document.CreateElement("tr");
+            contentContainer.AppendChild(contentContainerRow);
+
+//            contentContainer.Style.Height = "100%";
+
+            var contentNodeCell = Browser.Document.CreateElement("td");
+            contentContainerRow.AppendChild(contentNodeCell);
+
+            var contentNodeCellDiv = Browser.Document.CreateElement("div");
+            contentNodeCellDiv.Style.Height = "100%";
+            contentNodeCellDiv.Style.Width = "100%";
+            contentNodeCell.AppendChild(contentNodeCellDiv);
+
             contentNode = Browser.Document.CreateElement("input");
             contentNode.SetAttribute("type", "text");
+            contentNode.Style.Border = "0px black solid";
             contentNode.Style.Height = "100%";
+            contentNode.Style.Width = "100%";
+            contentNode.Style.PaddingLeft = "5px";
+            contentNodeCellDiv.AppendChild(contentNode);
 
             overlayContainer = Browser.Document.CreateElement("div");
             overlayContainer.Style.Position = "absolute";
             overlayContainer.Style.Display = "none";
             overlayContainer.AppendChild(overlay.Node);
-            Add(overlay);
 
             var overlayAnchor = Browser.Document.CreateElement("div");
             overlayAnchor.Style.Position = "relative";
             overlayAnchor.AppendChild(overlayContainer);
 
             var result = Browser.Document.CreateElement("div");
-            result.AppendChild(contentNode);
+            result.Style.Border = "1px solid #999";
+            result.AppendChild(contentContainer);
             result.AppendChild(overlayAnchor);
             return result;
         }

@@ -58,7 +58,7 @@ namespace System
 	        InnerException = innerException;
 	    }
 
-        public Exception InternalInit(JsError error)
+        public virtual Exception InternalInit(JsError error)
         {
             if (stacktrace != null)
                 return this;
