@@ -29,6 +29,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using System.Threading;
 using System.Threading.Tasks;
 using WootzJs.Testing;
 
@@ -330,6 +331,17 @@ namespace WootzJs.Compiler.Tests
             var subInvocationClass = new SubInvocationClass();
             await subInvocationClass.SubInvocationTest();
             AssertTrue(subInvocationClass.Flag);
+        }
+
+        [Test]
+        public async Task CancelDelay()
+        {
+            var source = new CancellationTokenSource();
+            var now = DateTime.Now;
+//            Jsni.setTimeout(() => source.Cancel(), 1);
+            await Task.Delay(10000, source.Token);
+            var later = DateTime.Now;
+            AssertTrue((later - now).TotalMilliseconds < 5000);
         }
 
         class BaseInvocationClass

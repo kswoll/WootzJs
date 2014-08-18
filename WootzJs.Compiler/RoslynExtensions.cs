@@ -168,6 +168,12 @@ namespace WootzJs.Compiler
         {
             var classDeclaration = node.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => true);
             if (classDeclaration == null)
+            {
+                var structDeclaration = node.FirstAncestorOrSelf<StructDeclarationSyntax>(x => true);
+                if (structDeclaration != null)
+                    return Context.Instance.Compilation.GetSemanticModel(structDeclaration.SyntaxTree).GetDeclaredSymbol(structDeclaration);                
+            }
+            if (classDeclaration == null)
                 return null;
             return Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }

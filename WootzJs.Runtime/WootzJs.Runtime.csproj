@@ -271,6 +271,7 @@
     <Compile Include="StringSplitOptions.cs" />
     <Compile Include="Text\StringBuilder.cs" />
     <Compile Include="Threading\CancellationToken.cs" />
+    <Compile Include="Threading\CancellationTokenSource.cs" />
     <Compile Include="Threading\Interlocked.cs" />
     <Compile Include="Threading\Tasks\Task.cs" />
     <Compile Include="Threading\Tasks\TaskCompletionSource.cs" />

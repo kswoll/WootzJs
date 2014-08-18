@@ -222,6 +222,7 @@ namespace System.Runtime.WootzJs
 
         public static extern bool @in(this string property, object obj);
 
-        public static extern void setTimeout(Action callback, int timeout);
+        public static extern JsObject setTimeout(Action callback, int timeout);
+        public static extern void clearTimeout(JsObject token);
     }
 }

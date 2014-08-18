@@ -29,6 +29,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.WootzJs;
 
 namespace System.Threading.Tasks
 {
@@ -65,9 +66,22 @@ namespace System.Threading.Tasks
             return new TaskAwaiter(this);
         }
 
-        public void Wait(Action continueWith)
+        public Task Delay(int millisecondsDelay)
         {
-            
+            return Delay(millisecondsDelay, new CancellationToken());
+        }
+
+        public static Task Delay(int millisecondsDelay, CancellationToken cancellationToken)
+        {
+            var completionSource = new TaskCompletionSource<object>();
+            var token = Jsni.setTimeout(
+                () =>
+                {
+                    completionSource.SetResult(null);
+                }, 
+                millisecondsDelay);
+            cancellationToken.Register(() => Jsni.clearTimeout(token));
+            return completionSource.Task;
         }
 
         internal void SetContinuationForAwait(Action continuationAction)

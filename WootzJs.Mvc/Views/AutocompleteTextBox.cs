@@ -1,4 +1,5 @@
-﻿using WootzJs.Web;
+﻿using WootzJs.Mvc.Views.Css;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
 {
@@ -14,7 +15,9 @@ namespace WootzJs.Mvc.Views
 
         public AutocompleteTextBox()
         {
-            overlay = new Control();
+            overlay = new ListView<T>();
+            overlay.Style.MinWidth = new CssNumericValue(300, CssUnit.Pixels);
+            overlay.Style.MinHeight = new CssNumericValue(200, CssUnit.Pixels);
             Add(overlay);
         }
 
@@ -42,6 +45,7 @@ namespace WootzJs.Mvc.Views
             contentNode.Style.Height = "100%";
             contentNode.Style.Width = "100%";
             contentNode.Style.PaddingLeft = "5px";
+            contentNode.AddEventListener("keypress", OnTextChanged);
             contentNodeCellDiv.AppendChild(contentNode);
 
             overlayContainer = Browser.Document.CreateElement("div");
@@ -58,6 +62,23 @@ namespace WootzJs.Mvc.Views
             result.AppendChild(contentContainer);
             result.AppendChild(overlayAnchor);
             return result;
+        }
+
+        public void DropDown()
+        {
+            if (overlay != null)
+                overlayContainer.Style.Display = "";
+        }
+
+        public void CloseUp()
+        {
+            if (overlay != null)
+                overlayContainer.Style.Display = "none";
+        }
+
+        private void OnTextChanged(Event @event)
+        {
+            DropDown();
         }
     }
 }

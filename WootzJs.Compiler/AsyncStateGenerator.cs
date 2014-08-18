@@ -304,6 +304,8 @@ namespace WootzJs.Compiler
                     AcceptStatement(catchClause.Block);
                     if (finallyState != null)
                         GotoState(finallyState);
+                    else
+                        GotoState(afterTry);
 
                     var catchStatements = new List<StatementSyntax>();
 
@@ -318,7 +320,7 @@ namespace WootzJs.Compiler
                     newTryStatement = newTryStatement.WithCatch(
                         catchClause.Declaration.Type, 
                         newIdentifier.ToString(), 
-                        Cs.Block(catchStatements.ToArray())
+                        catchStatements.ToArray()
                     );
                 }
             }

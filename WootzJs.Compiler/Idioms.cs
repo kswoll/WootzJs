@@ -1665,6 +1665,9 @@ namespace WootzJs.Compiler
                     case "setTimeout":
                         result = Js.Reference("setTimeout").Invoke(arguments[0], arguments[1]);
                         return true;
+                    case "clearTimeout":
+                        result = Js.Reference("clearTimeout").Invoke(arguments[0]);
+                        return true;
                 }
             }            
             result = null;

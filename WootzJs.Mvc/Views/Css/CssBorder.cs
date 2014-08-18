@@ -9,6 +9,25 @@ namespace WootzJs.Mvc.Views.Css
         private CssBorderSide right;
         private CssBorderSide bottom;
 
+        public CssBorder()
+        {
+        }
+
+        public CssBorder(CssBorderSide left, CssBorderSide top, CssBorderSide right, CssBorderSide bottom)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+        }
+
+        public CssBorder(CssNumericValue width, CssBorderStyle style, CssColor color)
+        {
+            Width = width;
+            Style = style;
+            Color = color;
+        }
+
         internal override void Attach(ElementStyle node)
         {
             base.Attach(node);

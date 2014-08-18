@@ -137,7 +137,9 @@ namespace WootzJs.Testing
             }
             catch (Exception e)
             {
-//                Console.WriteLine(e);
+                if (e.As<JsObject>().member("GetType") == null)
+                    e = new JsException(e.As<JsError>());
+                Console.WriteLine(e.As<JsObject>().toString());
             }
 
             ReportTest(test);

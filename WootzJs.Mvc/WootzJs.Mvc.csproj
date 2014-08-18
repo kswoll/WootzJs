@@ -120,6 +120,8 @@
     <Compile Include="Views\Layout.cs" />
     <Compile Include="Views\Link.cs" />
     <Compile Include="Views\ItemList.cs" />
+    <Compile Include="Views\ListBox.cs" />
+    <Compile Include="Views\ListView.cs" />
     <Compile Include="Views\MouseTrackingEngine.cs" />
     <Compile Include="Views\NameValuePanel.cs" />
     <Compile Include="Views\SidePanel.cs" />
