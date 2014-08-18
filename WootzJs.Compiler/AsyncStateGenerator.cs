@@ -339,22 +339,37 @@ namespace WootzJs.Compiler
                 }));
             }
 
+/*
+            if (!node.Catches.Any(x => x.Declaration == null))
+            {
+                
+            }
+*/
+
             if (node.Finally != null)
             {
                 CurrentState = finallyState;
                 AcceptStatement(node.Finally.Block);
-                GotoState(afterTry);
+
+                CurrentState.Add(Cs.If(SyntaxFactory.IdentifierName(exceptionIdentifier).NotEqualTo(Cs.Null()), 
+                    Cs.Throw(SyntaxFactory.IdentifierName(exceptionIdentifier)), 
+                    Cs.Block(GotoStateStatements(afterTry))));
+/*
                 newTryStatement = newTryStatement.WithFinally(
                     Cs.Finally(
                         GotoStateStatements(finallyState)
                     ));
+*/
             }
 
             tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));
 
             StartSubstate(tryState);
             AcceptStatement(node.Block);
-            GotoState(afterTry);
+            if (node.Finally != null)
+                GotoState(finallyState);
+            else
+                GotoState(afterTry);
             EndSubstate();
 
             CurrentState = afterTry;
