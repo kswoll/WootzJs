@@ -351,15 +351,10 @@ namespace WootzJs.Compiler
                 CurrentState = finallyState;
                 AcceptStatement(node.Finally.Block);
 
+                // If the exception object is not null, then rethrow it.  Otherwise, go to the code after the try block
                 CurrentState.Add(Cs.If(SyntaxFactory.IdentifierName(exceptionIdentifier).NotEqualTo(Cs.Null()), 
                     Cs.Throw(SyntaxFactory.IdentifierName(exceptionIdentifier)), 
                     Cs.Block(GotoStateStatements(afterTry))));
-/*
-                newTryStatement = newTryStatement.WithFinally(
-                    Cs.Finally(
-                        GotoStateStatements(finallyState)
-                    ));
-*/
             }
 
             tryState.Wrap = switchStatement => newTryStatement.WithBlock(Cs.Block(switchStatement));

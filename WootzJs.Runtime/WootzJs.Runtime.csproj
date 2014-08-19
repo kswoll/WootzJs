@@ -170,6 +170,7 @@
     <Compile Include="NotSupportedException.cs" />
     <Compile Include="Nullable.cs" />
     <Compile Include="ObjectDisposedException.cs" />
+    <Compile Include="OperationCanceledException.cs" />
     <Compile Include="Random.cs" />
     <Compile Include="Activator.cs" />
     <Compile Include="Reflection\Assembly.cs" />
@@ -269,6 +270,8 @@
     <Compile Include="String.cs" />
     <Compile Include="StringComparison.cs" />
     <Compile Include="StringSplitOptions.cs" />
+    <Compile Include="SystemException.cs" />
+    <Compile Include="TaskCanceledException.cs" />
     <Compile Include="Text\StringBuilder.cs" />
     <Compile Include="Threading\CancellationToken.cs" />
     <Compile Include="Threading\CancellationTokenSource.cs" />

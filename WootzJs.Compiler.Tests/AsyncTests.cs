@@ -338,10 +338,17 @@ namespace WootzJs.Compiler.Tests
         {
             var source = new CancellationTokenSource();
             var now = DateTime.Now;
-//            Jsni.setTimeout(() => source.Cancel(), 1);
-            await Task.Delay(10000, source.Token);
-            var later = DateTime.Now;
-            AssertTrue((later - now).TotalMilliseconds < 5000);
+            Jsni.setTimeout(() => source.Cancel(), 1);
+            try
+            {
+                await Task.Delay(3000, source.Token);
+                AssertTrue(false);
+            }
+            catch (TaskCanceledException ex)
+            {
+                var later = DateTime.Now;
+                AssertTrue((later - now).TotalMilliseconds < 5000);                
+            }
         }
 
         class BaseInvocationClass

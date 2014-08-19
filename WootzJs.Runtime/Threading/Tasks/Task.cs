@@ -80,7 +80,11 @@ namespace System.Threading.Tasks
                     completionSource.SetResult(null);
                 }, 
                 millisecondsDelay);
-            cancellationToken.Register(() => Jsni.clearTimeout(token));
+            cancellationToken.Register(() =>
+            {
+                Jsni.clearTimeout(token);
+                completionSource.TrySetCanceled(cancellationToken);
+            });
             return completionSource.Task;
         }
 
@@ -194,7 +198,7 @@ namespace System.Threading.Tasks
 
         internal bool TrySetCanceled(CancellationToken tokenToRecord)
         {
-            return TrySetCanceled(tokenToRecord, null);
+            return TrySetCanceled(tokenToRecord, new TaskCanceledException());
         }
 
         internal bool TrySetCanceled(CancellationToken tokenToRecord, object cancellationException)
@@ -202,6 +206,7 @@ namespace System.Threading.Tasks
             bool flag = false;
             if (!IsCompleted)
             {
+                TrySetException(cancellationException);
                 flag = true;
             }
             return flag;
