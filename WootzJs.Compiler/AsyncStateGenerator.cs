@@ -297,7 +297,12 @@ namespace WootzJs.Compiler
                 {
                     // Hoist the variable into a field
                     var symbol = semanticModel.GetDeclaredSymbol(catchClause.Declaration);
-                    var newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
+                    var hasDeclaration = catchClause.Declaration.Identifier.CSharpKind() != SyntaxKind.None;
+                    SyntaxToken newIdentifier;
+                    if (hasDeclaration)
+                        newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
+                    else
+                        newIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("ex")));
 
                     var catchState = GetNextState();
                     CurrentState = catchState;
@@ -314,7 +319,8 @@ namespace WootzJs.Compiler
                         catchStatements.Add(SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(SyntaxFactory.IdentifierName(newIdentifier)).Express());
                     }
 
-                    catchStatements.Add(Cs.This().Member(SyntaxFactory.IdentifierName(newIdentifier)).Assign(SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier)).Express());
+                    if (hasDeclaration)
+                        catchStatements.Add(Cs.This().Member(SyntaxFactory.IdentifierName(newIdentifier)).Assign(SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier)).Express());
                     catchStatements.AddRange(GotoStateStatements(catchState));
 
                     newTryStatement = newTryStatement.WithCatch(

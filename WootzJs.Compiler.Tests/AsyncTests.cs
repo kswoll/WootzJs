@@ -344,7 +344,7 @@ namespace WootzJs.Compiler.Tests
                 await Task.Delay(3000, source.Token);
                 AssertTrue(false);
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
                 var later = DateTime.Now;
                 AssertTrue((later - now).TotalMilliseconds < 5000);                
