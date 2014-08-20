@@ -1,4 +1,7 @@
-﻿using WootzJs.Mvc.Views.Css;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
@@ -12,6 +15,7 @@ namespace WootzJs.Mvc.Views
         private Element contentContainerRow;
         private DropDownAlignment alignment;
         private T selectedItem;
+        private CancellationTokenSource canceller;
 
         public AutocompleteTextBox()
         {
@@ -45,7 +49,7 @@ namespace WootzJs.Mvc.Views
             contentNode.Style.Height = "100%";
             contentNode.Style.Width = "100%";
             contentNode.Style.PaddingLeft = "5px";
-            contentNode.AddEventListener("keypress", OnTextChanged);
+            contentNode.AddEventListener("keypress", OnKeyPress);
             contentNodeCellDiv.AppendChild(contentNode);
 
             overlayContainer = Browser.Document.CreateElement("div");
@@ -76,9 +80,22 @@ namespace WootzJs.Mvc.Views
                 overlayContainer.Style.Display = "none";
         }
 
-        private void OnTextChanged(Event @event)
+        private async void OnKeyPress(Event @event)
         {
-            DropDown();
+            if (canceller != null)
+            {
+                canceller.Cancel();
+            }
+
+            canceller = new CancellationTokenSource();
+            try
+            {
+                await Task.Delay(1000, canceller.Token);
+                DropDown();
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }
