@@ -8,8 +8,10 @@ namespace WootzJs.Mvc.Views
 {
     public class AutocompleteTextBox<T> : Control
     {
+        public event Func<string, Action<T[]>, Task> Search;
+
         private Control content;
-        private Control overlay;
+        private ListView<T> overlay;
         private Element contentNode;
         private Element overlayContainer;
         private Element contentContainerRow;
@@ -50,6 +52,7 @@ namespace WootzJs.Mvc.Views
             contentNode.Style.Width = "100%";
             contentNode.Style.PaddingLeft = "5px";
             contentNode.AddEventListener("keypress", OnKeyPress);
+            contentNode.AddEventListener("blur", OnBlur);
             contentNodeCellDiv.AppendChild(contentNode);
 
             overlayContainer = Browser.Document.CreateElement("div");
@@ -91,11 +94,34 @@ namespace WootzJs.Mvc.Views
             try
             {
                 await Task.Delay(1000, canceller.Token);
-                DropDown();
+                await OnSearch(contentNode.GetAttribute("value"), PopulateItems);
             }
             catch (TaskCanceledException)
             {
+                // We don't care if the task has been cancelled -- that's the point
+                Console.WriteLine("Canceled");
             }
+        }
+
+        private void OnBlur(Event @event)
+        {
+            CloseUp();
+        }
+
+        private async Task OnSearch(string text, Action<T[]> populateItems)
+        {
+            if (Search != null)
+                await Search(text, populateItems);
+        }
+
+        private void PopulateItems(T[] items)
+        {
+            overlay.Clear();
+            foreach (var item in items)
+            {
+                overlay.Add(item);
+            }
+            DropDown();
         }
     }
 }

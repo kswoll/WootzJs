@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
 
@@ -37,6 +38,14 @@ namespace WootzJs.Mvc.Views
             var row = Node.Children[index];
             Node.RemoveChild(row);
             items.Remove(item);
+        }
+
+        public void Clear()
+        {
+            while (items.Any())
+            {
+                Remove(items.Last());
+            }
         }
 
         private Element CreateRow(T item)

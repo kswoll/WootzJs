@@ -1816,7 +1816,7 @@ namespace WootzJs.Compiler
                 result.Catch = Js.Catch();
                 PushOutput(result.Catch.Body);
 
-                if (node.Catches.Count > 1)
+                if (node.Catches.Count > 0)
                 {
                     result.Catch.Declaration = Js.Variable(GenerateUniqueNameInScope());
                     DeclareInCurrentScope(result.Catch.Declaration);
@@ -1824,8 +1824,8 @@ namespace WootzJs.Compiler
                     foreach (var catchClause in node.Catches)
                     {
                         // Catch if block
-                        var operand = (ITypeSymbol)model.GetSymbolInfo(catchClause.Declaration.Type).Symbol;
-                        var getTypeFromType = idioms.Type(operand).Member(SpecialNames.GetTypeFromType).Invoke();
+                        var operand = catchClause.Declaration == null ? null : (ITypeSymbol)model.GetSymbolInfo(catchClause.Declaration.Type).Symbol;
+                        var getTypeFromType = operand == null ? null : idioms.Type(operand).Member(SpecialNames.GetTypeFromType).Invoke();
                         var catchBlock = Js.Block();
                         if (catchClause.Declaration != null)
                         {
@@ -1835,23 +1835,40 @@ namespace WootzJs.Compiler
                         if (catchClause.Declaration != null)
                         {
                             nameOverrides.Remove(catchClause.Declaration.Identifier.ToString());
-                        }
-                        var ifStatement = Js.If(
-                            idioms.Invoke(getTypeFromType, Context.Instance.TypeIsInstanceOfType, result.Catch.Declaration.GetReference()),
-                            catchBlock);
 
-                        if (currentIfStatement == null)
-                        {
-                            currentIfStatement = ifStatement;
-                            result.Catch.Body.Add(ifStatement);
+                            var ifStatement = Js.If(
+                                idioms.Invoke(getTypeFromType, Context.Instance.TypeIsInstanceOfType, result.Catch.Declaration.GetReference()),
+                                catchBlock);
+
+                            if (currentIfStatement == null)
+                            {
+                                currentIfStatement = ifStatement;
+                                result.Catch.Body.Add(ifStatement);
+                            }
+                            else
+                            {
+                                currentIfStatement.IfFalse = ifStatement;
+                                currentIfStatement = ifStatement;
+                            }
                         }
                         else
                         {
-                            currentIfStatement.IfFalse = ifStatement;
-                            currentIfStatement = ifStatement;
+                            if (currentIfStatement == null)
+                            {
+                                result.Catch.Body.Add(catchBlock);
+                            }
+                            else
+                            {
+                                currentIfStatement.IfFalse = catchBlock;
+                            }
                         }
                     }
+                    if (currentIfStatement != null)
+                    {
+                        currentIfStatement.IfFalse = Js.Throw(result.Catch.Declaration.GetReference());
+                    }
                 }
+/*
                 else if (node.Catches.Count == 1)
                 {
                     var catchClause = node.Catches[0];
@@ -1867,6 +1884,7 @@ namespace WootzJs.Compiler
 
                     result.Catch.Body.Aggregate((JsStatement)catchClause.Block.Accept(this));
                 }
+*/
 
                 PopOutput();
                 PopScope();

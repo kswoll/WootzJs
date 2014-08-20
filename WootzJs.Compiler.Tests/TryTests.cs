@@ -99,5 +99,47 @@ namespace WootzJs.Compiler.Tests
                 AssertTrue(false);
             }
         }
+
+        [Test]
+        public void DontCatchWrongException()
+        {
+            var flag = true;
+            try
+            {
+                try
+                {
+                    throw new InvalidOperationException();
+                }
+                catch (TaskCanceledException)
+                {
+                    flag = false;
+                }                
+            }
+            catch (Exception)
+            {
+            }
+            AssertTrue(flag);
+        }
+
+        [Test]
+        public void WrongExceptionBubbles()
+        {
+            var flag = false;
+            try
+            {
+                try
+                {
+                    throw new InvalidOperationException();
+                }
+                catch (TaskCanceledException)
+                {
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                flag = true;
+            }
+            AssertTrue(flag);
+        }
     }
 }

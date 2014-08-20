@@ -38,7 +38,7 @@ namespace System.Threading.Tasks
         protected bool isCompleted;
         protected bool isFaulted;
         protected Action m_continuationObject;
-        private List<Exception> exceptions;
+        private Exception exception;
 
         public bool IsCompleted
         {
@@ -155,31 +155,9 @@ namespace System.Threading.Tasks
             }
         } 
 
-        private AggregateException GetExceptions(bool includeTaskCanceledExceptions)
+        private Exception GetExceptions(bool includeTaskCanceledExceptions)
         {
-/*
-            Exception canceledException = null; 
-            if (includeTaskCanceledExceptions && IsCanceled)
-            { 
-                canceledException = new TaskCanceledException(this); 
-            }
-*/
-            
-            if (exceptions != null && exceptions.Count > 0) 
-            {
-                // No need to lock around this, as other logic prevents the consumption of exceptions 
-                // before they have been completely processed.
-                return new AggregateException(exceptions); 
-            }
-/*
-            else if (canceledException != null)
-            {
-                // No exceptions, but there was a cancelation. Aggregate and return it. 
-                return new AggregateException(canceledException);
-            } 
-*/
- 
-            return null;
+            return exception;
         } 
 
         internal bool TrySetException(object exceptionObject)
@@ -187,8 +165,7 @@ namespace System.Threading.Tasks
             bool flag = false;
             if (!IsCompleted)
             {
-                exceptions = exceptions ?? new List<Exception>();
-                exceptions.Add(exceptionObject);
+                exception = (Exception)exceptionObject;
                 isFaulted = true;
                 this.Finish();
                 flag = true;
