@@ -66,7 +66,7 @@ namespace System.Threading.Tasks
             return new TaskAwaiter(this);
         }
 
-        public Task Delay(int millisecondsDelay)
+        public static Task Delay(int millisecondsDelay)
         {
             return Delay(millisecondsDelay, new CancellationToken());
         }
