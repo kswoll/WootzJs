@@ -263,7 +263,7 @@ namespace WootzJs.Compiler
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),
-                Js.Null(),
+                Js.Array(type.TypeParameters.Select(x => Js.Reference(x.Name)).ToArray()),
                 CreateFieldInfos(type),
                 CreateMethodInfos(type, false),
                 CreateMethodInfos(type, true),

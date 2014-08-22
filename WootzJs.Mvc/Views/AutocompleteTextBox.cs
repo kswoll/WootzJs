@@ -19,9 +19,9 @@ namespace WootzJs.Mvc.Views
         private T selectedItem;
         private CancellationTokenSource canceller;
 
-        public AutocompleteTextBox()
+        public AutocompleteTextBox(Func<T, string> textProvider)
         {
-            overlay = new ListView<T>();
+            overlay = new ListView<T>(textProvider);
             overlay.Style.MinWidth = new CssNumericValue(300, CssUnit.Pixels);
             overlay.Style.MinHeight = new CssNumericValue(200, CssUnit.Pixels);
             Add(overlay);
@@ -99,7 +99,6 @@ namespace WootzJs.Mvc.Views
             catch (TaskCanceledException)
             {
                 // We don't care if the task has been cancelled -- that's the point
-                Console.WriteLine("Canceled");
             }
         }
 

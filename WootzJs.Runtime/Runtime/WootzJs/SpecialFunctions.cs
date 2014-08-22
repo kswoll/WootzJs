@@ -73,6 +73,7 @@ namespace System.Runtime.WootzJs
             {
                 var type = Type.CreateTypeParameter(name, prototype);
                 result.Type = type;
+                type.thisType = result;
                 return result;
             }));
             return result;
@@ -195,17 +196,43 @@ namespace System.Runtime.WootzJs
                         var unconstructedTypeType = Type._GetTypeFromTypeFunc(unconstructedType);
                         var type = new Type(newTypeName, new Attribute[0]);
                         generic.Type = type;
+
+                        var typeParameters = unconstructedTypeType.typeArguments;
+                        var typeArguments = InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>();
+
+                        var newProperties = unconstructedTypeType.properties.ToArray();
+                        for (var i = 0; i < newProperties.Length; i++)
+                        {
+                            var property = newProperties[i];
+                            var propertyType = property.PropertyType;
+                            if (propertyType.IsGenericParameter)
+                            {
+                                for (var j = 0; j < typeArguments.Length; j++)
+                                {
+                                    var typeParameter = typeParameters[j];
+                                    var typeArgument = typeArguments[j];
+                                    if (typeParameter.TypeName == propertyType.FullName)
+                                    {
+                                        propertyType = Type._GetTypeFromTypeFunc(typeArgument);
+                                        break;
+                                    }
+                                }
+                            }
+                            newProperties[i] = new PropertyInfo(property.Name, propertyType.thisType, property.GetGetMethod(), property.GetSetMethod(), 
+                                property.GetIndexParameters(), property.attributes);
+                        }
+
                         type.Init(
                             newTypeName, 
                             unconstructedTypeType.typeAttributes,
                             generic, 
                             unconstructedType.BaseType,
                             unconstructedTypeType.interfaces, 
-                            InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>(),
+                            typeArguments,
                             unconstructedTypeType.fields, 
                             unconstructedTypeType.methods, 
                             unconstructedTypeType.constructors, 
-                            unconstructedTypeType.properties, 
+                            newProperties, 
                             unconstructedTypeType.events, 
                             false, 
                             false,

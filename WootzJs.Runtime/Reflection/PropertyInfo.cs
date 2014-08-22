@@ -36,12 +36,12 @@ namespace System.Reflection
     /// </summary>
     public class PropertyInfo : MemberInfo
     {
-        private JsTypeFunction propertyType;
+        internal JsTypeFunction propertyType;
         private MethodInfo getMethod;
         private MethodInfo setMethod;
         private ParameterInfo[] indexParameters;
 
-        protected PropertyInfo(string name, JsTypeFunction propertyType, MethodInfo getMethod, MethodInfo setMethod, ParameterInfo[] indexParameters, Attribute[] attributes) : base(name, attributes)
+        public PropertyInfo(string name, JsTypeFunction propertyType, MethodInfo getMethod, MethodInfo setMethod, ParameterInfo[] indexParameters, Attribute[] attributes) : base(name, attributes)
         {
             this.propertyType = propertyType;
             this.getMethod = getMethod;
@@ -189,7 +189,7 @@ namespace System.Reflection
             if (nonPublic)
                 return getMethod;
             else
-                return getMethod.IsPublic ? getMethod : null;
+                return getMethod != null && getMethod.IsPublic ? getMethod : null;
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace System.Reflection
             if (nonPublic)
                 return setMethod;
             else
-                return setMethod.IsPublic ? setMethod : null;
+                return setMethod != null && setMethod.IsPublic ? setMethod : null;
         }
 
         /// <summary>

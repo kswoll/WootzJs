@@ -50,10 +50,22 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(property.PropertyType.Name, "String");
         }
 
+        [Test]
+        public void GenericProperty()
+        {
+            var property = typeof(GenericPropertyClass<string>).GetProperty("Property");
+            AssertEquals(property.PropertyType.FullName, "System.String");
+        }
+
         public class PropertyClass
         {
             public static string StaticProperty { get; set; }
             public string StringProperty { get; set; }
+        }
+
+        public class GenericPropertyClass<T>
+        {
+            public T Property { get; set; }
         }
     }
 }

@@ -240,6 +240,8 @@ namespace System
         {
             if (o == null)
                 return false;
+            if (o.As<JsObject>().member("GetType") == null)
+                return false;
             else
                 return IsAssignableFrom(o.GetType());
         }

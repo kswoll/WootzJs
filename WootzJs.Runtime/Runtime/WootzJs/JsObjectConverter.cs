@@ -46,14 +46,23 @@ namespace System.Runtime.WootzJs
 
         public static T FromJsonObject<T>(this JsObject o) where T : new()
         {
-            var result = new T();
-            var properties = typeof(T).GetProperties().ToDictionary(x => x.Name.ToUpper());
+            return (T)FromJsonObject(o, typeof(T));
+        }
+
+        public static object FromJsonObject(JsObject o, Type type)
+        {
+            var result = Activator.CreateInstance(type);
+            var properties = type.GetProperties().ToDictionary(x => x.Name.ToUpper());
             foreach (var propertyName in o)
             {
                 var value = o[propertyName];
                 PropertyInfo property;
                 if (properties.TryGetValue(propertyName.ToUpper(), out property))
                 {
+                    if (!property.PropertyType.IsPrimitive && property.PropertyType != typeof(string) && property.PropertyType != typeof(DateTime) && !typeof(Enum).IsAssignableFrom(property.PropertyType))
+                    {
+                        value = FromJsonObject(value, property.PropertyType).As<JsObject>();
+                    }
                     property.SetValue(result, value, null);
                 }
             }
