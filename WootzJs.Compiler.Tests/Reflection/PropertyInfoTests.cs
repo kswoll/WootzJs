@@ -57,6 +57,13 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(property.PropertyType.FullName, "String");
         }
 
+        [Test]
+        public void NestedGenericProperty()
+        {
+            var property = typeof(NestedGenericPropertyClass<string>).GetProperty("Property");
+            AssertEquals(property.PropertyType.GenericTypeArguments[0].Name, "String");
+        }
+
         public class PropertyClass
         {
             public static string StaticProperty { get; set; }
@@ -66,6 +73,11 @@ namespace WootzJs.Compiler.Tests.Reflection
         public class GenericPropertyClass<T>
         {
             public T Property { get; set; }
+        }
+
+        public class NestedGenericPropertyClass<T>
+        {
+            public GenericPropertyClass<T> Property { get; set; }
         }
     }
 }

@@ -808,10 +808,7 @@ namespace System
         {
             get
             {
-                if (IsGenericType && !IsGenericTypeDefinition)
-                    return typeArguments.Select(x => _GetTypeFromTypeFunc(x)).ToArray();
-                else
-                    return Type.EmptyTypes;
+                return typeArguments == null ? EmptyTypes : typeArguments.Select(x => _GetTypeFromTypeFunc(x)).ToArray();
             }
         }
 

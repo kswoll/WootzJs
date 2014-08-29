@@ -200,24 +200,34 @@ namespace System.Runtime.WootzJs
                         var typeParameters = unconstructedTypeType.typeArguments;
                         var typeArguments = InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>();
 
+                        Func<Type, Type> reifyGenerics = null;
+                        reifyGenerics = theType =>
+                        {
+                            if (theType.IsGenericParameter)
+                            {
+                                for (var i = 0; i < typeArguments.Length; i++)
+                                {
+                                    var typeParameter = typeParameters[i];
+                                    var typeArgument = typeArguments[i];
+                                    if (typeParameter.TypeName == theType.FullName)
+                                    {
+                                        return Type._GetTypeFromTypeFunc(typeArgument);
+                                    }
+                                }
+                            }
+                            else if (theType.IsGenericType)
+                            {
+                                return Type._GetTypeFromTypeFunc(MakeGenericTypeFactory(theType.thisType, theType.GenericTypeArguments.Select(x => reifyGenerics(x).thisType).ToArray().As<JsArray>()));
+                            }                            
+                            return theType;
+                        };
+
                         var newProperties = unconstructedTypeType.properties.ToArray();
                         for (var i = 0; i < newProperties.Length; i++)
                         {
                             var property = newProperties[i];
                             var propertyType = property.PropertyType;
-                            if (propertyType.IsGenericParameter)
-                            {
-                                for (var j = 0; j < typeArguments.Length; j++)
-                                {
-                                    var typeParameter = typeParameters[j];
-                                    var typeArgument = typeArguments[j];
-                                    if (typeParameter.TypeName == propertyType.FullName)
-                                    {
-                                        propertyType = Type._GetTypeFromTypeFunc(typeArgument);
-                                        break;
-                                    }
-                                }
-                            }
+                            propertyType = reifyGenerics(propertyType);
                             newProperties[i] = new PropertyInfo(property.Name, propertyType.thisType, property.GetGetMethod(), property.GetSetMethod(), 
                                 property.GetIndexParameters(), property.attributes);
                         }
