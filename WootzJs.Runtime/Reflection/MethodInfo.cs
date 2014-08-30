@@ -37,7 +37,7 @@ namespace System.Reflection
     /// </summary>
     public class MethodInfo : MethodBase
     {
-        private JsFunction jsMethod;
+        internal JsFunction jsMethod;
         private JsTypeFunction returnType;
         private Type[] typeArguments;
         private Dictionary<string, MethodInfo> constructedMethods;

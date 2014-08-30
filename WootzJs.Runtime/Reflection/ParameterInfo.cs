@@ -40,7 +40,7 @@ namespace System.Reflection
         private ParameterAttributes parameterAttributes;
         private object defaultValue;
         internal MemberInfo containingMember;
-        private Attribute[] attributes;
+        internal Attribute[] attributes;
 
         public ParameterInfo(string name, JsTypeFunction type, int position, ParameterAttributes parameterAttributes, object defaultValue, Attribute[] attributes)
         {

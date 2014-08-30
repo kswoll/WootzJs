@@ -168,7 +168,7 @@ namespace WootzJs.Compiler
                 makeGenericType.Return(
                     Js.Reference(SpecialNames.MakeGenericTypeConstructor)
                     .Member("call")
-                    .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.This(), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
+                    .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
                     .Invoke()
                 );
                 typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
@@ -1763,7 +1763,7 @@ namespace WootzJs.Compiler
         {
             if (type.ContainingType != null)
             {
-                return Js.This().Member(type.GetShortTypeName());
+                return Js.Reference(SpecialNames.TypeInitializerTypeFunction);
             }
             else
             {

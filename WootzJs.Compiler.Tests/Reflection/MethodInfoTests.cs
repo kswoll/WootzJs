@@ -78,6 +78,37 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(returnType, typeof(List<string>));            
         }
 
+        [Test]
+        public void GenericMethod()
+        {
+            var method = typeof(GenericMethodClass<string, int>).GetMethod("Foo");
+            AssertEquals(method.ReturnType.FullName, "String");
+        }
+
+/*
+        [Test]
+        public void NestedGenericProperty()
+        {
+            var property = typeof(NestedGenericPropertyClass<string>).GetProperty("Property");
+            AssertEquals(property.PropertyType.GenericTypeArguments[0].Name, "String");
+        }
+*/
+
+        public class GenericMethodClass<T, U>
+        {
+            public T Foo(U arg)
+            {
+                return default(T);
+            }
+        }
+
+/*
+        public class NestedGenericPropertyClass<T, U>
+        {
+            public GenericMethodClass<T, U> Property { get; set; }
+        }
+*/
+
         public class MethodClass
         {
             public void VoidMethod()

@@ -330,7 +330,7 @@ namespace System.Reflection
 
         internal virtual ParameterInfo[] GetParametersNoCopy()
         {
-            return this.GetParameters();
+            return parameters;
         }
 
         /// <summary>

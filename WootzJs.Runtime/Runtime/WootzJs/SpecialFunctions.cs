@@ -196,6 +196,7 @@ namespace System.Runtime.WootzJs
                         var unconstructedTypeType = Type._GetTypeFromTypeFunc(unconstructedType);
                         var type = new Type(newTypeName, new Attribute[0]);
                         generic.Type = type;
+                        type.thisType = generic;
 
                         var typeParameters = unconstructedTypeType.typeArguments;
                         var typeArguments = InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>();
@@ -232,6 +233,24 @@ namespace System.Runtime.WootzJs
                                 property.GetIndexParameters(), property.attributes);
                         }
 
+                        var newMethods = unconstructedTypeType.methods.ToArray();
+                        for (var i = 0; i < newMethods.Length; i++)
+                        {
+                            var method = newMethods[i];
+                            var returnType = method.ReturnType;
+                            returnType = reifyGenerics(returnType);
+                            var parameters = method.GetParameters();
+                            for (var j = 0; j < parameters.Length; j++)
+                            {
+                                var parameter = parameters[j];
+                                var parameterType = reifyGenerics(parameter.ParameterType);
+                                parameter = new ParameterInfo(parameter.Name, parameterType.thisType, j, parameter.Attributes, parameter.DefaultValue, parameter.attributes);
+                                parameters[j] = parameter;
+                            }
+                            method = new MethodInfo(method.Name, method.jsMethod, parameters, returnType.thisType, method.Attributes, method.attributes);
+                            newMethods[i] = method;
+                        }
+
                         type.Init(
                             newTypeName, 
                             unconstructedTypeType.typeAttributes,
@@ -240,7 +259,7 @@ namespace System.Runtime.WootzJs
                             unconstructedTypeType.interfaces, 
                             typeArguments,
                             unconstructedTypeType.fields, 
-                            unconstructedTypeType.methods, 
+                            newMethods, 
                             unconstructedTypeType.constructors, 
                             newProperties, 
                             unconstructedTypeType.events, 
