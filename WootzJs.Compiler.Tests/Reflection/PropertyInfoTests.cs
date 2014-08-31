@@ -64,6 +64,13 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(property.PropertyType.GenericTypeArguments[0].Name, "String");
         }
 
+        [Test]
+        public void GenericArrayProperty()
+        {
+            var property = typeof(GenericArrayPropertyClass<string>).GetProperty("Rows");
+            AssertEquals(property.PropertyType.GetElementType().Name, "String");
+        }
+
         public class PropertyClass
         {
             public static string StaticProperty { get; set; }
@@ -78,6 +85,11 @@ namespace WootzJs.Compiler.Tests.Reflection
         public class NestedGenericPropertyClass<T>
         {
             public GenericPropertyClass<T> Property { get; set; }
+        }
+
+        public class GenericArrayPropertyClass<T>
+        {
+            public T[] Rows { get; set; }
         }
     }
 }

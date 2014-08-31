@@ -941,5 +941,18 @@ namespace System
         {
             get { return (typeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.Public; }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Type"/> is an array.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// true if the <see cref="T:System.Type"/> is an array; otherwise, false.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public bool IsArray
+        {
+            get { return elementType != null; }
+        }
     }
 }

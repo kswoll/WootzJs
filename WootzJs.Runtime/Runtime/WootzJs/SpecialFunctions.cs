@@ -204,6 +204,13 @@ namespace System.Runtime.WootzJs
                         Func<Type, Type> reifyGenerics = null;
                         reifyGenerics = theType =>
                         {
+                            if (theType.IsArray)
+                            {
+                                var elementType = theType.GetElementType();
+                                var arrayType = MakeArrayType(reifyGenerics(elementType).thisType);
+                                var arrayTypeFunc = Type._GetTypeFromTypeFunc(arrayType);
+                                return arrayTypeFunc;
+                            }
                             if (theType.IsGenericParameter)
                             {
                                 for (var i = 0; i < typeArguments.Length; i++)
@@ -334,6 +341,7 @@ namespace System.Runtime.WootzJs
                             false,
                             elementType,
                             null);
+                        type.thisType = arrayType;
                         return type.As<JsObject>();
                     });
                 }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
