@@ -83,16 +83,16 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             var method = typeof(GenericMethodClass<string, int>).GetMethod("Foo");
             AssertEquals(method.ReturnType.FullName, "String");
+            AssertEquals(method.GetParameters()[0].ParameterType.FullName, "System.Int32");
         }
 
-/*
         [Test]
         public void NestedGenericProperty()
         {
-            var property = typeof(NestedGenericPropertyClass<string>).GetProperty("Property");
+            var property = typeof(NestedGenericMethodClass<string, int>).GetProperty("Property");
             AssertEquals(property.PropertyType.GenericTypeArguments[0].Name, "String");
+            AssertEquals(property.PropertyType.GenericTypeArguments[1].FullName, "System.Int32");
         }
-*/
 
         public class GenericMethodClass<T, U>
         {
@@ -102,12 +102,10 @@ namespace WootzJs.Compiler.Tests.Reflection
             }
         }
 
-/*
-        public class NestedGenericPropertyClass<T, U>
+        public class NestedGenericMethodClass<T, U>
         {
             public GenericMethodClass<T, U> Property { get; set; }
         }
-*/
 
         public class MethodClass
         {
