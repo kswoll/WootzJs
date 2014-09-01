@@ -147,6 +147,9 @@ namespace System
 
         public static Type _GetTypeFromTypeFunc(JsTypeFunction typeFunction)
         {
+            if (typeFunction.member("$CreateType") == null)
+                return null;
+
             if (typeFunction.Type == null)
                 typeFunction.CreateType();
             return typeFunction.Type;

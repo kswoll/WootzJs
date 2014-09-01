@@ -201,15 +201,18 @@ namespace System.Runtime.WootzJs
                         var typeParameters = unconstructedTypeType.typeArguments;
                         var typeArguments = InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>();
 
-                        Func<Type, Type> reifyGenerics = null;
+                        Func<Type, JsTypeFunction> reifyGenerics = null;
                         reifyGenerics = theType =>
                         {
+                            if (theType == null)
+                            {
+                                return null;
+                            }
                             if (theType.IsArray)
                             {
                                 var elementType = theType.GetElementType();
-                                var arrayType = MakeArrayType(reifyGenerics(elementType).thisType);
-                                var arrayTypeFunc = Type._GetTypeFromTypeFunc(arrayType);
-                                return arrayTypeFunc;
+                                var arrayType = MakeArrayType(reifyGenerics(elementType));
+                                return arrayType;
                             }
                             if (theType.IsGenericParameter)
                             {
@@ -219,24 +222,24 @@ namespace System.Runtime.WootzJs
                                     var typeArgument = typeArguments[i];
                                     if (typeParameter.TypeName == theType.FullName)
                                     {
-                                        return Type._GetTypeFromTypeFunc(typeArgument);
+                                        return typeArgument;
                                     }
                                 }
                             }
                             else if (theType.IsGenericType)
                             {
-                                return Type._GetTypeFromTypeFunc(MakeGenericTypeFactory(theType.thisType, theType.GenericTypeArguments.Select(x => reifyGenerics(x).thisType).ToArray().As<JsArray>()));
+                                return MakeGenericTypeFactory(theType.thisType, theType.GenericTypeArguments.Select(x => reifyGenerics(x)).ToArray().As<JsArray>());
                             }                            
-                            return theType;
+                            return theType.thisType;
                         };
 
                         var newProperties = unconstructedTypeType.properties.ToArray();
                         for (var i = 0; i < newProperties.Length; i++)
                         {
                             var property = newProperties[i];
-                            var propertyType = property.PropertyType;
-                            propertyType = reifyGenerics(propertyType);
-                            newProperties[i] = new PropertyInfo(property.Name, propertyType.thisType, property.GetGetMethod(), property.GetSetMethod(), 
+                            var propertyTypeType = property.PropertyType;
+                            var propertyType = reifyGenerics(propertyTypeType);
+                            newProperties[i] = new PropertyInfo(property.Name, propertyType, property.GetGetMethod(), property.GetSetMethod(), 
                                 property.GetIndexParameters(), property.attributes);
                         }
 
@@ -244,17 +247,17 @@ namespace System.Runtime.WootzJs
                         for (var i = 0; i < newMethods.Length; i++)
                         {
                             var method = newMethods[i];
-                            var returnType = method.ReturnType;
-                            returnType = reifyGenerics(returnType);
+                            var returnTypeType = method.ReturnType;
+                            var returnType = reifyGenerics(returnTypeType);
                             var parameters = method.GetParameters();
                             for (var j = 0; j < parameters.Length; j++)
                             {
                                 var parameter = parameters[j];
                                 var parameterType = reifyGenerics(parameter.ParameterType);
-                                parameter = new ParameterInfo(parameter.Name, parameterType.thisType, j, parameter.Attributes, parameter.DefaultValue, parameter.attributes);
+                                parameter = new ParameterInfo(parameter.Name, parameterType, j, parameter.Attributes, parameter.DefaultValue, parameter.attributes);
                                 parameters[j] = parameter;
                             }
-                            method = new MethodInfo(method.Name, method.jsMethod, parameters, returnType.thisType, method.Attributes, method.attributes);
+                            method = new MethodInfo(method.Name, method.jsMethod, parameters, returnType, method.Attributes, method.attributes);
                             newMethods[i] = method;
                         }
 
