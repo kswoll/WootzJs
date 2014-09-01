@@ -59,7 +59,18 @@ namespace System.Runtime.WootzJs
                 PropertyInfo property;
                 if (properties.TryGetValue(propertyName.ToUpper(), out property))
                 {
-                    if (!property.PropertyType.IsPrimitive && property.PropertyType != typeof(string) && property.PropertyType != typeof(DateTime) && !typeof(Enum).IsAssignableFrom(property.PropertyType))
+                    if (property.PropertyType.IsArray)
+                    {
+                        var arrayValue = value.As<JsArray>();
+                        var elementType = property.PropertyType.GetElementType();
+                        var array = Array.CreateInstance(elementType, arrayValue.length);
+                        for (var i = 0; i < arrayValue.length; i++)
+                        {
+                            array.SetValue(FromJsonObject(arrayValue[i], elementType), i);
+                        }
+                        value = array.As<JsObject>();
+                    }
+                    else if (!property.PropertyType.IsPrimitive && property.PropertyType != typeof(string) && property.PropertyType != typeof(DateTime) && !typeof(Enum).IsAssignableFrom(property.PropertyType))
                     {
                         value = FromJsonObject(value, property.PropertyType).As<JsObject>();
                     }
