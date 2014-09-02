@@ -60,6 +60,16 @@ namespace WootzJs.Mvc.Views
             overlayContainer.Style.Display = "none";
             overlayContainer.AppendChild(overlay.Node);
 
+            // This prevents mouse events from forcing an onblur on the input control.  Basically,
+            // we prevent the mousedown from propagating to the input control and so it cannot 
+            // recognize the loss of focus.
+            overlayContainer.AddEventListener("mousedown", e =>
+            {
+                e.StopImmediatePropagation();
+                e.PreventDefault();
+            });
+            overlayContainer.AddEventListener("focus", e => Console.WriteLine("focus"));
+
             var overlayAnchor = Browser.Document.CreateElement("div");
             overlayAnchor.Style.Position = "relative";
             overlayAnchor.AppendChild(overlayContainer);

@@ -137,7 +137,7 @@ namespace WootzJs.Mvc.Views
             Add(child, DefaultAlignment, spaceAbove);
         }
 
-        public void Add(Control child, HorizontalAlignment alignment, int spaceAbove)
+        public virtual void Add(Control child, HorizontalAlignment alignment, int spaceAbove)
         {
             if (Count > 0)
                 spaceAbove += spacing;

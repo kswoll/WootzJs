@@ -49,12 +49,26 @@
                 return null;
             if (s.StartsWith("#"))
                 return new CssColor(s);
+            if (s == "inherit")
+                return new CssColor(s);
 
             switch (s)
             {
                 case "red":
                 case "green":
                 case "blue":
+                case "black":
+                case "fuchsia":
+                case "gray":
+                case "lime":
+                case "maroon":
+                case "navy":
+                case "orange":
+                case "purple":
+                case "silver":
+                case "teal":
+                case "white":
+                case "yellow":
                     return new CssColor(s);
             }
 
