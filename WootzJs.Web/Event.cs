@@ -71,5 +71,8 @@ namespace WootzJs.Web
 
         [Js(Name = "stopPropagation")]
         public extern void StopPropagation();
+
+        [Js(Name = "keyCode")]
+        public extern int KeyCode { get; }
     }
 }

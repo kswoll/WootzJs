@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WootzJs.Mvc.Views.Css;
@@ -24,6 +25,7 @@ namespace WootzJs.Mvc.Views
             overlay = new ListView<T>(textProvider);
             overlay.Style.MinWidth = new CssNumericValue(300, CssUnit.Pixels);
             overlay.Style.MinHeight = new CssNumericValue(200, CssUnit.Pixels);
+            overlay.Style.Cursor = CssCursor.Default;
             Add(overlay);
         }
 
@@ -51,6 +53,7 @@ namespace WootzJs.Mvc.Views
             contentNode.Style.Height = "100%";
             contentNode.Style.Width = "100%";
             contentNode.Style.PaddingLeft = "5px";
+            contentNode.AddEventListener("keydown", OnKeyDown);
             contentNode.AddEventListener("keypress", OnKeyPress);
             contentNode.AddEventListener("blur", OnBlur);
             contentNodeCellDiv.AppendChild(contentNode);
@@ -91,6 +94,31 @@ namespace WootzJs.Mvc.Views
         {
             if (overlay != null)
                 overlayContainer.Style.Display = "none";
+        }
+
+        private void OnKeyDown(Event @event)
+        {
+            if (@event.KeyCode == Key.DownArrow)
+            {
+                Console.WriteLine("Down arrow");
+                if (overlay.Items.Count > 0)
+                {
+                    if (overlay.SelectedIndex == -1)
+                    {
+                        overlay.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        if (overlay.Items.Count > overlay.SelectedIndex + 1)
+                            overlay.SelectedIndex = overlay.SelectedIndex + 1;
+                        else
+                            overlay.SelectedIndex = 0;
+                    }                    
+                }
+
+                @event.StopImmediatePropagation();
+                @event.PreventDefault();
+            }
         }
 
         private async void OnKeyPress(Event @event)

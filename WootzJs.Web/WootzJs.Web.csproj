@@ -53,6 +53,7 @@
     <Compile Include="InputElement.cs" />
     <Compile Include="IParentNode.cs" />
     <Compile Include="Json.cs" />
+    <Compile Include="Key.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="Navigator.cs" />
     <Compile Include="Node.cs" />
