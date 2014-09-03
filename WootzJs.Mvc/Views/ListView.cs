@@ -8,6 +8,8 @@ namespace WootzJs.Mvc.Views
 {
     public class ListView<T> : Control
     {
+        public event Action Changed;
+
         public CssColor HighlightColor { get; set; }
         public CssColor HighlightTextColor { get; set; }
         public CssColor SelectedColor { get; set; }
@@ -75,22 +77,32 @@ namespace WootzJs.Mvc.Views
             get { return selectedIndex; }
             set
             {
-                if (selectedIndex != -1)
+                if (selectedIndex != value)
                 {
-                    var item = items[selectedIndex];
-                    var control = childControls[item];
-                    control.Style.BackgroundColor = Style.BackgroundColor;
-                    control.Style.Color = Style.Color;
-                }
-                this.selectedIndex = value;
-                if (selectedIndex != -1)
-                {
-                    var item = items[selectedIndex];
-                    var control = childControls[item];
-                    control.Style.BackgroundColor = SelectedColor;
-                    control.Style.Color = SelectedTextColor;
+                    if (selectedIndex != -1)
+                    {
+                        var item = items[selectedIndex];
+                        var control = childControls[item];
+                        control.Style.BackgroundColor = Style.BackgroundColor;
+                        control.Style.Color = Style.Color;
+                    }
+                    this.selectedIndex = value;
+                    if (selectedIndex != -1)
+                    {
+                        var item = items[selectedIndex];
+                        var control = childControls[item];
+                        control.Style.BackgroundColor = SelectedColor;
+                        control.Style.Color = SelectedTextColor;
+                    }
+                    OnChanged();
                 }
             }
+        }
+
+        protected virtual void OnChanged()
+        {
+            if (Changed != null)
+                Changed();
         }
 
         public T SelectedItem
@@ -120,6 +132,42 @@ namespace WootzJs.Mvc.Views
                 text.Style.Color = Style.Color;
             };
             return text;
+        }
+
+        public void SelectNextItem()
+        {
+            if (items.Count > 0)
+            {
+                if (SelectedIndex == -1)
+                {
+                    SelectedIndex = 0;
+                }
+                else
+                {
+                    if (items.Count > SelectedIndex + 1)
+                        SelectedIndex = SelectedIndex + 1;
+                    else
+                        SelectedIndex = 0;
+                }                    
+            }            
+        }
+
+        public void SelectPreviousItem()
+        {
+            if (items.Count > 0)
+            {
+                if (SelectedIndex == -1)
+                {
+                    SelectedIndex = items.Count - 1;
+                }
+                else
+                {
+                    if (SelectedIndex < 1)
+                        SelectedIndex = items.Count - 1;
+                    else 
+                        SelectedIndex = SelectedIndex - 1;
+                }
+            }
         }
     }
 }

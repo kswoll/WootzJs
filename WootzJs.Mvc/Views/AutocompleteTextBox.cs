@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.WootzJs;
 using System.Threading;
 using System.Threading.Tasks;
 using WootzJs.Mvc.Views.Css;
@@ -9,23 +10,27 @@ namespace WootzJs.Mvc.Views
 {
     public class AutocompleteTextBox<T> : Control
     {
+        public event Action Changed;
         public event Func<string, Action<T[]>, Task> Search;
 
         private Control content;
         private ListView<T> overlay;
-        private Element contentNode;
+        private InputElement contentNode;
         private Element overlayContainer;
         private Element contentContainerRow;
         private DropDownAlignment alignment;
         private T selectedItem;
         private CancellationTokenSource canceller;
+        private Func<T, string> textProvider;
 
         public AutocompleteTextBox(Func<T, string> textProvider)
         {
+            this.textProvider = textProvider;
             overlay = new ListView<T>(textProvider);
             overlay.Style.MinWidth = new CssNumericValue(300, CssUnit.Pixels);
             overlay.Style.MinHeight = new CssNumericValue(200, CssUnit.Pixels);
             overlay.Style.Cursor = CssCursor.Default;
+            overlay.Changed += OverlayChanged;
             Add(overlay);
         }
 
@@ -47,7 +52,7 @@ namespace WootzJs.Mvc.Views
             contentNodeCellDiv.Style.Width = "100%";
             contentNodeCell.AppendChild(contentNodeCellDiv);
 
-            contentNode = Browser.Document.CreateElement("input");
+            contentNode = Browser.Document.CreateElement("input").As<InputElement>();
             contentNode.SetAttribute("type", "text");
             contentNode.Style.Border = "0px black solid";
             contentNode.Style.Height = "100%";
@@ -100,22 +105,25 @@ namespace WootzJs.Mvc.Views
         {
             if (@event.KeyCode == Key.DownArrow)
             {
-                Console.WriteLine("Down arrow");
-                if (overlay.Items.Count > 0)
-                {
-                    if (overlay.SelectedIndex == -1)
-                    {
-                        overlay.SelectedIndex = 0;
-                    }
-                    else
-                    {
-                        if (overlay.Items.Count > overlay.SelectedIndex + 1)
-                            overlay.SelectedIndex = overlay.SelectedIndex + 1;
-                        else
-                            overlay.SelectedIndex = 0;
-                    }                    
-                }
-
+                overlay.SelectNextItem();
+                @event.StopImmediatePropagation();
+                @event.PreventDefault();
+            }
+            else if (@event.KeyCode == Key.UpArrow)
+            {
+                overlay.SelectPreviousItem();
+                @event.StopImmediatePropagation();
+                @event.PreventDefault();
+            }
+            else if (@event.KeyCode == Key.Escape)
+            {
+                CloseUp();
+                @event.StopImmediatePropagation();
+                @event.PreventDefault();
+            }
+            else if (@event.KeyCode == Key.Enter)
+            {
+                CloseUp();
                 @event.StopImmediatePropagation();
                 @event.PreventDefault();
             }
@@ -132,7 +140,7 @@ namespace WootzJs.Mvc.Views
             try
             {
                 await Task.Delay(1000, canceller.Token);
-                await OnSearch(contentNode.GetAttribute("value"), PopulateItems);
+                await OnSearch(contentNode.Value, PopulateItems);
             }
             catch (TaskCanceledException)
             {
@@ -159,6 +167,12 @@ namespace WootzJs.Mvc.Views
                 overlay.Add(item);
             }
             DropDown();
+        }
+
+        private void OverlayChanged()
+        {
+            selectedItem = overlay.SelectedItem;
+            contentNode.Value = selectedItem == null ? "" : textProvider(selectedItem);
         }
     }
 }
