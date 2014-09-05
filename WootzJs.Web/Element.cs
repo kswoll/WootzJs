@@ -120,5 +120,11 @@ namespace WootzJs.Web
 
         [Js(Name = "offsetHeight")]
         public extern int OffsetHeight { get; set; }
+
+        [Js(Name = "title")]
+        public extern string Title { get; set; }
+
+        [Js(Name = "focus")]
+        public extern void Focus();
     }
 }

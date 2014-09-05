@@ -175,6 +175,15 @@ namespace WootzJs.Web
         [Js(Name = "display")]
         public extern string Display { get; set; }
         
+        [Js(Name = "fontFamily")]
+        public extern string FontFamily { get; set; }
+
+        [Js(Name = "fontSize")]
+        public extern string FontSize { get; set; }
+
+        [Js(Name = "fontStyle")]
+        public extern string FontStyle { get; set; }
+
         [Js(Name = "float")]
         public extern string Float { get; set; }
         

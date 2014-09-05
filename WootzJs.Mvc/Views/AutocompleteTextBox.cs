@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.WootzJs;
 using System.Threading;
@@ -13,15 +14,19 @@ namespace WootzJs.Mvc.Views
         public event Action Changed;
         public event Func<string, Action<T[]>, Task> Search;
 
+        public bool Multiselect { get; set; }
+
         private Control content;
         private ListView<T> overlay;
         private InputElement contentNode;
         private Element overlayContainer;
         private Element contentContainerRow;
         private DropDownAlignment alignment;
-        private T selectedItem;
+        private List<T> selectedItems;
         private CancellationTokenSource canceller;
         private Func<T, string> textProvider;
+        private Element contentNodeCell;
+        private Dictionary<T, Element> selectedWidgets = new Dictionary<T, Element>();
 
         public AutocompleteTextBox(Func<T, string> textProvider)
         {
@@ -34,6 +39,69 @@ namespace WootzJs.Mvc.Views
             Add(overlay);
         }
 
+        public string Text
+        {
+            get { return contentNode.Value; }
+            set { contentNode.Value = value; }
+        }
+
+        public T SelectedItem
+        {
+            get { return selectedItems.FirstOrDefault(); }
+            set
+            {
+                ClearSelectedItems();
+                Text = value == null ? "" : textProvider(value);                                
+            }
+        }
+
+        public IEnumerable<T> SelectedItems
+        {
+            get { return selectedItems; }
+        }
+
+        public void ClearSelectedItems()
+        {
+            while (selectedItems.Any())
+            {
+                RemoveSelectedItem(selectedItems.First());
+            }            
+        }
+
+        public void AddSelectedItem(T item)
+        {
+            var itemWidget = Browser.Document.CreateElement("div");
+            itemWidget.Style.WhiteSpace = "nowrap";
+            itemWidget.Style.FontSize = "60%";
+            itemWidget.Style.Border = "1px black solid";
+            itemWidget.Style.BorderRadius = "5px";
+            itemWidget.Style.PaddingLeft = "3px";
+            itemWidget.Style.PaddingRight = "3px";
+            itemWidget.Style.Cursor = "default";
+            itemWidget.Title = "Click to remove";
+            itemWidget.AddEventListener("click", evt =>
+            {
+                RemoveSelectedItem(item);
+                contentNode.Focus();
+            });
+            itemWidget.AppendChild(Browser.Document.CreateTextNode(textProvider(item)));
+
+            var itemCell = Browser.Document.CreateElement("td");
+            itemCell.Style.PaddingLeft = "2px";
+            itemCell.AppendChild(itemWidget);
+
+            itemCell.InsertBefore(contentNodeCell);
+
+            selectedWidgets[item] = itemWidget;
+        }
+
+        public void RemoveSelectedItem(T item)
+        {
+            var itemWidget = selectedWidgets[item];
+            selectedWidgets.Remove(item);
+            contentContainerRow.RemoveChild(itemWidget.ParentElement);
+        }
+
         protected override Element CreateNode()
         {
             var contentContainer = Browser.Document.CreateElement("table");
@@ -44,7 +112,8 @@ namespace WootzJs.Mvc.Views
 
 //            contentContainer.Style.Height = "100%";
 
-            var contentNodeCell = Browser.Document.CreateElement("td");
+            contentNodeCell = Browser.Document.CreateElement("td");
+            contentNodeCell.Style.Width = "100%";
             contentContainerRow.AppendChild(contentNodeCell);
 
             var contentNodeCellDiv = Browser.Document.CreateElement("div");
@@ -58,6 +127,7 @@ namespace WootzJs.Mvc.Views
             contentNode.Style.Height = "100%";
             contentNode.Style.Width = "100%";
             contentNode.Style.PaddingLeft = "5px";
+            contentNode.Style.Outline = "none";
             contentNode.AddEventListener("keydown", OnKeyDown);
             contentNode.AddEventListener("keypress", OnKeyPress);
             contentNode.AddEventListener("blur", OnBlur);
@@ -123,6 +193,7 @@ namespace WootzJs.Mvc.Views
             }
             else if (@event.KeyCode == Key.Enter)
             {
+                Commit();
                 CloseUp();
                 @event.StopImmediatePropagation();
                 @event.PreventDefault();
@@ -171,8 +242,19 @@ namespace WootzJs.Mvc.Views
 
         private void OverlayChanged()
         {
-            selectedItem = overlay.SelectedItem;
-            contentNode.Value = selectedItem == null ? "" : textProvider(selectedItem);
+            if (!Multiselect)
+            {
+                SelectedItem = overlay.SelectedItem;
+            }
+        }
+
+        private void Commit()
+        {
+            if (Multiselect)
+            {
+                AddSelectedItem(overlay.SelectedItem);
+                Text = "";
+            }
         }
     }
 }
