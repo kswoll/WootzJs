@@ -193,6 +193,9 @@ namespace WootzJs.Web
         [Js(Name = "left")]
         public extern string Left { get; set; }
         
+        [Js(Name = "lineHeight")]
+        public extern string LineHeight { get; set; }
+
         [Js(Name = "margin")]
         public extern string Margin { get; set; }
         

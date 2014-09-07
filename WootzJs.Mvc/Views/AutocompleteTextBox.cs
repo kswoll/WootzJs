@@ -22,21 +22,28 @@ namespace WootzJs.Mvc.Views
         private Element overlayContainer;
         private Element contentContainerRow;
         private DropDownAlignment alignment;
-        private List<T> selectedItems;
+        private List<T> selectedItems = new List<T>();
         private CancellationTokenSource canceller;
         private Func<T, string> textProvider;
         private Element contentNodeCell;
         private Dictionary<T, Element> selectedWidgets = new Dictionary<T, Element>();
+        private Icon loadingIcon;
 
         public AutocompleteTextBox(Func<T, string> textProvider)
         {
             this.textProvider = textProvider;
             overlay = new ListView<T>(textProvider);
+            loadingIcon = new Icon { Source = IconType.Spinner, IsSpinning = true };
+            loadingIcon.Style.Font.Size = new CssNumericValue(75, CssUnit.Percent);
+
             overlay.Style.MinWidth = new CssNumericValue(300, CssUnit.Pixels);
             overlay.Style.MinHeight = new CssNumericValue(200, CssUnit.Pixels);
             overlay.Style.Cursor = CssCursor.Default;
             overlay.Changed += OverlayChanged;
             Add(overlay);
+
+            loadingIcon.Style.Display = CssDisplay.None;
+            Add(loadingIcon);
         }
 
         public string Text
@@ -45,12 +52,24 @@ namespace WootzJs.Mvc.Views
             set { contentNode.Value = value; }
         }
 
+        public string Placeholder
+        {
+            get { return contentNode.GetAttribute("placeholder"); }
+            set { contentNode.SetAttribute("placeholder", value); }
+        }
+
+        public Icon LoadingIcon
+        {
+            get { return loadingIcon; }
+        }
+
         public T SelectedItem
         {
             get { return selectedItems.FirstOrDefault(); }
             set
             {
                 ClearSelectedItems();
+                selectedItems.Add(value);
                 Text = value == null ? "" : textProvider(value);                                
             }
         }
@@ -93,12 +112,14 @@ namespace WootzJs.Mvc.Views
             itemCell.InsertBefore(contentNodeCell);
 
             selectedWidgets[item] = itemWidget;
+            selectedItems.Add(item);
         }
 
         public void RemoveSelectedItem(T item)
         {
             var itemWidget = selectedWidgets[item];
             selectedWidgets.Remove(item);
+            selectedItems.Remove(item);
             contentContainerRow.RemoveChild(itemWidget.ParentElement);
         }
 
@@ -120,6 +141,14 @@ namespace WootzJs.Mvc.Views
             contentNodeCellDiv.Style.Height = "100%";
             contentNodeCellDiv.Style.Width = "100%";
             contentNodeCell.AppendChild(contentNodeCellDiv);
+
+            var loadingIconCell = Browser.Document.CreateElement("td");
+            loadingIconCell.AppendChild(loadingIcon.Node);
+            loadingIconCell.SetAttribute("align", "center");
+            loadingIconCell.Style.VerticalAlign = "middle";
+            loadingIconCell.Style.LineHeight = ".1";
+            loadingIconCell.Style.PaddingRight = "2px";
+            contentContainerRow.AppendChild(loadingIconCell);
 
             contentNode = Browser.Document.CreateElement("input").As<InputElement>();
             contentNode.SetAttribute("type", "text");
@@ -226,8 +255,10 @@ namespace WootzJs.Mvc.Views
 
         private async Task OnSearch(string text, Action<T[]> populateItems)
         {
+            loadingIcon.Style.Display = CssDisplay.Inherit;
             if (Search != null)
                 await Search(text, populateItems);
+            loadingIcon.Style.Display = CssDisplay.None;
         }
 
         private void PopulateItems(T[] items)

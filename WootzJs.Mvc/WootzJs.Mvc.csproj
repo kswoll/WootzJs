@@ -36,6 +36,7 @@
     <Compile Include="ControllerContext.cs" />
     <Compile Include="DefaultAttribute.cs" />
     <Compile Include="DefaultControllerFactory.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HttpPostAttribute.cs" />
     <Compile Include="IActionInvoker.cs" />
     <Compile Include="IControllerFactory.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Views\AutocompleteTextBox.cs" />
     <Compile Include="Views\Binders\Bindings.cs" />
     <Compile Include="Views\Binders\TextBoxBinders.cs" />
+    <Compile Include="Views\Button.cs" />
     <Compile Include="Views\CenteredPanel.cs" />
     <Compile Include="Views\CheckBox.cs" />
     <Compile Include="Views\Control.cs" />
@@ -115,6 +117,8 @@
     <Compile Include="Views\HorizontalRule.cs" />
     <Compile Include="Views\Html.cs" />
     <Compile Include="Views\HtmlControl.cs" />
+    <Compile Include="Views\Icon.cs" />
+    <Compile Include="Views\IconType.cs" />
     <Compile Include="Views\InlineControl.cs" />
     <Compile Include="Views\Image.cs" />
     <Compile Include="Views\Layout.cs" />

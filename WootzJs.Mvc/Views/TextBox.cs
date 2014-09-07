@@ -25,6 +25,12 @@ namespace WootzJs.Mvc.Views
             set { Node.SetAttribute("name", value); }
         }
 
+        public string Placeholder
+        {
+            get { return Node.GetAttribute("placeholder"); }
+            set { Node.SetAttribute("placeholder", value); }
+        }
+
         protected override Element CreateNode()
         {
             var textBox = Browser.Document.CreateElement("input");
