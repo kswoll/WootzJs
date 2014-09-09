@@ -240,6 +240,33 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public async Task TryExceptionCompletionSource()
+        {
+            try
+            {
+                await CompletionSource(true);
+            }
+            catch (Exception e)
+            {
+                AssertEquals(e.Message, "exception");
+            }
+        }
+
+        private Task<string> CompletionSource(bool throwException)
+        {
+            var completionSource = new TaskCompletionSource<string>();
+            if (throwException)
+            {
+                completionSource.TrySetException(new Exception("exception"));
+            }
+            else
+            {
+                completionSource.TrySetResult("foo");
+            }
+            return completionSource.Task;
+        }
+
+        [Test]
         public async Task Switch()
         {
             string value = null;
@@ -348,6 +375,47 @@ namespace WootzJs.Compiler.Tests
             {
                 var later = DateTime.Now;
                 AssertTrue((later - now).TotalMilliseconds < 5000);                
+            }
+        }
+
+        [Test]
+        public async Task DefaultSwitchLabel()
+        {
+            var flag = false;
+            switch (5)
+            {
+                default: 
+                    flag = true;
+                    break;
+            }
+            AssertTrue(flag);
+        }
+
+        [Test]
+        public async Task Rethrow()
+        {
+            var flag = false;
+            try
+            {
+                await DoRethrow();
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "foo")
+                    flag = true;
+            }
+            AssertTrue(flag);
+        }
+
+        private async Task DoRethrow()
+        {
+            try
+            {
+                throw new Exception("foo");
+            }
+            catch (Exception e)
+            {
+                throw;
             }
         }
 

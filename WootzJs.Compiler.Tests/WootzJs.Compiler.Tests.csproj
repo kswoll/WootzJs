@@ -103,6 +103,7 @@
     <Compile Include="Reflection\FieldInfoTests.cs" />
     <Compile Include="Reflection\MethodInfoTests.cs" />
     <Compile Include="StringTests.cs" />
+    <Compile Include="SwitchStatementTests.cs" />
     <Compile Include="TestsApplication.cs" />
     <Compile Include="Text\StringBuilderTests.cs" />
     <Compile Include="Threading\Tasks\TaskContinuationTests.cs" />

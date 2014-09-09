@@ -274,7 +274,15 @@ namespace WootzJs.Compiler
 
         public override void VisitThrowStatement(ThrowStatementSyntax node)
         {
-            CurrentState.Add(Cs.Throw((ExpressionSyntax)node.Expression.Accept(decomposer)));
+            var exception = node.Expression;
+            
+            // For naked "throw" statements, we need to find the exception object
+            if (exception == null)
+            {
+                var catchClause = node.FirstAncestorOrSelf<CatchClauseSyntax>();
+                exception = SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier);
+            }
+            CurrentState.Add(Cs.Throw((ExpressionSyntax)exception.Accept(decomposer)));
         }
 
         public override void VisitTryStatement(TryStatementSyntax node)
@@ -383,7 +391,7 @@ namespace WootzJs.Compiler
             var sectionStates = node.Sections.Select(x => NewState(afterSwitchState)).ToArray();
             var newSwitchStatement = Cs.Switch((ExpressionSyntax)node.Expression.Accept(decomposer),
                 node.Sections.Select((x, i) => Cs.Section(
-                    SyntaxFactory.List(x.Labels.Select(y => SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, (ExpressionSyntax)y.Value.Accept(decomposer)))),
+                    SyntaxFactory.List(x.Labels.Select(y => y.Value != null ? SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, (ExpressionSyntax)y.Value.Accept(decomposer)) : SyntaxFactory.SwitchLabel(SyntaxKind.DefaultSwitchLabel))),
                     GotoStateStatements(sectionStates[i])
                 )).ToArray());
 
