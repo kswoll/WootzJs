@@ -1043,7 +1043,7 @@ namespace WootzJs.Compiler
             if (idioms.TryApplyRefAndOutParametersAfterInvocation(method, invocation, out specialResult, prependers, appenders))
                 return ImplicitCheck(node, specialResult);
 
-            return invocation;
+            return ImplicitCheck(node, invocation);
         }
 
         public override JsNode VisitElementAccessExpression(ElementAccessExpressionSyntax node)

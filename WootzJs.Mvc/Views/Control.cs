@@ -121,6 +121,8 @@ namespace WootzJs.Mvc.Views
 
         protected void Add(Control child)
         {
+            if (child == null)
+                throw new ArgumentNullException("child");
             if (child.Parent == this)
                 throw new Exception("The speciifed child is already present in this container");
             children.Add(child);
