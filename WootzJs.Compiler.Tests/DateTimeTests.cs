@@ -115,5 +115,13 @@ namespace WootzJs.Compiler.Tests
             
             AssertEquals(newDate.Year, 2013);
         }
+
+        [Test]
+        public void SingleDigitMonth()
+        {
+            var time = new DateTime(2014, 1, 1);
+            var s = time.ToString("M");
+            AssertEquals(s, "1");
+        }
     }
 }

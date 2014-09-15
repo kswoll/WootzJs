@@ -333,9 +333,15 @@ namespace System
             return ToString();
         }
 
+        public string ToString(string format)
+        {
+            return ToString(format, null);
+        }
+
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return ToString();
+            var formatter = new DateTimeFormatter(format);
+            return formatter.Format(this);
         }
 
         public bool ToBoolean(IFormatProvider provider)
