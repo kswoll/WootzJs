@@ -389,5 +389,15 @@ namespace WootzJs.Mvc.Views
         protected virtual void Dispose(bool isDisposed)
         {
         }
+
+        /// <summary>
+        /// Helper method that wraps Browser.Document.CreateElement
+        /// </summary>
+        /// <param name="tagName">The tag name of the HTML element.</param>
+        /// <returns>The browser element node</returns>
+        protected Element CreateElement(string tagName)
+        {
+            return Browser.Document.CreateElement(tagName);
+        }
     }
 }

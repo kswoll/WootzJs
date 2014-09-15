@@ -53,6 +53,53 @@ namespace WootzJs.Compiler.Tests
             var o = new OnePropertyClass { NestedProperty = new OnePropertyClass { MyProperty = "foo" } };
             AssertEquals(o.NestedProperty.MyProperty, "foo");
         }
+
+        [Test]
+        public void ImplicitTypeConversion()
+        {
+            var testClass = new TypeConversionTestClass
+            {
+                TypeConversion = "foo"
+            };
+            AssertEquals("foo", testClass.TypeConversion.Text);
+        }
+
+        public void ImplicitTypeConversionExplicitProperty()
+        {
+            var testClass = new TypeConversionTestClass
+            {
+                ExplicitProperty = "foo"
+            };
+            AssertEquals("foo", testClass.TypeConversion.Text);
+        }
+
+        public class TypeConversionClass
+        {
+            public string Text { get; set; }
+
+            public TypeConversionClass(string text)
+            {
+                Text = text;
+            }
+
+            public static implicit operator TypeConversionClass(string s)
+            {
+                return new TypeConversionClass(s);
+            }
+        }
+
+        public class TypeConversionTestClass
+        {
+            private TypeConversionClass explicitProperty;
+
+            public TypeConversionClass TypeConversion { get; set; }
+
+            public TypeConversionClass ExplicitProperty
+            {
+                get { return explicitProperty; }
+                set { explicitProperty = value; }
+            }
+        }
          
         public class OnePropertyClass
         {

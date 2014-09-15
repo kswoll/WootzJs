@@ -63,7 +63,7 @@ namespace WootzJs.Mvc
             get { return url; }
         }
 
-        public void Start(Assembly assembly)
+        public async Task Start(Assembly assembly)
         {
             Host = Browser.Window.Location.Host;
             Port = Browser.Window.Location.Port;
@@ -79,18 +79,17 @@ namespace WootzJs.Mvc
             var routeGenerator = new RouteGenerator();
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
-            OnStarting(() =>
-            {
-                Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + Browser.Window.Location.Search : ""), false, OnStarted);
-            });
+            await OnStarting();
+            await Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + Browser.Window.Location.Search : ""), false);
+            OnStarted();
         }
 
         /// <summary>
         /// This occurs immediately before opening the initial page.
         /// </summary>
-        protected virtual void OnStarting(Action continuation)
+        protected virtual Task OnStarting()
         {
-            continuation();
+            return Task.FromResult((object)null);
         }
 
         protected virtual void OnStarted()
@@ -121,37 +120,31 @@ namespace WootzJs.Mvc
             GlobalStyle = new GlobalStyle(styleSheet);
         }
 
-        private void OnPopState(PopStateEvent evt)
+        private async void OnPopState(PopStateEvent evt)
         {
             // If state is null then it means it's firing on first load, which we never care about
             var path = (string)evt.State;
             if (path != null && path != currentPath)
-                Open(path, false, null);
+                await Open(path, false);
         }
 
-        public void Open(string url, Action continuation)
+        public Task Open(string url)
         {
-            Open(url, true, continuation);
+            return Open(url, true);
         }
 
-        public void Open(string url, bool pushState, Action continuation)
+        public async Task Open(string url, bool pushState)
         {
             var parts = url.Split('?');
             var path = parts[0];
             var queryString = url.Length > 1 ? parts[1] : null;
             currentPath = path;
-            var execute = Execute(path, queryString);
-            execute.ContinueWith(task =>
-            {
-                var view = task.Result;
-                if (pushState)
-                    Browser.Window.History.PushState(url, view.Title, url);
+            var view = await Execute(path, queryString);
+            if (pushState)
+                Browser.Window.History.PushState(url, view.Title, url);
 
-                Open(view);
-                OnOpen(url);
-                if (continuation != null)
-                    continuation();
-            });
+            Open(view);
+            OnOpen(url);
         }
 
         public void Open(View view)
@@ -223,12 +216,12 @@ namespace WootzJs.Mvc
             return navigationContext;
         }
 
-        protected Task<View> Execute(string path, string queryString)
+        protected async Task<View> Execute(string path, string queryString)
         {
             var context = CreateNavigationContext(path, queryString);
             var controller = ControllerFactory.CreateController(context);
-            var task = controller.Execute(this, context);
-            return task.ContinueWith(x => context.Response.View);
+            await controller.Execute(this, context);
+            return context.Response.View;
         }
 
         public virtual ViewContext CreateViewContext(Controller controller)

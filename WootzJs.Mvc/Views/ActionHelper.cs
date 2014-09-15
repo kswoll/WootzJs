@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace WootzJs.Mvc.Views
 {
@@ -16,9 +17,9 @@ namespace WootzJs.Mvc.Views
 
         public class ActionControllerHelper<TController> where TController : Controller
         {
-            public void To<TActionResult>(Expression<Func<TController, TActionResult>> action, Action continuation)
+            public Task To<TActionResult>(Expression<Func<TController, TActionResult>> action)
             {
-                MvcApplication.Instance.Open(UrlGenerator.GenerateUrl(action), continuation);
+                return MvcApplication.Instance.Open(UrlGenerator.GenerateUrl(action));
             }
         }
     }

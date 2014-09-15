@@ -47,7 +47,7 @@ namespace WootzJs.Mvc.Views
         private void LocalHrefClick(Event evt)
         {
             evt.PreventDefault();
-            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"), null);
+            ViewContext.ControllerContext.Application.Open(Node.GetAttribute("href"));
         }
 
         protected override Element CreateNode()

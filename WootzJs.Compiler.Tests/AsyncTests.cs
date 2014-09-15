@@ -361,6 +361,14 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public async Task CallBaseMethodReturnsString()
+        {
+            var subInvocationClass = new SubInvocationClass();
+            var s = await subInvocationClass.MyStringMethodTest();
+            AssertEquals(s, "foo");
+        }
+
+        [Test]
         public async Task CancelDelay()
         {
             var source = new CancellationTokenSource();
@@ -427,6 +435,11 @@ namespace WootzJs.Compiler.Tests
             {
                 Flag = true;
             }
+
+            protected string MyStringMethod()
+            {
+                return "foo";
+            }
         }
 
         class SubInvocationClass : BaseInvocationClass
@@ -434,6 +447,11 @@ namespace WootzJs.Compiler.Tests
             public async Task SubInvocationTest()
             {
                 base.MyMethod();
+            }
+
+            public async Task<string> MyStringMethodTest()
+            {
+                return base.MyStringMethod();
             }
         }
 

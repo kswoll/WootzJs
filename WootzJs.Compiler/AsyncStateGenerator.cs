@@ -245,7 +245,7 @@ namespace WootzJs.Compiler
                 SyntaxFactory.ParseTypeName("System.Collections.IEnumerator") :
                 SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
             HoistVariable(enumerator, enumeratorType);
-            CurrentState.Add(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, StateMachineThisFixer.Fix(node.Expression), SyntaxFactory.IdentifierName("GetEnumerator")))).Express());
+            CurrentState.Add(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, node.Expression, SyntaxFactory.IdentifierName("GetEnumerator")))).Express());
 
             var topOfLoop = GetNextState();
 
@@ -498,6 +498,11 @@ namespace WootzJs.Compiler
                 this.stateGenerator = stateGenerator;
             }
 
+            public override SyntaxNode VisitThisExpression(ThisExpressionSyntax node)
+            {
+                return SyntaxFactory.IdentifierName("$this");
+            }
+
             public override SyntaxNode VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
             {
                 switch (node.CSharpKind())
@@ -583,10 +588,12 @@ namespace WootzJs.Compiler
                         var baseMethodName = "Base" + method.Name;
                         if (!stateGenerator.additionalHostMethods.Any(x => x.Identifier.ToString() == baseMethodName))
                         {
+                            var body = SyntaxFactory.BaseExpression().Member(method.Name).Invoke(method.Parameters.Select(x => Cs.IdentifierName(x.Name)).ToArray());
+
                             var baseMethodShim = SyntaxFactory.MethodDeclaration(method.ReturnType.ToTypeSyntax(), baseMethodName)
                                 .WithModifiers(SyntaxFactory.TokenList(Cs.Token(SyntaxKind.PrivateKeyword)))
                                 .WithParameterList(method.Parameters.ToParameterList())
-                                .WithBody(Cs.Block(SyntaxFactory.BaseExpression().Member(method.Name).Invoke(method.Parameters.Select(x => Cs.IdentifierName(x.Name)).ToArray()).Express()));
+                                .WithBody(Cs.Block(method.ReturnType.SpecialType == SpecialType.System_Void ? (StatementSyntax)body.Express() : Cs.Return(body)));
                             stateGenerator.additionalHostMethods.Add(baseMethodShim);
                         }
 
