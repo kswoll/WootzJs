@@ -75,7 +75,7 @@ namespace System
                             i++;
                         }
                         else
-                            tokens.Add(new Token { Type = TokenType.SecondTwoDigit });
+                            tokens.Add(new Token { Type = TokenType.Second });
                         break;
                     default:
                         tokens.Add(new Token { Type = TokenType.Literal, Literal = c.ToString() });
