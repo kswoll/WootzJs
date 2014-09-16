@@ -123,5 +123,61 @@ namespace WootzJs.Compiler.Tests
             var s = time.ToString("M");
             AssertEquals(s, "1");
         }
+
+        [Test]
+        public void SingleDigitMonthWithTwoDigits()
+        {
+            var time = new DateTime(2014, 12, 1);
+            var s = time.ToString("M");
+            AssertEquals(s, "12");
+        }
+
+        [Test]
+        public void TwoDigitMonth()
+        {
+            var time = new DateTime(2014, 1, 1);
+            var s = time.ToString("MM");
+            AssertEquals(s, "01");
+        }
+
+        [Test]
+        public void TwoDigitMonthWithTwoDigits()
+        {
+            var time = new DateTime(2014, 12, 1);
+            var s = time.ToString("MM");
+            AssertEquals(s, "12");
+        }
+
+        [Test]
+        public void SingleDigitDay()
+        {
+            var time = new DateTime(2014, 12, 3);
+            var s = time.ToString("d");
+            AssertEquals(s, "3");
+        }
+
+        [Test]
+        public void SingleDigitDayTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 29);
+            var s = time.ToString("d");
+            AssertEquals(s, "29");
+        }
+
+        [Test]
+        public void TwoDigitDay()
+        {
+            var time = new DateTime(2014, 12, 3);
+            var s = time.ToString("dd");
+            AssertEquals(s, "03");
+        }
+
+        [Test]
+        public void TwoDigitDayTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 29);
+            var s = time.ToString("dd");
+            AssertEquals(s, "29");
+        }
     }
 }

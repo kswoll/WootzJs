@@ -1151,8 +1151,8 @@ namespace WootzJs.Compiler
                     case SyntaxKind.ModuloAssignmentExpression:
                         result = Js.Binary(
                             ToBinaryOperator(type).Value,
-                            !Equals(leftSymbol.Type, Context.Instance.Char) ? left : left.Member("charCodeAt").Invoke(Js.Primitive(0)),
-                            !Equals(rightSymbol.Type, Context.Instance.Char) ? right : right.Member("charCodeAt").Invoke(Js.Primitive(0))
+                            !Equals(leftSymbol.Type, Context.Instance.Char) || Equals(rightSymbol.Type, Context.Instance.String) ? left : left.Member("charCodeAt").Invoke(Js.Primitive(0)),
+                            !Equals(rightSymbol.Type, Context.Instance.Char) || Equals(leftSymbol.Type, Context.Instance.String) ? right : right.Member("charCodeAt").Invoke(Js.Primitive(0))
                         );
                         switch (type)
                         {

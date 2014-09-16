@@ -20,21 +20,33 @@ namespace System
                 {
                     case 'd':
                         if (secondC == 'd')
-                            tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });
+                        {
+                            tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });                            
+                            i++;
+                        }
                         else
                             tokens.Add(new Token { Type = TokenType.DayOfMonth });
                         break;
                     case 'M':
                         if (secondC == 'M')
+                        {
                             tokens.Add(new Token { Type = TokenType.MonthTwoDigit });
+                            i += 1;
+                        }
                         else
                             tokens.Add(new Token { Type = TokenType.Month });
                         break;
                     case 'y':
                         if (secondC == 'y' && thirdC == 'y' && fourthC == 'y')
+                        {
                             tokens.Add(new Token { Type = TokenType.YearFourDigit });
+                            i += 3;
+                        }
                         else if (secondC == 'y')
-                            tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });
+                        {
+                            tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });                            
+                            i++;
+                        }
                         else
                             tokens.Add(new Token { Type = TokenType.Year });
                         break;

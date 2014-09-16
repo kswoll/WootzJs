@@ -1129,7 +1129,7 @@ namespace WootzJs.Compiler
             {
                 return idioms.InvokeStatic(Context.Instance.EnumInternalToObject, idioms.Type(destinationType).Invoke(), target);
             }
-            if (Equals(convertedType, Context.Instance.Int32) && Equals(convertedType, Context.Instance.Char))
+            if (Equals(convertedType, Context.Instance.Int32) && (Equals(convertedType, Context.Instance.Char) || Equals(convertedType, Context.Instance.CharNullable)))
             {
                 return target.Member("charCodeAt").Invoke();
             }
@@ -1146,7 +1146,7 @@ namespace WootzJs.Compiler
                 return target;
             }
 
-            var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(convertedType), target);
+            var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(destinationType), target);
             return ImplicitCheck(node, cast);
         }
 

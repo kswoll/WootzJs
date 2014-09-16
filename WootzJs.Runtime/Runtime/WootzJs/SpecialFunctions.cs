@@ -84,8 +84,17 @@ namespace System.Runtime.WootzJs
         {
             if (o == null)
                 return default(T);
-
             var type = o.GetType();
+            if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                if (typeof(T).GetGenericArguments()[0].IsAssignableFrom(type))
+                    return o.As<T>();
+                if (typeof(T).GetGenericArguments()[0] == typeof(char) && type == typeof(string))
+                    return o.As<T>();
+            }
+            if (typeof(T) == typeof(char) && type == typeof(string))
+                return o.As<T>();
+
             if (!typeof(T).IsAssignableFrom(type))
                 throw new InvalidCastException("Cannot cast object of type " + o.GetType().FullName + " to type " + typeof(T).FullName);
 

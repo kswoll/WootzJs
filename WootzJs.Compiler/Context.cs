@@ -157,6 +157,7 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol String { get; private set; }
         public IMethodSymbol ObjectToString { get; private set; }
         public INamedTypeSymbol Char { get; private set; }
+        public INamedTypeSymbol CharNullable { get; private set; }
         public INamedTypeSymbol Int64 { get; private set; }
         public INamedTypeSymbol Int32 { get; private set; }
         public INamedTypeSymbol Int16 { get; private set; }
@@ -268,6 +269,7 @@ namespace WootzJs.Compiler
             MulticastDelegateType = compilation.FindType("System.MulticastDelegate");
             MulticastDelegateConstructor = MulticastDelegateType.InstanceConstructors.Single(x => x.Parameters.Last().Type.TypeKind == TypeKind.ArrayType);
             NullableType = compilation.FindType("System.Nullable`1");
+            CharNullable = NullableType.Construct(Char);
             NullableHasValue = (IPropertySymbol)NullableType.GetMembers("HasValue").Single();
             NullableValue = (IPropertySymbol)NullableType.GetMembers("Value").Single();
             NullableGetValueOrDefault = (IMethodSymbol)NullableType.GetMembers("GetValueOrDefault").Single();
