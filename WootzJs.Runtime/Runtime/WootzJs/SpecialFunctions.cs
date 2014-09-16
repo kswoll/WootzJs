@@ -82,8 +82,10 @@ namespace System.Runtime.WootzJs
         [Js(Name = "$cast")]
         public static T ObjectCast<T>(object o)
         {
+            if (o == null && typeof(T).IsValueType)
+                throw new InvalidCastException("Cannot convert null to '" + typeof(T).FullName + "' because it is a non-nullable value type");
             if (o == null)
-                return default(T);
+                return o.As<T>();
             var type = o.GetType();
             if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Nullable<>))
             {

@@ -98,7 +98,15 @@ namespace WootzJs.Compiler.Tests
         public void Casts()
         {
             object o = null;
-            o = (int)o;
+            try
+            {
+                o = (int)o;
+                AssertTrue(false);
+            }
+            catch (InvalidCastException)
+            {
+                AssertTrue(true);
+            }
             o = (string)o;
             o = (int[])o;
             o = (float[])o;

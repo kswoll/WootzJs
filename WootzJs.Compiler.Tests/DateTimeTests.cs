@@ -179,5 +179,37 @@ namespace WootzJs.Compiler.Tests
             var s = time.ToString("dd");
             AssertEquals(s, "29");
         }
+
+        [Test]
+        public void SingleDigitYear()
+        {
+            var time = new DateTime(2003, 12, 3);
+            var s = time.ToString("y");
+            AssertEquals(s, "3");
+        }
+
+        [Test]
+        public void SingleDigitYearTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 29);
+            var s = time.ToString("y");
+            AssertEquals(s, "14");
+        }
+
+        [Test]
+        public void TwoDigitYear()
+        {
+            var time = new DateTime(2003, 12, 3);
+            var s = time.ToString("yy");
+            AssertEquals(s, "03");
+        }
+
+        [Test]
+        public void TwoDigitYearTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 29);
+            var s = time.ToString("yy");
+            AssertEquals(s, "14");
+        }
     }
 }

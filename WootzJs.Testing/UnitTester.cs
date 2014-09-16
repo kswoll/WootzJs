@@ -137,6 +137,7 @@ namespace WootzJs.Testing
             }
             catch (Exception e)
             {
+                test.Exception = e;
                 if (e.As<JsObject>().member("GetType") == null)
                     e = new JsException(e.As<JsError>());
                 Console.WriteLine(e.As<JsObject>().toString());
@@ -211,6 +212,7 @@ namespace WootzJs.Testing
                 foreach (var test in empty)
                 {
                     Console.WriteLine(test.Method);
+                    Console.WriteLine(test.Exception);
                 }
             }
             if (failed.Any() || errored.Any())

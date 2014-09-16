@@ -44,7 +44,7 @@ namespace System
                         }
                         else if (secondC == 'y')
                         {
-                            tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });                            
+                            tokens.Add(new Token { Type = TokenType.YearTwoDigit });                            
                             i++;
                         }
                         else
@@ -81,10 +81,10 @@ namespace System
                         builder.Append(Pad(dateTime.Year, 4, 4));
                         break;
                     case TokenType.YearTwoDigit:
-                        builder.Append(Pad(dateTime.Year, 2, 2));
+                        builder.Append(Pad(int.Parse(dateTime.Year.ToString().Substring(2)), 2, 2));
                         break;
                     case TokenType.Year:
-                        builder.Append(Pad(dateTime.Year, 1, 2));
+                        builder.Append(Pad(int.Parse(dateTime.Year.ToString().Substring(2)), 1, 2));
                         break;
                     case TokenType.Literal:
                         builder.Append(token.Literal);
