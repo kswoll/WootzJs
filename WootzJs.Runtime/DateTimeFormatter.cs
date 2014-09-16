@@ -50,6 +50,33 @@ namespace System
                         else
                             tokens.Add(new Token { Type = TokenType.Year });
                         break;
+                    case 'h':
+                        if (secondC == 'h')
+                        {
+                            tokens.Add(new Token { Type = TokenType.HourTwoDigit });
+                            i++;
+                        }
+                        else
+                            tokens.Add(new Token { Type = TokenType.Hour });
+                        break;
+                    case 'm':
+                        if (secondC == 'm')
+                        {
+                            tokens.Add(new Token { Type = TokenType.MinuteTwoDigit });
+                            i++;
+                        }
+                        else 
+                            tokens.Add(new Token { Type = TokenType.Minute });
+                        break;
+                    case 's':
+                        if (secondC == 's')
+                        {
+                            tokens.Add(new Token { Type = TokenType.SecondTwoDigit });
+                            i++;
+                        }
+                        else
+                            tokens.Add(new Token { Type = TokenType.SecondTwoDigit });
+                        break;
                     default:
                         tokens.Add(new Token { Type = TokenType.Literal, Literal = c.ToString() });
                         break;
@@ -86,6 +113,24 @@ namespace System
                     case TokenType.Year:
                         builder.Append(Pad(int.Parse(dateTime.Year.ToString().Substring(2)), 1, 2));
                         break;
+                    case TokenType.HourTwoDigit:
+                        builder.Append(Pad(dateTime.Hour % 12, 2, 2));
+                        break;
+                    case TokenType.Hour:
+                        builder.Append(Pad(dateTime.Hour % 12, 1, 2));
+                        break;
+                    case TokenType.MinuteTwoDigit:
+                        builder.Append(Pad(dateTime.Minute, 2, 2));
+                        break;
+                    case TokenType.Minute:
+                        builder.Append(Pad(dateTime.Minute, 1, 2));
+                        break;
+                    case TokenType.SecondTwoDigit:
+                        builder.Append(Pad(dateTime.Second, 2, 2));
+                        break;
+                    case TokenType.Second:
+                        builder.Append(Pad(dateTime.Second, 1, 2));
+                        break;
                     case TokenType.Literal:
                         builder.Append(token.Literal);
                         break;
@@ -119,6 +164,12 @@ namespace System
             Year,
             YearTwoDigit,
             YearFourDigit,
+            Hour,
+            HourTwoDigit,
+            Minute,
+            MinuteTwoDigit,
+            Second,
+            SecondTwoDigit,
             Literal
         }
     }

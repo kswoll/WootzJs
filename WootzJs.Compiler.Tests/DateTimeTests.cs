@@ -211,5 +211,77 @@ namespace WootzJs.Compiler.Tests
             var s = time.ToString("yy");
             AssertEquals(s, "14");
         }
+
+        [Test]
+        public void FourDigitYear()
+        {
+            var time = new DateTime(2003, 12, 3);
+            var s = time.ToString("yyyy");
+            AssertEquals(s, "2003");
+        }
+
+        [Test]
+        public void SingleDigitHour()
+        {
+            var time = new DateTime(2014, 12, 3, 17, 3, 10);
+            var s = time.ToString("h");
+            AssertEquals(s, "5");
+        }
+
+        [Test]
+        public void SingleDigitHourTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 3, 22, 3, 10);
+            var s = time.ToString("h");
+            AssertEquals(s, "10");
+        }
+
+        [Test]
+        public void TwoDigitHour()
+        {
+            var time = new DateTime(2014, 12, 3, 17, 3, 10);
+            var s = time.ToString("hh");
+            AssertEquals(s, "05");
+        }
+
+        [Test]
+        public void TwoDigitHourTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 3, 22, 3, 10);
+            var s = time.ToString("hh");
+            AssertEquals(s, "10");
+        }
+
+        [Test]
+        public void SingleDigitMinute()
+        {
+            var time = new DateTime(2014, 12, 3, 17, 3, 10);
+            var s = time.ToString("m");
+            AssertEquals(s, "3");
+        }
+
+        [Test]
+        public void SingleDigitMinuteTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 3, 22, 13, 10);
+            var s = time.ToString("m");
+            AssertEquals(s, "13");
+        }
+
+        [Test]
+        public void TwoDigitMinute()
+        {
+            var time = new DateTime(2014, 12, 3, 17, 3, 10);
+            var s = time.ToString("mm");
+            AssertEquals(s, "03");
+        }
+
+        [Test]
+        public void TwoDigitMinuteTwoDigit()
+        {
+            var time = new DateTime(2014, 12, 3, 22, 13, 10);
+            var s = time.ToString("mm");
+            AssertEquals(s, "13");
+        }
     }
 }
