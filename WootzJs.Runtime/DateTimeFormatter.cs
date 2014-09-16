@@ -77,6 +77,15 @@ namespace System
                         else
                             tokens.Add(new Token { Type = TokenType.Second });
                         break;
+                    case 't':
+                        if (secondC == 't')
+                        {
+                            tokens.Add(new Token { Type = TokenType.AmPm });
+                            i++;
+                        }
+                        else 
+                            tokens.Add(new Token { Type = TokenType.AmPmSingleDigit });
+                        break;
                     default:
                         tokens.Add(new Token { Type = TokenType.Literal, Literal = c.ToString() });
                         break;
@@ -131,6 +140,12 @@ namespace System
                     case TokenType.Second:
                         builder.Append(Pad(dateTime.Second, 1, 2));
                         break;
+                    case TokenType.AmPmSingleDigit:
+                        builder.Append(dateTime.Hour >= 12 ? 'P' : 'A');
+                        break;
+                    case TokenType.AmPm:
+                        builder.Append(dateTime.Hour >= 12 ? "PM" : "AM");
+                        break;
                     case TokenType.Literal:
                         builder.Append(token.Literal);
                         break;
@@ -170,6 +185,8 @@ namespace System
             MinuteTwoDigit,
             Second,
             SecondTwoDigit,
+            AmPm,
+            AmPmSingleDigit,
             Literal
         }
     }

@@ -315,5 +315,45 @@ namespace WootzJs.Compiler.Tests
             var s = time.ToString("ss");
             AssertEquals(s, "14");
         }
+
+        [Test]
+        public void AmSingleDigit()
+        {
+            var time = new DateTime(2014, 12, 3, 2, 13, 14);
+            var s = time.ToString("t");
+            AssertEquals(s, "A");
+        }
+
+        [Test]
+        public void PmSingleDigit()
+        {
+            var time = new DateTime(2014, 12, 3, 12, 13, 14);
+            var s = time.ToString("t");
+            AssertEquals(s, "P");
+        }
+
+        [Test]
+        public void Am()
+        {
+            var time = new DateTime(2014, 12, 3, 2, 13, 14);
+            var s = time.ToString("tt");
+            AssertEquals(s, "AM");
+        }
+
+        [Test]
+        public void Pm()
+        {
+            var time = new DateTime(2014, 12, 3, 12, 13, 14);
+            var s = time.ToString("tt");
+            AssertEquals(s, "PM");
+        }
+
+        [Test]
+        public void SpaceSeparator()
+        {
+            var time = new DateTime(2014, 12, 3, 12, 13, 14);
+            var s = time.ToString("h m");
+            AssertEquals(s, "12 13");            
+        }
     }
 }

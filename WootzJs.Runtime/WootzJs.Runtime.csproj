@@ -280,6 +280,7 @@
     <Compile Include="Threading\Tasks\Task.cs" />
     <Compile Include="Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="TimeSpan.cs" />
+    <Compile Include="TimeZone.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Type.cs" />
     <Compile Include="TypeCode.cs" />
@@ -291,6 +292,9 @@
     <Compile Include="Void.cs" />
     <Compile Include="Web\HttpUtility.cs" />
     <Compile Include="YieldIterator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
