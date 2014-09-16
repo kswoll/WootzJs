@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 
 namespace System.Threading.Tasks
@@ -78,13 +79,15 @@ namespace System.Threading.Tasks
             }
             if (list.Count == 0)
                 throw new ArgumentException("exceptions");
-            return m_task.TrySetException(list);
+            return m_task.TrySetException(list.Single());
         }
 
+/*
         internal bool TrySetException(IEnumerable<ExceptionDispatchInfo> exceptions)
         {
-            return m_task.TrySetException((object)exceptions);
+            return m_task.TrySetException(exceptions.First());
         }
+*/
 
         /// <summary>
         /// Transitions the underlying <see cref="T:System.Threading.Tasks.Task`1" /> into the

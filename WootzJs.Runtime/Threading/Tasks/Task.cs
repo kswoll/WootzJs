@@ -103,6 +103,8 @@ namespace System.Threading.Tasks
             isCompleted = true;
             if (m_continuationObject != null)
                 m_continuationObject();
+            else if (IsFaulted)
+                ThrowIfExceptional(true);
         }
 
         public Task<TResult> ContinueWith<TResult>(Func<Task, TResult> continuationFunction) 
@@ -160,7 +162,7 @@ namespace System.Threading.Tasks
             return exception;
         } 
 
-        internal bool TrySetException(object exceptionObject)
+        internal bool TrySetException(Exception exceptionObject)
         {
             bool flag = false;
             if (!IsCompleted)
@@ -170,7 +172,7 @@ namespace System.Threading.Tasks
                 this.Finish();
                 flag = true;
             }
-            return flag;
+            throw exceptionObject;
         }
 
         internal bool TrySetCanceled(CancellationToken tokenToRecord)
@@ -183,7 +185,7 @@ namespace System.Threading.Tasks
             bool flag = false;
             if (!IsCompleted)
             {
-                TrySetException(cancellationException);
+                TrySetException((Exception)cancellationException);
                 flag = true;
             }
             return flag;
