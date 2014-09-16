@@ -240,7 +240,7 @@ namespace System.Runtime.CompilerServices
                 !(canceledException != null
                     ? task.TrySetCanceled(canceledException.CancellationToken, canceledException)
                     : task.TrySetException(exception)))
-                throw new InvalidOperationException("TaskT_TransitionToFinal_AlreadyCompleted");
+                throw (canceledException ?? exception);
         }
 
         private Task<TResult> GetTaskForResult(TResult result)

@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
 using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Testing;
@@ -51,6 +52,15 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(testClass.Foo, "noconstructor");
         }
 
+        [Test]
+        public void Generic()
+        {
+            var realInstance = new GenericClass<string>();
+            var type = typeof(GenericClass<string>);
+            var instance = (GenericClass<string>)Activator.CreateInstance(type);
+            AssertTrue(instance is GenericClass<string>);
+        }
+
         public class TestClass
         {
             public string Foo;
@@ -64,6 +74,10 @@ namespace WootzJs.Compiler.Tests.Reflection
         public class NoConstructorClass
         {
             public string Foo = "noconstructor";
+        }
+
+        public class GenericClass<T>
+        {
         }
     }
 }

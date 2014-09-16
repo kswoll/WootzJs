@@ -372,18 +372,17 @@ namespace WootzJs.Compiler.Tests
         public async Task CancelDelay()
         {
             var source = new CancellationTokenSource();
-            var now = DateTime.Now;
+            var canceled = false;
             Jsni.setTimeout(() => source.Cancel(), 1);
             try
             {
                 await Task.Delay(3000, source.Token);
-                AssertTrue(false);
             }
             catch (TaskCanceledException)
             {
-                var later = DateTime.Now;
-                AssertTrue((later - now).TotalMilliseconds < 5000);                
+                canceled = true;
             }
+            AssertTrue(canceled);
         }
 
         [Test]

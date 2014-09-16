@@ -172,7 +172,7 @@ namespace System.Threading.Tasks
                 this.Finish();
                 flag = true;
             }
-            throw exceptionObject;
+            return flag;
         }
 
         internal bool TrySetCanceled(CancellationToken tokenToRecord)

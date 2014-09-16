@@ -244,6 +244,21 @@ namespace System.Runtime.WootzJs
                             return theType.thisType;
                         };
 
+                        var newConstructors = unconstructedTypeType.constructors.ToArray();
+                        for (var i = 0; i < newConstructors.Length; i++)
+                        {
+                            var constructor = newConstructors[i];
+                            var parameters = constructor.GetParameters();
+                            for (var j = 0; j < parameters.Length; j++)
+                            {
+                                var parameter = parameters[j];
+                                var parameterType = reifyGenerics(parameter.ParameterType);
+                                parameter = new ParameterInfo(parameter.Name, parameterType, j, parameter.Attributes, parameter.DefaultValue, parameter.attributes);
+                                parameters[j] = parameter;
+                            }
+                            newConstructors[i] = new ConstructorInfo(constructor.Name, generic.prototype[constructor.Name].As<JsFunction>(), parameters, constructor.Attributes, constructor.attributes);
+                        }
+
                         var newProperties = unconstructedTypeType.properties.ToArray();
                         for (var i = 0; i < newProperties.Length; i++)
                         {
@@ -281,7 +296,7 @@ namespace System.Runtime.WootzJs
                             typeArguments,
                             unconstructedTypeType.fields, 
                             newMethods, 
-                            unconstructedTypeType.constructors, 
+                            newConstructors, 
                             newProperties, 
                             unconstructedTypeType.events, 
                             false, 
