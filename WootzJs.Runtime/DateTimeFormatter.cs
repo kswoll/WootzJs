@@ -177,20 +177,43 @@ namespace System
             {
                 throw new FormatException("The DateTime represented by the string is not supported in calendar System.Globalization.GregorianCalendar");
             };
-            Func<int> getNextDigit = () =>
+            Func<int, int> getNextDigit = maxDigits =>
             {
                 if (!remainingCharacters.Any())
                     throwException();
+                if (maxDigits < 2 || maxDigits > 4)
+                    throw new Exception("Invalid max digits");
 
                 var firstCharacter = remainingCharacters.Dequeue();
                 var secondCharacter = remainingCharacters.Any() ? (char?)remainingCharacters.Peek() : null;
+                var thirdCharacter = remainingCharacters.Count > 1 ? (char?)remainingCharacters.Peek(1) : null;
+                var fourthCharacter = remainingCharacters.Count > 2 ? (char?)remainingCharacters.Peek(2) : null;
                 int value = 0;
 
                 if (secondCharacter != null && char.IsDigit(secondCharacter.Value))
                 {
-                    value += int.Parse(secondCharacter.ToString());
-                    value += int.Parse(firstCharacter.ToString()) * 10;
-                    remainingCharacters.Dequeue();
+                    if (maxDigits > 2 && thirdCharacter != null && char.IsDigit(thirdCharacter.Value))
+                    {
+                        if (maxDigits > 3 && fourthCharacter != null && char.IsDigit(fourthCharacter.Value))
+                        {
+                            value += int.Parse(fourthCharacter.ToString());
+                            value += int.Parse(thirdCharacter.ToString()) * 10;
+                            value += int.Parse(secondCharacter.ToString()) * 100;
+                            value += int.Parse(firstCharacter.ToString()) * 1000;
+                        }
+                        else
+                        {
+                            value += int.Parse(thirdCharacter.ToString());
+                            value += int.Parse(secondCharacter.ToString()) * 10;
+                            value += int.Parse(firstCharacter.ToString()) * 100;
+                        }
+                    }
+                    else
+                    {
+                        value += int.Parse(secondCharacter.ToString());
+                        value += int.Parse(firstCharacter.ToString()) * 10;
+                        remainingCharacters.Dequeue();                        
+                    }
                 }
                 else if (char.IsDigit(firstCharacter))
                 {
@@ -210,16 +233,16 @@ namespace System
                 {
                     case TokenType.DayOfMonthTwoDigit:
                     case TokenType.DayOfMonth:
-                        day = getNextDigit();
+                        day = getNextDigit(2);
                         break;                        
                     case TokenType.MonthTwoDigit:
                     case TokenType.Month:
-                        month = getNextDigit();
+                        month = getNextDigit(2);
                         break;                        
                     case TokenType.YearFourDigit:
                     case TokenType.YearTwoDigit:
                     case TokenType.Year:
-                        year = getNextDigit();
+                        year = getNextDigit(token.Type == TokenType.YearFourDigit ? 4 : 2);
                         if (year < 1000)
                         {
                             year += (DateTime.Now.Year / 100) * 100;
@@ -227,15 +250,15 @@ namespace System
                         break;
                     case TokenType.HourTwoDigit:
                     case TokenType.Hour:
-                        hour += getNextDigit();
+                        hour += getNextDigit(2);
                         break;
                     case TokenType.MinuteTwoDigit:
                     case TokenType.Minute:
-                        minute = getNextDigit();
+                        minute = getNextDigit(2);
                         break;
                     case TokenType.SecondTwoDigit:
                     case TokenType.Second:
-                        second = getNextDigit();
+                        second = getNextDigit(2);
                         break;
                     case TokenType.AmPmSingleDigit:
                     {

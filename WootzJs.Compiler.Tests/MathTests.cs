@@ -51,5 +51,20 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(Math.Round(-3.5, 0, MidpointRounding.ToEven), -4);
             AssertEquals(Math.Round(-2.9999, 3, MidpointRounding.ToEven), -3);
         }
+
+        [Test]
+        public void IntDivision()
+        {
+            var value = 2014 / 100;
+            AssertEquals(value, 20);
+        }
+
+        [Test]
+        public void IntDivisionAssign()
+        {
+            var value = 2014;
+            value /= 100;
+            AssertEquals(value, 20);
+        }
     }
 }

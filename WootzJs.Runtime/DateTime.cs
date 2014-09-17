@@ -33,8 +33,8 @@ namespace System
 {
     public struct DateTime : IComparable, IFormattable, IConvertible, IComparable<DateTime>, IEquatable<DateTime>
     {
-        private JsDate value;
-        private DateTimeKind kind;
+        private readonly JsDate value;
+        private readonly DateTimeKind kind;
 
         public DateTime(JsDate value, DateTimeKind kind = DateTimeKind.Unspecified)
         {
@@ -318,6 +318,11 @@ namespace System
             if (!(obj is DateTime))
                 return false;
             return Equals((DateTime)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return value.getTime().GetHashCode();
         }
 
         public bool Equals(DateTime other)

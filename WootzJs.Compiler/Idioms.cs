@@ -1171,7 +1171,29 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        private bool IsIntegerType(ITypeSymbol type)
+        {
+            return type == Context.Instance.Int16 || type == Context.Instance.Int32 || type == Context.Instance.Int64;
+        }
+
         public bool TryStringConcatenation(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        {
+            if ((type == SyntaxKind.DivideExpression || type == SyntaxKind.DivideAssignmentExpression) && 
+                IsIntegerType(leftSymbol.ConvertedType) && 
+                IsIntegerType(rightSymbol.ConvertedType))
+            {
+                result = Js.Reference(SpecialNames.Truncate).Invoke(Js.Binary(JsBinaryOperator.Divide, left, right));
+                if (type == SyntaxKind.DivideAssignmentExpression)
+                {
+                    result = left.Assign(result);
+                }
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
+        public bool TryIntegerDivision(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if (type == SyntaxKind.AddExpression && 
                 (Equals(leftSymbol.ConvertedType, Context.Instance.String) || Equals(rightSymbol.ConvertedType, Context.Instance.String)) &&

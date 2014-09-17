@@ -877,6 +877,8 @@ namespace WootzJs.Compiler
                 return result;
             if (idioms.TryEnumEquality(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
+            if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
+                return result;
 
             if (symbol != null)
             {

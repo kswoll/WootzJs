@@ -39,6 +39,18 @@ namespace System.Collections.Generic
             return storage[0].As<T>();
         }
 
+        public T Peek(int lookAhead = 0)
+        {
+            if (lookAhead >= storage.length || lookAhead < 0)
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                return storage[lookAhead].As<T>();
+            }
+        }
+
         public int Count
         {
             get { return storage.length; }

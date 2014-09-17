@@ -141,11 +141,27 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void ParseSingleDigitMonthWithTwoDigits()
+        {
+            var s = "12";
+            var time = DateTime.ParseExact(s, "M");
+            AssertEquals(time, new DateTime(0, 12, 0));
+        }
+
+        [Test]
         public void TwoDigitMonth()
         {
             var time = new DateTime(2014, 1, 1);
             var s = time.ToString("MM");
             AssertEquals(s, "01");
+        }
+
+        [Test]
+        public void ParseTwoDigitMonth()
+        {
+            var s = "01";
+            var time = DateTime.ParseExact(s, "MM");
+            AssertEquals(time, new DateTime(0, 1, 0));
         }
 
         [Test]
@@ -157,11 +173,27 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void ParseTwoDigitMonthWithTwoDigits()
+        {
+            var s = "12";
+            var time = DateTime.ParseExact(s, "MM");
+            AssertEquals(time, new DateTime(0, 12, 0));
+        }
+
+        [Test]
         public void SingleDigitDay()
         {
             var time = new DateTime(2014, 12, 3);
             var s = time.ToString("d");
             AssertEquals(s, "3");
+        }
+
+        [Test]
+        public void ParseSingleDigitDay()
+        {
+            var s = "3";
+            var time = DateTime.ParseExact(s, "d");
+            AssertEquals(time, new DateTime(0, 0, 3));
         }
 
         [Test]
@@ -173,11 +205,27 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void ParseSingleDigitDayTwoDigit()
+        {
+            var s = "29";
+            var time = DateTime.ParseExact(s, "d");
+            AssertEquals(time, new DateTime(0, 0, 29));
+        }
+
+        [Test]
         public void TwoDigitDay()
         {
             var time = new DateTime(2014, 12, 3);
             var s = time.ToString("dd");
             AssertEquals(s, "03");
+        }
+
+        [Test]
+        public void ParseTwoDigitDay()
+        {
+            var s = "03";
+            var time = DateTime.ParseExact(s, "dd");
+            AssertEquals(time, new DateTime(0, 0, 3));
         }
 
         [Test]
@@ -189,6 +237,14 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void ParseTwoDigitDayTwoDigit()
+        {
+            var s = "29";
+            var time = DateTime.ParseExact(s, "dd");
+            AssertEquals(time, new DateTime(0, 0, 29));
+        }
+
+        [Test]
         public void SingleDigitYear()
         {
             var time = new DateTime(2003, 12, 3);
@@ -197,11 +253,27 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void ParseSingleDigitYear()
+        {
+            var s = "3";
+            var time = DateTime.ParseExact(s, "y");
+            AssertEquals(time, new DateTime(2003, 0, 0));
+        }
+
+        [Test]
         public void SingleDigitYearTwoDigit()
         {
             var time = new DateTime(2014, 12, 29);
             var s = time.ToString("y");
             AssertEquals(s, "14");
+        }
+
+        [Test]
+        public void ParseSingleDigitYearTwoDigit()
+        {
+            var s = "14";
+            var time = DateTime.ParseExact(s, "y");
+            AssertEquals(time, new DateTime(2014, 0, 0));
         }
 
         [Test]
