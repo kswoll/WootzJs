@@ -125,6 +125,14 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void ParseSingleDigitMonth()
+        {
+            var s = "1";
+            var time = DateTime.ParseExact(s, "M");
+            AssertEquals(time, new DateTime(0, 1, 0));
+        }
+
+        [Test]
         public void SingleDigitMonthWithTwoDigits()
         {
             var time = new DateTime(2014, 12, 1);

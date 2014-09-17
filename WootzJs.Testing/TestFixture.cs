@@ -26,7 +26,7 @@ namespace WootzJs.Testing
 
         public void AssertEquals(object actual, object expected, [CallerMemberName]string callerMemberName = null)
         {
-            bool equal = actual == expected;
+            var equal = Equals(actual, expected);
 /*
             if (actual == null && expected != null || actual != null && expected == null)
                 equal = false;

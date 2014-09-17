@@ -313,6 +313,13 @@ namespace System
             return TypeCode.DateTime;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is DateTime))
+                return false;
+            return Equals((DateTime)obj);
+        }
+
         public bool Equals(DateTime other)
         {
             return value.getTime() == other.value.getTime();
@@ -342,6 +349,12 @@ namespace System
         {
             var formatter = new DateTimeFormatter(format);
             return formatter.Format(this);
+        }
+
+        public static DateTime ParseExact(string s, string pattern, IFormatProvider formatProvider = null)
+        {
+            var formatter = new DateTimeFormatter(pattern);
+            return formatter.Parse(s);
         }
 
         public bool ToBoolean(IFormatProvider provider)

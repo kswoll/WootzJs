@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace System
@@ -89,11 +90,11 @@ namespace System
                     case '\\':
                         if (secondC == null)
                             throw new Exception("Escape character found with no character to escape");
-                        tokens.Add(new Token { Type = TokenType.Literal, Value = secondC.ToString() });
+                        tokens.Add(new Token { Type = TokenType.Literal, Value = secondC.Value });
                         i++;
                         break;
                     default:
-                        tokens.Add(new Token { Type = TokenType.Literal, Value = c.ToString() });
+                        tokens.Add(new Token { Type = TokenType.Literal, Value = c });
                         break;
                 }
             }
@@ -163,6 +164,129 @@ namespace System
             return builder.ToString();
         }
 
+        public DateTime Parse(string s)
+        {
+            var year = 0;
+            var month = 0;
+            var day = 0;
+            var hour = 0;
+            var minute = 0;
+            var second = 0;
+            var remainingCharacters = new Queue<char>(s);
+            Action throwException = () =>
+            {
+                throw new FormatException("The DateTime represented by the string is not supported in calendar System.Globalization.GregorianCalendar");
+            };
+            Func<int> getNextDigit = () =>
+            {
+                if (!remainingCharacters.Any())
+                    throwException();
+
+                var firstCharacter = remainingCharacters.Dequeue();
+                var secondCharacter = remainingCharacters.Any() ? (char?)remainingCharacters.Peek() : null;
+                int value = 0;
+
+                if (secondCharacter != null && char.IsDigit(secondCharacter.Value))
+                {
+                    value += int.Parse(secondCharacter.ToString());
+                    value += int.Parse(firstCharacter.ToString()) * 10;
+                    remainingCharacters.Dequeue();
+                }
+                else if (char.IsDigit(firstCharacter))
+                {
+                    value += int.Parse(firstCharacter.ToString());
+                }
+                else
+                {
+                    throwException();
+                }
+
+                return value;
+            };
+
+            foreach (var token in tokens)
+            {
+                switch (token.Type)
+                {
+                    case TokenType.DayOfMonthTwoDigit:
+                    case TokenType.DayOfMonth:
+                        day = getNextDigit();
+                        break;                        
+                    case TokenType.MonthTwoDigit:
+                    case TokenType.Month:
+                        month = getNextDigit();
+                        break;                        
+                    case TokenType.YearFourDigit:
+                    case TokenType.YearTwoDigit:
+                    case TokenType.Year:
+                        year = getNextDigit();
+                        if (year < 1000)
+                        {
+                            year += (DateTime.Now.Year / 100) * 100;
+                        }
+                        break;
+                    case TokenType.HourTwoDigit:
+                    case TokenType.Hour:
+                        hour += getNextDigit();
+                        break;
+                    case TokenType.MinuteTwoDigit:
+                    case TokenType.Minute:
+                        minute = getNextDigit();
+                        break;
+                    case TokenType.SecondTwoDigit:
+                    case TokenType.Second:
+                        second = getNextDigit();
+                        break;
+                    case TokenType.AmPmSingleDigit:
+                    {
+                        var current = remainingCharacters.Dequeue();
+                        switch (current)
+                        {
+                            case 'P':
+                                hour += 12;
+                                break;
+                            case 'A':
+                                break;
+                            default:
+                                throwException();
+                                break;
+                        }
+                        break;                        
+                    }
+                    case TokenType.AmPm:
+                    {
+                        var firstCharacter = remainingCharacters.Dequeue();
+                        var secondCharacter = remainingCharacters.Dequeue();
+                        if (secondCharacter != 'M')
+                        {
+                            throwException();
+                        }
+                        switch (firstCharacter)
+                        {
+                            case 'P':
+                                hour += 12;
+                                break;
+                            case 'A':
+                                break;
+                            default:
+                                throwException();
+                                break;
+                        }
+                        break;                        
+                    }
+                    case TokenType.Literal:
+                    case TokenType.Escape:
+                    {
+                        var current = remainingCharacters.Dequeue();
+                        if (current != token.Value)
+                            throwException();
+                        break;
+                    }
+                }
+            }
+            return new DateTime(year, month, day, hour, minute, second);
+        }
+
         private string Pad(int value, int minDigits, int maxDigits)
         {
             var s = value.ToString();
@@ -176,7 +300,7 @@ namespace System
         public class Token
         {
             public TokenType Type { get; set; }
-            public string Value { get; set; }
+            public char Value { get; set; }
         } 
 
         public enum TokenType
