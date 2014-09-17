@@ -25,6 +25,24 @@ namespace System
 
         public string StandardName { get; private set; }
 
+        private TimeSpan offset;
+
+        /// <summary>
+        /// Returns the local time that corresponds to a specified date and time value.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.DateTime"/> object whose value is the local time that corresponds to <paramref name="time"/>.
+        /// </returns>
+        /// <param name="time">A Coordinated Universal Time (UTC) time. </param><filterpriority>2</filterpriority>
+        public virtual DateTime ToLocalTime(DateTime time)
+        {
+            if (time.Kind == DateTimeKind.Local)
+                return time;
+
+            return time.Add(offset);
+        }
+
         private const string HEMISPHERE_SOUTH = "s";
 
         /// <summary>
@@ -192,9 +210,10 @@ namespace System
             return dstStarts[tz_name];
         }
 
-        private TimeZone(string standardName)
+        private TimeZone(string standardName, TimeSpan offset)
         {
             StandardName = standardName;
+            this.offset = offset;
             if (IsAmbiguous()) {
                 AmbiguityCheck();
             }
@@ -238,7 +257,7 @@ namespace System
         private static TimeZone FindCurrentTimezone()
         {
             var key = LookupKey();
-            return new TimeZone(Timezones[key]);
+            return new TimeZone(Timezones[key], TimeSpan.FromMinutes(new JsDate().getTimezoneOffset()));
         }
 
         private static readonly Dictionary<string, string> Timezones = new Dictionary<string, string> 

@@ -74,6 +74,12 @@ namespace System.Runtime.WootzJs
                     {
                         value = FromJsonObject(value, property.PropertyType).As<JsObject>();
                     }
+/*
+                    else if (property.PropertyType == typeof(DateTime))
+                    {
+                        
+                    }
+*/
                     property.SetValue(result, value, null);
                 }
             }

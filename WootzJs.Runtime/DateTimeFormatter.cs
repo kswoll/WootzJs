@@ -86,8 +86,14 @@ namespace System
                         else 
                             tokens.Add(new Token { Type = TokenType.AmPmSingleDigit });
                         break;
+                    case '\\':
+                        if (secondC == null)
+                            throw new Exception("Escape character found with no character to escape");
+                        tokens.Add(new Token { Type = TokenType.Literal, Value = secondC.ToString() });
+                        i++;
+                        break;
                     default:
-                        tokens.Add(new Token { Type = TokenType.Literal, Literal = c.ToString() });
+                        tokens.Add(new Token { Type = TokenType.Literal, Value = c.ToString() });
                         break;
                 }
             }
@@ -123,10 +129,10 @@ namespace System
                         builder.Append(Pad(int.Parse(dateTime.Year.ToString().Substring(2)), 1, 2));
                         break;
                     case TokenType.HourTwoDigit:
-                        builder.Append(Pad(dateTime.Hour % 12, 2, 2));
+                        builder.Append(Pad(dateTime.Hour % 12 == 0 ? 12 : dateTime.Hour % 12, 2, 2));
                         break;
                     case TokenType.Hour:
-                        builder.Append(Pad(dateTime.Hour % 12, 1, 2));
+                        builder.Append(Pad(dateTime.Hour % 12 == 0 ? 12 : dateTime.Hour % 12, 1, 2));
                         break;
                     case TokenType.MinuteTwoDigit:
                         builder.Append(Pad(dateTime.Minute, 2, 2));
@@ -147,7 +153,10 @@ namespace System
                         builder.Append(dateTime.Hour >= 12 ? "PM" : "AM");
                         break;
                     case TokenType.Literal:
-                        builder.Append(token.Literal);
+                        builder.Append(token.Value);
+                        break;
+                    case TokenType.Escape:
+                        builder.Append(token.Value);
                         break;
                 }
             }
@@ -167,7 +176,7 @@ namespace System
         public class Token
         {
             public TokenType Type { get; set; }
-            public string Literal { get; set; }
+            public string Value { get; set; }
         } 
 
         public enum TokenType
@@ -187,6 +196,7 @@ namespace System
             SecondTwoDigit,
             AmPm,
             AmPmSingleDigit,
+            Escape,
             Literal
         }
     }

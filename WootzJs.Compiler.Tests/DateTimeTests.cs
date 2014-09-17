@@ -355,5 +355,13 @@ namespace WootzJs.Compiler.Tests
             var s = time.ToString("h m");
             AssertEquals(s, "12 13");            
         }
+
+        [Test]
+        public void EscapeSlash()
+        {
+            var time = new DateTime(2014, 12, 3, 12, 13, 14);
+            var s = time.ToString("h\\\\m");
+            AssertEquals(s, "12\\13");                        
+        }
     }
 }
