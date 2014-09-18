@@ -71,7 +71,8 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(primitiveFields.UInt, 0);
             AssertEquals(primitiveFields.Long, 0);
             AssertEquals(primitiveFields.ULong, 0);
-            AssertEquals(primitiveFields.Enum, 0);
+            AssertTrue(primitiveFields.Enum == 0);
+            AssertEquals(primitiveFields.Enum, TestEnum.Value1);
         }
 
         [Test]
@@ -81,9 +82,17 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(value, "foo");
         }
 
+        [Test]
+        public void EnumAsStaticFieldIsInitializedToDefaultValue()
+        {
+            AssertTrue(StaticFieldClass.MyTestEnum == 0);
+            AssertEquals(StaticFieldClass.MyTestEnum, TestEnum.Value1);
+        }
+
         public class StaticFieldClass
         {
             public static string MyField;
+            public static TestEnum MyTestEnum;
         }
 
         public class ConstFieldClass
@@ -147,6 +156,9 @@ namespace WootzJs.Compiler.Tests
             public TestEnum Enum;
         }
 
-        public enum TestEnum {}
+        public enum TestEnum
+        {
+            Value1, Value2
+        }
     }
 }

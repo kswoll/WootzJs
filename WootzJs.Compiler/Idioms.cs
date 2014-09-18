@@ -538,13 +538,16 @@ namespace WootzJs.Compiler
             var result = new JsBlockStatement();
 
             // Add field initializers
-            foreach (var field in classDeclaration.Members.OfType<FieldDeclarationSyntax>().Where(x => x.Declaration.Variables.Any(y => y.Initializer != null)))
+            foreach (var field in classDeclaration.Members.OfType<FieldDeclarationSyntax>())
             {
                 foreach (var variable in field.Declaration.Variables)
                 {
                     var fieldSymbol = (IFieldSymbol)ModelExtensions.GetDeclaredSymbol(transformer.model, variable);
+                    var initializer = variable.Initializer != null ? 
+                        (JsExpression)variable.Initializer.Accept(transformer) :
+                        DefaultValue(fieldSymbol.Type);
                     if (fieldSymbol.IsStatic)
-                        result.Add(StoreInType(fieldSymbol.GetMemberName(), (JsExpression)variable.Initializer.Accept(transformer)));
+                        result.Add(StoreInType(fieldSymbol.GetMemberName(), initializer));
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
@@ -814,12 +817,17 @@ namespace WootzJs.Compiler
                 throw new Exception("No explicit default value.  You should check that before invoking this method.");
             if (parameter.Type.TypeKind == TypeKind.Enum)
             {
-                return InvokeStatic(Context.Instance.EnumInternalToObject, Type(parameter.Type).Invoke(), Js.Literal(parameter.ExplicitDefaultValue));            
+                return GetEnumByValue(parameter.Type, Js.Literal(parameter.ExplicitDefaultValue));
             }
             else
             {
                 return Js.Literal(parameter.ExplicitDefaultValue);
             }
+        }
+
+        public JsExpression GetEnumByValue(ITypeSymbol enumType, JsExpression value)
+        {
+            return InvokeStatic(Context.Instance.EnumInternalToObject, Type(enumType).Invoke(), value);
         }
 
         public JsExpression GetPropertyValue(JsExpression target, IPropertySymbol property, bool isBaseReference = false)
@@ -2008,7 +2016,7 @@ namespace WootzJs.Compiler
                     break;
                 default:
                     if (Equals(type.BaseType, Context.Instance.EnumType))
-                        value = Js.Primitive(0);
+                        value = GetEnumByValue(type, Js.Literal(0));
                     else if (type is ITypeParameterSymbol)
                         value = InvokeStatic(Context.Instance.DefaultOf, Js.Reference(type.Name));
                     else
