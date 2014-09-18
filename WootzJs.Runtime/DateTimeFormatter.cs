@@ -78,6 +78,20 @@ namespace System
                         else
                             tokens.Add(new Token { Type = TokenType.Second });
                         break;
+                    case 'f':
+                        if (secondC == 'f' && thirdC == 'f')
+                        {
+                            tokens.Add(new Token { Type = TokenType.Millisecond });
+                            i += 3;
+                        }
+                        else if (secondC == 'f')
+                        {
+                            tokens.Add(new Token { Type = TokenType.HundredthSecond });
+                            i++;
+                        }
+                        else
+                            tokens.Add(new Token { Type = TokenType.TenthSecond });
+                        break;
                     case 't':
                         if (secondC == 't')
                         {
@@ -147,6 +161,15 @@ namespace System
                     case TokenType.Second:
                         builder.Append(Pad(dateTime.Second, 1, 2));
                         break;
+                    case TokenType.TenthSecond:
+                        builder.Append(dateTime.Millisecond / 100);
+                        break;
+                    case TokenType.HundredthSecond:
+                        builder.Append(dateTime.Millisecond / 10);
+                        break;
+                    case TokenType.Millisecond:
+                        builder.Append(dateTime.Millisecond);
+                        break;
                     case TokenType.AmPmSingleDigit:
                         builder.Append(dateTime.Hour >= 12 ? 'P' : 'A');
                         break;
@@ -172,6 +195,7 @@ namespace System
             var hour = 0;
             var minute = 0;
             var second = 0;
+            var millisecond = 0;
             var remainingCharacters = new Queue<char>(s);
             Action throwException = () =>
             {
@@ -181,10 +205,14 @@ namespace System
             {
                 if (!remainingCharacters.Any())
                     throwException();
-                if (maxDigits < 2 || maxDigits > 4)
+                if (maxDigits < 1 || maxDigits > 4)
                     throw new Exception("Invalid max digits");
 
                 var firstCharacter = remainingCharacters.Dequeue();
+                if (maxDigits == 1)
+                {
+                    return int.Parse(firstCharacter.ToString());
+                }
                 var secondCharacter = remainingCharacters.Any() ? (char?)remainingCharacters.Peek() : null;
                 var thirdCharacter = remainingCharacters.Count > 1 ? (char?)remainingCharacters.Peek(1) : null;
                 var fourthCharacter = remainingCharacters.Count > 2 ? (char?)remainingCharacters.Peek(2) : null;
@@ -200,12 +228,17 @@ namespace System
                             value += int.Parse(thirdCharacter.ToString()) * 10;
                             value += int.Parse(secondCharacter.ToString()) * 100;
                             value += int.Parse(firstCharacter.ToString()) * 1000;
+                            remainingCharacters.Dequeue();
+                            remainingCharacters.Dequeue();
+                            remainingCharacters.Dequeue();
                         }
                         else
                         {
                             value += int.Parse(thirdCharacter.ToString());
                             value += int.Parse(secondCharacter.ToString()) * 10;
                             value += int.Parse(firstCharacter.ToString()) * 100;
+                            remainingCharacters.Dequeue();
+                            remainingCharacters.Dequeue();
                         }
                     }
                     else
@@ -260,36 +293,36 @@ namespace System
                     case TokenType.Second:
                         second = getNextDigit(2);
                         break;
+                    case TokenType.TenthSecond:
+                        millisecond = getNextDigit(1) * 100;
+                        break;
+                    case TokenType.HundredthSecond:
+                        millisecond = getNextDigit(2) * 10;
+                        break;
+                    case TokenType.Millisecond:
+                        millisecond = getNextDigit(3);
+                        break;
                     case TokenType.AmPmSingleDigit:
-                    {
-                        var current = remainingCharacters.Dequeue();
-                        switch (current)
-                        {
-                            case 'P':
-                                hour += 12;
-                                break;
-                            case 'A':
-                                break;
-                            default:
-                                throwException();
-                                break;
-                        }
-                        break;                        
-                    }
                     case TokenType.AmPm:
                     {
                         var firstCharacter = remainingCharacters.Dequeue();
-                        var secondCharacter = remainingCharacters.Dequeue();
-                        if (secondCharacter != 'M')
+                        var secondCharacter = remainingCharacters.Any() ? (char?)remainingCharacters.Peek() : null;
+                        if (token.Type == TokenType.AmPm)
                         {
-                            throwException();
+                            remainingCharacters.Dequeue();
+                            if (secondCharacter != 'M')
+                            {
+                                throwException();
+                            }                            
                         }
                         switch (firstCharacter)
                         {
                             case 'P':
-                                hour += 12;
+                                if (hour != 12)
+                                    hour += 12;
                                 break;
                             case 'A':
+                                hour = hour == 12 ? 0 : hour;
                                 break;
                             default:
                                 throwException();
@@ -307,7 +340,7 @@ namespace System
                     }
                 }
             }
-            return new DateTime(year, month, day, hour, minute, second);
+            return new DateTime(year, month, day, hour, minute, second, millisecond);
         }
 
         private string Pad(int value, int minDigits, int maxDigits)
@@ -341,6 +374,9 @@ namespace System
             MinuteTwoDigit,
             Second,
             SecondTwoDigit,
+            TenthSecond,
+            HundredthSecond,
+            Millisecond,
             AmPm,
             AmPmSingleDigit,
             Escape,
