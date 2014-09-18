@@ -2,8 +2,8 @@
 {
     public enum DateTimeKind
     {
-        Unspecified,
-        Utc,
-        Local
+        Unspecified = 0,
+        Utc = 1,
+        Local = 2
     }
 }

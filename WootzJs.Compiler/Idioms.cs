@@ -479,7 +479,7 @@ namespace WootzJs.Compiler
                     Type(parameter.Type),
                     Js.Primitive(i), 
                     parameterAttributes,
-                    parameter.HasExplicitDefaultValue ? Js.Literal(parameter.ExplicitDefaultValue) : Js.Null(),
+                    parameter.HasExplicitDefaultValue ? GetExplicitDefaultValue(parameter) : Js.Null(),
                     CreateAttributes(parameter));
                 result.Elements.Add(parameterInfo);
             }
@@ -721,11 +721,11 @@ namespace WootzJs.Compiler
                             if (parameter.GetAttributes().Any(x => Equals(x.AttributeClass, Context.Instance.CallerMemberNameAttribute)))
                             {
                                 var value = context.GetContainingMemberName();
-                                newArguments.Add(Js.Literal(value ?? parameter.ExplicitDefaultValue));
+                                newArguments.Add(value != null ? Js.Literal(value) : GetExplicitDefaultValue(parameter));
                             }
                             else
                             {
-                               newArguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
+                               newArguments.Add(GetExplicitDefaultValue(parameter));
                             }
                         }
                         else
@@ -792,11 +792,11 @@ namespace WootzJs.Compiler
                         if (parameter.GetAttributes().Any(x => Equals(x.AttributeClass, Context.Instance.CallerMemberNameAttribute)))
                         {
                             var value = context.GetContainingMemberName();
-                            arguments.Add(Js.Literal(value ?? parameter.ExplicitDefaultValue));
+                            arguments.Add(value != null ? Js.Literal(value) : GetExplicitDefaultValue(parameter));
                         }
                         else
                         {
-                            arguments.Add(Js.Literal(parameter.ExplicitDefaultValue));
+                            arguments.Add(GetExplicitDefaultValue(parameter));
                         }
                     }
                 }
@@ -806,6 +806,20 @@ namespace WootzJs.Compiler
                 }
             }
             return arguments.ToArray();
+        }
+
+        public JsExpression GetExplicitDefaultValue(IParameterSymbol parameter)
+        {
+            if (!parameter.HasExplicitDefaultValue)
+                throw new Exception("No explicit default value.  You should check that before invoking this method.");
+            if (parameter.Type.TypeKind == TypeKind.Enum)
+            {
+                return InvokeStatic(Context.Instance.EnumInternalToObject, Type(parameter.Type).Invoke(), Js.Literal(parameter.ExplicitDefaultValue));            
+            }
+            else
+            {
+                return Js.Literal(parameter.ExplicitDefaultValue);
+            }
         }
 
         public JsExpression GetPropertyValue(JsExpression target, IPropertySymbol property, bool isBaseReference = false)
@@ -2014,7 +2028,7 @@ namespace WootzJs.Compiler
                 baseConstructor = baseType.InstanceConstructors.Single(x => x.Parameters[0].HasExplicitDefaultValue);
                 arguments.AddRange(baseConstructor.Parameters
                     .Where(x => x.HasExplicitDefaultValue)
-                    .Select(x => Js.Literal(x.ExplicitDefaultValue)));
+                    .Select(x => GetExplicitDefaultValue(x)));
             }
             return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
         }
