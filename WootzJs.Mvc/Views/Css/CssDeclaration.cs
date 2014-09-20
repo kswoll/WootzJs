@@ -49,7 +49,7 @@ namespace WootzJs.Mvc.Views.Css
             }
         }
 
-        protected void Act(string name, string value)
+        protected void Act(Func<string> name, string value)
         {
             Act(new CssSetAction(name, value));
         }
@@ -70,13 +70,23 @@ namespace WootzJs.Mvc.Views.Css
             throw new InvalidOperationException("Not attached");
         }
 
-        protected internal void Set(string name, object value)
+        protected internal void Set(Func<string> name, object value)
         {
             var val = value.ToString();
             if (node == null)
                 Act(name, val);
             else
-                node[name] = val;
+                SetValue(name(), val);
+        }
+
+        protected internal void Set(string name, object value)
+        {
+            Set(() => name, value);
+        }
+
+        protected internal void SetValue(string name, string value)
+        {
+            node[name] = value;
         }
 
         protected internal bool IsSet(string name)
