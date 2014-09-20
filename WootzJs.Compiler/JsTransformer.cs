@@ -880,7 +880,7 @@ namespace WootzJs.Compiler
             if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
 
-            if (symbol != null)
+            if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
             {
                 var method = (IMethodSymbol)symbol;
                 if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
