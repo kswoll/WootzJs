@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Collections.Generic;
 using System.Linq;
 using WootzJs.Testing;
 
@@ -71,6 +72,15 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(property.PropertyType.GetElementType().Name, "String");
         }
 
+        [Test]
+        public void GenericClassWithListOther()
+        {
+            var type = typeof(GenericClassWithListOtherClass<string>);
+            var property = type.GetProperty("TheList");
+            var propertyListType = property.PropertyType.GetGenericArguments()[0];
+            AssertEquals(propertyListType, typeof(PropertyClass));
+        }
+
         public class PropertyClass
         {
             public static string StaticProperty { get; set; }
@@ -90,6 +100,12 @@ namespace WootzJs.Compiler.Tests.Reflection
         public class GenericArrayPropertyClass<T>
         {
             public T[] Rows { get; set; }
+        }
+
+        public class GenericClassWithListOtherClass<T>
+        {
+            public T Value { get; set; }
+            public List<PropertyClass> TheList { get; set; }
         }
     }
 }

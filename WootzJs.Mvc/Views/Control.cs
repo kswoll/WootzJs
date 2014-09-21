@@ -54,6 +54,18 @@ namespace WootzJs.Mvc.Views
             internal set { view = value; }
         }
 
+        public UrlHelper Url
+        {
+            get
+            {
+                var viewContext = ViewContext;
+                if (viewContext != null)
+                    return viewContext.Url;
+                else
+                    return MvcApplication.Instance.Url;
+            }
+        }
+
         public ViewContext ViewContext
         {
             get

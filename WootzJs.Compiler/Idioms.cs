@@ -293,7 +293,7 @@ namespace WootzJs.Compiler
 
                 var propertyInfo = CreateObject(Context.Instance.PropertyInfoConstructor, 
                     Js.Primitive(property.Name),
-                    Type(property.Type, true),
+                    Type(property.Type, false),
                     property.GetMethod != null ? CreateMethodInfo(property.GetMethod) : Js.Null(),
                     property.SetMethod != null ? CreateMethodInfo(property.SetMethod) : Js.Null(),
                     CreateParameterInfos(property.Parameters.ToArray()),
@@ -672,7 +672,8 @@ namespace WootzJs.Compiler
         {
             // Handle type arguments in the containing type
             JsExpression typeReference = Type(method.ContainingType, forceUnconstructedScope);
-            return typeReference.Member("prototype").Member(method.GetMemberName());            
+            var target = method.IsStatic ? typeReference : typeReference.Member("prototype");
+            return target.Member(method.GetMemberName());            
         }
 
         public JsInvocationExpression InvokeStatic(IMethodSymbol method, params JsExpression[] args)

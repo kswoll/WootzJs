@@ -134,6 +134,14 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(strings[2], "three");
         }
 
+        [Test]
+        public void ArrayIsIEnumerableT()
+        {
+            var array = new[] { "one", "two" };
+            AssertTrue(array is IEnumerable<string>);
+            AssertTrue(typeof(IEnumerable<string>).IsAssignableFrom(array.GetType()));
+        }
+
         [Js(Name = "ExportTest", Export = false)]
         class ExportTest
         {

@@ -292,8 +292,15 @@ namespace System
                 {
                     bool isValid = true;
                     for (var i = 0; i < types.Length; i++)
-                        if (types[i] != parameters[i].ParameterType)
-                            isValid = false;
+                    {
+                        if (types[i].IsGenericType && parameters[i].ParameterType.IsGenericType)
+                        {
+                            if (!parameters[i].ParameterType.GetGenericTypeDefinition().IsAssignableFrom(types[i].GetGenericTypeDefinition()))
+                                isValid = false;
+                        }
+                        else if (!parameters[i].ParameterType.IsAssignableFrom(types[i]))
+                            isValid = false;                        
+                    }
                     if (!isValid)
                         continue;
                 }

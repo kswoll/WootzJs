@@ -40,6 +40,17 @@ namespace WootzJs.Mvc.Views
             }
         }
 
+        public UrlHelper Url
+        {
+            get
+            {
+                if (ViewContext != null)
+                    return ViewContext.Url;
+                else
+                    return MvcApplication.Instance.Url;
+            }
+        }
+
         public IDictionary<string, Control> Sections
         {
             get { return sections ?? (sections = new Dictionary<string, Control>()); }

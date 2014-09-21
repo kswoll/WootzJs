@@ -513,6 +513,61 @@ namespace System.Linq.Expressions
         {
             return Expression.Convert(expression, type, (MethodInfo)null);
         }
+/*
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Expressions.BinaryExpression"/> that represents an equality comparison.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Expressions.BinaryExpression"/> that has the <see cref="P:System.Linq.Expressions.Expression.NodeType"/> property equal to <see cref="F:System.Linq.Expressions.ExpressionType.Equal"/> and the <see cref="P:System.Linq.Expressions.BinaryExpression.Left"/> and <see cref="P:System.Linq.Expressions.BinaryExpression.Right"/> properties set to the specified values.
+        /// </returns>
+        /// <param name="left">An <see cref="T:System.Linq.Expressions.Expression"/> to set the <see cref="P:System.Linq.Expressions.BinaryExpression.Left"/> property equal to.</param><param name="right">An <see cref="T:System.Linq.Expressions.Expression"/> to set the <see cref="P:System.Linq.Expressions.BinaryExpression.Right"/> property equal to.</param><exception cref="T:System.ArgumentNullException"><paramref name="left"/> or <paramref name="right"/> is null.</exception><exception cref="T:System.InvalidOperationException">The equality operator is not defined for <paramref name="left"/>.Type and <paramref name="right"/>.Type.</exception>
+        public static BinaryExpression Equal(Expression left, Expression right)
+        {
+            return Equal(left, right, false, null);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:System.Linq.Expressions.BinaryExpression"/> that represents an equality comparison. The implementing method can be specified.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A <see cref="T:System.Linq.Expressions.BinaryExpression"/> that has the <see cref="P:System.Linq.Expressions.Expression.NodeType"/> property equal to <see cref="F:System.Linq.Expressions.ExpressionType.Equal"/> and the <see cref="P:System.Linq.Expressions.BinaryExpression.Left"/>, <see cref="P:System.Linq.Expressions.BinaryExpression.Right"/>, <see cref="P:System.Linq.Expressions.BinaryExpression.IsLiftedToNull"/>, and <see cref="P:System.Linq.Expressions.BinaryExpression.Method"/> properties set to the specified values.
+        /// </returns>
+        /// <param name="left">An <see cref="T:System.Linq.Expressions.Expression"/> to set the <see cref="P:System.Linq.Expressions.BinaryExpression.Left"/> property equal to.</param><param name="right">An <see cref="T:System.Linq.Expressions.Expression"/> to set the <see cref="P:System.Linq.Expressions.BinaryExpression.Right"/> property equal to.</param><param name="liftToNull">true to set <see cref="P:System.Linq.Expressions.BinaryExpression.IsLiftedToNull"/> to true; false to set <see cref="P:System.Linq.Expressions.BinaryExpression.IsLiftedToNull"/> to false.</param><param name="method">A <see cref="T:System.Reflection.MethodInfo"/> to set the <see cref="P:System.Linq.Expressions.BinaryExpression.Method"/> property equal to.</param><exception cref="T:System.ArgumentNullException"><paramref name="left"/> or <paramref name="right"/> is null.</exception><exception cref="T:System.ArgumentException"><paramref name="method"/> is not null and the method it represents returns void, is not static (Shared in Visual Basic), or does not take exactly two arguments.</exception><exception cref="T:System.InvalidOperationException"><paramref name="method"/> is null and the equality operator is not defined for <paramref name="left"/>.Type and <paramref name="right"/>.Type.</exception>
+        public static BinaryExpression Equal(Expression left, Expression right, bool liftToNull, MethodInfo method)
+        {
+            if (method == null)
+                return Expression.GetEqualityComparisonOperator(ExpressionType.Equal, "op_Equality", left, right, liftToNull);
+            else
+                return Expression.GetMethodBasedBinaryOperator(ExpressionType.Equal, left, right, method, liftToNull);
+        }
+
+    private static BinaryExpression GetEqualityComparisonOperator(ExpressionType binaryType, string opName, Expression left, Expression right, bool liftToNull)
+    {
+      if (left.Type == right.Type && (TypeUtils.IsNumeric(left.Type) || left.Type == typeof (object) || (TypeUtils.IsBool(left.Type) || TypeUtils.GetNonNullableType(left.Type).IsEnum)))
+      {
+        if (TypeUtils.IsNullableType(left.Type) && liftToNull)
+          return (BinaryExpression) new SimpleBinaryExpression(binaryType, left, right, typeof (bool?));
+        else
+          return (BinaryExpression) new LogicalBinaryExpression(binaryType, left, right);
+      }
+      else
+      {
+        BinaryExpression definedBinaryOperator = Expression.GetUserDefinedBinaryOperator(binaryType, opName, left, right, liftToNull);
+        if (definedBinaryOperator != null)
+          return definedBinaryOperator;
+        if (!TypeUtils.HasBuiltInEqualityOperator(left.Type, right.Type) && !Expression.IsNullComparison(left, right))
+          throw Error.BinaryOperatorNotDefined((object) binaryType, (object) left.Type, (object) right.Type);
+        if (TypeUtils.IsNullableType(left.Type) && liftToNull)
+          return (BinaryExpression) new SimpleBinaryExpression(binaryType, left, right, typeof (bool?));
+        else
+          return (BinaryExpression) new LogicalBinaryExpression(binaryType, left, right);
+      }
+    }
+
+*/
 
         /// <summary>
         /// Creates a <see cref="T:System.Linq.Expressions.UnaryExpression"/> that represents a conversion operation for which the implementing method is specified.

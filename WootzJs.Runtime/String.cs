@@ -252,6 +252,9 @@ namespace System
         [Js(Extension = true)]
         public string Substring(int startIndex, int length = 0)
         {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException("length", "Length must be greater than or equal to zero");
+
             var s = this.As<JsString>();
             if (length == 0)
                 return s.substring(startIndex);
@@ -389,6 +392,8 @@ namespace System
         /// <param name="separator">The string to use as a separator.</param><param name="values">A collection that contains the objects to concatenate.</param><typeparam name="T">The type of the members of <paramref name="values"/>.</typeparam><exception cref="T:System.ArgumentNullException"><paramref name="values"/> is null. </exception>
         public static string Join<T>(string separator, IEnumerable<T> values)
         {
+            if (values == null)
+                throw new ArgumentNullException("values");
             return InternalJoin(separator, values.Select(x => x.ToString()).ToArray());
         }
 

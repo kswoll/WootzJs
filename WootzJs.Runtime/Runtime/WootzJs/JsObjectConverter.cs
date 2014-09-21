@@ -27,6 +27,8 @@
 
 #endregion
 
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
@@ -69,6 +71,17 @@ namespace System.Runtime.WootzJs
                             array.SetValue(FromJsonObject(arrayValue[i], elementType), i);
                         }
                         value = array.As<JsObject>();
+                    }
+                    else if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                    {
+                        var arrayValue = value.As<JsArray>();
+                        var elementType = property.PropertyType.GetGenericArguments()[0];
+                        var list = (IList)Activator.CreateInstance(property.PropertyType);
+                        for (var i = 0; i < arrayValue.length; i++)
+                        {
+                            list.Add(FromJsonObject(arrayValue[i], elementType));
+                        }
+                        value = list.As<JsObject>();
                     }
                     else if (!property.PropertyType.IsPrimitive && property.PropertyType != typeof(string) && property.PropertyType != typeof(DateTime) && !typeof(Enum).IsAssignableFrom(property.PropertyType))
                     {

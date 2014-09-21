@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.WootzJs;
 using System.Text;
+using WootzJs.Mvc.Utils;
 
 namespace WootzJs.Mvc.Views
 {
@@ -18,17 +20,19 @@ namespace WootzJs.Mvc.Views
             var controllerDefaultAttribute = (DefaultAttribute)method.DeclaringType.GetCustomAttributes(typeof(DefaultAttribute), false).SingleOrDefault();
             var routeAttribute = (RouteAttribute)method.GetCustomAttributes(typeof(RouteAttribute), false).SingleOrDefault();
             var defaultAttribute = (DefaultAttribute)method.GetCustomAttributes(typeof(DefaultAttribute), false).SingleOrDefault();
+            var args = methodCallExpression.ExtractArguments();
             if (controllerDefaultAttribute != null && defaultAttribute != null)
                 result.Append("/");
             else if (defaultAttribute != null)
                 result.Append("/" + GetControllerNameFromType(method.DeclaringType));
             else if (routeAttribute != null && routeAttribute.Value != null)
-                result.Append(GenerateUrlFromTemplate(routeAttribute.Value));
+            {
+                result.Append(GenerateUrlFromTemplate(routeAttribute.Value, args));
+            }
             else 
                 result.Append(GenerateUrlFromMethod(method));
 
             bool hasAddedArgument = false;
-            var args = methodCallExpression.ExtractArguments();
             foreach (var argument in args)
             {
                 if (!hasAddedArgument)
@@ -44,9 +48,24 @@ namespace WootzJs.Mvc.Views
             return result.ToString();
         }
 
-        private static string GenerateUrlFromTemplate(string template)
+        private static string GenerateUrlFromTemplate(string template, Dictionary<string, object> routeValues)
         {
-            return template;
+            var tokens = template.BraceTokenize().ToArray();
+            var builder = new StringBuilder();
+            foreach (var token in tokens)
+            {
+                if (token is BraceTokenizer.Literal)
+                {
+                    builder.Append(token.Literal);
+                }
+                else
+                {
+                    var value = routeValues.Get(token.Variable);
+                    builder.Append(value);
+                    routeValues.Remove(token.Variable);
+                }
+            }
+            return builder.ToString();
         }
 
         private static string GenerateUrlFromMethod(MethodInfo method)
