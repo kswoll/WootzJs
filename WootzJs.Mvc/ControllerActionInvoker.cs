@@ -11,6 +11,11 @@ namespace WootzJs.Mvc
         {
             var parameters = action.GetParameters();
             var args = new object[parameters.Length];
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var value = context.Controller.RouteData[parameters[i].Name];
+                args[i] = value;
+            }
 
             // If async
             if (action.ReturnType == typeof(Task<ActionResult>))
