@@ -14,16 +14,6 @@ namespace WootzJs.Mvc.Routes
             Children = new List<RouteNode>();
         }
 
-        public IRouteNode FindDuplicate(IRouteNode parent)
-        {
-            var duplicate = Part.FindDuplicate(parent.Children.Select(x => x.Part));
-            if (duplicate != null)
-            {
-                return parent.Children.Single(x => x.Part == duplicate);
-            }
-            return null;
-        }
-
         public override string ToString()
         {
             return Part.ToString();

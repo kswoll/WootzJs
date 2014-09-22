@@ -12,10 +12,12 @@ namespace WootzJs.Mvc.Routes
         {
         }
         
+/*
         protected override bool IsDuplicate(IRoutePart part)
         {
             return part is RouteDefault;
         }
+*/
 
         protected override bool Accept(RoutePath path)
         {

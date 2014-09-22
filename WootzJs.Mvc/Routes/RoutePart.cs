@@ -14,20 +14,6 @@ namespace WootzJs.Mvc.Routes
             RouteData = routeData ?? new Dictionary<string, object>();
         }
         
-        public IRoutePart FindDuplicate(IEnumerable<IRoutePart> parts)
-        {
-            return parts.FirstOrDefault(x => IsDuplicate(x));
-        }        
-        
-        protected virtual bool IsDuplicate(IRoutePart part)
-        {
-            object otherMethodObj;
-            part.RouteData.TryGetValue(Routes.RouteData.RequiredHttpMethodKey, out otherMethodObj);
-            var otherMethod = (string)otherMethodObj;
-            bool result = (RequiredHttpMethod == null && otherMethod == null) || RequiredHttpMethod == otherMethod;
-            return result;
-        }
-        
         public string RequiredHttpMethod
         {
             get

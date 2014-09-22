@@ -19,11 +19,6 @@ namespace WootzJs.Mvc.Routes
         {
         }
 
-        protected override bool IsDuplicate(IRoutePart part)
-        {
-            return base.IsDuplicate(part) && (part is RouteLiteral && ((RouteLiteral)part).IsTerminal ? ((RouteLiteral)part).Literal == Literal && IsTerminal : part is RouteVariable && ((RouteVariable)part).IsTerminal);
-        }
-
         protected override bool Accept(RoutePath path)
         {
             if (path.Current != null && path.Current.Equals(Literal, StringComparison.OrdinalIgnoreCase))

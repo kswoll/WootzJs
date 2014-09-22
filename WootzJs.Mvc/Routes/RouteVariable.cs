@@ -15,11 +15,6 @@ namespace WootzJs.Mvc.Routes
             Parameter = parameter;
         }
 
-        protected override bool IsDuplicate(IRoutePart part)
-        {
-            return base.IsDuplicate(part) && IsTerminal && (part is RouteLiteral && ((RouteLiteral)part).IsTerminal || part is RouteVariable && ((RouteVariable)part).IsTerminal);
-        }
-
         protected override bool Accept(RoutePath path)
         {
             if (path.Current != null)
