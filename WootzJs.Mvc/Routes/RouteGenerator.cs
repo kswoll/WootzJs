@@ -123,11 +123,12 @@ namespace WootzJs.Mvc.Routes
                         }                        
                         else if (part.StartsWith("{") && part.EndsWith("}"))
                         {
-                            var id = part.ChopStart("{").ChopEnd("}");
+                            var pieces = part.ChopStart("{").ChopEnd("}").Split(':');
+                            var id = pieces[0];
                             var parameter = actionMethod.GetParameters().Single(x => x.Name == id);
                             var variable = new RouteVariable(routePath.Current == null, parameter);
 
-                            var constraints = id.Split(':').Skip(1).ToArray();
+                            var constraints = pieces.Skip(1).ToArray();
                             foreach (var name in constraints)
                             {
                                 var constraint = RouteConstraints.GetConstraint(name);

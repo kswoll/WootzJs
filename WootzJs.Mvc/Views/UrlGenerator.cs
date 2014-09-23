@@ -60,9 +60,10 @@ namespace WootzJs.Mvc.Views
                 }
                 else
                 {
-                    var value = routeValues.Get(token.Variable);
+                    var id = token.Variable.Split(':')[0];
+                    var value = routeValues.Get(id);
                     builder.Append(value);
-                    routeValues.Remove(token.Variable);
+                    routeValues.Remove(id);
                 }
             }
             return builder.ToString();

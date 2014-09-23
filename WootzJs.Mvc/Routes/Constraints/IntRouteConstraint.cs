@@ -4,7 +4,8 @@
     {
         public bool Accept(RoutePath path)
         {
-            throw new System.NotImplementedException();
+            int result;
+            return int.TryParse(path.Current, out result);
         }
     }
 }
