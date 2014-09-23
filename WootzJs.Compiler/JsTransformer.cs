@@ -1307,6 +1307,11 @@ namespace WootzJs.Compiler
             }
 
             var method = (IMethodSymbol)model.GetSymbolInfo(node).Symbol;
+            if (method == null)
+            {
+                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();                
+            }
             if (Equals(type, Context.Instance.MulticastDelegateType))
             {
                 return ImplicitCheck(node, idioms.CreateMulticastDelegate((JsExpression)node.ArgumentList.Arguments[0].Accept(this), 

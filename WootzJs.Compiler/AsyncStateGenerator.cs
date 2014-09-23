@@ -15,16 +15,30 @@ namespace WootzJs.Compiler
         private Dictionary<string, string> renamedVariables = new Dictionary<string, string>();
         private Stack<AsyncState> breakStates = new Stack<AsyncState>();
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
+        private List<HoistedVariableScope> hoistedVariableScopes = new List<HoistedVariableScope>();
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
 
         public AsyncStateGenerator(Compilation compilation, MethodDeclarationSyntax node) : base(compilation, node)
         {
             decomposer = new AsyncExpressionDecomposer(this);
+            hoistedVariableScopes.Add(new HoistedVariableScope());
         }
 
         public IEnumerable<MethodDeclarationSyntax> AdditionalHostMethods
         {
             get { return additionalHostMethods; }
+        }
+
+        private string GetIdentifier(string id)
+        {
+            for (var i = hoistedVariableScopes.Count - 1; i >= 0; i--)
+            {
+                var scope = hoistedVariableScopes[i];
+                var newIdentifier = scope.GetIdentifier(id);
+                if (newIdentifier != null)
+                    return newIdentifier;
+            }
+            return id;
         }
 
         private string GenerateNewName(SyntaxToken identifier)
@@ -48,11 +62,13 @@ namespace WootzJs.Compiler
                 var newName = GenerateNewName(identifier);
                 var newIdentifier = SyntaxFactory.Identifier(newName);
                 renamedVariables[identifier.ToString()] = newIdentifier.ToString();
+                hoistedVariableScopes.Last().DeclareRename(identifier.ToString(), newIdentifier.ToString());
                 identifier = newIdentifier;
             }
             hoistedVariables[identifier.ToString()] = type;
             return identifier;
         }
+
 
         public Tuple<SyntaxToken, TypeSyntax>[] HoistedVariables
         {
@@ -82,15 +98,15 @@ namespace WootzJs.Compiler
             // Convert the variable declaration to an assignment expression statement
             foreach (var variable in node.Declaration.Variables)
             {
-                if (variable.Initializer != null)
-                {
-                    var assignment = SyntaxFactory.IdentifierName(variable.Identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
-                    CurrentState.Add(assignment.Express());
-                }
-
                 // Hoist the variable into a field
                 var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, variable);
-                HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+                var identifier = HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+
+                if (variable.Initializer != null)
+                {
+                    var assignment = SyntaxFactory.IdentifierName(identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
+                    CurrentState.Add(assignment.Express());
+                }
             }
         }
 
@@ -124,10 +140,13 @@ namespace WootzJs.Compiler
 
         public override void VisitBlock(BlockSyntax node)
         {
+            var scope = new HoistedVariableScope();
+            hoistedVariableScopes.Add(scope);
             foreach (var statement in node.Statements)
             {
                 AcceptStatement(statement);
             }
+            hoistedVariableScopes.Remove(scope);
         }
 
         public override void VisitIfStatement(IfStatementSyntax node)
@@ -503,6 +522,18 @@ namespace WootzJs.Compiler
                 return SyntaxFactory.IdentifierName("$this");
             }
 
+            public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+            {
+                var id = node.Identifier.ToString();
+                id = stateGenerator.GetIdentifier(id);
+                return base.VisitIdentifierName(Cs.IdentifierName(id));
+            }
+
+            public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
+            {
+                return base.VisitMemberAccessExpression(node);
+            }
+
             public override SyntaxNode VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
             {
                 switch (node.CSharpKind())
@@ -602,6 +633,26 @@ namespace WootzJs.Compiler
                 }            
 
                 return base.VisitInvocationExpression(node);
+            }
+        }
+
+        class HoistedVariableScope
+        {
+            private Dictionary<string, string> renames = new Dictionary<string, string>();
+
+            public void DeclareRename(string old, string @new)
+            {
+                renames[old] = @new;
+            }
+
+            public string GetIdentifier(string id)
+            {
+                string @new;
+                if (renames.TryGetValue(id, out @new))
+                {
+                    return @new;
+                }
+                return null;
             }
         }
     }

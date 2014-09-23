@@ -414,6 +414,64 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(flag);
         }
 
+        [Test]
+        public async Task HoistTwoVariables()
+        {
+            if (true)
+            {
+                var model = new StringModel("foo");
+                var obj = new StringClass(model);
+                AssertEquals(obj.Model.StringValue, "foo");
+            }
+            else
+            {
+                var model = new IntegerModel(5);
+                var obj = new IntegerClass(model);
+                AssertEquals(obj.Model.IntValue, 5);
+            }
+        }
+
+        public class StringClass
+        {
+            public StringModel Model { get; set; }
+
+            public StringClass(StringModel model)
+            {
+                Model = model;
+            }
+        }
+
+        public class StringModel
+        {
+            public string StringValue { get; set; }
+
+            public StringModel(string value)
+            {
+                StringValue = value;
+            }
+        }
+
+        public class IntegerClass
+        {
+            public IntegerModel Model { get; set; }
+
+            public IntegerClass(IntegerModel model)
+            {
+                Model = model;
+            }
+        }
+
+
+        public class IntegerModel
+        {
+            public int IntValue { get; set; }
+
+            public IntegerModel(int value)
+            {
+                IntValue = value;
+            }
+        }
+
         private async Task DoRethrow()
         {
             try
