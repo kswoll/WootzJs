@@ -125,7 +125,16 @@ namespace WootzJs.Mvc.Routes
                         {
                             var id = part.ChopStart("{").ChopEnd("}");
                             var parameter = actionMethod.GetParameters().Single(x => x.Name == id);
-                            routePart = new RouteVariable(routePath.Current == null, parameter);
+                            var variable = new RouteVariable(routePath.Current == null, parameter);
+
+                            var constraints = id.Split(':').Skip(1).ToArray();
+                            foreach (var name in constraints)
+                            {
+                                var constraint = RouteConstraints.GetConstraint(name);
+                                variable.Constraints.Add(constraint);
+                            }
+
+                            routePart = variable;
                         }
                         else
                         {

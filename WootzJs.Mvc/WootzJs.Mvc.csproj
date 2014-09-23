@@ -48,10 +48,13 @@
     <Compile Include="NavigationResponse.cs" />
     <Compile Include="ReflectionDependencyResolver.cs" />
     <Compile Include="RouteAttribute.cs" />
+    <Compile Include="Routes\Constraints\IntRouteConstraint.cs" />
     <Compile Include="Routes\DuplicateRouteException.cs" />
+    <Compile Include="Routes\IRouteConstraint.cs" />
     <Compile Include="Routes\IRouteNode.cs" />
     <Compile Include="Routes\IRoutePart.cs" />
     <Compile Include="Routes\RouteBuilder.cs" />
+    <Compile Include="Routes\RouteConstraints.cs" />
     <Compile Include="Routes\RouteData.cs" />
     <Compile Include="Routes\RouteDefault.cs" />
     <Compile Include="Routes\RouteGenerator.cs" />

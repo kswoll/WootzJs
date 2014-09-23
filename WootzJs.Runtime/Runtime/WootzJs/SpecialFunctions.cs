@@ -237,10 +237,39 @@ namespace System.Runtime.WootzJs
                                     }
                                 }
                             }
-                            else if (theType.IsGenericType)
+                            else if (theType.IsGenericTypeDefinition)
                             {
                                 return MakeGenericTypeFactory(theType.thisType, theType.GenericTypeArguments.Select(x => reifyGenerics(x)).ToArray().As<JsArray>());
-                            }                            
+                            }
+                            else if (theType.IsGenericType)
+                            {
+                                JsTypeFunction[] newTypeArguments = null;
+                                for (var i = 0; i < theType.typeArguments.Length; i++)
+                                {
+                                    var theTypeArgument = theType.typeArguments[i];
+                                    for (var j = 0; j < typeParameters.Length; j++)
+                                    {
+                                        var typeParameter = typeParameters[j];
+                                        var typeArgument = typeArguments[j];
+                                        if (theTypeArgument == typeParameter)
+                                        {
+                                            if (newTypeArguments == null)
+                                            {
+                                                newTypeArguments = new JsTypeFunction[theType.typeArguments.Length];
+                                                for (var k = 0; k < theType.typeArguments.Length; k++)
+                                                {
+                                                    newTypeArguments[k] = theType.typeArguments[k];
+                                                }
+                                            }
+                                            newTypeArguments[i] = typeArgument;
+                                        }
+                                    }
+                                }
+                                if (newTypeArguments != null)
+                                    return MakeGenericTypeFactory(theType.unconstructedType, newTypeArguments.As<JsArray>());
+                                else
+                                    return theType.thisType;
+                            }
                             return theType.thisType;
                         };
 

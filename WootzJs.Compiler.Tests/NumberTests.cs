@@ -50,6 +50,14 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void IntTryParseFalse()
+        {
+            var s = "a";
+            int i;
+            AssertTrue(!int.TryParse(s, out i));
+        }
+
+        [Test]
         public void TruncFloatViaCast()
         {
             var f = 1.234f;

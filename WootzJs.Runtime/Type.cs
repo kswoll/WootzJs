@@ -51,7 +51,7 @@ namespace System
         internal EventInfo[] events;
         internal TypeAttributes typeAttributes;
         private JsTypeFunction elementType;
-        private JsTypeFunction unconstructedType;
+        internal JsTypeFunction unconstructedType;
         private bool isValueType;
         private bool isInterface;
         private bool isAbstract;

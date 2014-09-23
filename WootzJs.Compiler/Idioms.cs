@@ -105,20 +105,23 @@ namespace WootzJs.Compiler
             JsExpression outerClassType = Js.Reference(classType.GetTypeName());
             if (!isBuiltIn)
             {
+                var displayName = classType.Name;
+                if (classType.TypeParameters.Any())
+                    displayName += "`" + classType.TypeParameters.Count();
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
                     block.Assign(Js.Reference(Context.Instance.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
+                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
                 }
                 else
                 {
                     block.Assign(Js.Reference(classType.GetTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(classType.ToDisplayString()), baseType));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
                 }
             }
             typeInitializer = new JsBlockStatement();
@@ -293,7 +296,7 @@ namespace WootzJs.Compiler
 
                 var propertyInfo = CreateObject(Context.Instance.PropertyInfoConstructor, 
                     Js.Primitive(property.Name),
-                    Type(property.Type, false),
+                    Type(property.Type, false), // True when it's an unconstructed type -- perhaps we need more sophistication if the type is already reified
                     property.GetMethod != null ? CreateMethodInfo(property.GetMethod) : Js.Null(),
                     property.SetMethod != null ? CreateMethodInfo(property.SetMethod) : Js.Null(),
                     CreateParameterInfos(property.Parameters.ToArray()),
@@ -436,7 +439,7 @@ namespace WootzJs.Compiler
                     Js.Primitive(method.MetadataName),
                     GetMethodFunction(method, true),
                     CreateParameterInfos(method.Parameters.ToArray()),
-                    Type(returnType),
+                    Type(returnType, false),
                     methodAttributes,
                     CreateAttributes(method));
 
