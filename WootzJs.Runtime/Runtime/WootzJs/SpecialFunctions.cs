@@ -202,6 +202,7 @@ namespace System.Runtime.WootzJs
                     p.___type = generic;
                     t.As<JsTypeFunction>().BaseType = unconstructedType;
                     t.As<JsTypeFunction>().GetTypeFromType = Jsni.function(() => Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>());
+                    t.As<JsTypeFunction>().TypeName = newTypeName;
                     t.As<JsTypeFunction>().CreateTypeField = Jsni.function(() =>
                     {
                         var unconstructedTypeType = Type._GetTypeFromTypeFunc(unconstructedType);
