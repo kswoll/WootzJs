@@ -411,6 +411,14 @@ namespace System.Runtime.WootzJs
             return elementType.ArrayType;
         }
 
+        [Js(Name = SpecialNames.NullableGetValue)]
+        public static object NullableGetValue(object o)
+        {
+            if (o == null)
+                throw new InvalidOperationException("Nullable object must have a value.");
+            return o;
+        }
+
         [Js(Name = SpecialNames.SafeToString)]
         public static string SafeToString(object o)
         {

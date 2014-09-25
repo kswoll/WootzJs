@@ -887,7 +887,7 @@ namespace WootzJs.Compiler
                         }
                         else if (Equals(property, Context.Instance.NullableValue))
                         {
-                            return @this;
+                            return Js.Reference(SpecialNames.NullableGetValue).Invoke(@this);
                         }
                     }
 

@@ -56,5 +56,6 @@ namespace System.Runtime.WootzJs
         public const string UnconstructedType = "$unconstructedType";
         public const string TypeCache = "$typecache";
         public const string DefaultOf = "$default";
+        public const string NullableGetValue = "$nullablegetvalue";
     }
 }

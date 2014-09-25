@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
 using System.Runtime.WootzJs;
 using WootzJs.Testing;
 
@@ -60,6 +61,21 @@ namespace WootzJs.Compiler.Tests
         {
             var i = (double?)5.5;
             AssertEquals(i, 5.5);
+        }
+
+        [Test]
+        public void AccessingNullNullableThrowsException()
+        {
+            int? i = null;
+            try
+            {
+                int j = i.Value;
+                AssertTrue(false);
+            }
+            catch (InvalidOperationException e)
+            {
+                AssertTrue(true);
+            }
         }
     }
 }
