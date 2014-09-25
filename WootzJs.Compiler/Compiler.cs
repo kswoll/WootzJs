@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.WootzJs;
@@ -129,14 +130,14 @@ namespace WootzJs.Compiler
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
-            // will be loaded first, and we only want to bother creating the array once.
+            // will be loaded first, and we only want to bother creating the array once.) 
             if (projectName == "mscorlib")
             {
                 var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
                 jsCompilationUnit.Body.Local(assemblies);
 
                 // This ensures that Function.$typeName returns `Function` -- this is important when using
-                // a type function as a generic argument, since otherwise when we try to assembly a 
+                // a type function as a generic argument, since otherwise when we try to get a 
                 // unique key for the permuatation of type args including a type function, we would get
                 // an empty string for that arg, which would break the cache.
                 jsCompilationUnit.Body.Assign(Js.Reference("Function").Member(SpecialNames.TypeName), Js.Primitive("Function"));
@@ -235,6 +236,26 @@ namespace WootzJs.Compiler
             SweepSort(actions);
             foreach (var item in actions)
                 item.Item2();
+
+            // Create cultures based on installed .NET cultures.  Presumably this is the same regardless 
+            // of the platform that compiled this assembly.  Only do this for the standard library.
+            if (projectName == "mscorlib")
+            {
+                foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
+                {
+                    JsExpression target = new JsVariableReferenceExpression(Context.Instance.CultureInfo.GetTypeName()).Member("RegisterCulture");
+                    jsCompilationUnit.Body.Add(target.Invoke(new[]
+                    {
+                        Js.Literal(culture.Name),
+                        Js.Literal(culture.DateTimeFormat.ShortDatePattern),
+                        Js.Literal(culture.DateTimeFormat.LongDatePattern),
+                        Js.Literal(culture.DateTimeFormat.ShortTimePattern),
+                        Js.Literal(culture.DateTimeFormat.LongTimePattern),
+                        Js.Literal(culture.DateTimeFormat.FullDateTimePattern),
+
+                    }).Express());
+                }
+            }
 
             // If the project type is a console application, then invoke the Main method at the very
             // end of the file.

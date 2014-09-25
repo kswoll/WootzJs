@@ -210,7 +210,7 @@ namespace WootzJs.Compiler.JsAst
             return new JsPrimitiveExpression(value);
         }
 
-        public static JsExpressionStatement Express(JsExpression expression)
+        public static JsExpressionStatement Express(this JsExpression expression)
         {
             return new JsExpressionStatement(expression);
         }

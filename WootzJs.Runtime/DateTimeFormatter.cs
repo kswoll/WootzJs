@@ -20,6 +20,11 @@ namespace System
                 switch (c)
                 {
                     case 'd':
+                        if (secondC == 'd' && thirdC == 'd' && fourthC == 'd')
+                        {
+                            tokens.Add(new Token { Type = TokenType.DayOfWeekName });
+                            i += 3;
+                        }
                         if (secondC == 'd')
                         {
                             tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });                            
@@ -33,6 +38,11 @@ namespace System
                         {
                             tokens.Add(new Token { Type = TokenType.MonthTwoDigit });
                             i += 1;
+
+                            if (thirdC == 'M' && fourthC == 'M')
+                            {
+                                i += 2;
+                            }
                         }
                         else
                             tokens.Add(new Token { Type = TokenType.Month });
@@ -127,6 +137,9 @@ namespace System
                         break;
                     case TokenType.DayOfMonth:
                         builder.Append(Pad(dateTime.Day, 1, 2));
+                        break;
+                    case TokenType.DayOfWeekName:
+                        builder.Append(dateTime.DayOfWeek);
                         break;
                     case TokenType.MonthTwoDigit:
                         builder.Append(Pad(dateTime.Month, 2, 2));
@@ -267,7 +280,7 @@ namespace System
                     case TokenType.DayOfMonthTwoDigit:
                     case TokenType.DayOfMonth:
                         day = getNextDigit(2);
-                        break;                        
+                        break;
                     case TokenType.MonthTwoDigit:
                     case TokenType.Month:
                         month = getNextDigit(2);
@@ -363,6 +376,7 @@ namespace System
         {
             DayOfMonth,
             DayOfMonthTwoDigit,
+            DayOfWeekName,
             Month,
             MonthTwoDigit,
             Year,

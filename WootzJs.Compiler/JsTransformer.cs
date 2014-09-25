@@ -363,7 +363,7 @@ namespace WootzJs.Compiler
                 if (lastEnum == null && value == null)
                     value = Js.Primitive(0);
                 if (value == null)
-                    value = idioms.GetEnumValue(lastEnum).Add(Js.Primitive(1));
+                    value = idioms.Invoke(idioms.GetEnumValue(lastEnum), Context.Instance.EnumGetValue).Add(Js.Primitive(1));
 
                 lastEnum = enumSymbol;                    
 

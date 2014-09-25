@@ -257,7 +257,7 @@ namespace System
         private static TimeZone FindCurrentTimezone()
         {
             var key = LookupKey();
-            return new TimeZone(Timezones[key], TimeSpan.FromMinutes(new JsDate().getTimezoneOffset()));
+            return new TimeZone(Timezones[key], TimeSpan.FromMinutes(-new JsDate().getTimezoneOffset()));
         }
 
         private static readonly Dictionary<string, string> Timezones = new Dictionary<string, string> 

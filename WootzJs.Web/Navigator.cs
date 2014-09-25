@@ -42,5 +42,17 @@ namespace WootzJs.Web
 
         [Js(Name = "appVersion")]
         public extern JsString AppVersion { get; }
+
+        [Js(Name = "language")]
+        public extern JsString Language { get; }
+
+        [Js(Name = "systemLanguage")]
+        public extern JsString SystemLanguage { get; }
+
+        [Js(Name = "browserLanguage")]
+        public extern JsString BrowserLanguage { get; }
+
+        [Js(Name = "userLanguage")]
+        public extern JsString UserLanguage { get; }
     }
 }
