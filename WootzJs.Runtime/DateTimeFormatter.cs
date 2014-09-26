@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -7,10 +8,12 @@ namespace System
     public class DateTimeFormatter
     {
         private List<Token> tokens;
+        private CultureInfo culture;
 
-        public DateTimeFormatter(string pattern)
+        public DateTimeFormatter(string pattern, CultureInfo culture = null)
         {
             tokens = new List<Token>();
+            this.culture = culture ?? CultureInfo.CurrentCulture;
             for (var i = 0 ; i < pattern.Length; i++)
             {
                 var c = pattern[i];
@@ -25,7 +28,7 @@ namespace System
                             tokens.Add(new Token { Type = TokenType.DayOfWeekName });
                             i += 3;
                         }
-                        if (secondC == 'd')
+                        else if (secondC == 'd')
                         {
                             tokens.Add(new Token { Type = TokenType.DayOfMonthTwoDigit });                            
                             i++;
@@ -34,7 +37,12 @@ namespace System
                             tokens.Add(new Token { Type = TokenType.DayOfMonth });
                         break;
                     case 'M':
-                        if (secondC == 'M')
+                        if (secondC == 'M' && thirdC == 'M' && fourthC == 'M')
+                        {
+                            tokens.Add(new Token { Type = TokenType.MonthName });
+                            i += 3;
+                        }
+                        else if (secondC == 'M')
                         {
                             tokens.Add(new Token { Type = TokenType.MonthTwoDigit });
                             i += 1;
@@ -139,13 +147,16 @@ namespace System
                         builder.Append(Pad(dateTime.Day, 1, 2));
                         break;
                     case TokenType.DayOfWeekName:
-                        builder.Append(dateTime.DayOfWeek);
+                        builder.Append(culture.DateTimeFormat.GetDayName(dateTime.DayOfWeek));
                         break;
                     case TokenType.MonthTwoDigit:
                         builder.Append(Pad(dateTime.Month, 2, 2));
                         break;
                     case TokenType.Month:
                         builder.Append(Pad(dateTime.Month, 1, 2));
+                        break;
+                    case TokenType.MonthName:
+                        builder.Append(culture.DateTimeFormat.GetMonthName(dateTime.Month));
                         break;
                     case TokenType.YearFourDigit:
                         builder.Append(Pad(dateTime.Year, 4, 4));
@@ -379,6 +390,7 @@ namespace System
             DayOfWeekName,
             Month,
             MonthTwoDigit,
+            MonthName,
             Year,
             YearTwoDigit,
             YearFourDigit,

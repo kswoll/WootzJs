@@ -27,6 +27,7 @@
 
 #endregion
 
+using System.Globalization;
 using System.Runtime.WootzJs;
 
 namespace System
@@ -352,7 +353,7 @@ namespace System
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            var formatter = new DateTimeFormatter(format);
+            var formatter = new DateTimeFormatter(format, formatProvider as CultureInfo);
             return formatter.Format(this);
         }
 

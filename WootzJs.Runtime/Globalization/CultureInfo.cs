@@ -43,11 +43,7 @@ namespace System.Globalization
 
         public string Name { get; private set; }
         public CompareInfo CompareInfo { get; private set; }
-        public string ShortDatePattern { get; private set; }
-        public string ShortTimePattern { get; private set; }
-        public string LongDatePattern { get; private set; }
-        public string LongTimePattern { get; private set; }
-        public string FullDateTimePattern { get; private set; }
+        public DateTimeFormatInfo DateTimeFormat { get; private set; }
 
         private static readonly List<CultureInfo> cultures = new List<CultureInfo>();
         private static string currentCultureName;
@@ -66,16 +62,12 @@ namespace System.Globalization
             CompareInfo = new CompareInfo();
         }
 
-        internal static void RegisterCulture(string name, string shortDatePattern, string longDatePattern, string shortTimePattern, string longTimePattern, string fullDateTimePattern)
+        internal static void RegisterCulture(string name, string shortDatePattern, string longDatePattern, string shortTimePattern, string longTimePattern, string fullDateTimePattern, string[] monthNames, string[] dayNames)
         {
             cultures.Add(new CultureInfo
             {
                 Name = name,
-                ShortDatePattern = shortDatePattern,
-                ShortTimePattern = shortTimePattern,
-                LongDatePattern = longDatePattern,
-                LongTimePattern = longTimePattern,
-                FullDateTimePattern = fullDateTimePattern
+                DateTimeFormat = new DateTimeFormatInfo(shortDatePattern, shortTimePattern, longDatePattern, longTimePattern, fullDateTimePattern, monthNames, dayNames)
             });
             if (name == currentCultureName)
             {

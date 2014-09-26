@@ -252,7 +252,8 @@ namespace WootzJs.Compiler
                         Js.Literal(culture.DateTimeFormat.ShortTimePattern),
                         Js.Literal(culture.DateTimeFormat.LongTimePattern),
                         Js.Literal(culture.DateTimeFormat.FullDateTimePattern),
-
+                        Js.Array(culture.DateTimeFormat.MonthNames.Select(x => Js.Literal(x)).ToArray()),
+                        Js.Array(culture.DateTimeFormat.DayNames.Select(x => Js.Literal(x)).ToArray())
                     }).Express());
                 }
             }

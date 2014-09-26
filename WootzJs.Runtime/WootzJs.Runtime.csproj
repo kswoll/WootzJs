@@ -107,6 +107,7 @@
     <Compile Include="Globalization\CompareInfo.cs" />
     <Compile Include="Globalization\CompareOptions.cs" />
     <Compile Include="Globalization\CultureInfo.cs" />
+    <Compile Include="Globalization\DateTimeFormatInfo.cs" />
     <Compile Include="Guid.cs" />
     <Compile Include="IComparable.cs" />
     <Compile Include="IConvertible.cs" />
