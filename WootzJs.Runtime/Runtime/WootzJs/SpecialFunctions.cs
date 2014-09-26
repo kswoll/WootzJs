@@ -422,7 +422,7 @@ namespace System.Runtime.WootzJs
         [Js(Name = SpecialNames.SafeToString)]
         public static string SafeToString(object o)
         {
-            return o == null ? "" : Jsni._typeof(o.As<JsObject>()) == "boolean" ? o.As<JsObject>().toString().As<string>() : o.ToString();
+            return o == null ? "" : Jsni._typeof(o.As<JsObject>()) == "boolean" ? o.As<JsObject>().toString().As<string>() : o.As<JsObject>().member("ToString") != null ? o.ToString() : o.As<JsObject>().toString().As<string>();
         }
 
         [Js(Name = SpecialNames.Truncate)]
@@ -454,6 +454,22 @@ namespace System.Runtime.WootzJs
                 default:
                     return null;
             }
+        }
+
+        [Js(Name = SpecialNames.SafeGetType)]
+        public static Type SafeGetType(object o)
+        {
+            var jsObject = o.As<JsObject>();
+            if (jsObject.member("GetType") != null)
+                return jsObject.member("GetType").invoke().As<Type>();
+
+            var type = Jsni._typeof(jsObject);
+            if (type == "boolean")
+                return typeof(bool);
+            if (type == "number")
+                return typeof(Number);
+
+            throw new Exception("Unable to determine type of: " + o);
         }
     }
 }

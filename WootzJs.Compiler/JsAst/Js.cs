@@ -612,6 +612,11 @@ namespace WootzJs.Compiler.JsAst
             return new JsBinaryExpression(JsBinaryOperator.BitwiseOr, left, right);
         }
 
+        public static JsBinaryExpression BitwiseAnd(this JsExpression left, JsExpression right)
+        {
+            return new JsBinaryExpression(JsBinaryOperator.BitwiseAnd, left, right);
+        }
+
         public static JsBinaryExpression LogicalAnd(this JsExpression left, JsExpression right)
         {
             return new JsBinaryExpression(JsBinaryOperator.LogicalAnd, left, right);

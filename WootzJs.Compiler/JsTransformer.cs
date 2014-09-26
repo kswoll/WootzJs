@@ -990,6 +990,8 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, specialResult);
             if (idioms.TryEnumToString(method, target, methodTarget, targetType, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
+            if (idioms.TryGetType(method, target, methodTarget, targetType, actualArguments, node, out specialResult))
+                return ImplicitCheck(node, specialResult);
 
             var arguments = idioms.TranslateArguments(
                 node,
@@ -1134,6 +1136,10 @@ namespace WootzJs.Compiler
             if (Equals(convertedType, Context.Instance.Int32) && (Equals(convertedType, Context.Instance.Char) || Equals(convertedType, Context.Instance.CharNullable)))
             {
                 return target.Member("charCodeAt").Invoke();
+            }
+            if (Equals(destinationType, Context.Instance.Byte) && !Equals(originalType, Context.Instance.Byte) && isInteger(originalType))
+            {
+                return (target.BitwiseAnd(Js.Literal(0xFF)));
             }
             if (isDecimal(convertedType) && isInteger(destinationType))
             {

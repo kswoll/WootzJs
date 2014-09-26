@@ -53,48 +53,56 @@ namespace System.Runtime.WootzJs
 
         public static object FromJsonObject(JsObject o, Type type)
         {
-            var result = Activator.CreateInstance(type);
-            var properties = type.GetProperties().ToDictionary(x => x.Name.ToUpper());
-            foreach (var propertyName in o)
+            if (type.IsArray)
             {
-                var value = o[propertyName];
-                PropertyInfo property;
-                if (properties.TryGetValue(propertyName.ToUpper(), out property))
+                var arrayValue = o.As<JsArray>();
+                var elementType = type.GetElementType();
+                var array = Array.CreateInstance(elementType, arrayValue.length);
+                for (var i = 0; i < arrayValue.length; i++)
                 {
-                    if (property.PropertyType.IsArray)
-                    {
-                        var arrayValue = value.As<JsArray>();
-                        var elementType = property.PropertyType.GetElementType();
-                        var array = Array.CreateInstance(elementType, arrayValue.length);
-                        for (var i = 0; i < arrayValue.length; i++)
-                        {
-                            array.SetValue(FromJsonObject(arrayValue[i], elementType), i);
-                        }
-                        value = array.As<JsObject>();
-                    }
-                    else if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
-                    {
-                        var arrayValue = value.As<JsArray>();
-                        var elementType = property.PropertyType.GetGenericArguments()[0];
-                        var list = (IList)Activator.CreateInstance(property.PropertyType);
-                        for (var i = 0; i < arrayValue.length; i++)
-                        {
-                            list.Add(FromJsonObject(arrayValue[i], elementType));
-                        }
-                        value = list.As<JsObject>();
-                    }
-                    else if (!property.PropertyType.IsPrimitive && property.PropertyType != typeof(string) && property.PropertyType != typeof(DateTime) && !typeof(Enum).IsAssignableFrom(property.PropertyType))
-                    {
-                        value = FromJsonObject(value, property.PropertyType).As<JsObject>();
-                    }
-                    else if (property.PropertyType == typeof(DateTime))
-                    {
-                        value = DateTime.ParseExact(value.As<string>(), "yyyy-MM-ddThh\\:mm\\:ss.fff").As<JsObject>();
-                    }
-                    property.SetValue(result, value, null);
+                    array.SetValue(FromJsonObject(arrayValue[i], elementType), i);
                 }
+                return array.As<JsObject>();
             }
-            return result;
+            else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+            {
+                var arrayValue = o.As<JsArray>();
+                var elementType = type.GetGenericArguments()[0];
+                var list = (IList)Activator.CreateInstance(type);
+                for (var i = 0; i < arrayValue.length; i++)
+                {
+                    list.Add(FromJsonObject(arrayValue[i], elementType));
+                }
+                return list.As<JsObject>();
+            }
+            else if (type.IsPrimitive)
+            {
+                return Convert.ChangeType(o, type);
+            }
+            else if (type == typeof(DateTime))
+            {
+                return DateTime.ParseExact(o.As<string>(), "yyyy-MM-ddThh\\:mm\\:ss.fff").As<JsObject>();
+            }
+            else if (type == typeof(string))
+            {
+                return o.As<string>();
+            }
+            else
+            {
+                var result = Activator.CreateInstance(type);
+                var properties = type.GetProperties().ToDictionary(x => x.Name.ToUpper());
+                foreach (var propertyName in o)
+                {
+                    var value = o[propertyName];
+                    PropertyInfo property;
+                    if (properties.TryGetValue(propertyName.ToUpper(), out property))
+                    {
+                        var newValue = FromJsonObject(value, property.PropertyType);
+                        property.SetValue(result, newValue, null);
+                    }
+                }
+                return result;                
+            }
         }
     }
 }

@@ -45,6 +45,11 @@ namespace WootzJs.Compiler.JsAst
             this.value = value;
         }
 
+        public JsPrimitiveExpression(long value)
+        {
+            this.value = value;
+        }
+
         public JsPrimitiveExpression(char value)
         {
             this.value = value;

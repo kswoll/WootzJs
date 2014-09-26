@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System.Runtime.WootzJs;
+
+namespace System
 {
     public class Convert
     {
@@ -18,6 +20,13 @@
                     throw new Exception("Null object cannot be converted to a value type");
                 return null;
             }
+            if (value.GetType() == typeof(Number))
+            {
+                if (conversionType == typeof(int))
+                    return (int)value.As<float>();
+                if (conversionType == typeof(long))
+                    return (long)value.As<double>();
+            }
             if (value.GetType() == conversionType)
             {
                 return value;
@@ -25,6 +34,8 @@
             if (value is string)
             {
                 var s = (string)value;
+                if (conversionType == typeof(long)) 
+                    return long.Parse(s);
                 if (conversionType == typeof(int))
                     return int.Parse(s);
                 if (conversionType == typeof(short))

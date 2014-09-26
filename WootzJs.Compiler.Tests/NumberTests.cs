@@ -85,5 +85,13 @@ namespace WootzJs.Compiler.Tests
                 AssertTrue(true);                
             }
         }
+
+        [Test]
+        public void CastIntToByte()
+        {
+            var castIntToByteI = 2342342342;
+            var b = (byte)castIntToByteI;
+            AssertEquals(b, 198);
+        }
     }
 }

@@ -56,6 +56,7 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol JsAttributeType { get; private set; }
         public INamedTypeSymbol PrecedesAttribute { get; private set; }
         public INamedTypeSymbol ObjectType { get; private set; }
+        public IMethodSymbol GetType { get; private set; }
         public IMethodSymbol ObjectReferenceEquals { get; private set; }
         public IMethodSymbol ObjectCast { get; private set; }
         public IMethodSymbol ObjectCreateDelegate { get; private set; }
@@ -239,6 +240,7 @@ namespace WootzJs.Compiler
             JsAttributeType = compilation.FindType("System.Runtime.WootzJs.JsAttribute");
             PrecedesAttribute = compilation.FindType("System.Runtime.WootzJs.DependsOnAttribute");
             ObjectType = compilation.FindType("System.Object");
+            GetType = ObjectType.GetMethod("GetType");
             ObjectReferenceEquals = (IMethodSymbol)ObjectType.GetMembers("ReferenceEquals").Single();
             ObjectCast = (IMethodSymbol)SpecialFunctions.GetMembers("ObjectCast").Single();
             ObjectCreateDelegate = (IMethodSymbol)SpecialFunctions.GetMembers("CreateDelegate").Single();

@@ -1469,6 +1469,17 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        public bool TryGetType(IMethodSymbol method, JsExpression target, JsExpression methodTarget, ITypeSymbol targetType, JsExpression[] arguments, InvocationExpressionSyntax node, out JsExpression result)
+        {
+            if (method == Context.Instance.GetType)
+            {
+                result = Js.Reference(SpecialNames.SafeGetType).Invoke(methodTarget);
+                return true;                    
+            }
+            result = null;
+            return false;
+        }
+
         private string GetConstantString(ExpressionSyntax expression)
         {
             string s;

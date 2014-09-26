@@ -57,5 +57,6 @@ namespace System.Runtime.WootzJs
         public const string TypeCache = "$typecache";
         public const string DefaultOf = "$default";
         public const string NullableGetValue = "$nullablegetvalue";
+        public const string SafeGetType = "$gettype";
     }
 }

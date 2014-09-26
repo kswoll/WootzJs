@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
@@ -56,6 +57,14 @@ namespace System
 		public static implicit operator Number(long i)
 		{
 			return null;
+		}
+
+        public static long Parse(string s)
+		{
+			var result = Jsni.parseInt(s);
+            if (Jsni.isNaN(result))
+                throw new FormatException("String not convertible to long: " + s);
+            return result.As<long>();
 		}
 	}
 }

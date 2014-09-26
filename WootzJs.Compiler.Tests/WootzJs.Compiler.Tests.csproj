@@ -57,6 +57,7 @@
     <Compile Include="Collections\Generic\StackTests.cs" />
     <Compile Include="ComponentModel\AutoPropertyChangedNotification.cs" />
     <Compile Include="ConstructorTests.cs" />
+    <Compile Include="ConvertTests.cs" />
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="DefaultTests.cs" />
     <Compile Include="DelegateTests.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="GotoTests.cs" />
     <Compile Include="IsExpressionTests.cs" />
     <Compile Include="JsniTests.cs" />
+    <Compile Include="JsonTests.cs" />
     <Compile Include="Linq\EnumerableTests.cs" />
     <Compile Include="CollectionInitializerTests.cs" />
     <Compile Include="Linq\Expressions\BinaryExpressionTests.cs" />
