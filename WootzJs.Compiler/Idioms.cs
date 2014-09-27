@@ -273,9 +273,12 @@ namespace WootzJs.Compiler
                 CreatePropertyInfos(type),
                 CreateEventInfos(type),
                 Js.Primitive(type.IsValueType),
+                Js.Primitive(type.IsAbstract),
+                Js.Primitive(type.TypeKind == TypeKind.Interface),
                 Js.Primitive(type.IsPrimitive()),
                 Js.Primitive(type.IsGenericType),
-                Js.Primitive(type.TypeParameters.Any())));
+                Js.Primitive(type.TypeParameters.Any()),
+                Js.Primitive(type.TypeKind == TypeKind.Enum)));
             body.Return(Js.This().Member(SpecialNames.TypeField));
             var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body).Compact());
             return result;
@@ -681,7 +684,7 @@ namespace WootzJs.Compiler
 
         public JsInvocationExpression InvokeStatic(IMethodSymbol method, params JsExpression[] args)
         {
-            args = method.TypeArguments.Select(x => Type(x)).Concat(args).ToArray();
+            args = method.TypeArguments.Select(x => TypeAndResolve(x)).Concat(args).ToArray();
 
             JsExpression target;
             if (Equals(method.ContainingType, Context.Instance.SpecialFunctions))
@@ -1841,6 +1844,14 @@ namespace WootzJs.Compiler
 //            if (type.IsExported() && !type.IsBuiltIn() && !(type is TypeParameterSymbol))
 //                typeExpression = typeExpression.Invoke();
             return typeExpression.Member(SpecialNames.GetTypeFromType).Invoke();
+        }
+
+        public JsExpression TypeAndResolve(ITypeSymbol type)
+        {
+            if (!type.IsExported() || type.IsBuiltIn() || type.TypeKind == TypeKind.ArrayType || type.TypeKind == TypeKind.TypeParameter)
+                return Type(type);
+            else 
+                return Type(type).Invoke();
         }
 
         public JsExpression Type(ITypeSymbol type, bool forceUnconstructedScope = false)

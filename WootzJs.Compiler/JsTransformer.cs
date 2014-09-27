@@ -1006,7 +1006,7 @@ namespace WootzJs.Compiler
             var appenders = new List<JsStatement>();
             idioms.InstrumentRefAndOutParameters(method, arguments, prependers, appenders);
 
-            var typeArguments = method.TypeParameters.Any() ? method.TypeArguments.Select(x => idioms.Type(x)).ToArray() : new JsExpression[0];
+            var typeArguments = method.TypeParameters.Any() ? method.TypeArguments.Select(x => idioms.TypeAndResolve(x)).ToArray() : new JsExpression[0];
             var invokedAsExtensionMethod = false;
 
             // Extension methods come in as target.ExtensionMethod(arg1, arg2...) but we want them as ExtensionMethod(target, arg1, arg2...), and that's

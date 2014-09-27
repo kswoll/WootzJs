@@ -330,9 +330,12 @@ namespace System.Runtime.WootzJs
                             newProperties, 
                             unconstructedTypeType.events, 
                             false, 
+                            unconstructedTypeType.IsAbstract,
+                            unconstructedTypeType.IsInterface,
                             false,
                             true,
                             false,
+                            unconstructedTypeType.IsEnum,
                             null, 
                             unconstructedType);
                         return type.As<JsObject>();
@@ -395,6 +398,9 @@ namespace System.Runtime.WootzJs
                             new PropertyInfo[0], 
                             new EventInfo[0], 
                             false, 
+                            false,
+                            false,
+                            false,
                             false,
                             false,
                             false,

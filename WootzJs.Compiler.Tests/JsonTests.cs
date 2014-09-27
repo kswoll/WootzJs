@@ -12,5 +12,19 @@ namespace WootzJs.Compiler.Tests
             int i = s.FromJsonObject<int>();
             AssertEquals(i, 5);
         }
+
+        [Test]
+        public void Enum()
+        {
+            var s = "Value1".As<JsObject>();
+            TestEnum testEnum = s.FromJsonObject<TestEnum>();
+            AssertEquals(testEnum, TestEnum.Value1);
+        }
+
+        enum TestEnum
+        {
+            Value1 = 1, 
+            Value2 = 2
+        }
     }
 }

@@ -87,6 +87,10 @@ namespace System.Runtime.WootzJs
             {
                 return o.As<string>();
             }
+            else if (type.IsEnum)
+            {
+                return Enum.Parse(type, o.As<string>());
+            }
             else
             {
                 var result = Activator.CreateInstance(type);
