@@ -7,16 +7,18 @@
         public string LongDatePattern { get; private set; }
         public string LongTimePattern { get; private set; }
         public string FullDateTimePattern { get; private set; }
+        public string YearMonthPattern { get; private set; }
         public string[] MonthNames { get; private set; }
         public string[] DayNames { get; private set; }
 
-        public DateTimeFormatInfo(string shortDatePattern, string shortTimePattern, string longDatePattern, string longTimePattern, string fullDateTimePattern, string[] monthNames, string[] dayNames)
+        public DateTimeFormatInfo(string shortDatePattern, string shortTimePattern, string longDatePattern, string longTimePattern, string fullDateTimePattern, string yearMonthPattern, string[] monthNames, string[] dayNames)
         {
             ShortDatePattern = shortDatePattern;
             ShortTimePattern = shortTimePattern;
             LongDatePattern = longDatePattern;
             LongTimePattern = longTimePattern;
             FullDateTimePattern = fullDateTimePattern;
+            YearMonthPattern = yearMonthPattern;
             MonthNames = monthNames;
             DayNames = dayNames;
         }

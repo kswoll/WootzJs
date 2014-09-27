@@ -438,6 +438,30 @@ namespace System
                 throw new InvalidCastException("Invalid cast from 'DateTime' to '" + conversionType.Name + "'");
         }
 
+        public static bool operator ==(DateTime left, DateTime right)
+        {
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+                return true;
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(DateTime left, DateTime right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(DateTime left, DateTime right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator >(DateTime left, DateTime right)
+        {
+            return left.CompareTo(right) > 0;            
+        }
+
         public static TimeSpan operator -(DateTime left, DateTime right)
         {
             return TimeSpan.FromMilliseconds(left.value - right.value);

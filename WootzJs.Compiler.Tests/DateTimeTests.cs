@@ -659,5 +659,30 @@ namespace WootzJs.Compiler.Tests
             var time = DateTime.ParseExact(s, "yyyy-MM-ddThh\\:mm\\:ss.fff");
             AssertEquals(time, new DateTime(2014, 9, 13, 0, 17, 0, 553));
         }
+
+        [Test]
+        public void Equality()
+        {
+            var date1 = new DateTime(2014, 1, 2, 3, 4, 5, 6);
+            var date2 = new DateTime(2014, 1, 2, 3, 4, 5, 6);
+            AssertTrue(date1 == date2);
+            AssertEquals(date1, date2);
+        }
+
+        [Test]
+        public void LessThan()
+        {
+            var date1 = new DateTime(2013, 1, 2, 3, 4, 5, 6);
+            var date2 = new DateTime(2014, 1, 2, 3, 4, 5, 6);
+            AssertTrue(date1 < date2);
+        }
+
+        [Test]
+        public void GreaterThan()
+        {
+            var date1 = new DateTime(2015, 1, 2, 3, 4, 5, 6);
+            var date2 = new DateTime(2014, 1, 2, 3, 4, 5, 6);
+            AssertTrue(date1 > date2);
+        }
     }
 }
