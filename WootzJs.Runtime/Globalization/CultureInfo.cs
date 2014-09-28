@@ -62,12 +62,12 @@ namespace System.Globalization
             CompareInfo = new CompareInfo();
         }
 
-        internal static void RegisterCulture(string name, string shortDatePattern, string longDatePattern, string shortTimePattern, string longTimePattern, string fullDateTimePattern, string yearMonthPattern, string[] monthNames, string[] dayNames)
+        internal static void RegisterCulture(string name, string shortDatePattern, string longDatePattern, string shortTimePattern, string longTimePattern, string fullDateTimePattern, string yearMonthPattern, string[] monthNames, string[] abbreviatedMonthNames, string[] dayNames)
         {
             cultures.Add(new CultureInfo
             {
                 Name = name,
-                DateTimeFormat = new DateTimeFormatInfo(shortDatePattern, shortTimePattern, longDatePattern, longTimePattern, fullDateTimePattern, yearMonthPattern, monthNames, dayNames)
+                DateTimeFormat = new DateTimeFormatInfo(shortDatePattern, shortTimePattern, longDatePattern, longTimePattern, fullDateTimePattern, yearMonthPattern, monthNames, abbreviatedMonthNames, dayNames)
             });
             if (name == currentCultureName)
             {

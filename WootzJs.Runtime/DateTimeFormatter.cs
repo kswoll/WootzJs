@@ -42,6 +42,11 @@ namespace System
                             tokens.Add(new Token { Type = TokenType.MonthName });
                             i += 3;
                         }
+                        else if (secondC == 'M' && thirdC == 'M')
+                        {
+                            tokens.Add(new Token { Type = TokenType.MonthNameAbbreviated });
+                            i += 2;
+                        }
                         else if (secondC == 'M')
                         {
                             tokens.Add(new Token { Type = TokenType.MonthTwoDigit });
@@ -157,6 +162,9 @@ namespace System
                         break;
                     case TokenType.MonthName:
                         builder.Append(culture.DateTimeFormat.GetMonthName(dateTime.Month));
+                        break;
+                    case TokenType.MonthNameAbbreviated:
+                        builder.Append(culture.DateTimeFormat.GetAbbreviatedMonthName(dateTime.Month));
                         break;
                     case TokenType.YearFourDigit:
                         builder.Append(Pad(dateTime.Year, 4, 4));
@@ -391,6 +399,7 @@ namespace System
             Month,
             MonthTwoDigit,
             MonthName,
+            MonthNameAbbreviated,
             Year,
             YearTwoDigit,
             YearFourDigit,

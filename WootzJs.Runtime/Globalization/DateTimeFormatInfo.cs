@@ -9,9 +9,10 @@
         public string FullDateTimePattern { get; private set; }
         public string YearMonthPattern { get; private set; }
         public string[] MonthNames { get; private set; }
+        public string[] AbbreviatedMonthNames { get; private set; }
         public string[] DayNames { get; private set; }
 
-        public DateTimeFormatInfo(string shortDatePattern, string shortTimePattern, string longDatePattern, string longTimePattern, string fullDateTimePattern, string yearMonthPattern, string[] monthNames, string[] dayNames)
+        public DateTimeFormatInfo(string shortDatePattern, string shortTimePattern, string longDatePattern, string longTimePattern, string fullDateTimePattern, string yearMonthPattern, string[] monthNames, string[] abbreviatedMonthNames, string[] dayNames)
         {
             ShortDatePattern = shortDatePattern;
             ShortTimePattern = shortTimePattern;
@@ -20,12 +21,18 @@
             FullDateTimePattern = fullDateTimePattern;
             YearMonthPattern = yearMonthPattern;
             MonthNames = monthNames;
+            AbbreviatedMonthNames = abbreviatedMonthNames;
             DayNames = dayNames;
         }
 
         public string GetMonthName(int month)
         {
             return MonthNames[month - 1];
+        }
+        
+        public string GetAbbreviatedMonthName(int month)
+        {
+            return AbbreviatedMonthNames[month - 1];
         }
         
         public string GetDayName(DayOfWeek day)
