@@ -137,6 +137,7 @@
     <Compile Include="Views\TablePanel.cs" />
     <Compile Include="Views\Text.cs" />
     <Compile Include="Views\TextArea.cs" />
+    <Compile Include="Views\TextBlock.cs" />
     <Compile Include="Views\TextBox.cs" />
     <Compile Include="Views\TextBoxType.cs" />
     <Compile Include="Views\TextBoxValidators.cs" />

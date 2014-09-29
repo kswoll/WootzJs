@@ -1,14 +1,13 @@
-﻿
-namespace WootzJs.Mvc.Views
+﻿namespace WootzJs.Mvc.Views
 {
-    public class Text : InlineControl
+    public class TextBlock : Control
     {
-        public Text()
+        public TextBlock() 
         {
-            TagName = "span";
+            TagName = "div";
         }
 
-        public Text(string value) : this()
+        public TextBlock(string value) : this()
         {
             Value = value;
         }
