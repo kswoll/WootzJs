@@ -72,7 +72,7 @@ namespace WootzJs.Compiler.Tests.Reflection
         [Test]
         public void EnumMember()
         {
-            var field = typeof(TestEnum).GetFields().Single();
+            var field = typeof(TestEnum).GetFields().Where(x => x.DeclaringType == typeof(TestEnum)).Single();
             var attribute = (FooAttribute)field.GetCustomAttributes(typeof(FooAttribute), false)[0];
             AssertEquals(attribute.ConstructorValue, 6);
             AssertEquals(attribute.PropertyValue, "Six");

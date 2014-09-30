@@ -27,6 +27,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.WootzJs;
@@ -266,17 +267,26 @@ namespace System
 
         public PropertyInfo[] GetProperties()
         {
-            return properties.Where(x => (x.GetGetMethod() != null && x.GetGetMethod().IsPublic) || (x.GetSetMethod() != null && x.GetSetMethod().IsPublic)).ToArray();
+            var result = properties.Where(x => (x.GetGetMethod() != null && x.GetGetMethod().IsPublic) || (x.GetSetMethod() != null && x.GetSetMethod().IsPublic));
+            if (baseType != null)
+                result = BaseType.GetProperties().Concat(result);
+            return result.ToArray();
         }
 
         public EventInfo[] GetEvents()
         {
-            return events.ToArray();
+            IEnumerable<EventInfo> result = events;
+            if (baseType != null)
+                result = BaseType.GetEvents().Concat(result);
+            return result.ToArray();
         }
 
         public MethodInfo[] GetMethods()
         {
-            return methods.ToArray();
+            IEnumerable<MethodInfo> result = methods;
+            if (baseType != null)
+                result = BaseType.GetMethods().Concat(result);
+            return result.ToArray();
         }
 
         private MethodInfo GetMethodImpl(string name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
@@ -581,7 +591,10 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public FieldInfo[] GetFields()
         {
-            return this.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
+            IEnumerable<FieldInfo> result = this.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
+            if (baseType != null)
+                result = BaseType.GetFields().Concat(result);
+            return result.ToArray();
         }
 
         /// <summary>

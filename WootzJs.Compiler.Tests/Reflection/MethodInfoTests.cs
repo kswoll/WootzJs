@@ -94,6 +94,14 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(property.PropertyType.GenericTypeArguments[1].FullName, "System.Int32");
         }
 
+        [Test]
+        public void SubClassIncludesBaseClassMethods()
+        {
+            var type = typeof(SubClass);
+            var methods = type.GetMethods().Where(x => x.DeclaringType != typeof(object)).ToArray();
+            AssertEquals(methods.Length, 2);
+        }
+
         public class GenericMethodClass<T, U>
         {
             public T Foo(U arg)
@@ -156,6 +164,16 @@ namespace WootzJs.Compiler.Tests.Reflection
             {
                 return null;
             }
+        }
+
+        public class BaseClass
+        {
+            public void BaseClassMethod() {}
+        }
+
+        public class SubClass : BaseClass
+        {
+            public void SubClassMethod() {}
         }
     }
 }

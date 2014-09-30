@@ -26,6 +26,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Testing;
 
@@ -74,7 +75,7 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public void GetFields()
         {
-            var fields = typeof(FieldsClass).GetFields();
+            var fields = typeof(FieldsClass).GetFields().Where(x => x.DeclaringType == typeof(FieldsClass)).ToArray();
             AssertEquals(fields.Length, 1);
             var field = fields[0];
             AssertEquals(field.Name, "MyString");

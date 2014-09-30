@@ -81,6 +81,14 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(propertyListType, typeof(PropertyClass));
         }
 
+        [Test]
+        public void SubClassIncludesBaseClassProperties()
+        {
+            var type = typeof(SubClass);
+            var properties = type.GetProperties();
+            AssertEquals(properties.Length, 2);
+        }
+
         public class PropertyClass
         {
             public static string StaticProperty { get; set; }
@@ -106,6 +114,16 @@ namespace WootzJs.Compiler.Tests.Reflection
         {
             public T Value { get; set; }
             public List<PropertyClass> TheList { get; set; }
+        }
+
+        public class BaseClass
+        {
+            public string BaseClassProperty { get; set; }
+        }
+
+        public class SubClass : BaseClass
+        {
+            public string SubClassProeprty { get; set; }
         }
     }
 }

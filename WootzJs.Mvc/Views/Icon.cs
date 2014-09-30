@@ -48,7 +48,7 @@ namespace WootzJs.Mvc.Views
             }
             set
             {
-                var slug = value.ToString().Decapitalize().CamelcaseToSlug();
+                var slug = value.ToString().Decapitalize().CamelcaseToSlug('-');
                 Node.ClassName = "fa fa-" + slug;
             }
         }
