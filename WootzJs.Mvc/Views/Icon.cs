@@ -8,6 +8,15 @@ namespace WootzJs.Mvc.Views
 {
     public class Icon : Control
     {
+        public Icon()
+        {
+        }
+
+        public Icon(IconType source)
+        {
+            Source = source;
+        }
+
         public bool IsSpinning
         {
             get { return Node.ClassName.Split(' ').Contains("fa-spin"); }
