@@ -86,10 +86,21 @@ namespace WootzJs.Mvc.Views
             useTextMode = false;
         }
 
+        /// <summary>
+        /// Detach the child when removed
+        /// </summary>
+        protected override void OnRemove(Control child)
+        {
+            base.OnRemove(child);
+            Node.RemoveChild(child.Node);
+        }
+
+        /// <summary>
+        /// Publicly surface the protected Remove method in this class.
+        /// </summary>
         public new void Remove(Control child)
         {
             base.Remove(child);
-            Node.RemoveChild(child.Node);
         }
     }
 }
