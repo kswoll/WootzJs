@@ -131,6 +131,16 @@ namespace WootzJs.Mvc.Views
             return node;
         }
 
+        public Control this[int index]
+        {
+            get { return children[index]; }
+        }
+
+        public IEnumerable<Control> Children
+        {
+            get { return children; }
+        }
+
         protected void Add(Control child)
         {
             if (child == null)
@@ -151,7 +161,18 @@ namespace WootzJs.Mvc.Views
             children.Remove(child);
             child.Parent = null;
 
-            child.OnRemoved();
+            OnRemove(child);
+        }
+
+        protected virtual void OnRemove(Control child)
+        {
+            child.OnRemoved();            
+        }
+
+        protected void RemoveAll()
+        {
+            while (Count > 0)
+                Remove(this[0]);
         }
 
         public int Count
@@ -162,11 +183,6 @@ namespace WootzJs.Mvc.Views
         public bool IsAttachedToDom
         {
             get { return isAttachedToDom; }
-        }
-
-        public IEnumerable<Control> Children
-        {
-            get { return children; }
         }
 
         protected virtual void OnAdded()
@@ -257,6 +273,12 @@ namespace WootzJs.Mvc.Views
                 if (mouseUp == null)
                     Node.RemoveEventListener("mouseup", OnJsMouseUp);
             }
+        }
+
+        public string Hint
+        {
+            get { return Node.GetAttribute("title"); }
+            set { Node.SetAttribute("title", value); }
         }
 
         private void OnJsClick(Event evt)
