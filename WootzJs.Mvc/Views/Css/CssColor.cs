@@ -19,6 +19,7 @@
         public static readonly CssColor Teal = new CssColor("teal");
         public static readonly CssColor White = new CssColor("white");
         public static readonly CssColor Yellow = new CssColor("yellow");
+        public static readonly CssColor Transparent = new CssColor("transparent");
 
         public string value;
 
