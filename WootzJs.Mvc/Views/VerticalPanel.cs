@@ -139,6 +139,12 @@ namespace WootzJs.Mvc.Views
 
         public virtual void Add(Control child, HorizontalAlignment alignment, int spaceAbove)
         {
+            EnsureNodeExists();
+            table.AppendChild(InternalAdd(child, alignment, spaceAbove));
+        }
+
+        private Element InternalAdd(Control child, HorizontalAlignment alignment, int spaceAbove) 
+        {
             if (Count > 0)
                 spaceAbove += spacing;
 
@@ -173,7 +179,39 @@ namespace WootzJs.Mvc.Views
 
             div.AppendChild(child.Node);
             row.AppendChild(cell);
-            table.AppendChild(row);
+
+            return row;
+        }
+
+        public void InsertBefore(Control child, Control insertBefore, int spaceAbove = 0)
+        {
+            InsertBefore(child, insertBefore, DefaultAlignment, spaceAbove);
+        }
+
+        public void InsertBefore(Control child, Control insertBefore, HorizontalAlignment alignment, int spaceAbove = 0)
+        {
+            if (insertBefore.Parent != this)
+                throw new Exception("Cannot use a reference node that is not contained by this control");
+
+            InternalAdd(child, alignment, spaceAbove).InsertBefore(insertBefore.Node);
+        }
+
+        public void InsertAfter(Control child, Control insertBefore, HorizontalAlignment alignment, int spaceAbove = 0)
+        {
+            if (insertBefore.Parent != this)
+                throw new Exception("Cannot use a reference node that is not contained by this control");
+
+            InternalAdd(child, alignment, spaceAbove).InsertAfter(insertBefore.Node);
+        }
+
+        public void Replace(Control oldChild, Control newChild)
+        {
+            if (oldChild.Parent != this) 
+                throw new Exception("Cannot replace out a child that is not contained by this control");
+
+            oldChild.Node.ParentElement.ReplaceChild(newChild.Node, oldChild.Node);
+            base.Remove(oldChild);
+            base.Add(newChild);
         }
 
         public new void Remove(Control child)
