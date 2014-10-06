@@ -84,22 +84,22 @@ namespace WootzJs.Mvc.Views
             return table;
         }
 
-        public new void Add(Control child)
+        public new HorizontalPanel Add(Control child)
         {
-            Add(child, DefaultAlignment, Count == 0 ? 0 : Spacing);
+            return Add(child, DefaultAlignment, Count == 0 ? 0 : Spacing);
         }
 
-        public void Add(Control child, VerticalAlignment alignment)
+        public HorizontalPanel Add(Control child, VerticalAlignment alignment)
         {
-            Add(child, alignment, Count == 0 ? 0 : Spacing);
+            return Add(child, alignment, Count == 0 ? 0 : Spacing);
         }
 
-        public void Add(Control child, int spaceBefore)
+        public HorizontalPanel Add(Control child, int spaceBefore)
         {
-            Add(child, DefaultAlignment, (Count == 0 ? 0: Spacing) + spaceBefore);
+            return Add(child, DefaultAlignment, (Count == 0 ? 0: Spacing) + spaceBefore);
         }
 
-        public void Add(Control child, VerticalAlignment alignment, int spaceBefore)
+        public HorizontalPanel Add(Control child, VerticalAlignment alignment, int spaceBefore)
         {
             base.Add(child);
 
@@ -135,6 +135,8 @@ namespace WootzJs.Mvc.Views
                 cell.InsertBefore(lastSpacer);
             else
                 row.AppendChild(cell);
+
+            return this;
         }
     }
 }
