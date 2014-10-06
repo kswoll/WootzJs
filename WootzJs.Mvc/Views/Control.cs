@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.WootzJs;
 using WootzJs.Models;
@@ -7,7 +8,7 @@ using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
 {
-    public class Control : IDisposable
+    public class Control : IDisposable, IEnumerable<Control>
     {
         static Control()
         {
@@ -17,6 +18,7 @@ namespace WootzJs.Mvc.Views
         public Control Parent { get; private set; }
         public Control Label { get; set; }
         public event Action AttachedToDom;
+        public event Action DetachedFromDom;
         public event Action<ValidateEvent> Validate;
 
         protected string TagName { get; set; }
@@ -193,6 +195,7 @@ namespace WootzJs.Mvc.Views
 
         protected virtual void OnRemoved()
         {
+            OnDetachedFromDom();
         }
 
         public event Action<Event> Click
@@ -356,14 +359,31 @@ namespace WootzJs.Mvc.Views
 
         protected virtual void OnAttachedToDom()
         {
-            isAttachedToDom = true;
-            var attachedToDom = AttachedToDom;
-            if (attachedToDom != null)
-                attachedToDom();
-
-            foreach (var child in Children)
+            if (!isAttachedToDom)
             {
-                child.OnAttachedToDom();
+                isAttachedToDom = true;
+                if (AttachedToDom != null)
+                    AttachedToDom();
+
+                foreach (var child in Children)
+                {
+                    child.OnAttachedToDom();
+                }                
+            }
+        }
+
+        protected virtual void OnDetachedFromDom()
+        {
+            if (isAttachedToDom)
+            {
+                isAttachedToDom = false;
+                if (DetachedFromDom != null)
+                    DetachedFromDom();
+
+                foreach (var child in Children)
+                {
+                    child.OnDetachedFromDom();
+                }                
             }
         }
 
@@ -434,6 +454,16 @@ namespace WootzJs.Mvc.Views
         protected Element CreateElement(string tagName)
         {
             return Browser.Document.CreateElement(tagName);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<Control> GetEnumerator()
+        {
+            return Children.GetEnumerator();
         }
     }
 }
