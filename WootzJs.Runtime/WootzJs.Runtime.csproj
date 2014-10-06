@@ -280,6 +280,8 @@
     <Compile Include="Threading\Interlocked.cs" />
     <Compile Include="Threading\Tasks\Task.cs" />
     <Compile Include="Threading\Tasks\TaskCompletionSource.cs" />
+    <Compile Include="Threading\Timer.cs" />
+    <Compile Include="Threading\TimerCallback.cs" />
     <Compile Include="TimeSpan.cs" />
     <Compile Include="TimeZone.cs" />
     <Compile Include="Tuple.cs" />

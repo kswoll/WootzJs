@@ -202,7 +202,7 @@ namespace System
         /// </returns>
         public int Hours
         {
-            get { return (int)(ticks/TicksPerDay%HoursPerDay); }
+            get { return (int)(ticks % TicksPerDay / TicksPerHour); }
         }
 
         /// <summary>
