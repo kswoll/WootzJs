@@ -1727,8 +1727,14 @@ namespace WootzJs.Compiler
                     case "setTimeout":
                         result = Js.Reference("setTimeout").Invoke(arguments[0], arguments[1]);
                         return true;
+                    case "setInterval":
+                        result = Js.Reference("setInterval").Invoke(arguments[0], arguments[1]);
+                        return true;
                     case "clearTimeout":
                         result = Js.Reference("clearTimeout").Invoke(arguments[0]);
+                        return true;
+                    case "clearInterval":
+                        result = Js.Reference("clearInterval").Invoke(arguments[0]);
                         return true;
                 }
             }            
