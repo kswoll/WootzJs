@@ -51,23 +51,19 @@ namespace WootzJs.Compiler
             additionalHostMethods.AddRange(stateGenerator.AdditionalHostMethods);
 
             IMethodSymbol asyncMethodBuilderCreate;
-            IMethodSymbol asyncMethodBuilderStart;
 
             if (method.ReturnsVoid)
             {
                 asyncMethodBuilderCreate = Context.Instance.AsyncVoidMethodBuilderCreate;
-                asyncMethodBuilderStart = Context.Instance.AsyncVoidMethodBuilderStart;
             }
             else if (method.ReturnType.Equals(Context.Instance.Task))
             {
                 asyncMethodBuilderCreate = Context.Instance.AsyncTaskMethodBuilderCreate;
-                asyncMethodBuilderStart = Context.Instance.AsyncTaskMethodBuilderStart;
             }
             else 
             {
                 var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
                 asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Create");
-                asyncMethodBuilderStart = Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Start");
             }
 
             var builderField = Cs.Field(asyncMethodBuilderCreate.ContainingType.ToTypeSyntax(), builder);
