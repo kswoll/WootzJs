@@ -27,6 +27,7 @@
 
 using System;
 using System.Runtime.WootzJs;
+using System.Threading.Tasks;
 using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
@@ -108,13 +109,26 @@ namespace WootzJs.Compiler.Tests
         public void MethodTargets()
         {
             var methodClass1 = new MethodClass("foo1");
-            var methodClass2 = new MethodClass("foo2");
+            var methodClass2 = new MethodClass("foo2j");
             Func<string> delegate1 = methodClass1.M;
             Func<string> delegate2 = methodClass2.M;
             AssertEquals(delegate1(), "foo1");
             AssertEquals(delegate2(), "foo2");
             AssertEquals(delegate1.Target, methodClass1);
             AssertEquals(delegate2.Target, methodClass2);
+        }
+
+        [Test]
+        public async Task AsyncTaskLambda()
+        {
+            var flag = false;
+            Func<Task> func = async () =>
+            {
+                await Task.Delay(10);
+                flag = true;
+            };
+            await func();
+            AssertTrue(flag);
         }
 
         private string M()

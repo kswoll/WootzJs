@@ -23,10 +23,12 @@ namespace WootzJs.Compiler
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             var asyncClasses = new List<ClassDeclarationSyntax>();
+
             var additionalMethods = new List<MethodDeclarationSyntax>();
             foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => x.IsAsync()))
             {
-                var asyncGenerator = new AsyncClassGenerator(compilation, method);
+                var methodSymbol = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, node);
+                var asyncGenerator = new AsyncClassGenerator(compilation, method, methodSymbol.IsStatic ? null : methodSymbol.ContainingType);
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
                 foreach (var additionalMethod in asyncGenerator.AdditionalHostMethods)
@@ -35,6 +37,10 @@ namespace WootzJs.Compiler
                         additionalMethods.Add(additionalMethod);
                 }
             }
+
+            var lambdaVisitor = new AsyncLambdaVisitor(compilation, semanticModel);
+            node.Accept(lambdaVisitor);
+            asyncClasses.AddRange(lambdaVisitor.AsyncClasses);
 
             if (asyncClasses.Any())
             {

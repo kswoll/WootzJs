@@ -10,19 +10,23 @@ namespace WootzJs.Compiler
     public class AsyncClassGenerator
     {
         private Compilation compilation;
-        private MethodDeclarationSyntax node;
-        private IMethodSymbol method;
+        private CSharpSyntaxNode node;
+//        private IMethodSymbol method;
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
-        
+        private ITypeSymbol containingInstanceType;
+        private ITypeSymbol returnType;
+
         public const string state = "$state";
         public const string builder = "$builder";
 
-        public AsyncClassGenerator(Compilation compilation, MethodDeclarationSyntax node)
+        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, ITypeSymbol containingInstanceType, ITypeSymbol returnType)
         {
+            this.returnType = returnType;
             this.compilation = compilation;
+            this.containingInstanceType = containingInstanceType;
             this.node = node;
 
-            method = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(compilation.GetSemanticModel(node.SyntaxTree), node);
+//            method = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(compilation.GetSemanticModel(node.SyntaxTree), node);
         }
 
         public List<MethodDeclarationSyntax> AdditionalHostMethods
@@ -34,13 +38,13 @@ namespace WootzJs.Compiler
         {
             var members = new List<MemberDeclarationSyntax>();
             FieldDeclarationSyntax thisField = null;
-            if (!method.IsStatic)
+            if (containingInstanceType != null)
             {
-                thisField = Cs.Field(method.ContainingType.ToTypeSyntax(), "$this");
+                thisField = Cs.Field(containingInstanceType.ToTypeSyntax(), "$this");
                 members.Add(thisField);                
             }
 
-            var stateGenerator = new AsyncStateGenerator(compilation, node);
+            var stateGenerator = new AsyncStateGenerator(compilation, node, returnType);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 
@@ -52,18 +56,18 @@ namespace WootzJs.Compiler
 
             IMethodSymbol asyncMethodBuilderCreate;
 
-            if (method.ReturnsVoid)
+            if (returnType.SpecialType == SpecialType.System_Void)
             {
                 asyncMethodBuilderCreate = Context.Instance.AsyncVoidMethodBuilderCreate;
             }
-            else if (method.ReturnType.Equals(Context.Instance.Task))
+            else if (returnType.Equals(Context.Instance.Task))
             {
                 asyncMethodBuilderCreate = Context.Instance.AsyncTaskMethodBuilderCreate;
             }
             else 
             {
-                var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
-                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Create");
+                var genericReturnType = returnType.GetGenericArgument(Context.Instance.TaskT, 0);
+                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilder.Construct(genericReturnType).GetMethod("Create");
             }
 
             var builderField = Cs.Field(asyncMethodBuilderCreate.ContainingType.ToTypeSyntax(), builder);

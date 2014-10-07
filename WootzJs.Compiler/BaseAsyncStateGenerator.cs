@@ -13,13 +13,13 @@ namespace WootzJs.Compiler
         private int currentStateIndex;
         protected Compilation compilation;
         protected SemanticModel semanticModel;
-        protected MethodDeclarationSyntax node;
+        protected CSharpSyntaxNode node;
         internal AsyncState topState = new AsyncState();
         protected int exceptionNameCounter = 1;
 
         public const string state = stateFieldName;
         
-        public BaseAsyncStateGenerator(Compilation compilation, MethodDeclarationSyntax node)
+        public BaseAsyncStateGenerator(Compilation compilation, CSharpSyntaxNode node)
         {
             this.compilation = compilation;
             this.node = node;

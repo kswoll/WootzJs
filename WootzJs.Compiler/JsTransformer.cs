@@ -1160,6 +1160,8 @@ namespace WootzJs.Compiler
 
         private JsNode VisitLambdaExpression(INamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, CSharpSyntaxNode bodyNode)
         {
+            // If the lambda expression is being *assigned* to an `Expression<T>` variable, then we want to decompose it so
+            // it results in an expression tree being generated.
             if (delegateType.IsGenericType && Equals(delegateType.OriginalDefinition, Context.Instance.ExpressionGeneric))
             {
                 delegateType = (INamedTypeSymbol)delegateType.TypeArguments[0];
