@@ -17,11 +17,11 @@ namespace WootzJs.Compiler
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
         private List<HoistedVariableScope> hoistedVariableScopes = new List<HoistedVariableScope>();
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
-        private ITypeSymbol returnType;
+        private IMethodSymbol method;
 
-        public AsyncStateGenerator(Compilation compilation, CSharpSyntaxNode node, ITypeSymbol returnType) : base(compilation, node)
+        public AsyncStateGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method) : base(compilation, node)
         {
-            this.returnType = returnType;
+            this.method = method;
             decomposer = new AsyncExpressionDecomposer(this);
             hoistedVariableScopes.Add(new HoistedVariableScope());
         }
@@ -132,7 +132,7 @@ namespace WootzJs.Compiler
         {
             base.OnBaseStateGenerated();
 
-            if (!(CurrentState.Statements.LastOrDefault() is ReturnStatementSyntax) && (returnType.SpecialType == SpecialType.System_Void || returnType.Equals(Context.Instance.Task)))
+            if (!(CurrentState.Statements.LastOrDefault() is ReturnStatementSyntax) && (method.ReturnsVoid || method.ReturnType.Equals(Context.Instance.Task)))
             {
                 SetResult();
 //                var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);

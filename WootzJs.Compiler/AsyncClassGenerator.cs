@@ -11,22 +11,25 @@ namespace WootzJs.Compiler
     {
         private Compilation compilation;
         private CSharpSyntaxNode node;
-//        private IMethodSymbol method;
+        private IMethodSymbol method;
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
-        private ITypeSymbol containingInstanceType;
-        private ITypeSymbol returnType;
+        private ParameterListSyntax parameterList;
+        private TypeParameterListSyntax typeParameterList;
+        private ITypeSymbol thisType;
+        private string typeName;
 
         public const string state = "$state";
         public const string builder = "$builder";
 
-        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, ITypeSymbol containingInstanceType, ITypeSymbol returnType)
+        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, ParameterListSyntax parameterList, TypeParameterListSyntax typeParameterList, ITypeSymbol thisType, string typeName)
         {
-            this.returnType = returnType;
             this.compilation = compilation;
-            this.containingInstanceType = containingInstanceType;
             this.node = node;
-
-//            method = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(compilation.GetSemanticModel(node.SyntaxTree), node);
+            this.method = method;
+            this.parameterList = parameterList;
+            this.typeParameterList = typeParameterList;
+            this.thisType = thisType;
+            this.typeName = typeName;
         }
 
         public List<MethodDeclarationSyntax> AdditionalHostMethods
@@ -38,13 +41,13 @@ namespace WootzJs.Compiler
         {
             var members = new List<MemberDeclarationSyntax>();
             FieldDeclarationSyntax thisField = null;
-            if (containingInstanceType != null)
+            if (!method.IsStatic)
             {
-                thisField = Cs.Field(containingInstanceType.ToTypeSyntax(), "$this");
+                thisField = Cs.Field(thisType.ToTypeSyntax(), "$this");
                 members.Add(thisField);                
             }
 
-            var stateGenerator = new AsyncStateGenerator(compilation, node, returnType);
+            var stateGenerator = new AsyncStateGenerator(compilation, node, method);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 
@@ -56,24 +59,24 @@ namespace WootzJs.Compiler
 
             IMethodSymbol asyncMethodBuilderCreate;
 
-            if (returnType.SpecialType == SpecialType.System_Void)
+            if (method.ReturnsVoid)
             {
                 asyncMethodBuilderCreate = Context.Instance.AsyncVoidMethodBuilderCreate;
             }
-            else if (returnType.Equals(Context.Instance.Task))
+            else if (method.ReturnType.Equals(Context.Instance.Task))
             {
                 asyncMethodBuilderCreate = Context.Instance.AsyncTaskMethodBuilderCreate;
             }
             else 
             {
-                var genericReturnType = returnType.GetGenericArgument(Context.Instance.TaskT, 0);
-                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilder.Construct(genericReturnType).GetMethod("Create");
+                var returnType = method.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
+                asyncMethodBuilderCreate = Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Create");
             }
 
             var builderField = Cs.Field(asyncMethodBuilderCreate.ContainingType.ToTypeSyntax(), builder);
             members.Add(builderField);
 
-            foreach (var parameter in node.ParameterList.Parameters)
+            foreach (var parameter in parameterList.Parameters)
             {
                 var parameterField = Cs.Field(parameter.Type, parameter.Identifier);
                 members.Add(parameterField);
@@ -84,14 +87,14 @@ namespace WootzJs.Compiler
                 members.Add(variableField);
             }
 
-            var className = "Async$" + method.GetMemberName();
+            var className = "Async$" + typeName;
 
             var constructorParameters = new List<ParameterSyntax>();
             if (!method.IsStatic)
             {
                 constructorParameters.Add(SyntaxFactory.Parameter(SyntaxFactory.Identifier("$this")).WithType(thisField.Declaration.Type));
             }
-            constructorParameters.AddRange(node.ParameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
+            constructorParameters.AddRange(parameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
 
             var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
 
@@ -155,7 +158,7 @@ namespace WootzJs.Compiler
 
             if (method.TypeParameters.Any())
             {
-                result = result.WithTypeParameterList(node.TypeParameterList);
+                result = result.WithTypeParameterList(typeParameterList);
             }
 
             return result;

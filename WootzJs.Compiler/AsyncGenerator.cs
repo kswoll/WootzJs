@@ -27,8 +27,8 @@ namespace WootzJs.Compiler
             var additionalMethods = new List<MethodDeclarationSyntax>();
             foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => x.IsAsync()))
             {
-                var methodSymbol = (IMethodSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, node);
-                var asyncGenerator = new AsyncClassGenerator(compilation, method, methodSymbol.IsStatic ? null : methodSymbol.ContainingType);
+                var methodSymbol = semanticModel.GetDeclaredSymbol(method);
+                var asyncGenerator = new AsyncClassGenerator(compilation, method, methodSymbol, method.ParameterList, method.TypeParameterList, methodSymbol.ContainingType, methodSymbol.GetMemberName());
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
                 foreach (var additionalMethod in asyncGenerator.AdditionalHostMethods)
@@ -38,9 +38,8 @@ namespace WootzJs.Compiler
                 }
             }
 
-            var lambdaVisitor = new AsyncLambdaVisitor(compilation, semanticModel);
+            var lambdaVisitor = new AsyncLambdaVisitor(compilation, semanticModel, asyncClasses, additionalMethods);
             node.Accept(lambdaVisitor);
-            asyncClasses.AddRange(lambdaVisitor.AsyncClasses);
 
             if (asyncClasses.Any())
             {
