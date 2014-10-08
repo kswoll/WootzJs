@@ -109,7 +109,7 @@ namespace WootzJs.Compiler.Tests
         public void MethodTargets()
         {
             var methodClass1 = new MethodClass("foo1");
-            var methodClass2 = new MethodClass("foo2j");
+            var methodClass2 = new MethodClass("foo2");
             Func<string> delegate1 = methodClass1.M;
             Func<string> delegate2 = methodClass2.M;
             AssertEquals(delegate1(), "foo1");
@@ -121,6 +121,9 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public async Task AsyncTaskLambda()
         {
+            what we need to do here is generate a function that assigns variables so that the async class 
+            can reassign local variables like the flag below.  we will pass this function into the async class
+            for the lambda
             var flag = false;
             Func<Task> func = async () =>
             {
@@ -129,6 +132,18 @@ namespace WootzJs.Compiler.Tests
             };
             await func();
             AssertTrue(flag);
+        }
+
+        [Test]
+        public async Task AsyncTaskIntLambda()
+        {
+            Func<Task<int>> func = async () =>
+            {
+                await Task.Delay(10);
+                return 3;
+            };
+            var result = await func();
+            AssertEquals(result, 3);
         }
 
         private string M()

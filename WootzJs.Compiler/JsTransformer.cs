@@ -594,26 +594,7 @@ namespace WootzJs.Compiler
             }
             else if (node.IsAsync())
             {
-                // Get generated enumerator
-                var asyncType = (INamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "Async$" + method.GetMemberName());
-                var constructor = asyncType.InstanceConstructors.Single();
-                var asyncTypeExpression = idioms.Type(asyncType);
-                if (method.TypeParameters.Any())
-                {
-                    asyncTypeExpression = idioms.MakeGenericType(asyncType, method.TypeArguments.Select(x => idioms.Type(x)).ToArray());
-                }
-
-                var arguments = new List<JsExpression>();
-                if (!method.IsStatic)
-                    arguments.Add(Js.This());
-                arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
-
-                var asyncBlock = Js.Block();
-                var stateMachine = asyncBlock.Local("$stateMachine", idioms.CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
-                if (!method.ReturnsVoid)
-                    asyncBlock.Return(stateMachine.GetReference().Member("$builder").Member("get_Task").Invoke());
-
-                body = asyncBlock;
+                body = idioms.GenerateAsyncMethod(method.ContainingType, method.GetMemberName(), method);
             }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);
@@ -1158,7 +1139,9 @@ namespace WootzJs.Compiler
             return ImplicitCheck(node, cast);
         }
 
-        private JsNode VisitLambdaExpression(INamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, CSharpSyntaxNode bodyNode)
+        private Dictionary<ITypeSymbol, int> asyncLambdaCounters = new Dictionary<ITypeSymbol, int>();
+
+        private JsNode VisitLambdaExpression(INamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, CSharpSyntaxNode bodyNode, bool isAsync)
         {
             // If the lambda expression is being *assigned* to an `Expression<T>` variable, then we want to decompose it so
             // it results in an expression tree being generated.
@@ -1174,18 +1157,33 @@ namespace WootzJs.Compiler
 
             PushOutput(block);
 
-            var body = bodyNode.Accept(this);
-            if (body is JsStatement)
+            if (isAsync)
             {
-                block.Aggregate((JsStatement)body);
-            }
-            else if (delegateType.DelegateInvokeMethod.ReturnsVoid)
-            {
-                block.Add(Js.Express((JsExpression)body));
+                var containingType = model.GetDeclaredSymbol(bodyNode.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => !x.Identifier.ToString().StartsWith("Async$")));
+                int counter;
+                if (!asyncLambdaCounters.TryGetValue(containingType, out counter))
+                {
+                    counter = 0;
+                }
+                counter++;
+                asyncLambdaCounters[containingType] = counter;
+                block.Aggregate(idioms.GenerateAsyncMethod(containingType, counter.ToString(), delegateType.DelegateInvokeMethod));
             }
             else
             {
-                block.Add(Js.Return((JsExpression)body));
+                var body = bodyNode.Accept(this);
+                if (body is JsStatement)
+                {
+                    block.Aggregate((JsStatement)body);
+                }
+                else if (delegateType.DelegateInvokeMethod.ReturnsVoid)
+                {
+                    block.Add(Js.Express((JsExpression)body));
+                }
+                else
+                {
+                    block.Add(Js.Return((JsExpression)body));
+                }                
             }
 
             PopOutput();
@@ -1198,19 +1196,19 @@ namespace WootzJs.Compiler
         public override JsNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(delegateType, new[] { node.Parameter }, node.Body));
+            return ImplicitCheck(node, VisitLambdaExpression(delegateType, new[] { node.Parameter }, node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
         }
 
         public override JsNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList.Parameters.ToArray(), node.Body));
+            return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList.Parameters.ToArray(), node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
         }
 
         public override JsNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block));
+            return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block, false));
         }
 
         public override JsNode VisitAnonymousObjectMemberDeclarator(AnonymousObjectMemberDeclaratorSyntax node)

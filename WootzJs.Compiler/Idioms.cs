@@ -2072,17 +2072,16 @@ namespace WootzJs.Compiler
             }
             return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
         }
-/*
 
-        public void GenerateAsyncMethod()
+        public JsBlockStatement GenerateAsyncMethod(ITypeSymbol containingType, string className, IMethodSymbol method)
         {
             // Get generated enumerator
-            var asyncType = (INamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "Async$" + method.GetMemberName());
+            var asyncType = (INamedTypeSymbol)containingType.GetMembers().Single(x => x.Name == "Async$" + className);
             var constructor = asyncType.InstanceConstructors.Single();
-            var asyncTypeExpression = idioms.Type(asyncType);
+            var asyncTypeExpression = Type(asyncType);
             if (method.TypeParameters.Any())
             {
-                asyncTypeExpression = idioms.MakeGenericType(asyncType, method.TypeArguments.Select(x => idioms.Type(x)).ToArray());
+                asyncTypeExpression = MakeGenericType(asyncType, method.TypeArguments.Select(x => Type(x)).ToArray());
             }
 
             var arguments = new List<JsExpression>();
@@ -2091,12 +2090,11 @@ namespace WootzJs.Compiler
             arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
 
             var asyncBlock = Js.Block();
-            var stateMachine = asyncBlock.Local("$stateMachine", idioms.CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
+            var stateMachine = asyncBlock.Local("$stateMachine", CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
             if (!method.ReturnsVoid)
                 asyncBlock.Return(stateMachine.GetReference().Member("$builder").Member("get_Task").Invoke());
 
-            body = asyncBlock;            
+            return asyncBlock;            
         }
-*/
     }
 }

@@ -35,7 +35,7 @@ namespace WootzJs.Compiler
                 var containingMethodDeclaration = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
 
                 // We need to ensure the parameter list includes those from the containing method. (and
-                // possibly the containing lambda if there is a bunch of nesting. todo: <<<
+                // possibly the containing lambda if there is a bunch of nesting < todo)
                 // Also need to grab any locally declared variable that is in scope and comes before the current node
                 var parameterList = node.ParameterList
                     .Parameters
