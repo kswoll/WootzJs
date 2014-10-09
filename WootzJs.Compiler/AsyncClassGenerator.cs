@@ -13,7 +13,7 @@ namespace WootzJs.Compiler
         private CSharpSyntaxNode node;
         private IMethodSymbol method;
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
-        private ParameterListSyntax parameterList;
+        private List<Tuple<string, ITypeSymbol>> parameterList;
         private TypeParameterListSyntax typeParameterList;
         private ITypeSymbol thisType;
         private string typeName;
@@ -21,7 +21,7 @@ namespace WootzJs.Compiler
         public const string state = "$state";
         public const string builder = "$builder";
 
-        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, ParameterListSyntax parameterList, TypeParameterListSyntax typeParameterList, ITypeSymbol thisType, string typeName)
+        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, List<Tuple<string, ITypeSymbol>> parameterList, TypeParameterListSyntax typeParameterList, ITypeSymbol thisType, string typeName)
         {
             this.compilation = compilation;
             this.node = node;
@@ -47,7 +47,7 @@ namespace WootzJs.Compiler
                 members.Add(thisField);                
             }
 
-            var stateGenerator = new AsyncStateGenerator(compilation, node, method);
+            var stateGenerator = new AsyncStateGenerator(compilation, node, method, parameterList);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 
@@ -76,9 +76,9 @@ namespace WootzJs.Compiler
             var builderField = Cs.Field(asyncMethodBuilderCreate.ContainingType.ToTypeSyntax(), builder);
             members.Add(builderField);
 
-            foreach (var parameter in parameterList.Parameters)
+            foreach (var parameter in parameterList)
             {
-                var parameterField = Cs.Field(parameter.Type, parameter.Identifier);
+                var parameterField = Cs.Field(parameter.Item2.ToTypeSyntax(), parameter.Item1);
                 members.Add(parameterField);
             }
             foreach (var variable in stateGenerator.HoistedVariables)
@@ -94,7 +94,7 @@ namespace WootzJs.Compiler
             {
                 constructorParameters.Add(SyntaxFactory.Parameter(SyntaxFactory.Identifier("$this")).WithType(thisField.Declaration.Type));
             }
-            constructorParameters.AddRange(parameterList.Parameters.Select(x => SyntaxFactory.Parameter(x.Identifier).WithType(x.Type)));                
+            constructorParameters.AddRange(parameterList.Select(x => SyntaxFactory.Parameter(SyntaxFactory.Identifier(x.Item1)).WithType(x.Item2.ToTypeSyntax()))); 
 
             var asyncStateMachine = SyntaxFactory.ParseTypeName("System.Runtime.CompilerServices.IAsyncStateMachine");
 

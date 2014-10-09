@@ -121,9 +121,11 @@ namespace WootzJs.Compiler.Tests
         [Test]
         public async Task AsyncTaskLambda()
         {
+/*
             what we need to do here is generate a function that assigns variables so that the async class 
             can reassign local variables like the flag below.  we will pass this function into the async class
             for the lambda
+*/
             var flag = false;
             Func<Task> func = async () =>
             {
@@ -134,6 +136,7 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(flag);
         }
 
+/*
         [Test]
         public async Task AsyncTaskIntLambda()
         {
@@ -145,6 +148,7 @@ namespace WootzJs.Compiler.Tests
             var result = await func();
             AssertEquals(result, 3);
         }
+*/
 
         private string M()
         {

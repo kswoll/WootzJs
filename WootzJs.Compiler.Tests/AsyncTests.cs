@@ -68,8 +68,8 @@ namespace WootzJs.Compiler.Tests
         public async Task BasicTestTaskT()
         {
 //            await BasicTestTaskAsync();
-            var value = await BasicTestTaskTAsync();
-            AssertEquals(value, 5);
+            var valueBasicTestTaskT = await BasicTestTaskTAsync();
+            AssertEquals(valueBasicTestTaskT, 5);
         }
 
         async Task<int> BasicTestTaskTAsync()
@@ -419,14 +419,14 @@ namespace WootzJs.Compiler.Tests
         {
             if (true)
             {
-                var model = new StringModel("foo");
-                var obj = new StringClass(model);
+                var hoistTwoVariablesModel = new StringModel("foo");
+                var obj = new StringClass(hoistTwoVariablesModel);
                 AssertEquals(obj.Model.StringValue, "foo");
             }
             else
             {
-                var model = new IntegerModel(5);
-                var obj = new IntegerClass(model);
+                var hoistTwoVariablesModel = new IntegerModel(5);
+                var obj = new IntegerClass(hoistTwoVariablesModel);
                 AssertEquals(obj.Model.IntValue, 5);
             }
         }

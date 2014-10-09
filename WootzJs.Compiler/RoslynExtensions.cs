@@ -178,6 +178,11 @@ namespace WootzJs.Compiler
             return Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree).GetDeclaredSymbol(classDeclaration);
         }
 
+        public static BaseMethodDeclarationSyntax GetContainingMethodDeclaration(this SyntaxNode node)
+        {
+            return (BaseMethodDeclarationSyntax)node.FirstAncestorOrSelf<SyntaxNode>(x => x is ConstructorDeclarationSyntax || x is MethodDeclarationSyntax);
+        }
+
         public static IMethodSymbol GetContainingMethod(this SyntaxNode node)
         {
             var method = node.FirstAncestorOrSelf<SyntaxNode>(x => x is ConstructorDeclarationSyntax || x is MethodDeclarationSyntax);

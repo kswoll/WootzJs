@@ -1167,7 +1167,18 @@ namespace WootzJs.Compiler
                 }
                 counter++;
                 asyncLambdaCounters[containingType] = counter;
-                block.Aggregate(idioms.GenerateAsyncMethod(containingType, counter.ToString(), delegateType.DelegateInvokeMethod));
+
+                var method = bodyNode.GetContainingMethodDeclaration();
+                var locator = new VariableDeclarationsLocator((CSharpSyntaxNode)bodyNode.Parent);
+                method.Accept(locator);
+                var variableArguments = locator.Variables
+                    .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type, Parameter = SyntaxFactory.Parameter(SyntaxFactory.Identifier("$x")).WithType(declaration.Type) })
+                    .Select(x => SyntaxFactory.ParenthesizedLambdaExpression(
+                        SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(new[] { x.Parameter })),
+                        SyntaxFactory.IdentifierName(x.Declarator.Identifier).Assign(SyntaxFactory.IdentifierName(x.Parameter.Identifier))))
+                    .ToArray();
+
+                block.Aggregate(idioms.GenerateAsyncMethod(containingType, counter.ToString(), delegateType.DelegateInvokeMethod, variableArguments));
             }
             else
             {

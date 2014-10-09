@@ -172,6 +172,7 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol Decimal { get; private set; }
         public INamedTypeSymbol Constant { get; private set; }
         public INamedTypeSymbol Action { get; private set; }
+        public INamedTypeSymbol ActionT { get; private set; }
         public INamedTypeSymbol Func { get; private set; }
         public INamedTypeSymbol JsObject { get; private set; }
         public INamedTypeSymbol JsString { get; private set; }
@@ -342,6 +343,7 @@ namespace WootzJs.Compiler
             ElementInitArray = compilation.CreateArrayTypeSymbol(ElementInit);
             Constant = compilation.FindType("System.Linq.Expressions.ConstantExpression");
             Action = compilation.FindType("System.Action");
+            ActionT = compilation.FindType("System.Action`1");
             Func = compilation.FindType("System.Func`1");
             JsObject = compilation.FindType("System.Runtime.WootzJs.JsObject");
             JsString = compilation.FindType("System.Runtime.WootzJs.JsString");

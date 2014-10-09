@@ -11,17 +11,18 @@ namespace WootzJs.Compiler
     public class AsyncStateGenerator : BaseAsyncStateGenerator
     {
         private AsyncExpressionDecomposer decomposer;
-        private Dictionary<string, TypeSyntax> hoistedVariables = new Dictionary<string, TypeSyntax>();
-        private Dictionary<string, string> renamedVariables = new Dictionary<string, string>();
+        private Dictionary<HostedVariableKey, TypeSyntax> hoistedVariables = new Dictionary<HostedVariableKey, TypeSyntax>();
         private Stack<AsyncState> breakStates = new Stack<AsyncState>();
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
         private List<HoistedVariableScope> hoistedVariableScopes = new List<HoistedVariableScope>();
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
         private IMethodSymbol method;
+        private List<Tuple<string, ITypeSymbol>> parameterList;
 
-        public AsyncStateGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method) : base(compilation, node)
+        public AsyncStateGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, List<Tuple<string, ITypeSymbol>> parameterList) : base(compilation, node)
         {
             this.method = method;
+            this.parameterList = parameterList;
             decomposer = new AsyncExpressionDecomposer(this);
             hoistedVariableScopes.Add(new HoistedVariableScope());
         }
@@ -31,7 +32,7 @@ namespace WootzJs.Compiler
             get { return additionalHostMethods; }
         }
 
-        private string GetIdentifier(string id)
+        private string GetIdentifier(HostedVariableKey id)
         {
             for (var i = hoistedVariableScopes.Count - 1; i >= 0; i--)
             {
@@ -40,16 +41,16 @@ namespace WootzJs.Compiler
                 if (newIdentifier != null)
                     return newIdentifier;
             }
-            return id;
+            return id.Identifier;
         }
 
-        private string GenerateNewName(SyntaxToken identifier)
+        private string GenerateNewName(HostedVariableKey symbol)
         {
             var counter = 2;
             do
             {
-                var currentName = identifier.ToString() + counter++;
-                if (!hoistedVariables.ContainsKey(currentName))
+                var currentName = symbol.Identifier + counter++;
+                if (!hoistedVariables.ContainsKey(new HostedVariableKey(SyntaxFactory.Identifier(currentName))))
                 {
                     return currentName;
                 }
@@ -57,24 +58,25 @@ namespace WootzJs.Compiler
             while (true);
         }
 
-        protected SyntaxToken HoistVariable(SyntaxToken identifier, TypeSyntax type)
+        protected SyntaxToken HoistVariable(HostedVariableKey symbol, TypeSyntax type)
         {
-            if (hoistedVariables.ContainsKey(identifier.ToString()))
+            SyntaxToken identifier = SyntaxFactory.Identifier(symbol.Identifier);
+            if (hoistedVariables.ContainsKey(symbol) || hoistedVariables.ContainsKey(new HostedVariableKey(symbol.Identifier)))
             {
-                var newName = GenerateNewName(identifier);
+                var newName = GenerateNewName(symbol);
                 var newIdentifier = SyntaxFactory.Identifier(newName);
-                renamedVariables[identifier.ToString()] = newIdentifier.ToString();
-                hoistedVariableScopes.Last().DeclareRename(identifier.ToString(), newIdentifier.ToString());
+                hoistedVariableScopes.Last().DeclareRename(symbol, newIdentifier.ToString());
                 identifier = newIdentifier;
+                symbol = new HostedVariableKey(identifier, symbol.Symbol);
             }
-            hoistedVariables[identifier.ToString()] = type;
+            hoistedVariables[symbol] = type;
+//            hoistedVariables[new HostedVariableKey(identifier)] = type;
             return identifier;
         }
 
-
         public Tuple<SyntaxToken, TypeSyntax>[] HoistedVariables
         {
-            get { return hoistedVariables.Select(x => Tuple.Create(SyntaxFactory.Identifier(x.Key), x.Value)).ToArray(); }
+            get { return hoistedVariables.Select(x => Tuple.Create(SyntaxFactory.Identifier(x.Key.Identifier), x.Value)).ToArray(); }
         }
 
         private void AcceptStatement(StatementSyntax statement, AsyncState breakState = null, AsyncState continueState = null)
@@ -102,7 +104,7 @@ namespace WootzJs.Compiler
             {
                 // Hoist the variable into a field
                 var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, variable);
-                var identifier = HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+                var identifier = HoistVariable(new HostedVariableKey(variable.Identifier, symbol), symbol.Type.ToTypeSyntax());
 
                 if (variable.Initializer != null)
                 {
@@ -217,7 +219,7 @@ namespace WootzJs.Compiler
 
                 // Hoist the variable into a field
                 var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, variable);
-                HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+                HoistVariable(new HostedVariableKey(variable.Identifier, symbol), symbol.Type.ToTypeSyntax());
             }
 
             var topOfLoop = GetNextState();
@@ -254,7 +256,7 @@ namespace WootzJs.Compiler
         {
             // Hoist the variable into a field
             var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, node);
-            HoistVariable(node.Identifier, symbol.Type.ToTypeSyntax());
+            HoistVariable(new HostedVariableKey(node.Identifier, symbol), symbol.Type.ToTypeSyntax());
 
             // Hoist the enumerator into a field
             var targetType = ModelExtensions.GetTypeInfo(semanticModel, node.Expression);
@@ -264,7 +266,7 @@ namespace WootzJs.Compiler
             var enumeratorType = elementType == null ?
                 SyntaxFactory.ParseTypeName("System.Collections.IEnumerator") :
                 SyntaxFactory.ParseTypeName("System.Collections.Generic.IEnumerator<" + elementType.ToDisplayString() + ">");
-            HoistVariable(enumerator, enumeratorType);
+            HoistVariable(new HostedVariableKey(enumerator), enumeratorType);
             CurrentState.Add(SyntaxFactory.IdentifierName(enumerator).Assign(SyntaxFactory.InvocationExpression(SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, node.Expression, SyntaxFactory.IdentifierName("GetEnumerator")))).Express());
 
             var topOfLoop = GetNextState();
@@ -314,7 +316,7 @@ namespace WootzJs.Compiler
             GotoState(tryState);
 
             // Keep track of exception, if any, so we can rethrow
-            var exceptionIdentifier = HoistVariable(SyntaxFactory.Identifier("$usingex"), Context.Instance.Exception.ToTypeSyntax());
+            var exceptionIdentifier = HoistVariable(new HostedVariableKey(SyntaxFactory.Identifier("$usingex")), Context.Instance.Exception.ToTypeSyntax());
             CurrentState.Add(SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(Cs.Null()).Express());
 
             AsyncState finallyState = node.Finally == null ? null : GetNextState();
@@ -328,9 +330,9 @@ namespace WootzJs.Compiler
                     var hasDeclaration = catchClause.Declaration.Identifier.CSharpKind() != SyntaxKind.None;
                     SyntaxToken newIdentifier;
                     if (hasDeclaration)
-                        newIdentifier = HoistVariable(catchClause.Declaration.Identifier, symbol.Type.ToTypeSyntax());
+                        newIdentifier = HoistVariable(new HostedVariableKey(catchClause.Declaration.Identifier, symbol), symbol.Type.ToTypeSyntax());
                     else
-                        newIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("ex")));
+                        newIdentifier = SyntaxFactory.Identifier(GenerateNewName(new HostedVariableKey(SyntaxFactory.Identifier("ex"))));
 
                     var catchState = GetNextState();
                     CurrentState = catchState;
@@ -360,7 +362,7 @@ namespace WootzJs.Compiler
             }
             else if (node.Finally != null)
             {
-                SyntaxToken caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("$caughtex")));
+                SyntaxToken caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(new HostedVariableKey(SyntaxFactory.Identifier("$caughtex"))));
                 newTryStatement = newTryStatement.WithCatches(SyntaxFactory.List(new[] 
                 {
                     SyntaxFactory.CatchClause()
@@ -450,11 +452,11 @@ namespace WootzJs.Compiler
             var newTryStatement = Cs.Try();
 
             // Keep track of exception, if any, so we can rethrow
-            var exceptionIdentifier = HoistVariable(SyntaxFactory.Identifier("$usingex"), Context.Instance.Exception.ToTypeSyntax());
+            var exceptionIdentifier = HoistVariable(new HostedVariableKey(SyntaxFactory.Identifier("$usingex")), Context.Instance.Exception.ToTypeSyntax());
             CurrentState.Add(SyntaxFactory.IdentifierName(exceptionIdentifier).Assign(Cs.Null()).Express());
 
             // Identifier for caught exception
-            var caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(SyntaxFactory.Identifier("$caughtex")));
+            var caughtExceptionIdentifier = SyntaxFactory.Identifier(GenerateNewName(new HostedVariableKey(SyntaxFactory.Identifier("$caughtex"))));
 
             // Hoist the variable into a field
             var disposables = new List<IdentifierNameSyntax>();
@@ -463,7 +465,7 @@ namespace WootzJs.Compiler
                 foreach (var variable in node.Declaration.Variables)
                 {
                     var symbol = (ILocalSymbol)semanticModel.GetDeclaredSymbol(variable);
-                    HoistVariable(variable.Identifier, symbol.Type.ToTypeSyntax());
+                    HoistVariable(new HostedVariableKey(variable.Identifier, symbol), symbol.Type.ToTypeSyntax());
                     var name = SyntaxFactory.IdentifierName(variable.Identifier);
                     disposables.Add(name);
                     CurrentState.Add(name.Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer)).Express());
@@ -471,7 +473,7 @@ namespace WootzJs.Compiler
             }
             if (node.Expression != null)
             {
-                var identifier = SyntaxFactory.IdentifierName(GenerateNewName(SyntaxFactory.Identifier("$using")));
+                var identifier = SyntaxFactory.IdentifierName(GenerateNewName(new HostedVariableKey(SyntaxFactory.Identifier("$using"))));
                 disposables.Add(identifier);
                 CurrentState.Add(identifier.Assign((ExpressionSyntax)node.Expression.Accept(decomposer)).Express());
             }
@@ -525,9 +527,37 @@ namespace WootzJs.Compiler
 
             public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
             {
-                var id = node.Identifier.ToString();
-                id = stateGenerator.GetIdentifier(id);
+                var symbol = stateGenerator.semanticModel.SyntaxTree.Equals(node.SyntaxTree) ? stateGenerator.semanticModel.GetSymbolInfo(node).Symbol : null;
+                var id = stateGenerator.GetIdentifier(new HostedVariableKey(node.Identifier, symbol));
                 return base.VisitIdentifierName(Cs.IdentifierName(id));
+            }
+
+            public override SyntaxNode VisitBinaryExpression(BinaryExpressionSyntax node)
+            {
+                if (node.CSharpKind() == SyntaxKind.SimpleAssignmentExpression)
+                {
+                    var left = (IdentifierNameSyntax)node.Left;
+                    if (left.SyntaxTree.Equals(stateGenerator.semanticModel.SyntaxTree))
+                    {
+                        var leftSymbolInfo = stateGenerator.semanticModel.GetSymbolInfo(node.Left);
+                        var rightTypeInfo = stateGenerator.semanticModel.GetTypeInfo(node.Right);
+                        var parameter = stateGenerator.parameterList.SingleOrDefault(x => x.Item1 == left.Identifier.ToString());
+                        if (parameter != null)
+                        {
+                            var parameterType = parameter.Item2;
+                            if (parameterType is INamedTypeSymbol)
+                            {
+                                var namedParameterType = (INamedTypeSymbol)parameterType;
+                                if (namedParameterType.IsGenericType && namedParameterType.OriginalDefinition == Context.Instance.ActionT)
+                                {
+                                    return left.Invoke(node.Right);
+                                }
+                            }
+                        }                        
+                    }
+                }
+
+                return base.VisitBinaryExpression(node);
             }
 
             public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
@@ -550,7 +580,7 @@ namespace WootzJs.Compiler
                         // Store the awaiter in a field
                         var awaiterType = expressionInfo.GetAwaiterMethod.ReturnType;
                         var awaiterIdentifier = SyntaxFactory.Identifier("$awaiter");
-                        awaiterIdentifier = stateGenerator.HoistVariable(awaiterIdentifier, awaiterType.ToTypeSyntax());
+                        awaiterIdentifier = stateGenerator.HoistVariable(new HostedVariableKey(awaiterIdentifier), awaiterType.ToTypeSyntax());
                         var awaiter = SyntaxFactory.IdentifierName(awaiterIdentifier);
                         stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member("GetAwaiter").Invoke()).Express());
 
@@ -561,7 +591,7 @@ namespace WootzJs.Compiler
                         {
                             // If the await returns a value, store it in a field
                             var resultIdentifier = SyntaxFactory.Identifier("$result");
-                            resultIdentifier = stateGenerator.HoistVariable(resultIdentifier, expressionInfo.GetResultMethod.ReturnType.ToTypeSyntax());
+                            resultIdentifier = stateGenerator.HoistVariable(new HostedVariableKey(resultIdentifier), expressionInfo.GetResultMethod.ReturnType.ToTypeSyntax());
                             result = SyntaxFactory.IdentifierName(resultIdentifier);
 
                             // Make sure the field gets set from the awaiter at the beginning of the next state.
@@ -639,14 +669,15 @@ namespace WootzJs.Compiler
 
         class HoistedVariableScope
         {
-            private Dictionary<string, string> renames = new Dictionary<string, string>();
+            private Dictionary<HostedVariableKey, string> renames = new Dictionary<HostedVariableKey, string>();
 
-            public void DeclareRename(string old, string @new)
+            public void DeclareRename(HostedVariableKey old, string @new)
             {
                 renames[old] = @new;
+                renames[new HostedVariableKey(old.Identifier)] = @new;
             }
 
-            public string GetIdentifier(string id)
+            public string GetIdentifier(HostedVariableKey id)
             {
                 string @new;
                 if (renames.TryGetValue(id, out @new))
@@ -654,6 +685,63 @@ namespace WootzJs.Compiler
                     return @new;
                 }
                 return null;
+            }
+        }
+
+        protected struct HostedVariableKey
+        {
+            private readonly string identifier;
+            private readonly ISymbol symbol;
+
+            public HostedVariableKey(SyntaxToken identifier, ISymbol symbol)
+            {
+                this.identifier = identifier.ToString();
+                this.symbol = symbol;
+            }
+
+            public HostedVariableKey(string identifier, ISymbol symbol)
+            {
+                this.identifier = identifier;
+                this.symbol = symbol;
+            }
+
+            public HostedVariableKey(SyntaxToken identifier) : this()
+            {
+                this.identifier = identifier.ToString();
+            }
+
+            public HostedVariableKey(string identifier) : this()
+            {
+                this.identifier = identifier;
+            }
+
+            public string Identifier
+            {
+                get { return identifier; }
+            }
+
+            public ISymbol Symbol
+            {
+                get { return symbol; }
+            }
+
+            public bool Equals(HostedVariableKey other)
+            {
+                return string.Equals(identifier, other.identifier) && (Equals(symbol, other.symbol) || symbol == null || other.symbol == null);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                return obj is HostedVariableKey && Equals((HostedVariableKey) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return identifier.GetHashCode();
+                }
             }
         }
     }

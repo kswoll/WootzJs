@@ -30,6 +30,7 @@ namespace WootzJs.Compiler
             if (node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword)
             {
                 var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+                var delegateInvokeMethod = delegateType.DelegateInvokeMethod;
                 var method = delegateType.GetMethodByName("Invoke");
                 var containingMethod = node.GetContainingMethod();
                 var containingMethodDeclaration = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
@@ -37,15 +38,14 @@ namespace WootzJs.Compiler
                 // We need to ensure the parameter list includes those from the containing method. (and
                 // possibly the containing lambda if there is a bunch of nesting < todo)
                 // Also need to grab any locally declared variable that is in scope and comes before the current node
-                var parameterList = node.ParameterList
-                    .Parameters
-                    .Concat(containingMethodDeclaration.ParameterList.Parameters)
+                var parameterList = delegateInvokeMethod.Parameters
+                    .Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type))
+                    .Concat(containingMethod.Parameters.Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type)))
                     .Concat(FindDeclaredVariablesInScope(containingMethodDeclaration, node)
                         .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type })
-                        .Select(x => SyntaxFactory.Parameter(x.Declarator.Identifier).WithType(x.Symbol.ToTypeSyntax())));
+                        .Select(x => new Tuple<string, ITypeSymbol>(x.Declarator.Identifier.ToString(), Context.Instance.ActionT.Construct(x.Symbol))));
 
-
-                var asyncGenerator = new AsyncClassGenerator(compilation, node, method, SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(parameterList)), SyntaxFactory.TypeParameterList(), containingMethod.ContainingType, index++.ToString());
+                var asyncGenerator = new AsyncClassGenerator(compilation, node, method, parameterList.ToList(), SyntaxFactory.TypeParameterList(), containingMethod.ContainingType, index++.ToString());
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
                 foreach (var additionalMethod in asyncGenerator.AdditionalHostMethods)

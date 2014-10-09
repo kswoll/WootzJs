@@ -2073,7 +2073,7 @@ namespace WootzJs.Compiler
             return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
         }
 
-        public JsBlockStatement GenerateAsyncMethod(ITypeSymbol containingType, string className, IMethodSymbol method)
+        public JsBlockStatement GenerateAsyncMethod(ITypeSymbol containingType, string className, IMethodSymbol method, params ExpressionSyntax[] variableArguments)
         {
             // Get generated enumerator
             var asyncType = (INamedTypeSymbol)containingType.GetMembers().Single(x => x.Name == "Async$" + className);
@@ -2088,6 +2088,7 @@ namespace WootzJs.Compiler
             if (!method.IsStatic)
                 arguments.Add(Js.This());
             arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
+            arguments.AddRange(variableArguments.Select(x => (JsExpression)x.Accept(transformer)));
 
             var asyncBlock = Js.Block();
             var stateMachine = asyncBlock.Local("$stateMachine", CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
