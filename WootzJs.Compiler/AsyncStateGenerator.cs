@@ -12,6 +12,8 @@ namespace WootzJs.Compiler
     {
         private AsyncExpressionDecomposer decomposer;
         private Dictionary<HostedVariableKey, TypeSyntax> hoistedVariables = new Dictionary<HostedVariableKey, TypeSyntax>();
+            private static Dictionary<ISymbol, string> globalRenames = new Dictionary<ISymbol, string>();
+//        private Dictionary<ISymbol, TypeSyntax> globalHoistedVariables = new Dictionary<ISymbol, TypeSyntax>();
         private Stack<AsyncState> breakStates = new Stack<AsyncState>();
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
         private List<HoistedVariableScope> hoistedVariableScopes = new List<HoistedVariableScope>();
@@ -44,6 +46,16 @@ namespace WootzJs.Compiler
             return id.Identifier;
         }
 
+        private static string GetGlobalIdentifier(ISymbol id)
+        {
+            string @new;
+            if (globalRenames.TryGetValue(id, out @new))
+            {
+                return @new;
+            }
+            return id.Name;
+        }
+
         private string GenerateNewName(HostedVariableKey symbol)
         {
             var counter = 2;
@@ -70,6 +82,8 @@ namespace WootzJs.Compiler
                 symbol = new HostedVariableKey(identifier, symbol.Symbol);
             }
             hoistedVariables[symbol] = type;
+//            if (symbol.Symbol != null)
+//                globalHoistedVariables[symbol.Symbol] = type;
 //            hoistedVariables[new HostedVariableKey(identifier)] = type;
             return identifier;
         }
@@ -525,12 +539,84 @@ namespace WootzJs.Compiler
                 return SyntaxFactory.IdentifierName("$this");
             }
 
+            public override SyntaxNode VisitGenericName(GenericNameSyntax node)
+            {
+                var symbol = stateGenerator.semanticModel.SyntaxTree.Equals(node.SyntaxTree) ? stateGenerator.semanticModel.GetSymbolInfo(node).Symbol : null;
+                if (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.IsStatic)
+                {
+                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
+                }
+                else
+                {
+                    return base.VisitGenericName(node);
+                }
+            }
+
             public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
             {
                 var symbol = stateGenerator.semanticModel.SyntaxTree.Equals(node.SyntaxTree) ? stateGenerator.semanticModel.GetSymbolInfo(node).Symbol : null;
-                var id = stateGenerator.GetIdentifier(new HostedVariableKey(node.Identifier, symbol));
-                return base.VisitIdentifierName(Cs.IdentifierName(id));
+                if (!(node.Parent is MemberAccessExpressionSyntax) && (symbol != null && new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.IsStatic) || node.Identifier.ToString().StartsWith("Base$"))
+                {
+                    var id = stateGenerator.GetIdentifier(new HostedVariableKey(node.Identifier, symbol));
+                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), Cs.IdentifierName(id));
+                }
+                else
+                {
+                    var id = stateGenerator.GetIdentifier(new HostedVariableKey(node.Identifier, symbol));
+                    return base.VisitIdentifierName(Cs.IdentifierName(id));                    
+                }
             }
+
+/*
+        public override SyntaxNode VisitGenericName(GenericNameSyntax node)
+        {
+            if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
+            {
+                if (node.GetContainingMethod() == null)
+                {
+                    return base.VisitGenericName(node);
+                }
+
+                var containingType = node.GetContainingType();
+                if (containingType == null || !containingType.Name.StartsWith(enclosingTypeName))
+                    return node;
+
+                var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+                if (symbol == null || (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.ContainingType.Name.StartsWith(enclosingTypeName) && !symbol.IsStatic))
+                {
+                    return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
+                }
+            }
+            return base.VisitGenericName(node);
+        }
+
+        public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+        {
+            if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
+            {
+                if (node.GetContainingMethod() == null)
+                {
+                    return base.VisitIdentifierName(node);
+                }
+
+                var containingType = node.GetContainingType();
+                if (containingType == null || !containingType.Name.StartsWith(enclosingTypeName))
+                    return node;
+
+                var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+                var isObjectInitializer = node.Parent != null && node.Parent.Parent is InitializerExpressionSyntax;
+                if (!isObjectInitializer)
+                {
+                    if (symbol == null || (new[] { SymbolKind.Field, SymbolKind.Event, SymbolKind.Method, SymbolKind.Property }.Contains(symbol.Kind) && !symbol.ContainingType.Name.StartsWith(enclosingTypeName) && !symbol.IsStatic))
+                    {
+                        return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName("$this"), node);
+                    }
+                }
+            }
+            return base.VisitIdentifierName(node);
+        }
+*/
+
 
             public override SyntaxNode VisitBinaryExpression(BinaryExpressionSyntax node)
             {
@@ -647,7 +733,7 @@ namespace WootzJs.Compiler
                     var methodTargetSyntax = ((MemberAccessExpressionSyntax)node.Expression).Expression;
                     if (methodTargetSyntax is BaseExpressionSyntax)
                     {
-                        var baseMethodName = "Base" + method.Name;
+                        var baseMethodName = "Base$" + method.Name;
                         if (!stateGenerator.additionalHostMethods.Any(x => x.Identifier.ToString() == baseMethodName))
                         {
                             var body = SyntaxFactory.BaseExpression().Member(method.Name).Invoke(method.Parameters.Select(x => Cs.IdentifierName(x.Name)).ToArray());
@@ -659,7 +745,7 @@ namespace WootzJs.Compiler
                             stateGenerator.additionalHostMethods.Add(baseMethodShim);
                         }
 
-                        return node.WithExpression(Cs.IdentifierName(baseMethodName));
+                        return node.WithExpression((ExpressionSyntax)Cs.IdentifierName(baseMethodName).Accept(stateGenerator.decomposer));
                     }
                 }            
 
@@ -675,6 +761,8 @@ namespace WootzJs.Compiler
             {
                 renames[old] = @new;
                 renames[new HostedVariableKey(old.Identifier)] = @new;
+                if (old.Symbol != null)
+                    globalRenames[old.Symbol] = @new;
             }
 
             public string GetIdentifier(HostedVariableKey id)

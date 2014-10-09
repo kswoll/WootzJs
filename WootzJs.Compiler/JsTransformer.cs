@@ -669,6 +669,12 @@ namespace WootzJs.Compiler
         public override JsNode VisitIdentifierName(IdentifierNameSyntax node)
         {
             var symbol = model.GetSymbolInfo(node).Symbol;
+            if (symbol == null)
+            {
+                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
+                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
+            }
+
             var @this = (JsExpression)Js.This();
             if (symbol.IsStatic && symbol.ContainingType != null)
             {

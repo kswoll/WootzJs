@@ -53,9 +53,6 @@ namespace WootzJs.Compiler
 
         public override SyntaxNode VisitGenericName(GenericNameSyntax node)
         {
-            if (node.ToString().Contains("Request"))
-                Console.WriteLine();
-
             if (!(node.Parent is MemberAccessExpressionSyntax) || ((MemberAccessExpressionSyntax)node.Parent).Expression == node)
             {
                 if (node.GetContainingMethod() == null)

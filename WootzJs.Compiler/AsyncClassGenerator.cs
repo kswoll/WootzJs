@@ -78,12 +78,12 @@ namespace WootzJs.Compiler
 
             foreach (var parameter in parameterList)
             {
-                var parameterField = Cs.Field(parameter.Item2.ToTypeSyntax(), parameter.Item1);
+                var parameterField = Cs.Field(parameter.Item2.ToTypeSyntax(), parameter.Item1).WithAttributes(Context.Instance.LiftedVariable);
                 members.Add(parameterField);
             }
             foreach (var variable in stateGenerator.HoistedVariables)
             {
-                var variableField = Cs.Field(variable.Item2, variable.Item1);
+                var variableField = Cs.Field(variable.Item2, variable.Item1).WithAttributes(Context.Instance.LiftedVariable);
                 members.Add(variableField);
             }
 

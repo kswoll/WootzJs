@@ -109,6 +109,7 @@ namespace WootzJs.Compiler
             Context.Update(project.Solution, project, compilation);
 
             // After the basic transformation happens, we need to fix up some references afterward
+/*
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
@@ -125,6 +126,7 @@ namespace WootzJs.Compiler
                 }
                 compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
             }
+*/
             Context.Update(project.Solution, project, compilation);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };

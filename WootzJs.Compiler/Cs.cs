@@ -423,5 +423,10 @@ namespace WootzJs.Compiler
                 SyntaxFactory.Parameter(SyntaxFactory.Identifier(x.Name)).WithType(x.Type.ToTypeSyntax())
             )));
         }
+
+        public static FieldDeclarationSyntax WithAttributes(this FieldDeclarationSyntax field, params ITypeSymbol[] attributeTypes)
+        {
+            return field.WithAttributeLists(SyntaxFactory.List(new[] { SyntaxFactory.AttributeList(SyntaxFactory.SeparatedList(attributeTypes.Select(x => SyntaxFactory.Attribute(SyntaxFactory.ParseName(x.ToDisplayString()))))) }));
+        }
     }
 }
