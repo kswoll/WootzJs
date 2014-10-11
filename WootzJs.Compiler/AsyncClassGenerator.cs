@@ -17,11 +17,12 @@ namespace WootzJs.Compiler
         private TypeParameterListSyntax typeParameterList;
         private ITypeSymbol thisType;
         private string typeName;
+        private TypeSyntax outerAsyncType;
 
         public const string state = "$state";
         public const string builder = "$builder";
 
-        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, List<Tuple<string, ITypeSymbol>> parameterList, TypeParameterListSyntax typeParameterList, ITypeSymbol thisType, string typeName)
+        public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, List<Tuple<string, ITypeSymbol>> parameterList, TypeParameterListSyntax typeParameterList, ITypeSymbol thisType, string typeName, TypeSyntax outerAsyncType)
         {
             this.compilation = compilation;
             this.node = node;
@@ -30,6 +31,7 @@ namespace WootzJs.Compiler
             this.typeParameterList = typeParameterList;
             this.thisType = thisType;
             this.typeName = typeName;
+            this.outerAsyncType = outerAsyncType;
         }
 
         public List<MethodDeclarationSyntax> AdditionalHostMethods
@@ -41,10 +43,16 @@ namespace WootzJs.Compiler
         {
             var members = new List<MemberDeclarationSyntax>();
             FieldDeclarationSyntax thisField = null;
+            FieldDeclarationSyntax outerAsyncField = null;
             if (!method.IsStatic)
             {
-                thisField = Cs.Field(thisType.ToTypeSyntax(), "$this");
+                thisField = Cs.Field(thisType.ToTypeSyntax(), "$this").WithModifiers(SyntaxFactory.TokenList(Cs.Public()));
                 members.Add(thisField);                
+            }
+            if (outerAsyncType != null)
+            {
+                outerAsyncField = Cs.Field(outerAsyncType, "$outerasync").WithModifiers(SyntaxFactory.TokenList(Cs.Public()));
+                members.Add(outerAsyncField);
             }
 
             var stateGenerator = new AsyncStateGenerator(compilation, node, method, parameterList);
@@ -78,12 +86,12 @@ namespace WootzJs.Compiler
 
             foreach (var parameter in parameterList)
             {
-                var parameterField = Cs.Field(parameter.Item2.ToTypeSyntax(), parameter.Item1).WithAttributes(Context.Instance.LiftedVariable);
+                var parameterField = Cs.Field(parameter.Item2.ToTypeSyntax(), parameter.Item1).WithAttributes(Context.Instance.LiftedVariable).WithModifiers(SyntaxFactory.TokenList(Cs.Public()));
                 members.Add(parameterField);
             }
             foreach (var variable in stateGenerator.HoistedVariables)
             {
-                var variableField = Cs.Field(variable.Item2, variable.Item1).WithAttributes(Context.Instance.LiftedVariable);
+                var variableField = Cs.Field(variable.Item2, variable.Item1).WithAttributes(Context.Instance.LiftedVariable).WithModifiers(SyntaxFactory.TokenList(Cs.Public()));
                 members.Add(variableField);
             }
 
@@ -93,6 +101,10 @@ namespace WootzJs.Compiler
             if (!method.IsStatic)
             {
                 constructorParameters.Add(SyntaxFactory.Parameter(SyntaxFactory.Identifier("$this")).WithType(thisField.Declaration.Type));
+            }
+            if (outerAsyncType != null)
+            {
+                constructorParameters.Add(SyntaxFactory.Parameter(SyntaxFactory.Identifier("$outerasync")).WithType(outerAsyncField.Declaration.Type));
             }
             constructorParameters.AddRange(parameterList.Select(x => SyntaxFactory.Parameter(SyntaxFactory.Identifier(x.Item1)).WithType(x.Item2.ToTypeSyntax()))); 
 

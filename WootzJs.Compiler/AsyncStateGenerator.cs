@@ -122,7 +122,7 @@ namespace WootzJs.Compiler
 
                 if (variable.Initializer != null)
                 {
-                    var assignment = SyntaxFactory.IdentifierName(identifier.ToString()).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
+                    var assignment = ((IdentifierNameSyntax)SyntaxFactory.IdentifierName(identifier.ToString()).Accept(decomposer)).Assign((ExpressionSyntax)variable.Initializer.Value.Accept(decomposer));
                     CurrentState.Add(assignment.Express());
                 }
             }
@@ -715,11 +715,6 @@ namespace WootzJs.Compiler
                 }
 
                 return base.VisitPrefixUnaryExpression(node);
-            }
-
-            public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax node)
-            {
-                return base.VisitExpressionStatement(node);
             }
 
             public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)

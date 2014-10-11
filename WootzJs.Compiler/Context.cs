@@ -182,6 +182,8 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol InvalidOperationException { get; private set; }
         public IMethodSymbol InvalidOperationExceptionStringConstructor { get; private set; }
         public INamedTypeSymbol LiftedVariable { get; private set; }
+        public INamedTypeSymbol LiftedVariableAccessor { get; private set; }
+        public IMethodSymbol LiftedVariableAccessorConstructor { get; private set; }
 
         public IMethodSymbol Nop { get; private set; }
         public INamedTypeSymbol Task { get; private set; }
@@ -370,6 +372,8 @@ namespace WootzJs.Compiler
             InvalidOperationException = compilation.FindType("System.InvalidOperationException");
             InvalidOperationExceptionStringConstructor = InvalidOperationException.Constructors.Single(x => x.Parameters.Count() == 1 && x.Parameters.First().Type == String);
             LiftedVariable = compilation.FindType("System.Runtime.WootzJs.LiftedVariable");
+            LiftedVariableAccessor = compilation.FindType("System.Runtime.WootzJs.LiftedVariableAccessor");
+            LiftedVariableAccessorConstructor = LiftedVariableAccessor.Constructors.Single();
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }

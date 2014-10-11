@@ -28,7 +28,7 @@ namespace WootzJs.Compiler
             foreach (var method in node.Members.OfType<MethodDeclarationSyntax>().Where(x => x.IsAsync()))
             {
                 var methodSymbol = semanticModel.GetDeclaredSymbol(method);
-                var asyncGenerator = new AsyncClassGenerator(compilation, method, methodSymbol, methodSymbol.Parameters.Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type)).ToList(), method.TypeParameterList, methodSymbol.ContainingType, methodSymbol.GetMemberName());
+                var asyncGenerator = new AsyncClassGenerator(compilation, method, methodSymbol, methodSymbol.Parameters.Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type)).ToList(), method.TypeParameterList, methodSymbol.ContainingType, methodSymbol.GetMemberName(), null);
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
                 foreach (var additionalMethod in asyncGenerator.AdditionalHostMethods)

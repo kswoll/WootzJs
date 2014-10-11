@@ -126,14 +126,14 @@ namespace WootzJs.Compiler.Tests
             can reassign local variables like the flag below.  we will pass this function into the async class
             for the lambda
 */
-            var flag = false;
+            var asyncTaskLambdaFlag = false;
             Func<Task> func = async () =>
             {
                 await Task.Delay(10);
-                flag = true;
+                asyncTaskLambdaFlag = true;
             };
             await func();
-            AssertTrue(flag);
+            AssertTrue(asyncTaskLambdaFlag);
         }
 
 /*

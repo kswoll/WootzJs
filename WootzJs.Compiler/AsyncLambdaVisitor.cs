@@ -34,18 +34,33 @@ namespace WootzJs.Compiler
                 var method = delegateType.GetMethodByName("Invoke");
                 var containingMethod = node.GetContainingMethod();
                 var containingMethodDeclaration = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
+                var containingType = containingMethodDeclaration.GetContainingType();
 
                 // We need to ensure the parameter list includes those from the containing method. (and
                 // possibly the containing lambda if there is a bunch of nesting < todo)
                 // Also need to grab any locally declared variable that is in scope and comes before the current node
                 var parameterList = delegateInvokeMethod.Parameters
-                    .Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type))
-                    .Concat(containingMethod.Parameters.Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type)))
-                    .Concat(FindDeclaredVariablesInScope(containingMethodDeclaration, node)
-                        .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type })
-                        .Select(x => new Tuple<string, ITypeSymbol>(x.Declarator.Identifier.ToString(), Context.Instance.ActionT.Construct(x.Symbol))));
+                    .Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type));
+                if (!containingMethod.IsAsync)
+                {
+                    parameterList = parameterList
+                        .Concat(containingMethod.Parameters.Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type)))
+                        .Concat(FindDeclaredVariablesInScope(containingMethodDeclaration, node)
+                            .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type })
+                            .Select(x => new Tuple<string, ITypeSymbol>(x.Declarator.Identifier.ToString(), Context.Instance.ActionT.Construct(x.Symbol))));                    
+                }
+                else
+                {
+                    parameterList = parameterList
+                        .Concat(containingMethod.Parameters
+                            .Select(x => new Tuple<string, ITypeSymbol>(x.Name, Context.Instance.LiftedVariableAccessor)))
+                        .Concat(FindDeclaredVariablesInScope(containingMethodDeclaration, node)
+                            .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type })
+                            .Select(x => new Tuple<string, ITypeSymbol>(x.Declarator.Identifier.ToString(), Context.Instance.LiftedVariableAccessor)));                                        
+                }
 
-                var asyncGenerator = new AsyncClassGenerator(compilation, node, method, parameterList.ToList(), SyntaxFactory.TypeParameterList(), containingMethod.ContainingType, index++.ToString());
+                var asyncMethodType = SyntaxFactory.ParseTypeName(containingType.GetFullName() + ".Async$" + method.GetMemberName());
+                var asyncGenerator = new AsyncClassGenerator(compilation, node, method, parameterList.ToList(), SyntaxFactory.TypeParameterList(), containingMethod.ContainingType, index++.ToString(), containingMethod.IsAsync ? asyncMethodType : null);
                 var enumerator = asyncGenerator.CreateStateMachine();
                 asyncClasses.Add(enumerator);
                 foreach (var additionalMethod in asyncGenerator.AdditionalHostMethods)

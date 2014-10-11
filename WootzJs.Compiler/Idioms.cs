@@ -2073,7 +2073,7 @@ namespace WootzJs.Compiler
             return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
         }
 
-        public JsBlockStatement GenerateAsyncMethod(ITypeSymbol containingType, string className, IMethodSymbol method, params ExpressionSyntax[] variableArguments)
+        public JsBlockStatement GenerateAsyncMethod(ITypeSymbol containingType, string className, IMethodSymbol method, bool isInnerAsync, params JsExpression[] variableArguments)
         {
             // Get generated enumerator
             var asyncType = (INamedTypeSymbol)containingType.GetMembers().Single(x => x.Name == "Async$" + className);
@@ -2087,8 +2087,21 @@ namespace WootzJs.Compiler
             var arguments = new List<JsExpression>();
             if (!method.IsStatic)
                 arguments.Add(Js.This());
-            arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
-            arguments.AddRange(variableArguments.Select(x => (JsExpression)x.Accept(transformer)));
+
+            if (isInnerAsync)
+                arguments.Add(Js.Reference("$outerasync"));
+            else 
+                arguments.Add(Js.Null());
+
+            if (!isInnerAsync)
+                arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
+            else
+                arguments.AddRange(method.Parameters.Select(x => CreateObject(
+                    Context.Instance.LiftedVariableAccessorConstructor, 
+                    Js.Function().Body(Js.This().Member("$outerasync").Member(x.Name).Return()),
+                    Js.Function(Js.Parameter("$x")).Body(Js.This().Member("$outerasync").Member(x.Name).Assign(Js.Reference("$x")))
+                )));
+            arguments.AddRange(variableArguments);
 
             var asyncBlock = Js.Block();
             var stateMachine = asyncBlock.Local("$stateMachine", CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));

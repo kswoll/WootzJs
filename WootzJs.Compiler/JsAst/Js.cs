@@ -238,7 +238,7 @@ namespace WootzJs.Compiler.JsAst
             return new JsReturnStatement();
         }
 
-        public static JsReturnStatement Return(JsExpression expression)
+        public static JsReturnStatement Return(this JsExpression expression)
         {
             return new JsReturnStatement(expression);
         }

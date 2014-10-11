@@ -594,7 +594,7 @@ namespace WootzJs.Compiler
             }
             else if (node.IsAsync())
             {
-                body = idioms.GenerateAsyncMethod(method.ContainingType, method.GetMemberName(), method);
+                body = idioms.GenerateAsyncMethod(method.ContainingType, method.GetMemberName(), method, false);
             }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);
@@ -1174,17 +1174,23 @@ namespace WootzJs.Compiler
                 counter++;
                 asyncLambdaCounters[containingType] = counter;
 
-                var method = bodyNode.GetContainingMethodDeclaration();
+                var methodDeclaration = bodyNode.GetContainingMethodDeclaration();
+                var method = bodyNode.GetContainingMethod();
                 var locator = new VariableDeclarationsLocator((CSharpSyntaxNode)bodyNode.Parent);
-                method.Accept(locator);
+                methodDeclaration.Accept(locator);
                 var variableArguments = locator.Variables
                     .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type, Parameter = SyntaxFactory.Parameter(SyntaxFactory.Identifier("$x")).WithType(declaration.Type) })
-                    .Select(x => SyntaxFactory.ParenthesizedLambdaExpression(
-                        SyntaxFactory.ParameterList(SyntaxFactory.SeparatedList(new[] { x.Parameter })),
-                        SyntaxFactory.IdentifierName(x.Declarator.Identifier).Assign(SyntaxFactory.IdentifierName(x.Parameter.Identifier))))
+                    .Select(x => method.IsAsync ?
+                        idioms.CreateObject(
+                            Context.Instance.LiftedVariableAccessorConstructor, 
+                            Js.Function().Body(Js.This().Member("$outerasync").Member(x.Declarator.Identifier.ToString()).Return()),
+                            Js.Function(Js.Parameter("$x")).Body(Js.This().Member("$outerasync").Member(x.Declarator.Identifier.ToString()).Assign(Js.Reference("$x")))
+                        ) :
+                        Js.Reference(x.Declarator.Identifier.ToString())
+                    )
                     .ToArray();
 
-                block.Aggregate(idioms.GenerateAsyncMethod(containingType, counter.ToString(), delegateType.DelegateInvokeMethod, variableArguments));
+                block.Aggregate(idioms.GenerateAsyncMethod(containingType, counter.ToString(), delegateType.DelegateInvokeMethod, method.IsAsync, variableArguments));
             }
             else
             {
