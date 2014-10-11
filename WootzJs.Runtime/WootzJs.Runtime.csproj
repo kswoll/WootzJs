@@ -265,7 +265,7 @@
     <Compile Include="Runtime\WootzJs\JsObjectConverter.cs" />
     <Compile Include="Runtime\WootzJs\JsRegExp.cs" />
     <Compile Include="Runtime\WootzJs\JsString.cs" />
-    <Compile Include="Runtime\WootzJs\LiftedVariable.cs" />
+    <Compile Include="Runtime\WootzJs\LiftedVariableAttribute.cs" />
     <Compile Include="Runtime\WootzJs\LiftedVariableAccessor.cs" />
     <Compile Include="Runtime\WootzJs\SpecialFunctions.cs" />
     <Compile Include="Runtime\WootzJs\SpecialNames.cs" />

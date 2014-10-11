@@ -1174,10 +1174,17 @@ namespace WootzJs.Compiler
                 counter++;
                 asyncLambdaCounters[containingType] = counter;
 
+/*
                 var methodDeclaration = bodyNode.GetContainingMethodDeclaration();
                 var method = bodyNode.GetContainingMethod();
                 var locator = new VariableDeclarationsLocator((CSharpSyntaxNode)bodyNode.Parent);
                 methodDeclaration.Accept(locator);
+*/
+                var variableArguments = containingType.GetMembers()
+                    .OfType<IFieldSymbol>()
+                    .Where(x => x.GetAttributes().Any(y => y.AttributeClass == Context.Instance.LiftedVariableAttribute))
+                    .Select(x => );
+
                 var variableArguments = locator.Variables
                     .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type, Parameter = SyntaxFactory.Parameter(SyntaxFactory.Identifier("$x")).WithType(declaration.Type) })
                     .Select(x => method.IsAsync ?

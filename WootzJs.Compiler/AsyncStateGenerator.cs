@@ -634,9 +634,9 @@ namespace WootzJs.Compiler
                             if (parameterType is INamedTypeSymbol)
                             {
                                 var namedParameterType = (INamedTypeSymbol)parameterType;
-                                if (namedParameterType.IsGenericType && namedParameterType.OriginalDefinition == Context.Instance.ActionT)
+                                if (namedParameterType == Context.Instance.LiftedVariableAccessor)
                                 {
-                                    return left.Invoke(node.Right);
+                                    return left.Member("Getter").Member("invoke").Invoke(node.Right);
                                 }
                             }
                         }                        

@@ -2085,22 +2085,27 @@ namespace WootzJs.Compiler
             }
 
             var arguments = new List<JsExpression>();
-            if (!method.IsStatic)
+
+            if (isInnerAsync)
+                arguments.Add(Js.Reference("$outerasync.$this"));
+            else 
                 arguments.Add(Js.This());
 
             if (isInnerAsync)
-                arguments.Add(Js.Reference("$outerasync"));
-            else 
+                arguments.Add(Js.This());
+            else
                 arguments.Add(Js.Null());
 
             if (!isInnerAsync)
                 arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
+/*
             else
                 arguments.AddRange(method.Parameters.Select(x => CreateObject(
                     Context.Instance.LiftedVariableAccessorConstructor, 
                     Js.Function().Body(Js.This().Member("$outerasync").Member(x.Name).Return()),
                     Js.Function(Js.Parameter("$x")).Body(Js.This().Member("$outerasync").Member(x.Name).Assign(Js.Reference("$x")))
                 )));
+*/
             arguments.AddRange(variableArguments);
 
             var asyncBlock = Js.Block();

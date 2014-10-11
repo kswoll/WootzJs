@@ -47,7 +47,7 @@ namespace WootzJs.Compiler
                         .Concat(containingMethod.Parameters.Select(x => new Tuple<string, ITypeSymbol>(x.Name, x.Type)))
                         .Concat(FindDeclaredVariablesInScope(containingMethodDeclaration, node)
                             .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type })
-                            .Select(x => new Tuple<string, ITypeSymbol>(x.Declarator.Identifier.ToString(), Context.Instance.ActionT.Construct(x.Symbol))));                    
+                            .Select(x => new Tuple<string, ITypeSymbol>(x.Declarator.Identifier.ToString(), x.Symbol)));
                 }
                 else
                 {
