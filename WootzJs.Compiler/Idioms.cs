@@ -40,7 +40,7 @@ namespace WootzJs.Compiler
 {
     public class Idioms
     {
-        private JsTransformer transformer;
+        internal JsTransformer transformer;
 
         public Idioms(JsTransformer transformer)
         {
@@ -906,7 +906,7 @@ namespace WootzJs.Compiler
                     return GetPropertyValue(@this, property, isBaseReference);
                 }
                 case SymbolKind.Parameter:
-                    return transformer.ReferenceDeclarationInScope(symbol.Name).GetReference();
+                    return transformer.ReferenceDeclarationInScope(symbol).GetReference();
                 case SymbolKind.NamedType:
                     var namedTypeSymbol = (INamedTypeSymbol)symbol;
                     var type = Type(namedTypeSymbol);
@@ -914,10 +914,7 @@ namespace WootzJs.Compiler
                         type = type.Invoke();
                     return type;
                 case SymbolKind.Local:
-                    var localName = symbol.Name;
-                    if (transformer.nameOverrides.ContainsKey(localName))
-                        localName = transformer.nameOverrides[localName];
-                    var declaration = transformer.ReferenceDeclarationInScope(localName);
+                    var declaration = transformer.ReferenceDeclarationInScope(symbol);
                     return !isSetter ? declaration.GetReference() : declaration.SetReference();
                 case SymbolKind.Method:
                 {
@@ -1533,7 +1530,6 @@ namespace WootzJs.Compiler
                 {
                     var methodSymbol = ModelExtensions.GetDeclaredSymbol(model, method);
                     transformer.PushDeclaration(methodSymbol);
-                    transformer.PushScope(methodSymbol);
                     transformer.PushOutput(block);
                     var name = methodSymbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name") ?? methodSymbol.Name;
                     var parameters = new List<JsParameter>();
@@ -1543,7 +1539,6 @@ namespace WootzJs.Compiler
                     var body = (JsBlockStatement)method.Body.Accept(transformer);
                     var function = Js.NamedFunction(name, parameters.ToArray()).Body(body);
                     block.Add(Js.Declare(function));
-                    transformer.PopScope();
                     transformer.PopOutput();
                     transformer.PopDeclaration();
                 }
@@ -1635,16 +1630,17 @@ namespace WootzJs.Compiler
 
                         var lambda = originalArguments[0];
                         var lambdaParameters = lambda.GetParameters();
-                        transformer.PushScope(null);
 
                         var jsParameters = lambdaParameters.Select(x => Js.Parameter(x.Identifier.ToString())).Cast<IJsDeclaration>().ToArray();
                         for (var i = 0; i < nameOverrides.Length; i++)
                         {
                             jsParameters[i] = new WrappedParent(jsParameters[i]) { Name = nameOverrides[i] };
                         }
-                        foreach (var parameter in jsParameters)
+                        for (var i = 0; i < jsParameters.Length; i++)
                         {
-                            transformer.DeclareInCurrentScope(parameter);
+                            var parameter = jsParameters[i];
+                            var symbol = method.Parameters[i];
+                            transformer.DeclareInCurrentScope(symbol, parameter);
                         }
 
                         var jsBody = new JsBlockStatement();
@@ -1674,7 +1670,6 @@ namespace WootzJs.Compiler
                         result = Js.Function(jsParameters).Body(lambdaStatement);
 
                         transformer.PopOutput();
-                        transformer.PopScope();
 
                         return true;
                     case "arguments":
@@ -1810,7 +1805,7 @@ namespace WootzJs.Compiler
                         var argument = arguments[i];    
                         var variableName = transformer.GenerateUniqueNameInScope();
                         var variable = Js.Variable(variableName, GetRefOrOutWrapper(parameter.RefKind == RefKind.Out ? Js.Null() : argument));
-                        transformer.DeclareInCurrentScope(new ReferenceParameterDeclaration(variable));
+                        transformer.DeclareInCurrentScope(parameter, new ReferenceParameterDeclaration(variable));
                         arguments[i] = Js.Reference(variableName);
                         prependers.Add(Js.Local(variable));
                         appenders.Add(argument.Assign(Js.Reference(variableName).Member("value")).Express());
@@ -2165,7 +2160,7 @@ namespace WootzJs.Compiler
             var moveNext = stateMachineBody.Local(AsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
 
             // Create state generator and generate states
-            var stateGenerator = new AsyncStateGenerator(Context.Instance.Compilation, transformer, this, stateMachineBody, node, method);
+            var stateGenerator = new AsyncStateGenerator(Context.Instance.Compilation, this, stateMachineBody, node, method);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 

@@ -52,7 +52,6 @@ namespace WootzJs.Compiler.Tests
             basicTestAsync = true;
         }
 
-/*
         [Test]
         public void BasicTestTask()
         {
@@ -78,6 +77,7 @@ namespace WootzJs.Compiler.Tests
             return 5;
         }
 
+/*
         [Test]
         public async Task TrueAsyncTestTaskT()
         {

@@ -9,13 +9,12 @@ namespace WootzJs.Compiler
 {
     public class AsyncStateGenerator : BaseAsyncStateGenerator
     {
-        private AsyncExpressionDecomposer decomposer;
         private Dictionary<LiftedVariableKey, string> hoistedVariables = new Dictionary<LiftedVariableKey, string>();
         private Stack<AsyncState> breakStates = new Stack<AsyncState>();
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
         private List<MethodDeclarationSyntax> additionalHostMethods = new List<MethodDeclarationSyntax>();
         private IMethodSymbol method;
-        private JsTransformer transformer;
+        private AsyncExpressionDecomposer transformer;
         private JsBlockStatement stateMachineBody;
         private Idioms idioms;
 
@@ -25,13 +24,12 @@ namespace WootzJs.Compiler
         public const string moveNext = "$moveNext";
         public const string @this = "$this";
 
-        public AsyncStateGenerator(Compilation compilation, JsTransformer transformer, Idioms idioms, JsBlockStatement stateMachineBody, CSharpSyntaxNode node, IMethodSymbol method) : base(compilation, node)
+        public AsyncStateGenerator(Compilation compilation, Idioms idioms, JsBlockStatement stateMachineBody, CSharpSyntaxNode node, IMethodSymbol method) : base(compilation, node)
         {
             this.method = method;
-            this.transformer = transformer;
             this.stateMachineBody = stateMachineBody;
             this.idioms = idioms;
-            decomposer = new AsyncExpressionDecomposer(this);
+            transformer = new AsyncExpressionDecomposer(this);
         }
 
         public IEnumerable<MethodDeclarationSyntax> AdditionalHostMethods
@@ -63,18 +61,29 @@ namespace WootzJs.Compiler
             while (true);
         }
 
-        protected string HoistVariable(LiftedVariableKey symbol)
+        protected JsVariableDeclarator HoistVariable(LiftedVariableKey symbol)
         {
             var identifier = symbol.Identifier;
             if (hoistedVariables.ContainsKey(symbol) || hoistedVariables.ContainsKey(new LiftedVariableKey(symbol.Identifier)))
             {
                 identifier = GenerateNewNamePrivate(symbol);
-                hoistedVariables[symbol] = identifier;
-                if (symbol.Symbol == null)
-                    hoistedVariables[new LiftedVariableKey(symbol.Identifier)] = identifier;
+                symbol = new LiftedVariableKey(identifier, symbol.Symbol);
             }
-            stateMachineBody.Local(identifier, Js.Null());
-            return identifier;
+            
+            // Register the variable so we avoid collisions.
+            hoistedVariables[symbol] = identifier;
+            if (symbol.Symbol == null)
+                hoistedVariables[new LiftedVariableKey(symbol.Identifier)] = identifier;
+
+            // Declare a local variable (of the top-level function so available as closures to the state
+            // machine) to store the symbol.
+            var declaration = stateMachineBody.Local(identifier, Js.Null());
+
+            // If we have a true symbol associated with the key, then declare it in the base transformer
+            if (symbol.Symbol != null)
+                transformer.DeclareInCurrentScope(symbol.Symbol, declaration);
+
+            return declaration;
         }
 
         protected string UniqueName(string identifier)
@@ -103,7 +112,7 @@ namespace WootzJs.Compiler
 
         public override void VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            CurrentState.Add((JsStatement)node.Accept(decomposer));
+            CurrentState.Add(((JsExpression)node.Expression.Accept(transformer)).Express());
         }
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
@@ -117,7 +126,7 @@ namespace WootzJs.Compiler
 
                 if (variable.Initializer != null)
                 {
-                    var assignment = Js.Reference(identifier).Assign((JsExpression)variable.Initializer.Value.Accept(decomposer));
+                    var assignment = identifier.GetReference().Assign((JsExpression)variable.Initializer.Value.Accept(transformer));
                     CurrentState.Add(assignment.Express());
                 }
             }
@@ -133,7 +142,7 @@ namespace WootzJs.Compiler
         {
             var setResult = Js.Reference(builder).Member("SetResult");
             if (result != null)
-                CurrentState.Add(setResult.Invoke((JsExpression)result.Accept(decomposer)).Express());
+                CurrentState.Add(setResult.Invoke((JsExpression)result.Accept(transformer)).Express());
             else 
                 CurrentState.Add(setResult.Invoke().Express());
             CurrentState.Add(Js.Return());
@@ -164,7 +173,7 @@ namespace WootzJs.Compiler
             var ifFalseState = node.Else != null ? NewState(afterIfState) : null;
 
             var newIfStatement = Js.If(
-                (JsExpression)node.Condition.Accept(decomposer),
+                (JsExpression)node.Condition.Accept(transformer),
                 GotoStateBlock(ifTrueState));
 
             if (node.Else != null)
@@ -198,7 +207,7 @@ namespace WootzJs.Compiler
             var bodyState = NewState(afterWhileStatement);
 
             var newWhileStatement = Js.While(
-                (JsExpression)node.Condition.Accept(decomposer),
+                (JsExpression)node.Condition.Accept(transformer),
                 GotoStateBlock(bodyState));
 
             CurrentState.Add(newWhileStatement);
@@ -222,7 +231,7 @@ namespace WootzJs.Compiler
 
                 if (variable.Initializer != null)
                 {
-                    var assignment = Js.Reference(identifier).Assign((JsExpression)variable.Initializer.Value.Accept(decomposer));
+                    var assignment = identifier.GetReference().Assign((JsExpression)variable.Initializer.Value.Accept(transformer));
                     CurrentState.Add(assignment.Express());
                 }
             }
@@ -237,7 +246,7 @@ namespace WootzJs.Compiler
             var incrementorState = NewState();
 
             var newWhileStatement = Js.While(
-                (JsExpression)node.Condition.Accept(decomposer),
+                (JsExpression)node.Condition.Accept(transformer),
                 GotoStateBlock(bodyState));
 
             CurrentState.Add(newWhileStatement);
@@ -250,7 +259,7 @@ namespace WootzJs.Compiler
             CurrentState = incrementorState;
             foreach (var incrementor in node.Incrementors)
             {
-                CurrentState.Add(((JsExpression)incrementor.Accept(decomposer)).Express());
+                CurrentState.Add(((JsExpression)incrementor.Accept(transformer)).Express());
             }
             GotoState(topOfLoop);
 
@@ -264,11 +273,10 @@ namespace WootzJs.Compiler
             var identifier = HoistVariable(new LiftedVariableKey(node.Identifier, symbol));
 
             // Hoist the enumerator into a field
-            var enumerator = identifier + "$enumerator";
-            enumerator = HoistVariable(new LiftedVariableKey(enumerator));
+            var enumerator = HoistVariable(new LiftedVariableKey(identifier + "$enumerator"));
             CurrentState.Add(
-                Js.Reference(enumerator).Assign(
-                    ((JsExpression)node.Expression.Accept(decomposer)).Member("GetEnumerator").Invoke()
+                enumerator.GetReference().Assign(
+                    ((JsExpression)node.Expression.Accept(transformer)).Member("GetEnumerator").Invoke()
                 ).Express()
             );
 
@@ -280,14 +288,14 @@ namespace WootzJs.Compiler
             var afterLoop = GetNextState();
             var bodyState = NewState(afterLoop);
 
-            var moveNext = Js.Reference(enumerator).Member("MoveNext").Invoke();
+            var moveNext = enumerator.GetReference().Member("MoveNext").Invoke();
             var newWhileStatement = Js.While(moveNext, GotoStateBlock(bodyState));
 
             CurrentState.Add(newWhileStatement);
             GotoState(afterLoop);
 
             CurrentState = bodyState;
-            CurrentState.Add(Js.Reference(identifier).Assign(Js.Reference(enumerator).Member("Current")).Express());
+            CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("Current")).Express());
             
             AcceptStatement(node.Statement, afterLoop, topOfLoop);
 
@@ -306,7 +314,7 @@ namespace WootzJs.Compiler
                 var catchClause = node.FirstAncestorOrSelf<CatchClauseSyntax>();
                 exception = SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier);
             }
-            CurrentState.Add(Js.Throw((JsExpression)exception.Accept(decomposer)));
+            CurrentState.Add(Js.Throw((JsExpression)exception.Accept(transformer)));
         }
 
         public override void VisitTryStatement(TryStatementSyntax node)
@@ -328,7 +336,7 @@ namespace WootzJs.Compiler
             var catchBlock = Js.Block();
 
             // Make sure that the exception is stored in a variable accessible to the entire state machine.
-            catchBlock.Express(Js.Reference(exceptionIdentifier).Assign(Js.Reference(exceptionVariable)));
+            catchBlock.Express(exceptionIdentifier.GetReference().Assign(Js.Reference(exceptionVariable)));
 
             foreach (var catchClause in node.Catches)
             {
@@ -340,7 +348,7 @@ namespace WootzJs.Compiler
                 var hasDeclaration = catchClause.Declaration.Identifier.CSharpKind() != SyntaxKind.None;
 
                 // A variable to store the new unique identifier to store the exception
-                string newIdentifier;
+                IJsDeclaration newIdentifier;
 
                 // Hoist the variable into a field
                 if (hasDeclaration)
@@ -362,11 +370,11 @@ namespace WootzJs.Compiler
                 // Create the statements that will live in the actual catch handler, which directs the logic
                 // to the actual catch state and also stores the exception in the correct identifier.
                 var thisCatchStatements = Js.Block();
-                thisCatchStatements.Express(Js.Reference(newIdentifier).Assign(Js.Reference(exceptionIdentifier)));
+                thisCatchStatements.Express(newIdentifier.SetReference().Assign(exceptionIdentifier.GetReference()));
                 thisCatchStatements.AddRange(GotoStateStatements(catchState));
 
                 // Only do the above if the current exception is of the type expected by the catch handler.
-                catchBlock.Add(Js.If(idioms.Is(Js.Reference(exceptionIdentifier), symbol.Type), thisCatchStatements));
+                catchBlock.Add(Js.If(idioms.Is(exceptionIdentifier.GetReference(), symbol.Type), thisCatchStatements));
             }
             if (node.Finally != null)
             {
@@ -377,8 +385,8 @@ namespace WootzJs.Compiler
                 // If the exception object is not null, then rethrow it.  In other words, if this is a finally 
                 // clause that has responded to an exception, we need to propagate the exception rather than 
                 // continue after the try statement.  Otherwise, go to the code after the try block.
-                CurrentState.Add(Js.If(Js.Reference(exceptionIdentifier).NotEqualTo(Js.Null()), 
-                    Js.Throw(Js.Reference(exceptionIdentifier)), 
+                CurrentState.Add(Js.If(exceptionIdentifier.GetReference().NotEqualTo(Js.Null()), 
+                    Js.Throw(exceptionIdentifier.GetReference()), 
                     Js.Block(GotoStateStatements(afterTry))));
 
                 // Finally, at the very end of the catch clause (and we can only get here if the logic didn't break
@@ -386,7 +394,7 @@ namespace WootzJs.Compiler
                 catchBlock.AddRange(GotoStateStatements(finallyState).ToArray());
             }
 
-            newTryStatement.Catch = Js.Catch(Js.Variable(exceptionIdentifier));
+            newTryStatement.Catch = Js.Catch(exceptionIdentifier);
             newTryStatement.Catch.Body = catchBlock;
             tryState.Wrap = switchStatement =>
             {
@@ -411,11 +419,11 @@ namespace WootzJs.Compiler
 
             var sectionStates = node.Sections.Select(x => NewState(afterSwitchState)).ToArray();
             var newSwitchStatement = Js.Switch(
-                (JsExpression)node.Expression.Accept(decomposer),
+                (JsExpression)node.Expression.Accept(transformer),
                 node.Sections
                     .Select((x, i) =>
                     {
-                        var section = Js.Section(x.Labels.Select(y => y.Value != null ? Js.CaseLabel((JsExpression)y.Value.Accept(decomposer)) : Js.DefaultLabel()).ToArray());
+                        var section = Js.Section(x.Labels.Select(y => y.Value != null ? Js.CaseLabel((JsExpression)y.Value.Accept(transformer)) : Js.DefaultLabel()).ToArray());
                         section.Statements.AddRange(GotoStateStatements(sectionStates[i]));
                         return section;
                     })
@@ -469,16 +477,16 @@ namespace WootzJs.Compiler
                 {
                     var symbol = (ILocalSymbol)semanticModel.GetDeclaredSymbol(variable);
                     var identifier = HoistVariable(new LiftedVariableKey(variable.Identifier, symbol));
-                    var name = Js.Reference(identifier);
+                    var name = identifier.GetReference();
                     disposables.Add(name);
-                    CurrentState.Add(name.Assign((JsExpression)variable.Initializer.Value.Accept(decomposer)).Express());
+                    CurrentState.Add(name.Assign((JsExpression)variable.Initializer.Value.Accept(transformer)).Express());
                 }
             }
             if (node.Expression != null)
             {
                 var identifier = Js.Reference(UniqueName("$using"));
                 disposables.Add(identifier);
-                CurrentState.Add(identifier.Assign((JsExpression)node.Expression.Accept(decomposer)).Express());
+                CurrentState.Add(identifier.Assign((JsExpression)node.Expression.Accept(transformer)).Express());
             }
 
             var tryState = NewSubstate();
@@ -490,11 +498,11 @@ namespace WootzJs.Compiler
             {
                 CurrentState.Add(disposable.Member("Dispose").Invoke().Express());
             }
-            CurrentState.Add(Js.If(Js.Reference(exceptionIdentifier).NotEqualTo(Js.Null()), Js.Throw(Js.Reference(exceptionIdentifier))));
+            CurrentState.Add(Js.If(exceptionIdentifier.GetReference().NotEqualTo(Js.Null()), Js.Throw(exceptionIdentifier.GetReference())));
             GotoState(afterTry);
             newTryStatement.Catch = Js.Catch(Js.Variable(caughtExceptionIdentifier));
             newTryStatement.Catch.Body = Js.Block(
-                new[] { Js.Reference(exceptionIdentifier).Assign(Js.Reference(caughtExceptionIdentifier)).Express() }
+                new[] { exceptionIdentifier.GetReference().Assign(Js.Reference(caughtExceptionIdentifier)).Express() }
                     .Concat(GotoStateStatements(finallyState))
                     .ToArray()
             );
@@ -517,7 +525,7 @@ namespace WootzJs.Compiler
         {
             private AsyncStateGenerator stateGenerator;
 
-            public AsyncExpressionDecomposer(AsyncStateGenerator stateGenerator) : base(stateGenerator.transformer.syntaxTree, stateGenerator.transformer.model)
+            public AsyncExpressionDecomposer(AsyncStateGenerator stateGenerator) : base(stateGenerator.idioms)
             {
                 this.stateGenerator = stateGenerator;
             }
@@ -532,9 +540,8 @@ namespace WootzJs.Compiler
                         var returnsVoid = expressionInfo.GetResultMethod.ReturnsVoid;
 
                         // Store the awaiter in a field
-                        var awaiterIdentifier = "$awaiter";
-                        awaiterIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey(awaiterIdentifier));
-                        var awaiter = Js.Reference(awaiterIdentifier);
+                        var awaiterIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$awaiter"));
+                        var awaiter = awaiterIdentifier.GetReference();
                         stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member("GetAwaiter").Invoke()).Express());
 
                         var nextState = stateGenerator.InsertState();
@@ -543,9 +550,8 @@ namespace WootzJs.Compiler
                         if (!returnsVoid)
                         {
                             // If the await returns a value, store it in a field
-                            var resultIdentifier = "$result";
-                            resultIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey(resultIdentifier));
-                            result = Js.Reference(resultIdentifier);
+                            var resultIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$result"));
+                            result = resultIdentifier.GetReference();
 
                             // Make sure the field gets set from the awaiter at the beginning of the next state.
                             nextState.Add(result.Assign(awaiter.Member("GetResult").Invoke()).Express());
@@ -570,7 +576,7 @@ namespace WootzJs.Compiler
                                 // Start the async process
                                 Js.Reference(builder)
                                     .Member("AwaitOnCompleted")
-                                    .Invoke(Js.Reference(awaiterIdentifier), Js.This())
+                                    .Invoke(awaiterIdentifier.GetReference(), Js.This())
                                     .Express(),
                                 Js.Return()
                             )

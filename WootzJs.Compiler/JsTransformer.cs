@@ -41,19 +41,30 @@ namespace WootzJs.Compiler
     {
         internal SyntaxTree syntaxTree;
         internal SemanticModel model;
-        internal List<Scope> scopes = new List<Scope>();
         internal Idioms idioms;
         internal List<JsBlockStatement> outputBlockStack = new List<JsBlockStatement>();
+        private Dictionary<ISymbol, IJsDeclaration> declarationsBySymbol = new Dictionary<ISymbol, IJsDeclaration>();
         private Stack<IJsDeclaration> initializableObjectsStack = new Stack<IJsDeclaration>();
         private Stack<ISymbol> declarationStack = new Stack<ISymbol>();
         private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
-        internal Dictionary<string, string> nameOverrides = new Dictionary<string, string>();
 
         public JsTransformer(SyntaxTree syntaxTree, SemanticModel model)
         {
             this.syntaxTree = syntaxTree;
             this.model = model;
             idioms = new Idioms(this);
+        }
+
+        public JsTransformer(Idioms idioms) 
+        {
+            this.syntaxTree = idioms.transformer.syntaxTree;
+            this.model = idioms.transformer.model;
+            this.idioms = new Idioms(this);
+            this.declarationsBySymbol = new Dictionary<ISymbol, IJsDeclaration>(idioms.transformer.declarationsBySymbol);
+            this.outputBlockStack = idioms.transformer.outputBlockStack.ToList();
+            this.initializableObjectsStack = new Stack<IJsDeclaration>(idioms.transformer.initializableObjectsStack.Reverse());
+            this.declarationStack = new Stack<ISymbol>(idioms.transformer.declarationStack.Reverse());
+            this.loopLabels = new Stack<LoopEntry>(idioms.transformer.loopLabels.Reverse());
         }
 
         public int GetLabelDepth(string label)
@@ -66,32 +77,15 @@ namespace WootzJs.Compiler
             throw new Exception();
         }
 
-        public Scope PushScope(ISymbol symbol)
-        {
-            return PushScope(scopes.Any() ? scopes.Last() : null, symbol);
-        }
-
-        public Scope PushScope(Scope parent, ISymbol symbol)
-        {
-            var scope = new Scope(symbol);
-            scopes.Add(scope);
-            if (parent != null)
-            {
-                scope.AddDeclarations(parent.Declarations.ToArray());
-            }
-
-            return scope;
-        }
-
         public bool IsDeclaredInScope(Scope scope, string name)
         {
             var declaration = scope[name];
             return declaration != null;
         }
 
-        public void DeclareInCurrentScope(params IJsDeclaration[] declarations)
+        public void DeclareInCurrentScope(ISymbol symbol, IJsDeclaration declaration)
         {
-            scopes.Last().AddDeclarations(declarations);
+            declarationsBySymbol[symbol] = declaration;
         }
 
         private Dictionary<ISymbol, int> currentAnonymousNames = new Dictionary<ISymbol, int>();
@@ -113,64 +107,14 @@ namespace WootzJs.Compiler
             return "$anon$" + ordinal;
         }
 
-        public void PopScope()
+        public IJsDeclaration ReferenceDeclarationInScope(ISymbol symbol)
         {
-            scopes.RemoveAt(scopes.Count - 1);
-        }
-
-        public class ReferenceTracker : IDisposable
-        {
-            public List<IJsDeclaration> ReferencedDeclarations { get; set; }
-
-            private JsTransformer transformer;
-            private Scope scope;
-
-            internal ReferenceTracker(JsTransformer transformer)
+            IJsDeclaration declaration;
+            if (declarationsBySymbol.TryGetValue(symbol, out declaration))
             {
-                this.transformer = transformer; 
-                scope = transformer.scopes.Last();
-                ReferencedDeclarations = new List<IJsDeclaration>();
-            }
-
-            public void Add(IJsDeclaration declaration, string name)
-            {
-                if (!ReferencedDeclarations.Any(x => x.Name == declaration.Name) && transformer.IsDeclaredInScope(scope, name))
-                    ReferencedDeclarations.Add(declaration);
-            }
-
-            public void Dispose()
-            {
-                transformer.StopTrackingReferences(this);
-            }
-        }
-
-        private List<ReferenceTracker> referenceTracking = new List<ReferenceTracker>();
-
-        private ReferenceTracker TrackReferences()
-        {
-            var result = new ReferenceTracker(this);
-            referenceTracking.Add(result);
-            return result;
-        }
-
-        private void StopTrackingReferences(ReferenceTracker tracker)
-        {
-            referenceTracking.Remove(tracker);
-        }
-
-        public IJsDeclaration ReferenceDeclarationInScope(string name)
-        {
-            var scope = scopes.Last();
-            var declaration = scope[name];
-            if (declaration != null)
-            {
-                foreach (var tracker in referenceTracking)
-                {
-                    tracker.Add(declaration, name);
-                }
                 return declaration;
             }
-            throw new InvalidOperationException("Symbol not found in scope: " + name);
+            throw new InvalidOperationException("Symbol not found in scope: " + symbol);
         }
 
         public void PushOutput(JsBlockStatement node)
@@ -340,15 +284,13 @@ namespace WootzJs.Compiler
             jsBlock.Aggregate(idioms.CreateTypeFunction(enumType, out typeInitializer, out staticInitializer));
 
             // Create special enum constructor
-            PushScope(null);
             var constructorNameParameter = Js.Parameter("name");
             var constructorValueParameter = Js.Parameter("value");
             var constructorBlock = new JsBlockStatement();
-            constructorBlock.Express(idioms.InvokeMethodAsThis((IMethodSymbol)Context.Instance.EnumType.Constructors.First(x => !x.IsStatic), 
+            constructorBlock.Express(idioms.InvokeMethodAsThis(Context.Instance.EnumType.Constructors.First(x => !x.IsStatic), 
                 constructorNameParameter.GetReference(), constructorValueParameter.GetReference()));
             typeInitializer.Add(idioms.StoreInPrototype("$ctor", Js.Function(constructorNameParameter, constructorValueParameter).Body(constructorBlock)));
             typeInitializer.Aggregate(idioms.InitializeConstructor(enumType, "$ctor", new[] { "name", "value" }));
-            PopScope();
 
             // Instantiate all the enum members
             IFieldSymbol lastEnum = null;
@@ -417,7 +359,7 @@ namespace WootzJs.Compiler
                 var valueParameter = Js.Parameter("value");
 
                 block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(
-                    Js.Return(Js.This().Member(backingField))
+                    Js.This().Member(backingField).Return()
                 ).Compact()));
 
                 var setterBlock = Js.Block();
@@ -436,14 +378,12 @@ namespace WootzJs.Compiler
                 if (getter != null)
                 {
                     PushDeclaration(property.GetMethod);
-                    PushScope(property.GetMethod);
                     var getterBody = new JsBlockStatement();
                     PushOutput(getterBody);
                     if (getter.Body != null)
                         getterBody.Aggregate((JsStatement)getter.Body.Accept(this));
                     block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(getterBody)));
                     PopOutput();
-                    PopScope();
                     PopDeclaration();
                 }
                 if (setter != null)
@@ -451,9 +391,8 @@ namespace WootzJs.Compiler
                     var setterBody = new JsBlockStatement();
                     var valueParameter = Js.Parameter("value");
                     PushDeclaration(property.SetMethod);
-                    PushScope(property.SetMethod);
                     PushOutput(setterBody);
-                    DeclareInCurrentScope(valueParameter);
+                    DeclareInCurrentScope(property.SetMethod.Parameters.Last(), valueParameter);
                     if (setter.Body != null)
                         setterBody.Aggregate((JsStatement)setter.Body.Accept(this));
                     IMethodSymbol notifyPropertyChanged;
@@ -461,10 +400,9 @@ namespace WootzJs.Compiler
                     {
                         setterBody.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
                     }
-                    setterBody.Add(Js.Return(valueParameter.GetReference()));   // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
+                    setterBody.Add(valueParameter.GetReference().Return());   // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
                     block.Add(storeIn("set_" + propertyName, Js.Function(valueParameter).Body(setterBody)));
                     PopOutput();
-                    PopScope();
                     PopDeclaration();
                 }                
             }
@@ -485,7 +423,6 @@ namespace WootzJs.Compiler
         private JsBlockStatement CreateDefaultConstructor(BaseTypeDeclarationSyntax type)
         {
             var classType = model.GetDeclaredSymbol(type);
-            PushScope(null);
 
             var fullTypeName = type.GetFullName();
             var constructorBlock = new JsBlockStatement();
@@ -504,7 +441,6 @@ namespace WootzJs.Compiler
             var block = new JsBlockStatement();
             block.Add(assignConstructorToPrototype);
             block.Aggregate(idioms.InitializeConstructor(classType, classType.GetDefaultConstructorName(), new IParameterSymbol[0]));
-            PopScope();
 
             return block;            
         }
@@ -519,7 +455,6 @@ namespace WootzJs.Compiler
                 return block;
 
             PushDeclaration(constructor);
-            PushScope(constructor);
             PushOutput(block);
 
             var parameters = node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)).ToArray();
@@ -545,12 +480,11 @@ namespace WootzJs.Compiler
             var body = (JsBlockStatement)node.Body.Accept(this);
             constructorBlock.Aggregate(body);
 
-            var constructorName = JsNames.GetMemberName(constructor);
+            var constructorName = constructor.GetMemberName();
             block.Add(idioms.StoreInPrototype(constructorName, Js.Function(parameters).Body(constructorBlock)));
             block.Aggregate(idioms.InitializeConstructor(classType, constructorName, constructor.Parameters.ToArray()));
 
             PopOutput();
-            PopScope();
             PopDeclaration();
             return block;
         }
@@ -565,7 +499,6 @@ namespace WootzJs.Compiler
                 return block;
 
             PushDeclaration(method);
-            PushScope(method);
             PushOutput(block);
             var parameters = new List<JsParameter>();
             if (node.TypeParameterList != null)
@@ -618,7 +551,6 @@ namespace WootzJs.Compiler
                 }
             }
 
-            PopScope();
             PopOutput();
             PopDeclaration();
 
@@ -635,7 +567,6 @@ namespace WootzJs.Compiler
                 return block;
 
             PushDeclaration(method);
-            PushScope(method);
             PushOutput(block);
             var parameters = new List<JsParameter>();
             parameters.AddRange(node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)));
@@ -645,7 +576,6 @@ namespace WootzJs.Compiler
             var memberName = method.GetMemberName();
             block.Add(idioms.StoreInType(memberName, methodFunction));
 
-            PopScope();
             PopOutput();
             PopDeclaration();
 
@@ -654,7 +584,6 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitBlock(BlockSyntax node)
         {
-            PushScope(null);
             var result = new JsBlockStatement();
             PushOutput(result);
             foreach (var statement in node.Statements)
@@ -662,7 +591,6 @@ namespace WootzJs.Compiler
                 result.Add((JsStatement)statement.Accept(this));
             }
             PopOutput();
-            PopScope();
             return result;
         }
 
@@ -1154,8 +1082,6 @@ namespace WootzJs.Compiler
                 delegateType = (INamedTypeSymbol)delegateType.TypeArguments[0];
             }
 
-            PushScope(null);
-
             var block = new JsBlockStatement();
             JsParameter[] parameters = parameterNodes.Select(x => (JsParameter)x.Accept(this)).ToArray();
 
@@ -1184,7 +1110,6 @@ namespace WootzJs.Compiler
             }
 
             PopOutput();
-            PopScope();
 
             var createDelegate = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, Js.This(), idioms.Type(delegateType), Js.Function(parameters).Body(block));
             return createDelegate;
@@ -1488,8 +1413,9 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitVariableDeclarator(VariableDeclaratorSyntax node)
         {
+            var symbol = (ILocalSymbol)model.GetDeclaredSymbol(node);
             var variable = Js.Variable(node.Identifier.ToString(), node.Initializer != null ? (JsExpression)node.Initializer.Accept(this) : null);
-            DeclareInCurrentScope(variable);
+            DeclareInCurrentScope(symbol, variable);
             return variable;
         }
 
@@ -1634,7 +1560,6 @@ namespace WootzJs.Compiler
             loopLabels.Push(loopEntry);
             loopEntry.Depth = loopLabels.Count;
 
-            PushScope(null);
             var declaration = node.Declaration == null ? null : (JsVariableDeclaration)node.Declaration.Accept(this);
 
             var initializers = node.Initializers.Select(x => (JsExpression)x.Accept(this)).ToArray();
@@ -1647,7 +1572,6 @@ namespace WootzJs.Compiler
 
             block.Aggregate((JsStatement)node.Statement.Accept(this));
 
-            PopScope();
             PopOutput();
 
             var forStatement = new JsForStatement();
@@ -1677,7 +1601,7 @@ namespace WootzJs.Compiler
             loopLabels.Push(loopEntry);
             loopEntry.Depth = loopLabels.Count;
 
-            PushScope(null);
+            var declaration = model.GetDeclaredSymbol(node);
             var block = new JsBlockStatement();
             var enumerable = (JsExpression)node.Expression.Accept(this);
 
@@ -1688,7 +1612,7 @@ namespace WootzJs.Compiler
                 PushOutput(forInBlock);
 
                 var item = Js.Variable(node.Identifier.ToString());
-                DeclareInCurrentScope(item);
+                DeclareInCurrentScope(declaration, item);
 
                 forInBlock.Aggregate((JsStatement)node.Statement.Accept(this));
 
@@ -1705,7 +1629,7 @@ namespace WootzJs.Compiler
                 var whileBlock = new JsBlockStatement();
                 PushOutput(whileBlock);
                 var item = Js.Variable(node.Identifier.ToString(), idioms.Get(enumerator.GetReference(), Context.Instance.EnumeratorCurrent));
-                DeclareInCurrentScope(item);
+                DeclareInCurrentScope(declaration, item);
 
                 whileBlock.Local(item);
                 whileBlock.Aggregate((JsStatement)node.Statement.Accept(this));
@@ -1715,7 +1639,6 @@ namespace WootzJs.Compiler
             }
 
             PopOutput();
-            PopScope();
 
             loopLabels.Pop();
             return block;
@@ -1732,9 +1655,10 @@ namespace WootzJs.Compiler
             {
                 foreach (var variable in node.Declaration.Variables)
                 {
+                    var symbol = model.GetDeclaredSymbol(variable);
                     var disposable = Js.Variable(variable.Identifier.ToString());
                     disposable.Initializer = (JsExpression)variable.Initializer.Value.Accept(this);
-                    DeclareInCurrentScope(disposable);
+                    DeclareInCurrentScope(symbol, disposable);
                     result.Local(disposable);
                     disposables.Add(disposable);
                 }
@@ -1742,7 +1666,6 @@ namespace WootzJs.Compiler
             else
             {
                 var disposable = Js.Variable(GenerateUniqueNameInScope(), (JsExpression)node.Expression.Accept(this));
-                DeclareInCurrentScope(disposable);
                 result.Local(disposable);
                 disposables.Add(disposable);
             }
@@ -1821,15 +1744,12 @@ namespace WootzJs.Compiler
 
             if (node.Catches.Any())
             {
-                PushScope(null);
-
                 result.Catch = Js.Catch();
                 PushOutput(result.Catch.Body);
 
                 if (node.Catches.Count > 0)
                 {
                     result.Catch.Declaration = Js.Variable(GenerateUniqueNameInScope());
-                    DeclareInCurrentScope(result.Catch.Declaration);
                     JsIfStatement currentIfStatement = null;
                     foreach (var catchClause in node.Catches)
                     {
@@ -1837,15 +1757,12 @@ namespace WootzJs.Compiler
                         var operand = catchClause.Declaration == null ? null : (ITypeSymbol)model.GetSymbolInfo(catchClause.Declaration.Type).Symbol;
                         var getTypeFromType = operand == null ? null : idioms.Type(operand).Member(SpecialNames.GetTypeFromType).Invoke();
                         var catchBlock = Js.Block();
-                        if (catchClause.Declaration != null)
-                        {
-                            nameOverrides[catchClause.Declaration.Identifier.ToString()] = result.Catch.Declaration.Name;
-                        }
+                        var symbol = catchClause.Declaration == null ? null : model.GetDeclaredSymbol(catchClause.Declaration);
+                        if (symbol != null)
+                            DeclareInCurrentScope(symbol, result.Catch.Declaration);
                         catchBlock.Aggregate((JsStatement)catchClause.Block.Accept(this));
                         if (catchClause.Declaration != null)
                         {
-                            nameOverrides.Remove(catchClause.Declaration.Identifier.ToString());
-
                             var ifStatement = Js.If(
                                 idioms.Invoke(getTypeFromType, Context.Instance.TypeIsInstanceOfType, result.Catch.Declaration.GetReference()),
                                 catchBlock);
@@ -1897,7 +1814,6 @@ namespace WootzJs.Compiler
 */
 
                 PopOutput();
-                PopScope();
             }
 
             if (node.Finally != null)
@@ -1925,8 +1841,9 @@ namespace WootzJs.Compiler
             {
                 identifier = GenerateUniqueNameInScope();
             }
+            var symbol = model.GetDeclaredSymbol(node);
             var variable = Js.Variable(identifier);
-            DeclareInCurrentScope(variable);
+            DeclareInCurrentScope(symbol, variable);
             return variable;
         }
 
@@ -2010,12 +1927,11 @@ namespace WootzJs.Compiler
             var method = classType.DelegateInvokeMethod;
 
             PushDeclaration(method);
-            PushScope(method);
             var parameters = new List<JsParameter>();
             parameters.AddRange(method.Parameters.Select(x =>
             {
                 var parameter = Js.Parameter(x.Name);
-                DeclareInCurrentScope(parameter);
+                DeclareInCurrentScope(x, parameter);
                 return parameter;
             }));
 
@@ -2026,7 +1942,6 @@ namespace WootzJs.Compiler
             var memberName = method.GetMemberName();
             typeInitializer.Add(idioms.StoreInPrototype(memberName, methodFunction));
 
-            PopScope();
             PopDeclaration();
 
             PopDeclaration();
@@ -2119,7 +2034,6 @@ namespace WootzJs.Compiler
                 return block;
 
             PushDeclaration(method);
-            PushScope(method);
             PushOutput(block);
             var parameters = new List<JsParameter>();
             parameters.AddRange(node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)));
@@ -2129,7 +2043,6 @@ namespace WootzJs.Compiler
             var memberName = method.GetMemberName();
             block.Add(idioms.StoreInType(memberName, methodFunction));
 
-            PopScope();
             PopOutput();
             PopDeclaration();
 
@@ -2169,25 +2082,21 @@ namespace WootzJs.Compiler
             var adderBody = new JsBlockStatement();
             var addValueParameter = Js.Parameter("value");
             PushDeclaration(property.AddMethod);
-            PushScope(property.AddMethod);
             PushOutput(adderBody);
-            DeclareInCurrentScope(addValueParameter);
+            DeclareInCurrentScope(property.AddMethod.Parameters.Last(), addValueParameter);
             adderBody.Aggregate((JsStatement)adder.Body.Accept(this));
             block.Add(idioms.StoreInPrototype("add_" + propertyName, Js.Function(addValueParameter).Body(adderBody)));
             PopOutput();
-            PopScope();
             PopDeclaration();
 
             var removerBody = new JsBlockStatement();
             var removeValueParameter = Js.Parameter("value");
             PushDeclaration(property.RemoveMethod);
-            PushScope(property.RemoveMethod);
             PushOutput(removerBody);
-            DeclareInCurrentScope(removeValueParameter);
+            DeclareInCurrentScope(property.RemoveMethod.Parameters.Last(), removeValueParameter);
             removerBody.Aggregate((JsStatement)remover.Body.Accept(this));
             block.Add(idioms.StoreInPrototype("remove_" + propertyName, Js.Function(removeValueParameter).Body(removerBody)));
             PopOutput();
-            PopScope();
             PopDeclaration();
 
             return block;
@@ -2210,7 +2119,6 @@ namespace WootzJs.Compiler
             {
                 var getterSymbol = model.GetDeclaredSymbol(getter);
                 PushDeclaration(property.GetMethod);
-                PushScope(property.GetMethod);
                 var addBody = new JsBlockStatement();
                 var parameters = node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)).ToArray();
                 PushOutput(addBody);
@@ -2218,16 +2126,14 @@ namespace WootzJs.Compiler
                     addBody.Aggregate((JsBlockStatement)getter.Body.Accept(this));
                 block.Add(idioms.StoreInPrototype(getterSymbol.GetMemberName(), Js.Function(parameters.ToArray()).Body(addBody)));
                 PopOutput();
-                PopScope();
                 PopDeclaration();
             }
             if (setter != null)
             {
                 var setterSymbol = model.GetDeclaredSymbol(setter);
                 PushDeclaration(property.SetMethod);
-                PushScope(property.SetMethod);
                 var valueParameter = Js.Parameter("value");
-                DeclareInCurrentScope(valueParameter);
+                DeclareInCurrentScope(property.SetMethod.Parameters.Last(), valueParameter);
                 var parameters = node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)).ToArray();
                 var removeBody = new JsBlockStatement();
                 PushOutput(removeBody);
@@ -2235,7 +2141,6 @@ namespace WootzJs.Compiler
                     removeBody.Aggregate((JsBlockStatement)setter.Body.Accept(this));
                 block.Add(idioms.StoreInPrototype(setterSymbol.GetMemberName(), Js.Function(parameters.Concat(new[] { valueParameter }).ToArray()).Body(removeBody)));
                 PopOutput();
-                PopScope();
                 PopDeclaration();
             }                
 
@@ -2278,9 +2183,9 @@ namespace WootzJs.Compiler
             var symbol = model.GetDeclaredSymbol(node);
             var parameter = Js.Parameter(symbol.Name);
             if (symbol.RefKind == RefKind.None)
-                DeclareInCurrentScope(parameter);
+                DeclareInCurrentScope(symbol, parameter);
             else 
-                DeclareInCurrentScope(new Idioms.ReferenceParameterDeclaration(parameter));
+                DeclareInCurrentScope(symbol, new Idioms.ReferenceParameterDeclaration(parameter));
             return parameter;
         }
 
