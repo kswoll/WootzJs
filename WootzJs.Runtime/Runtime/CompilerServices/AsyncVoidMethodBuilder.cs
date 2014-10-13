@@ -27,6 +27,11 @@ namespace System.Runtime.CompilerServices
         /// <exception cref="T:System.ArgumentNullException"><paramref name="stateMachine" /> is null.</exception>
         public void Start<TStateMachine>(ref TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
         {
+            TrueStart(stateMachine);
+        }
+
+        public void TrueStart(IAsyncStateMachine stateMachine) 
+        {
             m_coreState.Start(stateMachine);
         }
 

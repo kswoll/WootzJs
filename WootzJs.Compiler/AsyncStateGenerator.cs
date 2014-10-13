@@ -23,6 +23,7 @@ namespace WootzJs.Compiler
         public const string state = "$state";
         public const string builder = "$builder";
         public const string moveNext = "$moveNext";
+        public const string @this = "$this";
 
         public AsyncStateGenerator(Compilation compilation, JsTransformer transformer, Idioms idioms, JsBlockStatement stateMachineBody, CSharpSyntaxNode node, IMethodSymbol method) : base(compilation, node)
         {

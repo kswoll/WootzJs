@@ -2156,11 +2156,11 @@ namespace WootzJs.Compiler
             var stateMachine = block.Local(AsyncStateGenerator.stateMachine, Js.Function().Body(stateMachineBody));
 
             // Declare state machine fields
+            var @this = stateMachineBody.Local(AsyncStateGenerator.@this, Js.This());
             var state = stateMachineBody.Local(AsyncStateGenerator.state, Js.Primitive(0));
             var builder = stateMachineBody.Local(AsyncStateGenerator.builder, InvokeStatic(GetAsyncMethodBuilder(method)));
 
             // Start up the async process via a call to the builder's Start method.
-            stateMachineBody.Express(builder.GetReference().Member("Start").Invoke(GetRefOrOutWrapper()));
             var moveNextBody = Js.Block();
             var moveNext = stateMachineBody.Local(AsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
 
@@ -2171,12 +2171,13 @@ namespace WootzJs.Compiler
 
             // Implement moveNext
             var moveNextTry = Js.Try();
+            moveNextBody.Add(moveNextTry);
             moveNextTry.Body = Js.Block(
                 Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Break())))
             );
             var moveNextCatchException = Js.Variable("$ex");
-            var moveNextCatch = moveNextTry.Catch(moveNextCatchException);
-            moveNextCatch.Body = Js.Block(
+            moveNextTry.Catch(moveNextCatchException);
+            moveNextTry.Catch.Body = Js.Block(
                 state.SetReference().Assign(Js.Primitive(-1)).Express(),
                 builder.GetReference().Member("SetException").Invoke(moveNextCatchException.GetReference()).Express(),
                 Js.Return()
@@ -2185,58 +2186,17 @@ namespace WootzJs.Compiler
             // Ensure the stateMachine function implements IAsyncStateMachine
             ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IAsyncStateMachine, new Dictionary<IMethodSymbol, JsExpression>
             {
-                { Context.Instance.IAsyncStateMachineMoveNext, moveNext.GetReference() }
+                { Context.Instance.IAsyncStateMachineMoveNext, Js.Function().Body(moveNext.GetReference().Member("call").Invoke(@this.GetReference()).Return()) },
+                { Context.Instance.IAsyncStateMachineSetStateMachine, Js.Null() }
             });
+
+            stateMachineBody.Express(builder.GetReference().Member("TrueStart").Invoke(stateMachine.GetReference()));
 
             // The state machine function will be invoked by the outer body.  It will expect the task 
             // to be returned for non-void async methods.  This task will be returned to the original 
             // caller of the async method.
             if (!method.ReturnsVoid)
                 stateMachineBody.Return(builder.GetReference().Member("get_Task").Invoke());
-
-
-/*
-
-            // Get generated enumerator
-            var asyncType = (INamedTypeSymbol)containingType.GetMembers().Single(x => x.Name == "Async$" + className);
-            var constructor = asyncType.InstanceConstructors.Single();
-            var asyncTypeExpression = Type(asyncType);
-            if (method.TypeParameters.Any())
-            {
-                asyncTypeExpression = MakeGenericType(asyncType, method.TypeArguments.Select(x => Type(x)).ToArray());
-            }
-
-            var arguments = new List<JsExpression>();
-
-            if (isInnerAsync)
-                arguments.Add(Js.Reference("$outerasync.$this"));
-            else 
-                arguments.Add(Js.This());
-
-            if (isInnerAsync)
-                arguments.Add(Js.This());
-            else
-                arguments.Add(Js.Null());
-
-            if (!isInnerAsync)
-                arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
-/*
-            else
-                arguments.AddRange(method.Parameters.Select(x => CreateObject(
-                    Context.Instance.LiftedVariableAccessorConstructor, 
-                    Js.Function().Body(Js.This().Member("$outerasync").Member(x.Name).Return()),
-                    Js.Function(Js.Parameter("$x")).Body(Js.This().Member("$outerasync").Member(x.Name).Assign(Js.Reference("$x")))
-                )));
-#1#
-            arguments.AddRange(variableArguments);
-
-            var asyncBlock = Js.Block();
-            var stateMachine = asyncBlock.Local("$stateMachine", CreateObject(asyncTypeExpression, constructor, arguments.ToArray()));
-            if (!method.ReturnsVoid)
-                asyncBlock.Return(stateMachine.GetReference().Member("$builder").Member("get_Task").Invoke());
-
-            return asyncBlock;            
-*/
 
             var invokeStateMachine = stateMachine.GetReference().Member("apply").Invoke(Js.This());
             if (!method.ReturnsVoid)

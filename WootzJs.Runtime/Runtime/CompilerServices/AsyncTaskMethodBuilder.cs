@@ -44,8 +44,14 @@ namespace System.Runtime.CompilerServices
         /// <exception cref="T:System.ArgumentNullException"><paramref name="stateMachine" /> is null.</exception>
         public void Start<TStateMachine>(ref TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
         {
+            TrueStart(stateMachine);
+        }
+
+        public void TrueStart(IAsyncStateMachine stateMachine)
+        {
             m_builder.Start(ref stateMachine);
         }
+
 
         /// <summary>
         ///     Associates the builder with the specified state machine.
@@ -163,6 +169,11 @@ namespace System.Runtime.CompilerServices
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="stateMachine" /> is null.</exception>
         public void Start<TStateMachine>(ref TStateMachine stateMachine) where TStateMachine : IAsyncStateMachine
+        {
+            TrueStart(stateMachine);
+        }
+
+        public void TrueStart(IAsyncStateMachine stateMachine) 
         {
             m_coreState.Start(stateMachine);
         }

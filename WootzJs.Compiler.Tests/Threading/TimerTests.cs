@@ -7,6 +7,7 @@ namespace WootzJs.Compiler.Tests.Threading
 {
     public class TimerTests : TestFixture
     {
+/*
         [Test]
         public async Task NoIntervalChange()
         {
@@ -50,5 +51,6 @@ namespace WootzJs.Compiler.Tests.Threading
             await Task.Delay(5000);
             AssertEquals(counter, 2);
         }
+*/
     }
 }
