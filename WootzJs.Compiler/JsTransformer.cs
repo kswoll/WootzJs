@@ -1414,6 +1414,11 @@ namespace WootzJs.Compiler
         public override JsNode VisitVariableDeclarator(VariableDeclaratorSyntax node)
         {
             var symbol = (ILocalSymbol)model.GetDeclaredSymbol(node);
+            if (symbol == null)
+            {
+                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
+                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
+            }
             var variable = Js.Variable(node.Identifier.ToString(), node.Initializer != null ? (JsExpression)node.Initializer.Accept(this) : null);
             DeclareInCurrentScope(symbol, variable);
             return variable;

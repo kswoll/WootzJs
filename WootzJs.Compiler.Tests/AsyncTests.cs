@@ -77,7 +77,6 @@ namespace WootzJs.Compiler.Tests
             return 5;
         }
 
-/*
         [Test]
         public async Task TrueAsyncTestTaskT()
         {
@@ -87,6 +86,7 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(value, 4);
         }
 
+/*
         [Test]
         public async void IfStatementTrue()
         {

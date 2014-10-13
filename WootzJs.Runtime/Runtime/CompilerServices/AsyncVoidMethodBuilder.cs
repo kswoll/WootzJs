@@ -53,7 +53,7 @@ namespace System.Runtime.CompilerServices
         /// <param name="stateMachine">The state machine.</param>
         /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
-        public void AwaitOnCompleted<TAwaiter, TStateMachine>(TAwaiter awaiter, TStateMachine stateMachine) where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
+        public void TrueAwaitOnCompleted(INotifyCompletion awaiter, IAsyncStateMachine stateMachine) 
         {
             try
             {

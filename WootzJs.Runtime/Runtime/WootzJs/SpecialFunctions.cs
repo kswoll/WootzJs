@@ -228,7 +228,7 @@ namespace System.Runtime.WootzJs
                             }
                             if (theType.IsGenericParameter)
                             {
-                                for (var i = 0; i < typeArguments.Length; i++)
+                                for (int i = 0; i < typeArguments.Length; i++)
                                 {
                                     var typeParameter = typeParameters[i];
                                     var typeArgument = typeArguments[i];
