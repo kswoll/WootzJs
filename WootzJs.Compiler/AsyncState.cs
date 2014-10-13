@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
@@ -11,14 +10,14 @@ namespace WootzJs.Compiler
         public int Index { get; set; }
         public AsyncState Parent { get; set; }
         public AsyncState CurrentState { get; set; }
-        public IEnumerable<StatementSyntax> Statements { get; private set; }
+        public IEnumerable<JsStatement> Statements { get; private set; }
         public AsyncState Next { get; set; }
         public List<AsyncState> Substates { get; set; }
-        public Func<SwitchStatementSyntax, StatementSyntax> Wrap { get; set; }
+        public Func<JsSwitchStatement, JsStatement> Wrap { get; set; }
             
         public AsyncState()
         {
-            Statements = new List<StatementSyntax>();
+            Statements = new List<JsStatement>();
             Substates = new List<AsyncState>();
             Wrap = switchStatement => switchStatement;
         }
@@ -47,7 +46,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        public void Add(StatementSyntax statement)
+        public void Add(JsStatement statement)
         {
             if (Substates.Any())
                 throw new Exception("Cannot add a statement to a state that contains substates");
@@ -55,9 +54,9 @@ namespace WootzJs.Compiler
             InternalAdd(statement);
         }
 
-        internal void InternalAdd(StatementSyntax statement)
+        internal void InternalAdd(JsStatement statement)
         {
-            ((List<StatementSyntax>)Statements).Add(statement);        
+            ((List<JsStatement>)Statements).Add(statement);        
         }
 
         public override string ToString()

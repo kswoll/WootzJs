@@ -62,6 +62,14 @@ namespace WootzJs.Compiler.JsAst
             statements.Add(statement);
         }
 
+        public void AddRange(params JsStatement[] statements)
+        {
+            foreach (var statement in statements)
+            {
+                Add(statement);
+            }
+        }
+
         public void Aggregate(JsStatement statement)
         {
             if (statement is JsBlockStatement)

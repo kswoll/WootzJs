@@ -185,6 +185,10 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol LiftedVariableAccessor { get; private set; }
         public IMethodSymbol LiftedVariableAccessorConstructor { get; private set; }
 
+        public INamedTypeSymbol IAsyncStateMachine { get; private set; }
+        public IMethodSymbol IAsyncStateMachineMoveNext { get; private set; }
+        public IMethodSymbol IAsyncStateMachineSetStateMachine { get; private set; }
+
         public IMethodSymbol Nop { get; private set; }
         public INamedTypeSymbol Task { get; private set; }
         public INamedTypeSymbol TaskT { get; private set; }
@@ -374,6 +378,11 @@ namespace WootzJs.Compiler
             LiftedVariableAttribute = compilation.FindType("System.Runtime.WootzJs.LiftedVariableAttribute");
             LiftedVariableAccessor = compilation.FindType("System.Runtime.WootzJs.LiftedVariableAccessor");
             LiftedVariableAccessorConstructor = LiftedVariableAccessor.Constructors.Single();
+
+            IAsyncStateMachine = compilation.FindType("System.Runtime.CompilerServices.IAsyncStateMachine");
+            IAsyncStateMachineMoveNext = IAsyncStateMachine.GetMethodByName("MoveNext");
+            IAsyncStateMachineSetStateMachine = IAsyncStateMachine.GetMethodByName("SetStateMachine");
+
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
         }

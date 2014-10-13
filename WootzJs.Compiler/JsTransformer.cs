@@ -474,9 +474,9 @@ namespace WootzJs.Compiler
             foreach (IPropertySymbol interfaceImplementation in implementedInterfaceMembers)
             {
                 if (interfaceImplementation.GetMethod != null)
-                    block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
+                    block.Add(idioms.MapInterfaceMethod(idioms.GetPrototype(), interfaceImplementation.GetMethod, idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
                 if (interfaceImplementation.SetMethod != null)
-                    block.Add(idioms.StoreInPrototype(interfaceImplementation.SetMethod.GetMemberName(), idioms.GetFromPrototype(property.SetMethod.GetMemberName())));
+                    block.Add(idioms.MapInterfaceMethod(idioms.GetPrototype(), interfaceImplementation.SetMethod, idioms.GetFromPrototype(property.SetMethod.GetMemberName())));
             }
 
             return block;
@@ -590,11 +590,11 @@ namespace WootzJs.Compiler
                 if (!method.IsStatic)
                     arguments.Add(Js.This());
                 arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
-                body = Js.Return(idioms.CreateObject(generatorTypeExpression, constructor, arguments.ToArray()));
+                body = idioms.CreateObject(generatorTypeExpression, constructor, arguments.ToArray()).Return();
             }
             else if (node.IsAsync())
             {
-                body = idioms.GenerateAsyncMethod(method.ContainingType, method.GetMemberName(), method, false);
+                body = idioms.GenerateAsyncMethod(node, method);
             }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);
@@ -614,7 +614,7 @@ namespace WootzJs.Compiler
                 var implementedInterfaceMembers = SymbolFinder.FindImplementedInterfaceMembersAsync(method.GetRootOverride(), Context.Instance.Solution).Result;
                 foreach (IMethodSymbol interfaceImplementation in implementedInterfaceMembers)
                 {
-                    block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMemberName(), idioms.GetFromPrototype(memberName)));
+                    block.Add(idioms.MapInterfaceMethod(idioms.GetPrototype(), interfaceImplementation, idioms.GetFromPrototype(memberName)));
                 }
             }
 
@@ -1145,9 +1145,7 @@ namespace WootzJs.Compiler
             return ImplicitCheck(node, cast);
         }
 
-        private Dictionary<ITypeSymbol, int> asyncLambdaCounters = new Dictionary<ITypeSymbol, int>();
-
-        private JsNode VisitLambdaExpression(INamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, CSharpSyntaxNode bodyNode, bool isAsync)
+        private JsNode VisitLambdaExpression(CSharpSyntaxNode node, INamedTypeSymbol delegateType, ParameterSyntax[] parameterNodes, CSharpSyntaxNode bodyNode, bool isAsync)
         {
             // If the lambda expression is being *assigned* to an `Expression<T>` variable, then we want to decompose it so
             // it results in an expression tree being generated.
@@ -1166,38 +1164,7 @@ namespace WootzJs.Compiler
             if (isAsync)
             {
                 var containingType = model.GetDeclaredSymbol(bodyNode.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => !x.Identifier.ToString().StartsWith("Async$")));
-                int counter;
-                if (!asyncLambdaCounters.TryGetValue(containingType, out counter))
-                {
-                    counter = 0;
-                }
-                counter++;
-                asyncLambdaCounters[containingType] = counter;
-
-/*
-                var methodDeclaration = bodyNode.GetContainingMethodDeclaration();
-                var method = bodyNode.GetContainingMethod();
-                var locator = new VariableDeclarationsLocator((CSharpSyntaxNode)bodyNode.Parent);
-                methodDeclaration.Accept(locator);
-*/
-                var variableArguments = containingType.GetMembers()
-                    .OfType<IFieldSymbol>()
-                    .Where(x => x.GetAttributes().Any(y => y.AttributeClass == Context.Instance.LiftedVariableAttribute))
-                    .Select(x => );
-
-                var variableArguments = locator.Variables
-                    .SelectMany(x => x.Variables, (declaration, declarator) => new { Declaration = declaration, Declarator = declarator, Symbol = ((ILocalSymbol)model.GetDeclaredSymbol(declarator)).Type, Parameter = SyntaxFactory.Parameter(SyntaxFactory.Identifier("$x")).WithType(declaration.Type) })
-                    .Select(x => method.IsAsync ?
-                        idioms.CreateObject(
-                            Context.Instance.LiftedVariableAccessorConstructor, 
-                            Js.Function().Body(Js.This().Member("$outerasync").Member(x.Declarator.Identifier.ToString()).Return()),
-                            Js.Function(Js.Parameter("$x")).Body(Js.This().Member("$outerasync").Member(x.Declarator.Identifier.ToString()).Assign(Js.Reference("$x")))
-                        ) :
-                        Js.Reference(x.Declarator.Identifier.ToString())
-                    )
-                    .ToArray();
-
-                block.Aggregate(idioms.GenerateAsyncMethod(containingType, counter.ToString(), delegateType.DelegateInvokeMethod, method.IsAsync, variableArguments));
+                block.Aggregate(idioms.GenerateAsyncMethod(node, delegateType.DelegateInvokeMethod));
             }
             else
             {
@@ -1226,19 +1193,19 @@ namespace WootzJs.Compiler
         public override JsNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(delegateType, new[] { node.Parameter }, node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
+            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, new[] { node.Parameter }, node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
         }
 
         public override JsNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList.Parameters.ToArray(), node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
+            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, node.ParameterList.Parameters.ToArray(), node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
         }
 
         public override JsNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block, false));
+            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block, false));
         }
 
         public override JsNode VisitAnonymousObjectMemberDeclarator(AnonymousObjectMemberDeclaratorSyntax node)
@@ -2277,9 +2244,9 @@ namespace WootzJs.Compiler
             foreach (IPropertySymbol interfaceImplementation in implementedInterfaceMembers)
             {
                 if (interfaceImplementation.GetMethod != null)
-                    block.Add(idioms.StoreInPrototype(interfaceImplementation.GetMethod.GetMemberName(), idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
+                    block.Add(idioms.MapInterfaceMethod(idioms.GetPrototype(), interfaceImplementation.GetMethod, idioms.GetFromPrototype(property.GetMethod.GetMemberName())));
                 if (interfaceImplementation.SetMethod != null)
-                    block.Add(idioms.StoreInPrototype(interfaceImplementation.SetMethod.GetMemberName(), idioms.GetFromPrototype(property.SetMethod.GetMemberName())));
+                    block.Add(idioms.MapInterfaceMethod(idioms.GetPrototype(), interfaceImplementation.SetMethod, idioms.GetFromPrototype(property.SetMethod.GetMemberName())));
             }
 
             PopOutput();

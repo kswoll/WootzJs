@@ -30,7 +30,6 @@ namespace System.Runtime.CompilerServices
             if (m_stateMachine == null)
             {
                 m_stateMachine = stateMachine;
-                m_stateMachine.SetStateMachine(m_stateMachine);
             }
             Action action = m_stateMachine.MoveNext;
             return action;

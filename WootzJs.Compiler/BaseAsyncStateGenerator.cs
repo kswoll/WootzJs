@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
@@ -121,33 +121,34 @@ namespace WootzJs.Compiler
 
 
 */
-        protected StatementSyntax GotoTop()
+        protected JsStatement GotoTop()
         {
-            return SyntaxFactory.GotoStatement(SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName("$top"));
+            return Js.Continue("$top");
         }
 
-        public StatementSyntax ChangeState(AsyncState newState)
+        public JsStatement ChangeState(AsyncState newState)
         {
-            return Cs.This().Member(state).Assign(Cs.Integer(newState.Index)).Express();
+            return Js.Reference(state).Assign(Js.Primitive(newState.Index)).Express();
         }
 
         public void GotoState(AsyncState newState)
         {
-            if (CurrentState.Statements.LastOrDefault() is GotoStatementSyntax)
+            var lastStatement = CurrentState.Statements.LastOrDefault();
+            if (lastStatement is JsContinueStatement || lastStatement is JsBreakStatement)
                 return;
             CurrentState.Add(ChangeState(newState));
             CurrentState.Add(GotoTop());
         }
 
-        public BlockSyntax GotoStateBlock(AsyncState newState)
+        public JsBlockStatement GotoStateBlock(AsyncState newState)
         {
-            return Cs.Block(
+            return Js.Block(
                 ChangeState(newState),
                 GotoTop()
             );
         }
 
-        public StatementSyntax[] GotoStateStatements(AsyncState newState)
+        public JsStatement[] GotoStateStatements(AsyncState newState)
         {
             return new[]
             {
@@ -156,18 +157,22 @@ namespace WootzJs.Compiler
             };
         }
 
-        public StatementSyntax GenerateSwitch(AsyncState state)
+        public JsStatement GenerateSwitch(AsyncState state)
         {
-            var sections = new List<SwitchSectionSyntax>();
+            var sections = new List<JsSwitchSection>();
             if (state.Parent != null)
-                sections.Add(Cs.Section(Cs.Integer(state.Index), GotoStateBlock(state.Substates.First())));
-            sections.AddRange(state.Substates.Select(substate => Cs.Section(
-                SyntaxFactory.List(substate.GetAllIndices().Select(index => 
-                    SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, Cs.Integer(index)))
-                ), 
-                substate.Statements.ToArray()
-            )));
-            return state.Wrap(Cs.Switch(Cs.This().Member(StateGenerator.state), sections.ToArray()));
+            {
+                var stateSection = Js.Section(Js.Primitive(state.Index));
+                stateSection.Statements.AddRange(GotoStateStatements(state.Substates.First()));
+                sections.Add(stateSection);
+            }
+            sections.AddRange(state.Substates.Select(substate =>
+            {
+                var section = Js.Section(substate.GetAllIndices().Select(index => Js.Primitive(index)).ToArray());
+                section.Statements.AddRange(substate.Statements);
+                return section;
+            }));
+            return state.Wrap(Js.Switch(Js.Reference(StateGenerator.state), sections.ToArray()));
         }
     }
 }

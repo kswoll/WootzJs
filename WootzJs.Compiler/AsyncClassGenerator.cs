@@ -19,8 +19,10 @@ namespace WootzJs.Compiler
         private string typeName;
         private TypeSyntax outerAsyncType;
 
+        public const string stateMachine = "$stateMachine";
         public const string state = "$state";
         public const string builder = "$builder";
+        public const string moveNext = "$moveNext";
 
         public AsyncClassGenerator(Compilation compilation, CSharpSyntaxNode node, IMethodSymbol method, List<Tuple<string, ITypeSymbol>> parameterList, TypeParameterListSyntax typeParameterList, ITypeSymbol thisType, string typeName, TypeSyntax outerAsyncType)
         {
@@ -55,7 +57,7 @@ namespace WootzJs.Compiler
                 members.Add(outerAsyncField);
             }
 
-            var stateGenerator = new AsyncStateGenerator(compilation, node, method, parameterList);
+            var stateGenerator = new AsyncStateGenerator(compilation, node, method);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 

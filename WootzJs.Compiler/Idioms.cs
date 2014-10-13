@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.WootzJs;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -631,9 +632,14 @@ namespace WootzJs.Compiler
                 Js.New(baseType)));
         }
 
+        public JsExpression GetPrototype()
+        {
+            return Js.Reference(SpecialNames.TypeInitializerPrototype);
+        }
+
         public JsExpression GetFromPrototype(string prototypeMember)
         {
-            return Js.Reference(SpecialNames.TypeInitializerPrototype).Member(prototypeMember);
+            return GetPrototypeMember(prototypeMember);
         }
 
         public JsExpression GetFromType(string typeMember)
@@ -641,18 +647,21 @@ namespace WootzJs.Compiler
             return Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(typeMember);
         }
 
+        public JsMemberReferenceExpression GetPrototypeMember(string prototypeMember)
+        {
+            return GetPrototype().Member(prototypeMember);
+        }
+
         public JsExpressionStatement StoreInPrototype(string prototypeMember, JsExpression value)
         {
             // Effectively, this is:
             // $p.prototypeMember = value;
-            return Js.Express(Js.Assign(
-                Js.Reference(SpecialNames.TypeInitializerPrototype).Member(prototypeMember),
-                value));
+            return GetPrototypeMember(prototypeMember).Assign(value).Express();
         }
 
         public JsExpressionStatement StoreInType(string typeMember, JsExpression value)
         {
-            return Js.Express(Js.Assign(Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(typeMember), value));
+            return Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(typeMember).Assign(value).Express();
         }
 
         public JsInvocationExpression InvokeMethodAsThis(IMethodSymbol method, params JsExpression[] arguments)
@@ -1101,11 +1110,16 @@ namespace WootzJs.Compiler
             if (type == SyntaxKind.IsExpression)
             {
                 var operand = (ITypeSymbol)rightSymbol;
-                result = Invoke(Type(operand).Member(SpecialNames.GetTypeFromType).Invoke(), Context.Instance.TypeIsInstanceOfType, left);
+                result = Is(left, operand);
                 return true;
             }
             result = null;
             return false;
+        }
+
+        public JsExpression Is(JsExpression operand, ITypeSymbol type)
+        {
+            return Invoke(Type(type).Member(SpecialNames.GetTypeFromType).Invoke(), Context.Instance.TypeIsInstanceOfType, operand);
         }
 
         public bool TryCharUnaryExpression(SyntaxKind type, TypeInfo operandType, JsExpression operand, out JsExpression result)
@@ -1795,14 +1809,21 @@ namespace WootzJs.Compiler
                     {
                         var argument = arguments[i];    
                         var variableName = transformer.GenerateUniqueNameInScope();
-                        var variable = Js.Variable(variableName, Js.Object(Js.Item("value", parameter.RefKind == RefKind.Out ? Js.Null() : argument)));
+                        var variable = Js.Variable(variableName, GetRefOrOutWrapper(parameter.RefKind == RefKind.Out ? Js.Null() : argument));
                         transformer.DeclareInCurrentScope(new ReferenceParameterDeclaration(variable));
                         arguments[i] = Js.Reference(variableName);
                         prependers.Add(Js.Local(variable));
-                        appenders.Add(Js.Express(Js.Assign(argument, Js.Reference(variableName).Member("value"))));
+                        appenders.Add(argument.Assign(Js.Reference(variableName).Member("value")).Express());
                     }
                 }
             }
+        }
+
+        public JsObjectExpression GetRefOrOutWrapper(JsExpression initialValue = null)
+        {
+            if (initialValue == null)
+                initialValue = Js.Null();
+            return Js.Object(Js.Item("value", initialValue));
         }
 
         public bool TryApplyRefAndOutParametersAfterInvocation(IMethodSymbol method, JsInvocationExpression invocation, out JsExpression result, List<JsStatement> prependers, List<JsStatement> appenders)
@@ -2073,8 +2094,109 @@ namespace WootzJs.Compiler
             return InvokeMethodAsThis(baseConstructor, arguments.ToArray());
         }
 
-        public JsBlockStatement GenerateAsyncMethod(ITypeSymbol containingType, string className, IMethodSymbol method, bool isInnerAsync, params JsExpression[] variableArguments)
+        private IMethodSymbol GetAsyncMethodBuilder(IMethodSymbol asyncMethod)
         {
+            if (asyncMethod.ReturnsVoid)
+            {
+                return Context.Instance.AsyncVoidMethodBuilderCreate;
+            }
+            else if (asyncMethod.ReturnType.Equals(Context.Instance.Task))
+            {
+                return Context.Instance.AsyncTaskMethodBuilderCreate;
+            }
+            else 
+            {
+                var returnType = asyncMethod.ReturnType.GetGenericArgument(Context.Instance.TaskT, 0);
+                return Context.Instance.AsyncTaskTMethodBuilder.Construct(returnType).GetMethod("Create");
+            }
+        }
+
+        public JsStatement MapInterfaceMethod(JsExpression assignee, IMethodSymbol interfaceMethod, JsExpression implementation)
+        {
+            return assignee.Member(interfaceMethod.GetMemberName()).Assign(implementation).Express();
+        }
+
+        public void ImplementInterfaceOnAdhocObject(JsBlockStatement block, IJsDeclaration declaration, ITypeSymbol interfaceType, IDictionary<IMethodSymbol, JsExpression> methodImplementations)
+        {
+            foreach (var member in interfaceType.GetMembers())
+            {
+                if (member is IMethodSymbol)
+                {
+                    var method = (IMethodSymbol)member;
+                    var implementation = methodImplementations[method];
+                    block.Add(MapInterfaceMethod(declaration.GetReference(), method, implementation));
+                }
+                else if (member is IPropertySymbol)
+                {
+                    var property = (IPropertySymbol)member;
+                    var getter = methodImplementations[property.GetMethod];
+                    var setter = methodImplementations[property.SetMethod];
+                    block.Add(MapInterfaceMethod(declaration.GetReference(), property.GetMethod, getter));
+                    block.Add(MapInterfaceMethod(declaration.GetReference(), property.SetMethod, setter));
+                }
+                else if (member is IEventSymbol)
+                {
+                    var @event = (IEventSymbol)member;
+                    var adder = methodImplementations[@event.AddMethod];
+                    var remover = methodImplementations[@event.RemoveMethod];
+                    block.Add(MapInterfaceMethod(declaration.GetReference(), @event.AddMethod, adder));
+                    block.Add(MapInterfaceMethod(declaration.GetReference(), @event.RemoveMethod, remover));
+                }
+            }
+        }
+
+        /// <summary>
+        /// This generates the entire state machine as an inline function.  State machine fields are represented
+        /// as closed variables of an outer function.  The actual "MoveNext" function is an inner function.
+        /// </summary>
+        public JsBlockStatement GenerateAsyncMethod(CSharpSyntaxNode node, IMethodSymbol method)
+        {
+            var block = new JsBlockStatement();
+            var stateMachineBody = Js.Block();
+            var stateMachine = block.Local(AsyncStateGenerator.stateMachine, Js.Function().Body(stateMachineBody));
+
+            // Declare state machine fields
+            var state = stateMachineBody.Local(AsyncStateGenerator.state, Js.Primitive(0));
+            var builder = stateMachineBody.Local(AsyncStateGenerator.builder, InvokeStatic(GetAsyncMethodBuilder(method)));
+
+            // Start up the async process via a call to the builder's Start method.
+            stateMachineBody.Express(builder.GetReference().Member("Start").Invoke(GetRefOrOutWrapper()));
+            var moveNextBody = Js.Block();
+            var moveNext = stateMachineBody.Local(AsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
+
+            // Create state generator and generate states
+            var stateGenerator = new AsyncStateGenerator(Context.Instance.Compilation, transformer, this, stateMachineBody, node, method);
+            stateGenerator.GenerateStates();
+            var rootState = stateGenerator.TopState;
+
+            // Implement moveNext
+            var moveNextTry = Js.Try();
+            moveNextTry.Body = Js.Block(
+                Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Break())))
+            );
+            var moveNextCatchException = Js.Variable("$ex");
+            var moveNextCatch = moveNextTry.Catch(moveNextCatchException);
+            moveNextCatch.Body = Js.Block(
+                state.SetReference().Assign(Js.Primitive(-1)).Express(),
+                builder.GetReference().Member("SetException").Invoke(moveNextCatchException.GetReference()).Express(),
+                Js.Return()
+            );
+
+            // Ensure the stateMachine function implements IAsyncStateMachine
+            ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IAsyncStateMachine, new Dictionary<IMethodSymbol, JsExpression>
+            {
+                { Context.Instance.IAsyncStateMachineMoveNext, moveNext.GetReference() }
+            });
+
+            // The state machine function will be invoked by the outer body.  It will expect the task 
+            // to be returned for non-void async methods.  This task will be returned to the original 
+            // caller of the async method.
+            if (!method.ReturnsVoid)
+                stateMachineBody.Return(builder.GetReference().Member("get_Task").Invoke());
+
+
+/*
+
             // Get generated enumerator
             var asyncType = (INamedTypeSymbol)containingType.GetMembers().Single(x => x.Name == "Async$" + className);
             var constructor = asyncType.InstanceConstructors.Single();
@@ -2105,7 +2227,7 @@ namespace WootzJs.Compiler
                     Js.Function().Body(Js.This().Member("$outerasync").Member(x.Name).Return()),
                     Js.Function(Js.Parameter("$x")).Body(Js.This().Member("$outerasync").Member(x.Name).Assign(Js.Reference("$x")))
                 )));
-*/
+#1#
             arguments.AddRange(variableArguments);
 
             var asyncBlock = Js.Block();
@@ -2114,6 +2236,15 @@ namespace WootzJs.Compiler
                 asyncBlock.Return(stateMachine.GetReference().Member("$builder").Member("get_Task").Invoke());
 
             return asyncBlock;            
+*/
+
+            var invokeStateMachine = stateMachine.GetReference().Member("apply").Invoke(Js.This());
+            if (!method.ReturnsVoid)
+                block.Add(invokeStateMachine.Return());
+            else
+                block.Add(invokeStateMachine.Express());
+
+            return block;
         }
     }
 }

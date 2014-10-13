@@ -97,6 +97,7 @@ namespace WootzJs.Compiler
             Context.Update(project.Solution, project, compilation);
 
             // Check for async
+/*
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
@@ -107,6 +108,7 @@ namespace WootzJs.Compiler
             }
             compilation = compilation.Clone();
             Context.Update(project.Solution, project, compilation);
+*/
 
             // After the basic transformation happens, we need to fix up some references afterward
 /*

@@ -87,9 +87,6 @@
     <Compile Include="AssembliesSorter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AsyncClassGenerator.cs" />
-    <Compile Include="AsyncGenerator.cs" />
-    <Compile Include="AsyncLambdaVisitor.cs" />
     <Compile Include="AsyncState.cs" />
     <Compile Include="AsyncStateGenerator.cs" />
     <Compile Include="BaseAsyncStateGenerator.cs" />
