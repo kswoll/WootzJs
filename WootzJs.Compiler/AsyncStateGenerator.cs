@@ -273,7 +273,7 @@ namespace WootzJs.Compiler
             var identifier = HoistVariable(new LiftedVariableKey(node.Identifier, symbol));
 
             // Hoist the enumerator into a field
-            var enumerator = HoistVariable(new LiftedVariableKey(identifier + "$enumerator"));
+            var enumerator = HoistVariable(new LiftedVariableKey(identifier.Name + "$enumerator"));
             CurrentState.Add(
                 enumerator.GetReference().Assign(
                     ((JsExpression)node.Expression.Accept(transformer)).Member("GetEnumerator").Invoke()
@@ -295,7 +295,7 @@ namespace WootzJs.Compiler
             GotoState(afterLoop);
 
             CurrentState = bodyState;
-            CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("Current")).Express());
+            CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("get_Current").Invoke()).Express());
             
             AcceptStatement(node.Statement, afterLoop, topOfLoop);
 

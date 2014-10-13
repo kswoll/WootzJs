@@ -107,7 +107,6 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(i, 5);
         }
-/*
 
         [Test]
         public async void IfElseTrue()
@@ -166,6 +165,7 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(s, "123");
         }
+/*
 
         [Test]
         public async void TryCatch()
