@@ -86,7 +86,6 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(value, 4);
         }
 
-/*
         [Test]
         public async void IfStatementTrue()
         {
@@ -108,6 +107,7 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(i, 5);
         }
+/*
 
         [Test]
         public async void IfElseTrue()
