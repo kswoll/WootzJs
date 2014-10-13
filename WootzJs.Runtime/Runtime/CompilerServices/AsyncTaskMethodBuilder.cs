@@ -65,19 +65,6 @@ namespace System.Runtime.CompilerServices
         }
 
         /// <summary>
-        ///     Schedules the state machine to proceed to the next action when the specified awaiter completes.
-        /// </summary>
-        /// <param name="awaiter">The awaiter.</param>
-        /// <param name="stateMachine">The state machine.</param>
-        /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
-        /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
-        public void AwaitOnCompleted<TAwaiter, TStateMachine>(TAwaiter awaiter, TStateMachine stateMachine)
-            where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
-        {
-            m_builder.AwaitOnCompleted(awaiter, stateMachine);
-        }
-
-        /// <summary>
         ///     Marks the task as successfully completed.
         /// </summary>
         /// <exception cref="T:System.InvalidOperationException">The task has already completed.-or-The builder is not initialized.</exception>
@@ -104,9 +91,21 @@ namespace System.Runtime.CompilerServices
         /// <param name="stateMachine">The state machine.</param>
         /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
+        public void TrueAwaitOnCompleted(INotifyCompletion awaiter, IAsyncStateMachine stateMachine)
+        {
+            m_builder.TrueAwaitOnCompleted(awaiter, stateMachine);
+        }
+
+        /// <summary>
+        ///     Schedules the state machine to proceed to the next action when the specified awaiter completes.
+        /// </summary>
+        /// <param name="awaiter">The awaiter.</param>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
+        /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
         public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
         {
-            m_builder.AwaitOnCompleted(awaiter, stateMachine);
+            m_builder.TrueAwaitOnCompleted(awaiter, stateMachine);
         }
 
         /// <summary>
@@ -119,7 +118,7 @@ namespace System.Runtime.CompilerServices
         /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : ICriticalNotifyCompletion where TStateMachine : IAsyncStateMachine
         {
-            m_builder.AwaitOnCompleted(awaiter, stateMachine);
+            m_builder.TrueAwaitOnCompleted(awaiter, stateMachine);
         }
     }
 
@@ -190,27 +189,6 @@ namespace System.Runtime.CompilerServices
         }
 
         /// <summary>
-        ///     Schedules the state machine to proceed to the next action when the specified awaiter completes.
-        /// </summary>
-        /// <param name="awaiter">The awaiter.</param>
-        /// <param name="stateMachine">The state machine.</param>
-        /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
-        /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
-        public void AwaitOnCompleted<TAwaiter, TStateMachine>(TAwaiter awaiter, TStateMachine stateMachine)
-            where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
-        {
-            try
-            {
-                Action completionAction = m_coreState.GetCompletionAction(this, stateMachine);
-                awaiter.OnCompleted(completionAction);
-            }
-            catch (Exception ex)
-            {
-                AsyncMethodBuilderCore.ThrowAsync(ex);
-            }
-        }
-
-        /// <summary>
         ///     Marks the task as successfully completed.
         /// </summary>
         /// <param name="result">The result to use to complete the task.</param>
@@ -257,6 +235,26 @@ namespace System.Runtime.CompilerServices
         private Task<TResult> GetTaskForResult(TResult result)
         {
             return new Task<TResult>(result);
+        }
+
+        /// <summary>
+        ///     Schedules the state machine to proceed to the next action when the specified awaiter completes.
+        /// </summary>
+        /// <param name="awaiter">The awaiter.</param>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <typeparam name="TAwaiter">The type of the awaiter.</typeparam>
+        /// <typeparam name="TStateMachine">The type of the state machine.</typeparam>
+        public void TrueAwaitOnCompleted(INotifyCompletion awaiter, IAsyncStateMachine stateMachine)
+        {
+            try
+            {
+                Action completionAction = m_coreState.GetCompletionAction(this, stateMachine);
+                awaiter.OnCompleted(completionAction);
+            }
+            catch (Exception ex)
+            {
+                AsyncMethodBuilderCore.ThrowAsync(ex);
+            }
         }
 
         /// <summary>

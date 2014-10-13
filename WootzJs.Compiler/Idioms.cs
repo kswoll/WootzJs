@@ -1629,6 +1629,7 @@ namespace WootzJs.Compiler
                         var nameOverrides = nameArguments.Select(x => GetConstantString(x)).ToArray();
 
                         var lambda = originalArguments[0];
+                        var lambdaSymbol = (IMethodSymbol)transformer.model.GetSymbolInfo(lambda).Symbol;
                         var lambdaParameters = lambda.GetParameters();
 
                         var jsParameters = lambdaParameters.Select(x => Js.Parameter(x.Identifier.ToString())).Cast<IJsDeclaration>().ToArray();
@@ -1639,7 +1640,7 @@ namespace WootzJs.Compiler
                         for (var i = 0; i < jsParameters.Length; i++)
                         {
                             var parameter = jsParameters[i];
-                            var symbol = method.Parameters[i];
+                            var symbol = lambdaSymbol.Parameters[i];
                             transformer.DeclareInCurrentScope(symbol, parameter);
                         }
 

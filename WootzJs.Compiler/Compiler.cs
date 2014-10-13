@@ -203,7 +203,8 @@ namespace WootzJs.Compiler
             var diagnostics = compilation.GetDiagnostics();
             foreach (var diagnostic in diagnostics)
             {
-                Console.WriteLine("// " + diagnostic);
+                if (diagnostic.Severity == DiagnosticSeverity.Error)
+                    Console.WriteLine("// " + diagnostic);
             }
                 
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type

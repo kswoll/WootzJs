@@ -1416,6 +1416,8 @@ namespace WootzJs.Compiler
             var symbol = (ILocalSymbol)model.GetDeclaredSymbol(node);
             if (symbol == null)
             {
+                symbol = VariableUsageFinder.FirstValidSymbolOccuranceOfVariable(model, node, node.Identifier.ToString());
+//                symbol = new NameSymbol(node.Identifier.ToString());
                 var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
                 var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
             }
@@ -2126,6 +2128,11 @@ namespace WootzJs.Compiler
                 PushDeclaration(property.GetMethod);
                 var addBody = new JsBlockStatement();
                 var parameters = node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)).ToArray();
+                for (var i = 0; i < getterSymbol.Parameters.Length; i++)
+                {
+                    var parameter = getterSymbol.Parameters[i];
+                    DeclareInCurrentScope(parameter, parameters[i]);
+                }
                 PushOutput(addBody);
                 if (getter.Body != null)
                     addBody.Aggregate((JsBlockStatement)getter.Body.Accept(this));
@@ -2140,6 +2147,11 @@ namespace WootzJs.Compiler
                 var valueParameter = Js.Parameter("value");
                 DeclareInCurrentScope(property.SetMethod.Parameters.Last(), valueParameter);
                 var parameters = node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)).ToArray();
+                for (var i = 0; i < setterSymbol.Parameters.Length - 1; i++)
+                {
+                    var parameter = setterSymbol.Parameters[i];
+                    DeclareInCurrentScope(parameter, parameters[i]);
+                }
                 var removeBody = new JsBlockStatement();
                 PushOutput(removeBody);
                 if (setter.Body != null)

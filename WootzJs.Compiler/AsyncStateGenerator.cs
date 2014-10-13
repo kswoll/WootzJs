@@ -394,7 +394,7 @@ namespace WootzJs.Compiler
                 catchBlock.AddRange(GotoStateStatements(finallyState).ToArray());
             }
 
-            newTryStatement.Catch = Js.Catch(exceptionIdentifier);
+            newTryStatement.Catch = Js.Catch(Js.Variable(exceptionVariable));
             newTryStatement.Catch.Body = catchBlock;
             tryState.Wrap = switchStatement =>
             {
@@ -538,11 +538,13 @@ namespace WootzJs.Compiler
                         var operand = (JsExpression)node.Operand.Accept(this);
                         var expressionInfo = stateGenerator.semanticModel.GetAwaitExpressionInfo(node);
                         var returnsVoid = expressionInfo.GetResultMethod.ReturnsVoid;
+                        var operandType = model.GetTypeInfo(node.Operand).ConvertedType;
+                        var awaiterMethodName = ((INamedTypeSymbol)operandType).GetMethodByName("GetAwaiter").GetMemberName();
 
                         // Store the awaiter in a field
                         var awaiterIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$awaiter"));
                         var awaiter = awaiterIdentifier.GetReference();
-                        stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member("GetAwaiter").Invoke()).Express());
+                        stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member(awaiterMethodName).Invoke()).Express());
 
                         var nextState = stateGenerator.InsertState();
 
@@ -566,7 +568,7 @@ namespace WootzJs.Compiler
                         stateGenerator.CurrentState.Add(stateGenerator.ChangeState(nextState));
 
                         stateGenerator.CurrentState.Add(Js.If(
-                            awaiter.Member("IsCompleted"), 
+                            awaiter.Member("get_IsCompleted").Invoke(), 
 
                             // If the awaiter is already completed, go to the next state
                             stateGenerator.GotoTop(),
@@ -575,8 +577,8 @@ namespace WootzJs.Compiler
                             Js.Block(
                                 // Start the async process
                                 Js.Reference(builder)
-                                    .Member("AwaitOnCompleted")
-                                    .Invoke(awaiterIdentifier.GetReference(), Js.This())
+                                    .Member("TrueAwaitOnCompleted")
+                                    .Invoke(awaiterIdentifier.GetReference(), Js.Reference(stateMachine))
                                     .Express(),
                                 Js.Return()
                             )
