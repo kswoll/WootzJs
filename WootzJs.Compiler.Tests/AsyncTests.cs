@@ -165,7 +165,6 @@ namespace WootzJs.Compiler.Tests
             }
             AssertEquals(s, "123");
         }
-/*
 
         [Test]
         public async void TryCatch()
@@ -320,6 +319,21 @@ namespace WootzJs.Compiler.Tests
             }
             AssertTrue(disposed.Disposed);
         }
+
+        class TestDisposable : IDisposable
+        {
+            private bool disposed;
+
+            public void Dispose()
+            {
+                disposed = true;
+            }
+
+            public bool Disposed
+            {
+                get { return disposed; }
+            }
+        }
         
         [Test]
         public async Task UsingDeclareWithException()
@@ -361,6 +375,34 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(subInvocationClass.Flag);
         }
 
+        class BaseInvocationClass
+        {
+            public bool Flag;
+
+            protected void MyMethod()
+            {
+                Flag = true;
+            }
+
+            protected string MyStringMethod()
+            {
+                return "foo";
+            }
+        }
+
+        class SubInvocationClass : BaseInvocationClass
+        {
+            public async Task SubInvocationTest()
+            {
+                base.MyMethod();
+            }
+
+            public async Task<string> MyStringMethodTest()
+            {
+                return base.MyStringMethod();
+            }
+        }
+
         [Test]
         public async Task CallBaseMethodReturnsString()
         {
@@ -369,6 +411,7 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(s, "foo");
         }
 
+/*
         [Test]
         public async Task CancelDelay()
         {
@@ -516,49 +559,6 @@ namespace WootzJs.Compiler.Tests
             catch (Exception e)
             {
                 throw;
-            }
-        }
-
-        class BaseInvocationClass
-        {
-            public bool Flag;
-
-            protected void MyMethod()
-            {
-                Flag = true;
-            }
-
-            protected string MyStringMethod()
-            {
-                return "foo";
-            }
-        }
-
-        class SubInvocationClass : BaseInvocationClass
-        {
-            public async Task SubInvocationTest()
-            {
-                base.MyMethod();
-            }
-
-            public async Task<string> MyStringMethodTest()
-            {
-                return base.MyStringMethod();
-            }
-        }
-
-        class TestDisposable : IDisposable
-        {
-            private bool disposed;
-
-            public void Dispose()
-            {
-                disposed = true;
-            }
-
-            public bool Disposed
-            {
-                get { return disposed; }
             }
         }
 */
