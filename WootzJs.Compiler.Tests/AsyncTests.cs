@@ -469,7 +469,6 @@ namespace WootzJs.Compiler.Tests
             }
         }
 
-/*
         [Test]
         public async Task HoistTwoVariables()
         {
@@ -486,40 +485,7 @@ namespace WootzJs.Compiler.Tests
                 AssertEquals(obj.Model.IntValue, 5);
             }
         }
-*/
 
-/*
-        [Test]
-        public async Task AsyncTaskLambda()
-        {
-/*
-            what we need to do here is generate a function that assigns variables so that the async class 
-            can reassign local variables like the flag below.  we will pass this function into the async class
-            for the lambda
-#1#
-            var asyncTaskLambdaFlag = false;
-            Func<Task> func = async () =>
-            {
-                await Task.Delay(10);
-                asyncTaskLambdaFlag = true;
-            };
-            await func();
-            AssertTrue(asyncTaskLambdaFlag);
-        }
-*/
-
-/*
-        [Test]
-        public async Task AsyncTaskIntLambda()
-        {
-            Func<Task<int>> func = async () =>
-            {
-                await Task.Delay(10);
-                return 3;
-            };
-            var result = await func();
-            AssertEquals(result, 3);
-        }
 
         public class StringClass
         {
@@ -561,6 +527,30 @@ namespace WootzJs.Compiler.Tests
                 IntValue = value;
             }
         }
-*/
+
+        [Test]
+        public async Task AsyncTaskLambda()
+        {
+            var asyncTaskLambdaFlag = false;
+            Func<Task> func = async () =>
+            {
+                await Task.Delay(10);
+                asyncTaskLambdaFlag = true;
+            };
+            await func();
+            AssertTrue(asyncTaskLambdaFlag);
+        }
+
+        [Test]
+        public async Task AsyncTaskIntLambda()
+        {
+            Func<Task<int>> func = async () =>
+            {
+                await Task.Delay(10);
+                return 3;
+            };
+            var result = await func();
+            AssertEquals(result, 3);
+        }
     }
 }
