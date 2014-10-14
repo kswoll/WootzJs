@@ -312,9 +312,14 @@ namespace WootzJs.Compiler
             if (exception == null)
             {
                 var catchClause = node.FirstAncestorOrSelf<CatchClauseSyntax>();
-                exception = SyntaxFactory.IdentifierName(catchClause.Declaration.Identifier);
+                var symbol = transformer.model.GetDeclaredSymbol(catchClause.Declaration);
+                var identifier = transformer.ReferenceDeclarationInScope(symbol);
+                CurrentState.Add(Js.Throw(identifier.GetReference()));
             }
-            CurrentState.Add(Js.Throw((JsExpression)exception.Accept(transformer)));
+            else
+            {
+                CurrentState.Add(Js.Throw((JsExpression)exception.Accept(transformer)));
+            }
         }
 
         public override void VisitTryStatement(TryStatementSyntax node)

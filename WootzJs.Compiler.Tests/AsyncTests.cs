@@ -428,7 +428,6 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(canceled);
         }
 
-/*
         [Test]
         public async Task DefaultSwitchLabel()
         {
@@ -458,6 +457,19 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(flag);
         }
 
+        private async Task DoRethrow()
+        {
+            try
+            {
+                throw new Exception("foo");
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+/*
         [Test]
         public async Task HoistTwoVariables()
         {
@@ -547,18 +559,6 @@ namespace WootzJs.Compiler.Tests
             public IntegerModel(int value)
             {
                 IntValue = value;
-            }
-        }
-
-        private async Task DoRethrow()
-        {
-            try
-            {
-                throw new Exception("foo");
-            }
-            catch (Exception e)
-            {
-                throw;
             }
         }
 */
