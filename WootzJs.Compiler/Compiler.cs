@@ -96,41 +96,6 @@ namespace WootzJs.Compiler
             compilation = compilation.Clone();
             Context.Update(project.Solution, project, compilation);
 
-            // Check for async
-/*
-            foreach (var syntaxTree in compilation.SyntaxTrees)
-            {
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var asyncGenerator = new AsyncGenerator(compilation, syntaxTree, semanticModel);
-                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(asyncGenerator);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
-            }
-            compilation = compilation.Clone();
-            Context.Update(project.Solution, project, compilation);
-*/
-
-            // After the basic transformation happens, we need to fix up some references afterward
-/*
-            foreach (var syntaxTree in compilation.SyntaxTrees)
-            {
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var yieldFixer = new StatMachineGeneratorFixer(compilation, syntaxTree, semanticModel, "Async$");
-
-                try
-                {
-                    compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(compilationUnit.NormalizeWhitespace().ToString(), e);
-                }
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
-            }
-*/
-            Context.Update(project.Solution, project, compilation);
-
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 

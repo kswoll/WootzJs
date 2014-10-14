@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -8,23 +9,79 @@ namespace WootzJs.Compiler
 {
     public class BaseAsyncStateGenerator : CSharpSyntaxWalker
     {
-        public const string stateFieldName = "$state";
+        public const string stateMachine = "$stateMachine";
+        public const string state = "$state";
+        public const string moveNext = "$moveNext";
+        public const string @this = "$this";
+
+        private readonly JsTransformer transformer;
 
         private int currentStateIndex;
-        protected Compilation compilation;
-        protected SemanticModel semanticModel;
-        protected CSharpSyntaxNode node;
+        private Dictionary<LiftedVariableKey, string> hoistedVariables = new Dictionary<LiftedVariableKey, string>();
+        private JsBlockStatement stateMachineBody;
+        private CSharpSyntaxNode node;
         internal AsyncState topState = new AsyncState();
-        protected int exceptionNameCounter = 1;
-
-        public const string state = stateFieldName;
         
-        public BaseAsyncStateGenerator(Compilation compilation, CSharpSyntaxNode node)
+        public BaseAsyncStateGenerator(Func<BaseAsyncStateGenerator, JsTransformer> transformer, CSharpSyntaxNode node, JsBlockStatement stateMachineBody)
         {
-            this.compilation = compilation;
+            this.transformer = transformer(this);
             this.node = node;
+            this.stateMachineBody = stateMachineBody;
+        }
 
-            semanticModel = compilation.GetSemanticModel(node.SyntaxTree);
+        public JsTransformer Transformer
+        {
+            get { return transformer; }
+        }
+
+        private string GenerateNewNamePrivate(LiftedVariableKey symbol)
+        {
+            var counter = 2;
+            do
+            {
+                var currentName = symbol.Identifier + counter++;
+                if (!hoistedVariables.ContainsKey(new LiftedVariableKey(SyntaxFactory.Identifier(currentName))))
+                {
+                    return currentName;
+                }
+            }
+            while (true);
+        }
+
+        public JsVariableDeclarator HoistVariable(LiftedVariableKey symbol)
+        {
+            var identifier = symbol.Identifier;
+            if (hoistedVariables.ContainsKey(symbol) || hoistedVariables.ContainsKey(new LiftedVariableKey(symbol.Identifier)))
+            {
+                identifier = GenerateNewNamePrivate(symbol);
+                symbol = new LiftedVariableKey(identifier, symbol.Symbol);
+            }
+            
+            // Register the variable so we avoid collisions.
+            hoistedVariables[symbol] = identifier;
+            if (symbol.Symbol == null)
+                hoistedVariables[new LiftedVariableKey(symbol.Identifier)] = identifier;
+
+            // Declare a local variable (of the top-level function so available as closures to the state
+            // machine) to store the symbol.
+            var declaration = stateMachineBody.Local(identifier, Js.Null());
+
+            // If we have a true symbol associated with the key, then declare it in the base transformer
+            if (symbol.Symbol != null)
+                transformer.DeclareInCurrentScope(symbol.Symbol, declaration);
+
+            return declaration;
+        }
+
+        protected string UniqueName(string identifier)
+        {
+            var key = new LiftedVariableKey(identifier);
+            if (hoistedVariables.ContainsKey(key))
+            {
+                identifier = GenerateNewNamePrivate(key);
+                hoistedVariables[key] = identifier;
+            }
+            return identifier;            
         }
 
         public void GenerateStates()
@@ -32,15 +89,6 @@ namespace WootzJs.Compiler
             topState.CurrentState = NewState();
             node.Accept(this);
             OnBaseStateGenerated();
-
-/*
-            foreach (var state in topState.GetAllSubstates())
-            {
-                var lastStatement = state.Statements.LastOrDefault();
-                if (lastStatement == null || (!(lastStatement is BreakStatementSyntax) && !(lastStatement is ReturnStatementSyntax) && !(lastStatement is GotoStatementSyntax)))
-                    state.InternalAdd(Cs.Return());
-            }
-*/
         }
 
         protected virtual void OnBaseStateGenerated()
@@ -93,7 +141,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        protected AsyncState InsertState()
+        public AsyncState InsertState()
         {
             var nextState = NewState();
             nextState.Next = topState.CurrentState.Next;
@@ -106,22 +154,7 @@ namespace WootzJs.Compiler
             set { topState.CurrentState = value; }
         }
 
-/*
-        public void CloseTo(AsyncState fromState, AsyncState toState)
-        {
-            if (fromState.IsClosed)
-                return;
-            if (toState == null)
-                throw new ArgumentNullException("toState");
-
-            fromState.Add(ChangeState(toState));
-            fromState.Add(SyntaxFactory.GotoStatement(SyntaxKind.GotoCaseStatement, SyntaxFactory.LiteralExpression(SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(toState.Index))));                        
-            SetClosed(fromState);
-        }
-
-
-*/
-        protected JsStatement GotoTop()
+        public JsStatement GotoTop()
         {
             return Js.Continue("$top");
         }
@@ -174,5 +207,62 @@ namespace WootzJs.Compiler
             }));
             return state.Wrap(Js.Switch(Js.Reference(StateGenerator.state), sections.ToArray()));
         }
-    }
+
+        public struct LiftedVariableKey
+        {
+            private readonly string identifier;
+            private readonly ISymbol symbol;
+
+            public LiftedVariableKey(SyntaxToken identifier, ISymbol symbol)
+            {
+                this.identifier = identifier.ToString();
+                this.symbol = symbol;
+            }
+
+            public LiftedVariableKey(string identifier, ISymbol symbol)
+            {
+                this.identifier = identifier;
+                this.symbol = symbol;
+            }
+
+            public LiftedVariableKey(SyntaxToken identifier) : this()
+            {
+                this.identifier = identifier.ToString();
+            }
+
+            public LiftedVariableKey(string identifier) : this()
+            {
+                this.identifier = identifier;
+            }
+
+            public string Identifier
+            {
+                get { return identifier; }
+            }
+
+            public ISymbol Symbol
+            {
+                get { return symbol; }
+            }
+
+            public bool Equals(LiftedVariableKey other)
+            {
+                return string.Equals(identifier, other.identifier) && (Equals(symbol, other.symbol) || symbol == null || other.symbol == null);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                return obj is LiftedVariableKey && Equals((LiftedVariableKey) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return identifier.GetHashCode();
+                }
+            }
+        }
+     }
 }

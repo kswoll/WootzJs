@@ -192,6 +192,7 @@
     <Compile Include="State.cs" />
     <Compile Include="YieldStateGenerator.cs" />
     <Compile Include="StateMachineThisFixer.cs" />
+    <Compile Include="YieldStateGenerator2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -67,6 +67,11 @@ namespace WootzJs.Compiler
             this.loopLabels = new Stack<LoopEntry>(idioms.transformer.loopLabels.Reverse());
         }
 
+        public SemanticModel Model
+        {
+            get { return model; }
+        }
+
         public int GetLabelDepth(string label)
         {
             foreach (var entry in loopLabels)

@@ -2149,19 +2149,19 @@ namespace WootzJs.Compiler
         {
             var block = new JsBlockStatement();
             var stateMachineBody = Js.Block();
-            var stateMachine = block.Local(AsyncStateGenerator.stateMachine, Js.Function().Body(stateMachineBody));
+            var stateMachine = block.Local(BaseAsyncStateGenerator.stateMachine, Js.Function().Body(stateMachineBody));
 
             // Declare state machine fields
-            var @this = stateMachineBody.Local(AsyncStateGenerator.@this, Js.This());
-            var state = stateMachineBody.Local(AsyncStateGenerator.state, Js.Primitive(0));
+            var @this = stateMachineBody.Local(BaseAsyncStateGenerator.@this, Js.This());
+            var state = stateMachineBody.Local(BaseAsyncStateGenerator.state, Js.Primitive(0));
             var builder = stateMachineBody.Local(AsyncStateGenerator.builder, InvokeStatic(GetAsyncMethodBuilder(method)));
 
             // Start up the async process via a call to the builder's Start method.
             var moveNextBody = Js.Block();
-            var moveNext = stateMachineBody.Local(AsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
+            var moveNext = stateMachineBody.Local(BaseAsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
 
             // Create state generator and generate states
-            var stateGenerator = new AsyncStateGenerator(Context.Instance.Compilation, this, stateMachineBody, node, method);
+            var stateGenerator = new AsyncStateGenerator(this, stateMachineBody, node, method);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 
