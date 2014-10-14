@@ -411,7 +411,6 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(s, "foo");
         }
 
-/*
         [Test]
         public async Task CancelDelay()
         {
@@ -429,6 +428,7 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(canceled);
         }
 
+/*
         [Test]
         public async Task DefaultSwitchLabel()
         {

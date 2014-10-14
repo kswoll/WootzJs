@@ -342,6 +342,9 @@ namespace WootzJs.Compiler
             {
                 // Get the symbol that represents the exception declaration (identifier and type)
                 var symbol = semanticModel.GetDeclaredSymbol(catchClause.Declaration);
+                var exceptionType = symbol == null ? null : symbol.Type;
+                if (exceptionType == null && catchClause.Declaration != null && catchClause.Declaration.Type != null)
+                    exceptionType = (ITypeSymbol)transformer.model.GetSymbolInfo(catchClause.Declaration.Type).Symbol;
 
                 // True if it is actually declaring the variable (as opposed to a catch clause that specifies
                 // merely an exception type
@@ -374,7 +377,7 @@ namespace WootzJs.Compiler
                 thisCatchStatements.AddRange(GotoStateStatements(catchState));
 
                 // Only do the above if the current exception is of the type expected by the catch handler.
-                catchBlock.Add(Js.If(idioms.Is(exceptionIdentifier.GetReference(), symbol.Type), thisCatchStatements));
+                catchBlock.Add(Js.If(idioms.Is(exceptionIdentifier.GetReference(), exceptionType), thisCatchStatements));
             }
             if (node.Finally != null)
             {
