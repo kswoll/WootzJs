@@ -2222,17 +2222,22 @@ namespace WootzJs.Compiler
             var stateMachineFunc = block.Local("$stateMachineFunc", Js.Function().Body(stateMachineBody));
 
             ITypeSymbol elementType = Context.Instance.ObjectType;
-            if (method.ReturnType == Context.Instance.IEnumerableT)
-                elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumerableT, 0);
-            else if (method.ReturnType == Context.Instance.IEnumeratorT)
-                elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumeratorT, 0);
+            if (method.ReturnType is INamedTypeSymbol && ((INamedTypeSymbol)method.ReturnType).IsGenericType)
+            {
+                var genericType = (INamedTypeSymbol)method.ReturnType;
+                genericType = genericType.OriginalDefinition;
+                if (genericType == Context.Instance.IEnumerableT)
+                    elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumerableT, 0);
+                else if (genericType == Context.Instance.IEnumeratorT)
+                    elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumeratorT, 0);                
+            }
 
             // Declare state machine fields
             var @this = stateMachineBody.Local(BaseAsyncStateGenerator.@this, Js.This());
             var state = stateMachineBody.Local(BaseAsyncStateGenerator.state, Js.Primitive(0));
-            var stateMachine = stateMachineBody.Local("$stateMachine", Js.Object());
-            var current = stateMachineBody.Local(YieldStateGenerator2.current, DefaultValue(elementType));
-            var isStarted = stateMachineBody.Local("$isStarted", Js.Primitive(false));
+            var stateMachine = stateMachineBody.Local(BaseAsyncStateGenerator.stateMachine, CreateObject(Context.Instance.YieldIterator.Construct(elementType).Constructors.Single()));
+//            var current = stateMachineBody.Local(YieldStateGenerator2.current, DefaultValue(elementType));
+//            var isStarted = stateMachineBody.Local("$isStarted", Js.Primitive(false));
 
             // Create state generator and generate states
             var stateGenerator = new YieldStateGenerator2(x => transformer, node, stateMachineBody, this, method);
@@ -2245,11 +2250,11 @@ namespace WootzJs.Compiler
             var moveNextBody = Js.Block();
             var moveNext = stateMachineBody.Local(BaseAsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
             moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Break()))));
+            stateMachineBody.Add(MapInterfaceMethod(stateMachine.GetReference(), Context.Instance.YieldIteratorMoveNext, Js.Function().Body(moveNext.GetReference().Member("call").Invoke(@this.GetReference()).Return())));
 
             // Declare the clone function
-            var cloneBody = Js.Block();
-            var clone = stateMachineBody.Local(YieldStateGenerator2.clone, Js.Function().Body(cloneBody));
-            cloneBody.Add(stateMachineFunc.GetReference().Member("call").Invoke(@this.GetReference()).Return());
+            var cloneBody = Js.Block((stateMachineFunc.GetReference().Member("call").Invoke(@this.GetReference()).Return()));
+            stateMachineBody.Add(MapInterfaceMethod(stateMachine.GetReference(), Context.Instance.YieldIteratorClone, Js.Function().Body(cloneBody)));
 
             // Generate the GetEnumerator method, which looks something like:
             // if ($isStarted) 
@@ -2259,6 +2264,7 @@ namespace WootzJs.Compiler
             //     $isStarted = true;
             //     return this;
             // }
+/*
             var getEnumeratorBody = Js.Block();
             var getEnumerator = stateMachineBody.Local("$getEnumerator", Js.Function().Body(getEnumeratorBody));
             getEnumeratorBody.Add(Js.If(
@@ -2266,8 +2272,10 @@ namespace WootzJs.Compiler
                 Invoke(clone.GetReference().Invoke(), Context.Instance.IEnumerableTGetEnumerator).Return(),
                 Js.Block(isStarted.SetReference().Assign(Js.Primitive(true)).Express(), stateMachine.GetReference().Return())
             ));
+*/
 
-            // Ensure the stateMachine function implements IAsyncStateMachine
+
+/*
             ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IEnumerable, new Dictionary<IMethodSymbol, JsExpression>
             {
                 { Context.Instance.IEnumerableGetEnumerator, Js.Function().Body(getEnumerator.GetReference().Member("call").Invoke(@this.GetReference()).Return()) }
@@ -2286,6 +2294,7 @@ namespace WootzJs.Compiler
             {
                 { Context.Instance.IEnumeratorTCurrent.GetMethod, Js.Function().Body(current.GetReference().Return()) }
             });
+*/
 
             // The state machine function will be invoked by the outer body.  It will expect the task 
             // to be returned for non-void async methods.  This task will be returned to the original 

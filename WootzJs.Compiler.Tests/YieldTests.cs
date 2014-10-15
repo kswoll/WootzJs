@@ -43,10 +43,10 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
-        public void YieldGetType()
+        public void YieldIsEnumerator()
         {
             var yieldBreak = YieldClass.YieldBreak();
-            AssertEquals(yieldBreak.GetType().FullName, "foo");
+            AssertTrue(yieldBreak is IEnumerable<string>);
         }
 /*
 

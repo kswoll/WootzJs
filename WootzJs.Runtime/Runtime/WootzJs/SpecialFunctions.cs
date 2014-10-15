@@ -274,6 +274,14 @@ namespace System.Runtime.WootzJs
                             return theType.thisType;
                         };
 
+                        var newInterfaces = unconstructedTypeType.interfaces.ToArray();
+                        for (var i = 0; i < newInterfaces.Length; i++)
+                        {
+                            var intf = newInterfaces[i];
+                            intf = reifyGenerics(Type._GetTypeFromTypeFunc(intf));
+                            newInterfaces[i] = intf;
+                        }
+
                         var newConstructors = unconstructedTypeType.constructors.ToArray();
                         for (var i = 0; i < newConstructors.Length; i++)
                         {
@@ -322,7 +330,7 @@ namespace System.Runtime.WootzJs
                             unconstructedTypeType.typeAttributes,
                             generic, 
                             unconstructedType.BaseType,
-                            unconstructedTypeType.interfaces, 
+                            newInterfaces, 
                             typeArguments,
                             unconstructedTypeType.fields, 
                             newMethods, 

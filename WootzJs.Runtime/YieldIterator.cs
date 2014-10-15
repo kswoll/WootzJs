@@ -34,7 +34,20 @@ namespace System
     {
         public T Current { get; protected set; }
 
-        public virtual IEnumerator<T> GetEnumerator()
+        private bool isStarted;
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            if (isStarted)
+                return Clone();
+            else
+            {
+                isStarted = true;
+                return this;
+            }
+        }
+
+        protected virtual YieldIterator<T> Clone()
         {
             return null;
         }
