@@ -105,6 +105,10 @@ namespace WootzJs.Compiler
         {
             topState.CurrentState = NewState();
             node.Accept(this);
+
+            if (!topState.Substates.Last().Statements.Any())
+                topState.Substates.Remove(topState.Substates.Last());
+
             OnBaseStateGenerated();
         }
 

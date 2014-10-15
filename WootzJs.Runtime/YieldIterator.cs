@@ -30,12 +30,19 @@ using System.Collections.Generic;
 
 namespace System
 {
-    public abstract class YieldIterator<T> : IEnumerable<T>, IEnumerator<T>
+    public class YieldIterator<T> : IEnumerable<T>, IEnumerator<T>
     {
         public T Current { get; protected set; }
 
-        public abstract IEnumerator<T> GetEnumerator();
-        public abstract bool MoveNext();
+        public virtual IEnumerator<T> GetEnumerator()
+        {
+            return null;
+        }
+
+        public virtual bool MoveNext()
+        {
+            return false;
+        }
 
         IEnumerator IEnumerable.GetEnumerator()
         {

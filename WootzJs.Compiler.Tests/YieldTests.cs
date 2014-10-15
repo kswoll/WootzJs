@@ -41,6 +41,13 @@ namespace WootzJs.Compiler.Tests
             var strings = YieldClass.YieldBreak().ToArray();
             AssertEquals(0, strings.Length);
         }
+
+        [Test]
+        public void YieldGetType()
+        {
+            var yieldBreak = YieldClass.YieldBreak();
+            AssertEquals(yieldBreak.GetType().FullName, "foo");
+        }
 /*
 
         [Test]

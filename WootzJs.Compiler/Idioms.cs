@@ -2231,7 +2231,7 @@ namespace WootzJs.Compiler
             var @this = stateMachineBody.Local(BaseAsyncStateGenerator.@this, Js.This());
             var state = stateMachineBody.Local(BaseAsyncStateGenerator.state, Js.Primitive(0));
             var stateMachine = stateMachineBody.Local("$stateMachine", Js.Object());
-            var current = stateMachineBody.Local("$current", DefaultValue(elementType));
+            var current = stateMachineBody.Local(YieldStateGenerator2.current, DefaultValue(elementType));
             var isStarted = stateMachineBody.Local("$isStarted", Js.Primitive(false));
 
             // Create state generator and generate states
