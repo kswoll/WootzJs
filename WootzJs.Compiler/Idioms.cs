@@ -2114,7 +2114,7 @@ namespace WootzJs.Compiler
 
         public void ImplementInterfaceOnAdhocObject(JsBlockStatement block, IJsDeclaration declaration, ITypeSymbol interfaceType, IDictionary<IMethodSymbol, JsExpression> methodImplementations)
         {
-            foreach (var member in interfaceType.GetMembers())
+            foreach (var member in interfaceType.GetMembers().Where(x => x.ContainingType == interfaceType))
             {
                 if (member is IMethodSymbol)
                 {
@@ -2122,13 +2122,20 @@ namespace WootzJs.Compiler
                     var implementation = methodImplementations[method];
                     block.Add(MapInterfaceMethod(declaration.GetReference(), method, implementation));
                 }
+/*
                 else if (member is IPropertySymbol)
                 {
                     var property = (IPropertySymbol)member;
-                    var getter = methodImplementations[property.GetMethod];
-                    var setter = methodImplementations[property.SetMethod];
-                    block.Add(MapInterfaceMethod(declaration.GetReference(), property.GetMethod, getter));
-                    block.Add(MapInterfaceMethod(declaration.GetReference(), property.SetMethod, setter));
+                    if (property.GetMethod != null)
+                    {
+                        var getter = methodImplementations[property.GetMethod];
+                        block.Add(MapInterfaceMethod(declaration.GetReference(), property.GetMethod, getter));
+                    }
+                    if (property.SetMethod != null)
+                    {
+                        var setter = methodImplementations[property.SetMethod];
+                        block.Add(MapInterfaceMethod(declaration.GetReference(), property.SetMethod, setter));
+                    }
                 }
                 else if (member is IEventSymbol)
                 {
@@ -2138,6 +2145,7 @@ namespace WootzJs.Compiler
                     block.Add(MapInterfaceMethod(declaration.GetReference(), @event.AddMethod, adder));
                     block.Add(MapInterfaceMethod(declaration.GetReference(), @event.RemoveMethod, remover));
                 }
+*/
             }
         }
 
@@ -2194,11 +2202,97 @@ namespace WootzJs.Compiler
             if (!method.ReturnsVoid)
                 stateMachineBody.Return(builder.GetReference().Member("get_Task").Invoke());
 
-            var invokeStateMachine = stateMachine.GetReference().Member("apply").Invoke(Js.This());
+            var invokeStateMachine = stateMachine.GetReference().Member("call").Invoke(Js.This());
             if (!method.ReturnsVoid)
                 block.Add(invokeStateMachine.Return());
             else
                 block.Add(invokeStateMachine.Express());
+
+            return block;
+        }
+
+        /// <summary>
+        /// This generates the entire state machine as an inline function.  State machine fields are represented
+        /// as closed variables of an outer function.  The actual "MoveNext" function is an inner function.
+        /// </summary>
+        public JsBlockStatement GenerateYieldMethod(CSharpSyntaxNode node, IMethodSymbol method)
+        {
+            var block = new JsBlockStatement();
+            var stateMachineBody = Js.Block();
+            var stateMachineFunc = block.Local("$stateMachineFunc", Js.Function().Body(stateMachineBody));
+
+            ITypeSymbol elementType = Context.Instance.ObjectType;
+            if (method.ReturnType == Context.Instance.IEnumerableT)
+                elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumerableT, 0);
+            else if (method.ReturnType == Context.Instance.IEnumeratorT)
+                elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumeratorT, 0);
+
+            // Declare state machine fields
+            var @this = stateMachineBody.Local(BaseAsyncStateGenerator.@this, Js.This());
+            var state = stateMachineBody.Local(BaseAsyncStateGenerator.state, Js.Primitive(0));
+            var stateMachine = stateMachineBody.Local("$stateMachine", Js.Object());
+            var current = stateMachineBody.Local("$current", DefaultValue(elementType));
+            var isStarted = stateMachineBody.Local("$isStarted", Js.Primitive(false));
+
+            // Create state generator and generate states
+            var stateGenerator = new YieldStateGenerator2(x => transformer, node, stateMachineBody, this, method);
+            stateGenerator.GenerateStates();
+            var rootState = stateGenerator.TopState;
+
+            // Called when the initial method needs to return the enumerator, and also when cloning.
+
+            // Declare the moveNext function
+            var moveNextBody = Js.Block();
+            var moveNext = stateMachineBody.Local(BaseAsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
+            moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Break()))));
+
+            // Declare the clone function
+            var cloneBody = Js.Block();
+            var clone = stateMachineBody.Local(YieldStateGenerator2.clone, Js.Function().Body(cloneBody));
+            cloneBody.Add(stateMachineFunc.GetReference().Member("call").Invoke(@this.GetReference()).Return());
+
+            // Generate the GetEnumerator method, which looks something like:
+            // if ($isStarted) 
+            //     return this.Clone().GetEnumerator();
+            // else
+            // {
+            //     $isStarted = true;
+            //     return this;
+            // }
+            var getEnumeratorBody = Js.Block();
+            var getEnumerator = stateMachineBody.Local("$getEnumerator", Js.Function().Body(getEnumeratorBody));
+            getEnumeratorBody.Add(Js.If(
+                isStarted.GetReference(), 
+                Invoke(clone.GetReference().Invoke(), Context.Instance.IEnumerableTGetEnumerator).Return(),
+                Js.Block(isStarted.SetReference().Assign(Js.Primitive(true)).Express(), stateMachine.GetReference().Return())
+            ));
+
+            // Ensure the stateMachine function implements IAsyncStateMachine
+            ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IEnumerable, new Dictionary<IMethodSymbol, JsExpression>
+            {
+                { Context.Instance.IEnumerableGetEnumerator, Js.Function().Body(getEnumerator.GetReference().Member("call").Invoke(@this.GetReference()).Return()) }
+            });
+            ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IEnumerableT, new Dictionary<IMethodSymbol, JsExpression>
+            {
+                { Context.Instance.IEnumerableTGetEnumerator, stateMachine.GetReference().Member(Context.Instance.IEnumerableGetEnumerator.GetMemberName()) }
+            });
+            ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IEnumerator, new Dictionary<IMethodSymbol, JsExpression>
+            {
+                { Context.Instance.IEnumeratorMoveNext, Js.Function().Body(moveNext.GetReference().Member("call").Invoke(@this.GetReference()).Return()) },
+                { Context.Instance.IEnumeratorCurrent.GetMethod, Js.Function().Body(current.GetReference().Return()) },
+                { Context.Instance.IEnumeratorReset, Js.Function() }
+            });
+            ImplementInterfaceOnAdhocObject(stateMachineBody, stateMachine, Context.Instance.IEnumeratorT, new Dictionary<IMethodSymbol, JsExpression>
+            {
+                { Context.Instance.IEnumeratorTCurrent.GetMethod, Js.Function().Body(current.GetReference().Return()) }
+            });
+
+            // The state machine function will be invoked by the outer body.  It will expect the task 
+            // to be returned for non-void async methods.  This task will be returned to the original 
+            // caller of the async method.
+            stateMachineBody.Return(stateMachine.GetReference());
+
+            block.Add(stateMachineFunc.GetReference().Member("call").Invoke(Js.This()).Return());
 
             return block;
         }

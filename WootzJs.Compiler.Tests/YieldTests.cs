@@ -41,6 +41,7 @@ namespace WootzJs.Compiler.Tests
             var strings = YieldClass.YieldBreak().ToArray();
             AssertEquals(0, strings.Length);
         }
+/*
 
         [Test]
         public void ReturnOne()
@@ -503,14 +504,14 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(strings[0], "one");
             AssertEquals(strings[1], "two");
         }
-
+*/
         public class YieldClass
         {
             public static IEnumerable<string> YieldBreak()
             {
                 yield break;
             }
-
+/*
             public static IEnumerable<string> ReturnOne()
             {
                 yield return "one";
@@ -953,6 +954,7 @@ namespace WootzJs.Compiler.Tests
                     yield return i;
                 }
             }
+*/
         }
     }
 }

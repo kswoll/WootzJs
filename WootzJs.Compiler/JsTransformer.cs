@@ -515,6 +515,8 @@ namespace WootzJs.Compiler
                 body = new JsBlockStatement();
             else if (YieldChecker.HasYield(node))
             {
+                body = idioms.GenerateYieldMethod(node, method);
+/*
                 // Get generated enumerator
                 var generatorType = (INamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "YieldEnumerator$" + method.GetMemberName());
                 var constructor = generatorType.InstanceConstructors.Single();
@@ -529,6 +531,7 @@ namespace WootzJs.Compiler
                     arguments.Add(Js.This());
                 arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
                 body = idioms.CreateObject(generatorTypeExpression, constructor, arguments.ToArray()).Return();
+*/
             }
             else if (node.IsAsync())
             {

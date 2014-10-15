@@ -72,6 +72,7 @@ namespace WootzJs.Compiler
             Compilation compilation = await project.GetCompilationAsync();
             Context.Update(project.Solution, project, compilation);
 
+/*
             // Check for yield
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
@@ -95,6 +96,7 @@ namespace WootzJs.Compiler
             }
             compilation = compilation.Clone();
             Context.Update(project.Solution, project, compilation);
+*/
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 

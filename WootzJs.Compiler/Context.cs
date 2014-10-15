@@ -188,6 +188,16 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol IAsyncStateMachine { get; private set; }
         public IMethodSymbol IAsyncStateMachineMoveNext { get; private set; }
         public IMethodSymbol IAsyncStateMachineSetStateMachine { get; private set; }
+        public INamedTypeSymbol IEnumerator { get; private set; }
+        public INamedTypeSymbol IEnumeratorT { get; private set; }
+        public INamedTypeSymbol IEnumerable { get; private set; }
+        public INamedTypeSymbol IEnumerableT { get; private set; }
+        public IPropertySymbol IEnumeratorCurrent { get; private set; }
+        public IMethodSymbol IEnumeratorMoveNext { get; private set; }
+        public IMethodSymbol IEnumeratorReset { get; private set; }
+        public IMethodSymbol IEnumerableGetEnumerator { get; private set; }
+        public IPropertySymbol IEnumeratorTCurrent { get; private set; }
+        public IMethodSymbol IEnumerableTGetEnumerator { get; private set; }
 
         public IMethodSymbol Nop { get; private set; }
         public INamedTypeSymbol Task { get; private set; }
@@ -382,6 +392,16 @@ namespace WootzJs.Compiler
             IAsyncStateMachine = compilation.FindType("System.Runtime.CompilerServices.IAsyncStateMachine");
             IAsyncStateMachineMoveNext = IAsyncStateMachine.GetMethodByName("MoveNext");
             IAsyncStateMachineSetStateMachine = IAsyncStateMachine.GetMethodByName("SetStateMachine");
+            IEnumerator = compilation.FindType("System.Collections.IEnumerator");
+            IEnumerable = compilation.FindType("System.Collections.IEnumerable");
+            IEnumeratorT = compilation.FindType("System.Collections.Generic.IEnumerator`1");
+            IEnumerableT = compilation.FindType("System.Collections.Generic.IEnumerable`1");
+            IEnumeratorCurrent = (IPropertySymbol)IEnumerator.GetMembers("Current").Single();
+            IEnumeratorMoveNext = (IMethodSymbol)IEnumerator.GetMembers("MoveNext").Single();
+            IEnumeratorReset = (IMethodSymbol)IEnumerator.GetMembers("Reset").Single();
+            IEnumerableGetEnumerator = (IMethodSymbol)IEnumerable.GetMembers("GetEnumerator").Single();
+            IEnumeratorTCurrent = (IPropertySymbol)IEnumeratorT.GetMembers("Current").Single();
+            IEnumerableTGetEnumerator = (IMethodSymbol)IEnumerableT.GetMembers("GetEnumerator").Single();
 
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");
