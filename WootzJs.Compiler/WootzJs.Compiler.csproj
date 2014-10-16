@@ -87,15 +87,14 @@
     <Compile Include="AssembliesSorter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AsyncState.cs" />
+    <Compile Include="State.cs" />
     <Compile Include="AsyncStateGenerator.cs" />
-    <Compile Include="BaseAsyncStateGenerator.cs" />
+    <Compile Include="BaseStateGenerator.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Cs.cs" />
     <Compile Include="CsJsni.cs" />
     <Compile Include="ExpressionTreeTransformer.cs" />
-    <Compile Include="GotoSubstituter.cs" />
     <Compile Include="IdentifierRenamer.cs" />
     <Compile Include="Idioms.cs" />
     <Compile Include="IJsVisitor.cs" />
@@ -174,7 +173,6 @@
     <Compile Include="SourceMapping\Line.cs" />
     <Compile Include="SourceMapping\Segment.cs" />
     <Compile Include="SourceMapping\SourceMap.cs" />
-    <Compile Include="StateGenerator.cs" />
     <Compile Include="VariableDeclarationsLocator.cs" />
     <Compile Include="VariableUsageFinder.cs" />
     <Compile Include="WootzJsExtensions.cs" />
@@ -186,13 +184,7 @@
     <Compile Include="SymbolNameMap.cs" />
     <Compile Include="SymbolWalker.cs" />
     <Compile Include="YieldChecker.cs" />
-    <Compile Include="YieldGenerator.cs" />
-    <Compile Include="YieldClassGenerator.cs" />
-    <Compile Include="StatMachineGeneratorFixer.cs" />
-    <Compile Include="State.cs" />
     <Compile Include="YieldStateGenerator.cs" />
-    <Compile Include="StateMachineThisFixer.cs" />
-    <Compile Include="YieldStateGenerator2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

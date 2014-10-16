@@ -6,7 +6,7 @@ using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class AsyncStateGenerator : BaseAsyncStateGenerator
+    public class AsyncStateGenerator : BaseStateGenerator
     {
         public const string builder = "$builder";
 
@@ -42,7 +42,7 @@ namespace WootzJs.Compiler
 
         class AsyncExpressionDecomposer : JsTransformer
         {
-            private BaseAsyncStateGenerator stateGenerator;
+            private BaseStateGenerator stateGenerator;
 
             public AsyncExpressionDecomposer(AsyncStateGenerator stateGenerator, Idioms idioms) : base(idioms)
             {

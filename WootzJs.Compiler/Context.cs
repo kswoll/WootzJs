@@ -181,9 +181,6 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol INotifyPropertyChanged { get; private set; }
         public INamedTypeSymbol InvalidOperationException { get; private set; }
         public IMethodSymbol InvalidOperationExceptionStringConstructor { get; private set; }
-        public INamedTypeSymbol LiftedVariableAttribute { get; private set; }
-        public INamedTypeSymbol LiftedVariableAccessor { get; private set; }
-        public IMethodSymbol LiftedVariableAccessorConstructor { get; private set; }
 
         public INamedTypeSymbol IAsyncStateMachine { get; private set; }
         public IMethodSymbol IAsyncStateMachineMoveNext { get; private set; }
@@ -388,9 +385,6 @@ namespace WootzJs.Compiler
             CultureInfo = compilation.FindType("System.Globalization.CultureInfo");
             InvalidOperationException = compilation.FindType("System.InvalidOperationException");
             InvalidOperationExceptionStringConstructor = InvalidOperationException.Constructors.Single(x => x.Parameters.Count() == 1 && x.Parameters.First().Type == String);
-            LiftedVariableAttribute = compilation.FindType("System.Runtime.WootzJs.LiftedVariableAttribute");
-            LiftedVariableAccessor = compilation.FindType("System.Runtime.WootzJs.LiftedVariableAccessor");
-            LiftedVariableAccessorConstructor = LiftedVariableAccessor.Constructors.Single();
 
             IAsyncStateMachine = compilation.FindType("System.Runtime.CompilerServices.IAsyncStateMachine");
             IAsyncStateMachineMoveNext = IAsyncStateMachine.GetMethodByName("MoveNext");

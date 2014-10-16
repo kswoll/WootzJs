@@ -2157,16 +2157,16 @@ namespace WootzJs.Compiler
         {
             var block = new JsBlockStatement();
             var stateMachineBody = Js.Block();
-            var stateMachine = block.Local(BaseAsyncStateGenerator.stateMachine, Js.Function().Body(stateMachineBody));
+            var stateMachine = block.Local(BaseStateGenerator.stateMachine, Js.Function().Body(stateMachineBody));
 
             // Declare state machine fields
-            var @this = stateMachineBody.Local(BaseAsyncStateGenerator.@this, Js.This());
-            var state = stateMachineBody.Local(BaseAsyncStateGenerator.state, Js.Primitive(0));
+            var @this = stateMachineBody.Local(BaseStateGenerator.@this, Js.This());
+            var state = stateMachineBody.Local(BaseStateGenerator.state, Js.Primitive(0));
             var builder = stateMachineBody.Local(AsyncStateGenerator.builder, InvokeStatic(GetAsyncMethodBuilder(method)));
 
             // Start up the async process via a call to the builder's Start method.
             var moveNextBody = Js.Block();
-            var moveNext = stateMachineBody.Local(BaseAsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
+            var moveNext = stateMachineBody.Local(BaseStateGenerator.moveNext, Js.Function().Body(moveNextBody));
 
             // Create state generator and generate states
             var stateGenerator = new AsyncStateGenerator(this, stateMachineBody, node, method);
@@ -2233,14 +2233,14 @@ namespace WootzJs.Compiler
             }
 
             // Declare state machine fields
-            var @this = stateMachineBody.Local(BaseAsyncStateGenerator.@this, Js.This());
-            var state = stateMachineBody.Local(BaseAsyncStateGenerator.state, Js.Primitive(0));
-            var stateMachine = stateMachineBody.Local(BaseAsyncStateGenerator.stateMachine, CreateObject(Context.Instance.YieldIterator.Construct(elementType).Constructors.Single()));
+            var @this = stateMachineBody.Local(BaseStateGenerator.@this, Js.This());
+            var state = stateMachineBody.Local(BaseStateGenerator.state, Js.Primitive(0));
+            var stateMachine = stateMachineBody.Local(BaseStateGenerator.stateMachine, CreateObject(Context.Instance.YieldIterator.Construct(elementType).Constructors.Single()));
 //            var current = stateMachineBody.Local(YieldStateGenerator2.current, DefaultValue(elementType));
 //            var isStarted = stateMachineBody.Local("$isStarted", Js.Primitive(false));
 
             // Create state generator and generate states
-            var stateGenerator = new YieldStateGenerator2(x => transformer, node, stateMachineBody, this, method);
+            var stateGenerator = new YieldStateGenerator(x => transformer, node, stateMachineBody, this, method);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 
@@ -2248,7 +2248,7 @@ namespace WootzJs.Compiler
 
             // Declare the moveNext function
             var moveNextBody = Js.Block();
-            var moveNext = stateMachineBody.Local(BaseAsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
+            var moveNext = stateMachineBody.Local(BaseStateGenerator.moveNext, Js.Function().Body(moveNextBody));
             moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Return(Js.Primitive(false))))));
             stateMachineBody.Add(MapInterfaceMethod(stateMachine.GetReference(), Context.Instance.YieldIteratorDoMoveNext, Js.Function().Body(moveNext.GetReference().Member("call").Invoke(@this.GetReference()).Return())));
 

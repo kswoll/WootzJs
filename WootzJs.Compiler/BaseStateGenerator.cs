@@ -8,7 +8,7 @@ using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
-    public class BaseAsyncStateGenerator : CSharpSyntaxWalker
+    public class BaseStateGenerator : CSharpSyntaxWalker
     {
         public const string stateMachine = "$stateMachine";
         public const string state = "$state";
@@ -21,14 +21,14 @@ namespace WootzJs.Compiler
         private Dictionary<LiftedVariableKey, string> hoistedVariables = new Dictionary<LiftedVariableKey, string>();
         private JsBlockStatement stateMachineBody;
         private CSharpSyntaxNode node;
-        private Stack<AsyncState> breakStates = new Stack<AsyncState>();
-        private Stack<AsyncState> continueStates = new Stack<AsyncState>();
-        private Dictionary<string, AsyncState> labeledStates = new Dictionary<string, AsyncState>();
+        private Stack<State> breakStates = new Stack<State>();
+        private Stack<State> continueStates = new Stack<State>();
+        private Dictionary<string, State> labeledStates = new Dictionary<string, State>();
         private IMethodSymbol method;
         private Idioms idioms;
-        internal AsyncState topState = new AsyncState();
+        internal State topState = new State();
         
-        public BaseAsyncStateGenerator(Func<BaseAsyncStateGenerator, JsTransformer> transformer, CSharpSyntaxNode node, JsBlockStatement stateMachineBody, Idioms idioms, IMethodSymbol method)
+        public BaseStateGenerator(Func<BaseStateGenerator, JsTransformer> transformer, CSharpSyntaxNode node, JsBlockStatement stateMachineBody, Idioms idioms, IMethodSymbol method)
         {
             this.transformer = transformer(this);
             this.node = node;
@@ -113,7 +113,7 @@ namespace WootzJs.Compiler
             OnBaseStateGenerated();
         }
 
-        private void CleanStates(AsyncState parent)
+        private void CleanStates(State parent)
         {
 /*
             if (!parent.Statements.Any() && !parent.Substates.Any())
@@ -132,14 +132,14 @@ namespace WootzJs.Compiler
         {
         }
 
-        public AsyncState TopState
+        public State TopState
         {
             get { return topState; }
         }
 
-        protected AsyncState NewState(AsyncState nextState = null)
+        protected State NewState(State nextState = null)
         {
-            var newState = new AsyncState();
+            var newState = new State();
             newState.Parent = topState;
             newState.Index = currentStateIndex++;
             newState.Next = nextState;
@@ -147,20 +147,20 @@ namespace WootzJs.Compiler
             return newState;
         }
 
-        protected AsyncState FindLabeledState(string label)
+        protected State FindLabeledState(string label)
         {
             if (labeledStates.ContainsKey(label))
                 return labeledStates[label];
             else
             {
-                var labeledState = new AsyncState();
+                var labeledState = new State();
                 labeledState.Index = currentStateIndex++;
                 labeledStates[label] = labeledState;
                 return labeledState;
             }
         }
 
-        protected AsyncState NewLabeledState(string label)
+        protected State NewLabeledState(string label)
         {
             if (!labeledStates.ContainsKey(label))
             {
@@ -177,13 +177,13 @@ namespace WootzJs.Compiler
             }
         }
 
-        protected AsyncState NewSubstate()
+        protected State NewSubstate()
         {
             var newState = NewState();
             return newState;
         }
 
-        protected void StartSubstate(AsyncState substate)
+        protected void StartSubstate(State substate)
         {
             topState = substate;
             CurrentState = NewState();            
@@ -195,7 +195,7 @@ namespace WootzJs.Compiler
             topState = topState.Parent;
         }
 
-        protected AsyncState GetNextState()
+        protected State GetNextState()
         {
             if (topState.CurrentState.Next != null)
             {
@@ -208,14 +208,14 @@ namespace WootzJs.Compiler
             }
         }
 
-        public AsyncState InsertState()
+        public State InsertState()
         {
             var nextState = NewState();
             nextState.Next = topState.CurrentState.Next;
             return nextState;
         }
 
-        public AsyncState CurrentState
+        public State CurrentState
         {
             get { return topState.CurrentState; }
             set { topState.CurrentState = value; }
@@ -226,12 +226,12 @@ namespace WootzJs.Compiler
             return Js.Continue("$top");
         }
 
-        public JsStatement ChangeState(AsyncState newState)
+        public JsStatement ChangeState(State newState)
         {
             return Js.Reference(state).Assign(Js.Primitive(newState.Index)).Express();
         }
 
-        public void GotoState(AsyncState newState)
+        public void GotoState(State newState)
         {
             if (newState == CurrentState)
                 return;
@@ -242,7 +242,7 @@ namespace WootzJs.Compiler
             CurrentState.Add(GotoTop());
         }
 
-        public JsBlockStatement GotoStateBlock(AsyncState newState)
+        public JsBlockStatement GotoStateBlock(State newState)
         {
             return Js.Block(
                 ChangeState(newState),
@@ -250,7 +250,7 @@ namespace WootzJs.Compiler
             );
         }
 
-        public JsStatement[] GotoStateStatements(AsyncState newState)
+        public JsStatement[] GotoStateStatements(State newState)
         {
             return new[]
             {
@@ -259,7 +259,7 @@ namespace WootzJs.Compiler
             };
         }
 
-        public JsStatement GenerateSwitch(AsyncState state)
+        public JsStatement GenerateSwitch(State state)
         {
             var sections = new List<JsSwitchSection>();
             if (state.Parent != null)
@@ -274,10 +274,10 @@ namespace WootzJs.Compiler
                 section.Statements.AddRange(substate.Statements);
                 return section;
             }));
-            return state.Wrap(Js.Switch(Js.Reference(StateGenerator.state), sections.ToArray()));
+            return state.Wrap(Js.Switch(Js.Reference(BaseStateGenerator.state), sections.ToArray()));
         }
 
-        protected void AcceptStatement(StatementSyntax statement, AsyncState breakState = null, AsyncState continueState = null)
+        protected void AcceptStatement(StatementSyntax statement, State breakState = null, State continueState = null)
         {
             if (breakState != null)
                 breakStates.Push(breakState);
@@ -290,7 +290,7 @@ namespace WootzJs.Compiler
                 continueStates.Pop();
         }
 
-        protected void Accept(Action action, AsyncState breakState = null, AsyncState continueState = null)
+        protected void Accept(Action action, State breakState = null, State continueState = null)
         {
             if (breakState != null)
                 breakStates.Push(breakState);
@@ -547,7 +547,7 @@ namespace WootzJs.Compiler
             var exceptionIdentifier = HoistVariable(new LiftedVariableKey("$ex"));
             var exceptionVariable = UniqueName("$caughtex");
 
-            AsyncState finallyState = node.Finally == null ? null : GetNextState();
+            State finallyState = node.Finally == null ? null : GetNextState();
 
             // Declare a block to store all the catch statements the try statement's only catch clause. (No
             // type-specific catch clauses in Javascript
