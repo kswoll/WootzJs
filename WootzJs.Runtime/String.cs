@@ -432,8 +432,10 @@ namespace System
         public override int GetHashCode()
         {
             var result = Jsni.@this().member("$hashCode");
+/*
             if (result == null)
             {
+*/
                 var hash = 0;
                 for (var i = 0; i < Length; i++)
                 {
@@ -442,8 +444,8 @@ namespace System
                     hash = hash & hash; // Convert to 32bit integer
                 }
                 result = hash.As<JsObject>();
-                Jsni.@this().memberset("$hashCode", result);
-            }
+//                Jsni.@this().memberset("$hashCode", result);
+//            }
             return result.As<int>();
         }
 
