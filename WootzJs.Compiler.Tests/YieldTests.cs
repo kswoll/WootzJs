@@ -74,7 +74,6 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(strings[0], "true");
         }
 
-/*
         [Test]
         public void IfStatementFalse()
         {
@@ -403,6 +402,7 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(ints[0], 1);            
         }
 
+/*
         [Test]
         public void ContinueDoWhile()
         {
@@ -542,7 +542,6 @@ namespace WootzJs.Compiler.Tests
                 }
             }
 
-/*
             public static IEnumerable<string> IfStatementTwoItems(bool flag)
             {
                 if (flag)
@@ -845,6 +844,7 @@ namespace WootzJs.Compiler.Tests
                 while (true);
             }
 
+/*
             public static IEnumerable<int> ContinueDoWhile()
             {
                 var i = 0;

@@ -202,6 +202,8 @@ namespace WootzJs.Compiler
 
         public void GotoState(AsyncState newState)
         {
+            if (newState == CurrentState)
+                return;
             var lastStatement = CurrentState.Statements.LastOrDefault();
             if (lastStatement is JsContinueStatement || lastStatement is JsBreakStatement || lastStatement is JsReturnStatement)
                 return;
@@ -313,8 +315,8 @@ namespace WootzJs.Compiler
         public override void VisitIfStatement(IfStatementSyntax node)
         {
             var afterIfState = GetNextState();
-            var ifTrueState = NewState(afterIfState);
-            var ifFalseState = node.Else != null ? NewState(afterIfState) : null;
+            var ifTrueState = GetNextState();
+            var ifFalseState = node.Else != null ? GetNextState() : null;
 
             var newIfStatement = Js.If(
                 (JsExpression)node.Condition.Accept(Transformer),
@@ -340,6 +342,32 @@ namespace WootzJs.Compiler
             CurrentState = afterIfState;
         }
 
+        public override void VisitDoStatement(DoStatementSyntax node)
+        {
+            var topOfLoop = GetNextState();
+            var afterWhileStatement = GetNextState();
+            var bodyState = GetNextState();
+
+            // The first thing that needs to happen is that the body should execute once,
+            // regardless of the condition.  After that, we can just use a while loop,
+            // since from that point on it's equivalent.
+            GotoState(bodyState);
+
+            CurrentState = bodyState;
+            AcceptStatement(node.Statement, afterWhileStatement, topOfLoop);
+            GotoState(topOfLoop);
+
+            CurrentState = topOfLoop;
+            var newWhileStatement = Js.While(
+                (JsExpression)node.Condition.Accept(Transformer),
+                GotoStateBlock(bodyState));
+
+            CurrentState.Add(newWhileStatement);
+            GotoState(afterWhileStatement);
+
+            CurrentState = afterWhileStatement;
+        }
+
         public override void VisitWhileStatement(WhileStatementSyntax node)
         {
             var topOfLoop = GetNextState();
@@ -348,7 +376,7 @@ namespace WootzJs.Compiler
             CurrentState = topOfLoop;
 
             var afterWhileStatement = GetNextState();
-            var bodyState = NewState(afterWhileStatement);
+            var bodyState = NewState();
 
             var newWhileStatement = Js.While(
                 (JsExpression)node.Condition.Accept(Transformer),
@@ -367,15 +395,26 @@ namespace WootzJs.Compiler
         public override void VisitForStatement(ForStatementSyntax node)
         {            
             // Convert the variable declaration to an assignment expression statement
-            foreach (var variable in node.Declaration.Variables)
+            if (node.Declaration != null)
             {
-                // Hoist the variable into a field
-                var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(Transformer.Model, variable);
-                var identifier = HoistVariable(new LiftedVariableKey(variable.Identifier, symbol));
-
-                if (variable.Initializer != null)
+                foreach (var variable in node.Declaration.Variables)
                 {
-                    var assignment = identifier.GetReference().Assign((JsExpression)variable.Initializer.Value.Accept(Transformer));
+                    // Hoist the variable into a field
+                    var symbol = (ILocalSymbol)ModelExtensions.GetDeclaredSymbol(Transformer.Model, variable);
+                    var identifier = HoistVariable(new LiftedVariableKey(variable.Identifier, symbol));
+
+                    if (variable.Initializer != null)
+                    {
+                        var assignment = identifier.GetReference().Assign((JsExpression)variable.Initializer.Value.Accept(Transformer));
+                        CurrentState.Add(assignment.Express());
+                    }
+                }                
+            }
+            else if (node.Initializers.Any())
+            {
+                foreach (var initializer in node.Initializers)
+                {
+                    var assignment = (JsExpression)initializer.Accept(Transformer);
                     CurrentState.Add(assignment.Express());
                 }
             }
@@ -390,7 +429,7 @@ namespace WootzJs.Compiler
             var incrementorState = NewState();
 
             var newWhileStatement = Js.While(
-                (JsExpression)node.Condition.Accept(Transformer),
+                node.Condition == null ? Js.Primitive(true) : (JsExpression)node.Condition.Accept(Transformer),
                 GotoStateBlock(bodyState));
 
             CurrentState.Add(newWhileStatement);
@@ -430,7 +469,7 @@ namespace WootzJs.Compiler
             CurrentState = topOfLoop;
 
             var afterLoop = GetNextState();
-            var bodyState = NewState(afterLoop);
+            var bodyState = GetNextState();
 
             var moveNext = enumerator.GetReference().Member("MoveNext").Invoke();
             var newWhileStatement = Js.While(moveNext, GotoStateBlock(bodyState));
@@ -442,7 +481,6 @@ namespace WootzJs.Compiler
             CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("get_Current").Invoke()).Express());
             
             AcceptStatement(node.Statement, afterLoop, topOfLoop);
-
             GotoState(topOfLoop);
 
             CurrentState = afterLoop;
@@ -569,7 +607,7 @@ namespace WootzJs.Compiler
         {
             var afterSwitchState = GetNextState();
 
-            var sectionStates = node.Sections.Select(x => NewState(afterSwitchState)).ToArray();
+            var sectionStates = node.Sections.Select(x => GetNextState()).ToArray();
             var newSwitchStatement = Js.Switch(
                 (JsExpression)node.Expression.Accept(Transformer),
                 node.Sections

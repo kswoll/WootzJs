@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -17,7 +18,7 @@ namespace WootzJs.Compiler
 
         public override void VisitYieldStatement(YieldStatementSyntax node)
         {
-            var nextState = NewState();
+            var nextState = GetNextState();
 
             if (node.ReturnOrBreakKeyword.IsKind(SyntaxKind.BreakKeyword))
             {
@@ -38,8 +39,16 @@ namespace WootzJs.Compiler
             base.VisitIfStatement(node);
         }
 
+        public override void VisitWhileStatement(WhileStatementSyntax node)
+        {
+            base.VisitWhileStatement(node);
+        }
+
         protected override void OnBaseStateGenerated()
         {
+            var lastStatement = CurrentState.Statements.LastOrDefault();
+            if (lastStatement is JsContinueStatement || lastStatement is JsBreakStatement || lastStatement is JsReturnStatement)
+                return;
             CurrentState.Add(Js.Return(Js.Primitive(false)));
         }
     }
