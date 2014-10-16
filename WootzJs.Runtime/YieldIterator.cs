@@ -52,9 +52,14 @@ namespace System
             return null;
         }
 
-        public virtual bool MoveNext()
+        protected virtual bool DoMoveNext()
         {
             return false;
+        }
+
+        public virtual bool MoveNext()
+        {
+            return DoMoveNext();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

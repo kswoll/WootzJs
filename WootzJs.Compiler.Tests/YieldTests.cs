@@ -48,7 +48,6 @@ namespace WootzJs.Compiler.Tests
             var yieldBreak = YieldClass.YieldBreak();
             AssertTrue(yieldBreak is IEnumerable<string>);
         }
-/*
 
         [Test]
         public void ReturnOne()
@@ -75,6 +74,7 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(strings[0], "true");
         }
 
+/*
         [Test]
         public void IfStatementFalse()
         {
@@ -518,7 +518,7 @@ namespace WootzJs.Compiler.Tests
             {
                 yield break;
             }
-/*
+
             public static IEnumerable<string> ReturnOne()
             {
                 yield return "one";
@@ -542,6 +542,7 @@ namespace WootzJs.Compiler.Tests
                 }
             }
 
+/*
             public static IEnumerable<string> IfStatementTwoItems(bool flag)
             {
                 if (flag)

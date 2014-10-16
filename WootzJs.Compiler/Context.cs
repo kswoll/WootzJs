@@ -200,7 +200,7 @@ namespace WootzJs.Compiler
         public IMethodSymbol IEnumerableTGetEnumerator { get; private set; }
         public INamedTypeSymbol YieldIterator { get; set; }
         public IMethodSymbol YieldIteratorClone { get; set; }
-        public IMethodSymbol YieldIteratorMoveNext { get; set; }
+        public IMethodSymbol YieldIteratorDoMoveNext { get; set; }
 
         public IMethodSymbol Nop { get; private set; }
         public INamedTypeSymbol Task { get; private set; }
@@ -407,7 +407,7 @@ namespace WootzJs.Compiler
             IEnumerableTGetEnumerator = (IMethodSymbol)IEnumerableT.GetMembers("GetEnumerator").Single();
             YieldIterator = compilation.FindType("System.YieldIterator`1");
             YieldIteratorClone = YieldIterator.GetMethodByName("Clone");
-            YieldIteratorMoveNext = YieldIterator.GetMethodByName("MoveNext");
+            YieldIteratorDoMoveNext = YieldIterator.GetMethodByName("DoMoveNext");
 
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");

@@ -17,7 +17,7 @@ namespace WootzJs.Compiler
 
         public override void VisitYieldStatement(YieldStatementSyntax node)
         {
-            var nextState = GetNextState();
+            var nextState = NewState();
 
             if (node.ReturnOrBreakKeyword.IsKind(SyntaxKind.BreakKeyword))
             {
@@ -30,6 +30,17 @@ namespace WootzJs.Compiler
                 CurrentState.Add(Js.Reference(stateMachine).Member("set_Current").Invoke((JsExpression)node.Expression.Accept(Transformer)).Express());
                 CurrentState.Add(Js.Primitive(true).Return());
             }
+            CurrentState = nextState;
+        }
+
+        public override void VisitIfStatement(IfStatementSyntax node)
+        {
+            base.VisitIfStatement(node);
+        }
+
+        protected override void OnBaseStateGenerated()
+        {
+            CurrentState.Add(Js.Return(Js.Primitive(false)));
         }
     }
 }

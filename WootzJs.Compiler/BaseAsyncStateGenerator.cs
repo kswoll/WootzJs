@@ -105,11 +105,26 @@ namespace WootzJs.Compiler
         {
             topState.CurrentState = NewState();
             node.Accept(this);
-
+            CleanStates(topState);
             if (!topState.Substates.Last().Statements.Any())
                 topState.Substates.Remove(topState.Substates.Last());
 
             OnBaseStateGenerated();
+        }
+
+        private void CleanStates(AsyncState parent)
+        {
+/*
+            if (!parent.Statements.Any() && !parent.Substates.Any())
+            {
+                parent.Add(Js.Reference(state).Assign(Js.Primitive(-1)).Express());
+                parent.Add(Js.Break());
+            }
+            foreach (var childState in parent.Substates)
+            {
+                CleanStates(childState);
+            }
+*/
         }
 
         protected virtual void OnBaseStateGenerated()
@@ -188,7 +203,7 @@ namespace WootzJs.Compiler
         public void GotoState(AsyncState newState)
         {
             var lastStatement = CurrentState.Statements.LastOrDefault();
-            if (lastStatement is JsContinueStatement || lastStatement is JsBreakStatement)
+            if (lastStatement is JsContinueStatement || lastStatement is JsBreakStatement || lastStatement is JsReturnStatement)
                 return;
             CurrentState.Add(ChangeState(newState));
             CurrentState.Add(GotoTop());
