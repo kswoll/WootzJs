@@ -2249,7 +2249,7 @@ namespace WootzJs.Compiler
             // Declare the moveNext function
             var moveNextBody = Js.Block();
             var moveNext = stateMachineBody.Local(BaseAsyncStateGenerator.moveNext, Js.Function().Body(moveNextBody));
-            moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Break()))));
+            moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Return(Js.Primitive(false))))));
             stateMachineBody.Add(MapInterfaceMethod(stateMachine.GetReference(), Context.Instance.YieldIteratorDoMoveNext, Js.Function().Body(moveNext.GetReference().Member("call").Invoke(@this.GetReference()).Return())));
 
             // Declare the clone function

@@ -23,6 +23,7 @@ namespace WootzJs.Compiler
         private CSharpSyntaxNode node;
         private Stack<AsyncState> breakStates = new Stack<AsyncState>();
         private Stack<AsyncState> continueStates = new Stack<AsyncState>();
+        private Dictionary<string, AsyncState> labeledStates = new Dictionary<string, AsyncState>();
         private IMethodSymbol method;
         private Idioms idioms;
         internal AsyncState topState = new AsyncState();
@@ -144,6 +145,36 @@ namespace WootzJs.Compiler
             newState.Next = nextState;
             topState.Substates.Add(newState);            
             return newState;
+        }
+
+        protected AsyncState FindLabeledState(string label)
+        {
+            if (labeledStates.ContainsKey(label))
+                return labeledStates[label];
+            else
+            {
+                var labeledState = new AsyncState();
+                labeledState.Index = currentStateIndex++;
+                labeledStates[label] = labeledState;
+                return labeledState;
+            }
+        }
+
+        protected AsyncState NewLabeledState(string label)
+        {
+            if (!labeledStates.ContainsKey(label))
+            {
+                var labeledState = GetNextState();
+                labeledStates[label] = labeledState;
+                return labeledState;                
+            }
+            else
+            {
+                var labeledState = labeledStates[label];
+                labeledState.Parent = topState;
+                topState.Substates.Add(labeledState);
+                return labeledState;
+            }
         }
 
         protected AsyncState NewSubstate()
@@ -700,6 +731,23 @@ namespace WootzJs.Compiler
             EndSubstate();
 
             CurrentState = afterTry;
+        }
+
+        public override void VisitLabeledStatement(LabeledStatementSyntax node)
+        {
+            var label = node.Identifier.ToString();
+            var labelState = NewLabeledState(label);
+            GotoState(labelState);
+
+            CurrentState = labelState;
+            AcceptStatement(node.Statement);
+        }
+
+        public override void VisitGotoStatement(GotoStatementSyntax node)
+        {
+            var label = ((IdentifierNameSyntax)node.Expression).Identifier.ToString();
+            var labelState = FindLabeledState(label);
+            GotoState(labelState);
         }
 
         public struct LiftedVariableKey
