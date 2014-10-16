@@ -147,6 +147,7 @@ namespace System.Runtime.WootzJs
 
             // This is way faster than the foreach/for...in that was used below.  So we'll just copy the methods we need manually.
             array["System$Collections$Generic$IEnumerable$1$GetEnumerator"] = arrayType.member("prototype")["System$Collections$Generic$IEnumerable$1$GetEnumerator"];
+            array["GetEnumerator"] = arrayType.member("prototype")["System$Collections$Generic$IEnumerable$1$GetEnumerator"];
             array["GetType"] = arrayType.member("prototype")["GetType"];
             array["$type"] = arrayType.member("prototype")["$type"];
             array["System$Collections$Generic$IReadOnlyList$1$get_Item"] = arrayType.member("prototype")["System$Collections$Generic$IReadOnlyList$1$get_Item"];
