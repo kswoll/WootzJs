@@ -28,12 +28,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Runtime.WootzJs;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
@@ -136,7 +134,7 @@ namespace WootzJs.Compiler
 
             var containingType = classType.ContainingType;
             var typeInitializerFunction = Js.Function(new[] { Js.Parameter(SpecialNames.TypeInitializerTypeFunction), Js.Parameter(SpecialNames.TypeInitializerPrototype) }.Concat(classType.TypeParameters.Select(x => Js.Parameter(x.Name)).ToArray()).ToArray()).Body(typeInitializer);
-            block.Express(Js.Assign(outerClassType.Member(SpecialNames.TypeInitializer), typeInitializerFunction)
+            block.Express(outerClassType.Member(SpecialNames.TypeInitializer).Assign(typeInitializerFunction)
                 .Parenthetical()
                 .Member("call")
                 .Invoke(
@@ -300,7 +298,7 @@ namespace WootzJs.Compiler
 
                 var propertyInfo = CreateObject(Context.Instance.PropertyInfoConstructor, 
                     Js.Primitive(property.Name),
-                    Type(property.Type, false), // True when it's an unconstructed type -- perhaps we need more sophistication if the type is already reified
+                    Type(property.Type), // True when it's an unconstructed type -- perhaps we need more sophistication if the type is already reified
                     property.GetMethod != null ? CreateMethodInfo(property.GetMethod) : Js.Null(),
                     property.SetMethod != null ? CreateMethodInfo(property.SetMethod) : Js.Null(),
                     CreateParameterInfos(property.Parameters.ToArray()),
@@ -443,7 +441,7 @@ namespace WootzJs.Compiler
                     Js.Primitive(method.MetadataName),
                     GetMethodFunction(method, true),
                     CreateParameterInfos(method.Parameters.ToArray()),
-                    Type(returnType, false),
+                    Type(returnType),
                     methodAttributes,
                     CreateAttributes(method));
 
@@ -627,9 +625,7 @@ namespace WootzJs.Compiler
 
         public JsExpressionStatement CreatePrototype(JsExpression type, JsExpression baseType)
         {
-            return Js.Express(Js.Assign(
-                type.Member("prototype"), 
-                Js.New(baseType)));
+            return type.Member("prototype").Assign(Js.New(baseType)).Express();
         }
 
         public JsExpression GetPrototype()
@@ -852,7 +848,7 @@ namespace WootzJs.Compiler
             var propertyName = property.GetMemberName();
             if (!isExported)
             {
-                return Js.Member(target, propertyName);
+                return target.Member(propertyName);
             }
             else
             {
@@ -860,9 +856,9 @@ namespace WootzJs.Compiler
                 if (isExtension || isBaseReference)
                     return InvokeMethodAs(property.GetMethod, target);
                 else if (property.GetMethod != null)
-                    return Js.Invoke(Js.Member(target, property.GetMethod.GetMemberName()));
+                    return target.Member(property.GetMethod.GetMemberName()).Invoke();
                 else 
-                    return Js.Invoke(Js.Member(target, "get_" + property.GetMemberName()));
+                    return target.Member("get_" + property.GetMemberName()).Invoke();
             }
         }
 
@@ -892,7 +888,7 @@ namespace WootzJs.Compiler
                     var property = (IPropertySymbol)symbol;
                     if (property.ContainingType.IsGenericType && Equals(property.ContainingType.ConstructedFrom, Context.Instance.NullableType))
                     {
-                        property = (IPropertySymbol)property.OriginalDefinition;
+                        property = property.OriginalDefinition;
                         if (Equals(property, Context.Instance.NullableHasValue))
                         {
                             return @this.NotEqualTo(Js.Null()).Parenthetical();
@@ -948,28 +944,20 @@ namespace WootzJs.Compiler
 
         public JsExpressionStatement StoreClassGetType()
         {
-            return StoreInType(SpecialNames.GetTypeFromType, Js.Function().Body(Js.Return(Type(Context.Instance.TypeType).Member("_GetTypeFromTypeFunc").Invoke(Js.This()))));
+            return StoreInType(SpecialNames.GetTypeFromType, Js.Function().Body(Type(Context.Instance.TypeType).Member("_GetTypeFromTypeFunc").Invoke(Js.This()).Return()));
         }
 
         /// <summary>
-        /// Very useful idiom to allow a sequence of statements to be executed while still returning a valid expression inline in the
+        /// Useful idiom to allow a sequence of statements to be executed while still returning a valid expression inline in the
         /// AST.  It essentially creates a lambda whose body is the specified block, wraps it in parentheses, and then immediately invokes
         /// it.
         /// </summary>
         /// <param name="block">The block of statements to invoke.</param>
         /// <returns>The invocation expression that performs the above.</returns>
-        public JsInvocationExpression Wrap(JsBlockStatement block, params IJsDeclaration[] arguments)
+        public JsInvocationExpression Wrap(JsBlockStatement block)
         {
-            var function = Js.Function(arguments.Select(x => Js.Parameter(x.Name)).ToArray()).Body(block);
-            return Js.Parenthetical(function).Member("call").Invoke(new[] { (JsExpression)Js.This() }.Concat(arguments.Select(x => Js.Reference(UnwrappedName(x)))).ToArray());
-        }
-
-        private string UnwrappedName(IJsDeclaration declaration)
-        {
-            if (declaration is WrappedParent)
-                return ((WrappedParent)declaration).Parent.Name;
-            else
-                return declaration.Name;
+            var function = Js.Function().Body(block);
+            return function.Parenthetical().Member("call").Invoke(new[] { (JsExpression)Js.This() }.ToArray());
         }
 
         public class WrappedParent : IJsDeclaration
@@ -996,7 +984,7 @@ namespace WootzJs.Compiler
 
             public JsExpression SetReference()
             {
-                return Js.Assign(Js.Reference(Name), parent.SetReference());
+                return Js.Reference(Name).Assign(parent.SetReference());
             }
         }
 
@@ -1011,7 +999,7 @@ namespace WootzJs.Compiler
                     i.GetReference().LessThan(list.GetReference().Member("length")), 
                     i.GetReference().Increment()
                 )
-                .Body(Js.Express(list.GetReference().Index(i.GetReference()).Invoke(Js.Reference("arguments")))));
+                .Body(list.GetReference().Index(i.GetReference()).Invoke(Js.Reference("arguments")).Express()));
 
             var delegateExpression = Js.Function();
             delegateExpression.Body(delegateBody);
@@ -1136,7 +1124,7 @@ namespace WootzJs.Compiler
                             old.GetReference().Member("charCodeAt").Invoke(Js.Primitive(0)),
                             Js.Primitive(1)
                         );
-                        result = Js.Assign(operand, Js.Reference("String").Member("fromCharCode").Invoke(result));
+                        result = operand.Assign(Js.Reference("String").Member("fromCharCode").Invoke(result));
 
                         var block = new JsBlockStatement();
                         block.Local(old);
@@ -1155,7 +1143,7 @@ namespace WootzJs.Compiler
                             operand.Member("charCodeAt").Invoke(Js.Primitive(0)),
                             Js.Primitive(1)
                         );
-                        result = Js.Assign(operand, Js.Reference("String").Member("fromCharCode").Invoke(result));
+                        result = operand.Assign(Js.Reference("String").Member("fromCharCode").Invoke(result));
                         return true;
                     }
                 }
@@ -1201,7 +1189,7 @@ namespace WootzJs.Compiler
                             case SyntaxKind.MultiplyAssignmentExpression:
                             case SyntaxKind.DivideAssignmentExpression:
                             case SyntaxKind.ModuloAssignmentExpression:
-                                result = Js.Assign(left, Js.Reference("String").Member("fromCharCode").Invoke(result));
+                                result = left.Assign(Js.Reference("String").Member("fromCharCode").Invoke(result));
                                 break;
                         }
                         return true;
@@ -1394,7 +1382,7 @@ namespace WootzJs.Compiler
                     .Member(Context.Instance.TypeIsInstanceOfType.GetMemberName())
                     .Member("call")
                     .Invoke(Type(operand).Member(SpecialNames.GetTypeFromType).Invoke(), asVariable.GetReference());
-                asBody.If(Js.Not(condition), Js.Assign(asVariable.GetReference(), Js.Null()));
+                asBody.If(Js.Not(condition), asVariable.GetReference().Assign(Js.Null()));
                 asBody.Return(asVariable.GetReference());
                 result = Wrap(asBody);
                 return true;
@@ -1557,7 +1545,6 @@ namespace WootzJs.Compiler
                     method = method.ReducedFrom;
                     arguments = new[] { target }.Concat(arguments).ToArray();
                     originalArguments = new[] { originalTarget }.Concat(originalArguments).ToArray();
-                    target = null;
                 }
                 switch (method.Name)
                 {
@@ -1614,7 +1601,7 @@ namespace WootzJs.Compiler
                     case "memberset":
                     {
                         var memberName = GetConstantString(originalArguments[1]);
-                        result = Js.Assign(arguments[0].Member(memberName), arguments[2]);
+                        result = arguments[0].Member(memberName).Assign(arguments[2]);
                         return true;
                     }
                     case "member":
@@ -1656,10 +1643,10 @@ namespace WootzJs.Compiler
                             switch (method.Name)
                             {
                                 case "function":
-                                    lambdaStatement = Js.Return((JsExpression)lambdaNode);
+                                    lambdaStatement = ((JsExpression)lambdaNode).Return();
                                     break;
                                 default:
-                                    lambdaStatement = Js.Express((JsExpression)lambdaNode);
+                                    lambdaStatement = ((JsExpression)lambdaNode).Express();
                                     break;
                             }
                         }
@@ -1710,7 +1697,7 @@ namespace WootzJs.Compiler
                         result = Js.Reference("isNaN").Invoke(arguments);
                         return true;
                     case "instanceof":
-                        result = Js.Parenthetical(Js.InstanceOf(arguments[0], arguments[1]));
+                        result = Js.InstanceOf(arguments[0], arguments[1]).Parenthetical();
                         return true;
                     case "object":
                         // Deconstruct the object passed in into a JS object
@@ -1732,7 +1719,7 @@ namespace WootzJs.Compiler
                             ((JsRegexExpression)result).Suffix = GetConstantString(originalArguments[1]);
                         return true;
                     case "in":
-                        result = Js.In(arguments[0], arguments[1]);
+                        result = arguments[0].In(arguments[1]);
                         return true;
                     case "setTimeout":
                         result = Js.Reference("setTimeout").Invoke(arguments[0], arguments[1]);
@@ -1922,7 +1909,7 @@ namespace WootzJs.Compiler
                     return result;
                 }
             }
-            var typeName = JsNames.GetTypeName(type);
+            var typeName = type.GetTypeName();
             return new JsVariableReferenceExpression(typeName);
         }
 
@@ -1942,12 +1929,12 @@ namespace WootzJs.Compiler
 
             public JsExpression GetReference()
             {
-                return Js.Member(declaration.GetReference(), "value");
+                return declaration.GetReference().Member("value");
             }
 
             public JsExpression SetReference()
             {
-                return Js.Member(declaration.SetReference(), "value");
+                return declaration.SetReference().Member("value");
             }
         }
 
@@ -1978,7 +1965,7 @@ namespace WootzJs.Compiler
             block.Assign(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), Js.Reference(SpecialNames.TypeInitializerTypeFunction));
             block.Assign(GetFromPrototype(constructorName).Member("$new"), 
                 Js.Function(parameterNames.Select(x => Js.Parameter(x)).ToArray())
-                    .Body(Js.Return(Js.New(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), arguments))));
+                    .Body(Js.New(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), arguments).Return()));
             return block;
         }
 
@@ -1991,7 +1978,7 @@ namespace WootzJs.Compiler
                 if (current == null)
                     current = next;
                 else
-                    current = Js.BitwiseOr(current, next);
+                    current = current.BitwiseOr(next);
             }
 
             return current;
@@ -2078,7 +2065,7 @@ namespace WootzJs.Compiler
 
         public JsExpression InvokeParameterlessBaseClassConstructor(INamedTypeSymbol baseType)
         {
-            var baseConstructor = baseType.InstanceConstructors.SingleOrDefault(x => x.Parameters.Count() == 0);
+            var baseConstructor = baseType.InstanceConstructors.SingleOrDefault(x => !x.Parameters.Any());
             var arguments = new List<JsExpression>();
             if (baseConstructor == null)
             {
@@ -2234,7 +2221,7 @@ namespace WootzJs.Compiler
 
             // Declare state machine fields
             var @this = stateMachineBody.Local(BaseStateGenerator.@this, Js.This());
-            var state = stateMachineBody.Local(BaseStateGenerator.state, Js.Primitive(0));
+            stateMachineBody.Local(BaseStateGenerator.state, Js.Primitive(0));
             var stateMachine = stateMachineBody.Local(BaseStateGenerator.stateMachine, CreateObject(Context.Instance.YieldIterator.Construct(elementType).Constructors.Single()));
 //            var current = stateMachineBody.Local(YieldStateGenerator2.current, DefaultValue(elementType));
 //            var isStarted = stateMachineBody.Local("$isStarted", Js.Primitive(false));
@@ -2249,7 +2236,7 @@ namespace WootzJs.Compiler
             // Declare the moveNext function
             var moveNextBody = Js.Block();
             var moveNext = stateMachineBody.Local(BaseStateGenerator.moveNext, Js.Function().Body(moveNextBody));
-            moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Return(Js.Primitive(false))))));
+            moveNextBody.Add(Js.Label("$top", Js.While(Js.Primitive(true), Js.Block(stateGenerator.GenerateSwitch(rootState), Js.Primitive(false).Return()))));
             stateMachineBody.Add(MapInterfaceMethod(stateMachine.GetReference(), Context.Instance.YieldIteratorDoMoveNext, Js.Function().Body(moveNext.GetReference().Member("call").Invoke(@this.GetReference()).Return())));
 
             // Declare the clone function

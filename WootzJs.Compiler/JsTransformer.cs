@@ -514,29 +514,9 @@ namespace WootzJs.Compiler
             if (node.Body == null)
                 body = new JsBlockStatement();
             else if (YieldChecker.HasYield(node))
-            {
                 body = idioms.GenerateYieldMethod(node, method);
-/*
-                // Get generated enumerator
-                var generatorType = (INamedTypeSymbol)method.ContainingType.GetMembers().Single(x => x.Name == "YieldEnumerator$" + method.GetMemberName());
-                var constructor = generatorType.InstanceConstructors.Single();
-                var generatorTypeExpression = idioms.Type(generatorType);
-                if (method.TypeParameters.Any())
-                {
-                    generatorTypeExpression = idioms.MakeGenericType(generatorType, method.TypeArguments.Select(x => idioms.Type(x)).ToArray());
-                }
-
-                var arguments = new List<JsExpression>();
-                if (!method.IsStatic)
-                    arguments.Add(Js.This());
-                arguments.AddRange(method.Parameters.Select(x => Js.Reference(x.Name)));
-                body = idioms.CreateObject(generatorTypeExpression, constructor, arguments.ToArray()).Return();
-*/
-            }
             else if (node.IsAsync())
-            {
                 body = idioms.GenerateAsyncMethod(node, method);
-            }
             else
                 body = (JsBlockStatement)node.Body.Accept(this);
 
@@ -930,15 +910,10 @@ namespace WootzJs.Compiler
             idioms.InstrumentRefAndOutParameters(method, arguments, prependers, appenders);
 
             var typeArguments = method.TypeParameters.Any() ? method.TypeArguments.Select(x => idioms.TypeAndResolve(x)).ToArray() : new JsExpression[0];
-            var invokedAsExtensionMethod = false;
+            var invokedAsExtensionMethod = method.ReducedFrom != null;
 
             // Extension methods come in as target.ExtensionMethod(arg1, arg2...) but we want them as ExtensionMethod(target, arg1, arg2...), and that's
             // what ReducedFrom is
-            if (method.ReducedFrom != null)
-            {
-//                method = method.ReducedFrom;
-                invokedAsExtensionMethod = true;
-            }
             JsInvocationExpression invocation = null;
             if (isExtension)
             {
@@ -964,7 +939,7 @@ namespace WootzJs.Compiler
             }
             if (invocation == null)
             {
-                invocation = Js.Invoke(target, typeArguments.Concat(arguments).ToArray());
+                invocation = target.Invoke(typeArguments.Concat(arguments).ToArray());
             }
 
             if (idioms.TryApplyRefAndOutParametersAfterInvocation(method, invocation, out specialResult, prependers, appenders))
@@ -994,7 +969,7 @@ namespace WootzJs.Compiler
                 }
             }
 
-            return ImplicitCheck(node, Js.Index(target, arguments));
+            return ImplicitCheck(node, target.Index(arguments));
         }
 
         public override JsNode VisitArgumentList(ArgumentListSyntax node)
@@ -1097,7 +1072,6 @@ namespace WootzJs.Compiler
 
             if (isAsync)
             {
-                var containingType = model.GetDeclaredSymbol(bodyNode.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => !x.Identifier.ToString().StartsWith("Async$")));
                 block.Aggregate(idioms.GenerateAsyncMethod(node, delegateType.DelegateInvokeMethod));
             }
             else
@@ -1109,11 +1083,11 @@ namespace WootzJs.Compiler
                 }
                 else if (delegateType.DelegateInvokeMethod.ReturnsVoid)
                 {
-                    block.Add(Js.Express((JsExpression)body));
+                    block.Add(((JsExpression)body).Express());
                 }
                 else
                 {
-                    block.Add(Js.Return((JsExpression)body));
+                    block.Add(((JsExpression)body).Return());
                 }                
             }
 
@@ -1289,13 +1263,13 @@ namespace WootzJs.Compiler
 
                 var result = (JsExpression)ImplicitCheck(node, obj);
                 if (Context.Instance.Exception.IsAssignableFrom(type))
-                    result = idioms.Invoke(result, Context.Instance.InternalInit, Js.New(Js.Reference("Error")));;
+                    result = idioms.Invoke(result, Context.Instance.InternalInit, Js.New(Js.Reference("Error")));
                 return result;
             }
             else
             {
                 if (type.GetAttributeValue(Context.Instance.JsAttributeType, "InvokeConstructorAsClass", false))
-                    return ImplicitCheck(node, Js.Invoke(idioms.Type(type), args.ToArray()));
+                    return ImplicitCheck(node, idioms.Type(type).Invoke(args.ToArray()));
                 else if (!isExported)
                     return ImplicitCheck(node, Js.New(Js.Reference(type.GetName()), args.ToArray()));
                 else
@@ -1445,7 +1419,7 @@ namespace WootzJs.Compiler
             if (idioms.TryUnwrapJsniStatement(node, out result))
                 return result;
 
-            return Js.Express((JsExpression)node.Expression.Accept(this));
+            return ((JsExpression)node.Expression.Accept(this)).Express();
         }
 
         public override JsNode VisitEmptyStatement(EmptyStatementSyntax node)
@@ -1478,7 +1452,7 @@ namespace WootzJs.Compiler
             if (node.Expression == null)
                 return Js.Return();
             else
-                return Js.Return((JsExpression)node.Expression.Accept(this));
+                return ((JsExpression)node.Expression.Accept(this)).Return();
         }
 
         public override JsNode VisitThrowStatement(ThrowStatementSyntax node)
@@ -1951,7 +1925,7 @@ namespace WootzJs.Compiler
             }));
 
             var body = new JsBlockStatement();
-            body.Return(Js.Invoke(Js.This(), parameters.Select(x => x.GetReference()).ToArray()));
+            body.Return(Js.This().Invoke(parameters.Select(x => x.GetReference()).ToArray()));
             var methodFunction = Js.Function(parameters.ToArray()).Body(body);
 
             var memberName = method.GetMemberName();

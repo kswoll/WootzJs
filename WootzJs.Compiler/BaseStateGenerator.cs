@@ -8,6 +8,214 @@ using WootzJs.Compiler.JsAst;
 
 namespace WootzJs.Compiler
 {
+    /// &lt;summary&gt;
+    /// Base class for C# state generators.  These are used for await and yield functionality.  The following is 
+    /// essentially my take on concepts that can be gleaned from a study of coroutines (1). The essential problem 
+    /// is that in normal control flow, a method has a beginning and an end -- at the end, flow jumps to immediately 
+    /// after the invocation of the method that has just been called.  However, await and yield require control 
+    /// flow that is more flexible.  It's easiest to understand by starting with the most flexible operator, await.  
+    /// 
+    /// With await, you want to hand ask the awaiter (2) to do its thing and when it's done return the control flow 
+    /// to immediately after the await expression (the next argument in a function call, the next statement, etc.). 
+    /// In the meantime, the callstack is successively unwound; if the calling method is also async and awaiting, 
+    /// this bubbles up the callstack until a non-async method is reached.  (Ultimately, the top of a callstack 
+    /// cannot be async, be it a Main method or a Run on another thread.)  This allows the original thread to 
+    /// continue on its merry way and perform other actions.  This is in stark contrast to a normal method 
+    /// invocation.  Without async (or yield), the method must finish before the control flow can return to the 
+    /// caller.
+    /// 
+    /// The way this is implemented is that when you start the awaiter, you provide the awaiter with a callback 
+    /// function.  What's extremely special about this callback function is that its effect is to return the control 
+    /// flow back to immediately after the awaiter was started (after the await or yield operator). Needless to say,
+    /// except for await and yield, this is not otherwise possible in C#.  You can't create a lambda that will cause 
+    /// control flow to resume in some arbitrary part of the method.
+    /// 
+    /// This ability to create a callback that can return to an arbitrary point in the method is the key ingredient 
+    /// to both await and yield.  When implementing a yield iterator, you are asking the caller to do some work, then 
+    /// the iterator to do some work, and then the caller, and then the iterator, and so on. Importantly each time 
+    /// work is handed off between the two parties, control flow must resume from where it left off last time.  This 
+    /// is achieved on the caller side by normal imperative control flow.  The caller does work and when it's ready 
+    /// to wait for a new elemnt, it calls MoveNext() (like any other implementation of IEnumerator).  However, the 
+    /// implementation of an iterator's MoveNext() method is the callback ingredient we have been describing.  This 
+    /// callback returns control flow to arbitary points in the iterator (wherever the yield operator was last used).
+    /// 
+    /// So, to implement await and yield, we must figure out a way to create this callback that can return to 
+    /// arbitrary points in a method.  The following applies to both C# and Javascript.  (In fact, the initial 
+    /// implementation was a C# -&gt; C# translation, but is now a C# -&gt; JS translation.)  To create this callback we 
+    /// must rip apart the abstract syntax tree of the method doing the awaiting or yielding.  The way this is 
+    /// usually done is by creating a state machine.  Concretely, this means generating a switch statement that 
+    /// switches on an integer state variable.  Each case statement represents some portion of logic (one or more 
+    /// statements, and sometimes even individual expressions).  Modifying the value of this state variable 
+    /// effectively changes where you are in the original method.  Thus it becomes possible to *return* from the 
+    /// function and, the next time it is invoked, logically continue execution from where you left off before.
+    /// 
+    /// Generally speaking, this is straightforward.  However, control flow constructs (if, while, for, foreach, 
+    /// try/catch, etc.), must be implemented in a new way in order to be able to exit from the function and somehow
+    /// resume back into the middle of a control flow.  This can probably best be explained through example.  We'll 
+    /// use yield in these examples because conceptually it's a bit more specific (caller and iterator) and thus 
+    /// easier to reason about.  But all of this applies to await as well.  
+    /// 
+    /// To start, we'll start with the simplest possible yield iterator:
+    /// 
+    /// public IEnumerator&lt;string&gt; Empty()
+    /// {
+    ///     yield break;
+    /// }
+    /// 
+    /// This iterator will produce an enumerator that will return false on the first invocation of MoveNext() (a 
+    /// sequence with no elements).  Let's convert it into a state machine.  We'll use C# for consistency, but the 
+    /// generated output is obviously Javascript.  Also, the implementation is simplified for clarity, but the real 
+    /// output is more sophisticated (implements IEnumerable, IDisposable, etc.  Additionally, generated members 
+    /// such as "state" are actually generated prefixed with "$" to avoid collisions with user code).
+    /// 
+    /// class YieldBreakIterator : IEnumerator&lt;string&gt;
+    /// {
+    ///     private int state;
+    /// 
+    ///     public string Current { get; private set; }
+    /// 
+    ///     public bool MoveNext() 
+    ///     {
+    ///         switch (state)
+    ///         {
+    ///             case 0: 
+    ///                 return false;
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// Here we have a simple state machine.  Technically, in this example, the property Current is not necessary, 
+    /// but it will be used, of course, in any more sophisticated example.  Now let's change the iterator to:
+    /// 
+    /// public IEnumerator&lt;string&gt; ReturnFoo()
+    /// {
+    ///     yield return "foo";
+    /// }
+    /// 
+    /// This iterator will be much the same as the first one, but it will first set the value of Current to "foo" 
+    /// before returning true.
+    /// 
+    /// class YieldReturnFooIterator : IEnumerator&lt;string&gt;
+    /// {
+    ///     private int state;
+    /// 
+    ///     public string Current { get; private set; }
+    /// 
+    ///     public bool MoveNext() 
+    ///     {
+    ///         switch (state)
+    ///         {
+    ///             case 0: 
+    ///                 state = 1;
+    ///                 Current = "foo";
+    ///                 return true;
+    ///             case 1:
+    ///                 return false;
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// Here we can see that after the first invocation of MoveNext(), Current will contain the value "foo".  The 
+    /// next invocation will arrive in state 2 and result in returning false and ending the iteration. 
+    /// 
+    /// The penultimate example is two yield statements in a row.  This finally illustrates jumping into an arbitrary 
+    /// point in the iterator.
+    /// 
+    /// public IEnumerator&lt;string&gt; ReturnOneAndTwo()
+    /// {
+    ///     yield return 10;
+    ///     yield return 42;
+    /// }
+    /// 
+    /// Translating to the state machine:
+    /// 
+    /// class YieldReturnOneAndTwoIterator : IEnumerator&lt;string&gt;
+    /// {
+    ///     private int state;
+    /// 
+    ///     public int Current { get; private set; }
+    /// 
+    ///     public bool MoveNext() 
+    ///     {
+    ///         switch (state)
+    ///         {
+    ///             case 0: 
+    ///                 state = 1;
+    ///                 Current = 10;
+    ///                 return true;
+    ///             case 1:
+    ///                 state = 2;
+    ///                 Current = 42;
+    ///                 return true;
+    ///             case 2:
+    ///                 return false;
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// Now we get to see how the two statements in the iterator are broken down into two case statements.  Each case 
+    /// statement is responsible for an individual yield return statement.  Each invocation of MoveNext() moves you 
+    /// along, one statement at a time.
+    /// 
+    /// Finally, we will consider just one complex example -- the use of a for loop.  The key difference here is that 
+    /// control flow now has to jump around between case statements.  The for loop is just one example.  All the 
+    /// control flow statement operations in C# require similar transformations.
+    /// 
+    /// public IEnumerator&lt;int&gt; ForLoop(bool flag)
+    /// {
+    ///     for (var i = 0; i &lt; 2; i++)
+    ///     {
+    ///         yield return i;
+    ///     }
+    /// }
+    /// 
+    /// And now, let's look at the state machine:
+    /// 
+    /// class ForLoop : IEnumerator&lt;string&gt;
+    /// {
+    ///     private int state;
+    ///     private int i;
+    /// 
+    ///     public string Current { get; private set; }
+    /// 
+    ///     public bool MoveNext() 
+    ///     {
+    ///         switch (state)
+    ///         {
+    ///             case 0: 
+    ///                 i = 0;
+    ///                 goto 1;
+    ///             case 1:
+    ///                 while (i &lt; 2)
+    ///                 {
+    ///                     goto 2;
+    ///                 }
+    ///                 break;
+    ///             case 2:
+    ///                 state = 1;
+    ///                 Current = i;
+    ///                 i++;
+    ///                 return true;
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// Here we jump around between different case statements, and various expressions from the original iterator are 
+    /// decomposed into separate statements in the state machine.  For example, the for loop initializer is pulled 
+    /// out and is expressed in the first line of case 0.  The for loop itself is converted into a while loop, using 
+    /// the same condition.  The body of the loop jumps to state 2 (not strictly necessary in this example to have a 
+    /// separate state, but in more complex examples this transformation becomes necessary).  State 2 is responsible 
+    /// for updating the Current property to the new value, apply the incrementor of the for loop, change the state 
+    /// to 1 (the top of the loop) and finally return true indicating that the next invocation should attempt to 
+    /// continue the loop.
+    /// 
+    /// That's basically it.  All the transformations for the various control flow constructs are the same between 
+    /// await and yield.  The only differences are in the handling of await expressions and yield statements.  Since 
+    /// they are mutually exclusive within a method, this simplifies the implementation.
+    /// 
+    /// (1) http://en.wikipedia.org/wiki/Coroutine
+    /// (2) http://codeblog.jonskeet.uk/2011/05/13/eduasync-part-3-the-shape-of-the-async-method-awaitable-boundary/
+    /// &lt;/summary&gt;
     public class BaseStateGenerator : CSharpSyntaxWalker
     {
         public const string stateMachine = "$stateMachine";
@@ -106,26 +314,10 @@ namespace WootzJs.Compiler
         {
             topState.CurrentState = NewState();
             node.Accept(this);
-            CleanStates(topState);
             if (!topState.Substates.Last().Statements.Any())
                 topState.Substates.Remove(topState.Substates.Last());
 
             OnBaseStateGenerated();
-        }
-
-        private void CleanStates(State parent)
-        {
-/*
-            if (!parent.Statements.Any() && !parent.Substates.Any())
-            {
-                parent.Add(Js.Reference(state).Assign(Js.Primitive(-1)).Express());
-                parent.Add(Js.Break());
-            }
-            foreach (var childState in parent.Substates)
-            {
-                CleanStates(childState);
-            }
-*/
         }
 
         protected virtual void OnBaseStateGenerated()
@@ -137,12 +329,11 @@ namespace WootzJs.Compiler
             get { return topState; }
         }
 
-        protected State NewState(State nextState = null)
+        protected State NewState()
         {
             var newState = new State();
             newState.Parent = topState;
             newState.Index = currentStateIndex++;
-            newState.Next = nextState;
             topState.Substates.Add(newState);            
             return newState;
         }

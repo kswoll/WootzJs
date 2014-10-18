@@ -72,32 +72,6 @@ namespace WootzJs.Compiler
             Compilation compilation = await project.GetCompilationAsync();
             Context.Update(project.Solution, project, compilation);
 
-/*
-            // Check for yield
-            foreach (var syntaxTree in compilation.SyntaxTrees)
-            {
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var yieldGenerator = new YieldGenerator(compilation, syntaxTree, semanticModel);
-                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldGenerator);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
-            }
-            compilation = compilation.Clone();
-            Context.Update(project.Solution, project, compilation);
-
-            // After the basic transformation happens, we need to fix up some references afterward
-            foreach (var syntaxTree in compilation.SyntaxTrees)
-            {
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var yieldFixer = new StatMachineGeneratorFixer(compilation, syntaxTree, semanticModel, "YieldEnumerator$");
-                compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(yieldFixer);
-                compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
-            }
-            compilation = compilation.Clone();
-            Context.Update(project.Solution, project, compilation);
-*/
-
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 

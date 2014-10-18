@@ -56,7 +56,7 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol JsAttributeType { get; private set; }
         public INamedTypeSymbol PrecedesAttribute { get; private set; }
         public INamedTypeSymbol ObjectType { get; private set; }
-        public IMethodSymbol GetType { get; private set; }
+        public new IMethodSymbol GetType { get; private set; }
         public IMethodSymbol ObjectReferenceEquals { get; private set; }
         public IMethodSymbol ObjectCast { get; private set; }
         public IMethodSymbol ObjectCreateDelegate { get; private set; }
