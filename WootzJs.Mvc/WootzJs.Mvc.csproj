@@ -71,6 +71,7 @@
     <Compile Include="ViewResult.cs" />
     <Compile Include="Views\ActionHelper.cs" />
     <Compile Include="Views\AlignmentPanel.cs" />
+    <Compile Include="Views\AnimatedImage.cs" />
     <Compile Include="Views\AutocompleteTextBox.cs" />
     <Compile Include="Views\Binders\Bindings.cs" />
     <Compile Include="Views\Binders\TextBoxBinders.cs" />
