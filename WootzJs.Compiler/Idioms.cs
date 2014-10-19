@@ -2140,7 +2140,7 @@ namespace WootzJs.Compiler
         /// This generates the entire state machine as an inline function.  State machine fields are represented
         /// as closed variables of an outer function.  The actual "MoveNext" function is an inner function.
         /// </summary>
-        public JsBlockStatement GenerateAsyncMethod(CSharpSyntaxNode node, IMethodSymbol method)
+        public JsBlockStatement GenerateAsyncMethod(CSharpSyntaxNode node, IMethodSymbol method, Action<BaseStateGenerator, JsTransformer> nodeAcceptor = null)
         {
             var block = new JsBlockStatement();
             var stateMachineBody = Js.Block();
@@ -2156,7 +2156,7 @@ namespace WootzJs.Compiler
             var moveNext = stateMachineBody.Local(BaseStateGenerator.moveNext, Js.Function().Body(moveNextBody));
 
             // Create state generator and generate states
-            var stateGenerator = new AsyncStateGenerator(this, stateMachineBody, node, method);
+            var stateGenerator = new AsyncStateGenerator(this, stateMachineBody, node, method, nodeAcceptor);
             stateGenerator.GenerateStates();
             var rootState = stateGenerator.TopState;
 

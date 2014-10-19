@@ -1072,7 +1072,21 @@ namespace WootzJs.Compiler
 
             if (isAsync)
             {
-                block.Aggregate(idioms.GenerateAsyncMethod(node, delegateType.DelegateInvokeMethod));
+                Action<BaseStateGenerator, JsTransformer> nodeAcceptor = (stateGenerator, transformer) =>
+                {
+                    if (bodyNode is StatementSyntax)
+                        bodyNode.Accept(stateGenerator);
+                    else if (delegateType.DelegateInvokeMethod.ReturnsVoid)
+                    {
+                        stateGenerator.CurrentState.Add(((JsExpression)bodyNode.Accept(transformer)).Express());
+                    }
+                    else
+                    {
+                        ((AsyncStateGenerator)stateGenerator).SetResult((ExpressionSyntax)bodyNode);
+                    }
+                };
+
+                block.Aggregate(idioms.GenerateAsyncMethod(node, delegateType.DelegateInvokeMethod, nodeAcceptor));
             }
             else
             {

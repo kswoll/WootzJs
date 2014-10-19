@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,7 +11,8 @@ namespace WootzJs.Compiler
     {
         public const string builder = "$builder";
 
-        public AsyncStateGenerator(Idioms idioms, JsBlockStatement stateMachineBody, CSharpSyntaxNode node, IMethodSymbol method) : base(x => new AsyncExpressionDecomposer((AsyncStateGenerator)x, idioms), node, stateMachineBody, idioms, method)
+        public AsyncStateGenerator(Idioms idioms, JsBlockStatement stateMachineBody, CSharpSyntaxNode node, IMethodSymbol method, Action<BaseStateGenerator, JsTransformer> nodeAcceptor = null) : 
+            base(x => new AsyncExpressionDecomposer((AsyncStateGenerator)x, idioms), node, stateMachineBody, idioms, method, nodeAcceptor)
         {
         }
 
@@ -20,7 +22,7 @@ namespace WootzJs.Compiler
             CurrentState = GetNextState();             // @Todo: make this currentState = currentState.Next
         }
 
-        private void SetResult(ExpressionSyntax result = null)
+        public void SetResult(ExpressionSyntax result = null)
         {
             var setResult = Js.Reference(builder).Member("SetResult");
             if (result != null)

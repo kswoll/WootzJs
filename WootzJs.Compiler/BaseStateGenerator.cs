@@ -234,15 +234,19 @@ namespace WootzJs.Compiler
         private Dictionary<string, State> labeledStates = new Dictionary<string, State>();
         private IMethodSymbol method;
         private Idioms idioms;
+        private Action<BaseStateGenerator, JsTransformer> nodeAcceptor;
         internal State topState = new State();
         
-        public BaseStateGenerator(Func<BaseStateGenerator, JsTransformer> transformer, CSharpSyntaxNode node, JsBlockStatement stateMachineBody, Idioms idioms, IMethodSymbol method)
+        public BaseStateGenerator(Func<BaseStateGenerator, JsTransformer> transformer, CSharpSyntaxNode node, JsBlockStatement stateMachineBody, Idioms idioms, IMethodSymbol method, Action<BaseStateGenerator, JsTransformer> nodeAcceptor = null)
         {
+            if (nodeAcceptor == null)
+                nodeAcceptor = (stateGenerator, jsTransformer) => node.Accept(stateGenerator);
             this.transformer = transformer(this);
             this.node = node;
             this.stateMachineBody = stateMachineBody;
             this.method = method;
             this.idioms = idioms;
+            this.nodeAcceptor = nodeAcceptor;
         }
 
         public JsTransformer Transformer
@@ -313,7 +317,7 @@ namespace WootzJs.Compiler
         public void GenerateStates()
         {
             topState.CurrentState = NewState();
-            node.Accept(this);
+            nodeAcceptor(this, Transformer);
             if (!topState.Substates.Last().Statements.Any())
                 topState.Substates.Remove(topState.Substates.Last());
 

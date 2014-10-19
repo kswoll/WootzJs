@@ -552,5 +552,13 @@ namespace WootzJs.Compiler.Tests
             var result = await func();
             AssertEquals(result, 3);
         }
+
+        [Test]
+        public async Task AsyncTaskIntLambdaImmediate()
+        {
+            Func<Task<int>> func = async () => 3;
+            var result = await func();
+            AssertEquals(result, 3);
+        }
     }
 }
