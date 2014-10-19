@@ -36,13 +36,20 @@ namespace System.Threading
             Stop();
   
             // Set up a timeout to fire the timer
-            if (dueTime.TotalMilliseconds > 0)
+            if (dueTime.TotalMilliseconds == 0)
             {
-                intervalHandle = Jsni.setInterval(OnTimeout, (int)dueTime.TotalMilliseconds);
+                intervalHandle = Jsni.setInterval(OnTimeout, (int)period.TotalMilliseconds);
             }
             else
             {
-                timeoutHandle = Jsni.setTimeout(OnTimeout, (int)dueTime.TotalMilliseconds);
+                timeoutHandle = Jsni.setTimeout(
+                    () =>
+                    {
+                        callback(state);
+                        timeoutHandle = null;
+                        intervalHandle = Jsni.setInterval(OnTimeout, (int)period.TotalMilliseconds);
+                    }, 
+                    (int)dueTime.TotalMilliseconds);
             }
         }
 
