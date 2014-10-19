@@ -48,6 +48,11 @@ namespace WootzJs.Mvc
             get { return html; }
         }
 
+        public View View
+        {
+            get { return view; }
+        }
+
         public string CurrentPath
         {
             get { return currentPath ?? initialPath; }
