@@ -127,6 +127,7 @@ namespace WootzJs.Compiler
         public override JsExpression VisitIdentifierName(IdentifierNameSyntax node)
         {
             var key = node.Identifier.ToString();
+            var symbol = model.GetSymbolInfo(node).Symbol;
             if (parameterVariables.ContainsKey(key))
             {
                 return Js.Reference(parameterVariables[key]);
@@ -135,7 +136,12 @@ namespace WootzJs.Compiler
             {
                 var constantMethod = Context.Instance.Expression.GetMethod("Constant", Context.Instance.ObjectType, Context.Instance.TypeType);
                 var typeInfo = model.GetTypeInfo(node);
-                return idioms.InvokeStatic(constantMethod, Js.Reference(key), idioms.TypeOf(typeInfo.ConvertedType));
+                JsExpression keyReference;
+                if (symbol is ILocalSymbol)
+                    keyReference = Js.Reference(key);
+                else 
+                    keyReference = idioms.MemberReference(Js.This(), symbol);
+                return idioms.InvokeStatic(constantMethod, keyReference, idioms.TypeOf(typeInfo.ConvertedType));
             }
         }
 

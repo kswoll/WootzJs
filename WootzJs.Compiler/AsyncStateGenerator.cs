@@ -57,8 +57,18 @@ namespace WootzJs.Compiler
                 {
                     case SyntaxKind.AwaitExpression:
                         var operand = (JsExpression)node.Operand.Accept(this);
+/*
                         var expressionInfo = stateGenerator.Transformer.model.GetAwaitExpressionInfo(node);
+                        if (expressionInfo.GetResultMethod == null)
+                        {
+                            var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+                            var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();                
+                        }
+
                         var returnsVoid = expressionInfo.GetResultMethod.ReturnsVoid;
+*/
+                        var expressionInfo = stateGenerator.Transformer.model.GetTypeInfo(node).ConvertedType;
+                        var returnsVoid = expressionInfo.SpecialType == SpecialType.System_Void;
                         var operandType = model.GetTypeInfo(node.Operand).ConvertedType;
                         var awaiterMethodName = ((INamedTypeSymbol)operandType).GetMethodByName("GetAwaiter").GetMemberName();
 

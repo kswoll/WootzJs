@@ -13,7 +13,12 @@ namespace WootzJs.Mvc
             var args = new object[parameters.Length];
             for (var i = 0; i < parameters.Length; i++)
             {
-                var value = context.Controller.RouteData[parameters[i].Name];
+                var key = parameters[i].Name;
+                object value;
+                if (context.NavigationContext.Request.QueryString.ContainsKey(key))
+                    value = context.NavigationContext.Request.QueryString[key];
+                else
+                    value = context.Controller.RouteData[key];
                 args[i] = value;
             }
 
