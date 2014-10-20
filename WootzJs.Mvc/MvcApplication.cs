@@ -85,7 +85,7 @@ namespace WootzJs.Mvc
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
             await OnStarting();
-            await Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? "?" + Browser.Window.Location.Search : ""), false);
+            await Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? Browser.Window.Location.Search : ""), false);
             OnStarted();
         }
 
