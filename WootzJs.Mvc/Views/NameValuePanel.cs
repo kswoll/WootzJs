@@ -28,6 +28,7 @@
 #endregion
 
 using System.Linq;
+using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
@@ -77,6 +78,13 @@ namespace WootzJs.Mvc.Views
                 cell.Style.WhiteSpace = "nowrap";
             else
                 control.Label = lastControl;
+        }
+
+        public void Add(Control name, Control value)
+        {
+            Add(name);
+            Add(value);
+            value.Style.Width = new CssNumericValue(100, CssUnit.Percent);
         }
     }
 }

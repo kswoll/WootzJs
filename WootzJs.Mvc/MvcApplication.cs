@@ -68,7 +68,12 @@ namespace WootzJs.Mvc
             get { return url; }
         }
 
-        public async Task Start(Assembly assembly)
+        public string CurrentUrl
+        {
+            get { return Browser.Window.Location.PathName + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? Browser.Window.Location.Search : ""); }
+        }
+
+        public async void Start(Assembly assembly)
         {
             Host = Browser.Window.Location.Host;
             Port = Browser.Window.Location.Port;
@@ -85,16 +90,15 @@ namespace WootzJs.Mvc
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
             await OnStarting();
-            await Open(path + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? Browser.Window.Location.Search : ""), false);
             OnStarted();
         }
 
         /// <summary>
         /// This occurs immediately before opening the initial page.
         /// </summary>
-        protected virtual Task OnStarting()
+        protected virtual async Task OnStarting()
         {
-            return Task.FromResult((object)null);
+            await Open(CurrentUrl, false);
         }
 
         protected virtual void OnStarted()

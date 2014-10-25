@@ -1,4 +1,5 @@
-﻿using WootzJs.Mvc.Views;
+﻿using System.Threading.Tasks;
+using WootzJs.Mvc.Views;
 
 namespace WootzJs.Mvc
 {
@@ -12,6 +13,11 @@ namespace WootzJs.Mvc
         {
             Action = new ActionHelper();
             Url = new UrlHelper();
+        }
+
+        public Task Open(string url)
+        {
+            return ControllerContext.Application.Open(url);
         }
     }
 }

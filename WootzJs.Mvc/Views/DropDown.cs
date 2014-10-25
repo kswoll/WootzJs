@@ -1,4 +1,5 @@
-﻿using WootzJs.Web;
+﻿using System;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
 {
@@ -99,7 +100,13 @@ namespace WootzJs.Mvc.Views
             result.AppendChild(overlayAnchor);
             result.AddEventListener("mouseentered", OnJsContentMouseEnter);
             result.AddEventListener("mouseexited", OnJsContentMouseLeave);
+            result.AddEventListener("click", OnJsContentClick);
             return result;
+        }
+
+        private void OnJsContentClick(Event arg)
+        {
+            OnJsContentMouseLeave(arg);     // Hide the dropdown when there's a click
         }
 
         private void OnJsContentMouseEnter(Event arg)
