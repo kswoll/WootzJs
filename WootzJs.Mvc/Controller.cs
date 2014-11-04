@@ -40,6 +40,11 @@ namespace WootzJs.Mvc
             get { return NavigationContext.Request.RouteData; }
         }
 
+        public MvcApplication Application
+        {
+            get { return ControllerContext.Application; }
+        }
+
         protected ViewResult View()
         {
             var viewType = FindView();

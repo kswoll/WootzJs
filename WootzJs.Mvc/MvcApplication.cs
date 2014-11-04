@@ -90,7 +90,7 @@ namespace WootzJs.Mvc
             routeTree = routeGenerator.GenerateRoutes(assembly);
 
             await OnStarting();
-            OnStarted();
+            await OnStarted();
         }
 
         /// <summary>
@@ -98,15 +98,15 @@ namespace WootzJs.Mvc
         /// </summary>
         protected virtual async Task OnStarting()
         {
+            await InitializeGlobalStyle();
             await Open(CurrentUrl, false);
         }
 
-        protected virtual void OnStarted()
+        protected virtual async Task OnStarted()
         {
-            InitializeGlobalStyle();
         }
 
-        protected virtual void InitializeGlobalStyle()
+        protected virtual async Task InitializeGlobalStyle()
         {
             var style = Browser.Document.CreateElement("style");
             style.AppendChild(Browser.Document.CreateTextNode(""));  // Webkit hack
