@@ -99,11 +99,11 @@ namespace WootzJs.Mvc
         protected virtual async Task OnStarting()
         {
             await InitializeGlobalStyle();
-            await Open(CurrentUrl, false);
         }
 
         protected virtual async Task OnStarted()
         {
+            await Open(CurrentUrl, false);
         }
 
         protected virtual async Task InitializeGlobalStyle()
