@@ -26,7 +26,10 @@ namespace WootzJs.Compiler
         {
             var setResult = Js.Reference(builder).Member("SetResult");
             if (result != null)
-                CurrentState.Add(setResult.Invoke((JsExpression)result.Accept(Transformer)).Express());
+            {
+                var statement = setResult.Invoke((JsExpression)result.Accept(Transformer)).Express();
+                CurrentState.Add(statement);
+            }
             else 
                 CurrentState.Add(setResult.Invoke().Express());
             CurrentState.Add(Js.Return());
