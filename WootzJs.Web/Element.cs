@@ -126,5 +126,8 @@ namespace WootzJs.Web
 
         [Js(Name = "focus")]
         public extern void Focus();
+
+        [Js(Name = "click")]
+        public extern void Click();
     }
 }

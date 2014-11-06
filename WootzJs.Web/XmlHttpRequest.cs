@@ -48,5 +48,28 @@ namespace WootzJs.Web
 
         [Js(Name = "setRequestHeader")]
         public extern void SetRequestHeader(string header, string value);
+
+        [Js(Name = "upload")]
+        public extern XmlHttpRequestUpload Upload { get; }
+    }
+
+    [Js(Export = false)]
+    public class XmlHttpRequestUpload
+    {
+        [Js(Name = "onprogress")]
+        public extern Action<XmlHttpRequestUploadProgressEvent> Progress { get; set; }
+    }
+
+    [Js(Name = "ProgressEvent", Export = false)]
+    public class XmlHttpRequestUploadProgressEvent
+    {
+        [Js(Name = "loaded")]
+        public extern long Loaded { get; }
+
+        [Js(Name = "total")]
+        public extern long Total { get; }
+
+        [Js(Name = "lengthComputable")]
+        public extern bool LengthComputable { get; }
     }
 }

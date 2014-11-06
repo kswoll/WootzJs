@@ -112,6 +112,7 @@
     <Compile Include="Views\Css\ICssDeclarationAction.cs" />
     <Compile Include="Views\Css\Style.cs" />
     <Compile Include="Views\DropDown.cs" />
+    <Compile Include="Views\FileUpload.cs" />
     <Compile Include="Views\FillPanel.cs" />
     <Compile Include="Views\FixedHeaderPanel.cs" />
     <Compile Include="Views\FixedPanel.cs" />

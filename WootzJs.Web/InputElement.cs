@@ -42,5 +42,8 @@ namespace WootzJs.Web
 
         [Js(Name = "valueAsNumber")]
         public JsNumber ValueAsNumber { get; set; }
+
+        [Js(Name = "files")]
+        public FileList Files { get; set; }
     }
 }

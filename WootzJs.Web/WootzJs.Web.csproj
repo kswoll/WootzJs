@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attr.cs" />
+    <Compile Include="Blob.cs" />
     <Compile Include="Browser.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="CssRule.cs" />
@@ -46,6 +47,8 @@
     <Compile Include="DomTokenList.cs" />
     <Compile Include="ElementExtensions.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="File.cs" />
+    <Compile Include="FileList.cs" />
     <Compile Include="FormElement.cs" />
     <Compile Include="History.cs" />
     <Compile Include="HtmlCollection.cs" />
