@@ -46,6 +46,7 @@ namespace WootzJs.Compiler
         public Project Project { get; private set; }
         public Compilation Compilation { get; private set; }
         public SymbolNameMap SymbolNames { get; private set; }
+        public ReflectionCache ReflectionCache { get; private set; }
 
         public INamedTypeSymbol Exception { get; private set; }
         public INamedTypeSymbol SpecialFunctions { get; private set; }
@@ -218,18 +219,19 @@ namespace WootzJs.Compiler
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
-        public static void Update(Solution solution, Project project, Compilation compilation)
+        public static void Update(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache)
         {
             instance = new Context();
-            instance.UpdateContext(solution, project, compilation);
+            instance.UpdateContext(solution, project, compilation, reflectionCache);
         }
 
-        private void UpdateContext(Solution solution, Project project, Compilation compilation)
+        private void UpdateContext(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache)
         {
             Solution = solution;
             Project = project;
             Compilation = compilation;
             SymbolNames = new SymbolNameMap(new Dictionary<ISymbol, string>());//SymbolNameCompiler.CompileSymbolNames(project, compilation);
+            ReflectionCache = reflectionCache;
 
 //            var diagnostics = compilation.GetDiagnostics();
 //            var mscorlib = compilation.GetReferencedAssemblySymbol(project.MetadataReferences.First());

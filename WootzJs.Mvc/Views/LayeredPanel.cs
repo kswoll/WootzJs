@@ -47,6 +47,7 @@ namespace WootzJs.Mvc.Views
             else
                 container.AppendChild(wrapper);
 
+            Add(layer);
             layers.Add(layer);
             wrappers.Add(wrapper);
         }
@@ -58,6 +59,8 @@ namespace WootzJs.Mvc.Views
             var wrapper = wrappers[index];
             layer.Node.Remove();
             wrapper.Remove();
+
+            Remove(layer);
             layers.Remove(layer);
             wrappers.Remove(wrapper);
         }

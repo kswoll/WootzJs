@@ -70,7 +70,7 @@ namespace WootzJs.Compiler
             var project = await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile);
             var projectName = project.AssemblyName;
             Compilation compilation = await project.GetCompilationAsync();
-            Context.Update(project.Solution, project, compilation);
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 

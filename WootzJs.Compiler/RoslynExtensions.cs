@@ -28,9 +28,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TypeInfo = Microsoft.CodeAnalysis.TypeInfo;
 
 namespace WootzJs.Compiler
 {
@@ -146,6 +148,37 @@ namespace WootzJs.Compiler
                 }
             }
             return defaultValue;
+        }
+
+        public static int GetBaseMemberNameCount(this INamedTypeSymbol type, string name)
+        {
+            if (type.BaseType != null)
+                return type.BaseType.GetMemberNameCount(name);
+            else
+                return 0;
+        }
+
+        public static int GetMemberNameCount(this INamedTypeSymbol type, string name)
+        {
+            var count = 0;
+            if (type.DeclaringSyntaxReferences.Any())
+            {
+                if (type.GetMembers(name).Any())
+                    count++;
+            }
+            else
+            {
+                var reflectedType = Context.Instance.ReflectionCache.GetReflectedType(type);
+                if (reflectedType != null && reflectedType.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).Any(x => x.Name == name))
+                    count++;
+            }
+
+            if (type.BaseType != null)
+            {
+                count += type.BaseType.GetMemberNameCount(name);
+            }
+
+            return count;
         }
 
         public static ISymbol[] GetAllMembers(this INamedTypeSymbol type, string name)

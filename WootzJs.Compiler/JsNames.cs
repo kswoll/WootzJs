@@ -319,29 +319,11 @@ namespace WootzJs.Compiler
 
         private static string GetDefaultMemberName(ISymbol symbol)
         {
-            var overloads = symbol.ContainingType.GetAllMembers(symbol.Name).ToList();
-            if (overloads.Count == 1)
-            {
-                return symbol.Name.MaskSpecialCharacters();
-            }
+            var baseCount = symbol.ContainingType.GetBaseMemberNameCount(symbol.Name);
+            if (baseCount == 0)
+                return symbol.Name;
             else
-            {
-                // Sort overloads based on a constant algorithm where overloads from base types 
-                overloads.Sort((x, y) =>
-                {
-                    if (x.ContainingType.IsSubclassOf(y.ContainingType))
-                        return 1;
-                    else if (y.ContainingType.IsSubclassOf(x.ContainingType))
-                        return -1;
-                    else
-                        return string.Compare(x.ContainingType.ToString(), y.ContainingType.ToString(), StringComparison.Ordinal);
-                });
-                var indexOf = overloads.IndexOf(symbol);
-                if (indexOf == 0)
-                    return symbol.Name;          // If a type starts out with only one method, it will not have any $ suffix.  That means the first instance of an overload/override will always be naked.
-                else
-                    return symbol.Name + "$" + indexOf;
-            }            
+                return symbol.Name + "$" + (baseCount + 1);
         }
 
         public static string GetBackingFieldName(this IEventSymbol eventSymbol)
