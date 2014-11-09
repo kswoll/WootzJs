@@ -467,23 +467,31 @@ namespace WootzJs.Compiler
             var fullTypeName = classType.GetFullName();
             var constructorBlock = new JsBlockStatement();
 
-            constructorBlock.Aggregate(idioms.InitializeInstanceFields((TypeDeclarationSyntax)node.Parent));
-
-            if (fullTypeName != "System.Object")
+            var code = constructor.GetCode();
+            if (code != null)
             {
-                // No explicit initializer was specified, so infer the call to the base class parameterless constructor.
-                if (node.Initializer == null)
-                {
-                    constructorBlock.Express(idioms.InvokeParameterlessBaseClassConstructor(classType.BaseType));
-                }
-                else
-                {
-                    constructorBlock.Express((JsExpression)node.Initializer.Accept(this));
-                }
+                constructorBlock.Aggregate(Js.Native(code));
             }
+            else
+            {
+                constructorBlock.Aggregate(idioms.InitializeInstanceFields((TypeDeclarationSyntax)node.Parent));
 
-            var body = (JsBlockStatement)node.Body.Accept(this);
-            constructorBlock.Aggregate(body);
+                if (fullTypeName != "System.Object")
+                {
+                    // No explicit initializer was specified, so infer the call to the base class parameterless constructor.
+                    if (node.Initializer == null)
+                    {
+                        constructorBlock.Express(idioms.InvokeParameterlessBaseClassConstructor(classType.BaseType));
+                    }
+                    else
+                    {
+                        constructorBlock.Express((JsExpression)node.Initializer.Accept(this));
+                    }
+                }
+
+                var body = (JsBlockStatement)node.Body.Accept(this);
+                constructorBlock.Aggregate(body);                
+            }
 
             var constructorName = constructor.GetMemberName();
             block.Add(idioms.StoreInPrototype(constructorName, Js.Function(parameters).Body(constructorBlock)));
@@ -499,8 +507,9 @@ namespace WootzJs.Compiler
             var method = model.GetDeclaredSymbol(node);
             var block = new JsBlockStatement();
 
+            var code = method.GetCode();
             var isExported = method.IsExported();
-            if (!isExported)
+            if (!isExported && code == null)
                 return block;
 
             PushDeclaration(method);
@@ -511,7 +520,9 @@ namespace WootzJs.Compiler
             parameters.AddRange(node.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(this)));
 
             JsStatement body;
-            if (node.Body == null)
+            if (code != null)
+                body = Js.Native(code);
+            else if (node.Body == null)
                 body = new JsBlockStatement();
             else if (YieldChecker.HasYield(node))
                 body = idioms.GenerateYieldMethod(node, method);
@@ -895,6 +906,8 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, specialResult);
             if (idioms.TryGetType(method, target, methodTarget, targetType, actualArguments, node, out specialResult))
                 return ImplicitCheck(node, specialResult);
+            if (idioms.TryInline(method, methodTarget, actualArguments, out specialResult))
+                return ImplicitCheck(node, specialResult);
 
             var arguments = idioms.TranslateArguments(
                 node,
@@ -1244,7 +1257,7 @@ namespace WootzJs.Compiler
 
             var isExported = type.IsExported();
             var isBuiltIn = type.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
-            var actualArguments = node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this));
+            var actualArguments = (node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this))).ToArray();
             var args = idioms.TranslateArguments(
                 node,
                 method, 
@@ -1252,8 +1265,19 @@ namespace WootzJs.Compiler
                 (x, i) => node.ArgumentList.Arguments[i].NameColon == null ? null : node.ArgumentList.Arguments[i].NameColon.Name.ToString(),
                 actualArguments.ToArray()
             ).ToList();
-            if (isExported && !isBuiltIn)
+
+            JsExpression specialResult;
+            if (idioms.TryInline(method, null, actualArguments.ToArray(), out specialResult))
+                return specialResult;
+
+            var inline = method.GetInline();
+            if ((isExported || inline != null) && !isBuiltIn)
             {
+                if (inline != null)
+                {
+                    return Js.NativeExpression(inline);
+                }
+
                 var obj = idioms.CreateObject(method, args.ToArray());
 
                 if (node.Initializer != null)

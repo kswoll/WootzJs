@@ -270,6 +270,9 @@ namespace WootzJs.Web
         
         [Js(Name = "position")]
         public extern string Position { get; set; }
+
+        [Js(Name = "pointerEvents")]
+        public extern string PointerEvents { get; set; }
         
         [Js(Name = "right")]
         public extern string Right { get; set; }

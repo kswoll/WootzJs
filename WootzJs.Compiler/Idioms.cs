@@ -1482,6 +1482,27 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        public bool TryInline(IMethodSymbol method, JsExpression methodTarget, JsExpression[] arguments, out JsExpression result)
+        {
+            var inline = method.GetInline();
+            if (inline != null)
+            {
+                var argumentsByParameterName = new Dictionary<string, JsExpression>();
+                if (methodTarget != null)
+                    argumentsByParameterName["this"] = methodTarget;
+                for (var i = 0; i < method.Parameters.Length; i++)
+                {
+                    var parameter = method.Parameters[i];
+                    argumentsByParameterName[parameter.Name] = arguments[i];
+                }
+                // Perform substition of arguments and @this
+                result = AtTokenizer.Interpolate(inline, argumentsByParameterName);
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
         private string GetConstantString(ExpressionSyntax expression)
         {
             string s;
@@ -1732,6 +1753,9 @@ namespace WootzJs.Compiler
                         return true;
                     case "clearInterval":
                         result = Js.Reference("clearInterval").Invoke(arguments[0]);
+                        return true;
+                    case "code":
+                        result = new JsNativeExpression(GetConstantString(originalArguments[0]));
                         return true;
                 }
             }            

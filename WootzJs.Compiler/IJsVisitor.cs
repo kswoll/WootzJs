@@ -51,5 +51,7 @@ namespace WootzJs.Compiler
         T Visit(JsDoWhileStatement node);
         T Visit(JsInstanceOfExpression node);         
         T Visit(JsInExpression node);
+        T Visit(JsNativeExpression node);
+        T Visit(JsSnippetExpression node);
     }
 }

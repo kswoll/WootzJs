@@ -34,6 +34,8 @@ namespace WootzJs.Compiler.Tests.Threading
             await Task.Delay(30);
             AssertEquals(newState, "foo");
         }
+/*
+ * This test is really slow.  Uncomment occasionally to make sure it still works. :(
 
         [Test]
         public async Task IntervalConstructor()
@@ -50,5 +52,6 @@ namespace WootzJs.Compiler.Tests.Threading
             await Task.Delay(5000);
             AssertEquals(counter, 2);
         }
+*/
     }
 }

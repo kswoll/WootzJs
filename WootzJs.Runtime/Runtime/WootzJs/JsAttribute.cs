@@ -67,6 +67,19 @@ namespace System.Runtime.WootzJs
         /// </summary>
         public bool InvokeConstructorAsClass { get; set; }
 
+        /// <summary>
+        /// If present, the body of the method is irrelevant and thus should be declared extern.  Instead, the body
+        /// will be populated by the string contained in this property.  This text should be raw Javascript, not 
+        /// C#.
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// This property is very similar to Code except that the text of the property is treated as inline code
+        /// rather than as the body of the method.
+        /// </summary>
+        public string Inline { get; set; }
+
         public JsAttribute()
         {
             Export = true;

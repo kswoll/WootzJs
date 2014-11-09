@@ -67,6 +67,7 @@ namespace WootzJs.Compiler
         public virtual void VisitBinaryExpression(JsBinaryExpression node) {}
         public virtual void VisitUnaryExpression(JsUnaryExpression node) {}
         public virtual void VisitNativeStatement(JsNativeStatement node) {}
+        public virtual void VisitNativeExpression(JsNativeExpression node) {}
         public virtual void VisitNewArrayExpression(JsNewArrayExpression node) {}
         public virtual void VisitForStatement(JsForStatement node) {}
         public virtual void VisitIndexExpression(JsIndexExpression node) {}
@@ -92,6 +93,7 @@ namespace WootzJs.Compiler
         public virtual void VisitDoWhileStatement(JsDoWhileStatement node) {}
         public virtual void VisitInstanceOfExpression(JsInstanceOfExpression node) {}
         public virtual void VisitInExpression(JsInExpression node) {}
+        public virtual void VisitSnippetExpression(JsSnippetExpression node) {}
 
         public void Visit(JsCompilationUnit node)
         {
@@ -244,6 +246,13 @@ namespace WootzJs.Compiler
         {
             BeforeVisit(node);
             DefaultVisit(node, VisitNativeStatement);
+            AfterVisit(node);
+        }
+
+        public void Visit(JsNativeExpression node)
+        {
+            BeforeVisit(node);
+            DefaultVisit(node, VisitNativeExpression);
             AfterVisit(node);
         }
 
@@ -419,6 +428,12 @@ namespace WootzJs.Compiler
         {
             BeforeVisit(node);
             DefaultVisit(node, VisitInExpression);
+        }
+
+        public void Visit(JsSnippetExpression node)
+        {
+            BeforeVisit(node);
+            DefaultVisit(node, VisitSnippetExpression);
         }
     }
 }

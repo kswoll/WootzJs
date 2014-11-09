@@ -248,6 +248,11 @@ namespace WootzJs.Compiler
             return DefaultVisit(node, x => x);
         }
 
+        public virtual JsNode Visit(JsNativeExpression node)
+        {
+            return DefaultVisit(node, x => x);
+        }
+
         public virtual JsNode Visit(JsNewArrayExpression node)
         {
             return DefaultVisit(node, x =>
@@ -489,6 +494,18 @@ namespace WootzJs.Compiler
             return DefaultVisit(node, x =>
             {
                 x.Object = (JsExpression)x.Object.Accept(this);
+                return x;
+            });
+        }
+
+        public JsNode Visit(JsSnippetExpression node)
+        {
+            return DefaultVisit(node, x =>
+            {
+                for (var i = 0; i < x.Parts.Count; i++)
+                {
+                    x.Parts[i] = (JsExpression)x.Parts[i].Accept(this);
+                }
                 return x;
             });
         }

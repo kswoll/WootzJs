@@ -69,6 +69,7 @@
     <Compile Include="GenericTests.cs" />
     <Compile Include="GotoTests.cs" />
     <Compile Include="IsExpressionTests.cs" />
+    <Compile Include="JsCodeTests.cs" />
     <Compile Include="JsniTests.cs" />
     <Compile Include="JsonTests.cs" />
     <Compile Include="Linq\EnumerableTests.cs" />

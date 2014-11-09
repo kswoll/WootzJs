@@ -190,6 +190,11 @@ namespace WootzJs.Compiler.JsAst
             DefaultVisit(node);
         }
 
+        public virtual void Visit(JsNativeExpression node)
+        {
+            DefaultVisit(node);
+        }
+
         public virtual void Visit(JsNewArrayExpression node)
         {
             DefaultVisit(node);
@@ -368,6 +373,15 @@ namespace WootzJs.Compiler.JsAst
         {
             DefaultVisit(node);
             node.Object.Accept(this);
+        }
+
+        public void Visit(JsSnippetExpression node)
+        {
+            DefaultVisit(node);
+            foreach (var part in node.Parts)
+            {
+                part.Accept(this);
+            }
         }
     }
 }

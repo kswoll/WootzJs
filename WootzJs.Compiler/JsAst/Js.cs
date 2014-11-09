@@ -310,6 +310,11 @@ namespace WootzJs.Compiler.JsAst
             return new JsNativeStatement(code);
         }
 
+        public static JsNativeExpression NativeExpression(string code)
+        {
+            return new JsNativeExpression(code);
+        }
+
         public static JsParentheticalExpression Parenthetical(this JsExpression expression)
         {
             return new JsParentheticalExpression(expression);

@@ -38,6 +38,16 @@ namespace WootzJs.Compiler
             return result ?? symbol.Name;
         }
 
+        public static string GetCode(this ISymbol symbol)
+        {
+            return symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Code");
+        }
+
+        public static string GetInline(this ISymbol symbol)
+        {
+            return symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Inline");
+        }
+
         public static bool IsExported(this ISymbol symbol)
         {
             if (symbol.IsExtern)

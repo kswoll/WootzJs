@@ -9,6 +9,7 @@ namespace WootzJs.Mvc.Views
         private Control background;
         private List<Control> layers = new List<Control>();
         private List<Element> wrappers = new List<Element>();
+        private Element cell;
 
         public Control Background
         {
@@ -31,7 +32,7 @@ namespace WootzJs.Mvc.Views
             }
         }
 
-        public void AddLayer(Control layer)
+        public void AddLayer(Control layer, bool allowPointerEvents = true)
         {
             EnsureNodeExists();
             var childNode = layer.Node;
@@ -41,7 +42,10 @@ namespace WootzJs.Mvc.Views
             wrapper.Style.Right = "0px";
             wrapper.Style.Top = "0px";
             wrapper.Style.Bottom = "0px";
+            if (!allowPointerEvents)
+                wrapper.Style.PointerEvents = "none";
             wrapper.AppendChild(childNode);
+
             if (background != null)
                 wrapper.InsertBefore(background.Node);
             else
@@ -68,10 +72,11 @@ namespace WootzJs.Mvc.Views
         protected override Element CreateNode()
         {
             var table = CreateElement("table");
-            table.Style.Position = "relative";
 
             var row = CreateElement("tr");
-            var cell = CreateElement("td");
+            cell = CreateElement("td");
+            cell.Style.VerticalAlign = "middle";
+            cell.Style.Position = "relative";
             container = CreateElement("div");
 
             cell.AppendChild(container);

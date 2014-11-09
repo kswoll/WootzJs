@@ -226,5 +226,12 @@ namespace System.Runtime.WootzJs
         public static extern JsObject setInterval(Action callback, int interval);
         public static extern void clearTimeout(JsObject token);
         public static extern void clearInterval(JsObject token);
+
+        /// <summary>
+        /// Allows you to inject raw Javascript code at the callsite.
+        /// </summary>
+        /// <param name="code">Raw Javascript code that will be injected in-place.  This string MUST be a string literal.  One can't statically generate code with an arbitrary value for the injected code.</param>
+        /// <returns>Whatever the raw code returns.  The code may return nothing, in which case the Javascript result would be undefined.</returns>
+        public static extern JsObject code(string code);
     }
 }

@@ -403,6 +403,12 @@ namespace WootzJs.Compiler
             }
         }
 
+        public override void VisitNativeExpression(JsNativeExpression node)
+        {
+            var code = node.Code;
+            output.Append(code);
+        }
+
         public override void VisitNewArrayExpression(JsNewArrayExpression node)
         {
             output.Append("new Array(");
@@ -669,6 +675,14 @@ namespace WootzJs.Compiler
             output.Append(node.Property);
             output.Append(" in ");
             node.Object.Accept(this);
+        }
+
+        public override void VisitSnippetExpression(JsSnippetExpression node)
+        {
+            foreach (var part in node.Parts)
+            {
+                part.Accept(this);
+            }
         }
     }
 }
