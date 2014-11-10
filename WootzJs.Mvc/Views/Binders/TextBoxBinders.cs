@@ -44,13 +44,45 @@ namespace WootzJs.Mvc.Views.Binders
             updateText();
 
             textBox.Name = prop.Name;
-            textBox.Changed += () => prop.Value = Convert.ChangeType(textBox.Text, prop.PropertyInfo.PropertyType);
+
+            textBox.Changed += () =>
+            {
+                if (string.IsNullOrEmpty(textBox.Text))
+                    prop.Value = null;
+                else if (textBox.Type == TextBoxType.Date)
+                    prop.Value = DateTime.ParseExact(textBox.Text, "yyyy-MM-dd");
+                else if (textBox.Type == TextBoxType.DateTime)
+                    prop.Value = DateTime.ParseExact(textBox.Text, "yyyy-MM-dd hh:mm:ss");
+                else if (textBox.Type == TextBoxType.Time)
+                    prop.Value = DateTime.ParseExact(textBox.Text, "hh:mm:ss");
+                else
+                    prop.Value = Convert.ChangeType(textBox.Text, prop.PropertyInfo.PropertyType);                
+            };
 
             prop.Changed += updateText;
             prop.Validated += validations => 
             {
                 var application = textBox.ViewContext.ControllerContext.Application;
                 application.NotifyOnValidatedControl(textBox, validations);
+            };
+        }
+
+        public static void BindTextArea<TModel, TValue>(this Bindings<TModel> bindings, TextArea textArea, Expression<Func<TModel, TValue>> property) where TModel : Model<TModel>
+        {
+            var model = bindings.Model;
+            var prop = model.GetProperty(property);
+
+            Action updateText = () => textArea.Text = (string)Convert.ChangeType(prop.Value, typeof(string));
+            updateText();
+
+            textArea.Name = prop.Name;
+            textArea.Changed += () => prop.Value = Convert.ChangeType(textArea.Text, prop.PropertyInfo.PropertyType);
+
+            prop.Changed += updateText;
+            prop.Validated += validations => 
+            {
+                var application = textArea.ViewContext.ControllerContext.Application;
+                application.NotifyOnValidatedControl(textArea, validations);
             };
         }
     }

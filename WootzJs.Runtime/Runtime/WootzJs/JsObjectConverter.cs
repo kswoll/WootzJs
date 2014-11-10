@@ -31,17 +31,27 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace System.Runtime.WootzJs
 {
     public static class JsObjectConverter
     {
+        public const string Iso8601 = "yyyy-MM-ddThh\\:mm\\:ss";
+
         public static JsObject ToJsonObject(this object o)
         {
             var result = new JsObject();
             foreach (var property in o.GetType().GetProperties())
             {
-                result[property.Name] = property.GetValue(o, null).As<JsObject>();
+                var value = property.GetValue(o, null);
+
+                if (value is DateTime)
+                {
+                    value = ((DateTime)value).ToString(Iso8601);
+                }
+
+                result[property.Name] = value.As<JsObject>();
             }
             return result;
         }
@@ -79,9 +89,9 @@ namespace System.Runtime.WootzJs
             {
                 return Convert.ChangeType(o, type);
             }
-            else if (type == typeof(DateTime))
+            else if (type == typeof(DateTime) || (type.IsNullableValueType() && type.GetGenericArguments()[0] == typeof(DateTime)))
             {
-                return DateTime.ParseExact(o.As<string>(), "yyyy-MM-ddThh\\:mm\\:ss.fff").As<JsObject>();
+                return DateTime.ParseExact(o.As<string>(), Iso8601).As<JsObject>();
             }
             else if (type == typeof(string))
             {

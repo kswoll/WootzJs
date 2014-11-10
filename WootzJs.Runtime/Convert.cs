@@ -1,4 +1,5 @@
-﻿using System.Runtime.WootzJs;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
@@ -20,12 +21,21 @@ namespace System
                     throw new Exception("Null object cannot be converted to a value type");
                 return null;
             }
+            if (conversionType.IsNullableValueType())
+            {
+                conversionType = conversionType.GetGenericArguments()[0];
+            }
             if (value.GetType() == typeof(Number))
             {
                 if (conversionType == typeof(int))
                     return (int)value.As<float>();
                 if (conversionType == typeof(long))
                     return (long)value.As<double>();
+            }
+            if (value is DateTime)
+            {
+                if (conversionType == typeof(string))
+                    return ((DateTime)value).ToString("yyyy-MM-dd");
             }
             if (value.GetType() == conversionType)
             {
@@ -40,6 +50,8 @@ namespace System
                     return int.Parse(s);
                 if (conversionType == typeof(short))
                     return short.Parse(s);
+                if (conversionType == typeof(DateTime))
+                    return DateTime.ParseExact(s, "yyyy-MM-dd");
             }
             throw new Exception("Could not convert " + value + " (" + value.GetType().FullName + ") to " + conversionType.FullName);
         }

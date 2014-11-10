@@ -4,7 +4,7 @@ namespace WootzJs.Mvc.Views
 {
     public enum TextBoxType
     {
-        Text, Password, Color, Email, Number, Range, Search, Telephone, Url
+        Text, Password, Color, Email, Number, Range, Search, Telephone, Url, Date, DateTime, Time
     }
 
     public static class TextBoxTypes
@@ -31,6 +31,12 @@ namespace WootzJs.Mvc.Views
                     return "tel";
                 case TextBoxType.Text:
                     return "text";
+                case TextBoxType.Date:
+                    return "date";
+                case TextBoxType.DateTime:
+                    return "datetime";
+                case TextBoxType.Time:
+                    return "time";
                 default:
                     throw new Exception();
             }
@@ -58,6 +64,12 @@ namespace WootzJs.Mvc.Views
                     return TextBoxType.Telephone;
                 case "text":
                     return TextBoxType.Text;
+                case "date":
+                    return TextBoxType.Date;
+                case "datetime":
+                    return TextBoxType.DateTime;
+                case "time":
+                    return TextBoxType.Time;
                 default:
                     throw new Exception();
             }

@@ -83,6 +83,15 @@ namespace System
                         else
                             tokens.Add(new Token { Type = TokenType.Hour });
                         break;
+                    case 'H':
+                        if (secondC == 'H')
+                        {
+                            tokens.Add(new Token { Type = TokenType.TwentyFourHourTwoDigit });
+                            i++;
+                        }
+                        else
+                            tokens.Add(new Token { Type = TokenType.TwentyFourHour });
+                        break;
                     case 'm':
                         if (secondC == 'm')
                         {
@@ -178,8 +187,14 @@ namespace System
                     case TokenType.HourTwoDigit:
                         builder.Append(Pad(dateTime.Hour % 12 == 0 ? 12 : dateTime.Hour % 12, 2, 2));
                         break;
+                    case TokenType.TwentyFourHourTwoDigit:
+                        builder.Append(Pad(dateTime.Hour, 2, 2));
+                        break;
                     case TokenType.Hour:
                         builder.Append(Pad(dateTime.Hour % 12 == 0 ? 12 : dateTime.Hour % 12, 1, 2));
+                        break;
+                    case TokenType.TwentyFourHour:
+                        builder.Append(Pad(dateTime.Hour, 1, 2));
                         break;
                     case TokenType.MinuteTwoDigit:
                         builder.Append(Pad(dateTime.Minute, 2, 2));
@@ -317,6 +332,10 @@ namespace System
                     case TokenType.Hour:
                         hour += getNextDigit(2);
                         break;
+                    case TokenType.TwentyFourHourTwoDigit:
+                    case TokenType.TwentyFourHour:
+                        hour += getNextDigit(2);
+                        break;
                     case TokenType.MinuteTwoDigit:
                     case TokenType.Minute:
                         minute = getNextDigit(2);
@@ -405,6 +424,8 @@ namespace System
             YearFourDigit,
             Hour,
             HourTwoDigit,
+            TwentyFourHour,
+            TwentyFourHourTwoDigit,
             Minute,
             MinuteTwoDigit,
             Second,

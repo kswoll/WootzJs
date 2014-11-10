@@ -44,11 +44,13 @@
     <Compile Include="CssRuleList.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="DocumentExtensions.cs" />
+    <Compile Include="DOMError.cs" />
     <Compile Include="DomTokenList.cs" />
     <Compile Include="ElementExtensions.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="File.cs" />
     <Compile Include="FileList.cs" />
+    <Compile Include="FileReader.cs" />
     <Compile Include="FormElement.cs" />
     <Compile Include="History.cs" />
     <Compile Include="HtmlCollection.cs" />

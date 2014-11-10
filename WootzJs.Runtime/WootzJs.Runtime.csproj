@@ -219,6 +219,7 @@
     <Compile Include="Runtime\CompilerServices\CallSiteBinder.cs" />
     <Compile Include="Runtime\CompilerServices\DynamicAttribute.cs" />
     <Compile Include="Runtime\CompilerServices\ExtensionAttribute.cs" />
+    <Compile Include="Runtime\CompilerServices\GenericsUtils.cs" />
     <Compile Include="Runtime\CompilerServices\IAsyncMethodBuilder.cs" />
     <Compile Include="Runtime\CompilerServices\IAsyncStateMachine.cs" />
     <Compile Include="Runtime\CompilerServices\ICriticalNotifyCompletion.cs" />
