@@ -18,8 +18,6 @@ namespace WootzJs.Web
         [Js(Name = "readAsText")]
         public extern void ReadAsText(Blob blob);
 
-        public extern 
-
         [Js(Name = "result")]
         public extern JsObject Result { get; }
 
