@@ -809,6 +809,7 @@ namespace WootzJs.Compiler
                 // out as it would with the logic in the catch handlers) go to the finally state.
                 catchBlock.AddRange(GotoStateStatements(finallyState).ToArray());
             }
+            catchBlock.Add(Js.Throw(exceptionIdentifier.GetReference()));
 
             newTryStatement.Catch = Js.Catch(Js.Variable(exceptionVariable));
             newTryStatement.Catch.Body = catchBlock;

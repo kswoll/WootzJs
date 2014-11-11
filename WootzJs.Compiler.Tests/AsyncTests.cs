@@ -183,6 +183,28 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public async void TryCatchSpecific()
+        {
+            bool flag = false;
+
+            try
+            {
+                try
+                {
+                    throw new Exception();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    flag = true;
+                }                
+            }
+            catch (Exception e)
+            {
+            }
+            AssertTrue(!flag);            
+        }
+
+        [Test]
         public async Task TryCatchTrueAsync()
         {
             var taskCompletionSource = new TaskCompletionSource<int>();

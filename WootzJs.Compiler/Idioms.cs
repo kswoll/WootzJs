@@ -1869,7 +1869,13 @@ namespace WootzJs.Compiler
 
         public JsExpression MakeArrayType(ITypeSymbol elementType)
         {
-            return Js.Reference(SpecialNames.MakeArrayType).Invoke(Type(elementType));
+            var jsElementType = Type(elementType);
+
+            // If it's a normal type, we need to invoke it to ensure static initializers are executed.
+            if (elementType.IsExported() && !elementType.IsBuiltIn() && elementType.TypeKind != TypeKind.TypeParameter)
+                jsElementType = jsElementType.Invoke();
+
+            return Js.Reference(SpecialNames.MakeArrayType).Invoke(jsElementType);
         }
 
         public JsExpression TypeOf(ITypeSymbol type)
