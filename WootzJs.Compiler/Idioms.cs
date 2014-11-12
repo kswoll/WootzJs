@@ -1872,7 +1872,7 @@ namespace WootzJs.Compiler
             var jsElementType = Type(elementType);
 
             // If it's a normal type, we need to invoke it to ensure static initializers are executed.
-            if (elementType.IsExported() && !elementType.IsBuiltIn() && elementType.TypeKind != TypeKind.TypeParameter)
+            if (elementType.IsExported() && !elementType.IsBuiltIn() && elementType.TypeKind != TypeKind.TypeParameter && elementType.TypeKind != TypeKind.ArrayType)
                 jsElementType = jsElementType.Invoke();
 
             return Js.Reference(SpecialNames.MakeArrayType).Invoke(jsElementType);
