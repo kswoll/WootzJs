@@ -1201,7 +1201,8 @@ namespace WootzJs.Compiler
 
         private bool IsIntegerType(ITypeSymbol type)
         {
-            return type == Context.Instance.Int16 || type == Context.Instance.Int32 || type == Context.Instance.Int64;
+            return Equals(type, Context.Instance.Int16) || Equals(type, Context.Instance.Int32) ||
+                   Equals(type, Context.Instance.Int64);
         }
 
         public bool TryStringConcatenation(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
@@ -1449,7 +1450,7 @@ namespace WootzJs.Compiler
         {
             // Special compiler handler for ReferenceEquals (since there is no native operator overloading, == comparisons
             // are always reference comparisons.
-            if (method == Context.Instance.ObjectReferenceEquals)
+            if (Equals(method, Context.Instance.ObjectReferenceEquals))
             {
                 result = arguments[0].EqualTo(arguments[1]);
                 return true;
@@ -1473,7 +1474,7 @@ namespace WootzJs.Compiler
 
         public bool TryGetType(IMethodSymbol method, JsExpression target, JsExpression methodTarget, ITypeSymbol targetType, JsExpression[] arguments, InvocationExpressionSyntax node, out JsExpression result)
         {
-            if (method == Context.Instance.GetType)
+            if (Equals(method, Context.Instance.GetType))
             {
                 result = Js.Reference(SpecialNames.SafeGetType).Invoke(methodTarget);
                 return true;                    
@@ -1561,7 +1562,7 @@ namespace WootzJs.Compiler
             // Special compiler handler of Jsni -- these are special methods that translate into otherwise inexpressible javascript
             if (Equals(method.ContainingType, Context.Instance.JsniType))
             {
-                if (method.ReducedFrom != null && method.ReducedFrom != method)
+                if (method.ReducedFrom != null && !Equals(method.ReducedFrom, method))
                 {
                     method = method.ReducedFrom;
                     arguments = new[] { target }.Concat(arguments).ToArray();
@@ -2131,7 +2132,7 @@ namespace WootzJs.Compiler
 
         public void ImplementInterfaceOnAdhocObject(JsBlockStatement block, IJsDeclaration declaration, ITypeSymbol interfaceType, IDictionary<IMethodSymbol, JsExpression> methodImplementations)
         {
-            foreach (var member in interfaceType.GetMembers().Where(x => x.ContainingType == interfaceType))
+            foreach (var member in interfaceType.GetMembers().Where(x => Equals(x.ContainingType, interfaceType)))
             {
                 if (member is IMethodSymbol)
                 {
@@ -2243,9 +2244,9 @@ namespace WootzJs.Compiler
             {
                 var genericType = (INamedTypeSymbol)method.ReturnType;
                 genericType = genericType.OriginalDefinition;
-                if (genericType == Context.Instance.IEnumerableT)
+                if (Equals(genericType, Context.Instance.IEnumerableT))
                     elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumerableT, 0);
-                else if (genericType == Context.Instance.IEnumeratorT)
+                else if (Equals(genericType, Context.Instance.IEnumeratorT))
                     elementType = method.ReturnType.GetGenericArgument(Context.Instance.IEnumeratorT, 0);                
             }
 
