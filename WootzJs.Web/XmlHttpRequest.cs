@@ -18,6 +18,9 @@ namespace WootzJs.Web
         [Js(Name = "responseXML")]
         public extern Document ResponseXml { get; }
 
+        [Js(Name = "readyState")]
+        public extern int ReadyState { get; }
+
         [Js(Name = "status")]
         public extern int Status { get; }
 
