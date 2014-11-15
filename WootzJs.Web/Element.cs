@@ -70,6 +70,9 @@ namespace WootzJs.Web
         [Js(Name = "tagName")]
         public extern string TagName { get; }
 
+        [Js(Name = "innerText")]
+        public extern string InnerText { get; set; }
+
         [Js(Name = "innerHTML")]
         public extern string InnerHtml { get; set; }
 
