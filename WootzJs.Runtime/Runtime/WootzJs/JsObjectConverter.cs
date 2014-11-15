@@ -61,7 +61,7 @@ namespace System.Runtime.WootzJs
             return (T)FromJsonObject(o, typeof(T));
         }
 
-        public static object FromJsonObject(JsObject o, Type type)
+        public static object FromJsonObject(this JsObject o, Type type)
         {
             if (type.IsArray)
             {

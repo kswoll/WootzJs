@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>0626</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +40,8 @@
     <Compile Include="Attr.cs" />
     <Compile Include="Blob.cs" />
     <Compile Include="Browser.cs" />
+    <Compile Include="CloseEvent.cs" />
+    <Compile Include="CloseReason.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="CssRule.cs" />
     <Compile Include="CssRuleList.cs" />
@@ -59,6 +62,7 @@
     <Compile Include="IParentNode.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Key.cs" />
+    <Compile Include="MessageEvent.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="Navigator.cs" />
     <Compile Include="Node.cs" />
@@ -70,10 +74,12 @@
     <Compile Include="PopStateEventHandler.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="ElementStyle.cs" />
+    <Compile Include="ReadyState.cs" />
     <Compile Include="StyleSheet.cs" />
     <Compile Include="StyleSheetExtensions.cs" />
     <Compile Include="TextAreaElement.cs" />
     <Compile Include="TextNode.cs" />
+    <Compile Include="WebSocket.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowExtensions.cs" />
     <Compile Include="XmlHttpRequest.cs" />
