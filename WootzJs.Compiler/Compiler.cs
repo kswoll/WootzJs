@@ -147,7 +147,11 @@ namespace WootzJs.Compiler
                 if (diagnostic.Severity == DiagnosticSeverity.Error)
                     Console.WriteLine("// " + diagnostic);
             }
-                
+
+            // Check for partial classes
+            var partialClassReassembler = new PartialClassReassembler(project, compilation);
+            compilation = partialClassReassembler.UnifyPartialTypes();
+
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type
             // declarations.
             foreach (var syntaxTree in compilation.SyntaxTrees)
@@ -159,19 +163,22 @@ namespace WootzJs.Compiler
                 var typeDeclarations = GetTypeDeclarations(compilationUnit);
                 foreach (var type in typeDeclarations)
                 {
+                    var _type = type;
+                    var typeSymbol = semanticModel.GetDeclaredSymbol(type);
                     Action action = () =>
                     {
-                        var statements = (JsBlockStatement)type.Accept(transformer);
+                        var statements = (JsBlockStatement)_type.Accept(transformer);
                         jsCompilationUnit.Body.Aggregate(statements);
                     };
-                    actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));
+                    actions.Add(Tuple.Create(typeSymbol, action));
                 }
                 var delegateDeclarations = GetDelegates(compilationUnit);
                 foreach (var type in delegateDeclarations)
                 {
+                    var _type = type;
                     Action action = () =>
                     {
-                        var statements = (JsBlockStatement)type.Accept(transformer);
+                        var statements = (JsBlockStatement)_type.Accept(transformer);
                         jsCompilationUnit.Body.Aggregate(statements);
                     };
                     actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));

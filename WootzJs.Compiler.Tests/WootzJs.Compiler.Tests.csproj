@@ -96,6 +96,7 @@
     <Compile Include="NumberTests.cs" />
     <Compile Include="ObjectInitializerTests.cs" />
     <Compile Include="OperatorOverloadTests.cs" />
+    <Compile Include="PartialClassTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyTests.cs" />
     <Compile Include="Reflection\AttributeTests.cs" />

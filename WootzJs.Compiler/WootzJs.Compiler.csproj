@@ -90,6 +90,7 @@
     <Compile Include="AtTokenizer.cs" />
     <Compile Include="JsAst\JsNativeExpression.cs" />
     <Compile Include="JsAst\JsSnippetExpression.cs" />
+    <Compile Include="PartialClassReassembler.cs" />
     <Compile Include="ReflectionCache.cs" />
     <Compile Include="State.cs" />
     <Compile Include="AsyncStateGenerator.cs" />
