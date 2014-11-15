@@ -85,7 +85,7 @@ namespace WootzJs.Compiler
 
         private TypeDeclarationSyntax UnifyDeclarations(ITypeSymbol type, List<TypeDeclarationSyntax> declarations)
         {
-            var unifier = new PartialClassUnifier(declarations);
+            var unifier = new PartialClassUnifier(this, declarations);
             var newTypeDeclaration = (TypeDeclarationSyntax)declarations.First().Accept(unifier);
             return newTypeDeclaration;
         }
@@ -182,17 +182,42 @@ namespace WootzJs.Compiler
 
         class PartialClassUnifier : CSharpSyntaxVisitor<SyntaxNode>
         {
+            private PartialClassReassembler reassembler;
             private List<TypeDeclarationSyntax> declarations;
             private TypeDeclarationGetMembers getMembers = new TypeDeclarationGetMembers();
 
-            public PartialClassUnifier(List<TypeDeclarationSyntax> declarations)
+            public PartialClassUnifier(PartialClassReassembler reassembler, List<TypeDeclarationSyntax> declarations)
             {
+                this.reassembler = reassembler;
                 this.declarations = declarations;
             }
 
             private SyntaxList<MemberDeclarationSyntax> UnifyMembers()
             {
-                return SyntaxFactory.List(declarations.SelectMany(x => x.Accept(getMembers)));
+                var membersAndSymbol = declarations
+                    .SelectMany(x => x.Accept(getMembers))
+                    .Select(x => Tuple.Create(reassembler.compilation.GetSemanticModel(x.SyntaxTree).GetDeclaredSymbol(x), x))
+                    .ToArray();
+
+                var newMembers = new List<MemberDeclarationSyntax>();
+                foreach (var member in membersAndSymbol)
+                {
+                    var symbol = member.Item1;
+                    var declaration = member.Item2;
+                    if (symbol is IMethodSymbol)
+                    {
+                        var method = (IMethodSymbol)symbol;
+//                        if (method.PartialDefinitionPart == null)     // !!! This should be the check.  But it seems that the symbol returned is inverted for the implementation and definition.
+                        if (method.PartialImplementationPart == null)
+                            newMembers.Add(declaration);
+                    }
+                    else
+                    {
+                        newMembers.Add(declaration);
+                    }
+                }
+
+                return SyntaxFactory.List(newMembers);
             }
 
             public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
