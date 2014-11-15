@@ -35,9 +35,9 @@ namespace WootzJs.Web
     public class Json
     {
         [Js(Name = "parse")]
-        public extern JsObject Parse(string s);
+        public static extern JsObject Parse(string s);
 
         [Js(Name = "stringify")]
-        public extern string Stringify(JsObject o);
+        public static extern string Stringify(JsObject o);
     }
 }
