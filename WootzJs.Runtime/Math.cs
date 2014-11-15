@@ -261,6 +261,19 @@ namespace System
         }
 
         /// <summary>
+        /// Returns the absolute value of a 32-bit signed integer.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A 32-bit signed integer, x, such that 0 ≤ x ≤<see cref="F:System.Int32.MaxValue"/>.
+        /// </returns>
+        /// <param name="value">A number that is greater than or equal to <see cref="F:System.Int32.MinValue"/>, but less than or equal to <see cref="F:System.Int32.MaxValue"/>.</param><filterpriority>1</filterpriority>
+        public static int Abs(int value)
+        {
+            return JsMath.abs(value);
+        }
+
+        /// <summary>
         /// Returns the absolute value of a single-precision floating-point number.
         /// </summary>
         /// 
@@ -716,6 +729,56 @@ namespace System
         public static Decimal Min(Decimal val1, Decimal val2)
         {
             return JsMath.min(val1, val2);
+        }
+
+        /// <summary>
+        /// Returns the square root of a specified number.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// One of the values in the following table. 
+        /// <table>
+        ///     <tr>
+        ///         <th>d parameter</th>
+        ///         <th>Return value</th>
+        ///     </tr>
+        ///     <tr>
+        ///         <td>Zero or positive</td>
+        ///         <td>The positive square root of d</td>
+        ///     </tr>
+        ///     <tr>
+        ///         <td>Negative</td>
+        ///         <td><see cref="L:System.Double.NaN"/></td>
+        ///     </tr>
+        ///     <tr>
+        ///         <td>Equals <see cref="L:System.Double.NaN"/></td>
+        ///         <td><see cref="L:System.Double.NaN"/></td>
+        ///     </tr>
+        ///     <tr>
+        ///         <td>Equals <see cref="L:System.Double.PositiveInfinity"/></td>
+        ///         <td><see cref="L:System.Double.PositiveInfinity"/></td>
+        ///     </tr>
+        /// </table>
+        /// </returns>
+        /// <param name="d">The number whose square root is to be found.</param><filterpriority>1</filterpriority>
+        public static double Sqrt(double d)
+        {
+            return JsMath.sqrt(d);
+        }
+
+        /// <summary>
+        /// Returns a specified number raised to the specified power.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// The number x raised to the power y.
+        /// </returns>
+        /// <param name="x">A double-precision floating-point number to be raised to a power.</param>
+        /// <param name="y">A double-precision floating-point number that specifies a power.</param>
+        /// <filterpriority>1</filterpriority>
+        public static double Pow(double x, double y)
+        {
+            return JsMath.pow(x, y);
         }
     }
 }

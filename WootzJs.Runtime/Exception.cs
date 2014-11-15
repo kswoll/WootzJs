@@ -68,7 +68,7 @@ namespace System
             return this;
         }
 
-	    public string Message
+	    public virtual string Message
 	    {
 	        get { return _message; }
             private set { _message = value; }
