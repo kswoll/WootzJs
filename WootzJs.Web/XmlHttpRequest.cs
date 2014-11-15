@@ -13,7 +13,7 @@ namespace WootzJs.Web
         public extern string ResponseText { get; }
 
         [Js(Name = "responseType")]
-        public extern string ResponseType { get; }
+        public extern string ResponseType { get; set; }
 
         [Js(Name = "responseXML")]
         public extern Document ResponseXml { get; }
