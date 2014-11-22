@@ -22,20 +22,43 @@ namespace WootzJs.Compiler
     {
         private Project project;
         private Compilation compilation;
-        private Dictionary<ITypeSymbol, List<TypeDeclarationSyntax>> typeDeclarationsBySymbol = new Dictionary<ITypeSymbol, List<TypeDeclarationSyntax>>();
         private Dictionary<TypeDeclarationSyntax, TypeDeclarationSyntax> typeDeclarationReplacements = new Dictionary<TypeDeclarationSyntax, TypeDeclarationSyntax>();
         private HashSet<TypeDeclarationSyntax> removedTypeDeclarations = new HashSet<TypeDeclarationSyntax>();
         private PartialClassScanner scanner;
+        private PartialClassIdentifierFullyQualifier qualifier;
 
         public PartialClassReassembler(Project project, Compilation compilation)
         {
             this.project = project;
             this.compilation = compilation;
             scanner = new PartialClassScanner(this);
+            qualifier = new PartialClassIdentifierFullyQualifier(this);
         }
 
         public Compilation UnifyPartialTypes()
         {
+            foreach (var syntaxTree in compilation.SyntaxTrees)
+            {
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                compilationUnit.Accept(scanner);
+            }
+            var partialTypes = scanner.typeDeclarationsBySymbol.Where(x => x.Value.Count > 1).SelectMany(x => x.Value).ToArray();
+            if (!partialTypes.Any())
+                return compilation;
+
+            var compilationUnits = new HashSet<CompilationUnitSyntax>(partialTypes.Select(x => (CompilationUnitSyntax)x.SyntaxTree.GetRoot()).Distinct());
+            foreach (var syntaxTree in compilation.SyntaxTrees)
+            {
+                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                if (compilationUnits.Contains(compilationUnit))
+                {
+                    compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(qualifier);
+                    compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
+                }
+            }
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
+
+            scanner = new PartialClassScanner(this);
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
                 var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
@@ -46,7 +69,8 @@ namespace WootzJs.Compiler
 
         public Compilation CreateNewCompilation()
         {
-            var partialTypes = typeDeclarationsBySymbol.Where(x => x.Value.Count > 1).ToDictionary(x => x.Key, x => x.Value);
+            var partialTypesA = scanner.typeDeclarationsBySymbol.Where(x => x.Value.Count > 1).SelectMany(x => x.Value).ToArray();
+            var partialTypes = scanner.typeDeclarationsBySymbol.Where(x => x.Value.Count > 1).ToDictionary(x => x.Key, x => x.Value);
             if (partialTypes.Any())
             {
                 foreach (var item in partialTypes)
@@ -90,39 +114,38 @@ namespace WootzJs.Compiler
             return newTypeDeclaration;
         }
 
-        private void AddType(ITypeSymbol symbol, TypeDeclarationSyntax typeDeclaration)
-        {
-            List<TypeDeclarationSyntax> typeDeclarations;
-            if (!typeDeclarationsBySymbol.TryGetValue(symbol, out typeDeclarations))
-            {
-                typeDeclarations = new List<TypeDeclarationSyntax>();
-                typeDeclarationsBySymbol[symbol] = typeDeclarations;
-            }
-            typeDeclarations.Add(typeDeclaration);            
-        }
-
         class PartialClassScanner : CSharpSyntaxWalker
         {
             private PartialClassReassembler reassembler;
+            internal Dictionary<ITypeSymbol, List<TypeDeclarationSyntax>> typeDeclarationsBySymbol = new Dictionary<ITypeSymbol, List<TypeDeclarationSyntax>>();
 
             public PartialClassScanner(PartialClassReassembler reassembler) 
             {
                 this.reassembler = reassembler;
             }
 
+            private void AddType(ITypeSymbol symbol, TypeDeclarationSyntax typeDeclaration)
+            {
+                List<TypeDeclarationSyntax> typeDeclarations;
+                if (!typeDeclarationsBySymbol.TryGetValue(symbol, out typeDeclarations))
+                {
+                    typeDeclarations = new List<TypeDeclarationSyntax>();
+                    typeDeclarationsBySymbol[symbol] = typeDeclarations;
+                }
+                typeDeclarations.Add(typeDeclaration);            
+            }
+
             public override void VisitClassDeclaration(ClassDeclarationSyntax node)
             {
                 var symbol = reassembler.compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
-                reassembler.AddType(symbol, node);
-
+                AddType(symbol, node);
                 base.VisitClassDeclaration(node);
             }
 
             public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
             {
                 var symbol = reassembler.compilation.GetSemanticModel(node.SyntaxTree).GetDeclaredSymbol(node);
-                reassembler.AddType(symbol, node);
-
+                AddType(symbol, node);
                 base.VisitInterfaceDeclaration(node);
             }
         }
@@ -178,6 +201,32 @@ namespace WootzJs.Compiler
             {
                 return node.WithMembers(ReplaceMembers(node.Members));
             }
+        }
+
+        class PartialClassIdentifierFullyQualifier : CSharpSyntaxRewriter 
+        {
+            private PartialClassReassembler reassembler;
+
+            public PartialClassIdentifierFullyQualifier(PartialClassReassembler reassembler) 
+            {
+                this.reassembler = reassembler;
+            }
+
+            public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+            {
+                var symbol = reassembler.compilation.GetSemanticModel(node.SyntaxTree).GetSymbolInfo(node).Symbol;
+                if (symbol is ITypeSymbol)
+                {
+                    var type = (ITypeSymbol)symbol;
+                    if (type.DeclaringSyntaxReferences.Length < 2)
+                        return base.VisitIdentifierName(node);
+                    if (node.Parent is QualifiedNameSyntax)
+                        return base.VisitIdentifierName(node);
+
+                    return type.ToTypeSyntax();
+                }
+                return base.VisitIdentifierName(node);
+            }            
         }
 
         class PartialClassUnifier : CSharpSyntaxVisitor<SyntaxNode>

@@ -197,6 +197,18 @@ namespace WootzJs.Compiler
                 return type.GetMembers().ToArray();
         }
 
+        public static TypeDeclarationSyntax GetContainingTypeDeclaration(this SyntaxNode node)
+        {
+            var current = node;
+            while (current != null)
+            {
+                if (current is TypeDeclarationSyntax)
+                    return (TypeDeclarationSyntax)current;
+                current = current.Parent;
+            }
+            return null;
+        }
+
         public static ITypeSymbol GetContainingType(this SyntaxNode node)
         {
             var classDeclaration = node.FirstAncestorOrSelf<ClassDeclarationSyntax>(x => true);
