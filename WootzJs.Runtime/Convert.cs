@@ -31,6 +31,8 @@ namespace System
                     return (int)value.As<float>();
                 if (conversionType == typeof(long))
                     return (long)value.As<double>();
+                if (conversionType == typeof(string))
+                    return value.As<JsObject>().toString();
             }
             if (value is DateTime)
             {
