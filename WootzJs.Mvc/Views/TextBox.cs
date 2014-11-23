@@ -31,6 +31,22 @@ namespace WootzJs.Mvc.Views
             set { Node.SetAttribute("placeholder", value); }
         }
 
+        public int? MaxLength
+        {
+            get
+            {
+                var maxLength = Node.GetAttribute("maxlength");
+                return maxLength != null ? (int?)int.Parse(maxLength) : null;
+            }
+            set
+            {
+                if (value != null)
+                    Node.SetAttribute("maxlength", value.Value.ToString());
+                else
+                    Node.RemoveAttribute("maxlength");
+            }
+        }
+
         protected override Element CreateNode()
         {
             var textBox = Browser.Document.CreateElement("input");
