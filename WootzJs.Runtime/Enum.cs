@@ -103,7 +103,11 @@ namespace System
         /// <param name="enumType">An enumeration type. </param><param name="value">A string containing the name or value to convert. </param><exception cref="T:System.ArgumentNullException"><paramref name="enumType"/> or <paramref name="value"/> is null. </exception><exception cref="T:System.ArgumentException"><paramref name="enumType"/> is not an <see cref="T:System.Enum"/>.-or- <paramref name="value"/> is either an empty string or only contains white space.-or- <paramref name="value"/> is a name, but not one of the named constants defined for the enumeration. </exception><exception cref="T:System.OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception><filterpriority>1</filterpriority>
         public static object Parse(Type enumType, string value)
         {
-            return enumsByTypeAndName[enumType.thisType.TypeName][value];
+            var dictionary = enumsByTypeAndName[enumType.thisType.TypeName];
+            Enum result;
+            if (!dictionary.TryGetValue(value, out result))
+                throw new InvalidOperationException("Enum " + enumType.FullName + " does not contain '" + value + "'");
+            return dictionary[value];
         }
 
         /// <summary>
