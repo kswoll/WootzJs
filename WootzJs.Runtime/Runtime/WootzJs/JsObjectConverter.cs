@@ -91,6 +91,8 @@ namespace System.Runtime.WootzJs
             }
             else if (type == typeof(DateTime) || (type.IsNullableValueType() && type.GetGenericArguments()[0] == typeof(DateTime)))
             {
+                if (o == null)
+                    return null;
                 return DateTime.ParseExact(o.As<string>(), Iso8601).As<JsObject>();
             }
             else if (type == typeof(string))
