@@ -106,7 +106,7 @@ namespace System.Runtime.WootzJs
             else
             {
                 var result = Activator.CreateInstance(type);
-                var properties = type.GetProperties().ToDictionary(x => x.Name.ToUpper());
+                var properties = type.GetProperties().Where(x => x.CanWrite).ToDictionary(x => x.Name.ToUpper());
                 foreach (var propertyName in o)
                 {
                     var value = o[propertyName];
