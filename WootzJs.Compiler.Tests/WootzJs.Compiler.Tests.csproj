@@ -99,6 +99,9 @@
     <Compile Include="PartialClassPart1.cs" />
     <Compile Include="PartialClassPart2.cs" />
     <Compile Include="PartialClassTests.cs" />
+    <Compile Include="PartialClassWithUsingsPart1.cs" />
+    <Compile Include="PartialClassWithUsingsPart2.cs" />
+    <Compile Include="SubNamespaceForTest\PartialClassWithUsingsTestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyTests.cs" />
     <Compile Include="Reflection\AttributeTests.cs" />

@@ -428,5 +428,15 @@ namespace WootzJs.Compiler
         {
             return field.WithAttributeLists(SyntaxFactory.List(new[] { SyntaxFactory.AttributeList(SyntaxFactory.SeparatedList(attributeTypes.Select(x => SyntaxFactory.Attribute(SyntaxFactory.ParseName(x.ToDisplayString()))))) }));
         }
+
+        public static IEnumerable<ITypeSymbol> GetContainingTypes(this ITypeSymbol type)
+        {
+            var current = type.ContainingType;
+            while (current != null)
+            {
+                yield return current;
+                current = current.ContainingType;
+            }
+        }
     }
 }

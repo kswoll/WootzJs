@@ -107,6 +107,13 @@ namespace WootzJs.Compiler.Tests
             var value = PartialClass.Value;
             AssertEquals(value, "initialized");
         }
+
+        [Test]
+        public void MultipleFilesWithUsings()
+        {
+            var value = PartialClassWithUsings.Value;
+            AssertEquals(value, "initialized");
+        }
     }
 
     public partial class OuterTwoPropertyPartial

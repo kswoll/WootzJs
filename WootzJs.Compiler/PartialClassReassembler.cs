@@ -218,8 +218,6 @@ namespace WootzJs.Compiler
                 if (symbol is ITypeSymbol)
                 {
                     var type = (ITypeSymbol)symbol;
-                    if (type.DeclaringSyntaxReferences.Length < 2)
-                        return base.VisitIdentifierName(node);
                     if (node.Parent is QualifiedNameSyntax)
                         return base.VisitIdentifierName(node);
 
