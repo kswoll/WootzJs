@@ -41,9 +41,6 @@ namespace WootzJs.Web
         [Js(Name = "onpopstate")]
         public extern PopStateEventHandler OnPopState { get; set; }
 
-        [Js(Name = "JSON")]
-        public extern Json Json { get; }
-
         [Js(Name = "history")]
         public extern History History { get; }
 
