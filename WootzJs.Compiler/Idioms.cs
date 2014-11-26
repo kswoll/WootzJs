@@ -1364,6 +1364,21 @@ namespace WootzJs.Compiler
                 case SyntaxKind.ExclusiveOrExpression:
                     op = JsBinaryOperator.ExclusiveOr;
                     break;
+                case SyntaxKind.LeftShiftAssignmentExpression:
+                    op = JsBinaryOperator.LeftShiftAssign;
+                    break;
+                case SyntaxKind.RightShiftAssignmentExpression:
+                    op = JsBinaryOperator.RightShiftAssign;
+                    break;
+                case SyntaxKind.OrAssignmentExpression:
+                    op = JsBinaryOperator.BitwiseOrAssign;
+                    break;
+                case SyntaxKind.AndAssignmentExpression:
+                    op = JsBinaryOperator.BitwiseAndAssign;
+                    break;
+                case SyntaxKind.ExclusiveOrAssignmentExpression:
+                    op = JsBinaryOperator.ExclusiveOrAssign;
+                    break;
                 default:
                     return null;
             }            

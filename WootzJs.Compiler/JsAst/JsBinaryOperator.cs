@@ -33,7 +33,8 @@ namespace WootzJs.Compiler.JsAst
     {
         Add, Subtract, Multiply, Divide, Modulus, Equals, NotEquals, GreaterThan, LessThan, GreaterThanOrEqual,
         LessThanOrEqual, LogicalAnd, LogicalOr, BitwiseAnd, BitwiseOr, ShiftLeft, ShiftRight, Assign, 
-        AddAssign, SubtractAssign, MultiplyAssign, DivideAssign, ModulusAssign, ExclusiveOr
+        AddAssign, SubtractAssign, MultiplyAssign, DivideAssign, ModulusAssign, ExclusiveOr, LeftShiftAssign,
+        RightShiftAssign, BitwiseOrAssign, BitwiseAndAssign, ExclusiveOrAssign
     }
 
     public static class JsBinaryOperators
@@ -66,6 +67,11 @@ namespace WootzJs.Compiler.JsAst
                 case JsBinaryOperator.Subtract: return "-";
                 case JsBinaryOperator.SubtractAssign: return "-=";
                 case JsBinaryOperator.ExclusiveOr: return "^";
+                case JsBinaryOperator.LeftShiftAssign: return "<<=";
+                case JsBinaryOperator.RightShiftAssign: return ">>=";
+                case JsBinaryOperator.BitwiseAndAssign: return "&=";
+                case JsBinaryOperator.BitwiseOrAssign: return "|=";
+                case JsBinaryOperator.ExclusiveOrAssign: return "^=";
                 default: throw new Exception();
             }
         }

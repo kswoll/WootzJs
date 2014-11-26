@@ -93,5 +93,67 @@ namespace WootzJs.Compiler.Tests
             var b = (byte)castIntToByteI;
             AssertEquals(b, 198);
         }
+
+        [Test]
+        public void Byte()
+        {
+            byte a = (byte)50;
+            byte b = 230;
+            AssertEquals(a + b, 280);
+        }
+
+        [Test]
+        public void RightShiftAssign()
+        {
+            int a = 3;
+            a >>= 1;            
+            AssertEquals(a, 1);
+        }
+
+        [Test]
+        public void LeftShiftAssign()
+        {
+            int a = 3;
+            a <<= 1;            
+            AssertEquals(a, 6);
+        }
+
+        [Test]
+        public void BitwiseOrAssign()
+        {
+            int a = 1;
+            a |= 4;
+            AssertEquals(a, 5);
+        }
+
+        [Test]
+        public void BitwiseAndAssign()
+        {
+            int a = 78;
+            a &= 2;
+            AssertEquals(a, 2);
+        }
+
+        [Test]
+        public void ExclusiveOrAssign()
+        {
+            int a = 77;
+            a ^= 55;
+            AssertEquals(a, 122);
+        }
+/*
+
+        [Test]
+        public void AssignmentOperators()
+        {
+            int a = 3;
+            int b = 0;
+            a >>= b;
+            a <<= b;
+            a |= b;
+            a &= b;
+            a ^= b;            
+        }
+*/
     }
 }
