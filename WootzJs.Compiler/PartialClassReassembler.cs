@@ -224,7 +224,21 @@ namespace WootzJs.Compiler
                     return type.ToTypeSyntax();
                 }
                 return base.VisitIdentifierName(node);
-            }            
+            }
+
+            public override SyntaxNode VisitGenericName(GenericNameSyntax node)
+            {
+                var symbol = reassembler.compilation.GetSemanticModel(node.SyntaxTree).GetSymbolInfo(node).Symbol;
+                if (symbol is ITypeSymbol)
+                {
+                    var type = (ITypeSymbol)symbol;
+                    if (node.Parent is QualifiedNameSyntax)
+                        return base.VisitGenericName(node);
+
+                    return type.ToTypeSyntax();
+                }
+                return base.VisitGenericName(node);
+            }
         }
 
         class PartialClassUnifier : CSharpSyntaxVisitor<SyntaxNode>
