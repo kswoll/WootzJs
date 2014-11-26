@@ -1178,11 +1178,11 @@ namespace WootzJs.Compiler
             
             foreach (var statement in node.Expressions)
             {
-                var newTarget = initializableObjectsStack.Peek().GetReference();
                 switch (node.CSharpKind())
                 {
                     case SyntaxKind.ObjectInitializerExpression:
                     {
+                        var newTarget = initializableObjectsStack.Peek().GetReference();
                         var expression = (JsExpression)statement.Accept(this);
                         if (expression is JsInvocationExpression)
                         {
@@ -1201,6 +1201,7 @@ namespace WootzJs.Compiler
                     }
                     case SyntaxKind.CollectionInitializerExpression:
                     {
+                        var newTarget = initializableObjectsStack.Peek().GetReference();
                         var arguments = new List<JsExpression>();
                         var objectCreateExpression = (ObjectCreationExpressionSyntax)node.Parent;
                         var constructor = model.GetSymbolInfo(objectCreateExpression).Symbol;
@@ -1220,12 +1221,14 @@ namespace WootzJs.Compiler
                         block.Express(idioms.Invoke(newTarget, addMethod, arguments.ToArray()));
                         break;
                     }
-/*
                     case SyntaxKind.ArrayInitializerExpression:
                     {
-                        
+                        var arraySymbol = (IArrayTypeSymbol)model.GetTypeInfo(node).ConvertedType;
+                        var result = idioms.MakeArray(
+                            Js.Array(node.Expressions.Select(x => (JsExpression)x.Accept(this)).ToArray()),
+                            arraySymbol);
+                        return ImplicitCheck(node, result);            
                     }
-*/
                     default:
                         throw new Exception();
                 }

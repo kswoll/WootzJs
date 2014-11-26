@@ -142,6 +142,16 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(typeof(IEnumerable<string>).IsAssignableFrom(array.GetType()));
         }
 
+        [Test]
+        public void NakedArrayInitializer()
+        {
+            int[] test = {1, 2, 3};
+            AssertEquals(test.Length, 3);
+            AssertEquals(test[0], 1);
+            AssertEquals(test[1], 2);
+            AssertEquals(test[2], 3);
+        }
+
         [Js(Name = "ExportTest", Export = false)]
         class ExportTest
         {
