@@ -273,6 +273,14 @@ namespace WootzJs.Compiler.JsAst
                 return new JsPrimitiveExpression((float)value);
             if (value is double)
                 return new JsPrimitiveExpression((double)value);
+            if (value is byte)
+                return new JsPrimitiveExpression((byte)value);
+            if (value is short)
+                return new JsPrimitiveExpression((short)value);
+            if (value is sbyte)
+                return new JsPrimitiveExpression((sbyte)value);
+            if (value is ushort)
+                return new JsPrimitiveExpression((ushort)value);
             if (value is char)
                 return new JsPrimitiveExpression((char)value);
             if (value is TypedConstant)

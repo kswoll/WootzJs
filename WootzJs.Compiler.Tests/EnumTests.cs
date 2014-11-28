@@ -94,6 +94,34 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(names[2], "Three");
         }
 
+        [Test]
+        public void ByteEnums()
+        {
+            AssertEquals((byte)ByteEnum.One, (byte)1);
+            AssertEquals((byte)ByteEnum.Two, (byte)2);
+        }
+
+        [Test]
+        public void SByteEnums()
+        {
+            AssertEquals((sbyte)SByteEnum.One, (sbyte)1);
+            AssertEquals((sbyte)SByteEnum.Two, (sbyte)2);
+        }
+
+        [Test]
+        public void ShortEnums()
+        {
+            AssertEquals((short)ByteEnum.One, (short)1);
+            AssertEquals((short)ByteEnum.Two, (short)2);
+        }
+
+        [Test]
+        public void UShortEnums()
+        {
+            AssertEquals((ushort)ByteEnum.One, (ushort)1);
+            AssertEquals((ushort)ByteEnum.Two, (ushort)2);
+        }
+
         public enum TestEnum
         {
             One = 0, 
@@ -113,6 +141,30 @@ namespace WootzJs.Compiler.Tests
         public enum EnumNamesClass
         {
             One, Two, Three
+        }
+
+        public enum ByteEnum : byte
+        {
+            One = 1,
+            Two = 2
+        }
+
+        public enum SByteEnum : sbyte
+        {
+            One = 1,
+            Two = 2
+        }
+
+        public enum ShortEnum : short
+        {
+            One = 1,
+            Two = 2
+        }
+
+        public enum UShortEnum : ushort
+        {
+            One = 1,
+            Two = 2
         }
     }
 }
