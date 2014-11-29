@@ -2095,6 +2095,16 @@ namespace WootzJs.Compiler
         {
             if (arrayType.ElementType.Equals(Context.Instance.Int32))
                 array = Js.New(Js.Reference("Int32Array"), array);
+            if (arrayType.ElementType.Equals(Context.Instance.Int16))
+                array = Js.New(Js.Reference("Int16Array"), array);
+            if (arrayType.ElementType.Equals(Context.Instance.Byte))
+                array = Js.New(Js.Reference("Uint8Array"), array);
+            if (arrayType.ElementType.Equals(Context.Instance.SByte))
+                array = Js.New(Js.Reference("Int8Array"), array);
+            if (arrayType.ElementType.Equals(Context.Instance.Single))
+                array = Js.New(Js.Reference("Float32Array"), array);
+            if (arrayType.ElementType.Equals(Context.Instance.Double))
+                array = Js.New(Js.Reference("Float64Array"), array);
 
             return Js.Reference(SpecialNames.InitializeArray).Invoke(
                 array,
