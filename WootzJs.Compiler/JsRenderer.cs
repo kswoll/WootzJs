@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using WootzJs.Compiler.JsAst;
 
@@ -318,7 +319,7 @@ namespace WootzJs.Compiler
             else if (node.Value is int || node.Value is short || node.Value is byte || node.Value is long || node.Value is sbyte || node.Value is ushort || 
                 node.Value is uint || node.Value is ulong || node.Value is float || node.Value is double || node.Value is decimal)
             {
-                output.Append(node.Value.ToString());
+                output.Append(Convert.ToString(node.Value, CultureInfo.InvariantCulture));
             }
             else if (node.Value is bool)
             {
@@ -327,7 +328,7 @@ namespace WootzJs.Compiler
             else if (node.Value is char)
             {
                 output.Append("\"");
-                output.Append(StringEscaper.EscapeString(((char)node.Value).ToString(), true));
+                output.Append(StringEscaper.EscapeString(((char)node.Value).ToString(CultureInfo.InvariantCulture), true));
                 output.Append("\"");
             }
             else
