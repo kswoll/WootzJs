@@ -141,6 +141,50 @@ namespace WootzJs.Compiler.Tests
             a ^= 55;
             AssertEquals(a, 122);
         }
+
+        [Test]
+        public void DefaultByteReturnsValue()
+        {
+            AssertEquals(DefaultByte(), 255);
+        }
+
+        public byte DefaultByte(byte test = 255) // fails
+        {
+            return test;
+        }
+
+        [Test]
+        public void DefaultSByteReturnsValue()
+        {
+            AssertEquals(DefaultSByte(), -127);
+        }
+
+        public sbyte DefaultSByte(sbyte test = -127) // fails
+        {
+            return test;
+        }
+
+        [Test]
+        public void DefaultShortReturnsValue()
+        {
+            AssertEquals(DefaultShort(), 432);
+        }
+
+        public short DefaultShort(short test = 432) // fails
+        {
+            return test;
+        }
+
+        [Test]
+        public void DefaultUShortReturnsValue()
+        {
+            AssertEquals(DefaultUShort(), 23456);
+        }
+
+        public ushort DefaultUShort(ushort test = 23456) // fails
+        {
+            return test;
+        }
 /*
 
         [Test]
