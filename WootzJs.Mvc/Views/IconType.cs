@@ -24,7 +24,7 @@
         MinusSquare, MinusSquareO, Mobile, MobilePhone, Money, MoonO, Music, Pencil, 
         PencilSquare, PencilSquareO, Phone, PhoneSquare, PictureO, Plane, Plus, PlusCircle,
         PlusSquare, PlusSquareO, PowerOff, Print, PuzzlePiece, Qrcode, Question, QuestionCircle,
-        QuoteLeft, QuoteRight, Random, Refresh, Reply, ReplyAll, Retweet, Road, Rocket, Rss,
+        QuoteLeft, QuoteRight, Random, Refresh, Remove, Reply, ReplyAll, Retweet, Road, Rocket, Rss,
         RssSquare, Search, SearchMinus, SearchPlus, Share, ShareSquare, ShareSquareO, Shield,
         ShoppingCart, SignIn, SignOut, Signal, Sitemap, SmileO, Sort, SortAlphaAsc, 
         SortAlphaDesc, SortAmountAsc, SortAmountDesc, SortAsc, SortDesc, SortDown, SortNumericAsc,
