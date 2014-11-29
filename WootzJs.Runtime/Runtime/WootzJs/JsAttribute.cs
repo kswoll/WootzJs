@@ -54,6 +54,11 @@ namespace System.Runtime.WootzJs
         public bool BuiltIn { get; set; }
 
         /// <summary>
+        /// Allows you to specify additional built-in types that will be instrumented.
+        /// </summary>
+        public string[] ExtraBuiltInExports { get; set; }
+
+        /// <summary>
         /// Forces the class to behave as though it were subclassing this type.  This is mostly used for
         /// native structs that cannot subclass in C# but where it is desired to inherit behavior from a 
         /// common type.

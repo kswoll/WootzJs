@@ -138,13 +138,21 @@ namespace WootzJs.Compiler
             var jsAttribute = type.GetAttributes().SingleOrDefault(x => Equals(x.AttributeClass, attributeType));
             if (jsAttribute != null)
             {
-                // If the type is inlined, all the methods of the class will be written
-                // at the same (root) level as the class declaration would have.  This is useful
-                // for creating Javascript-Global functions.
-                var isInlinedArgument = jsAttribute.NamedArguments.SingleOrDefault(x => x.Key == propertyName);
-                if (isInlinedArgument.Value.Value != null)
+                var argument = jsAttribute.NamedArguments.SingleOrDefault(x => x.Key == propertyName);
+                if (argument.Value.Kind == TypedConstantKind.Array)
                 {
-                    return (T)isInlinedArgument.Value.Value;
+                    var elementType = typeof(T).GetElementType();
+                    var source = argument.Value.Values.Select(x => x.Value).ToArray();
+                    var array = Array.CreateInstance(elementType, source.Length);
+                    source.CopyTo(array, 0);
+                    return (T)(object)array;
+                }
+                else
+                {
+                    if (argument.Value.Value != null)
+                    {
+                        return (T)argument.Value.Value;
+                    }                    
                 }
             }
             return defaultValue;

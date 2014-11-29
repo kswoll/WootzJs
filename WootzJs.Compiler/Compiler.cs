@@ -45,9 +45,17 @@ namespace WootzJs.Compiler
     {
         public static void Main(string[] args)
         {
+            if (args.Length > 2)
+            {
+                Profiler.Output = new StreamWriter(args[2]);
+            }
+
             var projectFileInfo = new FileInfo(args[0]);
             var projectFolder = projectFileInfo.Directory.FullName;
-            var result = AsyncContext.Run(() => new Compiler().Compile(args[0]));
+            var result = AsyncContext.Run(async () =>
+            {
+                return await Profiler.Time("Total Time", async () => await new Compiler().Compile(args[0]));
+            });
             var output = result.Item1;
             var project = result.Item2;
             var projectName = project.AssemblyName;
@@ -67,9 +75,9 @@ namespace WootzJs.Compiler
             if (File.Exists(projectUserFile))
                 File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
-            var project = await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile);
+            var project = await Profiler.Time("Loading Project", async () => await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile));
             var projectName = project.AssemblyName;
-            Compilation compilation = await project.GetCompilationAsync();
+            Compilation compilation = await Profiler.Time("Getting initial compilation", async() => await project.GetCompilationAsync());
             Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
@@ -123,72 +131,90 @@ namespace WootzJs.Compiler
             // System.Text.StringBuilder = function() { ... }
             //
             // This allows access to classes using dot notation in the expected way.
-            var namespaceTransformer = new NamespaceTransformer(jsCompilationUnit.Body);
-            foreach (var syntaxTree in compilation.SyntaxTrees)
+            Profiler.Time("Transforming namespaces", () =>
             {
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                compilationUnit.Accept(namespaceTransformer);
-            }
+                var namespaceTransformer = new NamespaceTransformer(jsCompilationUnit.Body);
+                foreach (var syntaxTree in compilation.SyntaxTrees)
+                {
+                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                    compilationUnit.Accept(namespaceTransformer);
+                }                
+            });
 
             var actions = new List<Tuple<INamedTypeSymbol, Action>>();
 
             // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
             // declarations with a series of auto implemented properties.
-            var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
-            foreach (var syntaxTree in compilation.SyntaxTrees)
+            Profiler.Time("Running AnonymousTypeTransformer", () => 
             {
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                compilationUnit.Accept(anonymousTypeTransformer);
-            }
+                var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
+                foreach (var syntaxTree in compilation.SyntaxTrees)
+                {
+                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                    compilationUnit.Accept(anonymousTypeTransformer);
+                }
+            });
 
-            var diagnostics = compilation.GetDiagnostics();
-            foreach (var diagnostic in diagnostics)
+            Profiler.Time("Get diagnostics", () =>
             {
-                if (diagnostic.Severity == DiagnosticSeverity.Error)
-                    Console.WriteLine("// " + diagnostic);
-            }
+                var diagnostics = compilation.GetDiagnostics();
+                foreach (var diagnostic in diagnostics)
+                {
+                    if (diagnostic.Severity == DiagnosticSeverity.Error)
+                        Console.WriteLine("// " + diagnostic);
+                }                
+            });
 
             // Check for partial classes
-            var partialClassReassembler = new PartialClassReassembler(project, compilation);
-            compilation = partialClassReassembler.UnifyPartialTypes();
+            Profiler.Time("Reassemble partial classes", () =>
+            {
+                var partialClassReassembler = new PartialClassReassembler(project, compilation);
+                compilation = partialClassReassembler.UnifyPartialTypes();                
+            });
 
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type
             // declarations.
-            foreach (var syntaxTree in compilation.SyntaxTrees)
+            Profiler.Time("Preparing for core transformation process", () => 
             {
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                var transformer = new JsTransformer(syntaxTree, semanticModel);
+                foreach (var syntaxTree in compilation.SyntaxTrees)
+                {
+                    var semanticModel = compilation.GetSemanticModel(syntaxTree);
+                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                    var transformer = new JsTransformer(syntaxTree, semanticModel);
 
-                var typeDeclarations = GetTypeDeclarations(compilationUnit);
-                foreach (var type in typeDeclarations)
-                {
-                    var _type = type;
-                    var typeSymbol = semanticModel.GetDeclaredSymbol(type);
-                    Action action = () =>
+                    var typeDeclarations = GetTypeDeclarations(compilationUnit);
+                    foreach (var type in typeDeclarations)
                     {
-                        var statements = (JsBlockStatement)_type.Accept(transformer);
-                        jsCompilationUnit.Body.Aggregate(statements);
-                    };
-                    actions.Add(Tuple.Create(typeSymbol, action));
-                }
-                var delegateDeclarations = GetDelegates(compilationUnit);
-                foreach (var type in delegateDeclarations)
-                {
-                    var _type = type;
-                    Action action = () =>
+                        var _type = type;
+                        var typeSymbol = semanticModel.GetDeclaredSymbol(type);
+                        Action action = () =>
+                        {
+                            var statements = (JsBlockStatement)_type.Accept(transformer);
+                            jsCompilationUnit.Body.Aggregate(statements);
+                        };
+                        actions.Add(Tuple.Create(typeSymbol, action));
+                    }
+                    var delegateDeclarations = GetDelegates(compilationUnit);
+                    foreach (var type in delegateDeclarations)
                     {
-                        var statements = (JsBlockStatement)_type.Accept(transformer);
-                        jsCompilationUnit.Body.Aggregate(statements);
-                    };
-                    actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));
+                        var _type = type;
+                        Action action = () =>
+                        {
+                            var statements = (JsBlockStatement)_type.Accept(transformer);
+                            jsCompilationUnit.Body.Aggregate(statements);
+                        };
+                        actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));
+                    }
                 }
-            }
+            });
 
             // Sort all the type declarations such that base types always come before subtypes.
-            SweepSort(actions);
-            foreach (var item in actions)
-                item.Item2();
+            Profiler.Time("Sorting transformers", () => SweepSort(actions));
+            Profiler.Time("Applying core transformation", () =>
+            {
+                foreach (var item in actions)
+                    item.Item2();
+            });
 
             // Create cultures based on installed .NET cultures.  Presumably this is the same regardless 
             // of the platform that compiled this assembly.  Only do this for the standard library.
@@ -227,7 +253,7 @@ namespace WootzJs.Compiler
 
             // Write out the compiled Javascript file to the target location.
             var renderer = new JsRenderer();
-            jsCompilationUnit.Accept(renderer);
+            Profiler.Time("Rendering javascript", () => jsCompilationUnit.Accept(renderer));
             return Tuple.Create(renderer.Output, project);
         } 
 

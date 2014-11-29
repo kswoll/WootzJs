@@ -64,6 +64,11 @@ namespace WootzJs.Compiler
             return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
         }
 
+        public static string[] GetExtraBuiltInExports(this ISymbol symbol)
+        {
+            return symbol.GetAttributeValue<string[]>(Context.Instance.JsAttributeType, "ExtraBuiltInExports", null);
+        }
+
         public static bool IsExtension(this ISymbol symbol)
         {
             return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "Extension", false);

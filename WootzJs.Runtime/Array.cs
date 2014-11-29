@@ -32,7 +32,7 @@ using System.Runtime.WootzJs;
 
 namespace System
 {
-    [Js(Name = "Array", BuiltIn = true)]
+    [Js(Name = "Array", BuiltIn = true, ExtraBuiltInExports = new[] { "Int32Array", "Int16Array", "Int8Array", "Uint32Array", "Uint16Array", "Uint8Array", "Float32Array", "Float64Array" })]
     public abstract class Array : IList
     {
         [Js(Export = false, Name = "length")] // ReSharper disable once UnassignedReadonlyField

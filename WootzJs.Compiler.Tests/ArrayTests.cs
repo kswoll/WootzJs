@@ -164,5 +164,13 @@ namespace WootzJs.Compiler.Tests
             [Js(Name = "item")]
             public extern string this[int index] { get; set; }
         }
+
+        [Test]
+        public void GetValue()
+        {
+            var array = new int[] { 1, 2 };
+            var value = array.GetValue(0);
+            AssertEquals(value, 1);
+        }
     }
 }

@@ -151,6 +151,35 @@ namespace System.Runtime.WootzJs
             array["GetType"] = arrayType.member("prototype")["GetType"];
             array["$type"] = arrayType.member("prototype")["$type"];
             array["System$Collections$Generic$IReadOnlyList$1$get_Item"] = arrayType.member("prototype")["System$Collections$Generic$IReadOnlyList$1$get_Item"];
+/*
+            if (elementType.TypeName == "System.Int32")
+            {
+                array["System$Collections$IEnumerable$GetEnumerator"] = arrayType.member("prototype")["System$Collections$IEnumerable$GetEnumerator"];
+                array["System$Collections$ICollection$get_Count"] = arrayType.member("prototype")["System$Collections$ICollection$get_Count"];
+                array["System$Collections$Generic$IReadOnlyCollection$1$get_Count"] = arrayType.member("prototype")["System$Collections$Generic$IReadOnlyCollection$1$get_Count"];
+                array["System$Collections$ICollection$get_SyncRoot"] = arrayType.member("prototype")["System$Collections$ICollection$get_SyncRoot"];
+                array["System$Collections$ICollection$get_IsSynchronized"] = arrayType.member("prototype")["System$Collections$ICollection$get_IsSynchronized"];
+                array["System$Collections$ICollection$CopyTo"] = arrayType.member("prototype")["System$Collections$ICollection$CopyTo"];
+                array["System$Collections$IList$get_IsReadOnly"] = arrayType.member("prototype")["System$Collections$IList$get_IsReadOnly"];
+                array["System$Collections$IList$get_IsFixedSize"] = arrayType.member("prototype")["System$Collections$IList$get_IsFixedSize"];
+                array["System$Collections$IList$Add"] = arrayType.member("prototype")["System$Collections$IList$Add"];
+                array["System$Collections$IList$Contains"] = arrayType.member("prototype")["System$Collections$IList$Contains"];
+                array["System$Collections$IList$Clear"] = arrayType.member("prototype")["System$Collections$IList$Clear"];
+                array["System$Collections$IList$Insert"] = arrayType.member("prototype")["System$Collections$IList$Insert"];
+                array["System$Collections$IList$Remove"] = arrayType.member("prototype")["System$Collections$IList$Remove"];
+                array["System$Collections$IList$RemoveAt"] = arrayType.member("prototype")["System$Collections$IList$RemoveAt"];
+                array["GetValue"] = arrayType.member("prototype")["GetValue"];
+                array["GetEnumerator"] = arrayType.member("prototype")["GetEnumerator"];
+                array["get_Count"] = arrayType.member("prototype")["get_Count"];
+                array["get_SyncRoot"] = arrayType.member("prototype")["get_SyncRoot"];
+                array["get_IsSynchronized"] = arrayType.member("prototype")["get_IsSynchronized"];
+                array["Copy"] = arrayType.member("prototype")["Copy"];
+                array["Copy$2"] = arrayType.member("prototype")["Copy$2"];
+                array["ConstrainedCopy"] = arrayType.member("prototype")["ConstrainedCopy"];
+                array["Copy$1"] = arrayType.member("prototype")["Copy$1"];
+                array["Copy$3"] = arrayType.member("prototype")["Copy$3"];
+            }
+*/
 
 //            foreach (var property in arrayType.member("prototype"))
 //            {

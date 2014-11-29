@@ -284,7 +284,17 @@ namespace WootzJs.Compiler.JsAst
             if (value is char)
                 return new JsPrimitiveExpression((char)value);
             if (value is TypedConstant)
-                return Literal(((TypedConstant)value).Value);
+            {
+                var typedConstant = (TypedConstant)value;
+                if (typedConstant.Type.Kind == SymbolKind.ArrayType)
+                {
+                    return Array(typedConstant.Values.Select(x => Literal(x.Value)).ToArray());
+                }
+                else
+                {
+                    return Literal(((TypedConstant)value).Value);
+                }
+            }
             if (value is ITypeSymbol)
                 return Reference(((ITypeSymbol)value).GetFullName());
             else

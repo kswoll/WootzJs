@@ -93,6 +93,7 @@ namespace WootzJs.Compiler
         public JsBlockStatement CreateTypeFunction(INamedTypeSymbol classType, out JsBlockStatement typeInitializer, out JsBlockStatement staticInitializer)
         {
             var isBuiltIn = classType.IsBuiltIn();
+            var extraBuiltInExports = classType.GetExtraBuiltInExports();
             var explicitBaseType = classType.GetAttributeValue<ITypeSymbol>(Context.Instance.JsAttributeType, "BaseType");
             var baseType = 
                 explicitBaseType != null ? Type(explicitBaseType) :
@@ -134,8 +135,8 @@ namespace WootzJs.Compiler
 
             var containingType = classType.ContainingType;
             var typeInitializerFunction = Js.Function(new[] { Js.Parameter(SpecialNames.TypeInitializerTypeFunction), Js.Parameter(SpecialNames.TypeInitializerPrototype) }.Concat(classType.TypeParameters.Select(x => Js.Parameter(x.Name)).ToArray()).ToArray()).Body(typeInitializer);
-            block.Express(outerClassType.Member(SpecialNames.TypeInitializer).Assign(typeInitializerFunction)
-                .Parenthetical()
+
+            Func<JsExpression, JsExpression> primaryTypeInitializerCall = expression => expression
                 .Member("call")
                 .Invoke(
                     new[] 
@@ -151,7 +152,32 @@ namespace WootzJs.Compiler
                                 Type(x.BaseType ?? Context.Instance.ObjectType, true)))
                     )
                     .ToArray()
-                ));
+                );
+
+            if (extraBuiltInExports == null)
+            {
+                block.Express(primaryTypeInitializerCall(outerClassType.Member(SpecialNames.TypeInitializer)
+                    .Assign(typeInitializerFunction)
+                    .Parenthetical()));
+            }
+            else
+            {
+                block.Assign(outerClassType.Member(SpecialNames.TypeInitializer), typeInitializerFunction);
+                block.Express(primaryTypeInitializerCall(outerClassType.Member(SpecialNames.TypeInitializer)));
+                foreach (var extra in extraBuiltInExports)
+                {
+                    block.Express(outerClassType.Member(SpecialNames.TypeInitializer).Member("call")
+                        .Invoke(
+                            new[] 
+                            { 
+                                (JsExpression)Js.Null(), 
+                                Js.Reference(extra), 
+                                Js.Reference(extra).Member("prototype")
+                            }
+                            .ToArray()));
+                    
+                }
+            }
             block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
 
             staticInitializer = new JsBlockStatement();
@@ -2067,6 +2093,9 @@ namespace WootzJs.Compiler
 
         public JsInvocationExpression MakeArray(JsExpression array, IArrayTypeSymbol arrayType)
         {
+            if (arrayType.ElementType.Equals(Context.Instance.Int32))
+                array = Js.New(Js.Reference("Int32Array"), array);
+
             return Js.Reference(SpecialNames.InitializeArray).Invoke(
                 array,
                 Type(arrayType.ElementType));

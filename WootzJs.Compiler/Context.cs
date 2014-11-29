@@ -221,8 +221,11 @@ namespace WootzJs.Compiler
 
         public static void Update(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache)
         {
-            instance = new Context();
-            instance.UpdateContext(solution, project, compilation, reflectionCache);
+            Profiler.Time("Updating Context", () =>
+            {
+                instance = new Context();
+                instance.UpdateContext(solution, project, compilation, reflectionCache);                
+            });
         }
 
         private void UpdateContext(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache)
