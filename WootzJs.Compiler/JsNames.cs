@@ -251,7 +251,7 @@ namespace WootzJs.Compiler
 //            if (overloads.Count == 1)
             {
                 return baseMethodName;
-            }
+            }   
 /*
             else
             {
@@ -305,8 +305,8 @@ namespace WootzJs.Compiler
         {
             var nameOverride = symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
             if (nameOverride != null) 
-                return nameOverride;
-            return GetDefaultMemberName(symbol);
+                return EscapeIfReservedWord(nameOverride);
+            return EscapeIfReservedWord(GetDefaultMemberName(symbol));
         }
 
         public static string GetMemberName(this IEventSymbol symbol)
@@ -349,6 +349,29 @@ namespace WootzJs.Compiler
         public static string GetAssemblyAnonymousTypesArray(this IAssemblySymbol assembly)
         {
             return "$" + assembly.Name.MaskSpecialCharacters() + "$AnonymousTypes";
+        }
+
+        private static HashSet<string> javascriptReservedWords = new HashSet<string>(new[]
+        {
+            "break", "default", "function", "return", "var", "case", "delete", "if", "switch",
+            "void", "catch", "do", "in", "this", "while", "const", "else", "instanceof",
+            "throw", "with", "continue", "finally", "let", "try", "debugger", "for", "new",
+            "typeof"
+        });
+
+        public static bool IsJavascriptReservedWord(string s)
+        {
+            return javascriptReservedWords.Contains(s);
+        }
+
+        public static string EscapeIfReservedWord(string s)
+        {
+            if (s.StartsWith("@"))
+                s = s.Substring(1);
+            if (IsJavascriptReservedWord(s))
+                return "$" + s;
+            else
+                return s;
         }
     }
 }

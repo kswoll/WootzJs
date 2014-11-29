@@ -1444,7 +1444,7 @@ namespace WootzJs.Compiler
                 var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
                 var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
             }
-            var variable = Js.Variable(node.Identifier.ToString(), node.Initializer != null ? (JsExpression)node.Initializer.Accept(this) : null);
+            var variable = Js.Variable(JsNames.EscapeIfReservedWord(node.Identifier.ToString()), node.Initializer != null ? (JsExpression)node.Initializer.Accept(this) : null);
             DeclareInCurrentScope(symbol, variable);
             return variable;
         }
@@ -1641,7 +1641,7 @@ namespace WootzJs.Compiler
                 var forInBlock = new JsBlockStatement();
                 PushOutput(forInBlock);
 
-                var item = Js.Variable(node.Identifier.ToString());
+                var item = Js.Variable(JsNames.EscapeIfReservedWord(node.Identifier.ToString()));
                 DeclareInCurrentScope(declaration, item);
 
                 forInBlock.Aggregate((JsStatement)node.Statement.Accept(this));
@@ -1658,7 +1658,7 @@ namespace WootzJs.Compiler
                 
                 var whileBlock = new JsBlockStatement();
                 PushOutput(whileBlock);
-                var item = Js.Variable(node.Identifier.ToString(), idioms.Get(enumerator.GetReference(), Context.Instance.EnumeratorCurrent));
+                var item = Js.Variable(JsNames.EscapeIfReservedWord(node.Identifier.ToString()), idioms.Get(enumerator.GetReference(), Context.Instance.EnumeratorCurrent));
                 DeclareInCurrentScope(declaration, item);
 
                 whileBlock.Local(item);
@@ -1686,7 +1686,7 @@ namespace WootzJs.Compiler
                 foreach (var variable in node.Declaration.Variables)
                 {
                     var symbol = model.GetDeclaredSymbol(variable);
-                    var disposable = Js.Variable(variable.Identifier.ToString());
+                    var disposable = Js.Variable(JsNames.EscapeIfReservedWord(variable.Identifier.ToString()));
                     disposable.Initializer = (JsExpression)variable.Initializer.Value.Accept(this);
                     DeclareInCurrentScope(symbol, disposable);
                     result.Local(disposable);
@@ -1872,7 +1872,7 @@ namespace WootzJs.Compiler
                 identifier = GenerateUniqueNameInScope();
             }
             var symbol = model.GetDeclaredSymbol(node);
-            var variable = Js.Variable(identifier);
+            var variable = Js.Variable(JsNames.EscapeIfReservedWord(identifier));
             DeclareInCurrentScope(symbol, variable);
             return variable;
         }
@@ -2221,7 +2221,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitParameter(ParameterSyntax node)
         {
             var symbol = model.GetDeclaredSymbol(node);
-            var parameter = Js.Parameter(symbol.Name);
+            var parameter = Js.Parameter(JsNames.EscapeIfReservedWord(symbol.Name));
             if (symbol.RefKind == RefKind.None)
                 DeclareInCurrentScope(symbol, parameter);
             else 
