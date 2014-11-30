@@ -50,37 +50,108 @@ namespace WootzJs.Compiler
                 Profiler.Output = new StreamWriter(args[2]);
             }
 
-            var projectFileInfo = new FileInfo(args[0]);
-            var projectFolder = projectFileInfo.Directory.FullName;
-            var result = AsyncContext.Run(async () =>
+            var fileInfo = new FileInfo(args[0]);
+            var fileFolder = fileInfo.Directory.FullName;
+            AsyncContext.Run(async () =>
             {
-                return await Profiler.Time("Total Time", async () => await new Compiler().Compile(args[0]));
-            });
-            var output = result.Item1;
-            var project = result.Item2;
-            var projectName = project.AssemblyName;
-            var outputFolder = args[1];
+                if (fileInfo.Extension.Equals(".sln", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileSolution(args[0]));                    
+                    var output = result.Item1;
+                    var solution = result.Item2;
+                    var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
+                    var outputFolder = args[1];
+                    File.WriteAllText(fileFolder + "\\" + outputFolder + solutionName + ".js", output);
+                }
+                else
+                {
+                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileProject(args[0]));
+                    var output = result.Item1;
+                    var project = result.Item2;
+                    var projectName = project.AssemblyName;
+                    var outputFolder = args[1];
 
-            File.WriteAllText(projectFolder + "\\" + outputFolder + projectName + ".js", output);
+                    File.WriteAllText(fileFolder + "\\" + outputFolder + projectName + ".js", output);
+                }
+            });
         }
 
-        public async Task<Tuple<string, Microsoft.CodeAnalysis.Project>> Compile(string projectFile)
+        public async Task<Tuple<string, Microsoft.CodeAnalysis.Solution>> CompileSolution(string solutionFile)
         {
-            var projectFileInfo = new FileInfo(projectFile);
-            var projectFolder = projectFileInfo.Directory.FullName;
+//            var solutionFileInfo = new FileInfo(solutionFile);
+//            var solutionFolder = solutionFileInfo.Directory.FullName;
+            var solution = await Profiler.Time("Loading Project", async () => await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenSolutionAsync(solutionFile));
+            var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
+
+            foreach (var project in SortProjectsByDependencies(solution))
+            {
+                await CompileProject(project, jsCompilationUnit);
+            }
+
+            // Write out the compiled Javascript file to the target location.
+            var renderer = new JsRenderer();
+            Profiler.Time("Rendering javascript", () => jsCompilationUnit.Accept(renderer));
+
+//            solution.Projects
+            return Tuple.Create(renderer.Output, solution);
+        }
+
+        private IEnumerable<Project> SortProjectsByDependencies(Solution solution)
+        {
+            var projects = solution.Projects.Select((x, i) => new { Index = i, Project = x }).ToList();
+            var prepend = projects.Take(0).ToHashSet();
+            do
+            {
+                if (prepend.Any())
+                    projects = prepend.Concat(projects.Except(prepend)).Select((x, i) => new { Index = i, x.Project }).ToList();
+                prepend.Clear();
+                var mscorlib = projects.Single(x => x.Project.AssemblyName == "mscorlib");
+                foreach (var item in projects)
+                {
+                    var referencedProjects = item.Project.ProjectReferences.Where(x => solution.ProjectIds.Contains(x.ProjectId)).Select(x => projects.Single(y => y.Project.Id == x.ProjectId)).ToList();
+                    if (item.Project.Id != mscorlib.Project.Id)
+                        referencedProjects.Add(mscorlib);
+                    foreach (var referencedProject in referencedProjects)
+                    {
+                        if (referencedProject.Index > item.Index)
+                        {
+                            prepend.Add(referencedProject);
+                        }
+                    }
+                }
+            } while (prepend.Any());
+
+            return projects.Select(x => x.Project).ToArray();
+        }
+
+        public async Task<Tuple<string, Microsoft.CodeAnalysis.Project>> CompileProject(string projectFile)
+        {
+//            var projectFileInfo = new FileInfo(projectFile);
+//            var projectFolder = projectFileInfo.Directory.FullName;
 
             // These two lines are just a weird hack because you get no files back from compilation.SyntaxTrees
             // if the user file isn't modified.  Not sure why that's happening.
-            var projectUserFile = projectFolder + "\\" + projectFileInfo.Name + ".user";
-            if (File.Exists(projectUserFile))
-                File.SetLastWriteTime(projectUserFile, DateTime.Now);
-
-            var project = await Profiler.Time("Loading Project", async () => await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile));
-            var projectName = project.AssemblyName;
-            Compilation compilation = await Profiler.Time("Getting initial compilation", async() => await project.GetCompilationAsync());
-            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
+//            var projectUserFile = projectFolder + "\\" + projectFileInfo.Name + ".user";
+//            if (File.Exists(projectUserFile))
+//                File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
+            var project = await Profiler.Time("Loading Project", async () => await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile));
+            await CompileProject(project, jsCompilationUnit);
+
+            // Write out the compiled Javascript file to the target location.
+            var renderer = new JsRenderer();
+            Profiler.Time("Rendering javascript", () => jsCompilationUnit.Accept(renderer));
+
+            return Tuple.Create(renderer.Output, project);
+        }
+
+        public async Task CompileProject(Project project, JsCompilationUnit jsCompilationUnit) 
+        {
+            var projectName = project.AssemblyName;
+            Compilation compilation = await Profiler.Time("Getting initial project compilation", async() => await project.GetCompilationAsync());
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
+
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
             // will be loaded first, and we only want to bother creating the array once.) 
@@ -251,10 +322,6 @@ namespace WootzJs.Compiler
 //            var minifier = new JsMinifier();
 //            jsCompilationUnit.Accept(minifier);
 
-            // Write out the compiled Javascript file to the target location.
-            var renderer = new JsRenderer();
-            Profiler.Time("Rendering javascript", () => jsCompilationUnit.Accept(renderer));
-            return Tuple.Create(renderer.Output, project);
         } 
 
         /// <summary>
@@ -319,20 +386,6 @@ namespace WootzJs.Compiler
                         }
                     }
 
-/*
-                    foreach (var interfaceType in item.Item1.AllInterfaces)
-                    {
-                        int baseIndex;
-                        if (indices.TryGetValue(interfaceType, out baseIndex))
-                        {
-                            var baseTypeItem = list[baseIndex];
-                            if (baseIndex > i)
-                            {
-                                prepend.Add(baseTypeItem);
-                            }
-                        }                        
-                    }
-*/
                     var precedes = item.Item1.GetAttributeValue<ITypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
                     if (precedes != null)
                     {
