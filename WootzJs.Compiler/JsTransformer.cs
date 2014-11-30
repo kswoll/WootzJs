@@ -965,14 +965,19 @@ namespace WootzJs.Compiler
         {
             var symbol = model.GetSymbolInfo(node);
             var target = (JsExpression)node.Expression.Accept(this);
-            var arguments = (JsExpression)node.ArgumentList.Arguments[0].Accept(this);
+            var arguments = node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
 
             if (symbol.Symbol is IPropertySymbol)
             {
                 var property = (IPropertySymbol)symbol.Symbol;
                 var isExported = property.IsExported();
                 var nameOverride = property.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name");
-                if (isExported)
+                JsExpression inline;
+                if (idioms.TryInline(property.GetMethod, target, arguments, out inline))
+                {
+                    return inline;
+                }
+                else if (isExported)
                 {
                     return idioms.Get(target, property, arguments);
                 }
@@ -982,7 +987,7 @@ namespace WootzJs.Compiler
                 }
             }
 
-            return ImplicitCheck(node, target.Index(arguments));
+            return ImplicitCheck(node, target.Index(arguments.First()));
         }
 
         public override JsNode VisitArgumentList(ArgumentListSyntax node)

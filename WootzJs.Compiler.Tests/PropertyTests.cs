@@ -98,5 +98,24 @@ namespace WootzJs.Compiler.Tests
                 }
             }
         }
+
+        [Test]
+        public void Indexer()
+        {
+            var indexer = new IndexerClass();
+            indexer[0] = "foo";
+            AssertEquals(indexer[0], "foo");
+        }
+
+        public class IndexerClass
+        {
+            private string[] stringArray = new string[10];
+
+            public string this[int index]
+            {
+                get { return stringArray[index]; }
+                set { stringArray[index] = value; }
+            }
+        }
     }
 }
