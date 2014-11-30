@@ -339,14 +339,7 @@ namespace WootzJs.Compiler
                     CreateMethodInfos(type, false),
                     CreateMethodInfos(type, true),
                     CreatePropertyInfos(type),
-                    CreateEventInfos(type),
-                    Js.Primitive(type.IsValueType),
-                    Js.Primitive(type.IsAbstract),
-                    Js.Primitive(type.TypeKind == TypeKind.Interface),
-                    Js.Primitive(type.IsPrimitive()),
-                    Js.Primitive(type.IsGenericType),
-                    Js.Primitive(type.TypeParameters.Any()),
-                    Js.Primitive(type.TypeKind == TypeKind.Enum)                    
+                    CreateEventInfos(type)
                 });
             }
 

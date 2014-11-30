@@ -69,11 +69,11 @@ namespace System
             var type = new Type(fullName, new Attribute[0]);
             type.Init(fullName, (int)TypeFlags.GenericParameter, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
                 new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
-                new EventInfo[0], false, false, false, false, false, false, false, null, null);
+                new EventInfo[0], null, null);
             return type;
         }
 
-        public void Init(string fullName, int flags, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, bool isEnum, JsTypeFunction elementType, JsTypeFunction unconstructedType)
+        public void Init(string fullName, int flags, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
 
