@@ -106,6 +106,7 @@ namespace System.Runtime.WootzJs
         [Js(Name = "$delegate")]
         public static JsFunction CreateDelegate(JsObject thisExpression, JsFunction lambda, JsTypeFunction delegateType = null, string delegateKey = null)
         {
+            delegateType = delegateType ?? Jsni.reference("System.Delegate").As<JsTypeFunction>();
             if (delegateKey != null)
             {
                 if (thisExpression[delegateKey])
