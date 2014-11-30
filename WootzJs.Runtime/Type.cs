@@ -41,6 +41,7 @@ namespace System
 
         public string FullName { get; set; }
 
+        internal TypeFlags typeFlags;
         internal JsTypeFunction thisType;
         private JsTypeFunction baseType;
         internal JsTypeFunction[] interfaces;
@@ -50,17 +51,9 @@ namespace System
         internal ConstructorInfo[] constructors;
         internal PropertyInfo[] properties;
         internal EventInfo[] events;
-        internal TypeAttributes typeAttributes;
+//        internal TypeAttributes typeAttributes;
         private JsTypeFunction elementType;
         internal JsTypeFunction unconstructedType;
-        private bool isValueType;
-        private bool isInterface;
-        private bool isAbstract;
-        private bool isPrimitive;
-        private bool isGenericType;
-        private bool isGenericTypeDefinition;
-        private bool isGenericParameter;
-        private bool isEnum;
 
         public Type(string name, Attribute[] attributes) : base(name, attributes)
         {
@@ -74,44 +67,38 @@ namespace System
         public static Type CreateTypeParameter(string fullName, JsTypeFunction baseType)
         {
             var type = new Type(fullName, new Attribute[0]);
-            type.Init(fullName, TypeAttributes.Public, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
+            type.Init(fullName, (int)TypeFlags.GenericParameter, TypeAttributes.Public, null, baseType, new JsTypeFunction[0], new JsTypeFunction[0],
                 new FieldInfo[0], new MethodInfo[0], new ConstructorInfo[0], new PropertyInfo[0],
                 new EventInfo[0], false, false, false, false, false, false, false, null, null);
-            type.isGenericParameter = true;
             return type;
         }
 
-        public void Init(string fullName, TypeAttributes typeAttributes, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, bool isEnum, JsTypeFunction elementType, JsTypeFunction unconstructedType)
+        public void Init(string fullName, int flags, TypeAttributes typeAttributes2, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, bool isValueType, bool isAbstract, bool isInterface, bool isPrimitive, bool isGenericType, bool isGenericTypeDefinition, bool isEnum, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
 
-            this.typeAttributes = typeAttributes;
+            typeFlags = (TypeFlags)flags;
+
+//            this.typeAttributes = typeAttributes;
             this.thisType = thisType;
             this.baseType = baseType;
             this.interfaces = interfaces;
             this.typeArguments = typeArguments;
-            this.fields = fields;
-            this.methods = methods;
-            this.constructors = constructors;
-            this.properties = properties;
-            this.events = events;
-            this.isValueType = isValueType;
-            this.isAbstract = isAbstract;
-            this.isInterface = isInterface;
-            this.isPrimitive = isPrimitive;
-            this.isGenericType = isGenericType;
-            this.isGenericTypeDefinition = isGenericTypeDefinition;
-            this.isEnum = isEnum;
+            this.fields = fields ?? new FieldInfo[0];
+            this.methods = methods ?? new MethodInfo[0];
+            this.properties = properties ?? new PropertyInfo[0];
+            this.constructors = constructors ?? new ConstructorInfo[0];
+            this.events = events ?? new EventInfo[0];
             this.elementType = elementType;
             this.unconstructedType = unconstructedType;
 
-            foreach (var field in fields)
+            foreach (var field in this.fields)
                 field.declaringType = this;
-            foreach (var method in methods)
+            foreach (var method in this.methods)
                 method.declaringType = this;
-            foreach (var property in properties)
+            foreach (var property in this.properties)
                 property.declaringType = this;
-            foreach (var constructor in constructors)
+            foreach (var constructor in this.constructors)
                 constructor.declaringType = this;
         }
 
@@ -620,7 +607,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsValueType
         {
-            get { return isValueType; }
+            get { return (typeFlags & TypeFlags.ValueType) != 0; }
         }
 
         /// <summary>
@@ -739,7 +726,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsPrimitive
         {
-            get { return isPrimitive; }
+            get { return (typeFlags & TypeFlags.Primitive) != 0; }
         }
 
         /// <summary>
@@ -752,7 +739,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsAbstract
         {
-            get { return (typeAttributes & TypeAttributes.Abstract) != TypeAttributes.NotPublic; }
+            get { return (typeFlags & TypeFlags.Abstract) != 0; }
         }
 
         /// <summary>
@@ -765,7 +752,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsInterface
         {
-            get { return (typeAttributes & TypeAttributes.ClassSemanticsMask) == TypeAttributes.ClassSemanticsMask; }
+            get { return (typeFlags & TypeFlags.Interface) != 0; }
         }
 
         /// <summary>
@@ -778,7 +765,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsSealed
         {
-            get { return (typeAttributes & TypeAttributes.Sealed) != TypeAttributes.NotPublic; }
+            get { return (typeFlags & TypeFlags.Sealed) != 0; }
         }
 
         /// <summary>
@@ -790,7 +777,7 @@ namespace System
         /// </returns>
         public virtual bool IsGenericType
         {
-            get { return isGenericType; }
+            get { return (typeFlags & TypeFlags.GenericType) != 0; }
         }
 
         /// <summary>
@@ -803,8 +790,9 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public virtual bool IsEnum
         {
-            get {
-                return isEnum;
+            get 
+            {
+                return (typeFlags & TypeFlags.Enum) != 0;
             }
         }
 
@@ -874,7 +862,7 @@ namespace System
         /// </returns>
         public virtual bool IsGenericTypeDefinition
         {
-            get { return isGenericTypeDefinition; }
+            get { return (typeFlags & TypeFlags.GenericTypeDefenition) != 0; }
         }
 
         public override string ToString()
@@ -892,7 +880,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public virtual bool IsGenericParameter
         {
-            get { return isGenericParameter; }
+            get { return (typeFlags & TypeFlags.GenericParameter) != 0; }
         }
 
         /// <summary>
@@ -979,7 +967,7 @@ namespace System
         /// </returns>
         public bool IsPublic
         {
-            get { return (typeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.Public; }
+            get { return (typeFlags & TypeFlags.Public) != 0; }
         }
 
         /// <summary>

@@ -59,6 +59,11 @@ namespace WootzJs.Compiler
             return result;
         }
 
+        public static bool IsReflectionMinimized(this IAssemblySymbol assembly)
+        {
+            return assembly.GetAttributeValue(Context.Instance.JsCompilerOptionsAttribute, "IsReflectionMinimized", false);
+        }
+
         public static bool IsBuiltIn(this ISymbol symbol)
         {
             return symbol.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);

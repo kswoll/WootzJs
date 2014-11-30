@@ -256,6 +256,7 @@
     <Compile Include="Runtime\WootzJs\GenericMath.cs" />
     <Compile Include="Runtime\WootzJs\JsArray.cs" />
     <Compile Include="Runtime\WootzJs\JsAttribute.cs" />
+    <Compile Include="Runtime\WootzJs\JsCompilerOptionsAttribute.cs" />
     <Compile Include="Runtime\WootzJs\JsDate.cs" />
     <Compile Include="Runtime\WootzJs\JsError.cs" />
     <Compile Include="Runtime\WootzJs\JsFunction.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Runtime\WootzJs\JsString.cs" />
     <Compile Include="Runtime\WootzJs\SpecialFunctions.cs" />
     <Compile Include="Runtime\WootzJs\SpecialNames.cs" />
+    <Compile Include="Runtime\WootzJs\TypeFlags.cs" />
     <Compile Include="SByte.cs" />
     <Compile Include="Single.cs" />
     <Compile Include="String.cs" />

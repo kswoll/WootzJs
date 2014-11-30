@@ -74,6 +74,10 @@ namespace System.Runtime.WootzJs
                 }
                 return array.As<JsObject>();
             }
+            else if (type.IsEnum)
+            {
+                return Enum.Parse(type, o.As<string>());
+            }
             else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
             {
                 var arrayValue = o.As<JsArray>();
@@ -98,10 +102,6 @@ namespace System.Runtime.WootzJs
             else if (type == typeof(string))
             {
                 return o.As<string>();
-            }
-            else if (type.IsEnum)
-            {
-                return Enum.Parse(type, o.As<string>());
             }
             else
             {

@@ -226,15 +226,18 @@ namespace WootzJs.Compiler
             body.Assign(Js.This().Member(SpecialNames.TypeField), 
                 CreateObject(Context.Instance.TypeConstructor, Js.Primitive(type.Name), CreateAttributes(type)));
 
+            TypeFlags typeFlags = 0;
             JsExpression typeAttributes;
             if (type.ContainingType == null)
             {
                 switch (type.DeclaredAccessibility)
                 {
                     case Accessibility.Public:
+                        typeFlags |= TypeFlags.Public;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesPublic);
                         break;
                     case Accessibility.Internal:
+                        typeFlags |= TypeFlags.Internal;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNotPublic);
                         break;
                     default:
@@ -246,18 +249,23 @@ namespace WootzJs.Compiler
                 switch (type.DeclaredAccessibility)
                 {
                     case Accessibility.Public:
+                        typeFlags |= TypeFlags.Public;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedPublic);
                         break;
                     case Accessibility.Internal:
+                        typeFlags |= TypeFlags.Internal;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedAssembly);
                         break;
                     case Accessibility.Private:
+                        typeFlags |= TypeFlags.Private;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedPrivate);
                         break;
                     case Accessibility.Protected:
+                        typeFlags |= TypeFlags.Protected;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamily);
                         break;
                     case Accessibility.ProtectedOrInternal:
+                        typeFlags |= TypeFlags.Private | TypeFlags.Internal;
                         typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamORAssem);
                         break;
                     default:
@@ -266,44 +274,84 @@ namespace WootzJs.Compiler
             }
             if (type.TypeKind == TypeKind.Interface)
             {
+                typeFlags |= TypeFlags.Interface;
                 typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
                     typeAttributes, GetEnumValue(Context.Instance.TypeAttributesInterface));
             }
             else if (type.TypeKind == TypeKind.Class)
             {
+                typeFlags |= TypeFlags.Class;
                 typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
                     typeAttributes, GetEnumValue(Context.Instance.TypeAttributesClass));                
             }
+            else if (type.TypeKind == TypeKind.Enum)
+            {
+                typeFlags |= TypeFlags.Enum;
+            }
             if (type.IsAbstract)
             {
+                typeFlags |= TypeFlags.Abstract;
                 typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
                     typeAttributes, GetEnumValue(Context.Instance.TypeAttributesAbstract));                
             }
             else if (type.IsSealed)
             {
+                typeFlags |= TypeFlags.Sealed;
                 typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
                     typeAttributes, GetEnumValue(Context.Instance.TypeAttributesSealed));                
             }
+            if (type.IsValueType)
+            {
+                typeFlags |= TypeFlags.ValueType;
+            }
+            if (type.IsPrimitive())
+            {
+                typeFlags |= TypeFlags.Primitive;
+            }
+            if (type.IsGenericType)
+            {
+                typeFlags |= TypeFlags.GenericType;
+            }
+            if (type.TypeParameters.Any())
+            {
+                typeFlags |= TypeFlags.GenericTypeDefenition;
+            }
+            if (type.TypeKind == TypeKind.TypeParameter)
+            {
+                typeFlags |= TypeFlags.GenericParameter;
+            }
 
-            body.Express(Invoke(Js.This().Member(SpecialNames.TypeField), Context.Instance.TypeInit, 
+            var arguments = new List<JsExpression>
+            {
                 Js.Primitive(explicitName ?? fullTypeName),          // Param1: fullTypeName
+                Js.Primitive((int)typeFlags),
                 typeAttributes,
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),
-                MakeArray(Js.Array(type.TypeParameters.Select(x => Js.Reference(x.Name)).ToArray()), Context.Instance.TypeArray),
-                CreateFieldInfos(type),
-                CreateMethodInfos(type, false),
-                CreateMethodInfos(type, true),
-                CreatePropertyInfos(type),
-                CreateEventInfos(type),
-                Js.Primitive(type.IsValueType),
-                Js.Primitive(type.IsAbstract),
-                Js.Primitive(type.TypeKind == TypeKind.Interface),
-                Js.Primitive(type.IsPrimitive()),
-                Js.Primitive(type.IsGenericType),
-                Js.Primitive(type.TypeParameters.Any()),
-                Js.Primitive(type.TypeKind == TypeKind.Enum)));
+                MakeArray(Js.Array(type.TypeParameters.Select(x => Js.Reference(x.Name)).ToArray()), Context.Instance.TypeArray)                
+            };
+
+            if (!Context.Instance.Compilation.Assembly.IsReflectionMinimized())
+            {
+                arguments.AddRange(new[]
+                {
+                    CreateFieldInfos(type),
+                    CreateMethodInfos(type, false),
+                    CreateMethodInfos(type, true),
+                    CreatePropertyInfos(type),
+                    CreateEventInfos(type),
+                    Js.Primitive(type.IsValueType),
+                    Js.Primitive(type.IsAbstract),
+                    Js.Primitive(type.TypeKind == TypeKind.Interface),
+                    Js.Primitive(type.IsPrimitive()),
+                    Js.Primitive(type.IsGenericType),
+                    Js.Primitive(type.TypeParameters.Any()),
+                    Js.Primitive(type.TypeKind == TypeKind.Enum)                    
+                });
+            }
+
+            body.Express(Invoke(Js.This().Member(SpecialNames.TypeField), Context.Instance.TypeInit, arguments.ToArray()));
             body.Return(Js.This().Member(SpecialNames.TypeField));
             var result = StoreInType(SpecialNames.CreateType, Js.Function().Body(body).Compact());
             return result;

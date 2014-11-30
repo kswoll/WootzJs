@@ -180,6 +180,7 @@
     <Compile Include="SourceMapping\Line.cs" />
     <Compile Include="SourceMapping\Segment.cs" />
     <Compile Include="SourceMapping\SourceMap.cs" />
+    <Compile Include="TypeFlags.cs" />
     <Compile Include="VariableDeclarationsLocator.cs" />
     <Compile Include="VariableUsageFinder.cs" />
     <Compile Include="WootzJsExtensions.cs" />
@@ -198,7 +199,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)SpecialNames.cs $(ProjectDir)..\WootzJs.Runtime\Runtime\WootzJs</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)SpecialNames.cs $(ProjectDir)..\WootzJs.Runtime\Runtime\WootzJs
+copy $(ProjectDir)TypeFlags.cs $(ProjectDir)..\WootzJs.Runtime\Runtime\WootzJs</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

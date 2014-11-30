@@ -697,6 +697,9 @@ namespace WootzJs.Compiler
                 case SyntaxKind.PreDecrementExpression:
                     op = JsUnaryOperator.PreDecrement;
                     break;
+                case SyntaxKind.BitwiseNotExpression:
+                    op = JsUnaryOperator.BitwiseNot;
+                    break;
                 default:
                     throw new Exception();
             }

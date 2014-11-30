@@ -389,6 +389,10 @@ namespace WootzJs.Compiler
                     output.Append("++");
                     node.Operand.Accept(this);
                     break;
+                case JsUnaryOperator.BitwiseNot:
+                    output.Append("~");
+                    node.Operand.Accept(this);
+                    break;
                 default:
                     throw new Exception();
             }

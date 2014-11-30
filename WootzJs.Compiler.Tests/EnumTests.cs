@@ -57,6 +57,14 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void RemoveFlag()
+        {
+            var oneAndTwo = FlagsEnum.One | FlagsEnum.Two;
+            var one = oneAndTwo & ~FlagsEnum.Two;
+            AssertTrue(one == FlagsEnum.One);
+        }
+
+        [Test]
         public void ThreeFlags()
         {
             var oneAndTwo = FlagsEnum.One | FlagsEnum.Two | FlagsEnum.Three;

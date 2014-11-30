@@ -141,6 +141,7 @@ namespace WootzJs.Compiler
 
             // Write out the compiled Javascript file to the target location.
             var renderer = new JsRenderer();
+//            renderer.Builder.IsCompacting = true;
             Profiler.Time("Rendering javascript", () => jsCompilationUnit.Accept(renderer));
 
             return Tuple.Create(renderer.Output, project);
@@ -291,6 +292,7 @@ namespace WootzJs.Compiler
             // of the platform that compiled this assembly.  Only do this for the standard library.
             if (projectName == "mscorlib")
             {
+/*
                 foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
                 {
                     JsExpression target = new JsVariableReferenceExpression(Context.Instance.CultureInfo.GetTypeName()).Member("RegisterCulture");
@@ -308,6 +310,7 @@ namespace WootzJs.Compiler
                         Js.Array(culture.DateTimeFormat.DayNames.Select(x => Js.Literal(x)).ToArray())
                     }).Express());
                 }
+*/
             }
 
             // If the project type is a console application, then invoke the Main method at the very

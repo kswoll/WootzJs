@@ -38,6 +38,14 @@
     <StartupObject>WootzJs.Compiler.Tests.TestsApplication</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System">
+      <HintPath>..\build\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>..\build\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AnonymousTypeTests.cs" />
     <Compile Include="ArrayTests.cs" />
     <Compile Include="AsExpressionTests.cs" />
@@ -124,14 +132,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj">
-      <Project>{f631cac8-6af7-4889-ab85-19ea2e45460b}</Project>
-      <Name>WootzJs.ComponentModel.DataAnnotations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WootzJs.System\WootzJs.System.csproj">
-      <Project>{976aa4b0-d441-4f50-802b-6d56be3e9dbe}</Project>
-      <Name>WootzJs.System</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WootzJs.Testing\WootzJs.Testing.csproj">
       <Project>{9cf8a436-d6f9-4b62-bedf-aebc07b0d821}</Project>
       <Name>WootzJs.Testing</Name>

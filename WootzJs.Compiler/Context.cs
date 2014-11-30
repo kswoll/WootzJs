@@ -55,6 +55,7 @@ namespace WootzJs.Compiler
         public INamedTypeSymbol Assembly { get; private set; }
         public IMethodSymbol AssemblyConstructor { get; private set; }
         public INamedTypeSymbol JsAttributeType { get; private set; }
+        public INamedTypeSymbol JsCompilerOptionsAttribute { get; private set; }
         public INamedTypeSymbol PrecedesAttribute { get; private set; }
         public INamedTypeSymbol ObjectType { get; private set; }
         public new IMethodSymbol GetType { get; private set; }
@@ -261,6 +262,7 @@ namespace WootzJs.Compiler
             Assembly = compilation.FindType("System.Reflection.Assembly");
             AssemblyConstructor = Assembly.InstanceConstructors.Single();
             JsAttributeType = compilation.FindType("System.Runtime.WootzJs.JsAttribute");
+            JsCompilerOptionsAttribute = compilation.FindType("System.Runtime.WootzJs.JsCompilerOptionsAttribute");
             PrecedesAttribute = compilation.FindType("System.Runtime.WootzJs.DependsOnAttribute");
             ObjectType = compilation.FindType("System.Object");
             GetType = ObjectType.GetMethod("GetType");
