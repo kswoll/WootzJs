@@ -117,5 +117,45 @@ namespace WootzJs.Compiler.Tests
             }
             while (Jsni.code("x === 100").As<bool>()) { }
         }
+
+        [Js(Name = "Array", Export = false)]
+        public class FastList<T>
+        {
+            [Js(Inline = "[]")]
+            public FastList()
+            {
+            }
+
+            public int Count
+            {
+                [Js(Inline = "@this.length", Export = false)]
+                get
+                {
+                    return 0;
+                }
+            }
+
+            public extern string Foo
+            {
+                [Js(Inline = "@this.foo")]
+                get;
+
+                [Js(Inline = "@this.foo = @value")]
+                set;
+            }
+        }
+
+        [Test]
+        public void FastListTest()
+        {
+            FastList<int> list = new FastList<int>();
+            AssertEquals(list.Count, 0);
+
+            list.Foo = "bar";
+            AssertEquals(list.As<JsObject>().member("foo"), "bar");
+
+            list.As<JsObject>().memberset("foo", "foobar");
+            AssertEquals(list.Foo, "foobar");
+        }
     }
 }

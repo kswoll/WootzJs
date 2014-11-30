@@ -609,7 +609,9 @@ namespace WootzJs.Compiler
                 if (!(@this is JsInvocationExpression))
                     @this = @this.Invoke();
             }
-            var result = idioms.MemberReference(@this, symbol, node.Parent is BinaryExpressionSyntax && node.Parent.IsKind(SyntaxKind.SimpleAssignmentExpression) && ((BinaryExpressionSyntax)node.Parent).Left == node);
+            var binaryExpressionParent = node.FirstAncestorOrSelf<BinaryExpressionSyntax>();
+            var isSetter = binaryExpressionParent != null && binaryExpressionParent.IsKind(SyntaxKind.SimpleAssignmentExpression) && node.AncestorsAndSelf().Contains(binaryExpressionParent.Left);
+            var result = idioms.MemberReference(@this, symbol, isSetter);
             return ImplicitCheck(node, result);
         }
 
@@ -762,7 +764,9 @@ namespace WootzJs.Compiler
                 }
             }
 
-            var result = idioms.MemberReference(target, symbol, false, isBaseReference);
+            var binaryExpressionParent = node.FirstAncestorOrSelf<BinaryExpressionSyntax>();
+            var isSetter = binaryExpressionParent != null && binaryExpressionParent.IsKind(SyntaxKind.SimpleAssignmentExpression) && node.AncestorsAndSelf().Contains(binaryExpressionParent.Left);
+            var result = idioms.MemberReference(target, symbol, isSetter, isBaseReference);
             return ImplicitCheck(node, result);
         }
 

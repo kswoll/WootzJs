@@ -868,10 +868,17 @@ namespace WootzJs.Compiler
             return InvokeStatic(Context.Instance.EnumInternalToObject, Type(enumType).Invoke(), value);
         }
 
-        public JsExpression GetPropertyValue(JsExpression target, IPropertySymbol property, bool isBaseReference = false)
+        public JsExpression GetPropertyValue(JsExpression target, IPropertySymbol property, bool isSetter, bool isBaseReference)
         {
             bool isExported = property.IsExported();
             var propertyName = property.GetMemberName();
+
+            JsExpression inline;
+            if (!isSetter && TryInline(property.GetMethod, target, new JsExpression[0], out inline))
+            {
+                return inline;
+            }
+
             if (!isExported)
             {
                 return target.Member(propertyName);
@@ -925,7 +932,7 @@ namespace WootzJs.Compiler
                         }
                     }
 
-                    return GetPropertyValue(@this, property, isBaseReference);
+                    return GetPropertyValue(@this, property, isSetter, isBaseReference);
                 }
                 case SymbolKind.Parameter:
                     return transformer.ReferenceDeclarationInScope(symbol).GetReference();
@@ -1081,6 +1088,16 @@ namespace WootzJs.Compiler
                         arguments.AddRange(invocationExpression.Arguments);
                     }
                     arguments.Add(right);
+                    if (leftSymbol is IPropertySymbol)
+                    {
+                        var methodSymbol = ((IPropertySymbol)leftSymbol).SetMethod;
+                        JsExpression inline;
+                        if (TryInline(methodSymbol, target, arguments.ToArray(), out inline))
+                        {
+                            result = inline;
+                            return true;
+                        }
+                    }
                     if (isExported)
                     {
                         IMethodSymbol methodSymbol;
