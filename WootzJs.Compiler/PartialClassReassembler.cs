@@ -56,7 +56,7 @@ namespace WootzJs.Compiler
                     compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
                 }
             }
-            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
 
             scanner = new PartialClassScanner(this);
             foreach (var syntaxTree in compilation.SyntaxTrees)
@@ -101,7 +101,7 @@ namespace WootzJs.Compiler
                 {
                     compilation = compilation.ReplaceSyntaxTree(item.Item1, SyntaxFactory.SyntaxTree(item.Item2, item.Item1.FilePath));                    
                 }
-                Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
+                Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
                 compilation = compilation.Clone();
             }
             return compilation;

@@ -88,7 +88,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AtTokenizer.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="FileUtils.cs" />
+    <Compile Include="IPropertyImplementation.cs" />
     <Compile Include="JsAst\JsNativeExpression.cs" />
     <Compile Include="JsAst\JsSnippetExpression.cs" />
     <Compile Include="PartialClassReassembler.cs" />

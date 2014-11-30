@@ -438,5 +438,19 @@ namespace WootzJs.Compiler
                 current = current.ContainingType;
             }
         }
+
+        public static bool IsAutoProperty(this PropertyDeclarationSyntax property)
+        {
+            var getter = property.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
+            var setter = property.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
+            return !property.Modifiers.Any(x => x == SyntaxFactory.Token(SyntaxKind.AbstractKeyword)) && 
+                getter != null && setter != null && getter.Body == null && setter.Body == null;
+        }
+
+        public static bool IsAutoProperty(this IPropertySymbol property)
+        {
+            var propertySyntaxNode = property.DeclaringSyntaxReferences.Select(x => x.GetSyntax()).OfType<PropertyDeclarationSyntax>().Single();
+            return propertySyntaxNode.IsAutoProperty();
+        }
     }
 }

@@ -358,25 +358,32 @@ namespace WootzJs.Compiler
 
             Func<string, JsExpression, JsExpressionStatement> storeIn = (member, value) => !property.IsStatic ? idioms.StoreInPrototype(member, value) : idioms.StoreInType(member, value);
 
-            if (getter != null && setter != null && getter.Body == null && setter.Body == null)
+            if (node.IsAutoProperty())
             {
-                var backingField = property.GetBackingFieldName();
-                var valueParameter = Js.Parameter("value");
-
-                block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(
-                    Js.This().Member(backingField).Return()
-                ).Compact()));
-
-                var setterBlock = Js.Block();
-                setterBlock.Assign(Js.This().Member(backingField), valueParameter.GetReference());
-                IMethodSymbol notifyPropertyChanged;
-                if (property.IsAutoNotifyPropertyChange(out notifyPropertyChanged))
+                if (idioms.IsMinimizedAutoProperty(property))
                 {
-                    setterBlock.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
+                    
                 }
-                setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
+                else
+                {
+                    var backingField = property.GetBackingFieldName();
+                    var valueParameter = Js.Parameter("value");
 
-                block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));
+                    block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(
+                        Js.This().Member(backingField).Return()
+                    ).Compact()));
+
+                    var setterBlock = Js.Block();
+                    setterBlock.Assign(Js.This().Member(backingField), valueParameter.GetReference());
+                    IMethodSymbol notifyPropertyChanged;
+                    if (property.IsAutoNotifyPropertyChange(out notifyPropertyChanged))
+                    {
+                        setterBlock.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
+                    }
+                    setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
+
+                    block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));                    
+                }
             }
             else
             {

@@ -85,6 +85,11 @@ namespace System.Runtime.WootzJs
         /// </summary>
         public string Inline { get; set; }
 
+        /// <summary>
+        /// If true, auto properties are Minimized and output as simple fields in the Javascript.
+        /// </summary>
+        public bool AreAutoPropertiesMinimized { get; set; }
+
         public JsAttribute()
         {
             Export = true;

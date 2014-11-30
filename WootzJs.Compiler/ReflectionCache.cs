@@ -12,8 +12,8 @@ namespace WootzJs.Compiler
 
         public ReflectionCache(Project project, Compilation compilation)
         {
-            assemblies = project.MetadataReferences
-                .ToDictionary(x => compilation.GetAssemblyOrModuleSymbol(x).MetadataName, x => Assembly.ReflectionOnlyLoadFrom(x.Display));
+//            assemblies = project.MetadataReferences
+//                .ToDictionary(x => compilation.GetAssemblyOrModuleSymbol(x).MetadataName, x => Assembly.ReflectionOnlyLoadFrom(x.Display));
         }
 
         public Type GetReflectedType(INamedTypeSymbol type)

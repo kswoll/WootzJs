@@ -235,70 +235,9 @@ namespace WootzJs.Compiler
 
             var baseMethodName = symbol.Name.MaskSpecialCharacters();
             if (baseMethodName == "this[]")
-                baseMethodName = "Item";
+                return "Item";
 
-/*
-            var overloads = symbol.ContainingType
-                .GetAllMembers()
-                .Where(x => x.Name == symbol.Name)
-                .OfType<PropertySymbol>()
-                // De-dup overrides from overloads, since we only want one name for a given override chain.
-                .Where(x => x.OverriddenProperty == null)
-                .Select(x => new { Property = x, Interfaces = x.FindImplementedInterfaceMembers(context.Solution).ToList() })
-                .ToList();
-*/
-
-//            if (overloads.Count == 1)
-            {
-                return baseMethodName;
-            }   
-/*
-            else
-            {
-                // Sort overloads based on a constant algorithm where overloads from base types 
-                overloads.Sort((x, y) =>
-                {
-                    if (x.Property.ContainingType.IsSubclass(y.Property.ContainingType))
-                        return 1;
-                    else if (y.Property.ContainingType.IsSubclass(x.Property.ContainingType))
-                        return -1;
-                    else
-                    {
-                        var xMethod = x;
-                        var yMethod = y;
-                        if (xMethod.Property.Parameters.Count > yMethod.Property.Parameters.Count)
-                            return 1;
-                        else if (xMethod.Property.Parameters.Count < yMethod.Property.Parameters.Count)
-                            return -1;
-                        else
-                        {
-                            if (xMethod.Interfaces.Count > yMethod.Interfaces.Count) 
-                                return 1;
-                            else if (xMethod.Interfaces.Count < yMethod.Interfaces.Count)
-                                return -1;
-                            else
-                            {
-                                for (var i = 0; i < xMethod.Property.Parameters.Count; i++)
-                                {
-                                    var xParameter = xMethod.Property.Parameters[i];
-                                    var yParameter = yMethod.Property.Parameters[i];
-                                    var result = string.Compare(xParameter.Type.ToString(), yParameter.Type.ToString(), StringComparison.Ordinal);
-                                    if (result != 0)
-                                        return result;
-                                }                                            
-                            }
-                        }
-                        return string.Compare(x.Property.ContainingType.ToString(), y.Property.ContainingType.ToString(), StringComparison.Ordinal);
-                    }
-                });
-                var overloadSymbols = overloads.Select(x => x.Property).ToList();
-                var indexOf = overloadSymbols.IndexOf(symbol.GetRootOverride());
-                if (indexOf == 0)
-                    return baseMethodName;          // If a type starts out with only one method, it will not have any $ suffix.  That means the first instance of an overload/override will always be naked.
-                else
-                    return baseMethodName + "$" + indexOf;
-            }
-*/
+            return EscapeIfReservedWord(GetDefaultMemberName(symbol));
         }
 
         public static string GetMemberName(this IFieldSymbol symbol)

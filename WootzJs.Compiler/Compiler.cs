@@ -33,9 +33,11 @@ using System.Linq;
 using System.Runtime.WootzJs;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.MSBuild;
 using Nito.AsyncEx;
 using WootzJs.Compiler.JsAst;
 
@@ -43,40 +45,46 @@ namespace WootzJs.Compiler
 {
     public class Compiler
     {
+        private static string mscorlib;
+
         public static void Main(string[] args)
         {
-            if (args.Length > 2)
+            var projectOrSolutionFile = args[0];
+            var outputFolder = args[1];
+            var namedArguments = args.Skip(2).Select(x => x.Split('=')).ToDictionary(x => x[0], x => x[1]);
+            mscorlib = namedArguments.Get("mscorlib");
+            var performanceFile = namedArguments.Get("performanceFile");
+
+            if (performanceFile != null)
             {
-                Profiler.Output = new StreamWriter(args[2]);
+                Profiler.Output = new StreamWriter(performanceFile);
             }
 
-            var fileInfo = new FileInfo(args[0]);
+            var fileInfo = new FileInfo(projectOrSolutionFile);
             var fileFolder = fileInfo.Directory.FullName;
             AsyncContext.Run(async () =>
             {
                 if (fileInfo.Extension.Equals(".sln", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileSolution(args[0]));                    
+                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileSolution(projectOrSolutionFile));                    
                     var output = result.Item1;
                     var solution = result.Item2;
                     var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
-                    var outputFolder = args[1];
                     File.WriteAllText(fileFolder + "\\" + outputFolder + solutionName + ".js", output);
                 }
                 else
                 {
-                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileProject(args[0]));
+                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileProject(projectOrSolutionFile));
                     var output = result.Item1;
                     var project = result.Item2;
                     var projectName = project.AssemblyName;
-                    var outputFolder = args[1];
 
                     File.WriteAllText(fileFolder + "\\" + outputFolder + projectName + ".js", output);
                 }
             });
         }
 
-        public async Task<Tuple<string, Microsoft.CodeAnalysis.Solution>> CompileSolution(string solutionFile)
+        public async Task<Tuple<string, Solution>> CompileSolution(string solutionFile)
         {
 //            var solutionFileInfo = new FileInfo(solutionFile);
 //            var solutionFolder = solutionFileInfo.Directory.FullName;
@@ -126,8 +134,8 @@ namespace WootzJs.Compiler
 
         public async Task<Tuple<string, Microsoft.CodeAnalysis.Project>> CompileProject(string projectFile)
         {
-//            var projectFileInfo = new FileInfo(projectFile);
-//            var projectFolder = projectFileInfo.Directory.FullName;
+            var projectFileInfo = new FileInfo(projectFile);
+            var projectFolder = projectFileInfo.Directory.FullName;
 
             // These two lines are just a weird hack because you get no files back from compilation.SyntaxTrees
             // if the user file isn't modified.  Not sure why that's happening.
@@ -136,7 +144,30 @@ namespace WootzJs.Compiler
 //                File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
-            var project = await Profiler.Time("Loading Project", async () => await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenProjectAsync(projectFile));
+            var workspace = MSBuildWorkspace.Create();
+            var project = await Profiler.Time("Loading Project", async () =>
+            {
+                string mscorlib = Compiler.mscorlib;
+                if (mscorlib == null)
+                {
+                    mscorlib = FileUtils.GetWootzJsTargetFile(projectFile);
+                }
+                Project result;
+                if (mscorlib != null)
+                {
+                    workspace.CloseSolution();
+                    var mscorlibProject = await workspace.OpenProjectAsync(mscorlib);
+                    result = await workspace.OpenProjectAsync(projectFile);
+                    result = result.AddProjectReference(new ProjectReference(mscorlibProject.Id));
+                    result = result.RemoveMetadataReference(result.MetadataReferences.Single(x => x.Display.Contains("mscorlib.dll")));
+                }
+                else
+                {
+                    result = await workspace.OpenProjectAsync(projectFile);
+                }
+
+                return result;
+            });
             await CompileProject(project, jsCompilationUnit);
 
             // Write out the compiled Javascript file to the target location.
@@ -151,7 +182,7 @@ namespace WootzJs.Compiler
         {
             var projectName = project.AssemblyName;
             Compilation compilation = await Profiler.Time("Getting initial project compilation", async() => await project.GetCompilationAsync());
-            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
 
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
@@ -290,9 +321,8 @@ namespace WootzJs.Compiler
 
             // Create cultures based on installed .NET cultures.  Presumably this is the same regardless 
             // of the platform that compiled this assembly.  Only do this for the standard library.
-            if (projectName == "mscorlib")
+            if (projectName == "mscorlib" && !compilation.Assembly.IsCultureInfoExportDisabled())
             {
-/*
                 foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
                 {
                     JsExpression target = new JsVariableReferenceExpression(Context.Instance.CultureInfo.GetTypeName()).Member("RegisterCulture");
@@ -310,7 +340,6 @@ namespace WootzJs.Compiler
                         Js.Array(culture.DateTimeFormat.DayNames.Select(x => Js.Literal(x)).ToArray())
                     }).Express());
                 }
-*/
             }
 
             // If the project type is a console application, then invoke the Main method at the very

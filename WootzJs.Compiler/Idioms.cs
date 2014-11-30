@@ -908,6 +908,15 @@ namespace WootzJs.Compiler
             return InvokeStatic(Context.Instance.EnumInternalToObject, Type(enumType).Invoke(), value);
         }
 
+        public bool IsMinimizedAutoProperty(IPropertySymbol property)
+        {
+            if (property.AreAutoPropertiesMinimized())
+                return true;
+            if (property.ContainingAssembly.AreAutoPropertiesMinimized())
+                return true;
+            return false;
+        }
+
         public JsExpression GetPropertyValue(JsExpression target, IPropertySymbol property, bool isSetter, bool isBaseReference)
         {
             bool isExported = property.IsExported();
@@ -919,7 +928,7 @@ namespace WootzJs.Compiler
                 return inline;
             }
 
-            if (!isExported)
+            if (!isExported || IsMinimizedAutoProperty(property))
             {
                 return target.Member(propertyName);
             }

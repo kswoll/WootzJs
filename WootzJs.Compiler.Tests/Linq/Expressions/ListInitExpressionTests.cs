@@ -39,8 +39,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<List<string>>> lambda = () => new List<string> { "foo" };
             var listInitExpression = (ListInitExpression)lambda.Body;
-            var newExpression = listInitExpression.NewExpression;
-            AssertEquals(newExpression.Type.FullName, typeof(List<string>).FullName);
+//            var newExpression = listInitExpression.NewExpression;
+//            AssertEquals(newExpression.Type.FullName, typeof(List<string>).FullName);
 
             var binding = listInitExpression.Initializers[0];
             var value = (ConstantExpression)binding.Arguments[0];
@@ -52,8 +52,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<List<string>>> lambda = () => new List<string> { "foo", "bar" };
             var listInitExpression = (ListInitExpression)lambda.Body;
-            var newExpression = listInitExpression.NewExpression;
-            AssertEquals(newExpression.Type.FullName, typeof(List<string>).FullName);
+//            var newExpression = listInitExpression.NewExpression;
+//            AssertEquals(newExpression.Type.FullName, typeof(List<string>).FullName);
 
             var binding1 = listInitExpression.Initializers[0];
             var binding2 = listInitExpression.Initializers[1];
@@ -68,8 +68,8 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
         {
             Expression<Func<Dictionary<string, int>>> lambda = () => new Dictionary<string, int> { { "foo", 5 } };
             var listInitExpression = (ListInitExpression)lambda.Body;
-            var newExpression = listInitExpression.NewExpression;
-            AssertEquals(newExpression.Type.FullName, typeof(Dictionary<string, int>).FullName);
+//            var newExpression = listInitExpression.NewExpression;
+//            AssertEquals(newExpression.Type.FullName, typeof(Dictionary<string, int>).FullName);
 
             var binding = listInitExpression.Initializers[0];
             var key = (ConstantExpression)binding.Arguments[0];
