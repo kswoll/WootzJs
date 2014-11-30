@@ -325,7 +325,6 @@ namespace WootzJs.Compiler
             {
                 Js.Primitive(explicitName ?? fullTypeName),          // Param1: fullTypeName
                 Js.Primitive((int)typeFlags),
-                typeAttributes,
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),
