@@ -74,9 +74,15 @@ namespace WootzJs.Compiler
             return assembly.GetAttributeValue(Context.Instance.JsCompilerOptionsAttribute, "AreAutoPropertiesMinimized", false);
         }
 
-        public static bool AreAutoPropertiesMinimized(this IPropertySymbol assembly)
+        public static bool AreDelegatesMinimized(this IAssemblySymbol assembly)
         {
-            return assembly.GetAttributeValue(Context.Instance.JsAttributeType, "AreAutoPropertiesMinimized", false);
+            return assembly.GetAttributeValue(Context.Instance.JsCompilerOptionsAttribute, "AreDelegatesMinimized", false);
+        }
+
+        public static bool AreAutoPropertiesMinimized(this IPropertySymbol property)
+        {
+            return property.GetAttributeValue(Context.Instance.JsAttributeType, "AreAutoPropertiesMinimized", false) ||
+                property.ContainingType.GetAttributeValue(Context.Instance.JsAttributeType, "AreAutoPropertiesMinimized", false);
         }
 
         public static bool IsBuiltIn(this ISymbol symbol)

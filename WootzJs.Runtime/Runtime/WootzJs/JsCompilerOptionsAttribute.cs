@@ -6,5 +6,6 @@
         public bool IsReflectionMinimized { get; set; }
         public bool IsCultureInfoExportDisabled { get; set; }
         public bool AreAutoPropertiesMinimized { get; set; }
+        public bool AreDelegatesMinimized { get; set; }
     }
 }

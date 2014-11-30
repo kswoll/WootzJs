@@ -642,7 +642,7 @@ namespace System.Linq.Expressions
                 }
                 return evaluator.Evaluate().As<JsObject>();
             });
-            return SpecialFunctions.CreateDelegate(null, typeof(TDelegate).thisType, lambda).As<TDelegate>();
+            return SpecialFunctions.CreateDelegate(null, lambda, typeof(TDelegate).thisType).As<TDelegate>();
         }
     }
 }

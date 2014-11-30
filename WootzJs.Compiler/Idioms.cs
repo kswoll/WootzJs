@@ -621,6 +621,17 @@ namespace WootzJs.Compiler
                         result.Add(StoreInType(fieldSymbol.GetMemberName(), initializer));
                 }
             }
+            // Add minimized auto-property initializers
+            foreach (var property in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            {
+                var propertySymbol = transformer.model.GetDeclaredSymbol(property);
+                if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
+                {
+                    var initializer = DefaultValue(propertySymbol.Type);
+                    if (propertySymbol.IsStatic)
+                        result.Assign(Js.This().Member(propertySymbol.GetMemberName()), initializer);
+                }
+            }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
             foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
             {
@@ -649,7 +660,7 @@ namespace WootzJs.Compiler
             {
                 foreach (var variable in field.Declaration.Variables)
                 {
-                    var fieldSymbol = (IFieldSymbol)ModelExtensions.GetDeclaredSymbol(transformer.model, variable);
+                    var fieldSymbol = (IFieldSymbol)transformer.model.GetDeclaredSymbol(variable);
                     if (!fieldSymbol.IsExported())
                         continue;
 
@@ -658,6 +669,17 @@ namespace WootzJs.Compiler
                         DefaultValue(fieldSymbol.Type);
                     if (!fieldSymbol.IsStatic)
                         result.Assign(Js.This().Member(fieldSymbol.GetMemberName()), initializer);
+                }
+            }
+            // Add minimized auto-property initializers
+            foreach (var property in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            {
+                var propertySymbol = transformer.model.GetDeclaredSymbol(property);
+                if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
+                {
+                    var initializer = DefaultValue(propertySymbol.Type);
+                    if (!propertySymbol.IsStatic)
+                        result.Assign(Js.This().Member(propertySymbol.GetMemberName()), initializer);
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
@@ -1111,7 +1133,7 @@ namespace WootzJs.Compiler
         public bool TryAccessorAssignment(SyntaxKind type, ISymbol leftSymbol, ISymbol rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             // Special handling for property and event assignments, since those have to be translated to a set/add/remove_PropertyName invocation.
-            if (type == SyntaxKind.SimpleAssignmentExpression || type == SyntaxKind.AddAssignmentExpression || type == SyntaxKind.SubtractAssignmentExpression)
+            if ((!(leftSymbol is IPropertySymbol) || !IsMinimizedAutoProperty((IPropertySymbol)leftSymbol)) && (type == SyntaxKind.SimpleAssignmentExpression || type == SyntaxKind.AddAssignmentExpression || type == SyntaxKind.SubtractAssignmentExpression))
             {
                 if (leftSymbol is IPropertySymbol || leftSymbol is IEventSymbol)
                 {
@@ -1902,7 +1924,7 @@ namespace WootzJs.Compiler
                         case "forin":
                             var target = arguments[0];
                             var invocation = (JsInvocationExpression)arguments[1];
-                            var function = (JsFunction)invocation.Arguments[2];
+                            var function = (JsFunction)invocation.Arguments[1];
                             result = Js.ForIn(function.Parameters[0].Name, target).Body(function.Body);
                             return true;
                     }

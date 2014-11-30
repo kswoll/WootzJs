@@ -362,7 +362,7 @@ namespace WootzJs.Compiler
             {
                 if (idioms.IsMinimizedAutoProperty(property))
                 {
-                    
+                    // Do nothing -- handled by idioms.InitializeInstanceFields and idioms.InitializeStaticFields
                 }
                 else
                 {
@@ -1143,7 +1143,16 @@ namespace WootzJs.Compiler
 
             PopOutput();
 
-            var createDelegate = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, Js.This(), idioms.Type(delegateType), Js.Function(parameters).Body(block));
+            var arguments = new List<JsExpression>
+            {
+                Js.This(),
+                Js.Function(parameters).Body(block)
+            };
+            if (!model.Compilation.Assembly.AreDelegatesMinimized())
+            {
+                arguments.Add(idioms.Type(delegateType));
+            }
+            var createDelegate = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, arguments.ToArray());
             return createDelegate;
         }
 
@@ -2414,7 +2423,15 @@ namespace WootzJs.Compiler
             {
                 var thisReference = node is MemberAccessExpressionSyntax ? (JsExpression)((MemberAccessExpressionSyntax)node).Expression.Accept(this) : Js.This();
                 var symbol = model.GetSymbolInfo(node).Symbol;
-                result = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, thisReference, idioms.Type(typeInfo.ConvertedType), (JsExpression)result, Js.Primitive(symbol.GetMemberName() + "$delegate"));
+                var delegateType = idioms.Type(typeInfo.ConvertedType);
+                var arguments = new List<JsExpression>()
+                {
+                    thisReference, 
+                    (JsExpression)result, 
+                    model.Compilation.Assembly.AreDelegatesMinimized() ? Js.Null() : delegateType, 
+                    Js.Primitive(symbol.GetMemberName() + "$delegate")
+                };
+                result = idioms.InvokeStatic(Context.Instance.ObjectCreateDelegate, arguments.ToArray());
             }
             if (conversion.IsUserDefined && conversion.MethodSymbol.IsExported())
             {

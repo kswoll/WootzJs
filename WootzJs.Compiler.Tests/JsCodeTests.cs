@@ -157,5 +157,20 @@ namespace WootzJs.Compiler.Tests
             list.As<JsObject>().memberset("foo", "foobar");
             AssertEquals(list.Foo, "foobar");
         }
+
+        [Test]
+        public void MinimalAutoProperties()
+        {
+            var obj = new MinimalAutoPropertiesClass();
+            obj.Foo = 5;
+            var value = obj.As<JsObject>().member("Foo");
+            AssertEquals(value, 5);
+        }
+
+        [Js(AreAutoPropertiesMinimized = true)]
+        public class MinimalAutoPropertiesClass
+        {
+            public int Foo { get; set; }
+        }
     }
 }
