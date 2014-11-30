@@ -1064,6 +1064,10 @@ namespace WootzJs.Compiler
             {
                 return target;
             }
+            if (!convertedType.IsExported())
+            {
+                return target;
+            }
 
             var cast = idioms.InvokeStatic(Context.Instance.ObjectCast.Construct(destinationType), target);
             return ImplicitCheck(node, cast);
