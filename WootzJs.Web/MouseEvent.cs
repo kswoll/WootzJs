@@ -31,7 +31,7 @@ using System.Runtime.WootzJs;
 
 namespace WootzJs.Web
 {
-    [Js(Export = false)]
+    [Js(Name = "MouseEvent", Export = false)]
     public class MouseEvent : Event
     {
         [Js(Name = "clientX")]

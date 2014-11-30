@@ -202,25 +202,25 @@ namespace WootzJs.Mvc.Views
 
         private void OnKeyDown(Event @event)
         {
-            if (@event.KeyCode == Key.DownArrow)
+            if (@event.KeyCode == KeyCode.DownArrow)
             {
                 overlay.SelectNextItem();
                 @event.StopImmediatePropagation();
                 @event.PreventDefault();
             }
-            else if (@event.KeyCode == Key.UpArrow)
+            else if (@event.KeyCode == KeyCode.UpArrow)
             {
                 overlay.SelectPreviousItem();
                 @event.StopImmediatePropagation();
                 @event.PreventDefault();
             }
-            else if (@event.KeyCode == Key.Escape)
+            else if (@event.KeyCode == KeyCode.Escape)
             {
                 CloseUp();
                 @event.StopImmediatePropagation();
                 @event.PreventDefault();
             }
-            else if (@event.KeyCode == Key.Enter)
+            else if (@event.KeyCode == KeyCode.Enter)
             {
                 Commit();
                 CloseUp();

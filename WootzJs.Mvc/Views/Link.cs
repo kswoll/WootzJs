@@ -17,6 +17,11 @@ namespace WootzJs.Mvc.Views
             Text = text;
         }
 
+        public Link(Control content)
+        {
+            Add(content);
+        }
+
         public void FireClick()
         {
             OnClick(new Event("click"));
