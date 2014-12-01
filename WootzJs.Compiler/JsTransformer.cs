@@ -1788,12 +1788,14 @@ namespace WootzJs.Compiler
                 .Statements(node.Statements.Select(x => (JsStatement)x.Accept(this)).ToArray());
         }
 
-        public override JsNode VisitSwitchLabel(SwitchLabelSyntax node)
+        public override JsNode VisitCaseSwitchLabel(CaseSwitchLabelSyntax node)
         {
-            if (node.CSharpKind() == SyntaxKind.DefaultSwitchLabel)
-                return Js.DefaultLabel();
-            else
-                return Js.CaseLabel((JsExpression)node.Value.Accept(this));
+            return Js.CaseLabel((JsExpression)node.Value.Accept(this));
+        }
+
+        public override JsNode VisitDefaultSwitchLabel(DefaultSwitchLabelSyntax node)
+        {
+            return Js.DefaultLabel();
         }
 
         public override JsNode VisitTryStatement(TryStatementSyntax node)
