@@ -64,6 +64,14 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void CastFromNullableInt()
+        {
+            int? castFromNullableIntI = 4;
+            var castFromNullableIntJ = (int)castFromNullableIntI;
+            AssertEquals(castFromNullableIntJ, 4);
+        }
+
+        [Test]
         public void AccessingNullNullableThrowsException()
         {
             int? i = null;
