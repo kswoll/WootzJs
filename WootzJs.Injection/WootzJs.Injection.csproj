@@ -58,9 +58,8 @@
   <Import Project="..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-copy $(SolutionDir)build\mscorlib.js $(TargetDir)
-copy $(TargetDir)WootzJs.Injection.* $(SolutionDir)build</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+copy $(TargetDir)WootzJs.Injection.js $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
