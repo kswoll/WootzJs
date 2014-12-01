@@ -449,8 +449,8 @@ namespace WootzJs.Compiler
 
         public static bool IsAutoProperty(this IPropertySymbol property)
         {
-            var propertySyntaxNode = property.DeclaringSyntaxReferences.Select(x => x.GetSyntax()).OfType<PropertyDeclarationSyntax>().Single();
-            return propertySyntaxNode.IsAutoProperty();
+            var propertySyntaxNode = property.DeclaringSyntaxReferences.Select(x => x.GetSyntax()).OfType<PropertyDeclarationSyntax>().SingleOrDefault();
+            return propertySyntaxNode != null && propertySyntaxNode.IsAutoProperty();
         }
     }
 }

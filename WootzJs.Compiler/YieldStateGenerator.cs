@@ -28,7 +28,10 @@ namespace WootzJs.Compiler
             else
             {
                 CurrentState.Add(ChangeState(nextState));
-                CurrentState.Add(Js.Reference(stateMachine).Member("set_Current").Invoke((JsExpression)node.Expression.Accept(Transformer)).Express());
+//                if (Transformer.Model.Compilation.Assembly.AreAutoPropertiesMinimized())
+//                    CurrentState.Add(Js.Reference(stateMachine).Member("Current").Assign((JsExpression)node.Expression.Accept(Transformer)).Express());
+//                else
+                    CurrentState.Add(Js.Reference(stateMachine).Member("set_Current").Invoke((JsExpression)node.Expression.Accept(Transformer)).Express());
                 CurrentState.Add(Js.Primitive(true).Return());
             }
             CurrentState = nextState;

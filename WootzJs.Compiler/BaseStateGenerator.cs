@@ -704,7 +704,11 @@ namespace WootzJs.Compiler
             GotoState(afterLoop);
 
             CurrentState = bodyState;
-            CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("get_Current").Invoke()).Express());
+//            if (Transformer.Model.Compilation.Assembly.AreAutoPropertiesMinimized())
+//                CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("Current")).Express());
+//            else
+                CurrentState.Add(identifier.GetReference().Assign(enumerator.GetReference().Member("get_Current").Invoke()).Express());
+
             
             AcceptStatement(node.Statement, afterLoop, topOfLoop);
             GotoState(topOfLoop);

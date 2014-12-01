@@ -27,9 +27,11 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.WootzJs;
 
 namespace System
 {
+    [Js(AreAutoPropertiesMinimized = false)]
     public class YieldIterator<T> : IEnumerable<T>, IEnumerator<T>
     {
         public T Current { get; protected set; }

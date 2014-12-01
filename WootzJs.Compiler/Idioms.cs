@@ -625,6 +625,8 @@ namespace WootzJs.Compiler
             foreach (var property in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
             {
                 var propertySymbol = transformer.model.GetDeclaredSymbol(property);
+                if (propertySymbol.ExplicitInterfaceImplementations.Any())
+                    continue;
                 if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
                 {
                     var initializer = DefaultValue(propertySymbol.Type);
@@ -675,6 +677,8 @@ namespace WootzJs.Compiler
             foreach (var property in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
             {
                 var propertySymbol = transformer.model.GetDeclaredSymbol(property);
+                if (propertySymbol.ExplicitInterfaceImplementations.Any())
+                    continue;
                 if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
                 {
                     var initializer = DefaultValue(propertySymbol.Type);
@@ -932,10 +936,18 @@ namespace WootzJs.Compiler
 
         public bool IsMinimizedAutoProperty(IPropertySymbol property)
         {
-            if (property.AreAutoPropertiesMinimized())
-                return true;
-            if (property.ContainingAssembly.AreAutoPropertiesMinimized())
-                return true;
+            if (Context.Instance.Attribute.IsAssignableFrom(property.ContainingType))
+                return false;
+            if (property.IsAutoProperty())
+            {
+                var localMinimized = property.AreAutoPropertiesMinimized();
+                if (localMinimized != null)
+                    return localMinimized.Value;
+                var typeMinimized = property.ContainingType.AreAutoPropertiesMinimized();
+                if (typeMinimized != null)
+                    return typeMinimized.Value;
+                return property.ContainingAssembly.AreAutoPropertiesMinimized();
+            }
             return false;
         }
 
