@@ -1,3 +1,11 @@
+Important Update on Requirements
+======
+With the latest Roslyn bits, you **must** obtain the [Microsoft Build Tools 2015 Preview](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs).  The latest version of
+roslyn has dependencies on assemblies from this download and are absolutely required.
+
+WootzJs
+----
+
 WootzJs is a C# to Javascript cross-compiler.  You write your code in C#, and the result is
 Javascript that can be run in any browser (or other host).  It's built on top of [Microsoft Roslyn](http://msdn.microsoft.com/en-us/vstudio/roslyn.aspx), which handles the complex process of converting your C# code into syntax trees with symbol information.
 
