@@ -17,7 +17,7 @@ namespace System
         {
             if (value == null)
             {
-                if (conversionType.IsValueType)
+                if (conversionType.IsValueType && !conversionType.IsNullableValueType())
                     throw new Exception("Null object cannot be converted to a value type");
                 return null;
             }
