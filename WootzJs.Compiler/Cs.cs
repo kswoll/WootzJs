@@ -153,7 +153,7 @@ namespace WootzJs.Compiler
 
         public static SwitchSectionSyntax Section(ExpressionSyntax label, params StatementSyntax[] statements)
         {
-            return Section(SyntaxFactory.SwitchLabel(SyntaxKind.CaseSwitchLabel, label), statements);
+            return Section(SyntaxFactory.CaseSwitchLabel(label), statements);
         }
 
         public static SyntaxToken Public()
@@ -166,10 +166,10 @@ namespace WootzJs.Compiler
             return SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
         }
 
-        public static ClassDeclarationSyntax WithBaseList(this ClassDeclarationSyntax declaration, params TypeSyntax[] baseTypes)
-        {
-            return declaration.WithBaseList(SyntaxFactory.BaseList(SyntaxFactory.SeparatedList(baseTypes, baseTypes.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
-        }
+//        public static ClassDeclarationSyntax WithBaseList(this ClassDeclarationSyntax declaration, params TypeSyntax[] baseTypes)
+//        {
+//            return declaration.WithBaseList(SyntaxFactory.BaseList(SyntaxFactory.SeparatedList(baseTypes, baseTypes.Skip(1).Select(_ => SyntaxFactory.Token(SyntaxKind.CommaToken)))));
+//        }
 
         public static ClassDeclarationSyntax WithMembers(this ClassDeclarationSyntax declaration, params MemberDeclarationSyntax[] members)
         {

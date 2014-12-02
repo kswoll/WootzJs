@@ -53,7 +53,7 @@ namespace WootzJs.Compiler
                 if (compilationUnits.Contains(compilationUnit))
                 {
                     compilationUnit = (CompilationUnitSyntax)compilationUnit.Accept(qualifier);
-                    compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, syntaxTree.FilePath));
+                    compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, path: syntaxTree.FilePath));
                 }
             }
             Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
@@ -99,7 +99,7 @@ namespace WootzJs.Compiler
                 }
                 foreach (var item in newCompilationUnits)
                 {
-                    compilation = compilation.ReplaceSyntaxTree(item.Item1, SyntaxFactory.SyntaxTree(item.Item2, item.Item1.FilePath));                    
+                    compilation = compilation.ReplaceSyntaxTree(item.Item1, SyntaxFactory.SyntaxTree(item.Item2, path: item.Item1.FilePath));                    
                 }
                 Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
                 compilation = compilation.Clone();

@@ -681,6 +681,13 @@ namespace WootzJs.Compiler
             return ImplicitCheck(node, ((JsExpression)node.Expression.Accept(this)).Parenthetical());
         }
 
+/*
+        public override JsNode VisitAwaitExpression(AwaitExpressionSyntax node)
+        {
+            throw new Exception("Failure of the async generator to catch the await keyword");
+        }
+*/
+
         public override JsNode VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
         {
             var operand = (JsExpression)node.Operand.Accept(this);
@@ -774,8 +781,8 @@ namespace WootzJs.Compiler
                 }
             }
 
-            var binaryExpressionParent = node.FirstAncestorOrSelf<BinaryExpressionSyntax>();
-            var isSetter = binaryExpressionParent != null && binaryExpressionParent.IsKind(SyntaxKind.SimpleAssignmentExpression) && node.AncestorsAndSelf().Contains(binaryExpressionParent.Left);
+            var binaryExpressionParent = node.FirstAncestorOrSelf<AssignmentExpressionSyntax>();
+            var isSetter = binaryExpressionParent != null && node.AncestorsAndSelf().Contains(binaryExpressionParent.Left);
             var result = idioms.MemberReference(target, symbol, isSetter, isBaseReference);
             return ImplicitCheck(node, result);
         }
@@ -791,8 +798,8 @@ namespace WootzJs.Compiler
             var symbol = model.GetSymbolInfo(node).Symbol;
 
             JsExpression result;
-            if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
-                return ImplicitCheck(node, result);
+//            if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
+//                return ImplicitCheck(node, result);
             if (idioms.TryIsExpression(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
                 return ImplicitCheck(node, result);
             if (idioms.TryAsExpression(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
@@ -807,6 +814,33 @@ namespace WootzJs.Compiler
                 return result;
             if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
+
+            if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
+            {
+                var method = (IMethodSymbol)symbol;
+                if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
+                    return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
+            }
+            var op = idioms.ToBinaryOperator(node.CSharpKind());
+            if (op == null)
+                throw new Exception();
+
+            return ImplicitCheck(node, Js.Binary(op.Value, left, right));
+        }
+
+        public override JsNode VisitAssignmentExpression(AssignmentExpressionSyntax node)
+        {
+            var leftSymbol = model.GetSymbolInfo(node.Left).Symbol;
+            var rightSymbol = model.GetSymbolInfo(node.Right).Symbol;
+            var leftType = model.GetTypeInfo(node.Left);
+            var rightType = model.GetTypeInfo(node.Right);
+            var left = (JsExpression)node.Left.Accept(this);
+            var right = (JsExpression)node.Right.Accept(this);
+            var symbol = model.GetSymbolInfo(node).Symbol;
+
+            JsExpression result;
+            if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
+                return ImplicitCheck(node, result);
 
             if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
             {

@@ -54,76 +54,70 @@ namespace WootzJs.Compiler
                 this.stateGenerator = stateGenerator;
             }
 
-            public override JsNode VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
+            public override JsNode VisitAwaitExpression(AwaitExpressionSyntax node)
             {
-                switch (node.CSharpKind())
-                {
-                    case SyntaxKind.AwaitExpression:
-                        var operand = (JsExpression)node.Operand.Accept(this);
+                var operand = (JsExpression)node.Expression.Accept(this);
 /*
-                        var expressionInfo = stateGenerator.Transformer.model.GetAwaitExpressionInfo(node);
-                        if (expressionInfo.GetResultMethod == null)
-                        {
-                            var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
-                            var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();                
-                        }
-
-                        var returnsVoid = expressionInfo.GetResultMethod.ReturnsVoid;
-*/
-                        var expressionInfo = stateGenerator.Transformer.model.GetTypeInfo(node).ConvertedType;
-                        var returnsVoid = expressionInfo.SpecialType == SpecialType.System_Void;
-                        var operandType = model.GetTypeInfo(node.Operand).ConvertedType;
-                        var awaiterMethodName = ((INamedTypeSymbol)operandType).GetMethodByName("GetAwaiter").GetMemberName();
-
-                        // Store the awaiter in a field
-                        var awaiterIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$awaiter"));
-                        var awaiter = awaiterIdentifier.GetReference();
-                        stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member(awaiterMethodName).Invoke()).Express());
-
-                        var nextState = stateGenerator.InsertState();
-
-                        JsExpression result = null;
-                        if (!returnsVoid)
-                        {
-                            // If the await returns a value, store it in a field
-                            var resultIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$result"));
-                            result = resultIdentifier.GetReference();
-
-                            // Make sure the field gets set from the awaiter at the beginning of the next state.
-                            nextState.Add(result.Assign(awaiter.Member("GetResult").Invoke()).Express());
-                        }
-                        else
-                        {
-                            // We still need to call GetResult even if void in order to propagate exceptions
-                            nextState.Add(awaiter.Member("GetResult").Invoke().Express());
-                        }
-
-                        // Set the state to the next state
-                        stateGenerator.CurrentState.Add(stateGenerator.ChangeState(nextState));
-
-                        stateGenerator.CurrentState.Add(Js.If(
-                            awaiter.Member("get_IsCompleted").Invoke(), 
-
-                            // If the awaiter is already completed, go to the next state
-                            stateGenerator.GotoTop(),
-
-                            // Otherwise await for completion
-                            Js.Block(
-                                // Start the async process
-                                Js.Reference(builder)
-                                    .Member("TrueAwaitOnCompleted")
-                                    .Invoke(awaiterIdentifier.GetReference(), Js.Reference(stateMachine))
-                                    .Express(),
-                                Js.Return()
-                            )
-                        ));
-
-                        stateGenerator.CurrentState = nextState;
-
-                        return result ?? Js.Null();
+                var expressionInfo = stateGenerator.Transformer.model.GetAwaitExpressionInfo(node);
+                if (expressionInfo.GetResultMethod == null)
+                {
+                    var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+                    var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();                
                 }
 
-                return base.VisitPrefixUnaryExpression(node);
+                var returnsVoid = expressionInfo.GetResultMethod.ReturnsVoid;
+*/
+                var expressionInfo = stateGenerator.Transformer.model.GetTypeInfo(node).ConvertedType;
+                var returnsVoid = expressionInfo.SpecialType == SpecialType.System_Void;
+                var operandType = model.GetTypeInfo(node.Expression).ConvertedType;
+                var awaiterMethodName = ((INamedTypeSymbol)operandType).GetMethodByName("GetAwaiter").GetMemberName();
+
+                // Store the awaiter in a field
+                var awaiterIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$awaiter"));
+                var awaiter = awaiterIdentifier.GetReference();
+                stateGenerator.CurrentState.Add(awaiter.Assign(operand.Member(awaiterMethodName).Invoke()).Express());
+
+                var nextState = stateGenerator.InsertState();
+
+                JsExpression result = null;
+                if (!returnsVoid)
+                {
+                    // If the await returns a value, store it in a field
+                    var resultIdentifier = stateGenerator.HoistVariable(new LiftedVariableKey("$result"));
+                    result = resultIdentifier.GetReference();
+
+                    // Make sure the field gets set from the awaiter at the beginning of the next state.
+                    nextState.Add(result.Assign(awaiter.Member("GetResult").Invoke()).Express());
+                }
+                else
+                {
+                    // We still need to call GetResult even if void in order to propagate exceptions
+                    nextState.Add(awaiter.Member("GetResult").Invoke().Express());
+                }
+
+                // Set the state to the next state
+                stateGenerator.CurrentState.Add(stateGenerator.ChangeState(nextState));
+
+                stateGenerator.CurrentState.Add(Js.If(
+                    awaiter.Member("get_IsCompleted").Invoke(), 
+
+                    // If the awaiter is already completed, go to the next state
+                    stateGenerator.GotoTop(),
+
+                    // Otherwise await for completion
+                    Js.Block(
+                        // Start the async process
+                        Js.Reference(builder)
+                            .Member("TrueAwaitOnCompleted")
+                            .Invoke(awaiterIdentifier.GetReference(), Js.Reference(stateMachine))
+                            .Express(),
+                        Js.Return()
+                    )
+                ));
+
+                stateGenerator.CurrentState = nextState;
+
+                return result ?? Js.Null();
             }
         }
     }

@@ -322,7 +322,7 @@ namespace WootzJs.Compiler
             }
         }
 
-        private JsExpression VisitMemberInit(BinaryExpressionSyntax node)
+        private JsExpression VisitMemberInit(AssignmentExpressionSyntax node)
         {
             var symbol = model.GetSymbolInfo(node.Left).Symbol;
             var member = idioms.MemberOf(symbol);
@@ -348,7 +348,7 @@ namespace WootzJs.Compiler
                     var jsMemberInit = idioms.InvokeStatic(
                         memberInit, 
                         jsMethod,
-                        idioms.Array(Context.Instance.MemberBindingArray, node.Initializer.Expressions.Select(x => VisitMemberInit((BinaryExpressionSyntax)x)).ToArray()));
+                        idioms.Array(Context.Instance.MemberBindingArray, node.Initializer.Expressions.Select(x => VisitMemberInit((AssignmentExpressionSyntax)x)).ToArray()));
                     return jsMemberInit;
                 }
                 else 

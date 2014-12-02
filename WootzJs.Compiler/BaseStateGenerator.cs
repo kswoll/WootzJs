@@ -844,7 +844,9 @@ namespace WootzJs.Compiler
                 node.Sections
                     .Select((x, i) =>
                     {
-                        var section = Js.Section(x.Labels.Select(y => y.Value != null ? Js.CaseLabel((JsExpression)y.Value.Accept(Transformer)) : Js.DefaultLabel()).ToArray());
+                        var section = Js.Section(x.Labels.Select(y => y.CSharpKind() == SyntaxKind.CaseSwitchLabel ? 
+                            Js.CaseLabel((JsExpression)((CaseSwitchLabelSyntax)y).Value.Accept(Transformer)) : 
+                            Js.DefaultLabel()).ToArray());
                         section.Statements.AddRange(GotoStateStatements(sectionStates[i]));
                         return section;
                     })
