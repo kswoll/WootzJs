@@ -1,6 +1,6 @@
 Important Update on Requirements
 ======
-With the latest Roslyn bits, you **must** obtain the [Microsoft Build Tools 2015 Preview](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs).  The latest version of
+With the latest Roslyn bits, you **must** obtain the [Microsoft Build Tools 2015 Preview](http://go.microsoft.com/?linkid=9863815).  The latest version of
 roslyn has dependencies on assemblies from this download and are absolutely required.
 
 WootzJs
