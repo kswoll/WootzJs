@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Compiler.Tests", "WootzJs.Compiler.Tests.csproj", "{1670D942-0682-4E47-90DD-CDD3F9D09263}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Runtime", "..\WootzJs.Runtime\WootzJs.Runtime.csproj", "{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Testing", "..\WootzJs.Testing\WootzJs.Testing.csproj", "{9CF8A436-D6F9-4B62-BEDF-AEBC07B0D821}"
 EndProject
@@ -23,10 +23,6 @@ Global
 		{1670D942-0682-4E47-90DD-CDD3F9D09263}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1670D942-0682-4E47-90DD-CDD3F9D09263}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1670D942-0682-4E47-90DD-CDD3F9D09263}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CF8A436-D6F9-4B62-BEDF-AEBC07B0D821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9CF8A436-D6F9-4B62-BEDF-AEBC07B0D821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CF8A436-D6F9-4B62-BEDF-AEBC07B0D821}.Release|Any CPU.ActiveCfg = Release|Any CPU

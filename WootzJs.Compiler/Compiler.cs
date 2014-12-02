@@ -27,16 +27,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.WootzJs;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using Nito.AsyncEx;
 using WootzJs.Compiler.JsAst;
@@ -45,6 +39,8 @@ namespace WootzJs.Compiler
 {
     public class Compiler
     {
+        public static bool RemoveUnusedSymbols;
+
         private static string mscorlib;
 
         public static void Main(string[] args)
@@ -86,14 +82,51 @@ namespace WootzJs.Compiler
 
         public async Task<Tuple<string, Solution>> CompileSolution(string solutionFile)
         {
-//            var solutionFileInfo = new FileInfo(solutionFile);
-//            var solutionFolder = solutionFileInfo.Directory.FullName;
-            var solution = await Profiler.Time("Loading Project", async () => await Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create().OpenSolutionAsync(solutionFile));
+//            var solution = await Profiler.Time("Loading Project", async () => await MSBuildWorkspace.Create().OpenSolutionAsync(solutionFile));
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
-            foreach (var project in SortProjectsByDependencies(solution))
+            // Since we have all the types required by the solution, we can keep track of which symbols are used and which
+            // are not.  This of course means depending on reflection where you don't reference the actual symbol in code
+            // will result in unexpected behavior.
+            RemoveUnusedSymbols = true;
+
+            var projectFiles = FileUtils.GetProjectFiles(solutionFile);
+            var workspace = MSBuildWorkspace.Create();
+            var solution = await Profiler.Time("Loading Solution", async () =>
             {
-                await CompileProject(project, jsCompilationUnit);
+                string mscorlib = Compiler.mscorlib;
+                if (mscorlib == null)
+                {
+                    mscorlib = projectFiles.Select(x => FileUtils.GetWootzJsTargetFile(x)).First();
+                }
+                Solution result = workspace.CurrentSolution;
+                if (mscorlib != null)
+                {
+                    var mscorlibProject = await workspace.OpenProjectAsync(mscorlib);
+//                    result = result.AddProject(mscorlibProject.Id, mscorlibProject.Name, mscorlibProject.AssemblyName, mscorlibProject.Language);
+                    foreach (var projectFile in projectFiles)
+                    {
+                        var project = result.Projects.SingleOrDefault(x => x.FilePath.Equals(projectFile, StringComparison.InvariantCultureIgnoreCase));
+                        if (project == null)
+                            project = await workspace.OpenProjectAsync(projectFile);
+//                        result = result.AddProject(project.Id, project.Name, project.AssemblyName, project.Language);
+//                        project = result.GetProject(project.Id);
+                        project = project.AddProjectReference(new ProjectReference(mscorlibProject.Id));
+                        project = project.RemoveMetadataReference(project.MetadataReferences.Single(x => x.Display.Contains("mscorlib.dll")));                        
+                        result = project.Solution;
+                    }
+                }
+                else
+                {
+                    result = await workspace.OpenSolutionAsync(solutionFile);
+                }
+                return result;
+            });
+
+            var projectCompilers = SortProjectsByDependencies(solution).Select(x => new ProjectCompiler(x, jsCompilationUnit)).ToArray();
+            foreach (var compiler in projectCompilers)
+            {
+                await compiler.Compile();
             }
 
             // Write out the compiled Javascript file to the target location.
@@ -132,7 +165,7 @@ namespace WootzJs.Compiler
             return projects.Select(x => x.Project).ToArray();
         }
 
-        public async Task<Tuple<string, Microsoft.CodeAnalysis.Project>> CompileProject(string projectFile)
+        public async Task<Tuple<string, Project>> CompileProject(string projectFile)
         {
             var projectFileInfo = new FileInfo(projectFile);
             var projectFolder = projectFileInfo.Directory.FullName;
@@ -155,7 +188,6 @@ namespace WootzJs.Compiler
                 Project result;
                 if (mscorlib != null)
                 {
-                    workspace.CloseSolution();
                     var mscorlibProject = await workspace.OpenProjectAsync(mscorlib);
                     result = await workspace.OpenProjectAsync(projectFile);
                     result = result.AddProjectReference(new ProjectReference(mscorlibProject.Id));
@@ -168,7 +200,8 @@ namespace WootzJs.Compiler
 
                 return result;
             });
-            await CompileProject(project, jsCompilationUnit);
+            var projectCompiler = new ProjectCompiler(project, jsCompilationUnit);
+            await projectCompiler.Compile();
 
             // Write out the compiled Javascript file to the target location.
             var renderer = new JsRenderer();
@@ -176,370 +209,6 @@ namespace WootzJs.Compiler
             Profiler.Time("Rendering javascript", () => jsCompilationUnit.Accept(renderer));
 
             return Tuple.Create(renderer.Output, project);
-        }
-
-        public async Task CompileProject(Project project, JsCompilationUnit jsCompilationUnit) 
-        {
-            var projectName = project.AssemblyName;
-            Compilation compilation = await Profiler.Time("Getting initial project compilation", async() => await project.GetCompilationAsync());
-            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
-
-
-            // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
-            // will be loaded first, and we only want to bother creating the array once.) 
-            if (projectName == "mscorlib")
-            {
-                var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
-                jsCompilationUnit.Body.Local(assemblies);
-
-                // This ensures that Function.$typeName returns `Function` -- this is important when using
-                // a type function as a generic argument, since otherwise when we try to get a 
-                // unique key for the permuatation of type args including a type function, we would get
-                // an empty string for that arg, which would break the cache.
-                jsCompilationUnit.Body.Assign(Js.Reference("Function").Member(SpecialNames.TypeName), Js.Primitive("Function"));
-            }
-
-            // Declare assembly variable
-            var assemblyVariable = Js.Variable("$" + projectName.MaskSpecialCharacters() + "$Assembly", Js.Null());
-            jsCompilationUnit.Body.Local(assemblyVariable);
-
-            // Declare array to store all anonymous types
-            var anonymousTypes = Js.Variable(compilation.Assembly.GetAssemblyAnonymousTypesArray(), Js.Array());
-            jsCompilationUnit.Body.Local(anonymousTypes);
-
-            // Declare array to store all the type functions in the assembly
-            var assemblyTypes = Js.Variable(compilation.Assembly.GetAssemblyTypesArray(), Js.Array());
-            jsCompilationUnit.Body.Local(assemblyTypes);
-
-            // Build $GetAssemblyMethod, which lazily creates a new Assembly instance
-            var globalIdioms = new Idioms(null);
-            var getAssembly = Js.Function();
-            getAssembly.Body.If(
-                assemblyVariable.GetReference().EqualTo(Js.Null()), 
-                assemblyVariable.GetReference().Assign(globalIdioms.CreateAssembly(compilation.Assembly, assemblyTypes.GetReference()))
-            );
-            getAssembly.Body.Return(assemblyVariable.GetReference());
-            jsCompilationUnit.Body.Assign(
-                Js.Reference(compilation.Assembly.GetAssemblyMethodName()),
-                getAssembly);
-
-            // Add $GetAssemblyMethod to global assemblies array
-            jsCompilationUnit.Body.Express(Js.Reference("$assemblies").Member("push").Invoke(Js.Reference(compilation.Assembly.GetAssemblyMethodName())));
-
-            // Builds out all the namespace objects.  Types live inside namepsaces, which are represented as 
-            // nested Javascript objects.  For example, System.Text.StringBuilder is represented (in part) as:
-            //
-            // System = {};
-            // System.Text = {};
-            // System.Text.StringBuilder = function() { ... }
-            //
-            // This allows access to classes using dot notation in the expected way.
-            Profiler.Time("Transforming namespaces", () =>
-            {
-                var namespaceTransformer = new NamespaceTransformer(jsCompilationUnit.Body);
-                foreach (var syntaxTree in compilation.SyntaxTrees)
-                {
-                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                    compilationUnit.Accept(namespaceTransformer);
-                }                
-            });
-
-            var actions = new List<Tuple<INamedTypeSymbol, Action>>();
-
-            // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
-            // declarations with a series of auto implemented properties.
-            Profiler.Time("Running AnonymousTypeTransformer", () => 
-            {
-                var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
-                foreach (var syntaxTree in compilation.SyntaxTrees)
-                {
-                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                    compilationUnit.Accept(anonymousTypeTransformer);
-                }
-            });
-
-            Profiler.Time("Get diagnostics", () =>
-            {
-                var diagnostics = compilation.GetDiagnostics();
-                foreach (var diagnostic in diagnostics)
-                {
-                    if (diagnostic.Severity == DiagnosticSeverity.Error)
-                        Console.WriteLine("// " + diagnostic);
-                }                
-            });
-
-            // Check for partial classes
-            Profiler.Time("Reassemble partial classes", () =>
-            {
-                var partialClassReassembler = new PartialClassReassembler(project, compilation);
-                compilation = partialClassReassembler.UnifyPartialTypes();                
-            });
-
-            // Iterate through all the syntax trees and add entries into `actions` that correspond to type
-            // declarations.
-            Profiler.Time("Preparing for core transformation process", () => 
-            {
-                foreach (var syntaxTree in compilation.SyntaxTrees)
-                {
-                    var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                    var transformer = new JsTransformer(syntaxTree, semanticModel);
-
-                    var typeDeclarations = GetTypeDeclarations(compilationUnit);
-                    foreach (var type in typeDeclarations)
-                    {
-                        var _type = type;
-                        var typeSymbol = semanticModel.GetDeclaredSymbol(type);
-                        Action action = () =>
-                        {
-                            var statements = (JsBlockStatement)_type.Accept(transformer);
-                            jsCompilationUnit.Body.Aggregate(statements);
-                        };
-                        actions.Add(Tuple.Create(typeSymbol, action));
-                    }
-                    var delegateDeclarations = GetDelegates(compilationUnit);
-                    foreach (var type in delegateDeclarations)
-                    {
-                        var _type = type;
-                        Action action = () =>
-                        {
-                            var statements = (JsBlockStatement)_type.Accept(transformer);
-                            jsCompilationUnit.Body.Aggregate(statements);
-                        };
-                        actions.Add(Tuple.Create((INamedTypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, type), action));
-                    }
-                }
-            });
-
-            // Sort all the type declarations such that base types always come before subtypes.
-            Profiler.Time("Sorting transformers", () => SweepSort(actions));
-            Profiler.Time("Applying core transformation", () =>
-            {
-                foreach (var item in actions)
-                    item.Item2();
-            });
-
-            // Create cultures based on installed .NET cultures.  Presumably this is the same regardless 
-            // of the platform that compiled this assembly.  Only do this for the standard library.
-            if (projectName == "mscorlib" && !compilation.Assembly.IsCultureInfoExportDisabled())
-            {
-                foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
-                {
-                    JsExpression target = new JsVariableReferenceExpression(Context.Instance.CultureInfo.GetTypeName()).Member("RegisterCulture");
-                    jsCompilationUnit.Body.Add(target.Invoke(new[]
-                    {
-                        Js.Literal(culture.Name),
-                        Js.Literal(culture.DateTimeFormat.ShortDatePattern),
-                        Js.Literal(culture.DateTimeFormat.LongDatePattern),
-                        Js.Literal(culture.DateTimeFormat.ShortTimePattern),
-                        Js.Literal(culture.DateTimeFormat.LongTimePattern),
-                        Js.Literal(culture.DateTimeFormat.FullDateTimePattern),
-                        Js.Literal(culture.DateTimeFormat.YearMonthPattern),
-                        Js.Array(culture.DateTimeFormat.MonthNames.Select(x => Js.Literal(x)).ToArray()),
-                        Js.Array(culture.DateTimeFormat.AbbreviatedMonthNames.Select(x => Js.Literal(x)).ToArray()),
-                        Js.Array(culture.DateTimeFormat.DayNames.Select(x => Js.Literal(x)).ToArray())
-                    }).Express());
-                }
-            }
-
-            // If the project type is a console application, then invoke the Main method at the very
-            // end of the file.
-            var entryPoint = compilation.GetEntryPoint(CancellationToken.None);
-            if (entryPoint != null)
-            {
-                jsCompilationUnit.Body.Express(globalIdioms.InvokeStatic(entryPoint));
-            }
-
-            // Test minification
-//            var minifier = new JsMinifier();
-//            jsCompilationUnit.Accept(minifier);
-
-        } 
-
-        /// <summary>
-        /// Long story short, this method ensures base types always come before subtypes.
-        /// </summary>
-        private void SweepSort(List<Tuple<INamedTypeSymbol, Action>> list)
-        {
-            var prepend = new HashSet<Tuple<INamedTypeSymbol, Action>>();
-            do 
-            {
-                prepend.Clear();
-                var indices = list.Select((x, i) => new { Item = x, Index = i }).ToDictionary(x => x.Item.Item1, x => x.Index);
-                for (var i = 0; i < list.Count; i++)
-                {
-                    var item = list[i];
-                    if (Equals(item.Item1, Context.Instance.SpecialFunctions))
-                    {
-                        if (i != 0)
-                        {
-                            prepend.Add(item);
-                            continue;
-                        }
-                        else if (i == 0)
-                        {
-                            continue;
-                        }
-                    }
-
-                    var baseType = item.Item1.BaseType;
-                    if (baseType != null)
-                    {
-                        if (!Equals(baseType.OriginalDefinition, baseType))
-                            baseType = baseType.OriginalDefinition;
-                        int baseIndex;
-                        if (indices.TryGetValue(baseType, out baseIndex))
-                        {
-                            var baseTypeItem = list[baseIndex];
-                            if (baseIndex > i)
-                            {
-                                prepend.Add(baseTypeItem);
-                            }
-                        }
-                    }
-
-                    // Get all base types of inner classes
-                    foreach (var innerType in item.Item1.GetAllInnerTypes())
-                    {
-                        var innerBaseType = innerType.BaseType;
-                        if (innerBaseType != null)
-                        {
-                            if (!Equals(innerBaseType.OriginalDefinition, innerBaseType))
-                                innerBaseType = innerBaseType.OriginalDefinition;
-                            int baseIndex;
-                            if (indices.TryGetValue(innerBaseType, out baseIndex))
-                            {
-                                var baseTypeItem = list[baseIndex];
-                                if (baseIndex > i)
-                                {
-                                    prepend.Add(baseTypeItem);
-                                }
-                            }
-                        }
-                    }
-
-                    var precedes = item.Item1.GetAttributeValue<ITypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
-                    if (precedes != null)
-                    {
-                        int precedesIndex;
-                        if (indices.TryGetValue((INamedTypeSymbol)precedes.OriginalDefinition, out precedesIndex))
-                        {
-                            var precedesItem = list[precedesIndex];
-                            if (precedesIndex > i)
-                            {
-                                prepend.Add(precedesItem);
-                            }
-                        }
-                    }
-                }
-                if (prepend.Any())
-                {
-                    var newItems = prepend.Concat(list.Where(x => !prepend.Contains(x))).ToArray();
-                    list.Clear();
-                    list.AddRange(newItems);
-                }
-            }
-            while (prepend.Any());
-        }
-
-        /// <summary>
-        /// Get all the type declarations in a compilation 
-        /// </summary>
-        private IEnumerable<BaseTypeDeclarationSyntax> GetTypeDeclarations(CompilationUnitSyntax compilationUnit)
-        {
-            foreach (var member in compilationUnit.Members)
-            {
-                if (member is BaseTypeDeclarationSyntax)
-                {
-                    yield return (BaseTypeDeclarationSyntax)member;
-                }
-                else if (member is NamespaceDeclarationSyntax)
-                {
-                    foreach (var item in GetTypeDeclarations((NamespaceDeclarationSyntax)member))
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get all the type declarations in a given namespace
-        /// </summary>
-        private IEnumerable<BaseTypeDeclarationSyntax> GetTypeDeclarations(NamespaceDeclarationSyntax ns)
-        {
-            foreach (var member in ns.Members)
-            {
-                if (member is BaseTypeDeclarationSyntax)
-                {
-                    yield return (BaseTypeDeclarationSyntax)member;
-                }
-                else if (member is NamespaceDeclarationSyntax)
-                {
-                    foreach (var item in GetTypeDeclarations((NamespaceDeclarationSyntax)member))
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get all the delegates in a given type member.
-        /// </summary>
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(MemberDeclarationSyntax member)
-        {
-            if (member is ClassDeclarationSyntax)
-            {
-                foreach (var item in GetDelegates((ClassDeclarationSyntax)member))
-                {
-                    yield return item;
-                }
-            }
-            else if (member is NamespaceDeclarationSyntax)
-            {
-                foreach (var item in GetDelegates((NamespaceDeclarationSyntax)member))
-                {
-                    yield return item;
-                }
-            }
-            else if (member is DelegateDeclarationSyntax)
-            {
-                yield return (DelegateDeclarationSyntax)member;
-            }
-        }
-
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(CompilationUnitSyntax compilationUnit)
-        {
-            foreach (var member in compilationUnit.Members)
-            {
-                foreach (var item in GetDelegates(member))
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(ClassDeclarationSyntax type)
-        {
-            foreach (var member in type.Members)
-            {
-                foreach (var item in GetDelegates(member))
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(NamespaceDeclarationSyntax ns)
-        {
-            foreach (var member in ns.Members)
-            {
-                foreach (var item in GetDelegates(member))
-                {
-                    yield return item;
-                }
-            }
         }
     }
 }
