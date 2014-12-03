@@ -90,11 +90,6 @@ namespace System.Runtime.WootzJs
         /// </summary>
         public bool AreAutoPropertiesMinimized { get; set; }
 
-        /// <summary>
-        /// If true, the type will be emitted regardless of whether or not it is used.
-        /// </summary>
-        public bool Preserve { get; set; }
-
         public JsAttribute()
         {
             Export = true;

@@ -119,11 +119,13 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="FileUtils.cs" />
+    <Compile Include="IPropertyImplementation.cs" />
     <Compile Include="JsAst\JsNativeExpression.cs" />
     <Compile Include="JsAst\JsSnippetExpression.cs" />
     <Compile Include="PartialClassReassembler.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="ProjectCompiler.cs" />
+    <Compile Include="ReflectionCache.cs" />
     <Compile Include="State.cs" />
     <Compile Include="AsyncStateGenerator.cs" />
     <Compile Include="BaseStateGenerator.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="SpecialNames.cs" />
     <Compile Include="StringEscaper.cs" />
     <Compile Include="SymbolCollector.cs" />
+    <Compile Include="SymbolNameCompiler.cs" />
     <Compile Include="SymbolNameMap.cs" />
     <Compile Include="SymbolWalker.cs" />
     <Compile Include="YieldChecker.cs" />

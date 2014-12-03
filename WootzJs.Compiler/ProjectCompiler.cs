@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.WootzJs;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,28 +16,19 @@ namespace WootzJs.Compiler
     {
         private Project project;
         private JsCompilationUnit jsCompilationUnit;
-        private Compilation compilation;
         private string projectName;
-        private CSharpSymbolUsageTracker tracker;
-        private Action[] transformationActions;
 
-        public ProjectCompiler(Project project, JsCompilationUnit jsCompilationUnit, Compilation compilation, CSharpSymbolUsageTracker tracker = null)
+        public ProjectCompiler(Project project, JsCompilationUnit jsCompilationUnit)
         {
             this.project = project;
             this.jsCompilationUnit = jsCompilationUnit;
-            this.compilation = compilation;
-            this.tracker = tracker;
         }
 
-        public Compilation Compilation
-        {
-            get { return compilation; }
-        }
-
-        public void Prepare()
+        public async Task Compile()
         {
             projectName = project.AssemblyName;
-            Context.Update(project.Solution, project, compilation, tracker);
+            Compilation compilation = await Profiler.Time("Getting initial project compilation", async() => await project.GetCompilationAsync());
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
             // will be loaded first, and we only want to bother creating the array once.) 
@@ -124,7 +116,7 @@ namespace WootzJs.Compiler
             // Check for partial classes
             Profiler.Time("Reassemble partial classes", () =>
             {
-                var partialClassReassembler = new PartialClassReassembler(project, compilation, tracker);
+                var partialClassReassembler = new PartialClassReassembler(project, compilation);
                 compilation = partialClassReassembler.UnifyPartialTypes();                
             });
 
@@ -167,12 +159,8 @@ namespace WootzJs.Compiler
             // Sort all the type declarations such that base types always come before subtypes.
             Profiler.Time("Sorting transformers", () => SweepSort(actions));
             
-            transformationActions = actions.Select(x => x.Item2).ToArray();
-        }
+            var transformationActions = actions.Select(x => x.Item2).ToArray();
 
-        public void Compile() 
-        {
-            Context.Update(project.Solution, project, compilation, tracker);
             Profiler.Time("Applying core transformation", () =>
             {
                 foreach (var item in transformationActions)
@@ -205,7 +193,6 @@ namespace WootzJs.Compiler
             // If the project type is a console application, then invoke the Main method at the very
             // end of the file.
             var entryPoint = Context.Instance.Compilation.GetEntryPoint(CancellationToken.None);
-            var globalIdioms = new Idioms(null);
             if (entryPoint != null)
             {
                 jsCompilationUnit.Body.Express(globalIdioms.InvokeStatic(entryPoint));

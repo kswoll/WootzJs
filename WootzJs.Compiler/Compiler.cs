@@ -29,10 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using Nito.AsyncEx;
 using WootzJs.Compiler.JsAst;
@@ -125,47 +123,10 @@ namespace WootzJs.Compiler
                 return result;
             });
 
-            var usageTracker = new CSharpSymbolUsageTracker();
-            var projectCompilerTasks = solution.GetProjectDependencyGraph()
-                .GetTopologicallySortedProjects()
-                .Select(x => solution.GetProject(x))
-                .Select(async x => new ProjectCompiler(x, jsCompilationUnit, await Profiler.Time("Getting initial project compilation", async() => await x.GetCompilationAsync()), usageTracker))
-                .ToArray();
-            var projectCompilers = new List<ProjectCompiler>();
-            foreach (var item in projectCompilerTasks)
-            {
-                var compiler = await item;
-                projectCompilers.Add(compiler);
-            }
-
-            // Prepare
+            var projectCompilers = SortProjectsByDependencies(solution).Select(x => new ProjectCompiler(x, jsCompilationUnit)).ToArray();
             foreach (var compiler in projectCompilers)
             {
-                compiler.Prepare();                
-            }
-
-            // Track usages
-            foreach (var compiler in projectCompilers)
-            {
-                usageTracker.Initialize(compiler);
-            }
-
-            foreach (var compiler in projectCompilers)
-            {
-                usageTracker.FindPreserved(compiler);
-                var entryPoint = compiler.Compilation.GetEntryPoint(CancellationToken.None);
-                if (entryPoint != null)
-                {
-                    var method = (MethodDeclarationSyntax)entryPoint.DeclaringSyntaxReferences.Single().GetSyntax();
-                    var type = method.GetContainingTypeDeclaration();
-                    usageTracker.CollectUsedSymbols(type);
-                }
-            }
-
-            // Compile
-            foreach (var compiler in projectCompilers)
-            {
-                compiler.Compile();                
+                await compiler.Compile();
             }
 
             // Write out the compiled Javascript file to the target location.
@@ -239,10 +200,8 @@ namespace WootzJs.Compiler
 
                 return result;
             });
-            var compilation = await Profiler.Time("Getting initial project compilation", async() => await project.GetCompilationAsync());
-            var projectCompiler = new ProjectCompiler(project, jsCompilationUnit, compilation);
-            projectCompiler.Prepare();
-            projectCompiler.Compile();
+            var projectCompiler = new ProjectCompiler(project, jsCompilationUnit);
+            await projectCompiler.Compile();
 
             // Write out the compiled Javascript file to the target location.
             var renderer = new JsRenderer();

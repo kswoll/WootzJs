@@ -45,8 +45,9 @@ namespace WootzJs.Compiler
         public Solution Solution { get; private set; } 
         public Project Project { get; private set; }
         public Compilation Compilation { get; private set; }
-//        public SymbolNameMap SymbolNames { get; private set; }
-        public CSharpSymbolUsageTracker Tracker { get; private set; }
+        public SymbolNameMap SymbolNames { get; private set; }
+        public ReflectionCache ReflectionCache { get; private set; }
+        public IPropertyImplementation PropertyImplementation { get; private set; }
 
         public INamedTypeSymbol Exception { get; private set; }
         public INamedTypeSymbol SpecialFunctions { get; private set; }
@@ -220,22 +221,23 @@ namespace WootzJs.Compiler
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
-        public static void Update(Solution solution, Project project, Compilation compilation, CSharpSymbolUsageTracker tracker)
+        public static void Update(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache, IPropertyImplementation propertyImplementation)
         {
             Profiler.Time("Updating Context", () =>
             {
                 instance = new Context();
-                instance.UpdateContext(solution, project, compilation, tracker);
+                instance.UpdateContext(solution, project, compilation, reflectionCache, propertyImplementation);
             });
         }
 
-        private void UpdateContext(Solution solution, Project project, Compilation compilation, CSharpSymbolUsageTracker tracker)
+        private void UpdateContext(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache, IPropertyImplementation propertyImplementation)
         {
             Solution = solution;
             Project = project;
             Compilation = compilation;
-//            SymbolNames = new SymbolNameMap(new Dictionary<ISymbol, string>());//SymbolNameCompiler.CompileSymbolNames(project, compilation);
-            Tracker = tracker;
+            SymbolNames = new SymbolNameMap(new Dictionary<ISymbol, string>());//SymbolNameCompiler.CompileSymbolNames(project, compilation);
+            ReflectionCache = reflectionCache;
+            PropertyImplementation = propertyImplementation;
 
 //            var diagnostics = compilation.GetDiagnostics();
 //            var mscorlib = compilation.GetReferencedAssemblySymbol(project.MetadataReferences.First());

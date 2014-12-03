@@ -31,8 +31,6 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-using System.Runtime.WootzJs;
-
 [assembly: AssemblyTitle("WootzJs.Compiler.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -41,7 +39,6 @@ using System.Runtime.WootzJs;
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: JsCompilerOptions(AreAllTypesPreserved = true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("aa7653a6-1fb6-4cb9-b5db-050e8e1a15e5")]

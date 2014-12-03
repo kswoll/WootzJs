@@ -1,11 +1,9 @@
-﻿using System.Runtime.WootzJs;
-
-namespace System.Runtime.CompilerServices
+﻿namespace System.Runtime.CompilerServices
 {
     /// <summary>
     /// Indicates the name by which an indexer is known in programming languages that do not support indexers directly.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, Inherited = true), Js(Preserve = true)]
+    [AttributeUsage(AttributeTargets.Property, Inherited = true)]
     public sealed class IndexerNameAttribute : Attribute
     {
         /// <summary>
