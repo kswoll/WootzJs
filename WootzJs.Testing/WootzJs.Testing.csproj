@@ -33,6 +33,9 @@
   <PropertyGroup>
     <AdditionalExplicitAssemblyReferences />
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>

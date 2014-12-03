@@ -37,6 +37,9 @@
   <PropertyGroup>
     <StartupObject>WootzJs.Compiler.Tests.TestsApplication</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnonymousTypeTests.cs" />
     <Compile Include="ArrayTests.cs" />

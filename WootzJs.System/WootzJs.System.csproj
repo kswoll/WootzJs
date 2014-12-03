@@ -32,6 +32,9 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="ComponentModel\INotifyPropertyChanged.cs" />
     <Compile Include="ComponentModel\PropertyChangedEventArgs.cs" />
