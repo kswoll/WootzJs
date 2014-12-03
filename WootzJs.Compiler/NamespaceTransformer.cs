@@ -66,7 +66,7 @@ namespace WootzJs.Compiler
         {
             var semanticModel = Context.Instance.Compilation.GetSemanticModel(node.SyntaxTree);
             var symbol = semanticModel.GetDeclaredSymbol(node);
-            var fullName = Context.Instance.SymbolNames[symbol, symbol.GetFullName()];
+            var fullName = symbol.GetFullName();
             ProcessNamespace(fullName);
         }
     }

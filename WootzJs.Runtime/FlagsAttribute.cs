@@ -25,9 +25,11 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Runtime.WootzJs;
+
 namespace System
 {
-	[AttributeUsage(AttributeTargets.Enum, Inherited = false, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Enum, Inherited = false, AllowMultiple = false), Js(Preserve = true)]
 	public sealed class FlagsAttribute : Attribute
 	{
 	}

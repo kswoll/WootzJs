@@ -38,6 +38,11 @@ namespace WootzJs.Compiler
             return result ?? symbol.Name;
         }
 
+        public static bool IsPreserved(this ISymbol symbol)
+        {
+            return symbol.GetAttributeValue("System.Runtime.WootzJs.JsAttribute", "Preserve", false);
+        }
+
         public static string GetCode(this ISymbol symbol)
         {
             return symbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Code");
@@ -77,6 +82,11 @@ namespace WootzJs.Compiler
         public static bool AreDelegatesMinimized(this IAssemblySymbol assembly)
         {
             return assembly.GetAttributeValue(Context.Instance.JsCompilerOptionsAttribute, "AreDelegatesMinimized", false);
+        }
+
+        public static bool AreAllTypesPreserved(this IAssemblySymbol assembly)
+        {
+            return assembly.GetAttributeValue<bool>("System.Runtime.WootzJs.JsCompilerOptionsAttribute", "AreAllTypesPreserved");
         }
 
         public static bool? AreAutoPropertiesMinimized(this IPropertySymbol property)

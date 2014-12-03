@@ -22,15 +22,17 @@ namespace WootzJs.Compiler
     {
         private Project project;
         private Compilation compilation;
+        private CSharpSymbolUsageTracker tracker;
         private Dictionary<TypeDeclarationSyntax, TypeDeclarationSyntax> typeDeclarationReplacements = new Dictionary<TypeDeclarationSyntax, TypeDeclarationSyntax>();
         private HashSet<TypeDeclarationSyntax> removedTypeDeclarations = new HashSet<TypeDeclarationSyntax>();
         private PartialClassScanner scanner;
         private PartialClassIdentifierFullyQualifier qualifier;
 
-        public PartialClassReassembler(Project project, Compilation compilation)
+        public PartialClassReassembler(Project project, Compilation compilation, CSharpSymbolUsageTracker tracker)
         {
             this.project = project;
             this.compilation = compilation;
+            this.tracker = tracker;
             scanner = new PartialClassScanner(this);
             qualifier = new PartialClassIdentifierFullyQualifier(this);
         }
@@ -56,7 +58,7 @@ namespace WootzJs.Compiler
                     compilation = compilation.ReplaceSyntaxTree(syntaxTree, SyntaxFactory.SyntaxTree(compilationUnit, path: syntaxTree.FilePath));
                 }
             }
-            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
+            Context.Update(project.Solution, project, compilation, tracker);
 
             scanner = new PartialClassScanner(this);
             foreach (var syntaxTree in compilation.SyntaxTrees)
@@ -101,7 +103,7 @@ namespace WootzJs.Compiler
                 {
                     compilation = compilation.ReplaceSyntaxTree(item.Item1, SyntaxFactory.SyntaxTree(item.Item2, path: item.Item1.FilePath));                    
                 }
-                Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
+                Context.Update(project.Solution, project, compilation, tracker);
                 compilation = compilation.Clone();
             }
             return compilation;

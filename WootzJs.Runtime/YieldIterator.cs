@@ -31,7 +31,7 @@ using System.Runtime.WootzJs;
 
 namespace System
 {
-    [Js(AreAutoPropertiesMinimized = false)]
+    [Js(AreAutoPropertiesMinimized = false, Preserve = true)]
     public class YieldIterator<T> : IEnumerable<T>, IEnumerator<T>
     {
         public T Current { get; protected set; }
