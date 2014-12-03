@@ -806,13 +806,13 @@ namespace WootzJs.Compiler
                 return result;
             if (idioms.TryCharBinaryExpression(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
-            if (idioms.TryStringConcatenation(node.CSharpKind(), leftType, rightType, left, right, out result))
+            if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
             if (idioms.TryEnumBitwise(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
             if (idioms.TryEnumEquality(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
-            if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
+            if (idioms.TryStringConcatenation(node.CSharpKind(), leftType, rightType, left, right, out result))
                 return result;
 
             if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
@@ -841,6 +841,8 @@ namespace WootzJs.Compiler
             JsExpression result;
             if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
                 return ImplicitCheck(node, result);
+            if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
+                return result;
 
             if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
             {

@@ -1331,7 +1331,7 @@ namespace WootzJs.Compiler
                    Equals(type, Context.Instance.Int64);
         }
 
-        public bool TryStringConcatenation(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryIntegerDivision(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if ((type == SyntaxKind.DivideExpression || type == SyntaxKind.DivideAssignmentExpression) && 
                 IsIntegerType(leftSymbol.ConvertedType) && 
@@ -1348,7 +1348,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryIntegerDivision(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
+        public bool TryStringConcatenation(SyntaxKind type, TypeInfo leftSymbol, TypeInfo rightSymbol, JsExpression left, JsExpression right, out JsExpression result)
         {
             if (type == SyntaxKind.AddExpression && 
                 (Equals(leftSymbol.ConvertedType, Context.Instance.String) || Equals(rightSymbol.ConvertedType, Context.Instance.String)) &&
