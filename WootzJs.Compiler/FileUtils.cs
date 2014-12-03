@@ -58,6 +58,8 @@ namespace WootzJs.Compiler
 
         public static string ResolveRelativePath(string currentPath, string newPath)
         {
+            if (Path.IsPathRooted(newPath))
+                return newPath;
             var projectFolderInfo = new DirectoryInfo(currentPath);
             if (!projectFolderInfo.Exists)
                 projectFolderInfo = projectFolderInfo.Parent;
