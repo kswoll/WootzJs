@@ -109,5 +109,21 @@ namespace WootzJs.Models
                 .SelectRecursive(o => o.Expression is MemberExpression ? (MemberExpression)o.Expression : null)
                 .Select(o => o.Member).Reverse();
         }
+
+        public static Action<T, TValue> GenerateSetter<T, TValue>(this Expression<Func<T, TValue>> property)
+        {
+            var propertyPath = property.GetPropertyPath().ToArray();
+            return (x, value) =>
+            {
+                object current = x;
+                for (var i = 0; i < propertyPath.Length - 1; i++)
+                {
+                    var currentProperty = (PropertyInfo)propertyPath[i];
+                    current = currentProperty.GetValue(current);
+                }
+                var finalProperty = (PropertyInfo)propertyPath.Last();
+                finalProperty.SetValue(current, value);
+            };
+        }
     }
 }
