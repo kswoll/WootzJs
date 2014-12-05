@@ -146,10 +146,5 @@ namespace WootzJs.Mvc.Views
                 Node.Value = value;
             }
         }
-
-        public void Focus()
-        {
-            Node.Focus();
-        }
     }
 }

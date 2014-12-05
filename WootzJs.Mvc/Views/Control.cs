@@ -465,5 +465,10 @@ namespace WootzJs.Mvc.Views
         {
             return Children.GetEnumerator();
         }
+
+        public void Focus()
+        {
+            Node.Focus();
+        }
     }
 }
