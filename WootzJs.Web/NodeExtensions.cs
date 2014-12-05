@@ -30,5 +30,14 @@
         {
             node.ParentNode.RemoveChild(node);
         }
+
+        public static void Clear(this Node node)
+        {
+            for (var i = node.ChildNodes.Length - 1; i >= 0; i--)
+            {
+                var child = node.ChildNodes[i];
+                child.Remove();
+            }
+        }
     }
 }
