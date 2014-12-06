@@ -91,18 +91,6 @@ namespace WootzJs.Compiler
 
             var actions = new List<Tuple<INamedTypeSymbol, Action>>();
 
-            // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
-            // declarations with a series of auto implemented properties.
-            Profiler.Time("Running AnonymousTypeTransformer", () => 
-            {
-                var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
-                foreach (var syntaxTree in compilation.SyntaxTrees)
-                {
-                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                    compilationUnit.Accept(anonymousTypeTransformer);
-                }
-            });
-
             Profiler.Time("Get diagnostics", () =>
             {
                 var diagnostics = compilation.GetDiagnostics();
@@ -117,7 +105,19 @@ namespace WootzJs.Compiler
             Profiler.Time("Reassemble partial classes", () =>
             {
                 var partialClassReassembler = new PartialClassReassembler(project, compilation);
-                compilation = partialClassReassembler.UnifyPartialTypes();                
+                compilation = partialClassReassembler.UnifyPartialTypes();
+            });
+
+            // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
+            // declarations with a series of auto implemented properties.
+            Profiler.Time("Running AnonymousTypeTransformer", () => 
+            {
+                var anonymousTypeTransformer = new AnonymousTypeTransformer(jsCompilationUnit.Body, actions);
+                foreach (var syntaxTree in compilation.SyntaxTrees)
+                {
+                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                    compilationUnit.Accept(anonymousTypeTransformer);
+                }
             });
 
             // Iterate through all the syntax trees and add entries into `actions` that correspond to type

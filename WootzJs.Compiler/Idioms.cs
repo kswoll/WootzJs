@@ -47,7 +47,7 @@ namespace WootzJs.Compiler
 
         public JsInvocationExpression MakeGenericType(INamedTypeSymbol unconstructedType)
         {
-            return MakeGenericType(unconstructedType, unconstructedType.TypeArguments.Select(x => Type(x)).ToArray());
+            return MakeGenericType(unconstructedType, unconstructedType.TypeArguments.Select(x => Type(x)).Concat(unconstructedType.GetAnonymousTypeParameters().Select(x => Js.Reference(x.Item2))).ToArray());
         }
 
         public JsInvocationExpression MakeGenericType(INamedTypeSymbol unconstructedType, params JsExpression[] typeArguments)
@@ -58,9 +58,13 @@ namespace WootzJs.Compiler
             {
                 target = Type(containingType).Member(unconstructedType.GetShortTypeName() + SpecialNames.MakeGenericType);
             }
-            else
+            else if (!unconstructedType.IsAnonymousType)
             {
                 target = Js.Reference(unconstructedType.GetTypeName() + SpecialNames.MakeGenericType);
+            }
+            else 
+            {
+                target = Js.Reference(unconstructedType.GetTypeName()).Member(SpecialNames.MakeGenericType);
             }
 
             var result = target.Invoke(typeArguments);
@@ -134,7 +138,7 @@ namespace WootzJs.Compiler
             typeInitializer.Add(StoreClassCreateType(classType));
 
             var containingType = classType.ContainingType;
-            var typeInitializerFunction = Js.Function(new[] { Js.Parameter(SpecialNames.TypeInitializerTypeFunction), Js.Parameter(SpecialNames.TypeInitializerPrototype) }.Concat(classType.TypeParameters.Select(x => Js.Parameter(x.Name)).ToArray()).ToArray()).Body(typeInitializer);
+            var typeInitializerFunction = Js.Function(new[] { Js.Parameter(SpecialNames.TypeInitializerTypeFunction), Js.Parameter(SpecialNames.TypeInitializerPrototype) }.Concat(classType.TypeParameters.Select(x => Js.Parameter(x.Name))).Concat(classType.GetAnonymousTypeParameters().Select(x => Js.Parameter(x.Item2))).ToArray()).Body(typeInitializer);
 
             Func<JsExpression, JsExpression> primaryTypeInitializerCall = expression => expression
                 .Member("call")
@@ -147,9 +151,19 @@ namespace WootzJs.Compiler
                     }
                     .Concat(
                         classType.TypeParameters.Select(x => 
-                            Js.Reference("$definetypeparameter").Invoke(
+                            Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
                                 Js.Primitive(x.Name), 
-                                Type(x.BaseType ?? Context.Instance.ObjectType, true)))
+                                Type(x.BaseType ?? Context.Instance.ObjectType, true)
+                            )
+                        )
+                    )
+                    .Concat(
+                        classType.GetAnonymousTypeParameters().Select(x => 
+                            Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Primitive(x.Item2),
+                                Type(x.Item1 ?? Context.Instance.ObjectType, true)
+                            )
+                        )
                     )
                     .ToArray()
                 );
@@ -193,25 +207,29 @@ namespace WootzJs.Compiler
             if (classType.HasOrIsEnclosedInGenericParameters())
             {
                 var makeGenericType = new JsBlockStatement();
+                var name = containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction);
                 makeGenericType.Return(
                     Js.Reference(SpecialNames.MakeGenericTypeConstructor)
                     .Member("call")
-                    .Invoke(containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction), SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
+                    .Invoke(name, SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
                     .Invoke()
                 );
                 typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
 
-                JsExpression target;
-                if (containingType != null) 
+                if (!classType.IsAnonymousType)
                 {
-                    target = Js.This().Member(classType.GetShortTypeName() + SpecialNames.MakeGenericType);
-                }
-                else
-                {
-                    target = Js.Reference("window." + classType.GetTypeName() + SpecialNames.MakeGenericType);
-                }
+                    JsExpression target;
+                    if (containingType != null) 
+                    {
+                        target = Js.This().Member(classType.GetShortTypeName() + SpecialNames.MakeGenericType);
+                    }
+                    else
+                    {
+                        target = Js.Reference("window." + classType.GetTypeName() + SpecialNames.MakeGenericType);
+                    }
 
-                typeInitializer.Assign(target, GetFromType("$"));
+                    typeInitializer.Assign(target, GetFromType("$"));                    
+                }
             }
 
             return block;
@@ -227,18 +245,15 @@ namespace WootzJs.Compiler
                 CreateObject(Context.Instance.TypeConstructor, Js.Primitive(type.Name), CreateAttributes(type)));
 
             TypeFlags typeFlags = 0;
-            JsExpression typeAttributes;
             if (type.ContainingType == null)
             {
                 switch (type.DeclaredAccessibility)
                 {
                     case Accessibility.Public:
                         typeFlags |= TypeFlags.Public;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesPublic);
                         break;
                     case Accessibility.Internal:
                         typeFlags |= TypeFlags.Internal;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNotPublic);
                         break;
                     default:
                         throw new Exception();
@@ -250,23 +265,18 @@ namespace WootzJs.Compiler
                 {
                     case Accessibility.Public:
                         typeFlags |= TypeFlags.Public;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedPublic);
                         break;
                     case Accessibility.Internal:
                         typeFlags |= TypeFlags.Internal;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedAssembly);
                         break;
                     case Accessibility.Private:
                         typeFlags |= TypeFlags.Private;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedPrivate);
                         break;
                     case Accessibility.Protected:
                         typeFlags |= TypeFlags.Protected;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamily);
                         break;
                     case Accessibility.ProtectedOrInternal:
                         typeFlags |= TypeFlags.Private | TypeFlags.Internal;
-                        typeAttributes = GetEnumValue(Context.Instance.TypeAttributesNestedFamORAssem);
                         break;
                     default:
                         throw new Exception();
@@ -275,14 +285,10 @@ namespace WootzJs.Compiler
             if (type.TypeKind == TypeKind.Interface)
             {
                 typeFlags |= TypeFlags.Interface;
-                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
-                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesInterface));
             }
             else if (type.TypeKind == TypeKind.Class)
             {
                 typeFlags |= TypeFlags.Class;
-                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
-                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesClass));                
             }
             else if (type.TypeKind == TypeKind.Enum)
             {
@@ -291,14 +297,10 @@ namespace WootzJs.Compiler
             if (type.IsAbstract)
             {
                 typeFlags |= TypeFlags.Abstract;
-                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
-                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesAbstract));                
             }
             else if (type.IsSealed)
             {
                 typeFlags |= TypeFlags.Sealed;
-                typeAttributes = EnumBitwise(SyntaxKind.BitwiseOrExpression, Context.Instance.TypeAttributes, 
-                    typeAttributes, GetEnumValue(Context.Instance.TypeAttributesSealed));                
             }
             if (type.IsValueType)
             {
@@ -328,7 +330,7 @@ namespace WootzJs.Compiler
                 Type(type, true), 
                 baseType,
                 CreateInterfaceReferences(type),
-                MakeArray(Js.Array(type.TypeParameters.Select(x => Js.Reference(x.Name)).ToArray()), Context.Instance.TypeArray)                
+                MakeArray(Js.Array(type.TypeParameters.Select(x => Js.Reference(x.Name)).Concat(type.GetAnonymousTypeParameters().Select(x => Js.Reference(x.Item2))).ToArray()), Context.Instance.TypeArray)
             };
 
             if (!Context.Instance.Compilation.Assembly.IsReflectionMinimized())
@@ -516,7 +518,7 @@ namespace WootzJs.Compiler
                 var block = new JsBlockStatement();
                 foreach (var typeParameter in method.TypeParameters)
                 {
-                    block.Local(typeParameter.Name, Js.Reference("$definetypeparameter").Invoke(
+                    block.Local(typeParameter.Name, Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
                         Js.Primitive(typeParameter.Name), Type(typeParameter.BaseType ?? Context.Instance.ObjectType, true)));
                 }
                 block.Return(info);

@@ -266,7 +266,27 @@ namespace WootzJs.Compiler
 
         public static bool HasOrIsEnclosedInGenericParameters(this INamedTypeSymbol type)
         {
-            return type.TypeParameters.Any() || (type.ContainingType != null && type.ContainingType.HasOrIsEnclosedInGenericParameters());
+            return type.TypeParameters.Any() || (type.ContainingType != null && type.ContainingType.HasOrIsEnclosedInGenericParameters()) || type.IsAnonymousTypeWithTypeParameters();
+        }
+
+        public static bool IsAnonymousTypeWithTypeParameters(this INamedTypeSymbol type)
+        {
+            return type.IsAnonymousType && type.GetMembers().OfType<IPropertySymbol>().Any(x => x.Type.TypeKind == TypeKind.TypeParameter);
+        }
+
+        public static IEnumerable<Tuple<INamedTypeSymbol, string>> GetAnonymousTypeParameters(this INamedTypeSymbol type)
+        {
+            if (type.IsAnonymousType)
+            {
+                foreach (var property in type.GetMembers().OfType<IPropertySymbol>())
+                {
+                    if (property.Type.TypeKind == TypeKind.TypeParameter)
+                    {
+                        var typeParameter = (ITypeParameterSymbol)property.Type;
+                        yield return Tuple.Create(typeParameter.BaseType, typeParameter.Name);
+                    }
+                }
+            }
         }
 
 /*

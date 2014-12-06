@@ -101,8 +101,8 @@ namespace WootzJs.Compiler
                 {
                     compilation = compilation.ReplaceSyntaxTree(item.Item1, SyntaxFactory.SyntaxTree(item.Item2, path: item.Item1.FilePath));                    
                 }
-                Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
                 compilation = compilation.Clone();
+                Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
             }
             return compilation;
         }

@@ -65,7 +65,7 @@ namespace System.Runtime.WootzJs
             return typeFunction;
         }
 
-        [Js(Name = "$definetypeparameter")]
+        [Js(Name = SpecialNames.DefineTypeParameter)]
         public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)
         {
             var result = Define(name, prototype);
@@ -212,6 +212,8 @@ namespace System.Runtime.WootzJs
             if (result == null)
             {
                 var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('`');
+                if (lastIndexOfDollar == -1)
+                    lastIndexOfDollar = unconstructedType.TypeName.Length;
                 var newTypeName = unconstructedType.TypeName.Substring(0, lastIndexOfDollar) + "<" + keyString + ">";
                 var prototype = unconstructedType.BaseType;
                 if (prototype.member("$"))
