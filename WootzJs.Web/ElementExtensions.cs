@@ -14,7 +14,10 @@
 
         public static void Clear(this Element parent)
         {
-            parent.InnerHtml = "";
+            while (parent.FirstChild != null) 
+            {
+                parent.RemoveChild(parent.FirstChild);
+            }        
         }
 
         public static bool IsAttachedToDom(this Element element)

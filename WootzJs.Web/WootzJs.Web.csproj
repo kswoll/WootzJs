@@ -57,6 +57,7 @@
     <Compile Include="FormElement.cs" />
     <Compile Include="History.cs" />
     <Compile Include="HtmlCollection.cs" />
+    <Compile Include="HtmlOptionsCollection.cs" />
     <Compile Include="IChildNode.cs" />
     <Compile Include="InputElement.cs" />
     <Compile Include="IParentNode.cs" />
@@ -72,12 +73,14 @@
     <Compile Include="NodeExtensions.cs" />
     <Compile Include="NodeList.cs" />
     <Compile Include="NodeType.cs" />
+    <Compile Include="OptionElement.cs" />
     <Compile Include="PopStateEvent.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="PopStateEventHandler.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="ElementStyle.cs" />
     <Compile Include="ReadyState.cs" />
+    <Compile Include="SelectElement.cs" />
     <Compile Include="StyleSheet.cs" />
     <Compile Include="StyleSheetExtensions.cs" />
     <Compile Include="TextAreaElement.cs" />

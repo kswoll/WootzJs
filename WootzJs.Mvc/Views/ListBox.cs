@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.WootzJs;
 using WootzJs.Web;
 
@@ -17,6 +18,17 @@ namespace WootzJs.Mvc.Views
         {
             this.textProvider = textProvider ?? (x => x.ToString());
             this.valueProvider = valueProvider ?? textProvider;
+        }
+
+        public new SelectElement Node
+        {
+            get { return base.Node.As<SelectElement>(); }
+        }
+
+        public bool IsDropDown
+        {
+            get { return Node.GetAttribute("size") != "1"; }
+            set { Node.SetAttribute("size", value ? "1" : "2"); }
         }
 
         protected override Element CreateNode()
@@ -68,6 +80,48 @@ namespace WootzJs.Mvc.Views
                     Node.SetAttribute("multiple", "true");
                 else
                     Node.RemoveAttribute("multiple");
+            }
+        }
+
+        public T SelectedItem
+        {
+            get
+            {
+                var selectedIndex = Node.SelectedIndex;
+                if (selectedIndex >= 0)
+                    return items[(int)selectedIndex];
+                else
+                    return default(T);
+            }
+            set
+            {
+                var index = items.IndexOf(value);
+                Node.SelectedIndex = index;
+            }
+        }
+
+        public T[] SelectedItems
+        {
+            get
+            {
+                var selectedItems = new List<T>();
+                for (var i = 0; i < Node.SelectedOptions.Length; i++)
+                {
+                    var option = Node.SelectedOptions[i];
+                    var item = items[option.Index];
+                    selectedItems.Add(item);
+                }
+                return selectedItems.ToArray();
+            }
+            set
+            {
+                var valueSet = new HashSet<T>(value);
+                for (var i = 0; i < Node.Options.Length; i++)
+                {
+                    var option = Node.Options[i];
+                    var item = items[option.Index];
+                    option.Selected = valueSet.Contains(item);
+                }
             }
         }
     }

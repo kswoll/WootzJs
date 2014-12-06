@@ -38,5 +38,21 @@ namespace WootzJs.Compiler.Tests
             var o = new { MyProperty = "foo" };
             AssertEquals(o.MyProperty, "foo");
         }
+
+        [Test]
+        public void GenericPropertiesRequireTypeParameters()
+        {
+            var o = new GenericClass<string>().M();
+            AssertEquals(o.GetType().GetProperty("Value").PropertyType, typeof(string));
+        }
+
+        public class GenericClass<T>
+        {
+            public object M()
+            {
+                T value = default(T);
+                return new { Value = value };
+            }
+        }
     }
 }
