@@ -118,6 +118,17 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(delegate2.Target, methodClass2);
         }
 
+        [Test]
+        public void CombineTwoDelegates()
+        {
+            var s = "";
+            Action<string> a = x => s += x;
+            Action<string> b = x => s += x.Length;
+            var both = (Action<string>)Delegate.Combine(a, b);
+            both("ab");
+            AssertEquals(s, "ab2");
+        }
+
         private string M()
         {
             return "bar";

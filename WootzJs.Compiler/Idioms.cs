@@ -1117,7 +1117,7 @@ namespace WootzJs.Compiler
                     i.GetReference().LessThan(list.GetReference().Member("length")), 
                     i.GetReference().Increment()
                 )
-                .Body(list.GetReference().Index(i.GetReference()).Invoke(Js.Reference("arguments")).Express()));
+                .Body(list.GetReference().Index(i.GetReference()).Member("apply").Invoke(Js.Null(), Js.Reference("arguments")).Express()));
 
             var delegateExpression = Js.Function();
             delegateExpression.Body(delegateBody);
