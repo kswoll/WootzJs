@@ -158,5 +158,24 @@ namespace WootzJs.Compiler.Tests
                 return s;
             }
         }
+
+        [Test]
+        public void SetFieldInDelegate()
+        {
+            var obj = new SetFieldInDelegateClass<string>();
+            var action = obj.M();
+            action("foo");
+            AssertEquals(obj.Field, "foo");
+        }
+
+        public class SetFieldInDelegateClass<T>
+        {
+            public T Field;
+
+            public Action<T> M()
+            {
+                return x => Field = x;
+            }
+        }
     }
 }
