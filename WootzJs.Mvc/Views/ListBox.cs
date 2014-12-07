@@ -12,12 +12,12 @@ namespace WootzJs.Mvc.Views
 
         private List<T> items = new List<T>();
         private Func<T, string> textProvider;
-        private Func<T, string> valueProvider;
+        private Func<T, string> valueFormatter;
 
         public ListBox(Func<T, string> textProvider = null, Func<T, string> valueProvider = null) 
         {
             this.textProvider = textProvider ?? (x => x.ToString());
-            this.valueProvider = valueProvider ?? textProvider;
+            this.valueFormatter = valueProvider ?? textProvider;
         }
 
         public new SelectElement Node
@@ -56,9 +56,17 @@ namespace WootzJs.Mvc.Views
         private Element CreateOption(T item)
         {
             var option = Browser.Document.CreateElement("option");
-            option.SetAttribute("value", valueProvider(item));
+            option.SetAttribute("value", FormatValue(item));
             option.AppendChild(Browser.Document.CreateTextNode(textProvider(item)));
             return option;
+        }
+
+        private string FormatValue(T item)
+        {
+            if (valueFormatter != null)
+                return valueFormatter(item);
+            else
+                return (string)Convert.ChangeType(item, typeof(string));
         }
 
         private void OnJsChanged(Event evt)

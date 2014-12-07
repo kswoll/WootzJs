@@ -2,7 +2,7 @@
 
 namespace WootzJs.Web
 {
-    [Js(Export = false)]
+    [Js(Name = "HTMLSelectElement", Export = false)]
     public class SelectElement : Element
     {
         [Js(Name = "selectedIndex")]
