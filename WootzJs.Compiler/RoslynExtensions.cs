@@ -271,7 +271,7 @@ namespace WootzJs.Compiler
 
         public static bool IsAnonymousTypeWithTypeParameters(this INamedTypeSymbol type)
         {
-            return type.IsAnonymousType && type.GetMembers().OfType<IPropertySymbol>().Any(x => x.Type.TypeKind == TypeKind.TypeParameter);
+            return type.GetAnonymousTypeParameters().Any();
         }
 
         public static IEnumerable<Tuple<INamedTypeSymbol, string>> GetAnonymousTypeParameters(this INamedTypeSymbol type)
@@ -280,10 +280,28 @@ namespace WootzJs.Compiler
             {
                 foreach (var property in type.GetMembers().OfType<IPropertySymbol>())
                 {
-                    if (property.Type.TypeKind == TypeKind.TypeParameter)
+                    foreach (var current in property.Type.GetAllTypeParameters())
                     {
-                        var typeParameter = (ITypeParameterSymbol)property.Type;
-                        yield return Tuple.Create(typeParameter.BaseType, typeParameter.Name);
+                        yield return Tuple.Create(current.BaseType, current.Name);
+                    }
+                }
+            }
+        }
+
+        public static IEnumerable<ITypeParameterSymbol> GetAllTypeParameters(this ITypeSymbol type) 
+        {
+            if (type.TypeKind == TypeKind.TypeParameter)
+            {
+                yield return (ITypeParameterSymbol)type;
+            }
+            else if (type is INamedTypeSymbol)
+            {
+                var namedType = (INamedTypeSymbol)type;
+                foreach (var typeArgument in namedType.TypeArguments)
+                {
+                    foreach (var current in typeArgument.GetAllTypeParameters())
+                    {
+                        yield return current;
                     }
                 }
             }

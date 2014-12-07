@@ -46,12 +46,28 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(o.GetType().GetProperty("GenericValue").PropertyType, typeof(string));
         }
 
+        [Test]
+        public void GenericPropertiesRequireTypeParameters2()
+        {
+            var o = new GenericClass2<string>().M();
+            AssertEquals(o.GetType().GetProperty("GenericValue2").PropertyType, typeof(GenericClass<string>));
+        }
+
         public class GenericClass<T>
         {
             public object M()
             {
                 T value = default(T);
                 return new { GenericValue = value };
+            }
+        }
+
+        public class GenericClass2<T>
+        {
+            public object M()
+            {
+                var value = default(GenericClass<T>);
+                return new { GenericValue2 = value };
             }
         }
     }

@@ -310,7 +310,7 @@ namespace WootzJs.Compiler
             {
                 typeFlags |= TypeFlags.Primitive;
             }
-            if (type.IsGenericType)
+            if (type.IsGenericType || type.IsAnonymousTypeWithTypeParameters())
             {
                 typeFlags |= TypeFlags.GenericType;
             }
