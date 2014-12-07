@@ -34,6 +34,8 @@ namespace WootzJs.Mvc.Views
         private Action<KeyboardEvent> keyPress;
         private Action<KeyboardEvent> keyUp;
         private Action<KeyboardEvent> keyDown;
+        private Action blurred;
+        private Action focused;
         private bool isAttachedToDom;
         private View view;
         private bool isDisposed;
@@ -472,6 +474,50 @@ namespace WootzJs.Mvc.Views
         public void Focus()
         {
             Node.Focus();
+        }
+
+        private void OnBlurred(Event evt)
+        {
+            if (blurred != null)
+                blurred();
+        }
+
+        public event Action Blurred
+        {
+            add
+            {
+                if (blurred == null)
+                    Node.AddEventListener("blur", OnBlurred);
+                blurred = (Action)Delegate.Combine(blurred, value);
+            }
+            remove
+            {
+                blurred = (Action)Delegate.Remove(blurred, value);
+                if (blurred == null)
+                    Node.RemoveEventListener("blur", OnBlurred);
+            }
+        }
+
+        private void OnFocused(Event evt)
+        {
+            if (focused != null)
+                focused();
+        }
+
+        public event Action Focused
+        {
+            add
+            {
+                if (focused == null)
+                    Node.AddEventListener("focus", OnFocused);
+                focused = (Action)Delegate.Combine(focused, value);
+            }
+            remove
+            {
+                focused = (Action)Delegate.Remove(focused, value);
+                if (focused == null)
+                    Node.RemoveEventListener("focus", OnFocused);
+            }
         }
 
         public event Action<KeyboardEvent> KeyPress
