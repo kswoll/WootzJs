@@ -82,9 +82,14 @@ namespace WootzJs.Mvc.Views
 
         public void Add(Control name, Control value)
         {
+            AddExact(name, value);
+            value.Style.Width = new CssNumericValue(100, CssUnit.Percent);
+        }
+
+        public void AddExact(Control name, Control value)
+        {
             Add(name);
             Add(value);
-            value.Style.Width = new CssNumericValue(100, CssUnit.Percent);
         }
     }
 }
