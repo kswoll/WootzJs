@@ -29,6 +29,7 @@ namespace WootzJs.Mvc
         private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
         private UrlHelper url = new UrlHelper();
+        private ActionHelper action = new ActionHelper();
 
         private static MvcApplication instance;
 
@@ -66,6 +67,11 @@ namespace WootzJs.Mvc
         public UrlHelper Url
         {
             get { return url; }
+        }
+
+        public ActionHelper Action
+        {
+            get { return action; }
         }
 
         public string CurrentUrl
