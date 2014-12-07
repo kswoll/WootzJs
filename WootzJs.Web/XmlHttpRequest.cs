@@ -54,6 +54,9 @@ namespace WootzJs.Web
 
         [Js(Name = "upload")]
         public extern XmlHttpRequestUpload Upload { get; }
+
+        [Js(Name = "getResponseHeader")]
+        public extern string GetResponseHeader(string header);
     }
 
     [Js(Export = false)]
