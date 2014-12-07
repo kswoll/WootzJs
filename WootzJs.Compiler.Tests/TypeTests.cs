@@ -134,5 +134,15 @@ namespace WootzJs.Compiler.Tests
             {
             }
         }
+
+        [Test]
+        public void SimpleSubclass()
+        {
+            var glyph = new ScoreBeatGlyph();
+            AssertEquals(glyph.GetType().Name, "ScoreBeatGlyph");
+        }
+
+        public class BeatGlyphBase { }
+        public class ScoreBeatGlyph : BeatGlyphBase { }
     }
 }
