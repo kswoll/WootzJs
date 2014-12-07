@@ -143,6 +143,9 @@ namespace WootzJs.Compiler.Tests
         }
 
         public class BeatGlyphBase { }
-        public class ScoreBeatGlyph : BeatGlyphBase { }
+        public class ScoreBeatGlyph : BeatGlyphBase
+        {
+            static ScoreBeatGlyph() {}      // Provides a static constructor and surfaces a bug since the compiler doesn't create a default constructor in this case
+        }
     }
 }

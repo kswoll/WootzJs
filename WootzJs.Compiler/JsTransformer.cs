@@ -200,7 +200,7 @@ namespace WootzJs.Compiler
             JsBlockStatement staticInitializer;
             jsBlock.Aggregate(idioms.CreateTypeFunction(classType, out typeInitializer, out staticInitializer));
 
-            if (!node.Members.OfType<ConstructorDeclarationSyntax>().Any() && !classType.IsStatic)
+            if (!node.Members.OfType<ConstructorDeclarationSyntax>().Any(x => !x.Modifiers.Any(y => y.CSharpKind() == SyntaxKind.StaticKeyword)) && !classType.IsStatic)
             {
                 typeInitializer.Aggregate(CreateDefaultConstructor(node));
             }
