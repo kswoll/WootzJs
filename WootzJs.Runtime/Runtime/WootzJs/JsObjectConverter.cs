@@ -50,6 +50,12 @@ namespace System.Runtime.WootzJs
                 {
                     value = ((DateTime)value).ToString(Iso8601);
                 }
+                else if (value is IEnumerable && !(value is string))
+                {
+                    var enumerable = (IEnumerable)value;
+                    var array = enumerable.OfType<object>().ToArray();
+                    value = array;
+                }
 
                 result[property.Name] = value.As<JsObject>();
             }
