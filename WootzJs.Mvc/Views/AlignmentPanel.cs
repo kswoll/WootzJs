@@ -5,6 +5,7 @@ namespace WootzJs.Mvc.Views
 {
     public class AlignmentPanel : Control
     {
+        private Control content;
         private Element cell;
         private Element cellDiv;
 
@@ -64,8 +65,26 @@ namespace WootzJs.Mvc.Views
                     break;
             }
 
-            cellDiv.AppendChild(content.Node);
-            Add(content);
+            Content = content;
+        }
+
+        public Control Content
+        {
+            get { return content; }
+            set
+            {
+                if (content != null)
+                {
+                    content.Node.Remove();
+                    Remove(content);                    
+                }
+                content = value;
+                if (content != null)
+                {
+                    cellDiv.AppendChild(content.Node);
+                    Add(content);                    
+                }
+            }
         }
 
         protected override Element CreateNode()

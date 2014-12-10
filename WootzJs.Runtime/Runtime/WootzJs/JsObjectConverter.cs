@@ -89,9 +89,12 @@ namespace System.Runtime.WootzJs
                 var arrayValue = o.As<JsArray>();
                 var elementType = type.GetGenericArguments()[0];
                 var list = (IList)Activator.CreateInstance(type);
-                for (var i = 0; i < arrayValue.length; i++)
+                if (arrayValue != null)
                 {
-                    list.Add(FromJsonObject(arrayValue[i], elementType));
+                    for (var i = 0; i < arrayValue.length; i++)
+                    {
+                        list.Add(FromJsonObject(arrayValue[i], elementType));
+                    }                    
                 }
                 return list.As<JsObject>();
             }
