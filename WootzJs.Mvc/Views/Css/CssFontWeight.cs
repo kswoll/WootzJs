@@ -3,7 +3,7 @@ namespace WootzJs.Mvc.Views.Css
 {
     public class CssFontWeight
     {
-        private string value;
+        private readonly string value;
 
         public CssFontWeight(int value)
         {
