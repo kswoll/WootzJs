@@ -16,5 +16,23 @@ namespace WootzJs.Mvc
             control.Style.Padding = padding;
             return control;
         }
+
+        public static T WithWidth<T>(this T control, CssNumericValue width) where T : Control
+        {
+            control.Style.Width = width;
+            return control;
+        }
+
+        public static T WithMaxWidth<T>(this T control, CssNumericValue width) where T : Control
+        {
+            control.Style.MaxWidth = width;
+            return control;
+        }
+
+        public static T WithColor<T>(this T control, CssColor color) where T : Control
+        {
+            control.Style.Color = color;
+            return control;
+        }
     }
 }
