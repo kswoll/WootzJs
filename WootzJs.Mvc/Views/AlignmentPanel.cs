@@ -29,7 +29,12 @@ namespace WootzJs.Mvc.Views
             return new AlignmentPanel(content, HorizontalAlignment.Left, VerticalAlignment.Fill);
         }
 
-        public AlignmentPanel(Control content, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) 
+        public AlignmentPanel(Control content, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) : this(horizontalAlignment, verticalAlignment)
+        {
+            Content = content;            
+        }
+
+        public AlignmentPanel(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) 
         {
             EnsureNodeExists();
             switch (horizontalAlignment)
@@ -64,8 +69,6 @@ namespace WootzJs.Mvc.Views
                     cellDiv.Style.Height = "100%";
                     break;
             }
-
-            Content = content;
         }
 
         public Control Content
