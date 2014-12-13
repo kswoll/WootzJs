@@ -49,5 +49,11 @@ namespace WootzJs.Web
 
         [Js(Name = "navigator")]
         public extern Navigator Navigator { get; }
+
+        [Js(Name = "alert")]
+        public extern void Alert(string message);
+
+        [Js(Name = "confirm")]
+        public extern bool Confirm(string message);
     }
 }
