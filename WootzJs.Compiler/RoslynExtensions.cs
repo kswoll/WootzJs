@@ -440,6 +440,10 @@ namespace WootzJs.Compiler
                     return true;                    
                 }
             }
+            if (type.BaseType != null)
+            {
+                return type.BaseType.TryGetMethod(name, out method, parameterTypes);
+            }
             method = null;
             return false;
         }
