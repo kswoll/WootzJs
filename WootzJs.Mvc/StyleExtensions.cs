@@ -47,25 +47,25 @@ namespace WootzJs.Mvc
             return control;
         }
 
-        public static T WithTopPadding<T>(this T control, CssNumericValue value) where T : Control
+        public static T WithPaddingTop<T>(this T control, CssNumericValue value) where T : Control
         {
             control.Style.Padding.Top = value;
             return control;
         }
 
-        public static T WithBottomPadding<T>(this T control, CssNumericValue value) where T : Control
+        public static T WithPaddingBottom<T>(this T control, CssNumericValue value) where T : Control
         {
             control.Style.Padding.Bottom = value;
             return control;
         }
 
-        public static T WithLeftPadding<T>(this T control, CssNumericValue value) where T : Control
+        public static T WithPaddingLeft<T>(this T control, CssNumericValue value) where T : Control
         {
             control.Style.Padding.Left = value;
             return control;
         }
 
-        public static T WithRightPadding<T>(this T control, CssNumericValue value) where T : Control
+        public static T WithPaddingRight<T>(this T control, CssNumericValue value) where T : Control
         {
             control.Style.Padding.Right = value;
             return control;
@@ -74,6 +74,48 @@ namespace WootzJs.Mvc
         public static T WithDisplay<T>(this T control, CssDisplay value) where T : Control
         {
             control.Style.Display = value;
+            return control;
+        }
+
+        public static T WithBorder<T>(this T control, CssBorder value) where T : Control
+        {
+            control.Style.Border = value;
+            return control;
+        }
+
+        public static T WithBorderLeft<T>(this T control, CssBorderSide value) where T : Control
+        {
+            control.Style.Border.Left = value;
+            return control;
+        }
+
+        public static T WithBorderTop<T>(this T control, CssBorderSide value) where T : Control
+        {
+            control.Style.Border.Top = value;
+            return control;
+        }
+
+        public static T WithBorderRight<T>(this T control, CssBorderSide value) where T : Control
+        {
+            control.Style.Border.Right = value;
+            return control;
+        }
+
+        public static T WithBorderBottom<T>(this T control, CssBorderSide value) where T : Control
+        {
+            control.Style.Border.Bottom = value;
+            return control;
+        }
+
+        public static T WithWhiteSpace<T>(this T control, CssWhiteSpace value) where T : Control
+        {
+            control.Style.WhiteSpace = value;
+            return control;
+        }
+
+        public static T WithFont<T>(this T control, CssFont value) where T : Control
+        {
+            control.Style.Font = value;
             return control;
         }
     }
