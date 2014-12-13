@@ -510,7 +510,8 @@ namespace WootzJs.Compiler
 
         public override void VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            CurrentState.Add(((JsExpression)node.Expression.Accept(Transformer)).Express());
+            var statement = ((JsExpression)node.Expression.Accept(Transformer)).Express();
+            CurrentState.Add(statement);
         }
 
         public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)

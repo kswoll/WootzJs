@@ -582,5 +582,22 @@ namespace WootzJs.Compiler.Tests
             var result = await func();
             AssertEquals(result, 3);
         }
+
+        [Test]
+        public async Task SetVariableInIfCondition()
+        {
+            string s = null;
+            if (true)
+            {
+                s = await GetString();
+                s = s + s;
+            }
+            AssertEquals(s, "foofoo");
+        }
+
+        private async Task<string> GetString()
+        {
+            return "foo";
+        }
     }
 }
