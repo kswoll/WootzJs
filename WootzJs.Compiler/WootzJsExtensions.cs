@@ -106,10 +106,16 @@ namespace WootzJs.Compiler
 
         public static bool IsAutoNotifyPropertyChange(this ISymbol symbol, out IMethodSymbol method)
         {
+            if (Context.Instance.INotifyPropertyChanged == null)
+            {
+                method = null;
+                return false;
+            }
+
             var classType = symbol is INamedTypeSymbol ? (INamedTypeSymbol)symbol : symbol.ContainingType;
 
             // If the type is INotifyPropertyChanged and it duck types to NotifyPropertyChanged
-            var isNotifyPropertyChanged = classType.Interfaces.Any(x => Context.Instance.INotifyPropertyChanged.IsAssignableFrom(x));
+            var isNotifyPropertyChanged = classType.AllInterfaces.Any(x => Context.Instance.INotifyPropertyChanged.Equals(x));
             var isDuckTypedToNotifyPropertyChanged = classType.TryGetMethod("NotifyPropertyChanged", out method, Context.Instance.String);
             return isNotifyPropertyChanged && isDuckTypedToNotifyPropertyChanged;
         }
