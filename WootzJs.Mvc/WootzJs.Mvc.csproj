@@ -75,6 +75,7 @@
     <Compile Include="Views\AnimatedImage.cs" />
     <Compile Include="Views\AutocompleteTextBox.cs" />
     <Compile Include="Views\Binders\Bindings.cs" />
+    <Compile Include="Views\Binders\TextBinders.cs" />
     <Compile Include="Views\Binders\TextBoxBinders.cs" />
     <Compile Include="Views\Button.cs" />
     <Compile Include="Views\CenteredPanel.cs" />
