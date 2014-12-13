@@ -53,6 +53,8 @@ namespace WootzJs.Mvc.Views.Css
             {
                 if (border == null)
                     Border = new CssBorder();
+                if (node != null)
+                    border.Attach(node);
                 return border;
             }
             set
@@ -68,7 +70,7 @@ namespace WootzJs.Mvc.Views.Css
             get
             {
                 if (padding == null)
-                    padding = new CssPadding();
+                    Padding = new CssPadding();
                 return padding;
             }
             set
@@ -84,7 +86,7 @@ namespace WootzJs.Mvc.Views.Css
             get
             {
                 if (borderRadius == null)
-                    borderRadius = new CssBorderRadius();
+                    BorderRadius = new CssBorderRadius();
                 return borderRadius;
             }
             set
@@ -100,7 +102,7 @@ namespace WootzJs.Mvc.Views.Css
             get
             {
                 if (boxShadow == null)
-                    boxShadow = new CssBoxShadow();
+                    BoxShadow = new CssBoxShadow();
                 return boxShadow;
             }
             set
