@@ -35,7 +35,7 @@ namespace WootzJs.Models
     public class Property
     {
         public event Action Changed;
-        public event Action<Validation[]> Validated;
+        public event Action<Failure[]> Validated;
 
         private Model model;
         private PropertyInfo propertyInfo;
@@ -72,16 +72,16 @@ namespace WootzJs.Models
             set { propertyInfo.SetValue(model, value, null); }
         }
 
-        public void NotifyValidated(Validation[] validations)
+        public void NotifyValidated(Failure[] failures)
         {
-            OnValidated(validations);
+            OnValidated(failures);
         }
 
-        protected virtual void OnValidated(Validation[] validations)
+        protected virtual void OnValidated(Failure[] failures)
         {
             var validated = Validated;
             if (validated != null)
-                validated(validations);
+                validated(failures);
         }
 
         internal void NotifyChanged()

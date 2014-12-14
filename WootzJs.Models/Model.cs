@@ -70,7 +70,7 @@ namespace WootzJs.Models
         {
             foreach (var property in properties)
             {
-                var propertyValidations = new List<Validation>();
+                var propertyValidations = new List<Failure>();
 
                 foreach (var validationAttribute in property.PropertyInfo.GetCustomAttributes(typeof(ValidationAttribute), false).Cast<ValidationAttribute>())
                 {
@@ -78,7 +78,7 @@ namespace WootzJs.Models
                     var result = validationAttribute.GetValidationResult(property.Value, validationContext);
                     if (result != ValidationResult.Success)
                     {
-                        var validation = new Validation(result.ErrorMessage, property);
+                        var validation = new Failure(result.ErrorMessage, property);
                         e.AddValidation(validation);
                         propertyValidations.Add(validation);
                     }

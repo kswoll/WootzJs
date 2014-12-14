@@ -193,15 +193,21 @@ namespace WootzJs.Mvc.Views
             if (insertBefore.Parent != this)
                 throw new Exception("Cannot use a reference node that is not contained by this control");
 
-            InternalAdd(child, alignment, spaceAbove).InsertBefore(insertBefore.Node);
+            var div = insertBefore.Node.ParentElement;
+            var cell = div.ParentElement;
+            var row = cell.ParentElement;
+            InternalAdd(child, alignment, spaceAbove).InsertBefore(row);
         }
 
-        public void InsertAfter(Control child, Control insertBefore, HorizontalAlignment alignment, int spaceAbove = 0)
+        public void InsertAfter(Control child, Control insertAfter, HorizontalAlignment alignment, int spaceAbove = 0)
         {
-            if (insertBefore.Parent != this)
+            if (insertAfter.Parent != this)
                 throw new Exception("Cannot use a reference node that is not contained by this control");
 
-            InternalAdd(child, alignment, spaceAbove).InsertAfter(insertBefore.Node);
+            var div = insertAfter.Node.ParentElement;
+            var cell = div.ParentElement;
+            var row = cell.ParentElement;
+            InternalAdd(child, alignment, spaceAbove).InsertAfter(row);
         }
 
         public void Replace(Control oldChild, Control newChild)

@@ -33,21 +33,21 @@ namespace WootzJs.Models
 {
     public class ValidateEvent 
     {
-        private List<Validation> validations = new List<Validation>();
+        private List<Failure> validations = new List<Failure>();
 
-        public IEnumerable<Validation> Validations
+        public IEnumerable<Failure> Validations
         {
             get { return validations; }
         }
 
-        public void AddValidation(Validation validation)
+        public void AddValidation(Failure failure)
         {
-            validations.Add(validation);
+            validations.Add(failure);
         }
 
         public void AddValidation(string message = null, params Property[] properties)
         {
-            validations.Add(new Validation(message, properties));
+            validations.Add(new Failure(message, properties));
         }
     }
 }

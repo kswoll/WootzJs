@@ -32,18 +32,18 @@ using System.Linq;
 
 namespace WootzJs.Models
 {
-    public class Validation
+    public class Failure
     {
         public string Message { get; set; } 
         public IReadOnlyList<string> Properties { get; set; }
 
-        public Validation(string message, string[] properties)
+        public Failure(string message, string[] properties)
         {
             Message = message;
             Properties = properties;
         }
 
-        public Validation(string message, params Property[] properties) : this(message, properties.Select(x => x.Name).ToArray())
+        public Failure(string message, params Property[] properties) : this(message, properties.Select(x => x.Name).ToArray())
         {
         }
     }
