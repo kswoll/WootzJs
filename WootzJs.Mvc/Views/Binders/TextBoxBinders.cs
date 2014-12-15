@@ -30,6 +30,7 @@
 using System;
 using System.Linq.Expressions;
 using WootzJs.Models;
+using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views.Binders
 {
@@ -45,7 +46,7 @@ namespace WootzJs.Mvc.Views.Binders
 
             textBox.Name = prop.Name;
 
-            textBox.Changed += () =>
+            Action applyText = () =>
             {
                 if (string.IsNullOrEmpty(textBox.Text))
                     prop.Value = null;
@@ -56,7 +57,16 @@ namespace WootzJs.Mvc.Views.Binders
                 else if (textBox.Type == TextBoxType.Time)
                     prop.Value = DateTime.ParseExact(textBox.Text, "hh:mm:ss");
                 else
-                    prop.Value = Convert.ChangeType(textBox.Text, prop.PropertyInfo.PropertyType);                
+                    prop.Value = Convert.ChangeType(textBox.Text, prop.PropertyInfo.PropertyType);                                
+            };
+            textBox.Changed += applyText;
+
+            textBox.KeyPress += evt =>
+            {
+                if (evt.KeyCode == KeyCode.Enter)
+                {
+                    applyText();
+                }
             };
 
             prop.Changed += updateText;
