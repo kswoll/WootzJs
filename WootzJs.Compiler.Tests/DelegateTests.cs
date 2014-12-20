@@ -177,5 +177,14 @@ namespace WootzJs.Compiler.Tests
                 return x => Field = x;
             }
         }
+
+        [Test]
+        public void NestedDelegateType()
+        {
+            NestedDelegate foo = x => x.ToString();
+            AssertEquals(foo(1), "1");
+        }
+
+        delegate string NestedDelegate(int i);
     }
 }

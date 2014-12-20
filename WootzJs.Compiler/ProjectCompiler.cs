@@ -339,14 +339,7 @@ namespace WootzJs.Compiler
         /// </summary>
         private IEnumerable<DelegateDeclarationSyntax> GetDelegates(MemberDeclarationSyntax member)
         {
-            if (member is ClassDeclarationSyntax)
-            {
-                foreach (var item in GetDelegates((ClassDeclarationSyntax)member))
-                {
-                    yield return item;
-                }
-            }
-            else if (member is NamespaceDeclarationSyntax)
+            if (member is NamespaceDeclarationSyntax)
             {
                 foreach (var item in GetDelegates((NamespaceDeclarationSyntax)member))
                 {
