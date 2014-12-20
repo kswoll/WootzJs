@@ -41,15 +41,24 @@ namespace WootzJs.Compiler
     {
         public static bool RemoveUnusedSymbols;
 
-        private static string mscorlib;
+        private string mscorlib;
+        private string[] defines;
+
+        public Compiler(string mscorlib, string[] defines)
+        {
+            this.mscorlib = mscorlib;
+            this.defines = defines;
+        }
 
         public static void Main(string[] args)
         {
             var projectOrSolutionFile = args[0];
             var outputFolder = args[1];
             var namedArguments = args.Skip(2).Select(x => x.Split('=')).ToDictionary(x => x[0], x => x[1]);
-            mscorlib = namedArguments.Get("mscorlib");
+            var mscorlib = namedArguments.Get("mscorlib");
             var performanceFile = namedArguments.Get("performanceFile");
+            var define = namedArguments.Get("define");
+            var defines = define == null ? new string[0] : define.Split(',');
 
             if (performanceFile != null)
             {
@@ -62,7 +71,7 @@ namespace WootzJs.Compiler
             {
                 if (fileInfo.Extension.Equals(".sln", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileSolution(projectOrSolutionFile));                    
+                    var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileSolution(projectOrSolutionFile));                    
                     var output = result.Item1;
                     var solution = result.Item2;
                     var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
@@ -70,7 +79,7 @@ namespace WootzJs.Compiler
                 }
                 else
                 {
-                    var result = await Profiler.Time("Total Time", async () => await new Compiler().CompileProject(projectOrSolutionFile));
+                    var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileProject(projectOrSolutionFile));
                     var output = result.Item1;
                     var project = result.Item2;
                     var projectName = project.AssemblyName;
@@ -94,7 +103,7 @@ namespace WootzJs.Compiler
             var workspace = MSBuildWorkspace.Create();
             var solution = await Profiler.Time("Loading Solution", async () =>
             {
-                string mscorlib = Compiler.mscorlib;
+                string mscorlib = this.mscorlib;
                 if (mscorlib == null)
                 {
                     mscorlib = projectFiles.Select(x => FileUtils.GetWootzJsTargetFile(x)).First();
@@ -123,7 +132,7 @@ namespace WootzJs.Compiler
                 return result;
             });
 
-            var projectCompilers = SortProjectsByDependencies(solution).Select(x => new ProjectCompiler(x, jsCompilationUnit)).ToArray();
+            var projectCompilers = SortProjectsByDependencies(solution).Select(x => new ProjectCompiler(x, jsCompilationUnit, defines)).ToArray();
             foreach (var compiler in projectCompilers)
             {
                 await compiler.Compile();
@@ -180,7 +189,7 @@ namespace WootzJs.Compiler
             var workspace = MSBuildWorkspace.Create();
             var project = await Profiler.Time("Loading Project", async () =>
             {
-                string mscorlib = Compiler.mscorlib;
+                string mscorlib = this.mscorlib;
                 if (mscorlib == null)
                 {
                     mscorlib = FileUtils.GetWootzJsTargetFile(projectFile);
@@ -200,7 +209,7 @@ namespace WootzJs.Compiler
 
                 return result;
             });
-            var projectCompiler = new ProjectCompiler(project, jsCompilationUnit);
+            var projectCompiler = new ProjectCompiler(project, jsCompilationUnit, defines);
             await projectCompiler.Compile();
 
             // Write out the compiled Javascript file to the target location.

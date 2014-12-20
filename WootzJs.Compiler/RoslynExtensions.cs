@@ -133,10 +133,10 @@ namespace WootzJs.Compiler
             return null;
         }
 
-        public static T GetAttributeValue<T>(this ISymbol type, INamedTypeSymbol attributeType, string propertyName, T defaultValue = default(T))
+        public static T GetAttributeValue<T>(this ISymbol symbol, INamedTypeSymbol attributeType, string propertyName, T defaultValue = default(T))
         {
-            var jsAttribute = type.GetAttributes().SingleOrDefault(x => Equals(x.AttributeClass, attributeType));
-            if (jsAttribute != null)
+            var jsAttributes = symbol.GetAttributes().Where(x => Equals(x.AttributeClass, attributeType)).ToArray();
+            foreach (var jsAttribute in jsAttributes)
             {
                 var argument = jsAttribute.NamedArguments.SingleOrDefault(x => x.Key == propertyName);
                 if (argument.Value.Kind == TypedConstantKind.Array)

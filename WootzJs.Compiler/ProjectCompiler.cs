@@ -18,9 +18,9 @@ namespace WootzJs.Compiler
         private JsCompilationUnit jsCompilationUnit;
         private string projectName;
 
-        public ProjectCompiler(Project project, JsCompilationUnit jsCompilationUnit)
+        public ProjectCompiler(Project project, JsCompilationUnit jsCompilationUnit, string[] defines)
         {
-            this.project = project;
+            this.project = project.WithParseOptions(new CSharpParseOptions(preprocessorSymbols: defines));
             this.jsCompilationUnit = jsCompilationUnit;
         }
 
@@ -28,7 +28,7 @@ namespace WootzJs.Compiler
         {
             projectName = project.AssemblyName;
             Compilation compilation = await Profiler.Time("Getting initial project compilation", async() => await project.GetCompilationAsync());
-            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation), null);
+            Context.Update(project.Solution, project, compilation, new ReflectionCache(project, compilation));
 
             // If this is the runtime prjoect, declare the array to hold all the GetAssembly functions (this .js file 
             // will be loaded first, and we only want to bother creating the array once.) 
@@ -126,6 +126,8 @@ namespace WootzJs.Compiler
             {
                 foreach (var syntaxTree in compilation.SyntaxTrees)
                 {
+                    if (syntaxTree.FilePath.Contains("AssemblyInfo"))
+                        Console.WriteLine("assembly:");
                     var semanticModel = compilation.GetSemanticModel(syntaxTree);
                     var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                     var transformer = new JsTransformer(syntaxTree, semanticModel);

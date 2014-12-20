@@ -48,9 +48,21 @@ using System.Runtime.WootzJs;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("d4892cd9-d8a0-41d5-bd0d-c8bc3f3b0cdc")]
 
-//[assembly: JsCompilerOptions(AreAutoPropertiesMinimized = true)]
-//[assembly: JsCompilerOptions(AreDelegatesMinimized = true)]
-//[assembly: JsCompilerOptions(IsReflectionMinimized = true, IsCultureInfoExportDisabled = true)]
+#if AreAutoPropertiesMinimized
+[assembly: JsCompilerOptions(AreAutoPropertiesMinimized = true)]
+#endif
+
+#if AreDelegatesMinimized
+[assembly: JsCompilerOptions(AreDelegatesMinimized = true)]
+#endif
+
+#if IsReflectionMinimized
+[assembly: JsCompilerOptions(IsReflectionMinimized = true)]
+#endif
+
+#if IsCultureInfoExportDisabled
+[assembly: JsCompilerOptions(IsCultureInfoExportDisabled = true)]
+#endif
 
 // Version information for an assembly consists of the following four values:
 //

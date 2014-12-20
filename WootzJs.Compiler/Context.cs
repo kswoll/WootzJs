@@ -47,7 +47,6 @@ namespace WootzJs.Compiler
         public Compilation Compilation { get; private set; }
         public SymbolNameMap SymbolNames { get; private set; }
         public ReflectionCache ReflectionCache { get; private set; }
-        public IPropertyImplementation PropertyImplementation { get; private set; }
 
         public INamedTypeSymbol Exception { get; private set; }
         public INamedTypeSymbol SpecialFunctions { get; private set; }
@@ -221,23 +220,22 @@ namespace WootzJs.Compiler
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
-        public static void Update(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache, IPropertyImplementation propertyImplementation)
+        public static void Update(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache)
         {
             Profiler.Time("Updating Context", () =>
             {
                 instance = new Context();
-                instance.UpdateContext(solution, project, compilation, reflectionCache, propertyImplementation);
+                instance.UpdateContext(solution, project, compilation, reflectionCache);
             });
         }
 
-        private void UpdateContext(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache, IPropertyImplementation propertyImplementation)
+        private void UpdateContext(Solution solution, Project project, Compilation compilation, ReflectionCache reflectionCache)
         {
             Solution = solution;
             Project = project;
             Compilation = compilation;
             SymbolNames = new SymbolNameMap(new Dictionary<ISymbol, string>());//SymbolNameCompiler.CompileSymbolNames(project, compilation);
             ReflectionCache = reflectionCache;
-            PropertyImplementation = propertyImplementation;
 
 //            var diagnostics = compilation.GetDiagnostics();
 //            var mscorlib = compilation.GetReferencedAssemblySymbol(project.MetadataReferences.First());
