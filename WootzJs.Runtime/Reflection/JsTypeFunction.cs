@@ -38,8 +38,17 @@ namespace System.Reflection
         [Js(Name = SpecialNames.TypeName)]
         public string TypeName;
 
+        [Js(Name = SpecialNames.TypeArgs)]
+        public JsArray TypeArgs;
+
         [Js(Name = SpecialNames.BaseType)]
         public JsTypeFunction BaseType;
+
+        [Js(Name = SpecialNames.BaseTypeArgs)]
+        public JsArray BaseTypeArgs;
+
+        [Js(Name = SpecialNames.IsTypeParameter)]
+        public bool IsTypeParameter;
 
         [Js(Name = SpecialNames.ElementType)]
         public JsTypeFunction ElementType;

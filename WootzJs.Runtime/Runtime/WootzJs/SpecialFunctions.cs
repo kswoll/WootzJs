@@ -69,6 +69,7 @@ namespace System.Runtime.WootzJs
         public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)
         {
             var result = Define(name, prototype);
+            result.memberset(SpecialNames.IsTypeParameter, true);
             result.memberset(SpecialNames.CreateType, Jsni.function(() =>
             {
                 var type = Type.CreateTypeParameter(name, prototype);
@@ -217,7 +218,25 @@ namespace System.Runtime.WootzJs
                 var newTypeName = unconstructedType.TypeName.Substring(0, lastIndexOfDollar) + "<" + keyString + ">";
                 var prototype = unconstructedType.BaseType;
                 if (prototype.member("$"))
-                    prototype = prototype.member("$").apply(null, typeArgs).As<JsTypeFunction>();
+                {
+                    var baseArgs = unconstructedType.BaseTypeArgs.slice(0);
+                    for (var i = 0; i < baseArgs.length; i++)
+                    {
+                        var baseArg = (JsTypeFunction)baseArgs[i];
+                        if (baseArg.IsTypeParameter)
+                        {
+                            for (var j = 0; j < unconstructedType.TypeArgs.length; j++)
+                            {
+                                var typeArg = unconstructedType.TypeArgs[j];
+                                if (typeArg == baseArg)
+                                {
+                                    baseArgs[i] = typeArg;
+                                }
+                            }
+                        }
+                    }
+                    prototype = prototype.member("$").apply(null, baseArgs).As<JsTypeFunction>();
+                }
                 var generic = Define(newTypeName, prototype);
                 generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
 
@@ -362,7 +381,7 @@ namespace System.Runtime.WootzJs
                             newTypeName, 
                             (int)((unconstructedTypeType.typeFlags | TypeFlags.GenericType) & ~TypeFlags.GenericTypeDefenition),
                             generic, 
-                            unconstructedType.BaseType,
+                            prototype,
                             newInterfaces, 
                             typeArguments,
                             unconstructedTypeType.fields, 

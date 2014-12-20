@@ -42,7 +42,10 @@ namespace System.Runtime.WootzJs
         public const string MakeGenericType = "$";
         public const string MakeGenericTypeConstructor = "$generic";
         public const string MakeArrayType = "$array";
+        public const string TypeArgs = "$typeArgs";
         public const string BaseType = "$baseType";
+        public const string BaseTypeArgs = "$baseTypeArgs";
+        public const string IsTypeParameter = "$isTypeParameter";
         public const string ArrayType = "$arrayType";
         public const string CreateType = "$CreateType";
         public const string GetAssembly = "$GetAssembly";

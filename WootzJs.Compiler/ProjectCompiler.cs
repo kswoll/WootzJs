@@ -126,8 +126,6 @@ namespace WootzJs.Compiler
             {
                 foreach (var syntaxTree in compilation.SyntaxTrees)
                 {
-                    if (syntaxTree.FilePath.Contains("AssemblyInfo"))
-                        Console.WriteLine("assembly:");
                     var semanticModel = compilation.GetSemanticModel(syntaxTree);
                     var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                     var transformer = new JsTransformer(syntaxTree, semanticModel);

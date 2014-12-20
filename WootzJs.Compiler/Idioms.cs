@@ -99,11 +99,15 @@ namespace WootzJs.Compiler
             var isBuiltIn = classType.IsBuiltIn();
             var extraBuiltInExports = classType.GetExtraBuiltInExports();
             var explicitBaseType = classType.GetAttributeValue<ITypeSymbol>(Context.Instance.JsAttributeType, "BaseType");
+            if (classType.ToString().Contains("SubclassOfGenericType"))
+                Console.WriteLine("SubclassOfGenericType");
             var baseType = 
                 explicitBaseType != null ? Type(explicitBaseType) :
                 Equals(classType, Context.Instance.ObjectType) ? Js.Reference("Object") : 
                 classType.BaseType == null ? Type(Context.Instance.ObjectType) : 
                 Js.Reference(classType.BaseType.GetTypeName());
+//                classType.BaseType.HasGenericParameters() ? Js.Reference(classType.BaseType.GetTypeName()) :
+//                Type(classType.BaseType);
 
             var block = new JsBlockStatement();
             JsExpression outerClassType = Js.Reference(classType.GetTypeName());
@@ -132,6 +136,11 @@ namespace WootzJs.Compiler
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
             typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
             typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
+            if (explicitBaseType == null && classType.BaseType != null && classType.BaseType.HasOrIsBaseTypeWithGenericParameters())
+            {
+                typeInitializer.Add(StoreInType(SpecialNames.BaseTypeArgs, 
+                    Js.Array(classType.BaseType.TypeArguments.Select(x => Type(x)).ToArray())));                
+            }
             typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Primitive(classType.GetFullName())));
             typeInitializer.Add(StoreInType(SpecialNames.TypeName, GetFromPrototype(SpecialNames.TypeName)));
             typeInitializer.Add(StoreClassGetType());
@@ -215,6 +224,8 @@ namespace WootzJs.Compiler
                     .Invoke()
                 );
                 typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
+                typeInitializer.Add(StoreInType(SpecialNames.TypeArgs, 
+                    Js.Array(classType.TypeArguments.Select(x => Type(x)).ToArray())));
 
                 if (!classType.IsAnonymousType)
                 {
@@ -2067,7 +2078,7 @@ namespace WootzJs.Compiler
             var namedTypeSymbol = type as INamedTypeSymbol;
             if (namedTypeSymbol != null)
             {
-                if ((namedTypeSymbol.HasOrIsEnclosedInGenericParameters()) && !forceUnconstructedScope && !namedTypeSymbol.IsUnboundGenericType)
+                if (namedTypeSymbol.HasOrIsEnclosedInGenericParameters() && !forceUnconstructedScope && !namedTypeSymbol.IsUnboundGenericType)
                 {
                     return MakeGenericType(namedTypeSymbol);
                 }

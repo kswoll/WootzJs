@@ -33,6 +33,21 @@ namespace WootzJs.Compiler.Tests
     public class GenericTests : TestFixture
     {
         [Test]
+        public void SubclassOfGenericTypePreservesTypeArgument()
+        {
+            var o = new SubclassOfGenericType();
+            AssertEquals(o.GetType().BaseType.GetGenericArguments()[0], typeof(string));
+        }
+
+        class GenericBaseType<T>
+        {
+        }
+
+        class SubclassOfGenericType : GenericBaseType<string>
+        {
+        }
+
+        [Test]
         public void TypeEqualsString()
         {
             AssertTrue(MethodTypeEqualsString<string>());
