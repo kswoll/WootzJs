@@ -136,11 +136,6 @@ namespace WootzJs.Compiler
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
             typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
             typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
-            if (explicitBaseType == null && classType.BaseType != null && classType.BaseType.HasOrIsBaseTypeWithGenericParameters())
-            {
-                typeInitializer.Add(StoreInType(SpecialNames.BaseTypeArgs, 
-                    Js.Array(classType.BaseType.TypeArguments.Select(x => Type(x)).ToArray())));                
-            }
             typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Primitive(classType.GetFullName())));
             typeInitializer.Add(StoreInType(SpecialNames.TypeName, GetFromPrototype(SpecialNames.TypeName)));
             typeInitializer.Add(StoreClassGetType());
@@ -226,7 +221,6 @@ namespace WootzJs.Compiler
                 typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
                 typeInitializer.Add(StoreInType(SpecialNames.TypeArgs, 
                     Js.Array(classType.TypeArguments.Select(x => Type(x)).ToArray())));
-
                 if (!classType.IsAnonymousType)
                 {
                     JsExpression target;
@@ -240,6 +234,11 @@ namespace WootzJs.Compiler
                     }
 
                     typeInitializer.Assign(target, GetFromType("$"));                    
+                }
+                if (explicitBaseType == null)
+                {
+                    typeInitializer.Add(StoreInType(SpecialNames.BaseTypeArgs, 
+                        Js.Array(classType.BaseType.TypeArguments.Select(x => x == classType ? Js.Reference(SpecialNames.TypeInitializerTypeFunction) : Type(x)).ToArray())));                
                 }
             }
 

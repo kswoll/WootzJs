@@ -63,6 +63,7 @@
     <Compile Include="FieldTests.cs" />
     <Compile Include="GenericTests.cs" />
     <Compile Include="GotoTests.cs" />
+    <Compile Include="InnerClassTests.cs" />
     <Compile Include="IsExpressionTests.cs" />
     <Compile Include="JsCodeTests.cs" />
     <Compile Include="JsniTests.cs" />
