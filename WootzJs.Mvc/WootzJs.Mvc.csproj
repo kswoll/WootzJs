@@ -66,6 +66,7 @@
     <Compile Include="Routes\RouteVariable.cs" />
     <Compile Include="Routes\RouteWildcard.cs" />
     <Compile Include="MiscExtensions.cs" />
+    <Compile Include="Utils\Animator.cs" />
     <Compile Include="Utils\BraceTokenizer.cs" />
     <Compile Include="StyleExtensions.cs" />
     <Compile Include="ViewContext.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using WootzJs.Mvc.Utils;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
@@ -122,28 +123,28 @@ namespace WootzJs.Mvc.Views
             return div;
         }
 
-        public new void Add(Control child)
+        public new void Add(Control child, bool animate = false)
         {
-            Add(child, DefaultAlignment, 0);
+            Add(child, DefaultAlignment, 0, animate);
         }
 
-        public void Add(Control child, HorizontalAlignment alignment)
+        public void Add(Control child, HorizontalAlignment alignment, bool animate = false)
         {
-            Add(child, alignment, 0);
+            Add(child, alignment, 0, animate);
         }
 
-        public void Add(Control child, int spaceAbove)
+        public void Add(Control child, int spaceAbove, bool animate = false)
         {
-            Add(child, DefaultAlignment, spaceAbove);
+            Add(child, DefaultAlignment, spaceAbove, animate);
         }
 
-        public virtual void Add(Control child, HorizontalAlignment alignment, int spaceAbove)
+        public virtual void Add(Control child, HorizontalAlignment alignment, int spaceAbove, bool animate = false)
         {
             EnsureNodeExists();
-            table.AppendChild(InternalAdd(child, alignment, spaceAbove));
+            table.AppendChild(InternalAdd(child, alignment, spaceAbove, animate));
         }
 
-        private Element InternalAdd(Control child, HorizontalAlignment alignment, int spaceAbove) 
+        private Element InternalAdd(Control child, HorizontalAlignment alignment, int spaceAbove, bool animate = false) 
         {
             if (Count > 0)
                 spaceAbove += spacing;
@@ -180,15 +181,35 @@ namespace WootzJs.Mvc.Views
             div.AppendChild(child.Node);
             row.AppendChild(cell);
 
+            if (animate)
+            {
+                int height = row.MeasureOffsetHeight();
+                row.Style.Display = "none";
+                div.Style.Overflow = "hidden";
+                Animator.Animate(
+                    progress =>
+                    {
+                        var newHeight = (int)(height * progress);
+                        div.Style.Height = newHeight + "px";
+                        row.Style.Display = "";
+                    },
+                    10000,
+                    () =>
+                    {
+                        div.Style.Overflow = "";
+                        div.Style.Height = "";
+                    });
+            }
+
             return row;
         }
 
-        public void InsertBefore(Control child, Control insertBefore, int spaceAbove = 0)
+        public void InsertBefore(Control child, Control insertBefore, int spaceAbove = 0, bool animate = false)
         {
-            InsertBefore(child, insertBefore, DefaultAlignment, spaceAbove);
+            InsertBefore(child, insertBefore, DefaultAlignment, spaceAbove, animate);
         }
 
-        public void InsertBefore(Control child, Control insertBefore, HorizontalAlignment alignment, int spaceAbove = 0)
+        public void InsertBefore(Control child, Control insertBefore, HorizontalAlignment alignment, int spaceAbove = 0, bool animate = false)
         {
             if (insertBefore.Parent != this)
                 throw new Exception("Cannot use a reference node that is not contained by this control");
@@ -196,7 +217,7 @@ namespace WootzJs.Mvc.Views
             var div = insertBefore.Node.ParentElement;
             var cell = div.ParentElement;
             var row = cell.ParentElement;
-            InternalAdd(child, alignment, spaceAbove).InsertBefore(row);
+            InternalAdd(child, alignment, spaceAbove, animate).InsertBefore(row);
         }
 
         public void InsertAfter(Control child, Control insertAfter, HorizontalAlignment alignment, int spaceAbove = 0)

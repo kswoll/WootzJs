@@ -40,5 +40,22 @@
             }
             return false;
         }
+
+        /// <summary>
+        /// If offsetHeight is non-zero, will return that. Otherwise will temporarily place the element in a hidden
+        /// container in order to get a valid offsetHeight value.  
+        /// </summary>
+        public static int MeasureOffsetHeight(this Element element)
+        {
+            var measuringContainer = Browser.Document.CreateElement("div");
+            measuringContainer.Style.Position = "absolute";
+            measuringContainer.Style.Visibility = "hidden";
+            Browser.Document.Body.AppendChild(measuringContainer);
+            measuringContainer.AppendChild(element);
+            var result = element.OffsetHeight;
+            measuringContainer.RemoveChild(element);
+            Browser.Document.Body.RemoveChild(element);
+            return result;
+        }
     }
 }

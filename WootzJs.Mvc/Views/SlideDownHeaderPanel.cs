@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using WootzJs.Mvc.Utils;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
@@ -120,6 +121,25 @@ namespace WootzJs.Mvc.Views
             headerDiv.Style.Top = -height + "px";
             headerDiv.Style.Position = "absolute";
 
+            Animator.Animate(
+                progress =>
+                {
+                    var newHeight = Math.Min(progress * height, height);
+                    headerDiv.Style.Top = (-height + newHeight) + "px";
+                    headerContainerDiv.Style.Height = newHeight + "px";
+                }, 
+                300,
+                () =>
+                {
+                    // Reset the style so that it fits into the normal HTML flow.  This ensure that,
+                    // after animating, the slid-down content will resize, refit its contents, etc. 
+                    // if the window resizes.
+                    headerDiv.Style.Position = "relative";
+                    headerContainerDiv.Style.Height = "inherit";                    
+                }
+            );
+
+/*
             int? start = null;
             Action<int> step = null;
             step = timestamp =>
@@ -142,6 +162,7 @@ namespace WootzJs.Mvc.Views
                 }
             };
             Browser.Window.RequestAnimationFrame(step);
+*/
         }
     }
 }
