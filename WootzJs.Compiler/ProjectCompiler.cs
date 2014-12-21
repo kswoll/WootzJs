@@ -108,6 +108,22 @@ namespace WootzJs.Compiler
                 compilation = partialClassReassembler.UnifyPartialTypes();
             });
 
+            // Write out all type functions in inheritance order.  This allows for complex references between types and
+            // nested types.
+/*
+            Profiler.Time("Write out type function declarations", () =>
+            {
+                var allTypeDeclarations = new List<BaseTypeDeclarationSyntax>();
+                foreach (var syntaxTree in compilation.SyntaxTrees)
+                {
+                    var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+                    var typeDeclarations = GetTypeDeclarations(compilationUnit);
+                    allTypeDeclarations.AddRange(typeDeclarations);
+                }
+                var sortedTypeDeclarations = SweepSort(allTypeDeclarations, x => x);
+            });
+*/
+
             // Scan all syntax trees for anonymous type creation expressions.  We transform them into class
             // declarations with a series of auto implemented properties.
             Profiler.Time("Running AnonymousTypeTransformer", () => 
@@ -157,7 +173,7 @@ namespace WootzJs.Compiler
             });
 
             // Sort all the type declarations such that base types always come before subtypes.
-            Profiler.Time("Sorting transformers", () => SweepSort(actions));
+            Profiler.Time("Sorting transformers", () => SweepSort(actions, x => x.Item1));
             
             var transformationActions = actions.Select(x => x.Item2).ToArray();
 
@@ -207,17 +223,17 @@ namespace WootzJs.Compiler
         /// <summary>
         /// Long story short, this method ensures base types always come before subtypes.
         /// </summary>
-        private void SweepSort(List<Tuple<INamedTypeSymbol, Action>> list)
+        private void SweepSort<T>(List<T> list, Func<T, INamedTypeSymbol> getType)
         {
-            var prepend = new HashSet<Tuple<INamedTypeSymbol, Action>>();
+            var prepend = new HashSet<T>();
             do 
             {
                 prepend.Clear();
-                var indices = list.Select((x, i) => new { Item = x, Index = i }).ToDictionary(x => x.Item.Item1, x => x.Index);
+                var indices = list.Select((x, i) => new { Item = x, Index = i }).ToDictionary(x => getType(x.Item), x => x.Index);
                 for (var i = 0; i < list.Count; i++)
                 {
                     var item = list[i];
-                    if (Equals(item.Item1, Context.Instance.SpecialFunctions))
+                    if (Equals(getType(item), Context.Instance.SpecialFunctions))
                     {
                         if (i != 0)
                         {
@@ -230,7 +246,7 @@ namespace WootzJs.Compiler
                         }
                     }
 
-                    var baseType = item.Item1.BaseType;
+                    var baseType = getType(item).BaseType;
                     if (baseType != null)
                     {
                         if (!Equals(baseType.OriginalDefinition, baseType))
@@ -247,7 +263,7 @@ namespace WootzJs.Compiler
                     }
 
                     // Get all base types of inner classes
-                    foreach (var innerType in item.Item1.GetAllInnerTypes())
+                    foreach (var innerType in getType(item).GetAllInnerTypes())
                     {
                         var innerBaseType = innerType.BaseType;
                         if (innerBaseType != null)
@@ -266,7 +282,7 @@ namespace WootzJs.Compiler
                         }
                     }
 
-                    var precedes = item.Item1.GetAttributeValue<ITypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
+                    var precedes = getType(item).GetAttributeValue<ITypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
                     if (precedes != null)
                     {
                         int precedesIndex;
