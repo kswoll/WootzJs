@@ -1,5 +1,6 @@
 ﻿namespace WootzJs.Compiler.Tests
 {
+/*
     public class InnerClassTests
     {
         public class Bar : Foo {}
@@ -16,4 +17,5 @@
             public class Base {}
         }
     }
+*/
 }

@@ -32,11 +32,13 @@ namespace WootzJs.Compiler.Tests
 {
     public class GenericTests : TestFixture
     {
+/*
         [Test]
         public void SelfReferencingGeneric()
         {
             
         }
+*/
 
         class GenericBaseType<T>
         {

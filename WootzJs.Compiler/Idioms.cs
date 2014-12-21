@@ -235,7 +235,7 @@ namespace WootzJs.Compiler
 
                     typeInitializer.Assign(target, GetFromType("$"));                    
                 }
-                if (explicitBaseType == null)
+                if (explicitBaseType == null && classType.BaseType != null)
                 {
                     typeInitializer.Add(StoreInType(SpecialNames.BaseTypeArgs, 
                         Js.Array(classType.BaseType.TypeArguments.Select(x => x == classType ? Js.Reference(SpecialNames.TypeInitializerTypeFunction) : Type(x)).ToArray())));                
