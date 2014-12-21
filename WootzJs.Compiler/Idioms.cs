@@ -118,7 +118,7 @@ namespace WootzJs.Compiler
                     displayName += "`" + classType.TypeParameters.Count();
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
-                    block.Assign(Js.Reference(Context.Instance.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
+                    block.Assign(Js.Reference(classType.ContainingNamespace.GetFullName()).Member(classType.GetShortTypeName()), 
                         Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
                 }
                 else if (classType.ContainingType != null)

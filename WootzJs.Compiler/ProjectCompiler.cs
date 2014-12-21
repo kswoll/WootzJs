@@ -108,19 +108,26 @@ namespace WootzJs.Compiler
                 compilation = partialClassReassembler.UnifyPartialTypes();
             });
 
+/*
             // Write out all type functions in inheritance order.  This allows for complex references between types and
             // nested types.
-/*
             Profiler.Time("Write out type function declarations", () =>
             {
-                var allTypeDeclarations = new List<BaseTypeDeclarationSyntax>();
+                var allTypeDeclarations = new List<INamedTypeSymbol>();
                 foreach (var syntaxTree in compilation.SyntaxTrees)
                 {
+                    var semanticModel = compilation.GetSemanticModel(syntaxTree);
                     var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                     var typeDeclarations = GetTypeDeclarations(compilationUnit);
-                    allTypeDeclarations.AddRange(typeDeclarations);
+                    var types = typeDeclarations.Select(x => semanticModel.GetDeclaredSymbol(x)).ToArray();
+                    allTypeDeclarations.AddRange(types);
                 }
-                var sortedTypeDeclarations = SweepSort(allTypeDeclarations, x => x);
+                SweepSort(allTypeDeclarations, x => x);
+
+                jsCompilationUnit.Body.Express(Js.Reference(Context.Instance.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
+                jsCompilationUnit.Assign(Js.Reference(Context.Instance.SymbolNames[classType.ContainingNamespace, classType.ContainingNamespace.GetFullName()]).Member(classType.GetShortTypeName()), 
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
             });
 */
 

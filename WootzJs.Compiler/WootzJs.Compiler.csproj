@@ -219,8 +219,6 @@
     <Compile Include="SpecialNames.cs" />
     <Compile Include="StringEscaper.cs" />
     <Compile Include="SymbolCollector.cs" />
-    <Compile Include="SymbolNameCompiler.cs" />
-    <Compile Include="SymbolNameMap.cs" />
     <Compile Include="SymbolWalker.cs" />
     <Compile Include="YieldChecker.cs" />
     <Compile Include="YieldStateGenerator.cs" />

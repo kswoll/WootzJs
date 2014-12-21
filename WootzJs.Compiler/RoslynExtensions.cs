@@ -47,7 +47,7 @@ namespace WootzJs.Compiler
         {
             string result = namespaceSymbol.MetadataName;
             if (!namespaceSymbol.IsGlobalNamespace && !namespaceSymbol.ContainingNamespace.IsGlobalNamespace)
-                result = Context.Instance.SymbolNames[namespaceSymbol.ContainingNamespace, namespaceSymbol.ContainingNamespace.GetFullName()] + "." + result;
+                result = namespaceSymbol.ContainingNamespace.GetFullName() + "." + result;
             return result;
         }
 

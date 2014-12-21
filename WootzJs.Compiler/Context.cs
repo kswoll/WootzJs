@@ -45,7 +45,6 @@ namespace WootzJs.Compiler
         public Solution Solution { get; private set; } 
         public Project Project { get; private set; }
         public Compilation Compilation { get; private set; }
-        public SymbolNameMap SymbolNames { get; private set; }
         public ReflectionCache ReflectionCache { get; private set; }
 
         public INamedTypeSymbol Exception { get; private set; }
@@ -234,7 +233,6 @@ namespace WootzJs.Compiler
             Solution = solution;
             Project = project;
             Compilation = compilation;
-            SymbolNames = new SymbolNameMap(new Dictionary<ISymbol, string>());//SymbolNameCompiler.CompileSymbolNames(project, compilation);
             ReflectionCache = reflectionCache;
 
 //            var diagnostics = compilation.GetDiagnostics();
