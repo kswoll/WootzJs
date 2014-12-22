@@ -212,6 +212,7 @@
     <Compile Include="SourceMapping\Line.cs" />
     <Compile Include="SourceMapping\Segment.cs" />
     <Compile Include="SourceMapping\SourceMap.cs" />
+    <Compile Include="TypeCollector.cs" />
     <Compile Include="TypeFlags.cs" />
     <Compile Include="VariableDeclarationsLocator.cs" />
     <Compile Include="VariableUsageFinder.cs" />

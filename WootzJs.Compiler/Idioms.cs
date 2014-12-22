@@ -99,8 +99,6 @@ namespace WootzJs.Compiler
             var isBuiltIn = classType.IsBuiltIn();
             var extraBuiltInExports = classType.GetExtraBuiltInExports();
             var explicitBaseType = classType.GetAttributeValue<ITypeSymbol>(Context.Instance.JsAttributeType, "BaseType");
-            if (classType.ToString().Contains("SubclassOfGenericType"))
-                Console.WriteLine("SubclassOfGenericType");
             var baseType = 
                 explicitBaseType != null ? Type(explicitBaseType) :
                 Equals(classType, Context.Instance.ObjectType) ? Js.Reference("Object") : 
@@ -2134,22 +2132,26 @@ namespace WootzJs.Compiler
 
         private JsBlockStatement InitializeConstructor(INamedTypeSymbol type, string constructorName, Tuple<string, IParameterSymbol>[] parameters)
         {
+            var block = new JsBlockStatement();
+            block.Assign(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), Js.Reference(SpecialNames.TypeInitializerTypeFunction));
+
             var parameterNames = parameters.Select(x => x.Item1);
             JsExpression[] arguments;
             if (!type.IsBuiltIn())
             {
-                arguments = new[] { (JsExpression)Js.This() }.Concat(parameterNames.Select(x => Js.Reference(x))).ToArray();
+                arguments = parameterNames.Select(x => Js.Reference(x)).ToArray();
+                block.Assign(GetFromPrototype(constructorName).Member(SpecialNames.New), 
+                    Js.Function(parameterNames.Select(x => Js.Parameter(x)).ToArray())
+                        .Body(Js.New(Js.Reference(SpecialNames.TypeInitializerTypeFunction), Js.This(), Js.Array(arguments)).Return()));
             }
             else
             {
                 arguments = parameters.Where(x => x.Item2 != null && x.Item2.IsBuiltIn()).Select(x => Js.Reference(x.Item1)).ToArray();
+                block.Assign(GetFromPrototype(constructorName).Member(SpecialNames.New), 
+                    Js.Function(parameterNames.Select(x => Js.Parameter(x)).ToArray())
+                        .Body(Js.New(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), Js.Array(arguments)).Return()));
             }
 
-            var block = new JsBlockStatement();
-            block.Assign(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), Js.Reference(SpecialNames.TypeInitializerTypeFunction));
-            block.Assign(GetFromPrototype(constructorName).Member("$new"), 
-                Js.Function(parameterNames.Select(x => Js.Parameter(x)).ToArray())
-                    .Body(Js.New(GetFromPrototype(constructorName).Member(SpecialNames.TypeField), arguments).Return()));
             return block;
         }
 

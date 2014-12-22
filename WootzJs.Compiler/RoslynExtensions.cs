@@ -208,7 +208,7 @@ namespace WootzJs.Compiler
 
         public static TypeDeclarationSyntax GetContainingTypeDeclaration(this SyntaxNode node)
         {
-            var current = node;
+            var current = node.Parent;
             while (current != null)
             {
                 if (current is TypeDeclarationSyntax)

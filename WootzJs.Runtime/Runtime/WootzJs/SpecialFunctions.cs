@@ -46,24 +46,38 @@ namespace System.Runtime.WootzJs
             // constructor as the first argument, and the rest of the arguments are passed directly 
             // to that constructor.  These subconstructors are not Javascript constructors -- they 
             // are not called via new, they exist for initialization only.
-            typeFunction = Jsni.function(constructor =>
+            typeFunction = Jsni.function((constructor, args) =>
             {
                 if (constructor != null || !(Jsni.instanceof(Jsni.@this(), typeFunction)))
                 {
-                    Jsni.invoke(Jsni.member(typeFunction, SpecialNames.StaticInitializer));
+                    typeFunction.member(SpecialNames.StaticInitializer).invoke();
                 }
                 if (constructor != null) 
-                    Jsni.apply(constructor, Jsni.@this(), Jsni.call(Jsni.reference("Array.prototype.slice"), Jsni.arguments(), 1.As<JsObject>()).As<JsArray>());
+                    constructor.apply(Jsni.@this(), args.As<JsArray>());
                 if (!Jsni.instanceof(Jsni.@this(), typeFunction))
                     return typeFunction;
                 else
                     return Jsni.@this();
             }).As<JsTypeFunction>();
-            Jsni.memberset(typeFunction, "toString", Jsni.function(() => name.As<JsObject>()));
-            Jsni.memberset(typeFunction, SpecialNames.TypeName, name.As<JsString>());
-            Jsni.memberset(typeFunction, "prototype", Jsni.@new(prototype));
+            typeFunction.memberset("toString", Jsni.function(() => name.As<JsObject>()));
+            typeFunction.TypeName = name;
+            typeFunction.prototype = Jsni.@new(prototype);
             return typeFunction;
         }
+
+/*
+        public static JsFunction CreateConstructor(JsTypeFunction enclosingType, JsFunction implementation)
+        {
+            implementation.memberset(SpecialNames.TypeField, enclosingType);
+            implementation.memberset(SpecialNames.New, Jsni.function(() =>
+            {
+
+                return Jsni.@new(implementation, )
+            }));
+
+            return implementation;
+        }
+*/
 
         [Js(Name = SpecialNames.DefineTypeParameter)]
         public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)

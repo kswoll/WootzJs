@@ -153,7 +153,11 @@ namespace WootzJs.Compiler
                     var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
                     var transformer = new JsTransformer(syntaxTree, semanticModel);
 
-                    var typeDeclarations = GetTypeDeclarations(compilationUnit);
+                    var typeCollector = new TypeCollector();
+                    compilationUnit.Accept(typeCollector);
+                    var typeDeclarations = typeCollector.TypeDeclarations.Where(x => x.GetContainingTypeDeclaration() == null);
+                    var delegateDeclarations = typeCollector.DelegateDeclarations.Where(x => x.GetContainingTypeDeclaration() == null);
+
                     foreach (var type in typeDeclarations)
                     {
                         var _type = type;
@@ -165,7 +169,6 @@ namespace WootzJs.Compiler
                         };
                         actions.Add(Tuple.Create(typeSymbol, action));
                     }
-                    var delegateDeclarations = GetDelegates(compilationUnit);
                     foreach (var type in delegateDeclarations)
                     {
                         var _type = type;
@@ -312,99 +315,5 @@ namespace WootzJs.Compiler
             }
             while (prepend.Any());
         }
-
-        /// <summary>
-        /// Get all the type declarations in a compilation 
-        /// </summary>
-        private IEnumerable<BaseTypeDeclarationSyntax> GetTypeDeclarations(CompilationUnitSyntax compilationUnit)
-        {
-            foreach (var member in compilationUnit.Members)
-            {
-                if (member is BaseTypeDeclarationSyntax)
-                {
-                    yield return (BaseTypeDeclarationSyntax)member;
-                }
-                else if (member is NamespaceDeclarationSyntax)
-                {
-                    foreach (var item in GetTypeDeclarations((NamespaceDeclarationSyntax)member))
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get all the type declarations in a given namespace
-        /// </summary>
-        private IEnumerable<BaseTypeDeclarationSyntax> GetTypeDeclarations(NamespaceDeclarationSyntax ns)
-        {
-            foreach (var member in ns.Members)
-            {
-                if (member is BaseTypeDeclarationSyntax)
-                {
-                    yield return (BaseTypeDeclarationSyntax)member;
-                }
-                else if (member is NamespaceDeclarationSyntax)
-                {
-                    foreach (var item in GetTypeDeclarations((NamespaceDeclarationSyntax)member))
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get all the delegates in a given type member.
-        /// </summary>
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(MemberDeclarationSyntax member)
-        {
-            if (member is NamespaceDeclarationSyntax)
-            {
-                foreach (var item in GetDelegates((NamespaceDeclarationSyntax)member))
-                {
-                    yield return item;
-                }
-            }
-            else if (member is DelegateDeclarationSyntax)
-            {
-                yield return (DelegateDeclarationSyntax)member;
-            }
-        }
-
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(CompilationUnitSyntax compilationUnit)
-        {
-            foreach (var member in compilationUnit.Members)
-            {
-                foreach (var item in GetDelegates(member))
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(ClassDeclarationSyntax type)
-        {
-            foreach (var member in type.Members)
-            {
-                foreach (var item in GetDelegates(member))
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        private IEnumerable<DelegateDeclarationSyntax> GetDelegates(NamespaceDeclarationSyntax ns)
-        {
-            foreach (var member in ns.Members)
-            {
-                foreach (var item in GetDelegates(member))
-                {
-                    yield return item;
-                }
-            }
-        }
-         
     }
 }

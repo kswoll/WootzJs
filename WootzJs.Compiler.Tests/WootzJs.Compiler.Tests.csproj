@@ -61,6 +61,7 @@
     <Compile Include="EnumTests.cs" />
     <Compile Include="EventTests.cs" />
     <Compile Include="FieldTests.cs" />
+    <Compile Include="Foo.cs" />
     <Compile Include="GenericTests.cs" />
     <Compile Include="GotoTests.cs" />
     <Compile Include="InnerClassTests.cs" />
