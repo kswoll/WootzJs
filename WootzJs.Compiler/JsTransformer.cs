@@ -202,7 +202,7 @@ namespace WootzJs.Compiler
 
             if (!node.Members.OfType<ConstructorDeclarationSyntax>().Any(x => !x.Modifiers.Any(y => y.CSharpKind() == SyntaxKind.StaticKeyword)) && !classType.IsStatic)
             {
-                typeInitializer.Aggregate(CreateDefaultConstructor(node));
+                typeInitializer.Aggregate(idioms.CreateDefaultConstructor(node));
             }
 
             foreach (var member in node.Members)
@@ -245,7 +245,7 @@ namespace WootzJs.Compiler
 
             if (!node.Members.OfType<ConstructorDeclarationSyntax>().Any() && !classType.IsStatic)
             {
-                typeInitializer.Aggregate(CreateDefaultConstructor(node));
+                typeInitializer.Aggregate(idioms.CreateDefaultConstructor(node));
             }
 
             foreach (var member in node.Members)
@@ -294,8 +294,9 @@ namespace WootzJs.Compiler
             var constructorBlock = new JsBlockStatement();
             constructorBlock.Express(idioms.InvokeMethodAsThis(Context.Instance.EnumType.Constructors.First(x => !x.IsStatic), 
                 constructorNameParameter.GetReference(), constructorValueParameter.GetReference()));
-            typeInitializer.Add(idioms.StoreInPrototype("$ctor", Js.Function(constructorNameParameter, constructorValueParameter).Body(constructorBlock)));
-            typeInitializer.Aggregate(idioms.InitializeConstructor(enumType, "$ctor", new[] { "name", "value" }));
+            typeInitializer.Add(idioms.StoreInPrototype("$ctor", Js.Reference(SpecialNames.DefineConstructor).Invoke(
+                Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
+                Js.Function(constructorNameParameter, constructorValueParameter).Body(constructorBlock))));
 
             // Instantiate all the enum members
             IFieldSymbol lastEnum = null;
@@ -432,31 +433,6 @@ namespace WootzJs.Compiler
             return block;
         }
 
-        private JsBlockStatement CreateDefaultConstructor(BaseTypeDeclarationSyntax type)
-        {
-            var classType = model.GetDeclaredSymbol(type);
-
-            var fullTypeName = type.GetFullName();
-            var constructorBlock = new JsBlockStatement();
-
-            if (fullTypeName != "System.Object")
-            {
-                constructorBlock.Express(idioms.InvokeParameterlessBaseClassConstructor(classType.BaseType));
-            }
-
-            if (type is ClassDeclarationSyntax)
-            {
-                constructorBlock.Aggregate(idioms.InitializeInstanceFields((ClassDeclarationSyntax)type));
-            }
-
-            var assignConstructorToPrototype = idioms.StoreInPrototype(classType.GetDefaultConstructorName(), Js.Function().Body(constructorBlock));
-            var block = new JsBlockStatement();
-            block.Add(assignConstructorToPrototype);
-            block.Aggregate(idioms.InitializeConstructor(classType, classType.GetDefaultConstructorName(), new IParameterSymbol[0]));
-
-            return block;            
-        }
-
         public override JsNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
             var constructor = model.GetDeclaredSymbol(node);
@@ -501,8 +477,17 @@ namespace WootzJs.Compiler
             }
 
             var constructorName = constructor.GetMemberName();
-            block.Add(idioms.StoreInPrototype(constructorName, Js.Function(parameters).Body(constructorBlock)));
-            block.Aggregate(idioms.InitializeConstructor(classType, constructorName, constructor.Parameters.ToArray()));
+            if (!classType.IsBuiltIn())
+            {
+                block.Add(idioms.StoreInPrototype(constructorName, Js.Reference(SpecialNames.DefineConstructor).Invoke(
+                    Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
+                    Js.Function(parameters).Body(constructorBlock))));
+            }
+            else
+            {
+                block.Add(idioms.StoreInPrototype(constructorName, Js.Function(parameters).Body(constructorBlock)));
+                block.Aggregate(idioms.InitializeConstructor(classType, constructorName, constructor.Parameters.ToArray()));                
+            }
 
             PopOutput();
             PopDeclaration();

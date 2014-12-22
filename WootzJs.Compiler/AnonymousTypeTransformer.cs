@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.WootzJs;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -67,8 +68,10 @@ namespace WootzJs.Compiler
             var constructorBlock = new JsBlockStatement();
             constructorBlock.Express(idioms.InvokeMethodAsThis(classType.BaseType.InstanceConstructors.Single(x => x.Parameters.Count() == 0)));
             var constructor = classType.InstanceConstructors.Single();
-            typeInitializer.Add(idioms.StoreInPrototype(constructor.GetMemberName(), Js.Function().Body(constructorBlock)));
-            typeInitializer.Aggregate(idioms.InitializeConstructor(classType, constructor.GetMemberName(), new IParameterSymbol[0]));
+
+            typeInitializer.Add(idioms.StoreInPrototype(constructor.GetMemberName(), Js.Reference(SpecialNames.DefineConstructor).Invoke(
+                Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
+                Js.Function().Body(constructorBlock))));
             
             foreach (var property in classType.GetMembers().OfType<IPropertySymbol>())
             {

@@ -65,19 +65,17 @@ namespace System.Runtime.WootzJs
             return typeFunction;
         }
 
-/*
+        [Js(Name = SpecialNames.DefineConstructor)]
         public static JsFunction CreateConstructor(JsTypeFunction enclosingType, JsFunction implementation)
         {
             implementation.memberset(SpecialNames.TypeField, enclosingType);
             implementation.memberset(SpecialNames.New, Jsni.function(() =>
             {
-
-                return Jsni.@new(implementation, )
+                return Jsni.@new(enclosingType, implementation, Jsni.arguments());
             }));
 
             return implementation;
         }
-*/
 
         [Js(Name = SpecialNames.DefineTypeParameter)]
         public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)

@@ -2139,10 +2139,8 @@ namespace WootzJs.Compiler
             JsExpression[] arguments;
             if (!type.IsBuiltIn())
             {
-                arguments = parameterNames.Select(x => Js.Reference(x)).ToArray();
                 block.Assign(GetFromPrototype(constructorName).Member(SpecialNames.New), 
-                    Js.Function(parameterNames.Select(x => Js.Parameter(x)).ToArray())
-                        .Body(Js.New(Js.Reference(SpecialNames.TypeInitializerTypeFunction), Js.This(), Js.Array(arguments)).Return()));
+                    Js.Function().Body(Js.New(Js.Reference(SpecialNames.TypeInitializerTypeFunction), Js.This(), Js.Reference("arguments")).Return()));
             }
             else
             {
@@ -2153,6 +2151,32 @@ namespace WootzJs.Compiler
             }
 
             return block;
+        }
+
+        public JsBlockStatement CreateDefaultConstructor(BaseTypeDeclarationSyntax type)
+        {
+            var classType = transformer.model.GetDeclaredSymbol(type);
+
+            var fullTypeName = type.GetFullName();
+            var constructorBlock = new JsBlockStatement();
+
+            if (fullTypeName != "System.Object")
+            {
+                constructorBlock.Express(InvokeParameterlessBaseClassConstructor(classType.BaseType));
+            }
+
+            if (type is ClassDeclarationSyntax)
+            {
+                constructorBlock.Aggregate(InitializeInstanceFields((ClassDeclarationSyntax)type));
+            }
+
+            var block = new JsBlockStatement();
+            var constructorName = classType.GetDefaultConstructorName();
+            block.Add(StoreInPrototype(constructorName, Js.Reference(SpecialNames.DefineConstructor).Invoke(
+                Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
+                Js.Function().Body(constructorBlock))));
+
+            return block;            
         }
 
         public JsExpression GetEnumValue(params IFieldSymbol[] enumFields)
