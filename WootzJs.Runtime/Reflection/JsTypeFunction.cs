@@ -50,6 +50,9 @@ namespace System.Reflection
         [Js(Name = SpecialNames.IsTypeParameter)]
         public bool IsTypeParameter;
 
+        [Js(Name = SpecialNames.EnclosingType)]
+        public JsTypeFunction EnclosingType;
+
         [Js(Name = SpecialNames.ElementType)]
         public JsTypeFunction ElementType;
 
