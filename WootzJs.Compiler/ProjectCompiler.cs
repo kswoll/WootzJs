@@ -199,7 +199,7 @@ namespace WootzJs.Compiler
             {
                 foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
                 {
-                    JsExpression target = new JsVariableReferenceExpression(Context.Instance.CultureInfo.GetTypeName()).Member("RegisterCulture");
+                    JsExpression target = new JsVariableReferenceExpression(Context.Instance.CultureInfo.GetTypeName()).Invoke().Member("RegisterCulture");
                     jsCompilationUnit.Body.Add(target.Invoke(new[]
                     {
                         Js.Literal(culture.Name),

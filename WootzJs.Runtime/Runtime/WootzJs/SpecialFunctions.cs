@@ -38,9 +38,10 @@ namespace System.Runtime.WootzJs
     public static class SpecialFunctions
     {
         [Js(Name = "$define")]
-        public static JsTypeFunction Define(JsTypeFunction enclosingType, string name, JsArray typeParameters, JsFunction prototypeFactory)
+        public static JsTypeFunction Define(JsTypeFunction enclosingType, string name, bool isGenericType, JsArray typeParameters, JsFunction prototypeFactory, JsFunction typeInitializer)
         {
             JsTypeFunction typeFunction = null;
+            var isTypeInitialized = false;
 
             // Create constructor function, which is a superconstructor that takes in the actual
             // constructor as the first argument, and the rest of the arguments are passed directly 
@@ -48,6 +49,11 @@ namespace System.Runtime.WootzJs
             // are not called via new, they exist for initialization only.
             typeFunction = Jsni.function((constructor, args) =>
             {
+                if (!isTypeInitialized && false)
+                {
+                    isTypeInitialized = true;
+                    typeFunction.CallTypeInitializer.invoke();
+                }
                 if (constructor != null || !(Jsni.instanceof(Jsni.@this(), typeFunction)))
                 {
                     typeFunction.member(SpecialNames.StaticInitializer).invoke();
@@ -65,6 +71,26 @@ namespace System.Runtime.WootzJs
             typeFunction.PrototypeFactory = prototypeFactory;
             typeFunction.prototype = Jsni.@new(prototypeFactory.invoke());
             typeFunction.IsPrototypeInitialized = false;
+            typeFunction.TypeInitializer = typeInitializer;
+/*
+            typeFunction.TypeInitializer = Jsni.procedure((_t, p) =>
+            {
+                var t = _t.As<JsTypeFunction>();
+                if (isGenericType)
+                {
+                    t.GenericTypeFunction = Jsni.function(() =>
+                    {
+                        return Jsni.reference(SpecialNames.MakeGenericTypeConstructor).As<JsFunction>().call(t, t, Jsni.arguments());
+                    });                
+                }
+
+                typeInitializer.apply(Jsni.@this(), Jsni.arguments().As<JsArray>());
+            });
+*/
+            typeFunction.CallTypeInitializer = Jsni.procedure(() =>
+            {
+                typeFunction.TypeInitializer.apply(enclosingType, Jsni.array(typeFunction, typeFunction.prototype).concat(typeParameters));
+            });
             return typeFunction;
         }
 
@@ -96,7 +122,7 @@ namespace System.Runtime.WootzJs
         [Js(Name = SpecialNames.DefineTypeParameter)]
         public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)
         {
-            var result = Define(null, name, Jsni.array(), Jsni.function(() => prototype));
+            var result = Define(null, name, false, Jsni.array(), Jsni.function(() => prototype), Jsni.procedure(() => {}));
             result.memberset(SpecialNames.IsTypeParameter, true);
             result.memberset(SpecialNames.CreateType, Jsni.function(() =>
             {
@@ -265,21 +291,10 @@ namespace System.Runtime.WootzJs
                     }
                     prototype = prototype.member("$").apply(null, baseArgs).As<JsTypeFunction>();
                 }
-                var generic = Define(unconstructedType.EnclosingType, newTypeName, Jsni.array(), Jsni.function(() => prototype));
-                generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
-
-                // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
-                Jsni.apply(
-                    Jsni.member(unconstructedType, SpecialNames.TypeInitializer), 
-                    unconstructedType, 
-                    Jsni.invoke(
-                        Jsni.member(Jsni.array(generic, generic.prototype), "concat"), 
-                        keyArray
-                    ).As<JsArray>());
-
-                generic.TypeInitializer = Jsni.procedure((t, p) =>
+                var typeInitializer = Jsni.procedure((_t, p) =>
                 {
-                    p.___type = generic;
+                    var t = _t.As<JsTypeFunction>();
+                    p.___type = t;
                     t.As<JsTypeFunction>().BaseType = unconstructedType;
                     t.As<JsTypeFunction>().GetTypeFromType = Jsni.function(() => Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>());
                     t.As<JsTypeFunction>().TypeName = newTypeName;
@@ -287,8 +302,8 @@ namespace System.Runtime.WootzJs
                     {
                         var unconstructedTypeType = Type._GetTypeFromTypeFunc(unconstructedType);
                         var type = new Type(newTypeName, new Attribute[0]);
-                        generic.Type = type;
-                        type.thisType = generic;
+                        t.Type = type;
+                        type.thisType = t;
 
                         var typeParameters = unconstructedTypeType.typeArguments;
                         var typeArguments = InitializeArray(typeArgs, Jsni.type<JsTypeFunction>()).As<JsTypeFunction[]>();
@@ -374,7 +389,7 @@ namespace System.Runtime.WootzJs
                                 parameter = new ParameterInfo(parameter.Name, parameterType, j, parameter.Attributes, parameter.DefaultValue, parameter.attributes);
                                 parameters[j] = parameter;
                             }
-                            newConstructors[i] = new ConstructorInfo(constructor.Name, generic.prototype[constructor.Name].As<JsFunction>(), parameters, constructor.Attributes, constructor.attributes);
+                            newConstructors[i] = new ConstructorInfo(constructor.Name, t.prototype[constructor.Name].As<JsFunction>(), parameters, constructor.Attributes, constructor.attributes);
                         }
 
                         var newProperties = unconstructedTypeType.properties.ToArray();
@@ -408,7 +423,7 @@ namespace System.Runtime.WootzJs
                         type.Init(
                             newTypeName, 
                             (int)((unconstructedTypeType.typeFlags | TypeFlags.GenericType) & ~TypeFlags.GenericTypeDefenition),
-                            generic, 
+                            t, 
                             prototype,
                             newInterfaces, 
                             typeArguments,
@@ -423,6 +438,16 @@ namespace System.Runtime.WootzJs
                     });
 
                 }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
+
+                var generic = Define(unconstructedType.EnclosingType, newTypeName, true, Jsni.array(), Jsni.function(() => prototype), typeInitializer);
+                generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
+
+                // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));
+                unconstructedType.member(SpecialNames.TypeInitializer).apply(
+                    unconstructedType, 
+                    Jsni.array(generic, generic.prototype).member("concat").invoke(keyArray).As<JsArray>()
+                );
+
                 Jsni.call(generic.TypeInitializer, Jsni.@this(), generic, generic.prototype);
                 result = generic;
                 cache[keyString] = result;

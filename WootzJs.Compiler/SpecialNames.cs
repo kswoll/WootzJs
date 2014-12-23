@@ -67,5 +67,6 @@ namespace System.Runtime.WootzJs
         public const string PrototypeFactory = "$protofact";
         public const string DefineTypeFunction = "$definetypefunc";
         public const string EnclosingType = "$enclosingType";
+        public const string CallTypeInitializer = "$callTypeInitializer";
     }
 }

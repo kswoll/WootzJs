@@ -77,6 +77,12 @@ namespace System.Reflection
         [Js(Name = SpecialNames.EnclosingType)]
         public JsTypeFunction EnclosingType;
 
+        [Js(Name = SpecialNames.CallTypeInitializer)]
+        public JsFunction CallTypeInitializer;
+
+        [Js(Name = SpecialNames.MakeGenericType)]
+        public JsFunction GenericTypeFunction;
+
         [Js(Name = "$CreateType")]
         public Type CreateType()
         {
