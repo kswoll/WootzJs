@@ -2042,6 +2042,8 @@ namespace WootzJs.Compiler
             var typeExpression = Type(type);
 //            if (type.IsExported() && !type.IsBuiltIn() && !(type is TypeParameterSymbol))
 //                typeExpression = typeExpression.Invoke();
+            if (type.IsExported() && !type.IsBuiltIn() && type.TypeKind != TypeKind.TypeParameter && type.TypeKind != TypeKind.Array)
+                typeExpression = typeExpression.Invoke();
             return typeExpression.Member(SpecialNames.GetTypeFromType).Invoke();
         }
 
