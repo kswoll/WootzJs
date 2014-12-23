@@ -111,9 +111,7 @@ namespace WootzJs.Compiler
             JsExpression outerClassType = Js.Reference(classType.GetTypeName());
             if (!isBuiltIn)
             {
-                var displayName = classType.Name;
-                if (displayName == "")
-                    displayName = classType.GetTypeName();
+                var displayName = classType.GetFullName();
                 if (classType.TypeParameters.Any())
                     displayName += "`" + classType.TypeParameters.Count();
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
@@ -136,8 +134,15 @@ namespace WootzJs.Compiler
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
             typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
             typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
-            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Primitive(classType.GetFullName())));
-            typeInitializer.Add(StoreInType(SpecialNames.TypeName, GetFromPrototype(SpecialNames.TypeName)));
+            if (classType.IsExported() && !classType.IsBuiltIn())
+            {
+                typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(SpecialNames.TypeName)));
+            }
+            else
+            {
+                typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Primitive(classType.GetFullName())));
+                typeInitializer.Add(StoreInType(SpecialNames.TypeName, GetFromPrototype(SpecialNames.TypeName)));
+            }
             typeInitializer.Add(StoreClassGetType());
             typeInitializer.Add(StoreClassCreateType(classType));
 
@@ -175,12 +180,12 @@ namespace WootzJs.Compiler
             if (extraBuiltInExports == null)
             {
                 block.Express(primaryTypeInitializerCall(outerClassType.Member(SpecialNames.TypeInitializer)
-                    .Assign(typeInitializerFunction)
+                    .Assign(Js.Reference(SpecialNames.DefineTypeFunction).Invoke(outerClassType, typeInitializerFunction))
                     .Parenthetical()));
             }
             else
             {
-                block.Assign(outerClassType.Member(SpecialNames.TypeInitializer), typeInitializerFunction);
+                block.Assign(outerClassType.Member(SpecialNames.TypeInitializer), Js.Reference(SpecialNames.DefineTypeFunction).Invoke(outerClassType, typeInitializerFunction));
                 block.Express(primaryTypeInitializerCall(outerClassType.Member(SpecialNames.TypeInitializer)));
                 foreach (var extra in extraBuiltInExports)
                 {
@@ -1765,7 +1770,7 @@ namespace WootzJs.Compiler
                         return true;
                     case "new":
                     case "@new":
-                        result = Js.New(Js.Parenthetical(arguments[0]), arguments.Skip(1).ToArray());
+                        result = Js.New(arguments[0].Parenthetical(), arguments.Skip(1).ToArray());
                         return true;
                     case "array":
                         result = Js.Array(arguments);

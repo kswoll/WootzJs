@@ -61,6 +61,7 @@ namespace System.Runtime.WootzJs
             }).As<JsTypeFunction>();
             typeFunction.memberset("toString", Jsni.function(() => name.As<JsObject>()));
             typeFunction.TypeName = name;
+            typeFunction.PrototypeFactory = prototypeFactory;
             typeFunction.prototype = Jsni.@new(prototypeFactory.invoke());
             typeFunction.IsPrototypeInitialized = false;
             return typeFunction;
@@ -72,10 +73,23 @@ namespace System.Runtime.WootzJs
             implementation.memberset(SpecialNames.TypeField, enclosingType);
             implementation.memberset(SpecialNames.New, Jsni.function(() =>
             {
+/*
+                if (!enclosingType.IsPrototypeInitialized)
+                {
+                    enclosingType.IsPrototypeInitialized = true;
+                    enclosingType.prototype = Jsni.@new(enclosingType.PrototypeFactory.invoke());
+                }
+*/
                 return Jsni.@new(enclosingType, implementation, Jsni.arguments());
             }));
 
             return implementation;
+        }
+
+        [Js(Name = SpecialNames.DefineTypeFunction)]
+        public static JsFunction DefineTypeFunction(JsTypeFunction type, JsFunction template)
+        {
+            return template;
         }
 
         [Js(Name = SpecialNames.DefineTypeParameter)]
