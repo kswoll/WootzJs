@@ -71,22 +71,21 @@ namespace System.Runtime.WootzJs
             typeFunction.PrototypeFactory = prototypeFactory;
             typeFunction.prototype = Jsni.@new(prototypeFactory.invoke());
             typeFunction.IsPrototypeInitialized = false;
-            typeFunction.TypeInitializer = typeInitializer;
-/*
+//            typeFunction.TypeInitializer = typeInitializer;
             typeFunction.TypeInitializer = Jsni.procedure((_t, p) =>
             {
                 var t = _t.As<JsTypeFunction>();
                 if (isGenericType)
                 {
+                    var unconstructedType = t.UnconstructedType ?? t;
                     t.GenericTypeFunction = Jsni.function(() =>
                     {
-                        return Jsni.reference(SpecialNames.MakeGenericTypeConstructor).As<JsFunction>().call(t, t, Jsni.arguments());
+                        return Jsni.reference(SpecialNames.MakeGenericTypeConstructor).As<JsFunction>().call(unconstructedType, unconstructedType, Jsni.arguments()).As<JsFunction>().invoke();
                     });                
                 }
 
                 typeInitializer.apply(Jsni.@this(), Jsni.arguments().As<JsArray>());
             });
-*/
             typeFunction.CallTypeInitializer = Jsni.procedure(() =>
             {
                 typeFunction.TypeInitializer.apply(enclosingType, Jsni.array(typeFunction, typeFunction.prototype).concat(typeParameters));

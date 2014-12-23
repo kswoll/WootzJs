@@ -83,6 +83,9 @@ namespace System.Reflection
         [Js(Name = SpecialNames.MakeGenericType)]
         public JsFunction GenericTypeFunction;
 
+        [Js(Name = SpecialNames.UnconstructedType)]
+        public JsTypeFunction UnconstructedType;
+
         [Js(Name = "$CreateType")]
         public Type CreateType()
         {

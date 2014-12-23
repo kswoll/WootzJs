@@ -243,13 +243,13 @@ namespace WootzJs.Compiler
             {
                 var makeGenericType = new JsBlockStatement();
                 var name = containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction);
-                makeGenericType.Return(
-                    Js.Reference(SpecialNames.MakeGenericTypeConstructor)
-                    .Member("call")
-                    .Invoke(name, SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
-                    .Invoke()
-                );
-                typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
+//                makeGenericType.Return(
+//                    Js.Reference(SpecialNames.MakeGenericTypeConstructor)
+//                    .Member("call")
+//                    .Invoke(name, SpecialTypeOnlyForEnclosingTypes(classType), Js.Reference("arguments"))
+//                    .Invoke()
+//                );
+//                typeInitializer.Add(StoreInType("$", Js.Function().Body(makeGenericType)));
                 typeInitializer.Add(StoreInType(SpecialNames.TypeArgs, 
                     Js.Array(classType.TypeArguments.Select(x => Type(x)).ToArray())));
                 if (!classType.IsAnonymousType)
