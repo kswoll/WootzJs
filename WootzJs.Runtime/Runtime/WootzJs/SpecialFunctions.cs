@@ -38,7 +38,7 @@ namespace System.Runtime.WootzJs
     public static class SpecialFunctions
     {
         [Js(Name = "$define")]
-        public static JsTypeFunction Define(JsTypeFunction enclosingType, string name, JsFunction prototypeFactory)
+        public static JsTypeFunction Define(JsTypeFunction enclosingType, string name, JsArray typeParameters, JsFunction prototypeFactory)
         {
             JsTypeFunction typeFunction = null;
 
@@ -96,7 +96,7 @@ namespace System.Runtime.WootzJs
         [Js(Name = SpecialNames.DefineTypeParameter)]
         public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)
         {
-            var result = Define(null, name, Jsni.function(() => prototype));
+            var result = Define(null, name, Jsni.array(), Jsni.function(() => prototype));
             result.memberset(SpecialNames.IsTypeParameter, true);
             result.memberset(SpecialNames.CreateType, Jsni.function(() =>
             {
@@ -265,7 +265,7 @@ namespace System.Runtime.WootzJs
                     }
                     prototype = prototype.member("$").apply(null, baseArgs).As<JsTypeFunction>();
                 }
-                var generic = Define(unconstructedType.EnclosingType, newTypeName, Jsni.function(() => prototype));
+                var generic = Define(unconstructedType.EnclosingType, newTypeName, Jsni.array(), Jsni.function(() => prototype));
                 generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
 
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));

@@ -116,7 +116,24 @@ namespace WootzJs.Compiler
                     displayName += "`" + classType.TypeParameters.Count();
                 var args = new[]
                 {
-                    (JsExpression)Js.Null(), Js.Primitive(displayName), Js.Function().Body(baseType.Return())
+                    (JsExpression)Js.Null(), 
+                    Js.Primitive(displayName), 
+                    Js.Array(
+                        classType.TypeParameters.Select(x => 
+                            (JsExpression)Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Primitive(x.Name), 
+                                Type(x.BaseType ?? Context.Instance.ObjectType, true)
+                            )
+                        )
+                        .Concat(classType.GetAnonymousTypeParameters().Select(x => 
+                            Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Primitive(x.Item2),
+                                Type(x.Item1 ?? Context.Instance.ObjectType, true)
+                            )
+                        ))
+                        .ToArray()
+                    ),
+                    Js.Function().Body(baseType.Return())
                 };
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
