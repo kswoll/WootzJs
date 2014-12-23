@@ -56,7 +56,8 @@ namespace System.Runtime.WootzJs
                 }
                 if (constructor != null || !(Jsni.instanceof(Jsni.@this(), typeFunction)))
                 {
-                    typeFunction.member(SpecialNames.StaticInitializer).invoke();
+                    if (!isGenericType || typeFunction.UnconstructedType != null)
+                        typeFunction.member(SpecialNames.StaticInitializer).invoke();
                 }
                 if (constructor != null) 
                     constructor.apply(Jsni.@this(), args.As<JsArray>());

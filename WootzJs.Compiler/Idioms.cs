@@ -56,15 +56,15 @@ namespace WootzJs.Compiler
             JsExpression target;
             if (containingType != null) 
             {
-                target = Type(containingType).Member(unconstructedType.GetShortTypeName() + SpecialNames.MakeGenericType);
+                target = Type(containingType).Member(unconstructedType.GetShortTypeName()).Invoke().Member(SpecialNames.MakeGenericType);
             }
             else if (!unconstructedType.IsAnonymousType)
             {
-                target = Js.Reference(unconstructedType.GetTypeName() + SpecialNames.MakeGenericType);
+                target = Js.Reference(unconstructedType.GetTypeName()).Invoke().Member(SpecialNames.MakeGenericType);
             }
             else 
             {
-                target = Js.Reference(unconstructedType.GetTypeName()).Member(SpecialNames.MakeGenericType);
+                target = Js.Reference(unconstructedType.GetTypeName()).Invoke().Member(SpecialNames.MakeGenericType);
             }
 
             var result = target.Invoke(typeArguments);
