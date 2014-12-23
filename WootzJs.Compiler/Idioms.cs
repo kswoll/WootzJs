@@ -113,18 +113,19 @@ namespace WootzJs.Compiler
             // Generate type initializer
             typeInitializer = new JsBlockStatement();
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
-            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
+//            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
             typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
             if (classType.IsExported() && !classType.IsBuiltIn())
             {
-                typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(SpecialNames.TypeName)));
+//                typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(SpecialNames.TypeName)));
             }
             else
             {
                 typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Primitive(classType.GetFullName())));
                 typeInitializer.Add(StoreInType(SpecialNames.TypeName, GetFromPrototype(SpecialNames.TypeName)));
             }
-            typeInitializer.Add(StoreClassGetType());
+            if (classType.IsBuiltIn())
+                typeInitializer.Add(StoreClassGetType());
             typeInitializer.Add(StoreClassCreateType(classType));
 
             var containingType = classType.ContainingType;
@@ -230,14 +231,14 @@ namespace WootzJs.Compiler
             block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
 
             staticInitializer = new JsBlockStatement();
-            staticInitializer.If(GetFromType(SpecialNames.IsStaticInitialized), Js.Return());
-            staticInitializer.Add(StoreInType(SpecialNames.IsStaticInitialized, Js.Primitive(true)));
+//            staticInitializer.If(GetFromType(SpecialNames.IsStaticInitialized), Js.Return());
+//            staticInitializer.Add(StoreInType(SpecialNames.IsStaticInitialized, Js.Primitive(true)));
             if (classType.BaseType != null)
             {
                 staticInitializer.Express(Type(classType.BaseType).Member(SpecialNames.StaticInitializer).Invoke());
             }
             var staticInitializerFunction = Js.Function().Body(staticInitializer);
-            typeInitializer.Add(StoreInType(SpecialNames.StaticInitializer, staticInitializerFunction));
+            typeInitializer.Add(StoreInType(SpecialNames.StaticInitializer, Js.Reference(SpecialNames.DefineStaticConstructor).Invoke(Js.Reference(SpecialNames.TypeInitializerTypeFunction), staticInitializerFunction)));
 
             if (classType.HasOrIsEnclosedInGenericParameters())
             {

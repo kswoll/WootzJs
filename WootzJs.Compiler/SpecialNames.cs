@@ -63,6 +63,7 @@ namespace System.Runtime.WootzJs
         public const string SafeGetType = "$gettype";
         public const string DefineTypeParameter = "$definetypeparameter";
         public const string DefineConstructor = "$definector";
+        public const string DefineStaticConstructor = "$definecctor";
         public const string IsPrototypeInitialized = "$isPrototypeInitialized";
         public const string PrototypeFactory = "$protofact";
         public const string DefineTypeFunction = "$definetypefunc";

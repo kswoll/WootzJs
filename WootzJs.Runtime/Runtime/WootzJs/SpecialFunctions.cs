@@ -71,7 +71,6 @@ namespace System.Runtime.WootzJs
             typeFunction.PrototypeFactory = prototypeFactory;
             typeFunction.prototype = Jsni.@new(prototypeFactory.invoke());
             typeFunction.IsPrototypeInitialized = false;
-//            typeFunction.TypeInitializer = typeInitializer;
             typeFunction.TypeInitializer = Jsni.procedure((_t, p) =>
             {
                 var t = _t.As<JsTypeFunction>();
@@ -83,6 +82,12 @@ namespace System.Runtime.WootzJs
                         return Jsni.reference(SpecialNames.MakeGenericTypeConstructor).As<JsFunction>().call(unconstructedType, unconstructedType, Jsni.arguments()).As<JsFunction>().invoke();
                     });                
                 }
+                t.GetTypeFromType = Jsni.function(() =>
+                {
+                    return Type._GetTypeFromTypeFunc(Jsni.@this().As<JsTypeFunction>()).As<JsObject>();
+                });
+                p.memberset(SpecialNames.TypeName, t.member(SpecialNames.TypeName));
+                p.___type = t;
 
                 typeInitializer.apply(Jsni.@this(), Jsni.arguments().As<JsArray>());
             });
@@ -91,6 +96,20 @@ namespace System.Runtime.WootzJs
                 typeFunction.TypeInitializer.apply(enclosingType, Jsni.array(typeFunction, typeFunction.prototype).concat(typeParameters));
             });
             return typeFunction;
+        }
+
+        [Js(Name = SpecialNames.DefineStaticConstructor)]
+        public static JsFunction DefineStaticConstructor(JsTypeFunction enclosingType, JsFunction implementation)
+        {
+            return Jsni.procedure(() =>
+            {
+                if (enclosingType.IsStaticInitialized)
+                {
+                    return;
+                }          
+                enclosingType.IsStaticInitialized = true;
+                implementation.invoke();
+            });
         }
 
         [Js(Name = SpecialNames.DefineConstructor)]

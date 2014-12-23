@@ -86,6 +86,12 @@ namespace System.Reflection
         [Js(Name = SpecialNames.UnconstructedType)]
         public JsTypeFunction UnconstructedType;
 
+        [Js(Name = SpecialNames.StaticInitializer)]
+        public JsFunction StaticInitializer;
+
+        [Js(Name = SpecialNames.IsStaticInitialized)]
+        public bool IsStaticInitialized;
+
         [Js(Name = "$CreateType")]
         public Type CreateType()
         {
