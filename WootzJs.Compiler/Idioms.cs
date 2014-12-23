@@ -117,17 +117,17 @@ namespace WootzJs.Compiler
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
                     block.Assign(Js.Reference(classType.ContainingNamespace.GetFullName()).Member(classType.GetShortTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Null(), Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
+                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Reference(SpecialNames.TypeInitializerTypeFunction), Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
                 }
                 else
                 {
                     block.Assign(Js.Reference(classType.GetTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Null(), Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
                 }
             }
             typeInitializer = new JsBlockStatement();

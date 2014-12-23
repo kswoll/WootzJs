@@ -74,6 +74,9 @@ namespace System.Reflection
         [Js(Name = SpecialNames.PrototypeFactory)]
         public JsFunction PrototypeFactory;
 
+        [Js(Name = SpecialNames.EnclosingType)]
+        public JsTypeFunction EnclosingType;
+
         [Js(Name = "$CreateType")]
         public Type CreateType()
         {
