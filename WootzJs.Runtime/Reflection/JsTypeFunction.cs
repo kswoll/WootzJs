@@ -68,6 +68,9 @@ namespace System.Reflection
         [Js(Name = SpecialNames.GetAssembly)]
         public JsFunction GetAssembly;
 
+        [Js(Name = SpecialNames.IsPrototypeInitialized)]
+        public bool IsPrototypeInitialized;
+
         [Js(Name = "$CreateType")]
         public Type CreateType()
         {

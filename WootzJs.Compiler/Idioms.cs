@@ -112,22 +112,24 @@ namespace WootzJs.Compiler
             if (!isBuiltIn)
             {
                 var displayName = classType.Name;
+                if (displayName == "")
+                    displayName = classType.GetTypeName();
                 if (classType.TypeParameters.Any())
                     displayName += "`" + classType.TypeParameters.Count();
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
                     block.Assign(Js.Reference(classType.ContainingNamespace.GetFullName()).Member(classType.GetShortTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
+                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
                 }
                 else
                 {
                     block.Assign(Js.Reference(classType.GetTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), baseType));
+                        Js.Reference(SpecialNames.Define).Invoke(Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
                 }
             }
             typeInitializer = new JsBlockStatement();
@@ -1763,7 +1765,7 @@ namespace WootzJs.Compiler
                         return true;
                     case "new":
                     case "@new":
-                        result = Js.New(arguments[0], arguments.Skip(1).ToArray());
+                        result = Js.New(Js.Parenthetical(arguments[0]), arguments.Skip(1).ToArray());
                         return true;
                     case "array":
                         result = Js.Array(arguments);
