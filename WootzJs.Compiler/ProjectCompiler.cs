@@ -292,17 +292,20 @@ namespace WootzJs.Compiler
                         }
                     }
 
-                    var precedes = getType(item).GetAttributeValue<ITypeSymbol>(Context.Instance.PrecedesAttribute, "Type");
+                    var precedes = getType(item).GetAttributeValue<ITypeSymbol[]>(Context.Instance.PrecedesAttribute, "Type");
                     if (precedes != null)
                     {
-                        int precedesIndex;
-                        if (indices.TryGetValue((INamedTypeSymbol)precedes.OriginalDefinition, out precedesIndex))
+                        foreach (var precede in precedes)
                         {
-                            var precedesItem = list[precedesIndex];
-                            if (precedesIndex > i)
+                            int precedesIndex;
+                            if (indices.TryGetValue((INamedTypeSymbol)precede.OriginalDefinition, out precedesIndex))
                             {
-                                prepend.Add(precedesItem);
-                            }
+                                var precedesItem = list[precedesIndex];
+                                if (precedesIndex > i)
+                                {
+                                    prepend.Add(precedesItem);
+                                }
+                            }                            
                         }
                     }
                 }

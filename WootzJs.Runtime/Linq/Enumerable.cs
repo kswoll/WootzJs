@@ -33,7 +33,7 @@ using System.Runtime.WootzJs;
 
 namespace System.Linq
 {
-    [DependsOn(Type = typeof (YieldIterator<>))]
+    [DependsOn(typeof (YieldIterator<>))]
     public static class Enumerable
     {
         /// <summary>
