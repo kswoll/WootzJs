@@ -133,8 +133,6 @@ namespace WootzJs.Compiler
             if (!isBuiltIn)
             {
                 var displayName = classType.GetFullName();
-                if (classType.TypeParameters.Any())
-                    displayName += "`" + classType.TypeParameters.Count();
                 var args = new[]
                 {
                     containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
