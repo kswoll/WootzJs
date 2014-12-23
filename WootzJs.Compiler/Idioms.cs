@@ -114,20 +114,23 @@ namespace WootzJs.Compiler
                 var displayName = classType.GetFullName();
                 if (classType.TypeParameters.Any())
                     displayName += "`" + classType.TypeParameters.Count();
+                var args = new[]
+                {
+                    (JsExpression)Js.Null(), Js.Primitive(displayName), Js.Function().Body(baseType.Return())
+                };
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
                 {
                     block.Assign(Js.Reference(classType.ContainingNamespace.GetFullName()).Member(classType.GetShortTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Null(), Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
+                        Js.Reference(SpecialNames.Define).Invoke(args));
                 }
                 else if (classType.ContainingType != null)
                 {
                     outerClassType = Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(classType.GetShortTypeName());
-                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(Js.Reference(SpecialNames.TypeInitializerTypeFunction), Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
+                    block.Assign(outerClassType, Js.Reference(SpecialNames.Define).Invoke(args));
                 }
                 else
                 {
-                    block.Assign(Js.Reference(classType.GetTypeName()), 
-                        Js.Reference(SpecialNames.Define).Invoke(Js.Null(), Js.Primitive(displayName), Js.Function().Body(baseType.Return())));
+                    block.Assign(Js.Reference(classType.GetTypeName()), Js.Reference(SpecialNames.Define).Invoke(args));
                 }
             }
             typeInitializer = new JsBlockStatement();
@@ -179,9 +182,8 @@ namespace WootzJs.Compiler
 
             if (extraBuiltInExports == null)
             {
-                block.Express(primaryTypeInitializerCall(outerClassType.Member(SpecialNames.TypeInitializer)
-                    .Assign(Js.Reference(SpecialNames.DefineTypeFunction).Invoke(outerClassType, typeInitializerFunction))
-                    .Parenthetical()));
+                block.Assign(outerClassType.Member(SpecialNames.TypeInitializer), Js.Reference(SpecialNames.DefineTypeFunction).Invoke(outerClassType, typeInitializerFunction));
+                block.Express(primaryTypeInitializerCall(outerClassType.Member(SpecialNames.TypeInitializer)));
             }
             else
             {
