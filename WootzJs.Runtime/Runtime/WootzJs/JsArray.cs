@@ -68,5 +68,8 @@ namespace System.Runtime.WootzJs
         public extern JsObject shift(params JsObject[] prepend);
 
         public extern void sort(JsFunction compareFunction);
+
+        public extern JsArray concat(JsObject elements);
+        public extern JsArray concat(JsObject[] elements);
     }
 }
