@@ -88,6 +88,7 @@ namespace System.Runtime.WootzJs
                 });
                 p.memberset(SpecialNames.TypeName, t.member(SpecialNames.TypeName));
                 p.___type = t;
+                t.BaseType = prototypeFactory.invoke().As<JsTypeFunction>();
 
                 typeInitializer.apply(Jsni.@this(), Jsni.arguments().As<JsArray>());
             });

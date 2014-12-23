@@ -114,7 +114,7 @@ namespace WootzJs.Compiler
             typeInitializer = new JsBlockStatement();
             typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
 //            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
-            typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
+//            typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
             if (classType.IsExported() && !classType.IsBuiltIn())
             {
 //                typeInitializer.Add(StoreInPrototype(SpecialNames.TypeName, Js.Reference(SpecialNames.TypeInitializerTypeFunction).Member(SpecialNames.TypeName)));
