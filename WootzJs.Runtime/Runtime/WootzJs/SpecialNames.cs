@@ -50,6 +50,7 @@ namespace System.Runtime.WootzJs
         public const string CreateType = "$CreateType";
         public const string GetAssembly = "$GetAssembly";
         public const string Assemblies = "$assemblies";
+        public const string Assembly = "$assembly";
         public const string New = "$new";
         public const string Define = "$define";
         public const string InitializeArray = "$arrayinit";

@@ -38,7 +38,7 @@ namespace System.Runtime.WootzJs
     public static class SpecialFunctions
     {
         [Js(Name = "$define")]
-        public static JsTypeFunction Define(JsTypeFunction enclosingType, string name, bool isGenericType, JsArray typeParameters, JsFunction prototypeFactory, JsFunction typeInitializer)
+        public static JsTypeFunction Define(JsFunction assembly, JsTypeFunction enclosingType, string name, bool isGenericType, JsArray typeParameters, JsFunction prototypeFactory, JsFunction typeInitializer)
         {
             JsTypeFunction typeFunction = null;
             var isTypeInitialized = false;
@@ -66,6 +66,7 @@ namespace System.Runtime.WootzJs
                 else
                     return Jsni.@this();
             }).As<JsTypeFunction>();
+            typeFunction.GetAssembly = assembly;
             typeFunction.memberset("toString", Jsni.function(() => name.As<JsObject>()));
             typeFunction.EnclosingType = enclosingType;
             typeFunction.TypeName = name;
@@ -140,9 +141,9 @@ namespace System.Runtime.WootzJs
         }
 
         [Js(Name = SpecialNames.DefineTypeParameter)]
-        public static JsTypeFunction DefineTypeParameter(string name, JsTypeFunction prototype)
+        public static JsTypeFunction DefineTypeParameter(JsFunction assembly, string name, JsTypeFunction prototype)
         {
-            var result = Define(null, name, false, Jsni.array(), Jsni.function(() => prototype), Jsni.procedure(() => {}));
+            var result = Define(assembly, null, name, false, Jsni.array(), Jsni.function(() => prototype), Jsni.procedure(() => {}));
             result.memberset(SpecialNames.IsTypeParameter, true);
             result.memberset(SpecialNames.CreateType, Jsni.function(() =>
             {
@@ -459,7 +460,7 @@ namespace System.Runtime.WootzJs
 
                 }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
 
-                var generic = Define(unconstructedType.EnclosingType, newTypeName, true, Jsni.array(), Jsni.function(() => prototype), typeInitializer);
+                var generic = Define(unconstructedType.GetAssembly, unconstructedType.EnclosingType, newTypeName, true, Jsni.array(), Jsni.function(() => prototype), typeInitializer);
                 generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
 
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));

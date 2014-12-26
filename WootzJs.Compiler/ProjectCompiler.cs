@@ -34,8 +34,11 @@ namespace WootzJs.Compiler
             // will be loaded first, and we only want to bother creating the array once.) 
             if (projectName == "mscorlib")
             {
+                var global = new JsBlockStatement();
+                jsCompilationUnit.Global = global;
+
                 var assemblies = Js.Variable(SpecialNames.Assemblies, Js.Array());
-                jsCompilationUnit.Body.Local(assemblies);
+                global.Local(assemblies);
 
                 // This ensures that Function.$typeName returns `Function` -- this is important when using
                 // a type function as a generic argument, since otherwise when we try to get a 
@@ -68,8 +71,11 @@ namespace WootzJs.Compiler
                 Js.Reference(compilation.Assembly.GetAssemblyMethodName()),
                 getAssembly);
 
+            // Declare $assembly variable
+            jsCompilationUnit.Body.Local(SpecialNames.Assembly, Js.Reference(compilation.Assembly.GetAssemblyMethodName()));
+
             // Add $GetAssemblyMethod to global assemblies array
-            jsCompilationUnit.Body.Express(Js.Reference("$assemblies").Member("push").Invoke(Js.Reference(compilation.Assembly.GetAssemblyMethodName())));
+            jsCompilationUnit.Body.Express(Js.Reference(SpecialNames.Assemblies).Member("push").Invoke(Js.Reference(SpecialNames.Assembly)));
 
             // Builds out all the namespace objects.  Types live inside namepsaces, which are represented as 
             // nested Javascript objects.  For example, System.Text.StringBuilder is represented (in part) as:
@@ -151,7 +157,7 @@ namespace WootzJs.Compiler
                 {
                     var semanticModel = compilation.GetSemanticModel(syntaxTree);
                     var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-                    var transformer = new JsTransformer(syntaxTree, semanticModel);
+                    var transformer = new JsTransformer(syntaxTree, semanticModel, jsCompilationUnit);
 
                     var typeCollector = new TypeCollector();
                     compilationUnit.Accept(typeCollector);

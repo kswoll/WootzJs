@@ -112,7 +112,7 @@ namespace WootzJs.Compiler
 
             // Generate type initializer
             typeInitializer = new JsBlockStatement();
-            typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
+//            typeInitializer.Add(StoreInType(SpecialNames.GetAssembly, Js.Reference(classType.ContainingAssembly.GetAssemblyMethodName())));
 //            typeInitializer.Add(StoreInPrototype(SpecialNames.TypeField, Js.Reference(SpecialNames.TypeInitializerTypeFunction)));
 //            typeInitializer.Add(StoreInType(SpecialNames.BaseType, baseType));
             if (classType.IsExported() && !classType.IsBuiltIn())
@@ -136,18 +136,21 @@ namespace WootzJs.Compiler
                 var displayName = classType.GetFullName();
                 var args = new[]
                 {
+                    Js.Reference(SpecialNames.Assembly),
                     containingType == null ? (JsExpression)Js.Null() : Js.Reference(SpecialNames.TypeInitializerTypeFunction), 
                     Js.Primitive(displayName), 
                     Js.Primitive(classType.HasOrIsEnclosedInGenericParameters()),
                     Js.Array(
                         classType.TypeParameters.Select(x => 
                             (JsExpression)Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Reference(SpecialNames.Assembly),
                                 Js.Primitive(x.Name), 
                                 Type(x.BaseType ?? Context.Instance.ObjectType, true)
                             )
                         )
                         .Concat(classType.GetAnonymousTypeParameters().Select(x => 
                             Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Reference(SpecialNames.Assembly),
                                 Js.Primitive(x.Item2),
                                 Type(x.Item1 ?? Context.Instance.ObjectType, true)
                             )
@@ -188,6 +191,7 @@ namespace WootzJs.Compiler
                     .Concat(
                         classType.TypeParameters.Select(x => 
                             Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Reference(SpecialNames.Assembly),
                                 Js.Primitive(x.Name), 
                                 Type(x.BaseType ?? Context.Instance.ObjectType, true)
                             )
@@ -196,6 +200,7 @@ namespace WootzJs.Compiler
                     .Concat(
                         classType.GetAnonymousTypeParameters().Select(x => 
                             Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                                Js.Reference(SpecialNames.Assembly),
                                 Js.Primitive(x.Item2),
                                 Type(x.Item1 ?? Context.Instance.ObjectType, true)
                             )
@@ -560,8 +565,12 @@ namespace WootzJs.Compiler
                 var block = new JsBlockStatement();
                 foreach (var typeParameter in method.TypeParameters)
                 {
-                    block.Local(typeParameter.Name, Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
-                        Js.Primitive(typeParameter.Name), Type(typeParameter.BaseType ?? Context.Instance.ObjectType, true)));
+                    block.Local(
+                        typeParameter.Name, 
+                        Js.Reference(SpecialNames.DefineTypeParameter).Invoke(
+                            Js.Reference(SpecialNames.Assembly),
+                            Js.Primitive(typeParameter.Name), 
+                            Type(typeParameter.BaseType ?? Context.Instance.ObjectType, true)));
                 }
                 block.Return(info);
                 info = Wrap(block);
@@ -1715,7 +1724,7 @@ namespace WootzJs.Compiler
             return false;
         }
 
-        public bool TryUnwrapSpecialFunctions(ClassDeclarationSyntax classDeclaration, JsBlockStatement block)
+        public bool TryUnwrapSpecialFunctions(ClassDeclarationSyntax classDeclaration, JsCompilationUnit compilationUnit)
         {
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
             var type = ModelExtensions.GetDeclaredSymbol(model, classDeclaration);
@@ -1725,7 +1734,7 @@ namespace WootzJs.Compiler
                 {
                     var methodSymbol = ModelExtensions.GetDeclaredSymbol(model, method);
                     transformer.PushDeclaration(methodSymbol);
-                    transformer.PushOutput(block);
+                    transformer.PushOutput(compilationUnit.Global);
                     var name = methodSymbol.GetAttributeValue<string>(Context.Instance.JsAttributeType, "Name") ?? methodSymbol.Name;
                     var parameters = new List<JsParameter>();
                     if (method.TypeParameterList != null)
@@ -1733,7 +1742,7 @@ namespace WootzJs.Compiler
                     parameters.AddRange(method.ParameterList.Parameters.Select(x => (JsParameter)x.Accept(transformer)));
                     var body = (JsBlockStatement)method.Body.Accept(transformer);
                     var function = Js.NamedFunction(name, parameters.ToArray()).Body(body);
-                    block.Add(Js.Declare(function));
+                    compilationUnit.Global.Add(Js.Declare(function));
                     transformer.PopOutput();
                     transformer.PopDeclaration();
                 }

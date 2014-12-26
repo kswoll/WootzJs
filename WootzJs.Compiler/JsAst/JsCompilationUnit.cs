@@ -33,6 +33,7 @@ namespace WootzJs.Compiler.JsAst
     {
         public bool UseStrict { get; set; }
         public JsBlockStatement Body { get; set; }
+        public JsBlockStatement Global { get; set; }
 
         public JsCompilationUnit()
         {

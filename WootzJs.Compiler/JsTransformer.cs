@@ -47,11 +47,13 @@ namespace WootzJs.Compiler
         private Stack<IJsDeclaration> initializableObjectsStack = new Stack<IJsDeclaration>();
         private Stack<ISymbol> declarationStack = new Stack<ISymbol>();
         private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
+        private JsCompilationUnit compilationUnit;
 
-        public JsTransformer(SyntaxTree syntaxTree, SemanticModel model)
+        public JsTransformer(SyntaxTree syntaxTree, SemanticModel model, JsCompilationUnit compilationUnit)
         {
             this.syntaxTree = syntaxTree;
             this.model = model;
+            this.compilationUnit = compilationUnit;
             idioms = new Idioms(this);
         }
 
@@ -59,6 +61,7 @@ namespace WootzJs.Compiler
         {
             this.syntaxTree = idioms.transformer.syntaxTree;
             this.model = idioms.transformer.model;
+            this.compilationUnit = idioms.transformer.compilationUnit;
             this.idioms = new Idioms(this);
             this.declarationsBySymbol = new Dictionary<ISymbol, IJsDeclaration>(idioms.transformer.declarationsBySymbol);
             this.outputBlockStack = idioms.transformer.outputBlockStack.ToList();
@@ -186,7 +189,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             var jsBlock = new JsBlockStatement();
-            if (idioms.TryUnwrapSpecialFunctions(node, jsBlock))
+            if (idioms.TryUnwrapSpecialFunctions(node, compilationUnit))
                 return jsBlock;
 
             var classType = model.GetDeclaredSymbol(node);

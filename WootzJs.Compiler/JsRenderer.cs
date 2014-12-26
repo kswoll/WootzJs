@@ -94,13 +94,25 @@ namespace WootzJs.Compiler
             {
                 output.AppendLine("\"use strict\";");
             }
-
+            if (compilationUnit.Global != null)
+            {
+                foreach (var statement in compilationUnit.Global.Statements)
+                {
+                    statement.Accept(this);
+                    if (statement is JsBlockStatement)
+                        output.AppendLine();
+                }
+            }
+            output.AppendLine("(function($assemblies) {");
+            output.CurrentIndentLevel++;
             foreach (var statement in compilationUnit.Body.Statements)
             {
                 statement.Accept(this);
                 if (statement is JsBlockStatement)
                     output.AppendLine();
             }
+            output.CurrentIndentLevel--;
+            output.AppendLine("})($assemblies);");
         }
 
         public override void VisitInvocationExpression(JsInvocationExpression node)
