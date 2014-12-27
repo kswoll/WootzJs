@@ -233,7 +233,10 @@ namespace WootzJs.Compiler
                     
                 }
             }
-            block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
+            if (classType.IsBuiltIn())
+            {
+                block.Express(Js.Reference(classType.ContainingAssembly.GetAssemblyTypesArray()).Member("push").Invoke(outerClassType));
+            }
 
             staticInitializer = new JsBlockStatement();
 //            staticInitializer.If(GetFromType(SpecialNames.IsStaticInitialized), Js.Return());
