@@ -67,6 +67,7 @@ namespace System.Runtime.WootzJs
                     return Jsni.@this();
             }).As<JsTypeFunction>();
             typeFunction.GetAssembly = assembly;
+//            typeFunction.
             typeFunction.memberset("toString", Jsni.function(() => name.As<JsObject>()));
             typeFunction.EnclosingType = enclosingType;
             typeFunction.TypeName = name;

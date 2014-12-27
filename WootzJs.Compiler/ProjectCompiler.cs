@@ -73,6 +73,7 @@ namespace WootzJs.Compiler
 
             // Declare $assembly variable
             jsCompilationUnit.Body.Local(SpecialNames.Assembly, Js.Reference(compilation.Assembly.GetAssemblyMethodName()));
+            jsCompilationUnit.Body.Assign(Js.Reference(SpecialNames.Assembly).Member(SpecialNames.AssemblyTypesArray), assemblyTypes.GetReference());
 
             // Add $GetAssemblyMethod to global assemblies array
             jsCompilationUnit.Body.Express(Js.Reference(SpecialNames.Assemblies).Member("push").Invoke(Js.Reference(SpecialNames.Assembly)));

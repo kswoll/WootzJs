@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.WootzJs;
 using Microsoft.CodeAnalysis;
 
 namespace WootzJs.Compiler
@@ -282,7 +283,7 @@ namespace WootzJs.Compiler
 
         public static string GetAssemblyTypesArray(this IAssemblySymbol assembly)
         {
-            return "$" + assembly.Name.MaskSpecialCharacters() + "$AssemblyTypes";
+            return "$" + assembly.Name.MaskSpecialCharacters() + SpecialNames.AssemblyTypesArray;
         }
 
         public static string GetAssemblyAnonymousTypesArray(this IAssemblySymbol assembly)
