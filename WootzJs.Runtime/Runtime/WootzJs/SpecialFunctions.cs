@@ -38,7 +38,7 @@ namespace System.Runtime.WootzJs
     public static class SpecialFunctions
     {
         [Js(Name = "$define")]
-        public static JsTypeFunction Define(JsFunction assembly, JsTypeFunction enclosingType, string name, bool isGenericType, JsArray typeParameters, JsFunction prototypeFactory, JsFunction typeInitializer)
+        public static JsTypeFunction Define(JsFunction assembly, JsTypeFunction enclosingType, string name, bool isGenericType, JsArray typeParameters, JsObject prototype, JsFunction typeInitializer)
         {
             JsTypeFunction typeFunction = null;
             var isTypeInitialized = false;
@@ -70,8 +70,7 @@ namespace System.Runtime.WootzJs
             typeFunction.memberset("toString", Jsni.function(() => name.As<JsObject>()));
             typeFunction.EnclosingType = enclosingType;
             typeFunction.TypeName = name;
-            typeFunction.PrototypeFactory = prototypeFactory;
-            typeFunction.prototype = Jsni.@new(prototypeFactory.invoke());
+            typeFunction.prototype = Jsni.@new(prototype);
             typeFunction.IsPrototypeInitialized = false;
             typeFunction.TypeInitializer = Jsni.procedure((_t, p) =>
             {
@@ -90,7 +89,7 @@ namespace System.Runtime.WootzJs
                 });
                 p.memberset(SpecialNames.TypeName, t.member(SpecialNames.TypeName));
                 p.___type = t;
-                t.BaseType = prototypeFactory.invoke().As<JsTypeFunction>();
+                t.BaseType = prototype.As<JsTypeFunction>();
 
                 typeInitializer.apply(Jsni.@this(), Jsni.arguments().As<JsArray>());
             });
@@ -143,7 +142,7 @@ namespace System.Runtime.WootzJs
         [Js(Name = SpecialNames.DefineTypeParameter)]
         public static JsTypeFunction DefineTypeParameter(JsFunction assembly, string name, JsTypeFunction prototype)
         {
-            var result = Define(assembly, null, name, false, Jsni.array(), Jsni.function(() => prototype), Jsni.procedure(() => {}));
+            var result = Define(assembly, null, name, false, Jsni.array(), prototype, Jsni.procedure(() => {}));
             result.memberset(SpecialNames.IsTypeParameter, true);
             result.memberset(SpecialNames.CreateType, Jsni.function(() =>
             {
@@ -460,7 +459,7 @@ namespace System.Runtime.WootzJs
 
                 }, SpecialNames.TypeInitializerTypeFunction, SpecialNames.TypeInitializerPrototype);
 
-                var generic = Define(unconstructedType.GetAssembly, unconstructedType.EnclosingType, newTypeName, true, Jsni.array(), Jsni.function(() => prototype), typeInitializer);
+                var generic = Define(unconstructedType.GetAssembly, unconstructedType.EnclosingType, newTypeName, true, Jsni.array(), prototype, typeInitializer);
                 generic.memberset(SpecialNames.UnconstructedType, unconstructedType);
 
                 // unconstructedType.$TypeInitializer.apply(this, [generic, generic.prototype].concat(Array.prototype.slice.call(arguments, 0)));

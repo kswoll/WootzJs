@@ -157,7 +157,7 @@ namespace WootzJs.Compiler
                         ))
                         .ToArray()
                     ),
-                    Js.Function().Body(baseType.Return()),
+                    baseType,
                     typeInitializerFunction
                 };
                 if (classType.ContainingType == null && !classType.IsAnonymousType)
