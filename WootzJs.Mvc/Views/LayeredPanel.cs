@@ -19,7 +19,7 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (background != null)
                 {
-                    Remove(background);
+                    RemoveChild(background);
                     background.Node.Remove();
                 }
                 this.background = value;
@@ -27,7 +27,7 @@ namespace WootzJs.Mvc.Views
                 {
                     var childNode = value.Node;
                     container.AppendChild(childNode);
-                    Add(background);
+                    AddChild(background);
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace WootzJs.Mvc.Views
             else
                 container.AppendChild(wrapper);
 
-            Add(layer);
+            AddChild(layer);
             layers.Add(layer);
             wrappers.Add(wrapper);
         }
@@ -64,7 +64,7 @@ namespace WootzJs.Mvc.Views
             layer.Node.Remove();
             wrapper.Remove();
 
-            Remove(layer);
+            RemoveChild(layer);
             layers.Remove(layer);
             wrappers.Remove(wrapper);
         }

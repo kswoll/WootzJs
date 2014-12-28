@@ -137,5 +137,19 @@ namespace WootzJs.Models
             }
             throw new Exception();
         }
+
+        public void CopyFrom(T source)
+        {
+            foreach (var property in source.properties.Zip(properties, (src, dest) => new { Source = src, Destination = dest }))
+            {
+                if (!property.Destination.IsReadOnly)
+                {
+                    var sourceValue = property.Source.Value;
+                    var destValue = property.Destination.Value;
+                    if (!Equals(sourceValue, destValue))
+                        property.Destination.Value = property.Source.Value;
+                }
+            }
+        }
     }
 }

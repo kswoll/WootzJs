@@ -101,7 +101,7 @@ namespace WootzJs.Mvc.Views
 
         public HorizontalPanel Add(Control child, VerticalAlignment alignment, int spaceBefore)
         {
-            base.Add(child);
+            base.AddChild(child);
 
             var cell = Browser.Document.CreateElement("td");
             var div = Browser.Document.CreateElement("div");

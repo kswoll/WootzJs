@@ -49,7 +49,7 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (header != null)
                 {
-                    Remove(header);
+                    RemoveChild(header);
                     headerNode.Clear();
                 }
                 header = value;
@@ -60,7 +60,7 @@ namespace WootzJs.Mvc.Views
                         FixHeight();
                     else
                         value.AttachedToDom += FixHeight;
-                    Add(header);
+                    AddChild(header);
                 }
             }
         }
@@ -79,14 +79,14 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (content != null)
                 {
-                    Remove(content);
+                    RemoveChild(content);
                     contentNode.Clear();
                 }
                 content = value;
                 if (value != null)
                 {
                     contentNode.AppendChild(value.Node);
-                    Add(content);
+                    AddChild(content);
                 }
             }
         }

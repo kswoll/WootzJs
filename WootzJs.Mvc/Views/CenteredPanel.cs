@@ -51,7 +51,7 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (content != null)
                 {
-                    Remove(content);
+                    RemoveChild(content);
                     content.Node.Remove();
                 }
 
@@ -61,7 +61,7 @@ namespace WootzJs.Mvc.Views
                 {
                     var childNode = value.Node;
                     contentContainer.AppendChild(childNode);
-                    Add(content);
+                    AddChild(content);
                 }
             }
         }

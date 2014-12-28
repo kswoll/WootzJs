@@ -9,16 +9,26 @@ namespace WootzJs.Mvc.Views
     /// </summary>
     public class FlowPanel : Control
     {
-        public new void Add(Control control)
+        public void Add(Control control)
         {
             Node.AppendChild(control.Node);
-            base.Add(control);
+            AddChild(control);
         }
 
-        public new void Remove(Control control)
+        public void Remove(Control control)
         {
-            control.Node.Remove();
-            base.Remove(control);
+            RemoveChild(control);
+        }
+
+        protected override void RemoveChild(Control child)
+        {
+            child.Node.Remove();
+            base.RemoveChild(child);
+        }
+
+        public new void RemoveAll()
+        {
+            base.RemoveAll();
         }
 
         protected override Element CreateNode()

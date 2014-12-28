@@ -76,13 +76,13 @@ namespace WootzJs.Mvc.Views
                 {
                     SlideUp();
                     headerDiv.RemoveChild(header.Node);
-                    Remove(header);
+                    RemoveChild(header);
                 }
                 header = value;
                 if (header != null)
                 {
                     headerDiv.AppendChild(header.Node);
-                    Add(header);
+                    AddChild(header);
                     SlideDown();
                 }
             }
@@ -96,13 +96,13 @@ namespace WootzJs.Mvc.Views
                 if (content != null)
                 {
                     contentDiv.RemoveChild(content.Node);
-                    Remove(content);
+                    RemoveChild(content);
                 }
                 content = value;
                 if (content != null)
                 {
                     contentDiv.AppendChild(content.Node);
-                    Add(content);
+                    AddChild(content);
                 }
             }
         }

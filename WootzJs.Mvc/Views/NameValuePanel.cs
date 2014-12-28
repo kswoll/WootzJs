@@ -70,7 +70,7 @@ namespace WootzJs.Mvc.Views
         {
             var isNameControl = Count % 2 == 0;
             var lastControl = Children.LastOrDefault();
-            base.Add(control);
+            base.AddChild(control);
             var cell = table.Add(control, isNameControl ?
                 TableConstraint.Alignment(HorizontalAlignment.Right) :
                 TableConstraint.Alignment(HorizontalAlignment.Left));

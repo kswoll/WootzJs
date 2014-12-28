@@ -276,14 +276,14 @@ namespace WootzJs.Mvc.Views
             {
                 if (top != null)
                 {
-                    Remove(top);
+                    RemoveChild(top);
                     RemoveTopCell();
                 }
                 top = value;
                 if (top != null)
                 {
                     GetTopCell().AppendChild(value.Node);
-                    Add(top);
+                    AddChild(top);
                 }
             }
         }
@@ -295,14 +295,14 @@ namespace WootzJs.Mvc.Views
             {
                 if (bottom != null)
                 {
-                    Remove(bottom);
+                    RemoveChild(bottom);
                     RemoveBottomCell();
                 }
                 bottom = value;
                 if (bottom != null)
                 {
                     GetBottomCell().AppendChild(value.Node);
-                    Add(bottom);
+                    AddChild(bottom);
                 }
             }
         }
@@ -314,14 +314,14 @@ namespace WootzJs.Mvc.Views
             {
                 if (left != null)
                 {
-                    Remove(left);
+                    RemoveChild(left);
                     RemoveLeftCell();
                 }
                 left = value;
                 if (left != null)
                 {
                     GetLeftCell().AppendChild(value.Node);
-                    Add(left);
+                    AddChild(left);
                 }
             }
         }
@@ -333,14 +333,14 @@ namespace WootzJs.Mvc.Views
             {
                 if (center != null)
                 {
-                    Remove(center);
+                    RemoveChild(center);
                     RemoveCenterCell();
                 }
                 center = value;
                 if (center != null)
                 {
                     GetCenterCell().AppendChild(value.Node);
-                    Add(center);
+                    AddChild(center);
                 }
             }
         }
@@ -352,14 +352,14 @@ namespace WootzJs.Mvc.Views
             {
                 if (right != null)
                 {
-                    Remove(right);
+                    RemoveChild(right);
                     RemoveRightCell();
                 }
                 right = value;
                 if (right != null)
                 {
                     GetRightCell().AppendChild(value.Node);
-                    Add(right);
+                    AddChild(right);
                 }
             }
         }

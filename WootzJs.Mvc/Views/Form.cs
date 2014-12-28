@@ -30,13 +30,13 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (content != null)
                 {
-                    Remove(content);
+                    RemoveChild(content);
                     form.RemoveChild(content.Node);
                 }
                 content = value;
                 if (content != null)
                 {
-                    Add(content);
+                    AddChild(content);
                     form.AppendChild(content.Node);
                 }
             }

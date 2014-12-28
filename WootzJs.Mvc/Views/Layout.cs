@@ -11,13 +11,13 @@ namespace WootzJs.Mvc.Views
         {
             OnAddView(view);
             subviews.Add(view);
-            view.NotifyViewAdded();
+            view.NotifyViewAttached();
         }
 
         public void RemoveView(View view)
         {
             subviews.Remove(view);
-            view.NotifyViewRemoved();
+            view.NotifyViewDetached();
         }
 
         protected virtual void OnAddView(View view)

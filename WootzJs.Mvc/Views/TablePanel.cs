@@ -109,7 +109,7 @@ namespace WootzJs.Mvc.Views
 
         public Element Add(Control cell, TableConstraint constraint)
         {
-            base.Add(cell);
+            base.AddChild(cell);
 
             var nextEmptyCell = GetNextEmptyCell();
             constraint = constraint ?? DefaultConstraint;

@@ -35,7 +35,7 @@ namespace WootzJs.Mvc.Views
             {
                 if (content != null)
                 {
-                    Remove(content);
+                    RemoveChild(content);
                     content.Node.Remove();
                 }
 
@@ -47,7 +47,7 @@ namespace WootzJs.Mvc.Views
                     childNode.Style.Width = "100%";
                     childNode.Style.Height = "100%";
                     Node.AppendChild(childNode);
-                    Add(content);
+                    AddChild(content);
                 }
             }
         }

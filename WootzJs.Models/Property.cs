@@ -61,6 +61,11 @@ namespace WootzJs.Models
             get { return propertyInfo.DeclaringType.FullName + "." + Name; }
         }
 
+        public bool IsReadOnly
+        {
+            get { return !propertyInfo.CanWrite; }
+        }
+
         public PropertyInfo PropertyInfo
         {
             get { return propertyInfo; }

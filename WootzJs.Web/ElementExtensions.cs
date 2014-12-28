@@ -1,4 +1,6 @@
-﻿namespace WootzJs.Web
+﻿using System;
+
+namespace WootzJs.Web
 {
     public static class ElementExtensions
     {
@@ -47,6 +49,15 @@
         /// </summary>
         public static int MeasureOffsetHeight(this Element element)
         {
+            if (Browser.Document.Body.Contains(element))
+            {
+                return element.OffsetHeight;
+            }
+            if (element.ParentNode != null)
+            {
+                throw new Exception("Do not use this method no an element that has already been attached to a parent but is not part of the document.");
+            }
+
             var measuringContainer = Browser.Document.CreateElement("div");
             measuringContainer.Style.Position = "absolute";
             measuringContainer.Style.Visibility = "hidden";
@@ -54,7 +65,7 @@
             measuringContainer.AppendChild(element);
             var result = element.OffsetHeight;
             measuringContainer.RemoveChild(element);
-            Browser.Document.Body.RemoveChild(element);
+            Browser.Document.Body.RemoveChild(measuringContainer);
             return result;
         }
     }

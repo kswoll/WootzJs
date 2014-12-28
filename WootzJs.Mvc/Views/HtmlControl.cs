@@ -15,12 +15,12 @@ namespace WootzJs.Mvc.Views
         public new void Add(Control child)
         {
             Node.AppendChild(child.Node);
-            base.Add(child);
+            base.AddChild(child);
         }
 
         public new void Remove(Control child)
         {
-            base.Remove(child);
+            base.RemoveChild(child);
             child.Node.Remove();
         }
     }

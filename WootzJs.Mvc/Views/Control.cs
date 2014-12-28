@@ -148,7 +148,7 @@ namespace WootzJs.Mvc.Views
             get { return children; }
         }
 
-        protected void Add(Control child)
+        protected virtual void AddChild(Control child)
         {
             if (child == null)
                 throw new ArgumentNullException("child");
@@ -160,7 +160,7 @@ namespace WootzJs.Mvc.Views
             child.OnAdded();
         }
 
-        protected void Remove(Control child)
+        protected virtual void RemoveChild(Control child)
         {
             if (child.Parent != this)
                 throw new Exception("The specified child is not contained in this container");
@@ -179,7 +179,7 @@ namespace WootzJs.Mvc.Views
         protected void RemoveAll()
         {
             while (Count > 0)
-                Remove(this[0]);
+                RemoveChild(this[0]);
         }
 
         public int Count

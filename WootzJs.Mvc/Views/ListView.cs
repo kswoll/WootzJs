@@ -32,7 +32,7 @@ namespace WootzJs.Mvc.Views
             Style.BackgroundColor = CssColor.White;
             Style.Border = new CssBorder(1, CssBorderStyle.Solid, CssColor.Black);
 
-            Add(list);
+            AddChild(list);
         }
 
         protected override Element CreateNode()

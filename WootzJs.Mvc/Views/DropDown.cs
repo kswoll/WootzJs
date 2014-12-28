@@ -50,14 +50,14 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (content != null)
                 {
-                    Remove(content);
+                    RemoveChild(content);
                     content.Node.Remove();
                 }
                 content = value;
                 if (content != null)
                 {
                     contentNode.AppendChild(content.Node);
-                    Add(value);
+                    AddChild(value);
                 }
             }
         }
@@ -70,14 +70,14 @@ namespace WootzJs.Mvc.Views
                 EnsureNodeExists();
                 if (overlay != null)
                 {
-                    Remove(overlay);
+                    RemoveChild(overlay);
                     overlay.Node.Remove();
                 }
                 overlay = value;
                 if (overlay != null)
                 {
                     overlayContainer.AppendChild(overlay.Node);
-                    Add(overlay);
+                    AddChild(overlay);
                 }
             }
         }

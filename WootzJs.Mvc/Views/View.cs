@@ -6,6 +6,9 @@ namespace WootzJs.Mvc.Views
 {
     public class View 
     {
+        public event Action Attached;
+        public event Action Detached;
+
         public Layout Layout { get; private set; }
         public Type LayoutType { get; set; }
         public string Title { get; set; }
@@ -82,22 +85,26 @@ namespace WootzJs.Mvc.Views
             return (Layout)ViewContext.ControllerContext.Application.DependencyResolver.GetService(LayoutType);
         }
 
-        internal void NotifyViewAdded()
+        internal void NotifyViewAttached()
         {
-            OnViewAdded();
+            OnViewAttached();
         }
 
-        internal void NotifyViewRemoved()
+        internal void NotifyViewDetached()
         {
-            OnViewRemoved();
+            OnViewDetached();
         }
 
-        protected virtual void OnViewAdded()
+        protected virtual void OnViewAttached()
         {
+            if (Attached != null)
+                Attached();
         }
 
-        protected virtual void OnViewRemoved()
+        protected virtual void OnViewDetached()
         {
+            if (Detached != null)
+                Detached();
         }
     }
 

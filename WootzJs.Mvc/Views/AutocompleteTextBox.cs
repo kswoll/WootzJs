@@ -40,10 +40,10 @@ namespace WootzJs.Mvc.Views
             overlay.Style.MinHeight = new CssNumericValue(200, CssUnit.Pixels);
             overlay.Style.Cursor = CssCursor.Default;
             overlay.Changed += OverlayChanged;
-            Add(overlay);
+            AddChild(overlay);
 
             loadingIcon.Style.Display = CssDisplay.None;
-            Add(loadingIcon);
+            AddChild(loadingIcon);
         }
 
         public string Text

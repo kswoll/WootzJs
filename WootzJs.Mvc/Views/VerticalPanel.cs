@@ -9,6 +9,8 @@ namespace WootzJs.Mvc.Views
     {
         public HorizontalAlignment DefaultAlignment { get; set; }
 
+        private const int AnimationSpeed = 250;
+
         private Element table;
         private Element firstSpacer;
         private Element lastSpacer;
@@ -149,7 +151,7 @@ namespace WootzJs.Mvc.Views
             if (Count > 0)
                 spaceAbove += spacing;
 
-            base.Add(child);
+            base.AddChild(child);
 
             var row = Browser.Document.CreateElement("tr");
             var cell = Browser.Document.CreateElement("td");
@@ -193,7 +195,7 @@ namespace WootzJs.Mvc.Views
                         div.Style.Height = newHeight + "px";
                         row.Style.Display = "";
                     },
-                    10000,
+                    AnimationSpeed,
                     () =>
                     {
                         div.Style.Overflow = "";
@@ -237,28 +239,52 @@ namespace WootzJs.Mvc.Views
                 throw new Exception("Cannot replace out a child that is not contained by this control");
 
             oldChild.Node.ParentElement.ReplaceChild(newChild.Node, oldChild.Node);
-            base.Remove(oldChild);
-            base.Add(newChild);
+            RemoveChild(oldChild);
+            AddChild(newChild);
         }
 
-        public new void Remove(Control child)
+        public void Remove(Control child, bool animate = false)
         {
-            base.Remove(child);
-
             var div = child.Node.ParentElement;
             var cell = div.ParentElement;
             var row = cell.ParentElement;
 
-            div.RemoveChild(child.Node);
-            table.RemoveChild(row);
+            if (animate)
+            {
+                int height = row.MeasureOffsetHeight();
+                div.Style.Overflow = "hidden";
+                Animator.Animate(
+                    progress =>
+                    {
+                        var newHeight = (int)(height * (1 - progress));
+                        div.Style.Height = newHeight + "px";
+                    },
+                    AnimationSpeed,
+                    () =>
+                    {
+                        div.Style.Overflow = "";
+                        div.Style.Height = "";
+                        div.RemoveChild(child.Node);
+                        table.RemoveChild(row);
+ 	                    base.RemoveChild(child);
+                    });
+            }
+            else
+            {
+                div.RemoveChild(child.Node);
+                table.RemoveChild(row);                
+     	        base.RemoveChild(child);
+            }
         }
 
-        public void Clear()
+        protected override void RemoveChild(Control child)
         {
-            foreach (var child in Children.ToArray())
-            {
-                Remove(child);
-            }
+            Remove(child);
+        }
+
+        public new void RemoveAll()
+        {
+            base.RemoveAll();
         }
     }
 }

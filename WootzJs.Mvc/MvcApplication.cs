@@ -118,20 +118,6 @@ namespace WootzJs.Mvc
             style.AppendChild(Browser.Document.CreateTextNode(""));  // Webkit hack
             Browser.Document.Head.AppendChild(style);
             var styleSheet = style.As<JsObject>()["sheet"].As<StyleSheet>();
-            
-            // Reset the styles to a clean base
-/*
-            styleSheet.InsertRule("html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; }", 0);
-            styleSheet.InsertRule("strong, b { font-weight: bold; }", 0);
-            styleSheet.InsertRule("* { box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; }", 0);
-            styleSheet.InsertRule("article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }", 0);
-            styleSheet.InsertRule("html, body { height: 100%; }", 0);
-            styleSheet.InsertRule("ol, ul { list-style: none; }", 0);
-            styleSheet.InsertRule("blockquote, q { quotes: none; }", 0);
-            styleSheet.InsertRule("blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }", 0);
-            styleSheet.InsertRule("table { border-collapse: separate; border-spacing: 0; }", 0);
-*/
-
             GlobalStyle = new GlobalStyle(styleSheet);
         }
 
@@ -175,9 +161,13 @@ namespace WootzJs.Mvc
             else
             {
                 if (this.view != null)
+                {
+                    this.view.NotifyViewDetached();
                     body.Remove(this.view.Content);
+                }
 
                 var rootView = view.GetRootView();
+                rootView.NotifyViewAttached();
                 body.Add(rootView.Content);
                 this.view = rootView;
             }
@@ -260,7 +250,6 @@ namespace WootzJs.Mvc
 
         protected virtual void OnBindModel(Controller controller, Model model)
         {
-//            model.ControllerContext = controller.ControllerContext;
         }
     }
 }

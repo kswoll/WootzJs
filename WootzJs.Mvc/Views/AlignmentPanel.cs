@@ -79,13 +79,13 @@ namespace WootzJs.Mvc.Views
                 if (content != null)
                 {
                     content.Node.Remove();
-                    Remove(content);                    
+                    RemoveChild(content);                    
                 }
                 content = value;
                 if (content != null)
                 {
                     cellDiv.AppendChild(content.Node);
-                    Add(content);                    
+                    AddChild(content);                    
                 }
             }
         }

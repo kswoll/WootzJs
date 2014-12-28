@@ -86,7 +86,7 @@ namespace WootzJs.Mvc.Views
             if (useTextMode)
                 Node.InnerHtml = "";
 
-            base.Add(child);
+            base.AddChild(child);
             Node.AppendChild(child.Node);
             useTextMode = false;
         }
@@ -105,7 +105,7 @@ namespace WootzJs.Mvc.Views
         /// </summary>
         public new void Remove(Control child)
         {
-            base.Remove(child);
+            base.RemoveChild(child);
         }
     }
 }

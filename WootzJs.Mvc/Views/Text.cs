@@ -18,5 +18,10 @@ namespace WootzJs.Mvc.Views
             get { return Node.InnerHtml; }
             set { Node.InnerHtml = value; }
         }
+
+        public static implicit operator Text(string text)
+        {
+            return new Text(text);
+        }
     }
 }
