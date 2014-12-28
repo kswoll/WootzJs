@@ -429,18 +429,30 @@ namespace WootzJs.Compiler
         private JsExpression CreateEventInfos(INamedTypeSymbol type)
         {
             var result = Js.Array();
-            foreach (var property in type.GetMembers().OfType<IEventSymbol>())
+            foreach (var eventSymbol in type.GetMembers().OfType<IEventSymbol>())
             {
-                if (!property.IsExported())
+                if (!eventSymbol.IsExported())
                     continue;
 
-                var propertyInfo = CreateObject(Context.Instance.EventInfoConstructor, 
-                    Js.Primitive(property.Name),
-                    Type(property.Type, true),
-                    property.AddMethod != null ? CreateMethodInfo(property.AddMethod) : Js.Null(),
-                    property.RemoveMethod != null ? CreateMethodInfo(property.RemoveMethod) : Js.Null(),
-                    CreateAttributes(property));
-                result.Elements.Add(propertyInfo);
+                JsExpression delegateField = Js.Null();
+                if (eventSymbol.DeclaringSyntaxReferences.First().GetSyntax() is VariableDeclaratorSyntax)
+                {
+                    delegateField = CreateObject(Context.Instance.FieldInfoConstructor, 
+                        Js.Primitive(eventSymbol.GetBackingFieldName()),
+                        Type(eventSymbol.Type, true),
+                        GetEnumValue(Context.Instance.FieldAttributesPrivate),
+                        Js.Null(),
+                        MakeArray(Js.Array(), Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.Attribute)));
+                }
+                        
+                var eventInfo = CreateObject(Context.Instance.EventInfoConstructor, 
+                    Js.Primitive(eventSymbol.Name),
+                    Type(eventSymbol.Type, true),
+                    eventSymbol.AddMethod != null ? CreateMethodInfo(eventSymbol.AddMethod) : Js.Null(),
+                    eventSymbol.RemoveMethod != null ? CreateMethodInfo(eventSymbol.RemoveMethod) : Js.Null(),
+                    delegateField,
+                    CreateAttributes(eventSymbol));
+                result.Elements.Add(eventInfo);
             }
             return MakeArray(result, Context.Instance.Compilation.CreateArrayTypeSymbol(Context.Instance.EventInfo));
         }

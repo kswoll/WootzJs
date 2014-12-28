@@ -35,12 +35,14 @@ namespace System.Reflection
         private Type eventType;
         private MethodInfo addMethod;
         private MethodInfo removeMethod;
+        private FieldInfo delegateField;
 
-        public EventInfo(string name, Type eventType, MethodInfo addMethod, MethodInfo removeMethod, Attribute[] attributes) : base(name, attributes)
+        public EventInfo(string name, Type eventType, MethodInfo addMethod, MethodInfo removeMethod, FieldInfo delegateField, Attribute[] attributes) : base(name, attributes)
         {
             this.eventType = eventType;
             this.addMethod = addMethod;
             this.removeMethod = removeMethod;
+            this.delegateField = delegateField;
         }
 
         /// <summary>
@@ -53,6 +55,11 @@ namespace System.Reflection
         public override MemberTypes MemberType
         {
             get { return MemberTypes.Event; }
+        }
+
+        public FieldInfo DelegateField
+        {
+            get { return delegateField; }
         }
 
         /// <summary>

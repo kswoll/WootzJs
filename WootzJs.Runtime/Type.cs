@@ -268,6 +268,16 @@ namespace System
             return result.ToArray();
         }
 
+        public EventInfo GetEvent(string name)
+        {
+            foreach (var eventInfo in GetEvents())
+            {
+                if (eventInfo.Name == name)
+                    return eventInfo;
+            }
+            return null;
+        }
+
         public MethodInfo[] GetMethods()
         {
             IEnumerable<MethodInfo> result = methods;

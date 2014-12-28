@@ -182,5 +182,22 @@ namespace WootzJs.Compiler.Tests
                 m2 = "M2";
             }
         }
+
+        [Test]
+        public void AutoEventFieldInvoke()
+        {
+            var o = new AutoEventFieldClass();
+            var flag = false;
+            o.MyEvent += () => flag = true;
+            var eventInfo = o.GetType().GetEvent("MyEvent");
+            var @delegate = (Action)eventInfo.DelegateField.GetValue(o);
+            @delegate();
+            AssertTrue(flag);
+        }
+
+        public class AutoEventFieldClass
+        {
+            public event Action MyEvent;
+        }
     }
 }
