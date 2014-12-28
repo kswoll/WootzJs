@@ -195,6 +195,18 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(flag);
         }
 
+        [Test]
+        public void AutoEventFieldDelegateInvoke()
+        {
+            var o = new AutoEventFieldClass();
+            var flag = false;
+            o.MyEvent += () => flag = true;
+            var eventInfo = o.GetType().GetEvent("MyEvent");
+            var @delegate = (Delegate)eventInfo.DelegateField.GetValue(o);
+            @delegate.DynamicInvoke();
+            AssertTrue(flag);
+        }
+
         public class AutoEventFieldClass
         {
             public event Action MyEvent;
