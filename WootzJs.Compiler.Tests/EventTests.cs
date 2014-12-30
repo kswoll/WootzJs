@@ -207,9 +207,22 @@ namespace WootzJs.Compiler.Tests
             AssertTrue(flag);
         }
 
+        [Test]
+        public void AutoEventFieldDelegateInvokeWithStringArg()
+        {
+            var o = new AutoEventFieldClass();
+            var s = "";
+            o.MyStringEvent += x => s = x;
+            var eventInfo = o.GetType().GetEvent("MyStringEvent");
+            var @delegate = (Delegate)eventInfo.DelegateField.GetValue(o);
+            @delegate.DynamicInvoke("foo");
+            AssertEquals(s, "foo");
+        }
+
         public class AutoEventFieldClass
         {
             public event Action MyEvent;
+            public event Action<string> MyStringEvent;
         }
     }
 }
