@@ -262,6 +262,22 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public async Task TryAwaitInCatch()
+        {
+            var flag = false;
+            try
+            {
+                throw new Exception();
+            }
+            catch (Exception e)
+            {
+                await CompletionSource(false);
+                flag = true;
+            }
+            AssertTrue(flag);
+        }
+
+        [Test]
         public async Task TryExceptionCompletionSource()
         {
             try
