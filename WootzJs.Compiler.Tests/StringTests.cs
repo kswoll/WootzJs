@@ -218,5 +218,14 @@ namespace WootzJs.Compiler.Tests
             var s = "'foo'";
             AssertEquals(s.Length, 5);
         }
+
+        [Test]
+        public void Interpolation()
+        {
+            var number = 54;
+            var str = "hello";
+            var s = $"Output: {str}: {number}";
+            AssertEquals(s, "Output: hello: 54");
+        }
     }
 }

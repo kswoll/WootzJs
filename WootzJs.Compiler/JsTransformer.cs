@@ -2316,7 +2316,6 @@ namespace WootzJs.Compiler
             else
             {
                 var invocationExpression = (InvocationExpressionSyntax)node.WhenNotNull;
-                var memberBinding = (MemberBindingExpressionSyntax)invocationExpression.Expression;
                 var member = (IMethodSymbol)model.GetSymbolInfo(invocationExpression).Symbol;                
                 var actualArguments = invocationExpression.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
                 return idioms.InvokeStatic
@@ -2327,6 +2326,29 @@ namespace WootzJs.Compiler
                     Js.Function(Js.Parameter("$target")).Body(idioms.Invoke(Js.Reference("$target"), member, actualArguments).Return())
                 );
             }
+        }
+
+        public override JsNode VisitInterpolatedString(InterpolatedStringSyntax node)
+        {
+            var stringParts = new List<JsExpression>();
+            if (node.StringStart.ValueText.Length > 0)
+                stringParts.Add(Js.Literal(node.StringStart.Value));
+            foreach (var insert in node.InterpolatedInserts.GetWithSeparators())
+            {
+                if (insert.IsToken)
+                    stringParts.Add(Js.Literal(insert.AsToken().Value));
+                else
+                    stringParts.Add((JsExpression)((InterpolatedStringInsertSyntax)insert.AsNode()).Expression.Accept(this));
+            }
+            if (node.StringEnd.ValueText.Length > 0)
+                stringParts.Add(Js.Literal(node.StringEnd.Value));
+
+            var current = stringParts.First();
+            foreach (var rest in stringParts.Skip(1))
+            {
+                current = current.Add(rest);
+            }
+            return current;
         }
 
         public override JsNode VisitIncompleteMember(IncompleteMemberSyntax node)
