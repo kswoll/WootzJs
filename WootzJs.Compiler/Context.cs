@@ -216,6 +216,7 @@ namespace WootzJs.Compiler
         public IMethodSymbol AsyncTaskTMethodBuilderStart { get; private set; }
         public INamedTypeSymbol CallerMemberNameAttribute { get; private set; }
         public INamedTypeSymbol CultureInfo { get; private set; }
+        public IMethodSymbol NullPropagation { get; private set; }
 //        public NamedTypeSymbol IAutoNotifyPropertyChanged { get; private set; }
 //        public MethodSymbol NotifyPropertyChanged { get; private set; }
 
@@ -407,6 +408,7 @@ namespace WootzJs.Compiler
             YieldIterator = compilation.FindType("System.YieldIterator`1");
             YieldIteratorClone = YieldIterator.GetMethodByName("Clone");
             YieldIteratorDoMoveNext = YieldIterator.GetMethodByName("DoMoveNext");
+            NullPropagation = SpecialFunctions.GetMethod("NullPropagation");
 
 //            IAutoNotifyPropertyChanged = compilation.FindType("System.Runtime.WootzJs.IAutoNotifyPropertyChanged");
 //            NotifyPropertyChanged = IAutoNotifyPropertyChanged.GetMethod("NotifyPropertyChanged");

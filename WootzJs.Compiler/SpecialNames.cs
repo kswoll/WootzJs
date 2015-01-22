@@ -71,5 +71,6 @@ namespace System.Runtime.WootzJs
         public const string EnclosingType = "$enclosingType";
         public const string CallTypeInitializer = "$callTypeInitializer";
         public const string AssemblyTypesArray = "$AssemblyTypes";
+        public const string NullPropagation = "$nullprop";
     }
 }

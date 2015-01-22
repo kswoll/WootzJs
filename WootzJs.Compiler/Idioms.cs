@@ -697,9 +697,9 @@ namespace WootzJs.Compiler
                     continue;
                 if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
                 {
-                    var initializer = DefaultValue(propertySymbol.Type);
+                    var initializer = property.Initializer == null ? DefaultValue(propertySymbol.Type) : (JsExpression)property.Initializer.Accept(transformer);
                     if (propertySymbol.IsStatic)
-                        result.Assign(Js.This().Member(propertySymbol.GetMemberName()), initializer);
+                        result.Add(StoreInType(propertySymbol.GetMemberName(), initializer));
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
@@ -707,13 +707,14 @@ namespace WootzJs.Compiler
             {
                 var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
                 var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
-                if (getter == null && setter == null)
+                var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
+                if (!IsMinimizedAutoProperty(property) && getter != null && setter != null && getter.Body == null && setter.Body == null)
                 {
-                    var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
                     if (property.IsStatic)
                     {
                         var backingField = property.GetBackingFieldName();
-                        result.Add(StoreInType(backingField, DefaultValue(property.Type)));
+                        var initializer = node.Initializer == null ? DefaultValue(property.Type) : (JsExpression)node.Initializer.Accept(transformer);
+                        result.Add(StoreInType(backingField, initializer));
                     }
                 }
             }
@@ -749,7 +750,7 @@ namespace WootzJs.Compiler
                     continue;
                 if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
                 {
-                    var initializer = DefaultValue(propertySymbol.Type);
+                    var initializer = property.Initializer == null ? DefaultValue(propertySymbol.Type) : (JsExpression)property.Initializer.Accept(transformer);
                     if (!propertySymbol.IsStatic)
                         result.Assign(Js.This().Member(propertySymbol.GetMemberName()), initializer);
                 }
@@ -759,13 +760,14 @@ namespace WootzJs.Compiler
             {
                 var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
                 var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
-                if (getter != null && setter != null && getter.Body == null && setter.Body == null)
+                var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
+                if (!IsMinimizedAutoProperty(property) && getter != null && setter != null && getter.Body == null && setter.Body == null)
                 {
-                    var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
                     if (!property.IsStatic)
                     {
                         var backingField = property.GetBackingFieldName();
-                        result.Assign(Js.This().Member(backingField), DefaultValue(property.Type));
+                        var initializer = node.Initializer == null ? DefaultValue(property.Type) : (JsExpression)node.Initializer.Accept(transformer);
+                        result.Assign(Js.This().Member(backingField), initializer);
                     }
                 }
             }
@@ -1601,6 +1603,21 @@ namespace WootzJs.Compiler
             return false;
         }
 
+        public bool TryNameofInvocation(InvocationExpressionSyntax node, IMethodSymbol method, out JsExpression result)
+        {
+            if (node.Expression.CSharpKind() != SyntaxKind.IdentifierName ||
+                ((IdentifierNameSyntax)node.Expression).Identifier.CSharpContextualKind() != SyntaxKind.NameOfKeyword ||
+                node.ArgumentList.Arguments.Count != 1)
+            {
+                result = null;
+                return false;
+            }
+
+            var identifier = (IdentifierNameSyntax)node.ArgumentList.Arguments[0].Expression;
+            result = Js.Literal(identifier.Identifier.ToString());
+            return true;
+        }
+
         public bool TryBaseMethodInvocation(InvocationExpressionSyntax node, IMethodSymbol method, JsExpression[] arguments, out JsExpression result)
         {
             if (node.Expression is MemberAccessExpressionSyntax)
@@ -2082,7 +2099,7 @@ namespace WootzJs.Compiler
             var jsElementType = Type(elementType);
 
             // If it's a normal type, we need to invoke it to ensure static initializers are executed.
-            if (elementType.IsExported() && !elementType.IsBuiltIn() && elementType.TypeKind != TypeKind.TypeParameter && elementType.TypeKind != TypeKind.ArrayType)
+            if (elementType.IsExported() && !elementType.IsBuiltIn() && elementType.TypeKind != TypeKind.TypeParameter && elementType.TypeKind != TypeKind.Array)
                 jsElementType = jsElementType.Invoke();
 
             return Js.Reference(SpecialNames.MakeArrayType).Invoke(jsElementType);
@@ -2100,7 +2117,7 @@ namespace WootzJs.Compiler
 
         public JsExpression TypeAndResolve(ITypeSymbol type)
         {
-            if (!type.IsExported() || type.IsBuiltIn() || type.TypeKind == TypeKind.ArrayType || type.TypeKind == TypeKind.TypeParameter)
+            if (!type.IsExported() || type.IsBuiltIn() || type.TypeKind == TypeKind.Array || type.TypeKind == TypeKind.TypeParameter)
                 return Type(type);
             else 
                 return Type(type).Invoke();

@@ -386,7 +386,7 @@ namespace WootzJs.Compiler
                     }
                     setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
 
-                    block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));                    
+                    block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));
                 }
             }
             else
@@ -910,11 +910,15 @@ namespace WootzJs.Compiler
 
         public override JsNode VisitInvocationExpression(InvocationExpressionSyntax node)
         {
+            JsExpression specialResult;
             var symbol = model.GetSymbolInfo(node).Symbol;
             var method = (IMethodSymbol)symbol;
+
+            if (idioms.TryNameofInvocation(node, method, out specialResult))
+                return ImplicitCheck(node, specialResult);
+
             var actualArguments = node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
 
-            JsExpression specialResult;
             if (idioms.TryBaseMethodInvocation(node, method, actualArguments, out specialResult))
                 return ImplicitCheck(node, specialResult);
 
@@ -2285,6 +2289,44 @@ namespace WootzJs.Compiler
             else 
                 DeclareInCurrentScope(symbol, new Idioms.ReferenceParameterDeclaration(parameter));
             return parameter;
+        }
+
+        // Null-propagating operator
+        public override JsNode VisitConditionalAccessExpression(ConditionalAccessExpressionSyntax node)
+        {
+            var expression = (JsExpression)node.Expression.Accept(this);
+            var type = model.GetTypeInfo(node).ConvertedType;
+            if (Equals(type.OriginalDefinition, Context.Instance.NullableType))
+            {
+                type = type.GetGenericArgument(Context.Instance.NullableType, 0);
+            }
+
+            if (node.WhenNotNull is MemberBindingExpressionSyntax)
+            {
+                var memberBinding = (MemberBindingExpressionSyntax)node.WhenNotNull;
+                var member = model.GetSymbolInfo(memberBinding).Symbol;                
+                return idioms.InvokeStatic
+                (
+                    Context.Instance.NullPropagation, 
+                    expression, 
+                    idioms.DefaultValue(type), 
+                    Js.Function(Js.Parameter("$target")).Body(idioms.MemberReference(Js.Reference("$target"), member).Return())
+                );
+            }
+            else
+            {
+                var invocationExpression = (InvocationExpressionSyntax)node.WhenNotNull;
+                var memberBinding = (MemberBindingExpressionSyntax)invocationExpression.Expression;
+                var member = (IMethodSymbol)model.GetSymbolInfo(invocationExpression).Symbol;                
+                var actualArguments = invocationExpression.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
+                return idioms.InvokeStatic
+                (
+                    Context.Instance.NullPropagation, 
+                    expression, 
+                    idioms.DefaultValue(type), 
+                    Js.Function(Js.Parameter("$target")).Body(idioms.Invoke(Js.Reference("$target"), member, actualArguments).Return())
+                );
+            }
         }
 
         public override JsNode VisitIncompleteMember(IncompleteMemberSyntax node)

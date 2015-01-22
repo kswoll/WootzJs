@@ -38,7 +38,7 @@
     <StartupObject>WootzJs.Compiler.Tests.TestsApplication</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnonymousTypeTests.cs" />
@@ -89,7 +89,9 @@
     <Compile Include="Linq\Expressions\UnaryExpressionTests.cs" />
     <Compile Include="MathTests.cs" />
     <Compile Include="MethodTests.cs" />
+    <Compile Include="NameofTests.cs" />
     <Compile Include="NullableTests.cs" />
+    <Compile Include="NullPropagatingTests.cs" />
     <Compile Include="NumberTests.cs" />
     <Compile Include="ObjectInitializerTests.cs" />
     <Compile Include="OperatorOverloadTests.cs" />

@@ -101,6 +101,15 @@ namespace System.Runtime.WootzJs
             return typeFunction;
         }
 
+        [Js(Name = SpecialNames.NullPropagation)]
+        public static JsObject NullPropagation(JsObject target, JsObject ifNull, JsFunction ifNotNull)
+        {
+            if (target == null)
+                return ifNull;
+            else
+                return ifNotNull.invoke(target);
+        }
+
         [Js(Name = SpecialNames.DefineStaticConstructor)]
         public static JsFunction DefineStaticConstructor(JsTypeFunction enclosingType, JsFunction implementation)
         {

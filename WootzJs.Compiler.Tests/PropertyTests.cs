@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Runtime.WootzJs;
 using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
@@ -116,6 +117,45 @@ namespace WootzJs.Compiler.Tests
                 get { return stringArray[index]; }
                 set { stringArray[index] = value; }
             }
+        }
+
+        [Test]
+        public void InstanceInitializer()
+        {
+            var obj = new InitializerClass();
+            AssertEquals(obj.InstanceInitializer, "InstanceInitializer");
+        }
+
+        [Test]
+        public void MinimizedInstanceInitializer()
+        {
+            var obj = new InitializerClass();
+            AssertEquals(obj.MinimizedInstanceInitializer, "MinimizedInstanceInitializer");
+        }
+
+        [Test]
+        public void StaticInitializer()
+        {
+            AssertEquals(InitializerClass.StaticInitializer, "StaticInitializer");
+        }
+
+        [Test]
+        public void MinimizedStaticInitializer()
+        {
+            AssertEquals(InitializerClass.MinimizedStaticInitializer, "MinimizedStaticInitializer");
+        }
+
+        public class InitializerClass
+        {
+            public string InstanceInitializer { get; private set; } = "InstanceInitializer";
+
+            [Js(AreAutoPropertiesMinimized = true)]
+            public string MinimizedInstanceInitializer { get; private set; } = "MinimizedInstanceInitializer";
+
+            public static string StaticInitializer { get; private set; } = "StaticInitializer";
+
+            [Js(AreAutoPropertiesMinimized = true)]
+            public static string MinimizedStaticInitializer { get; private set; } = "MinimizedStaticInitializer";
         }
     }
 }
