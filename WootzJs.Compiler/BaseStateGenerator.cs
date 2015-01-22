@@ -792,10 +792,21 @@ namespace WootzJs.Compiler
                 // to the actual catch state and also stores the exception in the correct identifier.
                 var thisCatchStatements = Js.Block();
                 thisCatchStatements.Express(newIdentifier.SetReference().Assign(exceptionIdentifier.GetReference()));
-                thisCatchStatements.AddRange(GotoStateStatements(catchState));
+
+                // Apply filter if present
+                if (catchClause.Filter != null)
+                {
+                    var filter = (JsExpression)catchClause.Filter.FilterExpression.Accept(Transformer);
+                    thisCatchStatements.Add(Js.If(filter, Js.Block(GotoStateStatements(catchState))));
+                }
+                else
+                {
+                    thisCatchStatements.AddRange(GotoStateStatements(catchState));
+                }
 
                 // Only do the above if the current exception is of the type expected by the catch handler.
-                catchBlock.Add(Js.If(Idioms.Is(exceptionIdentifier.GetReference(), exceptionType), thisCatchStatements));
+                var condition = Idioms.Is(exceptionIdentifier.GetReference(), exceptionType);
+                catchBlock.Add(Js.If(condition, thisCatchStatements));
             }
             if (node.Finally != null)
             {

@@ -278,6 +278,29 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public async Task TryWithExceptionFilter()
+        {
+            var result = 0;
+            try
+            {
+                throw new Exception("foo");
+            }
+            catch (Exception e) if (e.Message == "bar")
+            {
+                result = 1;
+            }
+            catch (Exception e) if (e.Message == "foo")
+            {
+                result = 2;
+            }
+            catch (Exception e)
+            {
+                result = 3;
+            }
+            AssertEquals(result, 2);
+        }
+
+        [Test]
         public async Task TryExceptionCompletionSource()
         {
             try
