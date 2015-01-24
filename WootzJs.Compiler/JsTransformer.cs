@@ -2343,6 +2343,10 @@ namespace WootzJs.Compiler
             if (node.StringEnd.ValueText.Length > 0)
                 stringParts.Add(Js.Literal(node.StringEnd.Value));
 
+            // If the interpolated string is just $"" then there will be no string parts. So just return the empty string.
+            if (!stringParts.Any())
+                return Js.Literal("");
+
             var current = stringParts.First();
             foreach (var rest in stringParts.Skip(1))
             {
