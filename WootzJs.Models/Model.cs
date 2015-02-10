@@ -74,7 +74,7 @@ namespace WootzJs.Models
 
                 foreach (var validationAttribute in property.PropertyInfo.GetCustomAttributes(typeof(ValidationAttribute), false).Cast<ValidationAttribute>())
                 {
-                    var validationContext = new ValidationContext(this) { MemberName = property.Name };
+                    var validationContext = new ValidationContext(this, null, null) { MemberName = property.Name };
                     var result = validationAttribute.GetValidationResult(property.Value, validationContext);
                     if (result != ValidationResult.Success)
                     {

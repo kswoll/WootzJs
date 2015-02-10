@@ -56,7 +56,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-copy $(TargetDir)System.ComponentModel.DataAnnotations.js $(ProjectDir)..\build</PostBuildEvent>
+copy $(TargetDir)System.ComponentModel.DataAnnotations.* $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

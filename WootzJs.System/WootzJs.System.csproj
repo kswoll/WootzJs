@@ -46,7 +46,7 @@
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
 copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
-copy $(TargetDir)System.js $(ProjectDir)..\build</PostBuildEvent>
+copy $(TargetDir)System.* $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
