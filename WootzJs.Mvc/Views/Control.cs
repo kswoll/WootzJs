@@ -10,9 +10,11 @@ namespace WootzJs.Mvc.Views
 {
     public class Control : IDisposable, IEnumerable<Control>
     {
+        private static MouseTrackingEngine mouseTrackingEngine = new MouseTrackingEngine();
+
         static Control()
         {
-            new MouseTrackingEngine().Initialize();
+            mouseTrackingEngine.Initialize();
         }
 
         public Control Parent { get; private set; }
@@ -584,6 +586,11 @@ namespace WootzJs.Mvc.Views
         {
             if (keyUp != null)
                 keyUp((KeyboardEvent)evt);
+        }
+
+        public static bool IsMouseDown
+        {
+            get { return mouseTrackingEngine.IsMouseDown; }
         }
     }
 }

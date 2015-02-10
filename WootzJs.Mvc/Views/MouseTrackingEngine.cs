@@ -6,11 +6,14 @@ namespace WootzJs.Mvc.Views
     internal class MouseTrackingEngine
     {
         Element lastElement;
+        bool isMouseDown;
 
         internal void Initialize()
         {
             Browser.Window.AddEventListener("mousemove", OnMouseMove);         
             Browser.Window.AddEventListener("mouseout", OnMouseOut);         
+            Browser.Window.AddEventListener("mousedown", OnMouseDown);
+            Browser.Window.AddEventListener("mouseup", OnMouseUp);         
         }
 
         private void OnMouseMove(Event evt)
@@ -72,6 +75,21 @@ namespace WootzJs.Mvc.Views
                     current = current.ParentElement;
                 }
             }
+        }
+
+        private void OnMouseDown(Event evt)
+        {
+            isMouseDown = true;
+        }
+
+        private void OnMouseUp(Event evt)
+        {
+            isMouseDown = false;
+        }
+
+        public bool IsMouseDown
+        {
+            get { return isMouseDown; }
         }
     }
 }

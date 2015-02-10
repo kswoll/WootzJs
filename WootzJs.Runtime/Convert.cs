@@ -31,6 +31,10 @@ namespace System
                     return (int)value.As<float>();
                 if (conversionType == typeof(long))
                     return (long)value.As<double>();
+                if (conversionType == typeof(float))
+                    return value.As<float>();
+                if (conversionType == typeof(double))
+                    return value.As<double>();
                 if (conversionType == typeof(string))
                     return value.As<JsObject>().toString();
             }

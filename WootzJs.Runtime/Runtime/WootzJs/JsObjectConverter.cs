@@ -69,7 +69,11 @@ namespace System.Runtime.WootzJs
 
         public static object FromJsonObject(this JsObject o, Type type)
         {
-            if (type.IsArray)
+            if (o == null)
+            {
+                return null;
+            }
+            else if (type.IsArray)
             {
                 var arrayValue = o.As<JsArray>();
                 var elementType = type.GetElementType();

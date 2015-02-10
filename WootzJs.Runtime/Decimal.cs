@@ -33,6 +33,11 @@ namespace System
 	        return this.As<Number>().CompareTo(other.As<Number>());
 	    }
 
+        public static explicit operator int(Decimal value)
+        {
+            return SpecialFunctions.Truncate(value.As<JsNumber>());
+        }
+
 	    public bool Equals(decimal other)
 	    {
 	        return this == other;

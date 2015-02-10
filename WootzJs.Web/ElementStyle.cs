@@ -288,6 +288,12 @@ namespace WootzJs.Web
         
         [Js(Name = "top")]
         public extern string Top { get; set; }
+
+        [Js(Name = "userSelect")]
+        public extern string UserSelect { get; set; }
+ 
+        [Js(Name = "webkitUserSelect")]
+        public extern string WebkitUserSelect { get; set; }
  
         [Js(Name = "verticalAlign")]
         public extern string VerticalAlign { get; set; }

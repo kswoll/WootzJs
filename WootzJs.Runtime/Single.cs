@@ -30,9 +30,6 @@ using System.Runtime.WootzJs;
 
 namespace System
 {
-    /// <summary>
-    /// Do not use!  This class is only present to make VS consider this a valid minimal mscorlib.
-    /// </summary>
 	[StructLayout(LayoutKind.Auto)]
 	public struct Single
 	{
