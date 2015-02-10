@@ -1,11 +1,12 @@
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Compiler\WootzJs.Compiler.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Runtime\WootzJs.Runtime.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.System\WootzJs.System.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Compiler.Tests\WootzJs.Compiler.Tests.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Models\WootzJs.Models.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Web\WootzJs.Web.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Mvc\WootzJs.Mvc.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Rx\WootzJs.Rx.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.Rx.Tests\WootzJs.Rx.Tests.csproj
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe .\WootzJs.sln
+SET MSBUILD="C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild.exe"
+%MSBUILD% .\WootzJs.Compiler\WootzJs.Compiler.csproj
+%MSBUILD% .\WootzJs.Runtime\WootzJs.Runtime.csproj
+%MSBUILD% .\WootzJs.System\WootzJs.System.csproj
+%MSBUILD% .\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj
+%MSBUILD% .\WootzJs.Compiler.Tests\WootzJs.Compiler.Tests.csproj
+%MSBUILD% .\WootzJs.Models\WootzJs.Models.csproj
+%MSBUILD% .\WootzJs.Web\WootzJs.Web.csproj
+%MSBUILD% .\WootzJs.Mvc\WootzJs.Mvc.csproj
+%MSBUILD% .\WootzJs.Rx\WootzJs.Rx.csproj
+%MSBUILD% .\WootzJs.Rx.Tests\WootzJs.Rx.Tests.csproj
+%MSBUILD% .\WootzJs.sln
