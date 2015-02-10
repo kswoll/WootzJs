@@ -29,5 +29,5 @@ WootzJs also includes a web framework, `WootzJs.Mvc` for creating single-page ap
 * [Contributing](https://github.com/kswoll/WootzJs/wiki/Contributing) to WootzJs
 * [Project Map](https://github.com/kswoll/WootzJs/wiki/Project-Map)
 
-To stay up to date, follow ([@WootzJs](https://twitter.com/wootzjs) on Twitter.
+To stay up to date, follow [@WootzJs](https://twitter.com/wootzjs) on Twitter.  
 To contact the author, use [@kirkwoll](https://twitter.com/kirkwoll)) on Twitter.
