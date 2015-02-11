@@ -64,6 +64,12 @@ namespace WootzJs.Mvc.Views
             element.DispatchEvent(mouseExitedEvent);                                
         }
 
+        private void FireMouseUp(Element element)
+        {
+            var mouseExitedEvent = Browser.Document.CreateCustomEvent("mouseup", null);
+            element.DispatchEvent(mouseExitedEvent);                                
+        }
+
         private void OnMouseOut(Event evt)
         {
             if (evt.RelatedTarget == null)
