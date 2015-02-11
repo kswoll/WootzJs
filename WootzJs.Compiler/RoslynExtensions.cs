@@ -176,7 +176,7 @@ namespace WootzJs.Compiler
             }
             else
             {
-                throw new Exception("This exception happens because we can't find the referenced project.  All project references should be true project references and not assembly references.  This is because we need all symbol information to be available when deriving JS symbol names.  When using dll references all non-public symbols will be missing.");
+                throw new Exception("This exception happens because we can't find the referenced project.  All project references should be true project references and not assembly references.  This is because we need all symbol information to be available when deriving JS symbol names.  When using dll references all non-public symbols will be missing.  Missing type: " + type.GetFullName());
                 var reflectedType = Context.Instance.ReflectionCache.GetReflectedType(type);
                 if (reflectedType != null && reflectedType.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).Any(x => x.Name == name))
                     count++;
