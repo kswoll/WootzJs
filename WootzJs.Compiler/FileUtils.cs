@@ -44,7 +44,7 @@ namespace WootzJs.Compiler
                 var currentFolder = new FileInfo(wootzJs).Directory;
                 while (currentFolder != null)
                 {
-                    if (File.Exists(Path.Combine(currentFolder.Name, @"build\WootzJs.targets")))
+                    if (File.Exists(Path.Combine(currentFolder.FullName, @"build\WootzJs.targets")))
                         break;
 //                    if (currentFolder.Name.Equals("WootzJs", StringComparison.InvariantCultureIgnoreCase))
 //                        break;
