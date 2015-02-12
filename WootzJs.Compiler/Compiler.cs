@@ -52,6 +52,16 @@ namespace WootzJs.Compiler
 
         public static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please provide two arguments:");
+                Console.WriteLine("1. The fully qualified path to your .csproj file.");
+                Console.WriteLine("2. The relative path to your project's output folder.");
+                Console.WriteLine();
+                Console.WriteLine("For example:");
+                Console.WriteLine(@"WootzJs.Compiler.exe c:\dev\MyProject\MyProject.csproj bin\");
+                return;
+            }
             var projectOrSolutionFile = args[0];
             var outputFolder = args[1];
             var namedArguments = args.Skip(2).Select(x => x.Split('=')).ToDictionary(x => x[0], x => x[1]);
