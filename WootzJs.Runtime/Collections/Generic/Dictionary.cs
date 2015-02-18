@@ -169,15 +169,17 @@ namespace System.Collections.Generic
                 value = default(TValue);
                 return false;
             }
-            var items = bucket.Items.GetEnumerator();
-            if (!items.MoveNext())
+            for (var i = 0; i < bucket.Items.Count; i++)
             {
-                value = default(TValue);
-                return false;
+                var current = bucket.Items[i];
+                if (Equals(current.Key, key))
+                {
+                    value = current.Value;
+                    return true;
+                }
             }
-            value = items.Current.Value;
-            items.Dispose();
-            return true;
+            value = default(TValue);
+            return false;
         }
 
         public TValue this[TKey key]
