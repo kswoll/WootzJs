@@ -26,10 +26,11 @@
 #endregion
 
 using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
-	[StructLayout(LayoutKind.Auto)]
+	[StructLayout(LayoutKind.Auto), Js(Name = "Boolean", BuiltIn = true, BaseType = typeof(Object))]
 	public struct Boolean
 	{
 		/// <summary>
@@ -45,7 +46,8 @@ namespace System
 // ReSharper disable once RedundantOverridenMember
         public override string ToString()
         {
-            return base.ToString();
+            return this ? "True" : "False";
+//            return base.ToString();
         }
 	}
 }
