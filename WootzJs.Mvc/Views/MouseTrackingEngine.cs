@@ -7,6 +7,7 @@ namespace WootzJs.Mvc.Views
     {
         Element lastElement;
         bool isMouseDown;
+        Element mouseDownTarget;
 
         internal void Initialize()
         {
@@ -86,11 +87,14 @@ namespace WootzJs.Mvc.Views
         private void OnMouseDown(Event evt)
         {
             isMouseDown = true;
+            mouseDownTarget = evt.Target;
         }
 
         private void OnMouseUp(Event evt)
         {
             isMouseDown = false;
+            if (evt.Target != mouseDownTarget)
+                FireMouseUp(mouseDownTarget);
         }
 
         public bool IsMouseDown
