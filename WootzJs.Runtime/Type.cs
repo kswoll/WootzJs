@@ -110,19 +110,19 @@ namespace System
                 var typeString = Jsni._typeof(instance);
                 if (typeString == "string".As<JsString>())
                 {
-                    return GetType("System.String");
+                    return typeof(string);
                 }
                 if (typeString == "number".As<JsString>())
                 {
-                    return GetType("System.Number");
+                    return typeof(Number);
                 }
                 if (typeString == "object".As<JsString>())
                 {
-                    return GetType("System.Object");
+                    return typeof(object);
                 }
                 if (typeString == "function".As<JsString>())
                 {
-                    return GetType("System.Delegate");
+                    return typeof(Delegate);
                 }
                 else
                 {
