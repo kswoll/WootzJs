@@ -182,14 +182,48 @@ namespace System.Collections.Generic
             return false;
         }
 
+        internal TValue GetOrDefault(TKey key)
+        {
+            // This logic is avoids reusing the logic in TryGetValue for performance reasons (`out` parameters are not super 
+            // efficient since they create objects on the heap)
+            var hashCode = comparer.GetHashCode(key).ToString();
+            var bucket = storage[hashCode].As<Bucket>();
+            if (bucket == null)
+            {
+                return default(TValue);
+            }
+            for (var i = 0; i < bucket.Items.Count; i++)
+            {
+                var current = bucket.Items[i];
+                if (Equals(current.Key, key))
+                {
+                    return current.Value;
+                }
+            }
+            return default(TValue);
+        }
+
         public TValue this[TKey key]
         {
             get
             {
-                TValue result;
-                if (!TryGetValue(key, out result))
+                // This logic is avoids reusing the logic in TryGetValue for performance reasons (`out` parameters are not super 
+                // efficient since they create objects on the heap)
+                var hashCode = comparer.GetHashCode(key).ToString();
+                var bucket = storage[hashCode].As<Bucket>();
+                if (bucket == null)
+                {
                     throw new KeyNotFoundException(key.ToString());
-                return result;
+                }
+                for (var i = 0; i < bucket.Items.Count; i++)
+                {
+                    var current = bucket.Items[i];
+                    if (Equals(current.Key, key))
+                    {
+                        return current.Value;
+                    }
+                }
+                throw new KeyNotFoundException(key.ToString());
             }
             set { Add(key, value); }
         }
