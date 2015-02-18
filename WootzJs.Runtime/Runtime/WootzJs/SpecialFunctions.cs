@@ -174,9 +174,10 @@ namespace System.Runtime.WootzJs
             var type = o.GetType();
             if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Nullable<>))
             {
-                if (typeof(T).GetGenericArguments()[0].IsAssignableFrom(type))
+                var typeArgument = typeof(T).GetGenericTypeArgument(0);
+                if (typeArgument.IsAssignableFrom(type))
                     return o.As<T>();
-                if (typeof(T).GetGenericArguments()[0] == typeof(char) && type == typeof(string))
+                if (typeArgument == typeof(char) && type == typeof(string))
                     return o.As<T>();
             }
             if (typeof(T) == typeof(char) && type == typeof(string))
@@ -286,16 +287,29 @@ namespace System.Runtime.WootzJs
                 cache = new JsObject();
                 unconstructedType.memberset(SpecialNames.TypeCache, cache);
             }
-            var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
-            var keyParts = new JsArray();
-            for (var i = 0; i < keyArray.length; i++)
+
+            JsObject keyString;
+
+            // First two if statements are optimizations for performance reasons to avoid heap allocation when possible.
+            if (typeArgs.length == 0)
+                keyString = "";
+            else if (typeArgs.length == 1)
+                keyString = typeArgs[0].member(SpecialNames.TypeName);
+            else
             {
-                keyParts[i] = keyArray[i].member(SpecialNames.TypeName);
+                var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
+                var keyParts = new JsArray();
+                for (var i = 0; i < keyArray.length; i++)
+                {
+                    keyParts[i] = keyArray[i].member(SpecialNames.TypeName);
+                }
+                keyString = keyParts.join(", ");                
             }
-            var keyString = keyParts.join(", ");
+
             var result = cache[keyString];
             if (result == null)
             {
+                var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
                 var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('`');
                 if (lastIndexOfDollar == -1)
                     lastIndexOfDollar = unconstructedType.TypeName.Length;
