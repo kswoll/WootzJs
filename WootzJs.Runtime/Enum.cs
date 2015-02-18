@@ -126,8 +126,8 @@ namespace System
         public static object InternalToObject(JsTypeFunction enumType, object value)
         {
             var enumsByValue = enumsByTypeAndValue[enumType.TypeName];
-            Enum result;
-            if (enumsByValue.TryGetValue(value, out result))
+            Enum result = enumsByValue.GetOrDefault(value);
+            if (result != null)
             {
                 return result;
             }
