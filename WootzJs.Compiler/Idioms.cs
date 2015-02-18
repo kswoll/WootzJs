@@ -634,7 +634,7 @@ namespace WootzJs.Compiler
                     continue;
 
                 var attributeInstance = CreateObject(attribute.AttributeConstructor,
-                    attribute.ConstructorArguments.Select(x => Js.Literal(x.Value)).ToArray());
+                    attribute.ConstructorArguments.Select(x => GetConstantValue(x.Type, x.Value)).ToArray());
                 if (attribute.NamedArguments.Any())
                 {
                     // Wrap initialization in an anonymous function
@@ -983,6 +983,18 @@ namespace WootzJs.Compiler
                 }
             }
             return arguments.ToArray();
+        }
+
+        public JsExpression GetConstantValue(ITypeSymbol type, object value)
+        {
+            if (type.TypeKind == TypeKind.Enum)
+            {
+                return GetEnumByValue(type, Js.Literal(value));
+            }
+            else
+            {
+                return Js.Literal(value);
+            }
         }
 
         public JsExpression GetExplicitDefaultValue(IParameterSymbol parameter)
