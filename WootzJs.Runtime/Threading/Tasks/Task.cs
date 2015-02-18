@@ -190,6 +190,16 @@ namespace System.Threading.Tasks
             }
             return flag;
         }
+
+        public static Task<T> Run<T>(Func<Task<T>> task)
+        {
+            return task();
+        }
+
+        public static Task Run(Func<Task> task)
+        {
+            return task();
+        }
     }
 
     public class Task<TResult> : Task
