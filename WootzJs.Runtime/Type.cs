@@ -212,8 +212,9 @@ namespace System
             }
 
             // Now check interfaces
-            foreach (var item in type.GetInterfaces())
+            for (var i = 0; i < type.GetInterfaceCount(); i++)
             {
+                var item = type.GetInterface(i);
                 if (item == this)
                     return true;
             }
@@ -250,6 +251,16 @@ namespace System
         public Type[] GetInterfaces()
         {
             return interfaces.Select(x => _GetTypeFromTypeFunc(x)).ToArray();
+        }
+
+        internal int GetInterfaceCount()
+        {
+            return interfaces.Length;
+        }
+
+        internal Type GetInterface(int index)
+        {
+            return _GetTypeFromTypeFunc(interfaces[index]);
         }
 
         public PropertyInfo[] GetProperties()
@@ -848,6 +859,16 @@ namespace System
             {
                 return typeArguments == null ? EmptyTypes : typeArguments.Select(x => _GetTypeFromTypeFunc(x)).ToArray();
             }
+        }
+
+        internal Type GetGenericTypeArgument(int index)
+        {
+            return _GetTypeFromTypeFunc(typeArguments[index]);
+        }
+
+        internal int GetGenericTypeArgumentCount()
+        {
+            return typeArguments.Length;
         }
 
         /// <summary>
