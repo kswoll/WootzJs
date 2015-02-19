@@ -328,7 +328,7 @@ namespace System.Runtime.WootzJs
                                 var typeArg = unconstructedType.TypeArgs[j];
                                 if (typeArg == baseArg)
                                 {
-                                    baseArgs[i] = typeArg;
+                                    baseArgs[i] = typeArgs[j];
                                 }
                             }
                         }
