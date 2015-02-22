@@ -192,8 +192,12 @@ namespace System.Reflection
             }
             if (parameters != null)
             {
-                foreach (var argument in parameters)
+                var parametersArray = parameters.As<JsArray>();
+                for (var i = 0; i < parametersArray.length; i++)
+                {
+                    var argument = parametersArray[i].As<JsObject>();
                     args.push(argument.As<JsObject>());
+                }
             }
             return Jsni.apply(jsMethod, obj.As<JsObject>(), args);
         }

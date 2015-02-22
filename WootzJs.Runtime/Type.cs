@@ -263,12 +263,19 @@ namespace System
             return _GetTypeFromTypeFunc(interfaces[index]);
         }
 
+        private PropertyInfo[] getPropertiesCache;
+
         public PropertyInfo[] GetProperties()
         {
-            var result = properties.Where(x => (x.GetGetMethod() != null && x.GetGetMethod().IsPublic) || (x.GetSetMethod() != null && x.GetSetMethod().IsPublic));
-            if (baseType != null)
-                result = BaseType.GetProperties().Concat(result);
-            return result.ToArray();
+            if (getPropertiesCache == null)
+            {
+                var result = properties.Where(x => (x.GetGetMethod() != null && x.GetGetMethod().IsPublic) || (x.GetSetMethod() != null && x.GetSetMethod().IsPublic));
+                if (baseType != null)
+                    result = BaseType.GetProperties().Concat(result);
+                getPropertiesCache = result.ToArray();
+            }
+
+            return SpecialFunctions.FastArrayCopy(getPropertiesCache);
         }
 
         public EventInfo[] GetEvents()
@@ -305,7 +312,7 @@ namespace System
                     continue;
                 if ((bindingAttr & BindingFlags.NonPublic) != BindingFlags.NonPublic && !method.IsPublic)
                     continue;
-                var parameters = method.GetParameters();
+                var parameters = method.GetParametersNoCopy();
                 if (types != null && types.Length != parameters.Length)
                     continue;
                 if (types != null)
@@ -533,7 +540,7 @@ namespace System
                     continue;
                 if ((bindingAttr & BindingFlags.NonPublic) != BindingFlags.NonPublic && !anAccessor.IsPublic)
                     continue;
-                var parameters = property.GetIndexParameters();
+                var parameters = property.GetIndexParametersNoCopy();
                 if (types != null && types.Length != parameters.Length)
                     continue;
                 if (types != null)
@@ -698,7 +705,7 @@ namespace System
             {
                 if ((bindingAttr & BindingFlags.NonPublic) != BindingFlags.NonPublic && !method.IsPublic)
                     continue;
-                var parameters = method.GetParameters();
+                var parameters = method.GetParametersNoCopy();
                 if (types != null && types.Length != parameters.Length)
                     continue;
                 if (types != null)

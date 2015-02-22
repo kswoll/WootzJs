@@ -149,6 +149,9 @@ namespace System
 
                 result.___type = enumType;
                 result.As<JsObject>().memberset("value", value.As<JsObject>());
+
+                enumsByValue[value] = result;
+
                 return result;
             }
         }

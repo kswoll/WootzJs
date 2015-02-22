@@ -28,6 +28,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.WootzJs;
 
 namespace System.Reflection
 {
@@ -153,11 +154,12 @@ namespace System.Reflection
         {
             if (SetMethod == null)
                 throw new InvalidOperationException("Property '" + DeclaringType.FullName + "." + Name + "' does not have a setter.");
-            var args = new object[1 + (index != null ? index.Length : 0)];
-            args[0] = value;
-            for (var i = 1; i < args.Length; i++) 
-                args[i] = index[i - 1];
-            SetMethod.Invoke(obj, invokeAttr, binder, args, culture);
+            var args = Jsni.@new(Jsni.reference("Array"), (1 + (index != null ? index.Length : 0)).As<JsObject>()).As<JsArray>();
+//                new object[1 + (index != null ? index.Length : 0)];
+            args[0] = value.As<JsObject>();
+            for (var i = 1; i < args.length; i++) 
+                args[i] = index[i - 1].As<JsObject>();
+            SetMethod.Invoke(obj, invokeAttr, binder, args.As<object[]>(), culture);
         }
 
         /// <summary>
@@ -220,6 +222,11 @@ namespace System.Reflection
         public ParameterInfo[] GetIndexParameters()
         {
             return indexParameters.ToArray();
+        }
+
+        internal ParameterInfo[] GetIndexParametersNoCopy()
+        {
+            return indexParameters;
         }
 
         /// <summary>

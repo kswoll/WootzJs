@@ -18,7 +18,7 @@ namespace System.Runtime.WootzJs
 
         public static Dictionary<string, object> ExtractArguments(this MethodCallExpression expression)
         {
-            var parameters = expression.Method.GetParameters();
+            var parameters = expression.Method.GetParametersNoCopy();
             return expression.Arguments
                 .Select((x, i) => new { Name = parameters[i].Name, Value = x.Evaluate() })
                 .ToDictionary(x => x.Name, x => x.Value);

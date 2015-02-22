@@ -282,15 +282,38 @@ namespace System.Runtime.WootzJs
         internal static JsTypeFunction MakeGenericTypeFactory(JsTypeFunction unconstructedType, JsArray typeArgs)
         {
             var cache = Jsni.member(unconstructedType, SpecialNames.TypeCache);
-            if (cache == null)
+            JsObject result = null;
+            if (typeArgs.length > 0)
             {
-                cache = new JsObject();
-                unconstructedType.memberset(SpecialNames.TypeCache, cache);
+                if (cache == null)
+                {
+                    cache = new JsObject();
+                    unconstructedType.memberset(SpecialNames.TypeCache, cache);
+                }                
+
+                JsObject currentCache = cache;
+                for (var i = 0; i < typeArgs.length - 1; i++)
+                {
+                    var nextCache = currentCache[typeArgs[i].member(SpecialNames.TypeName)];
+                    if (nextCache == null)
+                    {
+                        nextCache = new JsObject();
+                        currentCache[typeArgs[i].member(SpecialNames.TypeName)] = nextCache;
+                    }
+                    currentCache = nextCache;
+                }
+                cache = currentCache;
+                result = cache[typeArgs[typeArgs.length - 1].member(SpecialNames.TypeName)];
+            }
+            else
+            {
+                result = cache;
             }
 
-            JsObject keyString;
+//            JsObject keyString;
 
             // First two if statements are optimizations for performance reasons to avoid heap allocation when possible.
+/*
             if (typeArgs.length == 0)
                 keyString = "";
             else if (typeArgs.length == 1)
@@ -307,9 +330,17 @@ namespace System.Runtime.WootzJs
             }
 
             var result = cache[keyString];
+*/
             if (result == null)
             {
                 var keyArray = Jsni.call<JsArray>(x => x.slice(0), typeArgs, 0.As<JsNumber>()).As<JsArray>();
+                var keyParts = new JsArray();
+                for (var i = 0; i < keyArray.length; i++)
+                {
+                    keyParts[i] = keyArray[i].member(SpecialNames.TypeName);
+                }
+                var keyString = keyParts.join(", ");                
+
                 var lastIndexOfDollar = unconstructedType.TypeName.LastIndexOf('`');
                 if (lastIndexOfDollar == -1)
                     lastIndexOfDollar = unconstructedType.TypeName.Length;
@@ -494,7 +525,11 @@ namespace System.Runtime.WootzJs
 
                 Jsni.call(generic.TypeInitializer, Jsni.@this(), generic, generic.prototype);
                 result = generic;
-                cache[keyString] = result;
+
+                if (typeArgs.length == 0)
+                    unconstructedType.memberset(SpecialNames.TypeCache, result);
+                else
+                    cache[typeArgs[typeArgs.length - 1].member(SpecialNames.TypeName)] = result;
             }
 
             return result.As<JsTypeFunction>();
@@ -619,6 +654,14 @@ namespace System.Runtime.WootzJs
                 return typeof(Number);
 
             throw new Exception("Unable to determine type of: " + o);
+        }
+
+        [Js(Name = "$fastarraycopy")]
+        public static T[] FastArrayCopy<T>(T[] array)
+        {
+            JsFunction function = Jsni.procedure(() => {});
+            function.prototype = array.As<JsObject>();
+            return Jsni.@new(function).As<T[]>();
         }
     }
 }

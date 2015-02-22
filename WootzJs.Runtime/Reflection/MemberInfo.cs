@@ -27,6 +27,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.WootzJs;
 
 namespace System.Reflection
 {
@@ -86,7 +87,12 @@ namespace System.Reflection
         /// <param name="inherit">true to search this member's inheritance chain to find the attributes; otherwise, false. This parameter is ignored for properties and events; see Remarks.</param><exception cref="T:System.InvalidOperationException">This member belongs to a type that is loaded into the reflection-only context. See How to: Load Assemblies into the Reflection-Only Context.</exception><exception cref="T:System.TypeLoadException">A custom attribute type could not be loaded. </exception>
         public virtual object[] GetCustomAttributes(bool inherit)
         {
-            return attributes.ToArray();
+            return SpecialFunctions.FastArrayCopy(attributes);
+        }
+
+        internal object[] GetCustomAttributesNoCopy(bool inherit)
+        {
+            return attributes;
         }
 
         /// <summary>

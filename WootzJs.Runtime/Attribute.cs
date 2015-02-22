@@ -70,5 +70,22 @@ namespace System
                 throw new ArgumentException("Argument must subclass Attribute");
             return element.GetCustomAttributes(attributeType, inherit).Any();
         }
+
+        public static Attribute GetCustomAttribute(MemberInfo element, Type attributeType)
+        {
+            return Attribute.GetCustomAttribute(element, attributeType, true);
+        }
+
+        public static Attribute GetCustomAttribute(MemberInfo element, Type attributeType, bool inherit)
+        {
+            var attributes = element.GetCustomAttributes(inherit);
+            for (var i = 0; i < attributes.Length; i++)
+            {
+                var attribute = attributes[i];
+                if (attributeType.IsInstanceOfType(attribute))
+                    return (Attribute)attribute;
+            }
+            return null;
+        }
     }
 }

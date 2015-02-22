@@ -69,7 +69,7 @@ namespace System.Globalization
                 Name = name,
                 DateTimeFormat = new DateTimeFormatInfo(shortDatePattern, shortTimePattern, longDatePattern, longTimePattern, fullDateTimePattern, yearMonthPattern, monthNames, abbreviatedMonthNames, dayNames)
             });
-            if (name == currentCultureName)
+            if (name.ToUpper() == currentCultureName.ToUpper())
             {
                 var currentCulture = cultures.SingleOrDefault(x => x.Name == name.As<string>());
                 CurrentCulture = currentCulture;
