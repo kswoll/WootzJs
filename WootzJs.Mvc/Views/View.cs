@@ -18,6 +18,21 @@ namespace WootzJs.Mvc.Views
         private bool isInitialized;
         private IDictionary<string, Control> sections;
 
+        public MvcApplication Application
+        {
+            get { return MvcApplication.Instance; }
+        }
+
+        public NavigationContext NavigationContext
+        {
+            get {  return Application.NavigationContext; }
+        }
+
+        public NavigationRequest Request
+        {
+            get { return NavigationContext.Request; }
+        }
+
         public void Initialize(ViewContext context)
         {
             isInitialized = true;

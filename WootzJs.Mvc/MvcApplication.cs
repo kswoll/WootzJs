@@ -18,6 +18,7 @@ namespace WootzJs.Mvc
         public string Port { get; set; }
         public string Scheme { get; set; }
         public GlobalStyle GlobalStyle { get; private set; }
+        public NavigationContext NavigationContext { get; private set; }
 
         public IControllerFactory ControllerFactory { get; protected set; }
         public IDependencyResolver DependencyResolver { get; protected set; }
@@ -224,6 +225,7 @@ namespace WootzJs.Mvc
         protected async Task<View> Execute(string path, string queryString)
         {
             var context = CreateNavigationContext(path, queryString);
+            NavigationContext = context;
             var controller = ControllerFactory.CreateController(context);
             await controller.Execute(this, context);
             return context.Response.View;

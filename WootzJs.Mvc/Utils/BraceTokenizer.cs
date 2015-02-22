@@ -33,7 +33,8 @@ namespace WootzJs.Mvc.Utils
                     throw new Exception("No ending brace found");
 
                 var variable = s.Substring(start, end - start);
-                yield return new Variable { Name = variable };
+                var variableParts = variable.Split(':');
+                yield return new Variable { Id = variableParts[0], Value = variableParts[1] };
 
                 index = end + 1;
             }
@@ -42,7 +43,8 @@ namespace WootzJs.Mvc.Utils
         public interface IToken
         {
             string Literal { get; }
-            string Variable { get; }
+            string VariableId { get; }
+            string VariableValue { get; }
         }
 
         public class Literal : IToken
@@ -54,7 +56,12 @@ namespace WootzJs.Mvc.Utils
                 get { return Value;  }
             }
 
-            string IToken.Variable
+            string IToken.VariableId
+            {
+                get { return null; }
+            }
+
+            string IToken.VariableValue
             {
                 get { return null; }
             }
@@ -62,16 +69,22 @@ namespace WootzJs.Mvc.Utils
 
         public class Variable : IToken
         {
-            public string Name { get; set; }
+            public string Id { get; set; }
+            public string Value { get; set; }
 
             string IToken.Literal
             {
                 get { return null;  }
             }
 
-            string IToken.Variable
+            string IToken.VariableId
             {
-                get { return Name; }
+                get { return Id; }
+            }
+
+            string IToken.VariableValue
+            {
+                get {  return Value; }
             }
         }
     }

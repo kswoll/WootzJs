@@ -17,9 +17,9 @@ namespace WootzJs.Mvc.Views
 
             var methodCallExpression = (MethodCallExpression)action.Body;
             var method = methodCallExpression.Method;
-            var controllerDefaultAttribute = (DefaultAttribute)method.DeclaringType.GetCustomAttributes(typeof(DefaultAttribute), false).SingleOrDefault();
-            var routeAttribute = (RouteAttribute)method.GetCustomAttributes(typeof(RouteAttribute), false).SingleOrDefault();
-            var defaultAttribute = (DefaultAttribute)method.GetCustomAttributes(typeof(DefaultAttribute), false).SingleOrDefault();
+            var controllerDefaultAttribute = (DefaultAttribute)Attribute.GetCustomAttribute(method.DeclaringType, typeof(DefaultAttribute), false);
+            var routeAttribute = (RouteAttribute)Attribute.GetCustomAttribute(method, typeof(RouteAttribute), false);
+            var defaultAttribute = (DefaultAttribute)Attribute.GetCustomAttribute(method, typeof(DefaultAttribute), false);
             var args = methodCallExpression.ExtractArguments();
             if (controllerDefaultAttribute != null && defaultAttribute != null)
                 result.Append("/");
@@ -48,9 +48,16 @@ namespace WootzJs.Mvc.Views
             return result.ToString();
         }
 
+        private static Dictionary<string, BraceTokenizer.IToken[]> tokensCache = new Dictionary<string, BraceTokenizer.IToken[]>();
+
         private static string GenerateUrlFromTemplate(string template, Dictionary<string, object> routeValues)
         {
-            var tokens = template.BraceTokenize().ToArray();
+            var tokens = tokensCache.Get(template);
+            if (tokens == null)
+            {
+                tokens = template.BraceTokenize().ToArray();
+                tokensCache[template] = tokens;
+            }
             var builder = new StringBuilder();
             foreach (var token in tokens)
             {
@@ -60,7 +67,7 @@ namespace WootzJs.Mvc.Views
                 }
                 else
                 {
-                    var id = token.Variable.Split(':')[0];
+                    var id = token.VariableId;
                     var value = routeValues.Get(id);
                     builder.Append(value);
                     routeValues.Remove(id);

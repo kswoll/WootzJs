@@ -59,7 +59,15 @@ namespace WootzJs.Mvc.Views
 
         public View View
         {
-            get { return view; }
+            get
+            {
+                if (view != null)
+                    return view;
+                else if (Parent != null)
+                    return Parent.View;
+                else
+                    return null;
+            }
             internal set { view = value; }
         }
 
