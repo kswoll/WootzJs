@@ -2,6 +2,9 @@
 {
     public class KeyCode
     {
+        public const int Shift = 16;
+        public const int Ctrl = 17;
+        public const int Alt = 18;
         public const int DownArrow = 40;
         public const int UpArrow = 38;
         public const int LeftArrow = 37;

@@ -74,5 +74,8 @@ namespace WootzJs.Web
 
         [Js(Name = "keyCode")]
         public extern int KeyCode { get; }
+
+        [Js(Name = "metaKey")]
+        public extern bool MetaKey { get; }
     }
 }
