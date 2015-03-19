@@ -124,6 +124,18 @@ namespace WootzJs.Web
         [Js(Name = "offsetHeight")]
         public extern int OffsetHeight { get; set; }
 
+        [Js(Name = "innerHeight")]
+        public extern int InnerHeight { get; set; }
+
+        [Js(Name = "scrollHeight")]
+        public extern int ScrollHeight { get; set; }
+
+        [Js(Name = "scrollX")]
+        public extern int ScrollX { get; set; }
+
+        [Js(Name = "scrollY")]
+        public extern int ScrollY { get; set; }
+
         [Js(Name = "title")]
         public extern string Title { get; set; }
 

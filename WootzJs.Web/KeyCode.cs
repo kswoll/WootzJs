@@ -13,6 +13,8 @@
         public const int PageDown = 34;
         public const int Home = 36;
         public const int End = 35;
+        public const int Meta = 91;
+        public const int Tab = 9;
 
         public const int Enter = 13;
         public const int Escape = 27;

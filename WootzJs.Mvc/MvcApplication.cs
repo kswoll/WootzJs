@@ -14,6 +14,8 @@ namespace WootzJs.Mvc
 {
     public class MvcApplication
     {
+        public event Action BottomBounced;
+
         public string Host { get; set; }
         public string Port { get; set; }
         public string Scheme { get; set; }
@@ -178,10 +180,10 @@ namespace WootzJs.Mvc
                 var layout = (Layout)this.view;
                 var sections = view.Sections;
                 layout.LoadSections(sections);
-                foreach (var section in sections.Values)
-                {
-                    section.NotifyOnAddedToView();
-                }
+//                foreach (var section in sections.Values)
+//                {
+//                    section.NotifyOnAddedToView();
+//                }
             }            
         }
 
@@ -252,6 +254,17 @@ namespace WootzJs.Mvc
 
         protected virtual void OnBindModel(Controller controller, Model model)
         {
+        }
+
+        internal void NotifyOnBottomBounced()
+        {
+            OnBottomBounced();
+        }
+
+        protected virtual void OnBottomBounced()
+        {
+            if (BottomBounced != null)
+                BottomBounced();
         }
     }
 }

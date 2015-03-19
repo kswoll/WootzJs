@@ -86,6 +86,7 @@
     <Compile Include="TextAreaElement.cs" />
     <Compile Include="TextNode.cs" />
     <Compile Include="WebSocket.cs" />
+    <Compile Include="WheelEvent.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowExtensions.cs" />
     <Compile Include="XmlHttpRequest.cs" />

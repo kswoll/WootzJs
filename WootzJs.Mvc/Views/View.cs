@@ -4,7 +4,7 @@ using WootzJs.Mvc.Views.Binders;
 
 namespace WootzJs.Mvc.Views
 {
-    public class View 
+    public class View : IDisposable
     {
         public event Action Attached;
         public event Action Detached;
@@ -14,9 +14,10 @@ namespace WootzJs.Mvc.Views
         public string Title { get; set; }
         public ViewContext ViewContext { get; private set; }
 
-        private Control _content;
+        private Control content;
         private bool isInitialized;
         private IDictionary<string, Control> sections;
+        private bool isDisposed;
 
         public MvcApplication Application
         {
@@ -31,6 +32,13 @@ namespace WootzJs.Mvc.Views
         public NavigationRequest Request
         {
             get { return NavigationContext.Request; }
+        }
+
+        public void Dispose()
+        {
+            if (isDisposed)
+                throw new Exception("Cannot dispose a view that has already been disposed.");
+            Content.Dispose();
         }
 
         public void Initialize(ViewContext context)
@@ -48,10 +56,12 @@ namespace WootzJs.Mvc.Views
 
         public Control Content
         {
-            get { return _content; }
+            get { return content; }
             set
             {
-                _content = value;
+                if (content != null)
+                    content.NotifyOnRemovedFromView();
+                content = value;
                 value.View = this;
                 if (isInitialized)
                     value.NotifyOnAddedToView();

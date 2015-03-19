@@ -36,6 +36,7 @@ namespace WootzJs.Mvc.Views
         private Action<KeyboardEvent> keyPress;
         private Action<KeyboardEvent> keyUp;
         private Action<KeyboardEvent> keyDown;
+        private Action<WheelEvent> wheel;
         private Action blurred;
         private Action focused;
         private bool isAttachedToDom;
@@ -293,6 +294,22 @@ namespace WootzJs.Mvc.Views
             }
         }
 
+        public event Action<WheelEvent> Wheel
+        {
+            add
+            {
+                if (wheel == null)
+                    Node.AddEventListener("wheel", OnJsWheel);
+                wheel = (Action<WheelEvent>)Delegate.Combine(wheel, value);
+            }
+            remove
+            {
+                wheel = (Action<WheelEvent>)Delegate.Remove(wheel, value);
+                if (wheel == null)
+                    Node.RemoveEventListener("wheel", OnJsWheel);
+            }
+        }
+
         public string Hint
         {
             get { return Node.GetAttribute("title"); }
@@ -324,6 +341,11 @@ namespace WootzJs.Mvc.Views
             OnMouseUp();
         }
 
+        private void OnJsWheel(Event evt)
+        {
+            OnWheel(evt.As<WheelEvent>());
+        }
+
         /// <summary>
         /// Warning:  This method will not be invoked if there are no click events attached to it.
         /// </summary>
@@ -341,30 +363,32 @@ namespace WootzJs.Mvc.Views
 
         private void OnMouseEnter()
         {
-            var mouseEntered = this.mouseEntered;
             if (mouseEntered != null)
                 mouseEntered();
         }
 
         private void OnMouseLeave()
         {
-            var mouseExited = this.mouseExited;
             if (mouseExited != null)
                 mouseExited();
         }
 
         private void OnMouseDown()
         {
-            var mouseDown = this.mouseDown;
             if (mouseDown != null)
                 mouseDown();
         }
 
         private void OnMouseUp()
         {
-            var mouseUp = this.mouseUp;
             if (mouseUp != null)
                 mouseUp();
+        }
+
+        private void OnWheel(WheelEvent evt)
+        {
+            if (wheel != null)
+                wheel(evt);
         }
 
         public static implicit operator Control(string text)
@@ -411,9 +435,23 @@ namespace WootzJs.Mvc.Views
             }
         }
 
+        protected virtual void OnRemovedFromView()
+        {
+            foreach (var child in Children)
+            {
+                child.View = null;
+                child.OnRemovedFromView();
+            }
+        }
+
         internal void NotifyOnAddedToView()
         {
             OnAddedToView();
+        }
+
+        internal void NotifyOnRemovedFromView()
+        {
+            OnRemovedFromView();
         }
 
 /*

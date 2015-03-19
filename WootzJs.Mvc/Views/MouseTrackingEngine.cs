@@ -1,4 +1,6 @@
-﻿using System.Runtime.WootzJs;
+﻿using System;
+using System.Runtime.WootzJs;
+using System.Threading.Tasks;
 using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
@@ -8,6 +10,7 @@ namespace WootzJs.Mvc.Views
         Element lastElement;
         bool isMouseDown;
         Element mouseDownTarget;
+        bool wasAtBottom;
 
         internal void Initialize()
         {
@@ -15,6 +18,7 @@ namespace WootzJs.Mvc.Views
             Browser.Window.AddEventListener("mouseout", OnMouseOut);         
             Browser.Window.AddEventListener("mousedown", OnMouseDown);
             Browser.Window.AddEventListener("mouseup", OnMouseUp);         
+            Browser.Window.AddEventListener("wheel", OnWheel);
         }
 
         private void OnMouseMove(Event evt)
@@ -95,6 +99,29 @@ namespace WootzJs.Mvc.Views
             isMouseDown = false;
             if (evt.Target != mouseDownTarget)
                 FireMouseUp(mouseDownTarget);
+        }
+
+        private async void OnWheel(Event evt)
+        {
+//            var wheelEvent = evt.As<WheelEvent>();
+            var atBottom = Browser.Window.InnerHeight + Browser.Window.ScrollY == Browser.Document.Body.ScrollHeight;
+            if (wasAtBottom != atBottom)
+            {
+                wasAtBottom = atBottom;
+
+                // This section resets the wasAtBottom state if the scroll bars aren't visible.  This is to allow further
+                // triggering after the delay.  Otherwise, once you've gotten the first wasAtBottom change to occur, it
+                // would never fire again.
+                if (wasAtBottom && Browser.Window.ScrollY == 0)
+                {
+                    await Task.Delay(3000);
+                    wasAtBottom = false;
+                }
+                if (wasAtBottom && MvcApplication.Instance.View != null)
+                {
+                    MvcApplication.Instance.NotifyOnBottomBounced();
+                }
+            }
         }
 
         public bool IsMouseDown
