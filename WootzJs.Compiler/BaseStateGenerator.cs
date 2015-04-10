@@ -766,7 +766,7 @@ namespace WootzJs.Compiler
 
                 // True if it is actually declaring the variable (as opposed to a catch clause that specifies
                 // merely an exception type
-                var hasDeclaration = catchClause.Declaration.Identifier.CSharpKind() != SyntaxKind.None;
+                var hasDeclaration = catchClause.Declaration.Identifier.Kind() != SyntaxKind.None;
 
                 // A variable to store the new unique identifier to store the exception
                 IJsDeclaration newIdentifier;
@@ -856,7 +856,7 @@ namespace WootzJs.Compiler
                 node.Sections
                     .Select((x, i) =>
                     {
-                        var section = Js.Section(x.Labels.Select(y => y.CSharpKind() == SyntaxKind.CaseSwitchLabel ? 
+                        var section = Js.Section(x.Labels.Select(y => y.Kind() == SyntaxKind.CaseSwitchLabel ? 
                             Js.CaseLabel((JsExpression)((CaseSwitchLabelSyntax)y).Value.Accept(Transformer)) : 
                             Js.DefaultLabel()).ToArray());
                         section.Statements.AddRange(GotoStateStatements(sectionStates[i]));

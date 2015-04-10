@@ -203,7 +203,7 @@ namespace WootzJs.Compiler
             JsBlockStatement staticInitializer;
             jsBlock.Aggregate(idioms.CreateTypeFunction(classType, out typeInitializer, out staticInitializer));
 
-            if (!node.Members.OfType<ConstructorDeclarationSyntax>().Any(x => !x.Modifiers.Any(y => y.CSharpKind() == SyntaxKind.StaticKeyword)) && !classType.IsStatic)
+            if (!node.Members.OfType<ConstructorDeclarationSyntax>().Any(x => !x.Modifiers.Any(y => y.Kind() == SyntaxKind.StaticKeyword)) && !classType.IsStatic)
             {
                 typeInitializer.Aggregate(idioms.CreateDefaultConstructor(node));
             }
@@ -681,11 +681,11 @@ namespace WootzJs.Compiler
             var operand = (JsExpression)node.Operand.Accept(this);
             var operandType = model.GetTypeInfo(node.Operand);
             JsExpression result;
-            if (idioms.TryCharUnaryExpression(node.CSharpKind(), operandType, operand, out result))
+            if (idioms.TryCharUnaryExpression(node.Kind(), operandType, operand, out result))
                 return result;
             JsUnaryOperator op;
 
-            switch (node.CSharpKind())
+            switch (node.Kind())
             {
                 case SyntaxKind.UnaryMinusExpression:
                     op = JsUnaryOperator.Negate;
@@ -714,12 +714,12 @@ namespace WootzJs.Compiler
             var operand = (JsExpression)node.Operand.Accept(this);
             var operandType = model.GetTypeInfo(node.Operand);
             JsExpression result;
-            if (idioms.TryCharUnaryExpression(node.CSharpKind(), operandType, operand, out result))
+            if (idioms.TryCharUnaryExpression(node.Kind(), operandType, operand, out result))
                 return result;
 
             JsUnaryOperator op;
 
-            switch (node.CSharpKind())
+            switch (node.Kind())
             {
                 case SyntaxKind.PostIncrementExpression:
                     op = JsUnaryOperator.PostIncrement;
@@ -788,19 +788,19 @@ namespace WootzJs.Compiler
             JsExpression result;
 //            if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
 //                return ImplicitCheck(node, result);
-            if (idioms.TryIsExpression(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
+            if (idioms.TryIsExpression(node.Kind(), leftSymbol, rightSymbol, left, right, out result))
                 return ImplicitCheck(node, result);
-            if (idioms.TryAsExpression(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
+            if (idioms.TryAsExpression(node.Kind(), leftSymbol, rightSymbol, left, right, out result))
                 return result;
-            if (idioms.TryCharBinaryExpression(node.CSharpKind(), leftType, rightType, left, right, out result))
+            if (idioms.TryCharBinaryExpression(node.Kind(), leftType, rightType, left, right, out result))
                 return result;
-            if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
+            if (idioms.TryIntegerDivision(node.Kind(), leftType, rightType, left, right, out result))
                 return result;
-            if (idioms.TryEnumBitwise(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
+            if (idioms.TryEnumBitwise(node.Kind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
-            if (idioms.TryEnumEquality(node.CSharpKind(), leftType.Type, rightType.Type, left, right, out result))
+            if (idioms.TryEnumEquality(node.Kind(), leftType.Type, rightType.Type, left, right, out result))
                 return result;
-            if (idioms.TryStringConcatenation(node.CSharpKind(), leftType, rightType, left, right, out result))
+            if (idioms.TryStringConcatenation(node.Kind(), leftType, rightType, left, right, out result))
                 return result;
 
             if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
@@ -809,7 +809,7 @@ namespace WootzJs.Compiler
                 if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
                     return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
             }
-            var op = idioms.ToBinaryOperator(node.CSharpKind());
+            var op = idioms.ToBinaryOperator(node.Kind());
             if (op == null)
                 throw new Exception();
 
@@ -827,9 +827,9 @@ namespace WootzJs.Compiler
             var symbol = model.GetSymbolInfo(node).Symbol;
 
             JsExpression result;
-            if (idioms.TryAccessorAssignment(node.CSharpKind(), leftSymbol, rightSymbol, left, right, out result))
+            if (idioms.TryAccessorAssignment(node.Kind(), leftSymbol, rightSymbol, left, right, out result))
                 return ImplicitCheck(node, result);
-            if (idioms.TryIntegerDivision(node.CSharpKind(), leftType, rightType, left, right, out result))
+            if (idioms.TryIntegerDivision(node.Kind(), leftType, rightType, left, right, out result))
                 return result;
 
             if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
@@ -838,7 +838,7 @@ namespace WootzJs.Compiler
                 if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
                     return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
             }
-            var op = idioms.ToBinaryOperator(node.CSharpKind());
+            var op = idioms.ToBinaryOperator(node.Kind());
             if (op == null)
                 throw new Exception();
 
@@ -1062,7 +1062,7 @@ namespace WootzJs.Compiler
             }
 
             var target = (JsExpression)node.Expression.Accept(this);
-            if (node.Expression is LiteralExpressionSyntax && node.Expression.CSharpKind() == SyntaxKind.NullLiteralExpression)
+            if (node.Expression is LiteralExpressionSyntax && node.Expression.Kind() == SyntaxKind.NullLiteralExpression)
             {
                 return ImplicitCheck(node, target);
             }
@@ -1187,13 +1187,13 @@ namespace WootzJs.Compiler
         public override JsNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, new[] { node.Parameter }, node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
+            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, new[] { node.Parameter }, node.Body, node.AsyncKeyword.Kind() == SyntaxKind.AsyncKeyword));
         }
 
         public override JsNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, node.ParameterList.Parameters.ToArray(), node.Body, node.AsyncKeyword.CSharpKind() == SyntaxKind.AsyncKeyword));
+            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, node.ParameterList.Parameters.ToArray(), node.Body, node.AsyncKeyword.Kind() == SyntaxKind.AsyncKeyword));
         }
 
         public override JsNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
@@ -1238,7 +1238,7 @@ namespace WootzJs.Compiler
             
             foreach (var statement in node.Expressions)
             {
-                switch (node.CSharpKind())
+                switch (node.Kind())
                 {
                     case SyntaxKind.ObjectInitializerExpression:
                     {
@@ -1929,7 +1929,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitCatchDeclaration(CatchDeclarationSyntax node)
         {
             var identifier = node.Identifier.ToString();
-            if (node.Identifier.CSharpKind() == SyntaxKind.None)
+            if (node.Identifier.Kind() == SyntaxKind.None)
             {
                 identifier = GenerateUniqueNameInScope();
             }
@@ -2167,8 +2167,8 @@ namespace WootzJs.Compiler
             var block = new JsBlockStatement();
 
             var property = model.GetDeclaredSymbol(node);
-            var adder = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.AddKeyword);
-            var remover = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.RemoveKeyword);
+            var adder = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind() == SyntaxKind.AddKeyword);
+            var remover = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind() == SyntaxKind.RemoveKeyword);
             var propertyName = property.GetMemberName();
 
             var adderBody = new JsBlockStatement();
@@ -2204,8 +2204,8 @@ namespace WootzJs.Compiler
             if (!isExported)
                 return block;
 
-            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.GetKeyword);
-            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.CSharpKind() == SyntaxKind.SetKeyword);
+            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind() == SyntaxKind.GetKeyword);
+            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.Kind() == SyntaxKind.SetKeyword);
 
             if (getter != null)
             {
@@ -2328,20 +2328,22 @@ namespace WootzJs.Compiler
             }
         }
 
-        public override JsNode VisitInterpolatedString(InterpolatedStringSyntax node)
+        public override JsNode VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax node)
         {
             var stringParts = new List<JsExpression>();
-            if (node.StringStart.ValueText.Length > 0)
-                stringParts.Add(Js.Literal(node.StringStart.Value));
-            foreach (var insert in node.InterpolatedInserts.GetWithSeparators())
+            foreach (var part in node.Contents)
             {
-                if (insert.IsToken)
-                    stringParts.Add(Js.Literal(insert.AsToken().Value));
+                if (part is InterpolatedStringTextSyntax)
+                {
+                    var s = (InterpolatedStringTextSyntax)part;
+                    stringParts.Add(Js.Literal(s.TextToken.ValueText));
+                }
                 else
-                    stringParts.Add((JsExpression)((InterpolatedStringInsertSyntax)insert.AsNode()).Expression.Accept(this));
+                {
+                    var interpolation = (InterpolationSyntax)part;
+                    stringParts.Add((JsExpression)interpolation.Expression.Accept(this));
+                }
             }
-            if (node.StringEnd.ValueText.Length > 0)
-                stringParts.Add(Js.Literal(node.StringEnd.Value));
 
             // If the interpolated string is just $"" then there will be no string parts. So just return the empty string.
             if (!stringParts.Any())

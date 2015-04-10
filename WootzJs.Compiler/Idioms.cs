@@ -1617,8 +1617,9 @@ namespace WootzJs.Compiler
 
         public bool TryNameofInvocation(InvocationExpressionSyntax node, IMethodSymbol method, out JsExpression result)
         {
-            if (node.Expression.CSharpKind() != SyntaxKind.IdentifierName ||
-                ((IdentifierNameSyntax)node.Expression).Identifier.CSharpContextualKind() != SyntaxKind.NameOfKeyword ||
+            if (node.Expression.Kind() != SyntaxKind.IdentifierName ||
+                ((IdentifierNameSyntax)node.Expression).Identifier.ValueText != "nameof" ||
+                transformer.model.GetSymbolInfo(node.Expression).Symbol != null || 
                 node.ArgumentList.Arguments.Count != 1)
             {
                 result = null;

@@ -154,7 +154,7 @@ namespace WootzJs.Compiler
 
         public override JsExpression VisitBinaryExpression(BinaryExpressionSyntax node)
         {
-            switch (node.CSharpKind())
+            switch (node.Kind())
             {
                 case SyntaxKind.IsExpression:
                 {
@@ -173,7 +173,7 @@ namespace WootzJs.Compiler
             }
 
             ExpressionType op;
-            switch (node.CSharpKind())
+            switch (node.Kind())
             {
                 case SyntaxKind.AddExpression:
                     op = ExpressionType.Add;
@@ -230,7 +230,7 @@ namespace WootzJs.Compiler
                     op = ExpressionType.OrElse;
                     break;
                 default:
-                    throw new Exception("Unknown operation: " + node.CSharpKind());
+                    throw new Exception("Unknown operation: " + node.Kind());
             }
 
             var left = node.Left.Accept(this);
@@ -342,7 +342,7 @@ namespace WootzJs.Compiler
             
             if (node.Initializer != null && node.Initializer.Expressions.Count > 0)
             {
-                if (node.Initializer.CSharpKind() == SyntaxKind.ObjectInitializerExpression)
+                if (node.Initializer.Kind() == SyntaxKind.ObjectInitializerExpression)
                 {
                     var memberInit = GetExpressionMethod("MemberInit", Context.Instance.NewExpression, Context.Instance.MemberBindingArray);
                     var jsMemberInit = idioms.InvokeStatic(
@@ -448,7 +448,7 @@ namespace WootzJs.Compiler
         public JsExpression VisitUnaryExpression(ExpressionSyntax node, ExpressionSyntax expression)
         {
             ExpressionType op;
-            switch (node.CSharpKind())
+            switch (node.Kind())
             {
                 case SyntaxKind.LogicalNotExpression:
                     op = ExpressionType.Not;
@@ -460,7 +460,7 @@ namespace WootzJs.Compiler
                 case SyntaxKind.PostIncrementExpression:
                     throw new Exception("Expression trees cannot contain assignment operators.");
                 default:
-                    throw new Exception("Unknown operation: " + node.CSharpKind());
+                    throw new Exception("Unknown operation: " + node.Kind());
             }
 
             var makeUnary = GetExpressionMethod("MakeUnary", Context.Instance.ExpressionType, Context.Instance.Expression, Context.Instance.TypeType);
