@@ -227,5 +227,14 @@ namespace WootzJs.Compiler.Tests
             var s = $"Output: {str}: {number}";
             AssertEquals(s, "Output: hello: 54");
         }
+
+        [Test]
+        public void Split5()
+        {
+            var s = "5";
+            var parts = s.Split('.');
+            AssertEquals(parts.Length, 1);
+            AssertEquals(parts[0], "5");
+        }
     }
 }

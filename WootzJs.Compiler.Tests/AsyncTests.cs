@@ -285,11 +285,11 @@ namespace WootzJs.Compiler.Tests
             {
                 throw new Exception("foo");
             }
-            catch (Exception e) if (e.Message == "bar")
+            catch (Exception e) when (e.Message == "bar")
             {
                 result = 1;
             }
-            catch (Exception e) if (e.Message == "foo")
+            catch (Exception e) when (e.Message == "foo")
             {
                 result = 2;
             }

@@ -25,6 +25,16 @@ namespace WootzJs.Mvc.Views.Css
         {
         }
 
+        public static CssNumericValue Percent(int value)
+        {
+            return new CssNumericValue(value, CssUnit.Percent);
+        }
+
+        public static CssNumericValue Pixels(int value)
+        {
+            return new CssNumericValue(value, CssUnit.Pixels);
+        }
+
         public override string ToString()
         {
             if (Unit == CssUnit.Auto)

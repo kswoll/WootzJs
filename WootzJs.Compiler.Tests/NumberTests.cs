@@ -185,6 +185,21 @@ namespace WootzJs.Compiler.Tests
         {
             return test;
         }
+
+        [Test]
+        public void IntegerToString()
+        {
+            var i = 5;
+            AssertEquals(i.ToString("0"), "5");
+        }
+
+        [Test]
+        public void DecimalToString()
+        {
+            var n = 1.2345;
+            AssertEquals(n.ToString("0"), "1");
+        }
+
 /*
 
         [Test]

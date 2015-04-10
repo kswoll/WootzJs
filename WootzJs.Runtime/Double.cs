@@ -101,5 +101,10 @@ namespace System
         {
             return value == Number.NaN;
         }
+
+        public string ToString(string format)
+        {
+            return this.As<Number>().ToString(format);
+        }
 	}
 }

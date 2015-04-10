@@ -26,6 +26,7 @@
 #endregion
 
 using System.Runtime.InteropServices;
+using System.Runtime.WootzJs;
 
 namespace System
 {
@@ -54,5 +55,10 @@ namespace System
 		{
 			return null;
 		}
+
+        public string ToString(string format)
+        {
+            return this.As<Number>().ToString(format);
+        }
 	}
 }

@@ -13,7 +13,8 @@ namespace WootzJs.Mvc.Views
         private TableWidth[] columnWidths;
         private List<Element> rows = new List<Element>();
         private List<Control[]> cells = new List<Control[]>();
-        private int cellSpacing;
+        private int verticalCellSpacing;
+        private int horizontalCellSpacing;
 
         public TablePanel(params TableWidth[] columnWidths)
         {
@@ -21,27 +22,53 @@ namespace WootzJs.Mvc.Views
             DefaultConstraint = new TableConstraint();
         }
 
-        public int CellSpacing
+        public int VerticalCellSpacing
         {
-            get { return cellSpacing; }
+            get { return verticalCellSpacing; }
             set
             {
-                cellSpacing = value;
-                for (var i = 0; i < rows.Count; i++)
-                {
-                    var row = rows[i];
-                    for (var j = 0; j < row.Children.Length; j++)
-                    {
-                        var cell = row.Children[j];
-                        var isLastCellInRow = j == row.Children.Length - 1;
-                        var isLastRowInTable = i == rows.Count - 1;
-                        if (!isLastCellInRow)
-                            cell.Style.PaddingRight = cellSpacing + "px";
-                        if (!isLastRowInTable)
-                            cell.Style.PaddingBottom = cellSpacing + "px";
-                    }
-                }
+                verticalCellSpacing = value;
+                ResetCellSpacing();
             }
+        }
+
+        public int HorizontalCellSpacing
+        {
+            get { return horizontalCellSpacing; }
+            set
+            {
+                horizontalCellSpacing = value;
+                ResetCellSpacing();
+            }
+        }
+
+        public int CellSpacing
+        {
+            get {  return HorizontalCellSpacing; }
+            set
+            {
+                verticalCellSpacing = value;
+                horizontalCellSpacing = value;
+                ResetCellSpacing();
+            }
+        }
+
+        private void ResetCellSpacing()
+        {
+            for (var i = 0; i < rows.Count; i++)
+            {
+                var row = rows[i];
+                for (var j = 0; j < row.Children.Length; j++)
+                {
+                    var cell = row.Children[j];
+                    var isLastCellInRow = j == row.Children.Length - 1;
+                    var isLastRowInTable = i == rows.Count - 1;
+                    if (!isLastCellInRow)
+                        cell.Style.PaddingRight = horizontalCellSpacing + "px";
+                    if (!isLastRowInTable)
+                        cell.Style.PaddingBottom = verticalCellSpacing + "px";
+                }
+            }            
         }
 
         protected override Element CreateNode()
@@ -176,10 +203,10 @@ namespace WootzJs.Mvc.Views
 
             var isFirstRowInTable = nextEmptyCell.Y == 0;
             var isLastCellInRow = nextEmptyCell.X + constraint.ColumnSpan == columnWidths.Length;
-            if (!isLastCellInRow && cellSpacing != 0)
-                jsCell.Style.PaddingRight = cellSpacing + "px";
+            if (!isLastCellInRow && horizontalCellSpacing != 0)
+                jsCell.Style.PaddingRight = horizontalCellSpacing + "px";
             if (!isFirstRowInTable)
-                jsCell.Style.PaddingTop = cellSpacing + "px";
+                jsCell.Style.PaddingTop = verticalCellSpacing + "px";
 
             var jsRow = rows[nextEmptyCell.Y];
             jsRow.AppendChild(jsCell);
@@ -252,6 +279,46 @@ namespace WootzJs.Mvc.Views
         public static TableConstraint Right()
         {
             return new TableConstraint(horizontalAlignment: HorizontalAlignment.Right, verticalAlignment: VerticalAlignment.Middle);
+        }
+
+        public static TableConstraint TopLeft()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Left, verticalAlignment: VerticalAlignment.Top);
+        }
+
+        public static TableConstraint TopCenter()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Center, verticalAlignment: VerticalAlignment.Top);
+        }
+
+        public static TableConstraint TopRight()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Right, verticalAlignment: VerticalAlignment.Top);
+        }
+
+        public static TableConstraint MiddleLeft()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Left, verticalAlignment: VerticalAlignment.Middle);
+        }
+
+        public static TableConstraint MiddleRight()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Right, verticalAlignment: VerticalAlignment.Middle);
+        }
+
+        public static TableConstraint BottomLeft()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Left, verticalAlignment: VerticalAlignment.Bottom);
+        }
+
+        public static TableConstraint BottomCenter()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Center, verticalAlignment: VerticalAlignment.Bottom);
+        }
+
+        public static TableConstraint BottomRight()
+        {
+            return new TableConstraint(horizontalAlignment: HorizontalAlignment.Right, verticalAlignment: VerticalAlignment.Bottom);
         }
     }
 

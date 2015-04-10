@@ -107,6 +107,7 @@
     <Compile Include="Views\Css\CssString.cs" />
     <Compile Include="Views\Css\CssTextAlign.cs" />
     <Compile Include="Views\Css\CssTextDecoration.cs" />
+    <Compile Include="Views\Css\CssTextTransform.cs" />
     <Compile Include="Views\Css\CssUnit.cs" />
     <Compile Include="Views\Css\CssValue.cs" />
     <Compile Include="Views\Css\CssVerticalAlign.cs" />

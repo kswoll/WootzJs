@@ -2515,8 +2515,8 @@ namespace WootzJs.Compiler
             }
             if (!Equals(typeInfo.Type, typeInfo.ConvertedType) && conversion.IsMethodGroup && namedTypeSymbol.DelegateInvokeMethod != null)
             {
-                var thisReference = node is MemberAccessExpressionSyntax ? (JsExpression)((MemberAccessExpressionSyntax)node).Expression.Accept(this) : Js.This();
                 var symbol = model.GetSymbolInfo(node).Symbol;
+                var thisReference = node is MemberAccessExpressionSyntax ? (JsExpression)((MemberAccessExpressionSyntax)node).Expression.Accept(this) : symbol.IsStatic ? (JsExpression)Js.Reference(SpecialNames.TypeInitializerTypeFunction) : Js.This();
                 var delegateType = idioms.Type(typeInfo.ConvertedType);
                 var arguments = new List<JsExpression>()
                 {

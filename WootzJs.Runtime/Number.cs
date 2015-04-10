@@ -25,7 +25,9 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System.Collections.Generic;
 using System.Runtime.WootzJs;
+using System.Text;
 
 namespace System
 {
@@ -170,6 +172,8 @@ namespace System
 			return null;
 		}
 
+        enum DecimalState { Before, On, After }
+
         public string ToString(string format)
         {
             if (string.IsNullOrEmpty(format)) 
@@ -188,7 +192,59 @@ namespace System
                 }
                 return s;
             }
-            throw new Exception();
+            else
+            {
+                var parts = this.ToString().Split('.');
+                var leftOfDecimal = parts[0];
+                var rightOfDecimal = parts.Length > 1 ? parts[1] : "";
+                var leftDigits = new Queue<char>(leftOfDecimal);
+                var rightDigits = new Queue<char>(rightOfDecimal);
+                var result = new StringBuilder();
+
+                if (this.As<JsNumber>() < 0)
+                    result.Append("-");
+
+                var state = DecimalState.Before;
+                foreach (var token in format)
+                {
+                    switch (token)
+                    {
+                        case '0':
+                        case '#':
+                            switch (state)
+                            {
+                                case DecimalState.Before:
+                                    if (leftDigits.Count > 0)
+                                        result.Append(leftDigits.Dequeue());
+                                    else if (token == '0')
+                                        result.Append('0');
+                                    break;
+                                case DecimalState.On:
+                                    state = DecimalState.After;
+                                    if ((rightDigits.Count == 0 && token == '0') || rightDigits.Count > 0)
+                                        result.Append('.');
+                                    if (rightDigits.Count == 0 && token == '0')
+                                        result.Append('0');
+                                    else if (rightDigits.Count > 0)
+                                        result.Append(rightDigits.Dequeue());
+                                    break;
+                                case DecimalState.After:
+                                    if (rightDigits.Count == 0 && token == '0')
+                                        result.Append('0');
+                                    else if (rightDigits.Count > 0)
+                                        result.Append(rightDigits.Dequeue());
+                                    break;
+                            }
+                            break;
+                        case '.':
+                            state = DecimalState.On;
+                            while (leftDigits.Count > 0)
+                                result.Append(leftDigits.Dequeue());
+                            break;
+                    }
+                }
+                return result.ToString();
+            }
         }
 
 	    public int CompareTo(object obj)

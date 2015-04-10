@@ -207,6 +207,12 @@ namespace WootzJs.Mvc.Views.Css
             set { Set("text-decoration", value.GetCssValue()); }
         }
 
+        public CssTextTransform TextTransform
+        {
+            get { return CssTextTransforms.Parse(Get("text-transform")); }
+            set {  Set("text-transform", value.GetCssValue()); }
+        }
+
         public CssDisplay Display
         {
             get { return CssDisplays.Parse(Get("display")); }
@@ -217,6 +223,12 @@ namespace WootzJs.Mvc.Views.Css
         {
             get { return CssWhiteSpaces.Parse(Get("white-space")); }
             set { Set("white-space", value.GetCssValue()); }
+        }
+
+        public CssNumericValue LineHeight
+        {
+            get { return CssNumericValue.Parse(Get("line-height")); }
+            set { Set("line-height", value); }
         }
 
         public Style Clone()

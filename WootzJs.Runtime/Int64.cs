@@ -66,5 +66,10 @@ namespace System
                 throw new FormatException("String not convertible to long: " + s);
             return result.As<long>();
 		}
+
+        public string ToString(string format)
+        {
+            return this.As<Number>().ToString(format);
+        }
 	}
 }

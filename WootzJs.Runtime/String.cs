@@ -306,6 +306,8 @@ namespace System
         {
             switch (c)
             {
+                case '.':
+                    return "\\.";
                 case '?':
                     return "\\?";
             }
