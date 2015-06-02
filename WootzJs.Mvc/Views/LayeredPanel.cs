@@ -77,6 +77,7 @@ namespace WootzJs.Mvc.Views
             cell = CreateElement("td");
             cell.Style.VerticalAlign = "middle";
             cell.Style.Position = "relative";
+            cell.Style.ZIndex = "-1";
             container = CreateElement("div");
 
             cell.AppendChild(container);
