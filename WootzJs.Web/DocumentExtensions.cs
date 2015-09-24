@@ -49,7 +49,7 @@ namespace WootzJs.Web
             {
                 return Jsni.@new(Jsni.reference("CustomEvent"), eventType, args.As<JsObject>()).As<Event>();
             } 
-            catch (Exception e)
+            catch (Exception)
             {
                 var evt = document.CreateEvent("CustomEvent");
                 evt.As<JsObject>().member("initCustomEvent").invoke(eventType, false, true, args.As<JsObject>());

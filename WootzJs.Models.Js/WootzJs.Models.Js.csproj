@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9368D0EB-7301-46AE-8E11-C8B9638535BE}</ProjectGuid>
+    <ProjectGuid>{D9D811FB-48BF-46DC-BE19-E75EF99440FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WootzJs.Models</RootNamespace>
-    <AssemblyName>WootzJs.Models.CSharp</AssemblyName>
+    <AssemblyName>WootzJs.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,26 +30,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class.cs" />
-    <Compile Include="Failure.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Property.cs" />
-    <Compile Include="ValidateEvent.cs" />
+    <ProjectReference Include="..\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj">
+      <Project>{f631cac8-6af7-4889-ab85-19ea2e45460b}</Project>
+      <Name>WootzJs.ComponentModel.DataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WootzJs.System\WootzJs.System.csproj">
+      <Project>{976aa4b0-d441-4f50-802b-6d56be3e9dbe}</Project>
+      <Name>WootzJs.System</Name>
+    </ProjectReference>
   </ItemGroup>
+  <Import Project="..\WootzJs.Models\WootzJs.Models.projitems" Label="Shared" />
+  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)WootzJs.Models.CSharp.* $(ProjectDir)..\build</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
+copy $(TargetDir)WootzJs.Models.js $(ProjectDir)..\build
+copy $(TargetDir)WootzJs.Models.dll $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

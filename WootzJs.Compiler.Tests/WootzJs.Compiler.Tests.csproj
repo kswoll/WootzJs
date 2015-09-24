@@ -145,7 +145,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\build\WootzJs.targets" />
+  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir) mscorlib=$(ProjectDir)..\WootzJs.Runtime\WootzJs.Runtime.csproj 
 copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)

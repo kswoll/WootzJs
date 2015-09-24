@@ -26,9 +26,6 @@ namespace WootzJs.Web
         [Js(Name = "location")]
         public extern ulong Location { get; }
 
-        [Js(Name = "metaKey")]
-        public extern bool MetaKey { get; }
-
         [Js(Name = "repeat")]
         public extern bool Repeat { get; }
 

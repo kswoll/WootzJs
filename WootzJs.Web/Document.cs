@@ -59,9 +59,6 @@ namespace WootzJs.Web
         [Js(Name = "cookie")]
         public string Cookie;
 
-        [Js(Name = "title")]
-        public string Title;
-
         [Js(Name = "open")]
         public extern void Open();
 

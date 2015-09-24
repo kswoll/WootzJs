@@ -69,7 +69,7 @@
   <ItemGroup>
     <Content Include="RxLicense.txt" />
   </ItemGroup>
-  <Import Project="..\build\WootzJs.targets" />
+  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)

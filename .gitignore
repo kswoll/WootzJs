@@ -41,3 +41,7 @@ WootzJs.Testing/obj/
 WootzJs.Compiler.Tests/WootzJs.Compiler.Tests.sln.ide/
 WootzJs.Compiler.Tests/.vs/
 .vs/
+WootzJs.Models.Js/obj/
+WootzJs.Models.Net45/bin/
+WootzJs.Models.Net45/obj/
+WootzJs.Models.Js/bin/
