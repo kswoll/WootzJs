@@ -11,17 +11,17 @@ namespace WootzJs.Mvc.Views
 {
     public class AutocompleteTextBox<T> : Control
     {
-        public event Action Changed;
+//        public event Action Changed;
         public event Func<string, Action<T[]>, Task> Search;
 
         public bool Multiselect { get; set; }
 
-        private Control content;
+//        private Control content;
         private ListView<T> overlay;
         private InputElement contentNode;
         private Element overlayContainer;
         private Element contentContainerRow;
-        private DropDownAlignment alignment;
+//        private DropDownAlignment alignment;
         private List<T> selectedItems = new List<T>();
         private CancellationTokenSource canceller;
         private Func<T, string> textProvider;
@@ -58,10 +58,7 @@ namespace WootzJs.Mvc.Views
             set { contentNode.SetAttribute("placeholder", value); }
         }
 
-        public Icon LoadingIcon
-        {
-            get { return loadingIcon; }
-        }
+        public Icon LoadingIcon => loadingIcon;
 
         public T SelectedItem
         {
@@ -74,10 +71,7 @@ namespace WootzJs.Mvc.Views
             }
         }
 
-        public IEnumerable<T> SelectedItems
-        {
-            get { return selectedItems; }
-        }
+        public IEnumerable<T> SelectedItems => selectedItems;
 
         public void ClearSelectedItems()
         {
@@ -231,10 +225,7 @@ namespace WootzJs.Mvc.Views
 
         private async void OnKeyPress(Event @event)
         {
-            if (canceller != null)
-            {
-                canceller.Cancel();
-            }
+            canceller?.Cancel();
 
             canceller = new CancellationTokenSource();
             try

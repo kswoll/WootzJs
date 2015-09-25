@@ -703,7 +703,7 @@ namespace WootzJs.Compiler
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-            foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>().Where(x => x.AccessorList != null))
             {
                 var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
                 var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
@@ -756,7 +756,7 @@ namespace WootzJs.Compiler
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-            foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>())
+            foreach (var node in classDeclaration.Members.OfType<PropertyDeclarationSyntax>().Where(x => x.AccessorList != null))
             {
                 var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
                 var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));

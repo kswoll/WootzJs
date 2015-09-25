@@ -157,5 +157,18 @@ namespace WootzJs.Compiler.Tests
             [Js(AreAutoPropertiesMinimized = true)]
             public static string MinimizedStaticInitializer { get; private set; } = "MinimizedStaticInitializer";
         }
+
+        [Test]
+        public void ExpressionBodiedProperty()
+        {
+            var obj = new ExpressionBodiedClass();
+            var result = obj.Foo;
+            AssertEquals(result, "foo");
+        }
+
+        public class ExpressionBodiedClass
+        {
+            public string Foo => "foo";
+        }
     }
 }

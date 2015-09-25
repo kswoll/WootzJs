@@ -79,22 +79,30 @@ namespace WootzJs.Compiler
             var fileFolder = fileInfo.Directory.FullName;
             AsyncContext.Run(async () =>
             {
-                if (fileInfo.Extension.Equals(".sln", StringComparison.InvariantCultureIgnoreCase))
+                try
                 {
-                    var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileSolution(projectOrSolutionFile));                    
-                    var output = result.Item1;
-                    var solution = result.Item2;
-                    var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
-                    File.WriteAllText(fileFolder + "\\" + outputFolder + solutionName + ".js", output);
-                }
-                else
-                {
-                    var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileProject(projectOrSolutionFile));
-                    var output = result.Item1;
-                    var project = result.Item2;
-                    var projectName = project.AssemblyName;
+                    if (fileInfo.Extension.Equals(".sln", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileSolution(projectOrSolutionFile));                    
+                        var output = result.Item1;
+                        var solution = result.Item2;
+                        var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
+                        File.WriteAllText(fileFolder + "\\" + outputFolder + solutionName + ".js", output);
+                    }
+                    else
+                    {
+                        var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileProject(projectOrSolutionFile));
+                        var output = result.Item1;
+                        var project = result.Item2;
+                        var projectName = project.AssemblyName;
 
-                    File.WriteAllText(fileFolder + "\\" + outputFolder + projectName + ".js", output);
+                        File.WriteAllText(fileFolder + "\\" + outputFolder + projectName + ".js", output);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Environment.Exit(1);
                 }
             });
         }

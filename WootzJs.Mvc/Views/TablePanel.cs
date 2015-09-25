@@ -129,19 +129,19 @@ namespace WootzJs.Mvc.Views
             return new Point(x, y);
         }
 
-        public new Element Add(Control cell)
+        public Element Add(Control cell)
         {
             return Add(cell, null);
         }
 
         public Element Add(Control cell, TableConstraint constraint)
         {
-            base.AddChild(cell);
+            AddChild(cell);
 
             var nextEmptyCell = GetNextEmptyCell();
             constraint = constraint ?? DefaultConstraint;
             if (nextEmptyCell.X + constraint.ColumnSpan > columnWidths.Length)
-                throw new InvalidOperationException(string.Format("Added a cell at position ({0},{1}), but the column ({2}) exceeds the available remaining space in the row ({3}).", nextEmptyCell.X, nextEmptyCell.Y, constraint.ColumnSpan, columnWidths.Length - nextEmptyCell.X));
+                throw new InvalidOperationException($"Added a cell at position ({nextEmptyCell.X},{nextEmptyCell.Y}), but the column ({constraint.ColumnSpan}) exceeds the available remaining space in the row ({columnWidths.Length - nextEmptyCell.X}).");
 
             var jsCell = Browser.Document.CreateElement("td");
             if (constraint.ColumnSpan != 1)
@@ -229,10 +229,10 @@ namespace WootzJs.Mvc.Views
 
     public class TableConstraint
     {
-        public HorizontalAlignment HorizontalAlignment { get; private set; }
-        public VerticalAlignment VerticalAlignment { get; private set; }
-        public int ColumnSpan { get; private set; }
-        public int RowSpan { get; private set; }
+        public HorizontalAlignment HorizontalAlignment { get; }
+        public VerticalAlignment VerticalAlignment { get; }
+        public int ColumnSpan { get; }
+        public int RowSpan { get; }
 
         public TableConstraint(
             HorizontalAlignment horizontalAlignment = HorizontalAlignment.Fill, 
@@ -324,8 +324,8 @@ namespace WootzJs.Mvc.Views
 
     public class TableWidth
     {
-        public TableWidthStyle Style { get; private set; }
-        public int Value { get; private set; }
+        public TableWidthStyle Style { get; }
+        public int Value { get; }
 
         public TableWidth(TableWidthStyle style, int value)
         {

@@ -193,12 +193,14 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(i.ToString("0"), "5");
         }
 
+/*
         [Test]
         public void DecimalToString()
         {
             var n = 1.2345;
             AssertEquals(n.ToString("0"), "1");
         }
+*/
 
 /*
 

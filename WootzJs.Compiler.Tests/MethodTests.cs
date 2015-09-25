@@ -143,6 +143,18 @@ namespace WootzJs.Compiler.Tests
             result = ClassWithStaticMethods.Add(four: 1, three: 2, two: 3, one: 4);
             AssertEquals(result, 1234);
         }
+
+        [Test]
+        public void ExpressionBodyMethod()
+        {
+            var result = new ExpressionBodyMethodClass().Add(1, 2);
+            AssertEquals(result, "3");
+        }
+
+        public class ExpressionBodyMethodClass
+        {
+            public string Add(int a, int b) => (a + b).ToString();
+        }
     }
 
     public static class ClassWithStaticMethods

@@ -59,21 +59,18 @@ namespace WootzJs.Compiler
 
         public JsTransformer(Idioms idioms) 
         {
-            this.syntaxTree = idioms.transformer.syntaxTree;
-            this.model = idioms.transformer.model;
-            this.compilationUnit = idioms.transformer.compilationUnit;
+            syntaxTree = idioms.transformer.syntaxTree;
+            model = idioms.transformer.model;
+            compilationUnit = idioms.transformer.compilationUnit;
             this.idioms = new Idioms(this);
-            this.declarationsBySymbol = new Dictionary<ISymbol, IJsDeclaration>(idioms.transformer.declarationsBySymbol);
-            this.outputBlockStack = idioms.transformer.outputBlockStack.ToList();
-            this.initializableObjectsStack = new Stack<IJsDeclaration>(idioms.transformer.initializableObjectsStack.Reverse());
-            this.declarationStack = new Stack<ISymbol>(idioms.transformer.declarationStack.Reverse());
-            this.loopLabels = new Stack<LoopEntry>(idioms.transformer.loopLabels.Reverse());
+            declarationsBySymbol = new Dictionary<ISymbol, IJsDeclaration>(idioms.transformer.declarationsBySymbol);
+            outputBlockStack = idioms.transformer.outputBlockStack.ToList();
+            initializableObjectsStack = new Stack<IJsDeclaration>(idioms.transformer.initializableObjectsStack.Reverse());
+            declarationStack = new Stack<ISymbol>(idioms.transformer.declarationStack.Reverse());
+            loopLabels = new Stack<LoopEntry>(idioms.transformer.loopLabels.Reverse());
         }
 
-        public SemanticModel Model
-        {
-            get { return model; }
-        }
+        public SemanticModel Model => model;
 
         public int GetLabelDepth(string label)
         {
@@ -150,10 +147,7 @@ namespace WootzJs.Compiler
             declarationStack.Pop();
         }
 
-        public ISymbol CurrentDeclaration
-        {
-            get { return declarationStack.Peek(); }
-        }
+        public ISymbol CurrentDeclaration => declarationStack.Peek();
 
         public override JsNode DefaultVisit(SyntaxNode node)
         {
@@ -356,8 +350,8 @@ namespace WootzJs.Compiler
             if (!isExported)
                 return block;
 
-            var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
-            var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
+            var getter = node.AccessorList?.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
+            var setter = node.AccessorList?.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
             var propertyName = property.GetMemberName();
 
             Func<string, JsExpression, JsExpressionStatement> storeIn = (member, value) => !property.IsStatic ? idioms.StoreInPrototype(member, value) : idioms.StoreInType(member, value);
@@ -391,6 +385,14 @@ namespace WootzJs.Compiler
             }
             else
             {
+                if (node.ExpressionBody != null)
+                {
+                    var body = new JsBlockStatement();
+                    PushOutput(body);
+                    body.Aggregate(((JsExpression)node.ExpressionBody.Accept(this)).Return());
+                    block.Add(storeIn("get_" + property.GetMemberName(), Js.Function().Body(body)));
+                    PopOutput();
+                }
                 if (getter != null)
                 {
                     PushDeclaration(property.GetMethod);
@@ -517,6 +519,8 @@ namespace WootzJs.Compiler
             JsStatement body;
             if (code != null)
                 body = Js.Native(code);
+            else if (node.ExpressionBody != null)
+                body = ((JsExpression)node.ExpressionBody.Accept(this)).Return();
             else if (node.Body == null)
                 body = new JsBlockStatement();
             else if (YieldChecker.HasYield(node))
@@ -591,11 +595,11 @@ namespace WootzJs.Compiler
         public override JsNode VisitIdentifierName(IdentifierNameSyntax node)
         {
             var symbol = model.GetSymbolInfo(node).Symbol;
-            if (symbol == null)
-            {
-                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
-                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
-            }
+//            if (symbol == null)
+//            {
+//                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
+//                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
+//            }
 
             var @this = (JsExpression)Js.This();
             if (symbol.IsStatic && symbol.ContainingType != null)
@@ -738,11 +742,11 @@ namespace WootzJs.Compiler
         {
             var symbolInfo = model.GetSymbolInfo(node);
             var symbol = symbolInfo.Symbol;
-            if (symbolInfo.Symbol == null)
-            {
-                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
-                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
-            }
+//            if (symbolInfo.Symbol == null)
+//            {
+//                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+//                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
+//            }
 
             JsExpression target;
             bool isBaseReference;
@@ -803,9 +807,10 @@ namespace WootzJs.Compiler
             if (idioms.TryStringConcatenation(node.Kind(), leftType, rightType, left, right, out result))
                 return result;
 
-            if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
+            var methodSymbol = symbol as IMethodSymbol;
+            if (methodSymbol != null && methodSymbol.Parameters.Length == 2)
             {
-                var method = (IMethodSymbol)symbol;
+                var method = methodSymbol;
                 if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
                     return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
             }
@@ -832,9 +837,10 @@ namespace WootzJs.Compiler
             if (idioms.TryIntegerDivision(node.Kind(), leftType, rightType, left, right, out result))
                 return result;
 
-            if (symbol is IMethodSymbol && ((IMethodSymbol)symbol).Parameters.Length == 2)
+            var methodSymbol = symbol as IMethodSymbol;
+            if (methodSymbol != null && methodSymbol.Parameters.Length == 2)
             {
-                var method = (IMethodSymbol)symbol;
+                var method = methodSymbol;
                 if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
                     return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
             }
@@ -1130,7 +1136,7 @@ namespace WootzJs.Compiler
             }
 
             var block = new JsBlockStatement();
-            JsParameter[] parameters = parameterNodes.Select(x => (JsParameter)x.Accept(this)).ToArray();
+            var parameters = parameterNodes.Select(x => (JsParameter)x.Accept(this)).ToArray();
 
             PushOutput(block);
 
@@ -1199,7 +1205,7 @@ namespace WootzJs.Compiler
         public override JsNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
             var delegateType = (INamedTypeSymbol)model.GetTypeInfo(node).ConvertedType;
-            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, node.ParameterList == null ? new ParameterSyntax[0] : node.ParameterList.Parameters.ToArray(), node.Block, false));
+            return ImplicitCheck(node, VisitLambdaExpression(node, delegateType, node.ParameterList?.Parameters.ToArray() ?? new ParameterSyntax[0], node.Block, false));
         }
 
         public override JsNode VisitAnonymousObjectMemberDeclarator(AnonymousObjectMemberDeclaratorSyntax node)
@@ -1307,11 +1313,11 @@ namespace WootzJs.Compiler
             }
 
             var method = (IMethodSymbol)model.GetSymbolInfo(node).Symbol;
-            if (method == null)
-            {
-                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
-                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();                
-            }
+//            if (method == null)
+//            {
+//                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().NormalizeWhitespace().ToString();
+//                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();                
+//            }
             if (Equals(type, Context.Instance.MulticastDelegateType))
             {
                 return ImplicitCheck(node, idioms.CreateMulticastDelegate((JsExpression)node.ArgumentList.Arguments[0].Accept(this), 
@@ -1320,7 +1326,7 @@ namespace WootzJs.Compiler
 
             var isExported = type.IsExported();
             var isBuiltIn = type.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);
-            var actualArguments = (node.ArgumentList == null ? new List<JsExpression>() : node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this))).ToArray();
+            var actualArguments = (node.ArgumentList?.Arguments.Select(x => (JsExpression)x.Accept(this)) ?? new List<JsExpression>()).ToArray();
             var args = idioms.TranslateArguments(
                 node,
                 method, 
@@ -1497,14 +1503,13 @@ namespace WootzJs.Compiler
         public override JsNode VisitVariableDeclarator(VariableDeclaratorSyntax node)
         {
             var symbol = (ILocalSymbol)model.GetDeclaredSymbol(node);
-            if (symbol == null)
-            {
-                symbol = VariableUsageFinder.FirstValidSymbolOccuranceOfVariable(model, node, node.Identifier.ToString());
-//                symbol = new NameSymbol(node.Identifier.ToString());
-                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
-                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
-            }
-            var variable = Js.Variable(JsNames.EscapeIfReservedWord(node.Identifier.ToString()), node.Initializer != null ? (JsExpression)node.Initializer.Accept(this) : null);
+//            if (symbol == null)
+//            {
+//                symbol = VariableUsageFinder.FirstValidSymbolOccuranceOfVariable(model, node, node.Identifier.ToString());
+//                var classText = node.FirstAncestorOrSelf<ClassDeclarationSyntax>().Parent.NormalizeWhitespace().ToString();
+//                var diagnostics = model.GetDiagnostics().Select(x => x.ToString()).ToArray();
+//            }
+            var variable = Js.Variable(JsNames.EscapeIfReservedWord(node.Identifier.ToString()), (JsExpression)node.Initializer?.Accept(this));
             DeclareInCurrentScope(symbol, variable);
             return variable;
         }
@@ -1584,8 +1589,7 @@ namespace WootzJs.Compiler
             var nextStatement = node.GetNextStatement();
             var loopLabel = 
                 node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
-                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
-                null;
+                nextStatement as LabeledStatementSyntax;
             var loopEntry = new LoopEntry();
             if (loopLabel != null)
             {
@@ -1613,8 +1617,7 @@ namespace WootzJs.Compiler
             var nextStatement = node.GetNextStatement();
             var loopLabel = 
                 node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
-                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
-                null;
+                nextStatement as LabeledStatementSyntax;
             var loopEntry = new LoopEntry();
             if (loopLabel != null)
             {
@@ -1640,8 +1643,7 @@ namespace WootzJs.Compiler
             var nextStatement = node.GetNextStatement();
             var loopLabel = 
                 node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
-                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
-                null;
+                nextStatement as LabeledStatementSyntax;
             var loopEntry = new LoopEntry();
             if (loopLabel != null)
             {
@@ -1650,7 +1652,7 @@ namespace WootzJs.Compiler
             loopLabels.Push(loopEntry);
             loopEntry.Depth = loopLabels.Count;
 
-            var declaration = node.Declaration == null ? null : (JsVariableDeclaration)node.Declaration.Accept(this);
+            var declaration = (JsVariableDeclaration)node.Declaration?.Accept(this);
 
             var initializers = node.Initializers.Select(x => (JsExpression)x.Accept(this)).ToArray();
 
@@ -1681,8 +1683,7 @@ namespace WootzJs.Compiler
             var nextStatement = node.GetNextStatement();
             var loopLabel = 
                 node.Parent is LabeledStatementSyntax ? (LabeledStatementSyntax)node.Parent :
-                nextStatement is LabeledStatementSyntax ? (LabeledStatementSyntax)nextStatement :
-                null;
+                nextStatement as LabeledStatementSyntax;
             var loopEntry = new LoopEntry();
             if (loopLabel != null)
             {
@@ -1797,7 +1798,7 @@ namespace WootzJs.Compiler
             return Js.If(
                 (JsExpression)node.Condition.Accept(this),
                 (JsStatement)node.Statement.Accept(this),
-                node.Else != null ? (JsStatement)node.Else.Accept(this) : null);
+                (JsStatement)node.Else?.Accept(this));
         }
 
         public override JsNode VisitElseClause(ElseClauseSyntax node)
@@ -2355,6 +2356,11 @@ namespace WootzJs.Compiler
                 current = current.Add(rest);
             }
             return current;
+        }
+
+        public override JsNode VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
+        {
+            return node.Expression.Accept(this);
         }
 
         public override JsNode VisitIncompleteMember(IncompleteMemberSyntax node)

@@ -441,6 +441,9 @@ namespace WootzJs.Compiler
 
         public static bool IsAutoProperty(this PropertyDeclarationSyntax property)
         {
+            if (property.AccessorList == null)
+                return false;
+
             var getter = property.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
             var setter = property.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
             return !property.Modifiers.Any(x => x == SyntaxFactory.Token(SyntaxKind.AbstractKeyword)) && 

@@ -11,9 +11,8 @@ namespace WootzJs.Mvc.Views
     {
         private Element[] sourceFrames;
         private Element[] highlightedSourceFrames;
-        private bool isAnimating;
         private bool isHighlighted;
-        private int currentFrame = 0;
+        private int currentFrame;
         private Timer timer;
         private CssColor highlightColor;
 

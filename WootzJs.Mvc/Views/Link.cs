@@ -1,5 +1,4 @@
-﻿using System;
-using WootzJs.Web;
+﻿using WootzJs.Web;
 
 namespace WootzJs.Mvc.Views
 {
@@ -81,12 +80,12 @@ namespace WootzJs.Mvc.Views
         /// Using this property will remove any text added via Text.
         /// </summary>
         /// <param name="child"></param>
-        public new void Add(Control child)
+        public void Add(Control child)
         {
             if (useTextMode)
                 Node.InnerHtml = "";
 
-            base.AddChild(child);
+            AddChild(child);
             Node.AppendChild(child.Node);
             useTextMode = false;
         }
@@ -103,9 +102,9 @@ namespace WootzJs.Mvc.Views
         /// <summary>
         /// Publicly surface the protected Remove method in this class.
         /// </summary>
-        public new void Remove(Control child)
+        public void Remove(Control child)
         {
-            base.RemoveChild(child);
+            RemoveChild(child);
         }
     }
 }
