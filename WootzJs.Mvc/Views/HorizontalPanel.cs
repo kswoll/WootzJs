@@ -84,7 +84,7 @@ namespace WootzJs.Mvc.Views
             return table;
         }
 
-        public new HorizontalPanel Add(Control child)
+        public HorizontalPanel Add(Control child)
         {
             return Add(child, DefaultAlignment, Count == 0 ? 0 : Spacing);
         }
@@ -101,7 +101,7 @@ namespace WootzJs.Mvc.Views
 
         public HorizontalPanel Add(Control child, VerticalAlignment alignment, int spaceBefore)
         {
-            base.AddChild(child);
+            AddChild(child);
 
             var cell = Browser.Document.CreateElement("td");
             var div = Browser.Document.CreateElement("div");

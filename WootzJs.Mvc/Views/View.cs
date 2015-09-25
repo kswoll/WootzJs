@@ -19,25 +19,15 @@ namespace WootzJs.Mvc.Views
         private IDictionary<string, Control> sections;
         private bool isDisposed;
 
-        public MvcApplication Application
-        {
-            get { return MvcApplication.Instance; }
-        }
-
-        public NavigationContext NavigationContext
-        {
-            get {  return Application.NavigationContext; }
-        }
-
-        public NavigationRequest Request
-        {
-            get { return NavigationContext.Request; }
-        }
+        public MvcApplication Application => MvcApplication.Instance;
+        public NavigationContext NavigationContext => Application.NavigationContext;
+        public NavigationRequest Request => NavigationContext.Request;
 
         public void Dispose()
         {
             if (isDisposed)
                 throw new Exception("Cannot dispose a view that has already been disposed.");
+            isDisposed = true;
             Content.Dispose();
         }
 
@@ -50,8 +40,7 @@ namespace WootzJs.Mvc.Views
 
         protected virtual void OnInitialize()
         {
-            if (Content != null)
-                Content.NotifyOnAddedToView();
+            Content?.NotifyOnAddedToView();
         }
 
         public Control Content
@@ -59,8 +48,7 @@ namespace WootzJs.Mvc.Views
             get { return content; }
             set
             {
-                if (content != null)
-                    content.NotifyOnRemovedFromView();
+                content?.NotifyOnRemovedFromView();
                 content = value;
                 value.View = this;
                 if (isInitialized)
@@ -79,10 +67,7 @@ namespace WootzJs.Mvc.Views
             }
         }
 
-        public IDictionary<string, Control> Sections
-        {
-            get { return sections ?? (sections = new Dictionary<string, Control>()); }
-        }
+        public IDictionary<string, Control> Sections => sections ?? (sections = new Dictionary<string, Control>());
 
         protected void VerifyLayouts()
         {
@@ -122,20 +107,18 @@ namespace WootzJs.Mvc.Views
 
         protected virtual void OnViewAttached()
         {
-            if (Attached != null)
-                Attached();
+            Attached?.Invoke();
         }
 
         protected virtual void OnViewDetached()
         {
-            if (Detached != null)
-                Detached();
+            Detached?.Invoke();
         }
     }
 
     public class View<TModel> : View, IModelContainer<TModel> 
     {
-        public TModel Model { get; private set; }
+        public TModel Model { get; }
         public Bindings<TModel> Binders { get; private set; }
 
         public View(TModel model)

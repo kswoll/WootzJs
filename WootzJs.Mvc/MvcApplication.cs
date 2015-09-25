@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using WootzJs.Models;
 using WootzJs.Mvc.Routes;
+using WootzJs.Mvc.Utils;
 using WootzJs.Mvc.Views;
 using WootzJs.Mvc.Views.Css;
 using WootzJs.Web;
@@ -26,13 +27,8 @@ namespace WootzJs.Mvc
         public IDependencyResolver DependencyResolver { get; protected set; }
 
         private RouteTree routeTree;
-        private View view;
-        private HtmlControl html = new HtmlControl(Browser.Document.GetElementByTagName("html"));
-        private HtmlControl body = new HtmlControl(Browser.Document.GetElementByTagName("body"));
         private string initialPath = Browser.Window.Location.PathName;
         private string currentPath;
-        private UrlHelper url = new UrlHelper();
-        private ActionHelper action = new ActionHelper();
 
         private static MvcApplication instance;
 
@@ -42,45 +38,14 @@ namespace WootzJs.Mvc
             DependencyResolver = new ReflectionDependencyResolver();
         }
 
-        public static MvcApplication Instance
-        {
-            get { return instance; }
-        }
-
-        public HtmlControl Html
-        {
-            get { return html; }
-        }
-
-        public View View
-        {
-            get { return view; }
-        }
-
-        public string CurrentPath
-        {
-            get { return currentPath ?? initialPath; }
-        }
-
-        public HtmlControl Body
-        {
-            get { return body; }
-        }
-
-        public UrlHelper Url
-        {
-            get { return url; }
-        }
-
-        public ActionHelper Action
-        {
-            get { return action; }
-        }
-
-        public string CurrentUrl
-        {
-            get { return Browser.Window.Location.PathName + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? Browser.Window.Location.Search : ""); }
-        }
+        public static MvcApplication Instance => instance;
+        public HtmlControl Html { get; } = new HtmlControl(Browser.Document.GetElementByTagName("html"));
+        public View View { get; private set; }
+        public string CurrentPath => currentPath ?? initialPath;
+        public HtmlControl Body { get; } = new HtmlControl(Browser.Document.GetElementByTagName("body"));
+        public UrlHelper Url { get; } = new UrlHelper();
+        public ActionHelper Action { get; } = new ActionHelper();
+        public string CurrentUrl => Browser.Window.Location.PathName + (!string.IsNullOrEmpty(Browser.Window.Location.Search) ? Browser.Window.Location.Search : "");
 
         public async void Start(Assembly assembly)
         {
@@ -115,13 +80,14 @@ namespace WootzJs.Mvc
             await Open(CurrentUrl, false);
         }
 
-        protected virtual async Task InitializeGlobalStyle()
+        protected virtual Task InitializeGlobalStyle()
         {
             var style = Browser.Document.CreateElement("style");
             style.AppendChild(Browser.Document.CreateTextNode(""));  // Webkit hack
             Browser.Document.Head.AppendChild(style);
             var styleSheet = style.As<JsObject>()["sheet"].As<StyleSheet>();
             GlobalStyle = new GlobalStyle(styleSheet);
+            return TaskConstants.Completed;
         }
 
         private async void OnPopState(PopStateEvent evt)
@@ -155,29 +121,29 @@ namespace WootzJs.Mvc
         {
             Browser.Document.Title = view.Title;
 
-            if (this.view is Layout && view.LayoutType != null)
+            if (View is Layout && view.LayoutType != null)
             {
-                var layout = (Layout)this.view;
+                var layout = (Layout)View;
                 var container = layout.FindLayout(view.LayoutType);
                 container.AddView(view);
             }
             else
             {
-                if (this.view != null)
+                if (View != null)
                 {
-                    this.view.NotifyViewDetached();
-                    body.Remove(this.view.Content);
+                    View.NotifyViewDetached();
+                    Body.Remove(View.Content);
                 }
 
                 var rootView = view.GetRootView();
                 rootView.NotifyViewAttached();
-                body.Add(rootView.Content);
-                this.view = rootView;
+                Body.Add(rootView.Content);
+                View = rootView;
             }
 
-            if (this.view is Layout)
+            if (View is Layout)
             {
-                var layout = (Layout)this.view;
+                var layout = (Layout)View;
                 var sections = view.Sections;
                 layout.LoadSections(sections);
 //                foreach (var section in sections.Values)
@@ -197,10 +163,10 @@ namespace WootzJs.Mvc
             var queryStringDictionary = new Dictionary<string, string>();
             if (queryString != null)
             {
-                var parts = queryString.Split(new[] { '&' });
+                var parts = queryString.Split('&');
                 foreach (var part in parts)
                 {
-                    var pair = part.Split(new[] { '=' });
+                    var pair = part.Split('=');
                     var key = HttpUtility.UrlDecode(pair[0]);
                     var value = HttpUtility.UrlDecode(pair[1]);
                     queryStringDictionary[key] = value;
@@ -263,8 +229,7 @@ namespace WootzJs.Mvc
 
         protected virtual void OnBottomBounced()
         {
-            if (BottomBounced != null)
-                BottomBounced();
+            BottomBounced?.Invoke();
         }
     }
 }

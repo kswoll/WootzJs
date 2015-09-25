@@ -9,8 +9,8 @@ namespace WootzJs.Mvc.Views
         public Style ItemStyle { get; set; }
         public Style HighlightedItemStyle { get; set; }
 
-        private Dictionary<T, Item<T>> itemControlsByItem = new Dictionary<T, Item<T>>();
-        private List<Item<T>> itemElements = new List<Item<T>>();
+        private Dictionary<T, Item> itemControlsByItem = new Dictionary<T, Item>();
+        private List<Item> itemElements = new List<Item>();
 
         public ItemList()
         {
@@ -26,7 +26,7 @@ namespace WootzJs.Mvc.Views
 
         public void Add(T item)
         {
-            var itemControl = new Item<T>(this, item);
+            var itemControl = new Item(this, item);
             itemControlsByItem[item] = itemControl;
             itemElements.Add(itemControl);
 
@@ -42,18 +42,19 @@ namespace WootzJs.Mvc.Views
             Node.RemoveChild(itemElement.Node);
         }
 
-        public class Item<T> : Control
+        public class Item : Control
         {
-            private ItemList<T> list;
-            private T item;
+            public ItemList<T> List { get; }
+            public T Value { get; }
+
             private Element content;
             private TextNode contentText;
             private bool isHighlighted;
 
-            public Item(ItemList<T> list, T item)
+            public Item(ItemList<T> list, T value)
             {
-                this.list = list;
-                this.item = item;
+                List = list;
+                Value = value;
             }
 
             public string Text

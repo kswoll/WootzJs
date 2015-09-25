@@ -69,6 +69,7 @@
     <Compile Include="Utils\Animator.cs" />
     <Compile Include="Utils\BraceTokenizer.cs" />
     <Compile Include="StyleExtensions.cs" />
+    <Compile Include="Utils\TaskConstants.cs" />
     <Compile Include="ViewContext.cs" />
     <Compile Include="ViewResult.cs" />
     <Compile Include="Views\ActionHelper.cs" />

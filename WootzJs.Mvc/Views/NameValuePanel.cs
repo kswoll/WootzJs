@@ -66,11 +66,11 @@ namespace WootzJs.Mvc.Views
             return result;
         }
 
-        public new void Add(Control control)
+        public void Add(Control control)
         {
             var isNameControl = Count % 2 == 0;
             var lastControl = Children.LastOrDefault();
-            base.AddChild(control);
+            AddChild(control);
             var cell = table.Add(control, isNameControl ?
                 TableConstraint.Alignment(HorizontalAlignment.Right) :
                 TableConstraint.Alignment(HorizontalAlignment.Left));

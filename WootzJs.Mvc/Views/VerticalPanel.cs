@@ -125,7 +125,7 @@ namespace WootzJs.Mvc.Views
             return div;
         }
 
-        public new void Add(Control child, bool animate = false)
+        public void Add(Control child, bool animate = false)
         {
             Add(child, DefaultAlignment, 0, animate);
         }

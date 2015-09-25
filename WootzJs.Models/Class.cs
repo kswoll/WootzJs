@@ -37,6 +37,15 @@ namespace WootzJs.Models
 {
     public static class Class<T>
     {
+        private static Dictionary<string, PropertyInfo> propertiesByName = typeof(T)
+            .GetProperties()
+            .ToDictionary(x => x.Name);
+
+        public static PropertyInfo GetPropertyInfo(string name)
+        {
+            return propertiesByName[name];
+        }
+
         public static MethodInfo GetMethodInfo(Expression<Action<T>> accessor)
         {
             var call = (MethodCallExpression)accessor.Body;
@@ -58,8 +67,7 @@ namespace WootzJs.Models
         public static PropertyInfo GetPropertyInfo<TResult>(Expression<Func<T, TResult>> accessor)
         {
             var expression = accessor.Body;
-            if (expression is UnaryExpression)
-                expression = ((UnaryExpression)expression).Operand;
+            expression = (expression as UnaryExpression)?.Operand;
             var call = (MemberExpression)expression;
             return (PropertyInfo)call.Member;
         }
@@ -85,7 +93,7 @@ namespace WootzJs.Models
                 current = unary.Operand;
             var member = (MemberExpression)current;
             return string.Join(".", member
-                .SelectRecursive(o => o.Expression is MemberExpression ? (MemberExpression)o.Expression : null)
+                .SelectRecursive(o => o.Expression as MemberExpression)
                 .Select(o => o.Member.Name)
                 .Reverse());
         }
@@ -106,7 +114,7 @@ namespace WootzJs.Models
             if (member == null) 
                 return Enumerable.Empty<MemberInfo>();
             return member
-                .SelectRecursive(o => o.Expression is MemberExpression ? (MemberExpression)o.Expression : null)
+                .SelectRecursive(o => o.Expression as MemberExpression)
                 .Select(o => o.Member).Reverse();
         }
 
