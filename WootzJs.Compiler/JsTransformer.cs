@@ -48,6 +48,7 @@ namespace WootzJs.Compiler
         private Stack<ISymbol> declarationStack = new Stack<ISymbol>();
         private Stack<LoopEntry> loopLabels = new Stack<LoopEntry>();
         private JsCompilationUnit compilationUnit;
+        private Stack<JsExpression> memberBindingTargets = new Stack<JsExpression>();
 
         public JsTransformer(SyntaxTree syntaxTree, SemanticModel model, JsCompilationUnit compilationUnit)
         {
@@ -923,6 +924,16 @@ namespace WootzJs.Compiler
             if (idioms.TryNameofInvocation(node, method, out specialResult))
                 return ImplicitCheck(node, specialResult);
 
+            var target = (JsExpression)node.Expression.Accept(this);
+            return VisitInvocationExpression(node, target);
+        }
+
+        public JsNode VisitInvocationExpression(InvocationExpressionSyntax node, JsExpression target)
+        {
+            JsExpression specialResult;
+            var symbol = model.GetSymbolInfo(node).Symbol;
+            var method = (IMethodSymbol)symbol;
+
             var actualArguments = node.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
 
             if (idioms.TryBaseMethodInvocation(node, method, actualArguments, out specialResult))
@@ -935,7 +946,6 @@ namespace WootzJs.Compiler
                 var diagnostics2 = model.GetDeclarationDiagnostics();
             }
 */
-            var target = (JsExpression)node.Expression.Accept(this);
             var targetType = node.Expression is MemberAccessExpressionSyntax ? model.GetTypeInfo(((MemberAccessExpressionSyntax)node.Expression).Expression).ConvertedType : null;
             var methodTarget = target is JsMemberReferenceExpression ? ((JsMemberReferenceExpression)target).Target : target;    // methodTarget has meaning only for method (as opposed to delegate) invocations
             var originalMethodTarget = node.Expression is MemberAccessExpressionSyntax ? ((MemberAccessExpressionSyntax)node.Expression).Expression : node.Expression;
@@ -2292,15 +2302,37 @@ namespace WootzJs.Compiler
             return parameter;
         }
 
+        public override JsNode VisitMemberBindingExpression(MemberBindingExpressionSyntax node)
+        {
+            var member = model.GetSymbolInfo(node).Symbol;
+            var target = memberBindingTargets.Pop();
+            return idioms.MemberReference(target, member);
+        }
+
         // Null-propagating operator
         public override JsNode VisitConditionalAccessExpression(ConditionalAccessExpressionSyntax node)
         {
             var expression = (JsExpression)node.Expression.Accept(this);
+
             var type = model.GetTypeInfo(node).ConvertedType;
             if (Equals(type.OriginalDefinition, Context.Instance.NullableType))
             {
                 type = type.GetGenericArgument(Context.Instance.NullableType, 0);
             }
+
+            var jsParameter = Js.Parameter("$target");
+            memberBindingTargets.Push(jsParameter.GetReference());
+            var whenNotNull = (JsExpression)node.WhenNotNull.Accept(this);
+
+            return idioms.InvokeStatic
+            (
+                Context.Instance.NullPropagation, 
+                Js.This(), 
+                expression, 
+                idioms.DefaultValue(type), 
+                Js.Function(jsParameter).Body(whenNotNull.Return())
+            );
+
 
             if (node.WhenNotNull is MemberBindingExpressionSyntax)
             {
@@ -2309,6 +2341,7 @@ namespace WootzJs.Compiler
                 return idioms.InvokeStatic
                 (
                     Context.Instance.NullPropagation, 
+                    Js.This(), 
                     expression, 
                     idioms.DefaultValue(type), 
                     Js.Function(Js.Parameter("$target")).Body(idioms.MemberReference(Js.Reference("$target"), member).Return())
@@ -2317,14 +2350,20 @@ namespace WootzJs.Compiler
             else
             {
                 var invocationExpression = (InvocationExpressionSyntax)node.WhenNotNull;
-                var member = (IMethodSymbol)model.GetSymbolInfo(invocationExpression).Symbol;                
-                var actualArguments = invocationExpression.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
+                var memberBinding = (MemberBindingExpressionSyntax)invocationExpression.Expression;
+                var member = (IMethodSymbol)model.GetSymbolInfo(memberBinding).Symbol;
+                var target = idioms.MemberReference(Js.Reference("$target"), member);
+//                var actualArguments = invocationExpression.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
+//                var target = expression.Member(member.GetMemberName());
+
                 return idioms.InvokeStatic
                 (
                     Context.Instance.NullPropagation, 
+                    Js.This(),
                     expression, 
                     idioms.DefaultValue(type), 
-                    Js.Function(Js.Parameter("$target")).Body(idioms.Invoke(Js.Reference("$target"), member, actualArguments).Return())
+                    Js.Function(Js.Parameter("$target")).Body(((JsExpression)VisitInvocationExpression(invocationExpression, target)).Return())
+//                    Js.Function(Js.Parameter("$target")).Body(idioms.Invoke(Js.Reference("$target"), member, actualArguments).Return())
                 );
             }
         }
@@ -2507,7 +2546,6 @@ namespace WootzJs.Compiler
         {
             throw new Exception();
         }
-
         private JsNode ImplicitCheck(ExpressionSyntax node, JsNode result)
         {
             var typeInfo = model.GetTypeInfo(node);

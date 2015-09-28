@@ -73,6 +73,17 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(val, 3);
         }
 
+        private string field;
+
+        [Test]
+        public void NullPropagationUsingThis()
+        {
+            var list = new List<int>();
+            list.Add(1);
+            list?.Select(x => field = x.ToString()).ToArray();
+            AssertEquals(field, "1");
+        }
+
         class NullPropagatingTestClass
         {
             public int Field;

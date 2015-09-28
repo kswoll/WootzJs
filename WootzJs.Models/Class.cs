@@ -67,7 +67,8 @@ namespace WootzJs.Models
         public static PropertyInfo GetPropertyInfo<TResult>(Expression<Func<T, TResult>> accessor)
         {
             var expression = accessor.Body;
-            expression = (expression as UnaryExpression)?.Operand;
+            if (expression is UnaryExpression)
+                expression = ((UnaryExpression)expression).Operand;
             var call = (MemberExpression)expression;
             return (PropertyInfo)call.Member;
         }

@@ -102,12 +102,12 @@ namespace System.Runtime.WootzJs
         }
 
         [Js(Name = SpecialNames.NullPropagation)]
-        public static JsObject NullPropagation(JsObject target, JsObject ifNull, JsFunction ifNotNull)
+        public static JsObject NullPropagation(JsObject @this, JsObject target, JsObject ifNull, JsFunction ifNotNull)
         {
             if (target == null)
                 return ifNull;
             else
-                return ifNotNull.invoke(target);
+                return ifNotNull.call(@this, target);
         }
 
         [Js(Name = SpecialNames.DefineStaticConstructor)]
