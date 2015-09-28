@@ -2332,40 +2332,6 @@ namespace WootzJs.Compiler
                 idioms.DefaultValue(type), 
                 Js.Function(jsParameter).Body(whenNotNull.Return())
             );
-
-
-            if (node.WhenNotNull is MemberBindingExpressionSyntax)
-            {
-                var memberBinding = (MemberBindingExpressionSyntax)node.WhenNotNull;
-                var member = model.GetSymbolInfo(memberBinding).Symbol;                
-                return idioms.InvokeStatic
-                (
-                    Context.Instance.NullPropagation, 
-                    Js.This(), 
-                    expression, 
-                    idioms.DefaultValue(type), 
-                    Js.Function(Js.Parameter("$target")).Body(idioms.MemberReference(Js.Reference("$target"), member).Return())
-                );
-            }
-            else
-            {
-                var invocationExpression = (InvocationExpressionSyntax)node.WhenNotNull;
-                var memberBinding = (MemberBindingExpressionSyntax)invocationExpression.Expression;
-                var member = (IMethodSymbol)model.GetSymbolInfo(memberBinding).Symbol;
-                var target = idioms.MemberReference(Js.Reference("$target"), member);
-//                var actualArguments = invocationExpression.ArgumentList.Arguments.Select(x => (JsExpression)x.Accept(this)).ToArray();
-//                var target = expression.Member(member.GetMemberName());
-
-                return idioms.InvokeStatic
-                (
-                    Context.Instance.NullPropagation, 
-                    Js.This(),
-                    expression, 
-                    idioms.DefaultValue(type), 
-                    Js.Function(Js.Parameter("$target")).Body(((JsExpression)VisitInvocationExpression(invocationExpression, target)).Return())
-//                    Js.Function(Js.Parameter("$target")).Body(idioms.Invoke(Js.Reference("$target"), member, actualArguments).Return())
-                );
-            }
         }
 
         public override JsNode VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax node)
