@@ -695,11 +695,10 @@ namespace WootzJs.Compiler
                 var propertySymbol = transformer.model.GetDeclaredSymbol(property);
                 if (propertySymbol.ExplicitInterfaceImplementations.Any())
                     continue;
-                if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
+                if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported() && propertySymbol.IsStatic)
                 {
                     var initializer = property.Initializer == null ? DefaultValue(propertySymbol.Type) : (JsExpression)property.Initializer.Accept(transformer);
-                    if (propertySymbol.IsStatic)
-                        result.Add(StoreInType(propertySymbol.GetMemberName(), initializer));
+                    result.Add(StoreInType(propertySymbol.GetMemberName(), initializer));
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
@@ -708,14 +707,11 @@ namespace WootzJs.Compiler
                 var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
                 var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
                 var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
-                if (!IsMinimizedAutoProperty(property) && getter != null && setter != null && getter.Body == null && setter.Body == null)
+                if (!IsMinimizedAutoProperty(property) && getter != null && getter.Body == null && setter?.Body == null && property.IsStatic)
                 {
-                    if (property.IsStatic)
-                    {
-                        var backingField = property.GetBackingFieldName();
-                        var initializer = node.Initializer == null ? DefaultValue(property.Type) : (JsExpression)node.Initializer.Accept(transformer);
-                        result.Add(StoreInType(backingField, initializer));
-                    }
+                    var backingField = property.GetBackingFieldName();
+                    var initializer = node.Initializer == null ? DefaultValue(property.Type) : (JsExpression)node.Initializer.Accept(transformer);
+                    result.Add(StoreInType(backingField, initializer));
                 }
             }
             
@@ -748,11 +744,10 @@ namespace WootzJs.Compiler
                 var propertySymbol = transformer.model.GetDeclaredSymbol(property);
                 if (propertySymbol.ExplicitInterfaceImplementations.Any())
                     continue;
-                if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported())
+                if (IsMinimizedAutoProperty(propertySymbol) && propertySymbol.IsExported() && !propertySymbol.IsStatic)
                 {
                     var initializer = property.Initializer == null ? DefaultValue(propertySymbol.Type) : (JsExpression)property.Initializer.Accept(transformer);
-                    if (!propertySymbol.IsStatic)
-                        result.Assign(Js.This().Member(propertySymbol.GetMemberName()), initializer);
+                    result.Assign(Js.This().Member(propertySymbol.GetMemberName()), initializer);
                 }
             }
             var model = Context.Instance.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
@@ -761,14 +756,11 @@ namespace WootzJs.Compiler
                 var getter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
                 var setter = node.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
                 var property = (IPropertySymbol)ModelExtensions.GetDeclaredSymbol(model, node);
-                if (!IsMinimizedAutoProperty(property) && getter != null && setter != null && getter.Body == null && setter.Body == null)
+                if (!IsMinimizedAutoProperty(property) && getter != null && getter.Body == null && setter?.Body == null && !property.IsStatic)
                 {
-                    if (!property.IsStatic)
-                    {
-                        var backingField = property.GetBackingFieldName();
-                        var initializer = node.Initializer == null ? DefaultValue(property.Type) : (JsExpression)node.Initializer.Accept(transformer);
-                        result.Assign(Js.This().Member(backingField), initializer);
-                    }
+                    var backingField = property.GetBackingFieldName();
+                    var initializer = node.Initializer == null ? DefaultValue(property.Type) : (JsExpression)node.Initializer.Accept(transformer);
+                    result.Assign(Js.This().Member(backingField), initializer);
                 }
             }
             
@@ -1257,7 +1249,7 @@ namespace WootzJs.Compiler
                     {
                         var methodSymbol = ((IPropertySymbol)leftSymbol).SetMethod;
                         JsExpression inline;
-                        if (TryInline(methodSymbol, target, arguments.ToArray(), out inline))
+                        if (methodSymbol != null && TryInline(methodSymbol, target, arguments.ToArray(), out inline))
                         {
                             result = inline;
                             return true;
@@ -1267,7 +1259,14 @@ namespace WootzJs.Compiler
                     {
                         IMethodSymbol methodSymbol;
                         if (leftSymbol is IPropertySymbol)
+                        {
                             methodSymbol = ((IPropertySymbol)leftSymbol).SetMethod;
+                            if (methodSymbol == null)
+                            {
+                                result = target.Member(property.GetBackingFieldName()).Assign(arguments.Single());
+                                return true;
+                            }
+                        }
                         else
                         {
                             var @event = (IEventSymbol)leftSymbol;

@@ -447,7 +447,7 @@ namespace WootzJs.Compiler
             var getter = property.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.GetKeyword));
             var setter = property.AccessorList.Accessors.SingleOrDefault(x => x.Keyword.IsKind(SyntaxKind.SetKeyword));
             return !property.Modifiers.Any(x => x == SyntaxFactory.Token(SyntaxKind.AbstractKeyword)) && 
-                getter != null && setter != null && getter.Body == null && setter.Body == null;
+                getter != null && getter.Body == null && setter?.Body == null;
         }
 
         public static bool IsAutoProperty(this IPropertySymbol property)

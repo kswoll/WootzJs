@@ -170,5 +170,84 @@ namespace WootzJs.Compiler.Tests
         {
             public string Foo => "foo";
         }
+
+        [Test]
+        public void ImmutableProperty()
+        {
+            var value = new ImmutablePropertyClass("foo").StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        public class ImmutablePropertyClass
+        {
+            public string StringProperty { get; }
+
+            public ImmutablePropertyClass(string stringProperty)
+            {
+                StringProperty = stringProperty;
+            }
+        }
+
+        [Test]
+        public void AutoPropertyWithInitializer()
+        {
+            var value = new AutoPropertyWithInitializerClass().StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        public class AutoPropertyWithInitializerClass
+        {
+            public string StringProperty { get; set; } = "foo";
+        }
+
+        [Test]
+        public void ImmutableAutoPropertyWithInitializer()
+        {
+            var value = new ImmutableAutoPropertyWithInitializerClass().StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        public class ImmutableAutoPropertyWithInitializerClass
+        {
+            public string StringProperty { get; } = "foo";
+        }
+
+        [Test]
+        public void ImmutableStaticAutoPropertyWithInitializer()
+        {
+            var value = ImmutableStaticAutoPropertyWithInitializerClass.StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        public class ImmutableStaticAutoPropertyWithInitializerClass
+        {
+            public static string StringProperty { get; } = "foo";
+        }
+
+        [Test]
+        public void MinimizedImmutableAutoPropertyWithInitializer()
+        {
+            var value = new MinimizedImmutableAutoPropertyWithInitializerClass().StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        [Js(AreAutoPropertiesMinimized = true)]
+        public class MinimizedImmutableAutoPropertyWithInitializerClass
+        {
+            public string StringProperty { get; } = "foo";
+        }
+
+        [Test]
+        public void MinimizedImmutableStaticAutoPropertyWithInitializer()
+        {
+            var value = MinimizedImmutableStaticAutoPropertyWithInitializerClass.StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        [Js(AreAutoPropertiesMinimized = true)]
+        public class MinimizedImmutableStaticAutoPropertyWithInitializerClass
+        {
+            public static string StringProperty { get; } = "foo";
+        }
     }
 }

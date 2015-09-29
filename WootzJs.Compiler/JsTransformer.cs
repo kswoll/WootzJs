@@ -372,16 +372,20 @@ namespace WootzJs.Compiler
                         Js.This().Member(backingField).Return()
                     ).Compact()));
 
-                    var setterBlock = Js.Block();
-                    setterBlock.Assign(Js.This().Member(backingField), valueParameter.GetReference());
-                    IMethodSymbol notifyPropertyChanged;
-                    if (property.IsAutoNotifyPropertyChange(out notifyPropertyChanged))
+                    // Null for immutable auto-properties
+                    if (property.SetMethod != null)
                     {
-                        setterBlock.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
-                    }
-                    setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
+                        var setterBlock = Js.Block();
+                        setterBlock.Assign(Js.This().Member(backingField), valueParameter.GetReference());
+                        IMethodSymbol notifyPropertyChanged;
+                        if (property.IsAutoNotifyPropertyChange(out notifyPropertyChanged))
+                        {
+                            setterBlock.Express(idioms.Invoke(Js.This(), notifyPropertyChanged, Js.Primitive(property.Name)));
+                        }
+                        setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
 
-                    block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));
+                        block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));                        
+                    }
                 }
             }
             else
@@ -2512,6 +2516,7 @@ namespace WootzJs.Compiler
         {
             throw new Exception();
         }
+
         private JsNode ImplicitCheck(ExpressionSyntax node, JsNode result)
         {
             var typeInfo = model.GetTypeInfo(node);

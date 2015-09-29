@@ -271,9 +271,9 @@ namespace WootzJs.Compiler
             return "$" + eventSymbol.GetMemberName() + "$k__BackingField";
         }
 
-        public static string GetBackingFieldName(this IPropertySymbol eventSymbol)
+        public static string GetBackingFieldName(this IPropertySymbol propertySymbol)
         {
-            return "$" + eventSymbol.GetMemberName() + "$k__BackingField";
+            return "$" + propertySymbol.GetMemberName() + "$k__BackingField";
         }
 
         public static string GetAssemblyMethodName(this IAssemblySymbol assembly)

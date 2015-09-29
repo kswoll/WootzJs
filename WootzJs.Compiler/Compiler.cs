@@ -101,6 +101,7 @@ namespace WootzJs.Compiler
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine($"MSBUILD : error : WootzJs: {e.Message}");
                     Console.WriteLine(e);
                     Environment.Exit(1);
                 }
