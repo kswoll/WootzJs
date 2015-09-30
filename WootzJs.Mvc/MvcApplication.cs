@@ -136,6 +136,8 @@ namespace WootzJs.Mvc
                 }
 
                 var rootView = view.GetRootView();
+                if (rootView.Content == null)
+                    throw new Exception($"View must provide a valid 'Content' property: {rootView.GetType().FullName}");
                 rootView.NotifyViewAttached();
                 Body.Add(rootView.Content);
                 View = rootView;
