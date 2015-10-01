@@ -249,5 +249,26 @@ namespace WootzJs.Compiler.Tests
         {
             public static string StringProperty { get; } = "foo";
         }
+
+        [Test]
+        public void ExplicitInterfaceProperty()
+        {
+            var obj = new ExplicitInterface();
+            obj.Property = "foo";
+            IExplicitInterface intf = obj;
+            AssertEquals(intf.Property, "foo");
+        }
+
+        public interface IExplicitInterface
+        {
+            object Property { get; }
+        }
+
+        public class ExplicitInterface : IExplicitInterface
+        {
+            public string Property { get; set; }
+
+            object IExplicitInterface.Property => Property;
+        }
     }
 }

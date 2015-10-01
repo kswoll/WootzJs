@@ -392,11 +392,13 @@ namespace WootzJs.Compiler
             {
                 if (node.ExpressionBody != null)
                 {
+                    PushDeclaration(property.GetMethod);
                     var body = new JsBlockStatement();
                     PushOutput(body);
                     body.Aggregate(((JsExpression)node.ExpressionBody.Accept(this)).Return());
-                    block.Add(storeIn("get_" + property.GetMemberName(), Js.Function().Body(body)));
+                    block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(body)));
                     PopOutput();
+                    PopDeclaration();
                 }
                 if (getter != null)
                 {

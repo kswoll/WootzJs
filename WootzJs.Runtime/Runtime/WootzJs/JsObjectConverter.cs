@@ -67,6 +67,8 @@ namespace System.Runtime.WootzJs
             return (T)FromJsonObject(o, typeof(T));
         }
 
+        private static Dictionary<Type, Dictionary<string, PropertyInfo>> propertiesByType = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
+
         public static object FromJsonObject(this JsObject o, Type type)
         {
             if (o == null)
@@ -119,7 +121,12 @@ namespace System.Runtime.WootzJs
             else
             {
                 var result = Activator.CreateInstance(type);
-                var properties = type.GetProperties().Where(x => x.CanWrite).ToDictionary(x => x.Name.ToUpper());
+                Dictionary<string, PropertyInfo> properties;
+                if (!propertiesByType.TryGetValue(type, out properties))
+                {
+                    properties = type.GetProperties().Where(x => x.CanWrite).ToDictionary(x => x.Name.ToUpper());
+                    propertiesByType[type] = properties;
+                }
                 foreach (var propertyName in o)
                 {
                     var value = o[propertyName];
