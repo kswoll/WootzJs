@@ -216,6 +216,7 @@ namespace System.Runtime.WootzJs
             delegateType.TypeInitializer.invoke(delegateFunc, delegateFunc);
             Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, delegateFunc);
             Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
+            Jsni.memberset(delegateFunc, "Invoke", delegateFunc);
             if (delegateKey != null)
                 thisExpression[delegateKey] = delegateFunc;
             else

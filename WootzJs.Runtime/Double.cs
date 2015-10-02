@@ -94,13 +94,18 @@ namespace System
 		/// <internalonly />
 		public static implicit operator Number(double i)
 		{
-			return null;
+			return i.As<Number>();
 		}
 
         public static bool IsNaN(double value)
         {
             return value == Number.NaN;
         }
+
+		public string ToString(int radix)
+		{
+			return null;
+		}
 
         public string ToString(string format)
         {

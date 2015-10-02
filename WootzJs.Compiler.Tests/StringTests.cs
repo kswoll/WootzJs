@@ -229,6 +229,38 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void InterpolationOneValueIsString()
+        {
+            var number = 54;
+            var str = $"{number}";
+            AssertTrue(str is string);
+            AssertEquals(str, "54");
+        }
+
+        [Test]
+        public void InterpolatedStringImplicitConversion()
+        {
+            var number = 54;
+            ImplicitString str = $"{number}";
+            AssertTrue(str is ImplicitString);
+        }
+
+        public class ImplicitString
+        {
+            public string Value;
+
+            public ImplicitString(string value)
+            {
+                Value = value;
+            }
+
+            public static implicit operator ImplicitString(string s)
+            {
+                return new ImplicitString(s);
+            }
+        }
+
+        [Test]
         public void Split5()
         {
             var s = "5";

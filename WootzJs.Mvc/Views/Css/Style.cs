@@ -210,7 +210,13 @@ namespace WootzJs.Mvc.Views.Css
         public CssTextTransform TextTransform
         {
             get { return CssTextTransforms.Parse(Get("text-transform")); }
-            set {  Set("text-transform", value.GetCssValue()); }
+            set { Set("text-transform", value.GetCssValue()); }
+        }
+
+        public CssTextAlign TextAlign
+        {
+            get { return CssTextAligns.Parse(Get("text-align")); }
+            set { Set("text-align", value.GetCssValue()); }
         }
 
         public CssDisplay Display

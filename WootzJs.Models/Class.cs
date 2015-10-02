@@ -105,8 +105,8 @@ namespace WootzJs.Models
             var unary = current as UnaryExpression;
             if (unary != null)
                 current = unary.Operand;
-            var call = (MemberExpression)current;
-            return (PropertyInfo)call.Member;
+            var call = current as MemberExpression;
+            return (PropertyInfo)call?.Member;
         }
 
         public static IEnumerable<MemberInfo> GetPropertyPath(this LambdaExpression expression)
@@ -133,6 +133,18 @@ namespace WootzJs.Models
                 var finalProperty = (PropertyInfo)propertyPath.Last();
                 finalProperty.SetValue(current, value);
             };
+        }
+
+
+        private static HashSet<Type> numericTypes = new HashSet<Type>(new[]
+        {
+            typeof(int), typeof(float), typeof(double), typeof(byte), typeof(sbyte), typeof(short), typeof(ushort),
+            typeof(uint), typeof(long), typeof(ulong)
+        });
+
+        public static bool IsNumeric(this Type type)
+        {
+            return numericTypes.Contains(type);
         }
     }
 }

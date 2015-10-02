@@ -2353,7 +2353,7 @@ namespace WootzJs.Compiler
                 else
                 {
                     var interpolation = (InterpolationSyntax)part;
-                    stringParts.Add((JsExpression)interpolation.Expression.Accept(this));
+                    stringParts.Add(idioms.InvokeStatic(Context.Instance.SafeToString, (JsExpression)interpolation.Expression.Accept(this)));
                 }
             }
 
@@ -2366,7 +2366,8 @@ namespace WootzJs.Compiler
             {
                 current = current.Add(rest);
             }
-            return current;
+
+            return ImplicitCheck(node, current);
         }
 
         public override JsNode VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)

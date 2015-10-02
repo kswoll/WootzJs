@@ -179,7 +179,14 @@ namespace System
             if (string.IsNullOrEmpty(format)) 
                 return ToString();
 
-            if (format[0] == 'X')
+            Number value = this;
+
+            if (format == "P" || format == "p")
+            {
+                value = value.As<double>() * 100;
+                format = "0.00%";
+            }
+            else if (format[0] == 'X')
             {
                 var radix = 16;
                 var remainingFormat = format.Substring(1);
@@ -192,59 +199,57 @@ namespace System
                 }
                 return s;
             }
-            else
+
+            var parts = value.ToString().Split('.');
+            var leftOfDecimal = parts[0];
+            var rightOfDecimal = parts.Length > 1 ? parts[1] : "";
+            var leftDigits = new Queue<char>(leftOfDecimal);
+            var rightDigits = new Queue<char>(rightOfDecimal);
+            var result = new StringBuilder();
+
+            if (value.As<JsNumber>() < 0)
+                result.Append("-");
+
+            var state = DecimalState.Before;
+            foreach (var token in format)
             {
-                var parts = this.ToString().Split('.');
-                var leftOfDecimal = parts[0];
-                var rightOfDecimal = parts.Length > 1 ? parts[1] : "";
-                var leftDigits = new Queue<char>(leftOfDecimal);
-                var rightDigits = new Queue<char>(rightOfDecimal);
-                var result = new StringBuilder();
-
-                if (this.As<JsNumber>() < 0)
-                    result.Append("-");
-
-                var state = DecimalState.Before;
-                foreach (var token in format)
+                switch (token)
                 {
-                    switch (token)
-                    {
-                        case '0':
-                        case '#':
-                            switch (state)
-                            {
-                                case DecimalState.Before:
-                                    if (leftDigits.Count > 0)
-                                        result.Append(leftDigits.Dequeue());
-                                    else if (token == '0')
-                                        result.Append('0');
-                                    break;
-                                case DecimalState.On:
-                                    state = DecimalState.After;
-                                    if ((rightDigits.Count == 0 && token == '0') || rightDigits.Count > 0)
-                                        result.Append('.');
-                                    if (rightDigits.Count == 0 && token == '0')
-                                        result.Append('0');
-                                    else if (rightDigits.Count > 0)
-                                        result.Append(rightDigits.Dequeue());
-                                    break;
-                                case DecimalState.After:
-                                    if (rightDigits.Count == 0 && token == '0')
-                                        result.Append('0');
-                                    else if (rightDigits.Count > 0)
-                                        result.Append(rightDigits.Dequeue());
-                                    break;
-                            }
-                            break;
-                        case '.':
-                            state = DecimalState.On;
-                            while (leftDigits.Count > 0)
-                                result.Append(leftDigits.Dequeue());
-                            break;
-                    }
+                    case '0':
+                    case '#':
+                        switch (state)
+                        {
+                            case DecimalState.Before:
+                                if (leftDigits.Count > 0)
+                                    result.Append(leftDigits.Dequeue());
+                                else if (token == '0')
+                                    result.Append('0');
+                                break;
+                            case DecimalState.On:
+                                state = DecimalState.After;
+                                if ((rightDigits.Count == 0 && token == '0') || rightDigits.Count > 0)
+                                    result.Append('.');
+                                if (rightDigits.Count == 0 && token == '0')
+                                    result.Append('0');
+                                else if (rightDigits.Count > 0)
+                                    result.Append(rightDigits.Dequeue());
+                                break;
+                            case DecimalState.After:
+                                if (rightDigits.Count == 0 && token == '0')
+                                    result.Append('0');
+                                else if (rightDigits.Count > 0)
+                                    result.Append(rightDigits.Dequeue());
+                                break;
+                        }
+                        break;
+                    case '.':
+                        state = DecimalState.On;
+                        while (leftDigits.Count > 0)
+                            result.Append(leftDigits.Dequeue());
+                        break;
                 }
-                return result.ToString();
             }
+            return result.ToString();
         }
 
 	    public int CompareTo(object obj)
