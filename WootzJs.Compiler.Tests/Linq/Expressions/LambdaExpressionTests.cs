@@ -66,5 +66,22 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var func = added.Compile();
             AssertEquals(func(5), 6);
         }
+
+        [Test]
+        public void CompileExtensionMethod()
+        {
+            Expression<Func<string, string>> extension = x => x.Mirror();
+            var func = extension.Compile();
+            AssertEquals(func("foo"), "foo");
+        }
+
+        [Test]
+        public void CompileStaticMethod()
+        {
+            Expression<Func<string, string>> extension = x => MethodCallStringExtensions.Mirror(x);
+            var func = extension.Compile();
+            AssertEquals(func("foo"), "foo");
+            
+        }
     }
 }

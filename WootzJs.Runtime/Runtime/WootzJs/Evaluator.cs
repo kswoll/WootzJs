@@ -138,7 +138,19 @@ namespace System.Runtime.WootzJs
             base.VisitMethodCall(node);
 
             var args = node.Arguments.Select(_ => stack.Pop()).Reverse().ToArray();
-            var obj = stack.Pop();
+            object obj = null;
+            if (node.Object != null)
+            {
+                obj = stack.Pop();
+            }
+            if (node.Method.IsStatic)
+            {
+                if (obj != null)
+                {
+                    args = new[] { obj }.Concat(args).ToArray();
+                    obj = null;                    
+                }
+            }
             var value = node.Method.Invoke(obj, args);
             stack.Push(value);
             return node;

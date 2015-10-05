@@ -109,6 +109,20 @@ namespace WootzJs.Models
             return (PropertyInfo)call?.Member;
         }
 
+        public static MemberInfo GetMemberInfo(this LambdaExpression expression)
+        {
+            var current = expression.Body;
+            var unary = current as UnaryExpression;
+            if (unary != null)
+                current = unary.Operand;
+            var call = current as MemberExpression;
+            if (call != null)
+                return call.Member;
+
+            var method = current as MethodCallExpression;
+            return method?.Method;
+        }
+
         public static IEnumerable<MemberInfo> GetPropertyPath(this LambdaExpression expression)
         {
             var member = expression.Body as MemberExpression;

@@ -1339,6 +1339,10 @@ namespace WootzJs.Compiler
                 return ImplicitCheck(node, idioms.CreateMulticastDelegate((JsExpression)node.ArgumentList.Arguments[0].Accept(this), 
                     (JsExpression)node.ArgumentList.Arguments[1].Accept(this)));
             }
+            if (Context.Instance.DelegateType.IsAssignableFrom(type))
+            {
+                return ImplicitCheck(node, node.ArgumentList.Arguments[0].Accept(this));
+            }
 
             var isExported = type.IsExported();
             var isBuiltIn = type.GetAttributeValue(Context.Instance.JsAttributeType, "BuiltIn", false);

@@ -2298,6 +2298,8 @@ namespace WootzJs.Compiler
             else if (symbol is IMethodSymbol)
             {
                 var method = (IMethodSymbol)symbol;
+                if (method.ReducedFrom != null)
+                    method = method.ReducedFrom;
                 if (method.MethodKind == MethodKind.Constructor)
                 {
                     return Invoke(TypeOf(method.ContainingType), Context.Instance.GetConstructor, Js.Array(method.Parameters.Select(x => TypeOf(x.Type)).ToArray()));

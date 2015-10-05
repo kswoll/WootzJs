@@ -184,6 +184,9 @@ namespace WootzJs.Web
         [Js(Name = "fontStyle")]
         public extern string FontStyle { get; set; }
 
+        [Js(Name = "fontWeight")]
+        public extern string FontWeight { get; set; }
+
         [Js(Name = "float")]
         public extern string Float { get; set; }
         

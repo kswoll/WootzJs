@@ -130,6 +130,13 @@ namespace WootzJs.Compiler.Tests
             AssertEquals((ushort)ByteEnum.Two, (ushort)2);
         }
 
+        [Test]
+        public void HasFlag()
+        {
+            var value = FlagsEnum.One;
+            AssertTrue(value.HasFlag(FlagsEnum.One));
+        }
+
         public enum TestEnum
         {
             One = 0, 

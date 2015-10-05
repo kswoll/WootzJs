@@ -205,5 +205,12 @@ namespace System
             else
                 return enumType.GetEnumValues();
         }
+
+        public bool HasFlag(Enum value)
+        {
+            var thisValue = (int)GetValue();
+            var intValue = (int)value.GetValue();
+            return (thisValue & intValue) == intValue;
+        }
     }
 }

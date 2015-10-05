@@ -61,6 +61,14 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             var target = (ConstantExpression)methodCallExpression.Object;
             AssertEquals(target.Value, instance);
         }         
+
+        [Test]
+        public void CallExtensionMethod()
+        {
+            Expression<Action> lambda = () => "foo".Mirror();
+            var methodCallExpression = (MethodCallExpression)lambda.Body;
+            AssertEquals(methodCallExpression.Method.Name, "Mirror");
+        }         
    
 /*
         [Test]
@@ -92,6 +100,15 @@ namespace WootzJs.Compiler.Tests.Linq.Expressions
             public void ZeroParameterInstanceMethod()
             {
             }            
+        }
+
+    }
+
+    public static class MethodCallStringExtensions
+    {
+        public static string Mirror(this string s)
+        {
+            return s;
         }
     }
 }

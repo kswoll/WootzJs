@@ -27,6 +27,8 @@ namespace WootzJs.Mvc.Views
         private Element rightCellContent;
         private Element centerCellContent;
 
+        public Element TopCell => topCell;
+
         protected override Element CreateNode()
         {
             var table = Browser.Document.CreateElement("table");
