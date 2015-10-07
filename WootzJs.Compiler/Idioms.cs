@@ -874,12 +874,14 @@ namespace WootzJs.Compiler
                 .Select((x, i) => new { Name = getArgumentName(x, i), Argument = x })
                 .Where(x => x.Name != null)
                 .ToDictionary(x => x.Name, x => x.Argument);
+            if (method.Name == "Add" && method.ContainingType.Name == "ClassWithStaticMethods")
+                Console.WriteLine("foo");
             if (argumentsByName.Any())
             {
                 var newArguments = new List<JsExpression>();
                 foreach (var parameter in method.Parameters)
                 {
-                    if (!parameter.HasExplicitDefaultValue)
+                    if (!parameter.HasExplicitDefaultValue || (!argumentsByName.ContainsKey(parameter.Name) && remainingArguments.Count > argumentsByName.Count))
                     {
                         newArguments.Add(remainingArguments.Dequeue());
                     }

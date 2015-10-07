@@ -155,6 +155,18 @@ namespace WootzJs.Compiler.Tests
         {
             public string Add(int a, int b) => (a + b).ToString();
         }
+
+        [Test]
+        public void NamedArgumentCalledPositionally()
+        {
+            var result = NamedArgumentCalledPositionallyMethod(0, 1, c : 2);
+            AssertEquals(result, 3);
+        }
+
+        private int NamedArgumentCalledPositionallyMethod(int a, int b = 0, int c = 0)
+        {
+            return a + b + c;
+        }
     }
 
     public static class ClassWithStaticMethods

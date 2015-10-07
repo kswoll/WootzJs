@@ -103,7 +103,7 @@ namespace WootzJs.Compiler
                 {
                     Console.WriteLine($"MSBUILD : error : WootzJs: {e.Message}");
                     Console.WriteLine(e);
-//                    Console.ReadLine();
+                    Console.ReadLine();
                     Environment.Exit(1);
                 }
             });

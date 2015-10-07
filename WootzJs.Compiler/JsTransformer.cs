@@ -696,6 +696,15 @@ namespace WootzJs.Compiler
                 return result;
             JsUnaryOperator op;
 
+            var symbol = model.GetSymbolInfo(node).Symbol;
+            var methodSymbol = symbol as IMethodSymbol;
+            if (methodSymbol != null && methodSymbol.Parameters.Length == 1)
+            {
+                var method = methodSymbol;
+                if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
+                    return ImplicitCheck(node, idioms.InvokeStatic(method, operand));
+            }
+
             switch (node.Kind())
             {
                 case SyntaxKind.UnaryMinusExpression:
