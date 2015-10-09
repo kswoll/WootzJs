@@ -270,5 +270,17 @@ namespace WootzJs.Compiler.Tests
 
             object IExplicitInterface.Property => Property;
         }
+
+        [Test]
+        public void ExplicitInterfaceInitializer()
+        {
+            IExplicitInterface obj = new ExplicitInterfaceWithInitializer();
+            AssertEquals(obj.Property, "foo");
+        }
+
+        public class ExplicitInterfaceWithInitializer : IExplicitInterface
+        {
+            object IExplicitInterface.Property { get; } = "foo";            
+        }
     }
 }

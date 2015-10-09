@@ -238,7 +238,14 @@ namespace WootzJs.Compiler
             if (baseMethodName == "this[]")
                 return "Item";
 
-            return EscapeIfReservedWord(GetDefaultMemberName(symbol));
+            if (symbol.ContainingType.TypeKind == TypeKind.Interface)
+            {
+                baseMethodName = symbol.ContainingType.GetTypeName().MaskSpecialCharacters() + "$" + baseMethodName;
+            }
+
+            return baseMethodName;
+
+//            return EscapeIfReservedWord(GetDefaultMemberName(symbol));
         }
 
         public static string GetMemberName(this IFieldSymbol symbol)
