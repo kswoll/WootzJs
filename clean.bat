@@ -16,8 +16,10 @@ rmdir /q /s .\WootzJs.Injection\bin
 rmdir /q /s .\WootzJs.Injection\obj
 rmdir /q /s .\WootzJs.JQuery\bin
 rmdir /q /s .\WootzJs.JQuery\obj
-rmdir /q /s .\WootzJs.Models\bin
-rmdir /q /s .\WootzJs.Models\obj
+rmdir /q /s .\WootzJs.Models.Js\bin
+rmdir /q /s .\WootzJs.Models.Js\obj
+rmdir /q /s .\WootzJs.Models.Net45\bin
+rmdir /q /s .\WootzJs.Models.net45\obj
 rmdir /q /s .\WootzJs.Mvc\bin
 rmdir /q /s .\WootzJs.Mvc\obj
 rmdir /q /s .\WootzJs.Runtime\bin
