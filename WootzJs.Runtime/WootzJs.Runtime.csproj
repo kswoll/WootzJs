@@ -302,8 +302,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-copy $(TargetDir)*.* $(ProjectDir)..\build
-del /q $(TargetDir)*.*</PostBuildEvent>
+copy $(TargetDir)WootzJs.Runtime.js $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AdditionalExplicitAssemblyReferences />

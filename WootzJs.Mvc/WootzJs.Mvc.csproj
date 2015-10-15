@@ -161,27 +161,25 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <HintPath>..\build\System.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <HintPath>..\build\System.ComponentModel.DataAnnotations.dll</HintPath>
-    </Reference>
-    <Reference Include="WootzJs.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\build\WootzJs.Models.dll</HintPath>
-    </Reference>
-    <Reference Include="WootzJs.Web, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\build\WootzJs.Web.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj">
+      <Project>{f631cac8-6af7-4889-ab85-19ea2e45460b}</Project>
+      <Name>WootzJs.ComponentModel.DataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WootzJs.System\WootzJs.System.csproj">
+      <Project>{976aa4b0-d441-4f50-802b-6d56be3e9dbe}</Project>
+      <Name>WootzJs.System</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WootzJs.Web\WootzJs.Web.csproj">
+      <Project>{0f747461-9c1c-4fce-a8b3-2d70d23388cb}</Project>
+      <Name>WootzJs.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
-copy $(TargetDir)WootzJs.Mvc.* $(ProjectDir)..\build</PostBuildEvent>
+rem copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
+rem copy $(TargetDir)WootzJs.Mvc.* $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
