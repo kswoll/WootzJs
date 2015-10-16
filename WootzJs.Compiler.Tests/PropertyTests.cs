@@ -25,6 +25,8 @@
 //-----------------------------------------------------------------------
 #endregion
 
+using System;
+using System.Linq.Expressions;
 using System.Runtime.WootzJs;
 using WootzJs.Testing;
 
@@ -201,6 +203,18 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void StaticAutoPropertyWithInitializer()
+        {
+            var value = StaticAutoPropertyWithInitializerClass.StringProperty;
+            AssertEquals(value, "foo");
+        }
+
+        public class StaticAutoPropertyWithInitializerClass
+        {
+            public static string StringProperty { get; } = "foo";
+        }
+
+        [Test]
         public void ImmutableAutoPropertyWithInitializer()
         {
             var value = new ImmutableAutoPropertyWithInitializerClass().StringProperty;
@@ -257,6 +271,18 @@ namespace WootzJs.Compiler.Tests
             obj.Property = "foo";
             IExplicitInterface intf = obj;
             AssertEquals(intf.Property, "foo");
+        }
+
+        [Test]
+        public void ExplicitInterfacePropertyReflection()
+        {
+            var obj = new ExplicitInterface();
+            obj.Property = "foo";
+            IExplicitInterface intf = obj;
+            Expression<Func<IExplicitInterface, object>> expression = x => x.Property;
+            var compiled = expression.Compile();
+            var value = compiled(intf);
+            AssertEquals(value, "foo");
         }
 
         public interface IExplicitInterface

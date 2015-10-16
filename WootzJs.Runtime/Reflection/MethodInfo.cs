@@ -199,7 +199,8 @@ namespace System.Reflection
                     args.push(argument.As<JsObject>());
                 }
             }
-            return Jsni.apply(jsMethod, obj.As<JsObject>(), args);
+            var target = IsStatic ? DeclaringType.thisType : obj;
+            return Jsni.apply(jsMethod, target.As<JsObject>(), args);
         }
 
         public override string ToString()

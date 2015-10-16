@@ -874,8 +874,6 @@ namespace WootzJs.Compiler
                 .Select((x, i) => new { Name = getArgumentName(x, i), Argument = x })
                 .Where(x => x.Name != null)
                 .ToDictionary(x => x.Name, x => x.Argument);
-            if (method.Name == "Add" && method.ContainingType.Name == "ClassWithStaticMethods")
-                Console.WriteLine("foo");
             if (argumentsByName.Any())
             {
                 var newArguments = new List<JsExpression>();
@@ -2607,6 +2605,11 @@ namespace WootzJs.Compiler
             block.Add(stateMachineFunc.GetReference().Member("call").Invoke(Js.This()).Return());
 
             return block;
+        }
+
+        public JsStatement CreateInterfaceMethod(IMethodSymbol method)
+        {
+            return Js.This().Member(method.GetMemberName()).Invoke(method.Parameters.Select(x => Js.Reference(JsNames.EscapeIfReservedWord(x.Name))).ToArray()).Return();
         }
     }
 }

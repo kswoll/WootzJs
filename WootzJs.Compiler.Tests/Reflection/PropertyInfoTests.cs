@@ -89,7 +89,31 @@ namespace WootzJs.Compiler.Tests.Reflection
             AssertEquals(properties.Length, 2);
         }
 
-        public class PropertyClass
+        [Test]
+        public void GetStaticPropertyValue()
+        {
+            PropertyClass.StaticProperty = "foo";
+            var property = typeof(PropertyClass).GetProperty("StaticProperty");
+            var value = property.GetValue(null, null);
+            AssertEquals("foo", value);
+        }
+
+        [Test]
+        public void GetInterfaceProperty()
+        {
+            var property = typeof (IPropertyClass).GetProperty("StringProperty");
+            var instance = new PropertyClass();
+            instance.StringProperty = "StringProperty";
+            var result = (string)property.GetValue(instance, null);
+            AssertEquals(result, "StringProperty");
+        }
+
+        public interface IPropertyClass
+        {
+            string StringProperty { get; }
+        }
+
+        public class PropertyClass : IPropertyClass
         {
             public static string StaticProperty { get; set; }
             public string StringProperty { get; set; }

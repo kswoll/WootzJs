@@ -357,20 +357,27 @@ namespace WootzJs.Compiler
 
             Func<string, JsExpression, JsExpressionStatement> storeIn = (member, value) => !property.IsStatic ? idioms.StoreInPrototype(member, value) : idioms.StoreInType(member, value);
 
-            if (node.IsAutoProperty())
+            if (property.ContainingType.TypeKind == TypeKind.Interface)
+            {
+                if (property.GetMethod != null)
+                    block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(idioms.CreateInterfaceMethod(property.GetMethod))));
+                if (property.SetMethod != null)
+                    block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(Js.Parameter("value")).Body(idioms.CreateInterfaceMethod(property.SetMethod))));
+            }
+            else if (node.IsAutoProperty())
             {
                 if (idioms.IsMinimizedAutoProperty(property))
                 {
                     // Do nothing -- handled by idioms.InitializeInstanceFields and idioms.InitializeStaticFields
                 }
-                else
+                else 
                 {
                     var backingField = property.GetBackingFieldName();
                     var valueParameter = Js.Parameter("value");
 
                     block.Add(storeIn(property.GetMethod.GetMemberName(), Js.Function().Body(
                         Js.This().Member(backingField).Return()
-                    ).Compact()));
+                        ).Compact()));
 
                     // Null for immutable auto-properties
                     if (property.SetMethod != null)
@@ -384,7 +391,7 @@ namespace WootzJs.Compiler
                         }
                         setterBlock.Return(valueParameter.GetReference()); // We want the property to actually return the newly assigned value, since expressions like `x = y = 5`, where x and y are properties, requires that `y` return the new value.
 
-                        block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));                        
+                        block.Add(storeIn(property.SetMethod.GetMemberName(), Js.Function(valueParameter).Body(setterBlock).Compact()));
                     }
                 }
             }
@@ -528,6 +535,8 @@ namespace WootzJs.Compiler
                 body = Js.Native(code);
             else if (node.ExpressionBody != null)
                 body = ((JsExpression)node.ExpressionBody.Accept(this)).Return();
+            else if (method.ContainingType.TypeKind == TypeKind.Interface)
+                body = idioms.CreateInterfaceMethod(method);
             else if (node.Body == null)
                 body = new JsBlockStatement();
             else if (YieldChecker.HasYield(node))
@@ -544,7 +553,7 @@ namespace WootzJs.Compiler
             {
                 block.Add(idioms.StoreInType(memberName, methodFunction));
             }
-            else
+            else 
             {
                 block.Add(idioms.StoreInPrototype(memberName, methodFunction));
 

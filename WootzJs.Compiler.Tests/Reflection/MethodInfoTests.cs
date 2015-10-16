@@ -53,6 +53,25 @@ namespace WootzJs.Compiler.Tests.Reflection
         }
 
         [Test]
+        public void InvokeStaticMethod()
+        {
+            var methods = typeof(MethodClass).GetMethods();
+            var method = methods.Single(x => x.Name == "StaticMethod");
+            var result = (string)method.Invoke(null, new object[0]);
+            AssertEquals(result, "StaticMethod");
+        }
+
+        [Test]
+        public void InvokeInterfaceMethod()
+        {
+            var methods = typeof(IMethodClass).GetMethods();
+            var method = methods.Single(x => x.Name == "InstanceMethod");
+            var instance = new MethodClass();
+            var result = (string)method.Invoke(instance, new object[0]);
+            AssertEquals(result, "InstanceMethod");
+        }
+
+        [Test]
         public void NameForOverload()
         {
             var method = typeof(MethodClass).GetMethod("Overload", new[] { typeof(int) });
@@ -115,7 +134,12 @@ namespace WootzJs.Compiler.Tests.Reflection
             public GenericMethodClass<T, U> Property { get; set; }
         }
 
-        public class MethodClass
+        public interface IMethodClass
+        {
+            string InstanceMethod();
+        }
+
+        public class MethodClass : IMethodClass
         {
             public void VoidMethod()
             {

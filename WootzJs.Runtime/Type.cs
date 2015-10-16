@@ -97,7 +97,13 @@ namespace System
             foreach (var method in this.methods)
                 method.declaringType = this;
             foreach (var property in this.properties)
+            {
                 property.declaringType = this;
+                if (property.GetMethod != null)
+                    property.GetMethod.declaringType = this;
+                if (property.SetMethod != null)
+                    property.SetMethod.declaringType = this;
+            }
             foreach (var constructor in this.constructors)
                 constructor.declaringType = this;
         }
