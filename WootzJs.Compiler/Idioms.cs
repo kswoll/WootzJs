@@ -1200,6 +1200,7 @@ namespace WootzJs.Compiler
             var wrapper = new JsBlockStatement();
             wrapper.Local(list);
             wrapper.Local(delegateVariable);
+            wrapper.Assign(delegateVariable.GetReference().Member("Invoke"), delegateVariable.GetReference());
             wrapper.Assign(delegateVariable.GetReference().Member("prototype"), Js.New(Type(Context.Instance.MulticastDelegateType)));
             wrapper.Invoke(Type(Context.Instance.ObjectType).Member(SpecialNames.TypeInitializer), delegateVariable.GetReference(), delegateVariable.GetReference());
             wrapper.Invoke(Type(Context.Instance.DelegateType).Member(SpecialNames.TypeInitializer), delegateVariable.GetReference(), delegateVariable.GetReference());
