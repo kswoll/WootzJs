@@ -165,6 +165,10 @@
       <Project>{f631cac8-6af7-4889-ab85-19ea2e45460b}</Project>
       <Name>WootzJs.ComponentModel.DataAnnotations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WootzJs.Models\WootzJs.Models.csproj">
+      <Project>{264ce493-f204-416f-bf07-d4f5b90a8c96}</Project>
+      <Name>WootzJs.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WootzJs.System\WootzJs.System.csproj">
       <Project>{976aa4b0-d441-4f50-802b-6d56be3e9dbe}</Project>
       <Name>WootzJs.System</Name>
@@ -174,12 +178,11 @@
       <Name>WootzJs.Web</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
+  <Import Project="$(ProjectDir)..\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-rem copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
-rem copy $(TargetDir)WootzJs.Mvc.* $(ProjectDir)..\build</PostBuildEvent>
+copy $(TargetDir)WootzJs.Mvc.js $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

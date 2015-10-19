@@ -46,12 +46,11 @@
       <HintPath>..\WootzJs.Rx\bin\Debug\WootzJs.Rx.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
+  <Import Project="$(ProjectDir)..\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-rem copy $(ProjectDir)..\build\mscorlib.js $(TargetDir)
-rem copy $(ProjectDir)..\build\WootzJs.Rx.js $(TargetDir)</PostBuildEvent>
+copy $(TargetDir)WootzJs.Rx.Tests.js $(ProjectDir)..\build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

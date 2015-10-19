@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DC552591-49BA-463D-8461-EFBCC1061A51}</ProjectGuid>
+    <ProjectGuid>{264CE493-F204-416F-BF07-D4F5B90A8C96}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WootzJs.Injection</RootNamespace>
-    <AssemblyName>WootzJs.Injection</AssemblyName>
+    <NoStdLib>True</NoStdLib>
+    <RootNamespace>WootzJs.Models</RootNamespace>
+    <AssemblyName>WootzJs.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,36 +31,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Binding.cs" />
-    <Compile Include="Cache.cs" />
-    <Compile Include="ConcurrentCache.cs" />
-    <Compile Include="ConstantResolver.cs" />
-    <Compile Include="Container.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="FactoryResolver.cs" />
-    <Compile Include="HybridCache.cs" />
-    <Compile Include="IBinding.cs" />
-    <Compile Include="ICache.cs" />
-    <Compile Include="IgnoreAttribute.cs" />
-    <Compile Include="InjectionModule.cs" />
-    <Compile Include="Injector.cs" />
-    <Compile Include="IResolver.cs" />
-    <Compile Include="IScope.cs" />
-    <Compile Include="MethodResolver.cs" />
-    <Compile Include="OverrideBinding.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionResolver.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="ResolverFactoryResolver.cs" />
-    <Compile Include="Scopes\NoScope.cs" />
-    <Compile Include="Scopes\SingletonScope.cs" />
-    <Compile Include="Scopes\TransientScope.cs" />
+    <Compile Include="Class.cs" />
+    <Compile Include="Failure.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="ModelCollection.cs" />
+    <Compile Include="Property.cs" />
+    <Compile Include="ValidateEvent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WootzJs.ComponentModel.DataAnnotations\WootzJs.ComponentModel.DataAnnotations.csproj">
+      <Project>{f631cac8-6af7-4889-ab85-19ea2e45460b}</Project>
+      <Name>WootzJs.ComponentModel.DataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WootzJs.System\WootzJs.System.csproj">
+      <Project>{976aa4b0-d441-4f50-802b-6d56be3e9dbe}</Project>
+      <Name>WootzJs.System</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
-copy $(TargetDir)WootzJs.Injection.js $(ProjectDir)..\build</PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)
+copy $(TargetDir)WootzJs.Models.js $(SolutionDir)build</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
