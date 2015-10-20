@@ -1,11 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22512.0
+VisualStudioVersion = 14.0.24606.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Compiler", "WootzJs.Compiler\WootzJs.Compiler.csproj", "{75995C59-074D-4560-9635-86A90FFED390}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Runtime", "WootzJs.Runtime\WootzJs.Runtime.csproj", "{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}"
+	ProjectSection(ProjectDependencies) = postProject
+		{75995C59-074D-4560-9635-86A90FFED390} = {75995C59-074D-4560-9635-86A90FFED390}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9520CC5F-70AA-4B58-B6BA-2F751F3E4222}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.hgignore = .hgignore
+		build.bat = build.bat
+		clean.bat = clean.bat
+		LICENSE = LICENSE
+		MDN.license = MDN.license
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

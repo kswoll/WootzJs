@@ -1,10 +1,5 @@
-mkdir .\build.new
-copy .\build\placeholder.txt .\build.new
-copy .\build\WootzJs.targets .\build.new
 del /q .\build\*.*
-copy .\build.new\*.* .\build
-del /q .\build.new\*.*
-rmdir /q /s .\build.new
+mkdir .\build
 
 rmdir /q /s .\WootzJs.Compiler\bin
 rmdir /q /s .\WootzJs.Compiler\obj
