@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24606.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13400B7A-2A6B-4D46-9C6C-F1A8460616EC}"
 	ProjectSection(SolutionItems) = preProject
@@ -100,12 +100,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Runtime", "WootzJs.
 		{75995C59-074D-4560-9635-86A90FFED390} = {75995C59-074D-4560-9635-86A90FFED390}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Models", "WootzJs.Models\WootzJs.Models.csproj", "{264CE493-F204-416F-BF07-D4F5B90A8C96}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68} = {D1E3A970-1810-4A39-B434-B6AB3DEBFB68}
-	EndProjectSection
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WootzJs.Models", "WootzJs.Models\WootzJs.Models.shproj", "{E9382F33-CB82-4806-8C9A-B4AA42F4606A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Models.Js", "WootzJs.Models.Js\WootzJs.Models.Js.csproj", "{D9D811FB-48BF-46DC-BE19-E75EF99440FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Models.Net45", "WootzJs.Models.Net45\WootzJs.Models.Net45.csproj", "{264CE493-F204-416F-BF07-D4F5B90A8C96}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		WootzJs.Models\WootzJs.Models.projitems*{e9382f33-cb82-4806-8c9a-b4aa42f4606a}*SharedItemsImports = 13
+		WootzJs.Models\WootzJs.Models.projitems*{264ce493-f204-416f-bf07-d4f5b90a8c96}*SharedItemsImports = 4
+		WootzJs.Models\WootzJs.Models.projitems*{d9d811fb-48bf-46dc-be19-e75ef99440fc}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -159,6 +165,10 @@ Global
 		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D811FB-48BF-46DC-BE19-E75EF99440FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D811FB-48BF-46DC-BE19-E75EF99440FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D811FB-48BF-46DC-BE19-E75EF99440FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D811FB-48BF-46DC-BE19-E75EF99440FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{264CE493-F204-416F-BF07-D4F5B90A8C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{264CE493-F204-416F-BF07-D4F5B90A8C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{264CE493-F204-416F-BF07-D4F5B90A8C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
