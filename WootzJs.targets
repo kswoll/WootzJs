@@ -8,13 +8,13 @@
     <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
     <LangVersion Condition="'$(GenerateScript)' == 'True'">ISO-2</LangVersion>
     <NoStdLib>True</NoStdLib>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
 	  <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>..\build\mscorlib.dll</HintPath>
+      <HintPath>$(MSBuildThisFileDirectory)mscorlib.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

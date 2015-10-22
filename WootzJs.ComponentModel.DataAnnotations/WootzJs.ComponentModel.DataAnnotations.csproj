@@ -52,7 +52,7 @@
       <HintPath>..\build\System.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\WootzJs.targets" />
+  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)

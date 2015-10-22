@@ -42,8 +42,8 @@
       <Name>WootzJs.System</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\WootzJs.Models\WootzJs.Models.projitems" Label="Shared" />
-  <Import Project="$(ProjectDir)..\WootzJs.targets" />
+  <Import Project="$(ProjectDir)..\WootzJs.Models\WootzJs.Models.projitems" Label="Shared" />
+  <Import Project="$(ProjectDir)..\build\WootzJs.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)..\WootzJs.Compiler\bin\debug\WootzJs.Compiler.exe $(ProjectPath) $(OutDir)

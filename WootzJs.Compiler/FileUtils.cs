@@ -44,9 +44,8 @@ namespace WootzJs.Compiler
                 var currentFolder = new FileInfo(wootzJs).Directory;
                 while (currentFolder != null)
                 {
-                    // 2015-10-19 - Mark Stega - Removed dependency on the build directory for the targets file
-                    //              Why was this here?
-                    if (File.Exists(Path.Combine(currentFolder.FullName, @"WootzJs.targets")))
+                    // The .targets file needs to be in the same folder as the assemblies, otherwise visual studio doesn't pick up the correct mscorlib
+                    if (File.Exists(Path.Combine(currentFolder.FullName, @"build\WootzJs.targets")))
                         break;
 //                    if (currentFolder.Name.Equals("WootzJs", StringComparison.InvariantCultureIgnoreCase))
 //                        break;

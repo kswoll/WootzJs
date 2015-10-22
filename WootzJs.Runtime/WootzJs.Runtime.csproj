@@ -10,7 +10,7 @@
     <RootNamespace>System</RootNamespace>
     <NoStdLib>True</NoStdLib>
     <AssemblyName>mscorlib</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
