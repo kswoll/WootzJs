@@ -53,7 +53,7 @@ namespace System
                 return b;
             else if (b == null)
                 return a;
-            else if (a is MulticastDelegate)
+            else if (a.As<JsObject>().member("all"))
                 return ((MulticastDelegate)a).Add(b);
             else
                 return new MulticastDelegate(a.Target, new[] { a, b });
@@ -65,15 +65,10 @@ namespace System
                 return null;
             else
 			{
-			    var multicast = source as MulticastDelegate;
-                if (multicast != null)
-                {
-                    return multicast.Remove(value);
-                }
-                else
-                {
-                    return source;
-                }
+			    if (source.As<JsObject>().member("all"))
+			        return ((MulticastDelegate)source).Remove(value);
+			    else
+			        return source;
 			}
 		}
 

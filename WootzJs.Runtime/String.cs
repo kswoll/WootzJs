@@ -274,10 +274,10 @@ namespace System
         public string[] Split(params char[] separator)
         {
             var s = this.As<JsString>();
-            var stringSeparator = new char[separator.Length];
+            var stringSeparator = new string[separator.Length];
             for (var i = 0; i < separator.Length; i++)
-                stringSeparator[i] = separator[i];
-            var array = s.split(new JsRegExp(Join("|", stringSeparator.Select(x => EscapeRegex(x)))));
+                stringSeparator[i] = EscapeRegex(separator[i]);
+            var array = s.split(new JsRegExp(Join("|", stringSeparator)));
             return SpecialFunctions.InitializeArray(array, typeof(string).thisType).As<string[]>();
         }
 
@@ -302,7 +302,7 @@ namespace System
             return array.As<string[]>();
         }
 
-        private string EscapeRegex(char c)
+        private static string EscapeRegex(char c)
         {
             switch (c)
             {

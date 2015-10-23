@@ -87,6 +87,7 @@
     <Compile Include="Views\Css\CssBorderCollapse.cs" />
     <Compile Include="Views\Css\CssBorderRadius.cs" />
     <Compile Include="Views\Css\CssBorderSide.cs" />
+    <Compile Include="Views\Css\CssBorderSideAction.cs" />
     <Compile Include="Views\Css\CssBorderStyle.cs" />
     <Compile Include="Views\Css\CssBoxShadow.cs" />
     <Compile Include="Views\Css\CssColor.cs" />

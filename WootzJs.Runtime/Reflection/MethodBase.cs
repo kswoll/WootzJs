@@ -38,6 +38,17 @@ namespace System.Reflection
         private ParameterInfo[] parameters;
         protected readonly MethodAttributes methodAttributes;
 
+        private bool isPublic;
+        private bool isPrivate;
+        private bool isFamily;
+        private bool isAssembly;
+        private bool isFamilyAndAssembly;
+        private bool isFamilyOrAssembly;
+        private bool isStatic;
+        private bool isFinal;
+        private bool isVirtual;
+        private bool isAbstract;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Reflection.MethodBase"/> class.
         /// </summary>
@@ -45,6 +56,17 @@ namespace System.Reflection
         {
             this.parameters = parameters;
             this.methodAttributes = methodAttributes;
+
+            isPublic = (methodAttributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Public;
+            isPrivate = (methodAttributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Private;
+            isFamily = (methodAttributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Family;
+            isAssembly = (methodAttributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Assembly;
+            isFamilyAndAssembly = (methodAttributes & MethodAttributes.MemberAccessMask) == MethodAttributes.FamANDAssem;
+            isFamilyOrAssembly = (methodAttributes & MethodAttributes.MemberAccessMask) == MethodAttributes.FamORAssem;
+            isStatic = (methodAttributes & MethodAttributes.Static) != MethodAttributes.PrivateScope;
+            isFinal = (methodAttributes & MethodAttributes.Final) != MethodAttributes.PrivateScope;
+            isVirtual = (methodAttributes & MethodAttributes.Virtual) != MethodAttributes.PrivateScope;
+            isAbstract = (methodAttributes & MethodAttributes.Abstract) != MethodAttributes.PrivateScope;
 
             foreach (var parameter in parameters)
                 parameter.containingMember = this;
@@ -155,7 +177,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsPublic
         {
-            get { return (this.Attributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Public; }
+            get { return isPublic; }
         }
 
         /// <summary>
@@ -167,7 +189,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsPrivate
         {
-            get { return (this.Attributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Private; }
+            get { return isPrivate; }
         }
 
         /// <summary>
@@ -179,7 +201,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsFamily
         {
-            get { return (this.Attributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Family; }
+            get { return isFamily; }
         }
 
         /// <summary>
@@ -191,7 +213,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsAssembly
         {
-            get { return (this.Attributes & MethodAttributes.MemberAccessMask) == MethodAttributes.Assembly; }
+            get { return isAssembly; }
         }
 
         /// <summary>
@@ -203,7 +225,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsFamilyAndAssembly
         {
-            get { return (this.Attributes & MethodAttributes.MemberAccessMask) == MethodAttributes.FamANDAssem; }
+            get { return isFamilyAndAssembly; }
         }
 
         /// <summary>
@@ -215,7 +237,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsFamilyOrAssembly
         {
-            get { return (this.Attributes & MethodAttributes.MemberAccessMask) == MethodAttributes.FamORAssem; }
+            get { return isFamilyOrAssembly; }
         }
 
         /// <summary>
@@ -227,7 +249,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsStatic
         {
-            get { return (this.Attributes & MethodAttributes.Static) != MethodAttributes.PrivateScope; }
+            get { return isStatic; }
         }
 
         /// <summary>
@@ -239,7 +261,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsFinal
         {
-            get { return (this.Attributes & MethodAttributes.Final) != MethodAttributes.PrivateScope; }
+            get { return isFinal; }
         }
 
         /// <summary>
@@ -251,7 +273,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsVirtual
         {
-            get { return (this.Attributes & MethodAttributes.Virtual) != MethodAttributes.PrivateScope; }
+            get { return isVirtual; }
         }
 
         /// <summary>
@@ -275,7 +297,7 @@ namespace System.Reflection
         /// </returns>
         public bool IsAbstract
         {
-            get { return (this.Attributes & MethodAttributes.Abstract) != MethodAttributes.PrivateScope; }
+            get { return isAbstract; }
         }
 
         /// <summary>
@@ -302,7 +324,7 @@ namespace System.Reflection
             get
             {
                 if (this is ConstructorInfo && !this.IsStatic)
-                    return (this.Attributes & MethodAttributes.RTSpecialName) == MethodAttributes.RTSpecialName;
+                    return true;
                 else
                     return false;
             }

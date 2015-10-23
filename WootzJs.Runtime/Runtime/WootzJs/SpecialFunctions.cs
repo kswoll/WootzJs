@@ -49,11 +49,6 @@ namespace System.Runtime.WootzJs
             // are not called via new, they exist for initialization only.
             typeFunction = Jsni.function((constructor, args) =>
             {
-                if (!isTypeInitialized && false)
-                {
-                    isTypeInitialized = true;
-                    typeFunction.CallTypeInitializer.invoke();
-                }
                 if (constructor != null || !(Jsni.instanceof(Jsni.@this(), typeFunction)))
                 {
                     if (!isGenericType || typeFunction.UnconstructedType != null)
@@ -193,16 +188,6 @@ namespace System.Runtime.WootzJs
         public static JsFunction CreateDelegate(JsObject thisExpression, JsFunction lambda, JsTypeFunction delegateType = null, string delegateKey = null)
         {
             delegateType = delegateType ?? Jsni.reference("System.Delegate").As<JsTypeFunction>();
-            if (delegateKey != null)
-            {
-                if (thisExpression[delegateKey])
-                    return thisExpression[delegateKey].As<JsFunction>();
-            }
-            else
-            {
-                if (lambda.member("$delegate") != null)
-                    return lambda.member("$delegate").As<JsFunction>();
-            }
 
             JsFunction delegateFunc = null;
             delegateFunc = Jsni.function(() =>
@@ -210,17 +195,12 @@ namespace System.Runtime.WootzJs
                 return lambda.apply(delegateFunc.As<Delegate>().Target.As<JsObject>(), Jsni.arguments().As<JsArray>());
             });
             delegateFunc.prototype = Jsni.@new(delegateType);
-            Jsni.type<object>().TypeInitializer.invoke(delegateFunc, delegateFunc);
-            Jsni.type<Delegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
-            Jsni.type<MulticastDelegate>().TypeInitializer.invoke(delegateFunc, delegateFunc);
-            delegateType.TypeInitializer.invoke(delegateFunc, delegateFunc);
-            Jsni.invoke(Jsni.member(Jsni.member(Jsni.type<MulticastDelegate>().prototype, "$ctor"), "call"), delegateFunc, thisExpression, delegateFunc);
+            delegateFunc.memberset("get_Target", Jsni.function(() => thisExpression));
+            delegateFunc.memberset("GetType", Jsni.function(() => delegateType.GetTypeFromType.invoke()));
             Jsni.memberset(delegateFunc, SpecialNames.TypeField, delegateType);
             Jsni.memberset(delegateFunc, "Invoke", delegateFunc);
-            if (delegateKey != null)
-                thisExpression[delegateKey] = delegateFunc;
-            else
-                lambda.memberset("$delegate", delegateFunc);
+            Jsni.memberset(delegateFunc, "DynamicInvoke", Jsni.function(args => delegateFunc.apply(delegateFunc, args.As<JsArray>())));
+            Jsni.memberset(delegateFunc, "GetHashCode", Jsni.function(() => lambda.toString().GetHashCode().As<JsObject>()));
             return delegateFunc;
         }
 

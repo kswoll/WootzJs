@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace WootzJs.Mvc.Views.Css
+﻿namespace WootzJs.Mvc.Views.Css
 {
     public class CssSetAction : ICssDeclarationAction
     {
-        public Func<string> Name { get; set; }
+        public string Name { get; set; }
         public string Value { get; set; }
 
-        public CssSetAction(Func<string> name, string value)
+        public CssSetAction(string name, string value)
         {
             Name = name;
             Value = value;
@@ -15,7 +13,7 @@ namespace WootzJs.Mvc.Views.Css
 
         public void Act(CssDeclaration declaration)
         {
-            declaration.SetValue(Name(), Value);
+            declaration.SetValue(Name, Value);
         }
 
         public ICssDeclarationAction Clone()

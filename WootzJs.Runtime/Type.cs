@@ -54,6 +54,16 @@ namespace System
 //        internal TypeAttributes typeAttributes;
         private JsTypeFunction elementType;
         internal JsTypeFunction unconstructedType;
+        private bool isGenericType;
+        private bool isValueType;
+        private bool isPrimitive;
+        private bool isAbstract;
+        private bool isInterface;
+        private bool isSealed;
+        private bool isPublic;
+        private bool isEnum;
+        private bool isGenericTypeDefinition;
+        private bool isGenericParameter;
 
         public Type(string name, Attribute[] attributes) : base(name, attributes)
         {
@@ -73,11 +83,33 @@ namespace System
             return type;
         }
 
-        public void Init(string fullName, int flags, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, PropertyInfo[] properties, EventInfo[] events, JsTypeFunction elementType, JsTypeFunction unconstructedType)
+        public void Init(string fullName, int flags, JsTypeFunction thisType, JsTypeFunction baseType, JsTypeFunction[] interfaces, 
+            JsTypeFunction[] typeArguments, FieldInfo[] fields, MethodInfo[] methods, ConstructorInfo[] constructors, 
+            PropertyInfo[] properties, EventInfo[] events, JsTypeFunction elementType, JsTypeFunction unconstructedType)
         {
             FullName = fullName;
 
             typeFlags = (TypeFlags)flags;
+            if ((typeFlags & TypeFlags.GenericType) != 0)
+                isGenericType = true;
+            if ((typeFlags & TypeFlags.ValueType) != 0)
+                isValueType = true;
+            if ((typeFlags & TypeFlags.Primitive) != 0)
+                isPrimitive = true;
+            if ((typeFlags & TypeFlags.Abstract) != 0)
+                isAbstract = true;
+            if ((typeFlags & TypeFlags.Interface) != 0)
+                isInterface = true;
+            if ((typeFlags & TypeFlags.Sealed) != 0)
+                isSealed = true;
+            if ((typeFlags & TypeFlags.Public) != 0)
+                isPublic = true;
+            if ((typeFlags & TypeFlags.Enum) != 0)
+                isEnum = true;
+            if ((typeFlags & TypeFlags.GenericTypeDefenition) != 0)
+                isGenericTypeDefinition = true;
+            if ((typeFlags & TypeFlags.GenericParameter) != 0)
+                isGenericParameter = true;
 
 //            this.typeAttributes = typeAttributes;
             this.thisType = thisType;
@@ -641,7 +673,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsValueType
         {
-            get { return (typeFlags & TypeFlags.ValueType) != 0; }
+            get { return isValueType; }
         }
 
         /// <summary>
@@ -760,7 +792,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsPrimitive
         {
-            get { return (typeFlags & TypeFlags.Primitive) != 0; }
+            get { return isPrimitive; }
         }
 
         /// <summary>
@@ -773,7 +805,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsAbstract
         {
-            get { return (typeFlags & TypeFlags.Abstract) != 0; }
+            get { return isAbstract; }
         }
 
         /// <summary>
@@ -786,7 +818,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsInterface
         {
-            get { return (typeFlags & TypeFlags.Interface) != 0; }
+            get { return isInterface; }
         }
 
         /// <summary>
@@ -799,7 +831,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public bool IsSealed
         {
-            get { return (typeFlags & TypeFlags.Sealed) != 0; }
+            get { return isSealed; }
         }
 
         /// <summary>
@@ -811,7 +843,7 @@ namespace System
         /// </returns>
         public virtual bool IsGenericType
         {
-            get { return (typeFlags & TypeFlags.GenericType) != 0; }
+            get { return isGenericType; }
         }
 
         /// <summary>
@@ -826,7 +858,7 @@ namespace System
         {
             get 
             {
-                return (typeFlags & TypeFlags.Enum) != 0;
+                return isEnum;
             }
         }
 
@@ -906,7 +938,7 @@ namespace System
         /// </returns>
         public virtual bool IsGenericTypeDefinition
         {
-            get { return (typeFlags & TypeFlags.GenericTypeDefenition) != 0; }
+            get { return isGenericTypeDefinition; }
         }
 
         public override string ToString()
@@ -924,7 +956,7 @@ namespace System
         /// <filterpriority>2</filterpriority>
         public virtual bool IsGenericParameter
         {
-            get { return (typeFlags & TypeFlags.GenericParameter) != 0; }
+            get { return isGenericParameter; }
         }
 
         /// <summary>
@@ -1011,7 +1043,7 @@ namespace System
         /// </returns>
         public bool IsPublic
         {
-            get { return (typeFlags & TypeFlags.Public) != 0; }
+            get { return isPublic; }
         }
 
         /// <summary>

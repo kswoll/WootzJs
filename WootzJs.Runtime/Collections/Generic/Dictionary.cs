@@ -105,7 +105,16 @@ namespace System.Collections.Generic
                 storage[hashCode] = bucket.As<JsObject>();
                 buckets.Add(bucket);
             }
-            var existingItem = bucket.Items.SingleOrDefault(x => comparer.Equals(x.Key, key));
+            BucketItem existingItem = null;
+            for (var i = 0; i < bucket.Items.Count; i++)
+            {
+                var currentItem = bucket.Items[i];
+                if (comparer.Equals(currentItem.Key, key))
+                {
+                    existingItem = currentItem;
+                    break;
+                }
+            }
             if (existingItem == null)
             {
                 bucket.Items.Add(new BucketItem(key, value));
