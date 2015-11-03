@@ -1,4 +1,5 @@
-﻿using System.Runtime.WootzJs;
+﻿using System;
+using System.Runtime.WootzJs;
 using WootzJs.Testing;
 
 namespace WootzJs.Compiler.Tests
@@ -19,6 +20,21 @@ namespace WootzJs.Compiler.Tests
             var s = "Value1".As<JsObject>();
             TestEnum testEnum = s.FromJsonObject<TestEnum>();
             AssertEquals(testEnum, TestEnum.Value1);
+        }
+
+        [Test]
+        public void NullableDateTime()
+        {
+            var o = new JsObject();
+            o["MyDate"] = "2015-11-02T23:00:54.237".As<JsObject>();
+
+            var obj = o.FromJsonObject<NullableDateTimeClass>();
+            AssertEquals(54, obj.MyDate.Value.Second);
+        }
+
+        class NullableDateTimeClass
+        {
+            public DateTime? MyDate { get; set; }
         }
 
         enum TestEnum

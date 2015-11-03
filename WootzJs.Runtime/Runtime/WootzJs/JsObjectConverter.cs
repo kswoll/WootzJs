@@ -104,15 +104,13 @@ namespace System.Runtime.WootzJs
                 }
                 return list.As<JsObject>();
             }
+            else if (type == typeof(DateTime) || (type.IsNullableValueType() && type.GetGenericArguments()[0] == typeof(DateTime)))
+            {
+                return DateTime.ParseExact(o.As<string>(), Iso8601).As<JsObject>();
+            }
             else if (type.IsPrimitive)
             {
                 return Convert.ChangeType(o, type);
-            }
-            else if (type == typeof(DateTime) || (type.IsNullableValueType() && type.GetGenericArguments()[0] == typeof(DateTime)))
-            {
-                if (o == null)
-                    return null;
-                return DateTime.ParseExact(o.As<string>(), Iso8601).As<JsObject>();
             }
             else if (type == typeof(string))
             {
