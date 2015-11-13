@@ -66,6 +66,8 @@ namespace System
         {
             var constructor = GetType().GetConstructors()[0];
             var newInvocationList = only == null && all == null ? null : all == null ? new[] { only }.Except(new[] { value }).ToArray() : all.Except(new[] { value }).ToArray();
+            if (newInvocationList.Length == 0)
+                return null;
             return new MulticastDelegate(Target, newInvocationList);
 //            return constructor.Invoke(new[] { Target }.Concat(newInvocationList).ToArray()).As<Delegate>();
         }

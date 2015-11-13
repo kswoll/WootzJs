@@ -201,6 +201,8 @@ namespace System.Runtime.WootzJs
             Jsni.memberset(delegateFunc, "Invoke", delegateFunc);
             Jsni.memberset(delegateFunc, "DynamicInvoke", Jsni.function(args => delegateFunc.apply(delegateFunc, args.As<JsArray>())));
             Jsni.memberset(delegateFunc, "GetHashCode", Jsni.function(() => lambda.toString().GetHashCode().As<JsObject>()));
+            Jsni.memberset(delegateFunc, "lambda", lambda);
+            Jsni.memberset(delegateFunc, "Equals", Jsni.function(x => x != null && lambda == x.member("lambda")));
             return delegateFunc;
         }
 

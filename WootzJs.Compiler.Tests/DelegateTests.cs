@@ -129,6 +129,15 @@ namespace WootzJs.Compiler.Tests
             AssertEquals(s, "ab2");
         }
 
+        [Test]
+        public void DelegateEquals()
+        {
+            var s = "";
+            Action<string> a = x => s += x;
+            Action<string> b = x => s += x.Length;
+            AssertTrue(!a.Equals(b));
+        }
+
         private string M()
         {
             return "bar";
