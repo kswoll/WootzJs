@@ -1,4 +1,5 @@
-#region License
+﻿#region License
+
 //-----------------------------------------------------------------------
 // <copyright>
 // The MIT License (MIT)
@@ -23,30 +24,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 //-----------------------------------------------------------------------
+
 #endregion
 
-namespace System
+namespace System.Reflection
 {
-    public class ArgumentException : Exception
+    /// <summary>
+	/// Defines additional version information for an assembly manifest.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
+    public sealed class AssemblyInformationalVersionAttribute : Attribute
     {
-        public ArgumentException()
+        private string m_informationalVersion;
+
+        /// <summary>
+        /// Gets version information.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A string containing the version information.
+        /// </returns>
+        public string InformationalVersion
         {
+            get { return this.m_informationalVersion; }
         }
 
-        public ArgumentException(string message) : base(message)
+        /// <summary>
+        /// Initializes a new instance of the AssemblyInformationalVersionAttribute class.
+        /// </summary>
+        /// <param name="version">The assembly version information.</param>
+        public AssemblyInformationalVersionAttribute(string informationalVersion)
         {
-        }
-
-        public ArgumentException(string message, string paramName) : base(message + ": " + paramName)
-        {
-        }
-
-        public ArgumentException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        public ArgumentException(string message, string paramName, Exception innerException) : base(message + ": " + paramName, innerException)
-        {
+            this.m_informationalVersion = informationalVersion;
         }
     }
 }

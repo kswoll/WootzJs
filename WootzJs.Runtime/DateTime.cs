@@ -215,6 +215,16 @@ namespace System
             get { return value.getMonth() + 1; }
         }
 
+		/// <summary>
+		/// Represents the smallest possible value of DateTime. This field is read-only.
+		/// </summary>
+		public static DateTime MinValue = new DateTime(1, 1, 1); 
+
+		/// <summary>
+		/// Represents the largest possible value of DateTime. This field is read-only.
+		/// </summary>
+		public static DateTime MaxValue = new DateTime(9999, 12, 31, 23, 59, 59, 999); 
+
         /// <summary>
         /// Gets a <see cref="T:System.DateTime"/> object that is set to the current date and time on this computer, expressed as the local time.
         /// </summary>
@@ -457,15 +467,32 @@ namespace System
             return left.CompareTo(right) < 0;
         }
 
+        public static bool operator <=(DateTime left, DateTime right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
         public static bool operator >(DateTime left, DateTime right)
         {
             return left.CompareTo(right) > 0;            
+        }
+        public static bool operator >=(DateTime left, DateTime right)
+        {
+            return left.CompareTo(right) >= 0;            
         }
 
         public static TimeSpan operator -(DateTime left, DateTime right)
         {
             return TimeSpan.FromMilliseconds(left.value - right.value);
         }
+
+		public static DateTime operator +(DateTime left, TimeSpan right) {
+			return left.Add(right);
+		}
+
+		public static DateTime operator -(DateTime left, TimeSpan right) {
+			return left.Add(-right);
+		}
 
         /// <summary>
         /// Returns a new <see cref="T:System.DateTime"/> that adds the value of the specified <see cref="T:System.TimeSpan"/> to the value of this instance.
