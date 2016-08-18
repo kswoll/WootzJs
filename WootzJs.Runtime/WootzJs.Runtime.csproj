@@ -188,6 +188,7 @@
     <Compile Include="Reflection\AssemblyProductAttribute.cs" />
     <Compile Include="Reflection\AssemblyTitleAttribute.cs" />
     <Compile Include="Reflection\AssemblyTrademarkAttribute.cs" />
+    <Compile Include="Reflection\AssemblyInformationalVersionAttribute.cs" />
     <Compile Include="Reflection\AssemblyVersionAttribute.cs" />
     <Compile Include="Reflection\Binder.cs" />
     <Compile Include="Reflection\BindingFlags.cs" />
