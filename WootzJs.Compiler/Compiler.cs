@@ -219,8 +219,14 @@ namespace WootzJs.Compiler
                 {
                     var mscorlibProject = await workspace.OpenProjectAsync(mscorlib);
                     result = await workspace.OpenProjectAsync(projectFile);
-                    result = result.AddProjectReference(new ProjectReference(mscorlibProject.Id));
-                    result = result.RemoveMetadataReference(result.MetadataReferences.Single(x => x.Display.Contains("mscorlib.dll")));
+					if (!result.ProjectReferences.Any(projectReference => projectReference.ProjectId == mscorlibProject.Id)) {
+						result = result.AddProjectReference(new ProjectReference(mscorlibProject.Id));
+					}
+
+					MetadataReference metadataReference = result.MetadataReferences.SingleOrDefault(x => x.Display.Contains("mscorlib.dll"));
+					if (metadataReference != null) {
+						result = result.RemoveMetadataReference(metadataReference);
+					}
                 }
                 else
                 {
