@@ -117,6 +117,28 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void AddTimeSpanAssignment()
+        {
+            var date = new DateTime(2012, 1, 1);
+            date += TimeSpan.FromDays(10);
+            
+            AssertEquals(date.Day, 11);
+            AssertEquals(date.Month, 1);
+            AssertEquals(date.Year, 2012);
+        }
+
+        [Test]
+        public void SubtractTimeSpanAssignment()
+        {
+            var date = new DateTime(2012, 1, 11);
+            date -= TimeSpan.FromDays(10);
+            
+            AssertEquals(date.Day, 1);
+            AssertEquals(date.Month, 1);
+            AssertEquals(date.Year, 2012);
+        }
+
+        [Test]
         public void SingleDigitMonth()
         {
             var time = new DateTime(2014, 1, 1);
