@@ -866,8 +866,11 @@ namespace WootzJs.Compiler
             if (methodSymbol != null && methodSymbol.Parameters.Length == 2)
             {
                 var method = methodSymbol;
-                if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator)
-                    return ImplicitCheck(node, idioms.InvokeStatic(method, left, right));
+				if (method.IsExported() && method.MethodKind != MethodKind.BuiltinOperator) {
+					var expression = idioms.InvokeStatic(method, left, right);
+					var assignment = Js.Assign(left, expression);
+					return ImplicitCheck(node, assignment);
+				}
             }
             var op = idioms.ToBinaryOperator(node.Kind());
             if (op == null)
