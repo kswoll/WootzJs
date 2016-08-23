@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>WootzJs.Compiler</id>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <authors>Kirk Woll</authors>
     <owners>Kirk Woll</owners>
     <licenseUrl>https://github.com/kswoll/WootzJs/blob/master/LICENSE</licenseUrl>
