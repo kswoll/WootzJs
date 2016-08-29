@@ -548,7 +548,20 @@ namespace System
         public DateTime AddMonths(int months)
         {
             var newDate = new JsDate(value.getTime());
+
             newDate.setMonth(newDate.getMonth() + months);
+
+			// In .NET, AddMonths(DateTime.Parse("31 Jan 2001"), 1) == DateTime.Parse("28 February 2001")
+			// In JavaScript, the dates spillover and without adjustment it will calculate this as 3rd March 2001. 
+			// This code steps back to the end of the month so we have the same behaviour as C#.
+			var targetMonth = (value.getMonth() + months) % 12;
+			if (targetMonth < 0) {
+				targetMonth += 12;
+			}
+			if (newDate.getMonth() != targetMonth) { 
+				newDate.setDate(0);
+			}
+
             return new DateTime(newDate);
         }
 

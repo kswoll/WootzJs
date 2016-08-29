@@ -108,6 +108,28 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void AddMonthsAtEndOfMonth()
+        {
+            var originalDate = new DateTime(2012, 12, 31, 0, 0, 0, 0);
+            var newDate = originalDate.AddMonths(2);
+            
+            AssertEquals(newDate.Day, 28);
+            AssertEquals(newDate.Month, 2);
+            AssertEquals(newDate.Year, 2013);
+        }
+
+        [Test]
+        public void SubtractMonthsAtEndOfMonth()
+        {
+            var originalDate = new DateTime(2012, 1, 31, 0, 0, 0, 0);
+            var newDate = originalDate.AddMonths(-2);
+            
+            AssertEquals(newDate.Day, 30);
+            AssertEquals(newDate.Month, 11);
+            AssertEquals(newDate.Year, 2011);                        
+        }
+
+        [Test]
         public void AddYears()
         {
             var originalDate = new DateTime(2012, 1, 1, 0, 0, 0, 0);
