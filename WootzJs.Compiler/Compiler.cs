@@ -43,11 +43,13 @@ namespace WootzJs.Compiler
 
         private string mscorlib;
         private string[] defines;
+		private Dictionary<string, string> msbuildProperties;
 
-        public Compiler(string mscorlib, string[] defines)
+        public Compiler(string mscorlib, string[] defines, Dictionary<string, string> msbuildProperties)
         {
             this.mscorlib = mscorlib;
             this.defines = defines;
+			this.msbuildProperties = msbuildProperties;
         }
 
         public static void Main(string[] args)
@@ -70,6 +72,10 @@ namespace WootzJs.Compiler
             var define = namedArguments.Get("define");
             var defines = define == null ? new string[0] : define.Split(',');
 
+			var msbuildProperties = new Dictionary<string, string>() {
+				{  "WootzJs", "true" } // predefine reliable conditional property for all consumers
+			};
+
             if (performanceFile != null)
             {
                 Profiler.Output = new StreamWriter(performanceFile);
@@ -83,20 +89,20 @@ namespace WootzJs.Compiler
                 {
                     if (fileInfo.Extension.Equals(".sln", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileSolution(projectOrSolutionFile));                    
+                        var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines, msbuildProperties).CompileSolution(projectOrSolutionFile));                    
                         var output = result.Item1;
                         var solution = result.Item2;
                         var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
-                        File.WriteAllText(fileFolder + "\\" + outputFolder + solutionName + ".js", output);
+                        File.WriteAllText(Path.Combine(fileFolder, outputFolder, solutionName + ".js"), output);
                     }
                     else
                     {
-                        var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines).CompileProject(projectOrSolutionFile));
+                        var result = await Profiler.Time("Total Time", async () => await new Compiler(mscorlib, defines, msbuildProperties).CompileProject(projectOrSolutionFile));
                         var output = result.Item1;
                         var project = result.Item2;
                         var projectName = project.AssemblyName;
 
-                        File.WriteAllText(fileFolder + "\\" + outputFolder + projectName + ".js", output);
+                        File.WriteAllText(Path.Combine(fileFolder, outputFolder, projectName + ".js"), output);
                     }
                 }
                 catch (Exception e)
@@ -111,7 +117,7 @@ namespace WootzJs.Compiler
 
         public async Task<Tuple<string, Solution>> CompileSolution(string solutionFile)
         {
-//            var solution = await Profiler.Time("Loading Project", async () => await MSBuildWorkspace.Create().OpenSolutionAsync(solutionFile));
+//            var solution = await Profiler.Time("Loading Project", async () => await MSBuildWorkspace.Create(this.msbuildProperties).OpenSolutionAsync(solutionFile));
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
 
             // Since we have all the types required by the solution, we can keep track of which symbols are used and which
@@ -120,7 +126,7 @@ namespace WootzJs.Compiler
             RemoveUnusedSymbols = true;
 
             var projectFiles = FileUtils.GetProjectFiles(solutionFile);
-            var workspace = MSBuildWorkspace.Create();
+            var workspace = MSBuildWorkspace.Create(this.msbuildProperties);
             var solution = await Profiler.Time("Loading Solution", async () =>
             {
                 string mscorlib = this.mscorlib;
@@ -206,7 +212,7 @@ namespace WootzJs.Compiler
 //                File.SetLastWriteTime(projectUserFile, DateTime.Now);
 
             var jsCompilationUnit = new JsCompilationUnit { UseStrict = true };
-            var workspace = MSBuildWorkspace.Create();
+            var workspace = MSBuildWorkspace.Create(this.msbuildProperties);
             var project = await Profiler.Time("Loading Project", async () =>
             {
                 string mscorlib = this.mscorlib;
@@ -219,8 +225,14 @@ namespace WootzJs.Compiler
                 {
                     var mscorlibProject = await workspace.OpenProjectAsync(mscorlib);
                     result = await workspace.OpenProjectAsync(projectFile);
-                    result = result.AddProjectReference(new ProjectReference(mscorlibProject.Id));
-                    result = result.RemoveMetadataReference(result.MetadataReferences.Single(x => x.Display.Contains("mscorlib.dll")));
+					if (!result.ProjectReferences.Any(projectReference => projectReference.ProjectId == mscorlibProject.Id)) {
+						result = result.AddProjectReference(new ProjectReference(mscorlibProject.Id));
+					}
+
+					MetadataReference metadataReference = result.MetadataReferences.SingleOrDefault(x => x.Display.Contains("mscorlib.dll"));
+					if (metadataReference != null) {
+						result = result.RemoveMetadataReference(metadataReference);
+					}
                 }
                 else
                 {
