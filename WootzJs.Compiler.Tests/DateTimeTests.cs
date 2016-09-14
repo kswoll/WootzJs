@@ -108,12 +108,56 @@ namespace WootzJs.Compiler.Tests
         }
 
         [Test]
+        public void AddMonthsAtEndOfMonth()
+        {
+            var originalDate = new DateTime(2012, 12, 31, 0, 0, 0, 0);
+            var newDate = originalDate.AddMonths(2);
+            
+            AssertEquals(newDate.Day, 28);
+            AssertEquals(newDate.Month, 2);
+            AssertEquals(newDate.Year, 2013);
+        }
+
+        [Test]
+        public void SubtractMonthsAtEndOfMonth()
+        {
+            var originalDate = new DateTime(2012, 1, 31, 0, 0, 0, 0);
+            var newDate = originalDate.AddMonths(-2);
+            
+            AssertEquals(newDate.Day, 30);
+            AssertEquals(newDate.Month, 11);
+            AssertEquals(newDate.Year, 2011);                        
+        }
+
+        [Test]
         public void AddYears()
         {
             var originalDate = new DateTime(2012, 1, 1, 0, 0, 0, 0);
             var newDate = originalDate.AddYears(1);
             
             AssertEquals(newDate.Year, 2013);
+        }
+
+        [Test]
+        public void AddTimeSpanAssignment()
+        {
+            var date = new DateTime(2012, 1, 1);
+            date += TimeSpan.FromDays(10);
+            
+            AssertEquals(date.Day, 11);
+            AssertEquals(date.Month, 1);
+            AssertEquals(date.Year, 2012);
+        }
+
+        [Test]
+        public void SubtractTimeSpanAssignment()
+        {
+            var date = new DateTime(2012, 1, 11);
+            date -= TimeSpan.FromDays(10);
+            
+            AssertEquals(date.Day, 1);
+            AssertEquals(date.Month, 1);
+            AssertEquals(date.Year, 2012);
         }
 
         [Test]
