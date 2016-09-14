@@ -87,7 +87,7 @@ namespace WootzJs.Compiler
                         var output = result.Item1;
                         var solution = result.Item2;
                         var solutionName = fileInfo.Name.Substring(0, fileInfo.Name.Length - ".sln".Length);
-                        File.WriteAllText(fileFolder + "\\" + outputFolder + solutionName + ".js", output);
+                        File.WriteAllText(Path.Combine(fileFolder, outputFolder, solutionName + ".js"), output);
                     }
                     else
                     {
@@ -96,7 +96,7 @@ namespace WootzJs.Compiler
                         var project = result.Item2;
                         var projectName = project.AssemblyName;
 
-                        File.WriteAllText(fileFolder + "\\" + outputFolder + projectName + ".js", output);
+                        File.WriteAllText(Path.Combine(fileFolder, outputFolder, projectName + ".js"), output);
                     }
                 }
                 catch (Exception e)
