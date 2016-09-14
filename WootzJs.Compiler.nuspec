@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>WootzJs.Compiler</id>
+    <version>1.0.0</version>
+    <authors>Kirk Woll</authors>
+    <owners>Kirk Woll</owners>
+    <licenseUrl>https://github.com/kswoll/WootzJs/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/kswoll/WootzJs</projectUrl>
+    <summary>Compiles C# to JavaScript</summary>
+		<description>Compiles C# to JavaScript</description>
+  </metadata>
+	<files>
+		<file src="build/**" target="tools" />
+		<file src="WootzJs.Runtime/**/*.cs" target="tools" />
+		<file src="WootzJs.Runtime/**/*.csproj" target="tools" />
+	</files>
+</package>
