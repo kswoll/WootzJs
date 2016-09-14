@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13400B7A-2A6B-4D46-9C6C-F1A8460616EC}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		build.bat = build.bat
-		clean.bat = clean.bat
 		LICENSE = LICENSE
 		MDN.license = MDN.license
 		README.md = README.md
@@ -32,6 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Mvc", "WootzJs.Mvc\
 		{0F747461-9C1C-4FCE-A8B3-2D70D23388CB} = {0F747461-9C1C-4FCE-A8B3-2D70D23388CB}
 		{D1E3A970-1810-4A39-B434-B6AB3DEBFB68} = {D1E3A970-1810-4A39-B434-B6AB3DEBFB68}
 		{264CE493-F204-416F-BF07-D4F5B90A8C96} = {264CE493-F204-416F-BF07-D4F5B90A8C96}
+		{D9D811FB-48BF-46DC-BE19-E75EF99440FC} = {D9D811FB-48BF-46DC-BE19-E75EF99440FC}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WootzJs.Rx", "WootzJs.Rx\WootzJs.Rx.csproj", "{1FA98FA2-4DFE-47DC-B96A-699E05269340}"
